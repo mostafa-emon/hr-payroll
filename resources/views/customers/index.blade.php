@@ -38,6 +38,7 @@
                     <th>Address</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Contact Person</th>
                     <th>Update</th>
                     <th>Delete</th>               
                   </tr>
