@@ -16,6 +16,7 @@ class CustomerController extends Controller
         $customer = Customer::orderBy('name', 'asc')->get();
         return view('customers.index', ['customers'=>$customer]);
     }
+    
     public function add(Request $request){
         if($request->name !=""){
             $customer = new Customer();

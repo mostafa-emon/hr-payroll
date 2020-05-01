@@ -1,70 +1,56 @@
 @extends('layouts.master')
 
-    @section('content')
-
-    
-    <div class="br-pageheader pd-y-15 pd-l-20">
-      <nav class="breadcrumb pd-0 mg-0 tx-12">
-      </nav>
-    </div>
-    @if(session()->has('message'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ session()->get('message') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+@section('content')
+<div class="br-pageheader pd-y-15 pd-l-20">
+        <nav class="breadcrumb pd-0 mg-0 tx-12">
+          <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
+          <a class="breadcrumb-item" href="{{ url('customer') }}">Customer</a>
+        </nav>
+      </div>
+      <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+        <div style="float:left">
+          <h4 class="tx-gray-800 mg-b-5">Customers</h4>
         </div>
-    @endif
-    <div class="card">
-      <div class="card-header">
-        <div class="row">
-          <div class="col-md-6">
-            <h3 class="card-title">Customer</h3>
-          </div>
-          <div class="col-md-6 text-right">
-            <a class="btn btn-primary btn-sm" href="{{url('customer/add')}}"><i class="fa fa-plus-circle"></i> Add Customer</a>
-          </div>
+        <div style="float:right">
+          <a href="{{ url('customer/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Customer</a>
         </div>
       </div>
-
-      <div class="br-pagebody">
+      
+<div class="br-pagebody pd-t-15">
         <div class="br-section-wrapper">
           <div class="bd bd-gray-300 rounded table-responsive">
             <table class="table table-striped mg-b-0">
               <thead>
                 <tr>
-                  <th>Serial</th>
+                  <th>Sl</th>
                   <th>Name</th>
                   <th>Address</th>
                   <th>Phone</th>
                   <th>Email</th>
                   <th>Contact Person</th>
                   <th>Update</th>
-                  <th>Delete</th>               
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
-                  @foreach($customers as $customer)
+                @foreach($customers as $customer)
                   <tr>
-                    <td> {{$loop->iteration}} </td>
-                    <td> {{$customer->name}} </td>
-                    <td> {{$customer->address}} </td>
-                    <td> {{$customer->phone}} </td>
-                    <td> {{$customer->email}} </td>
-                    <td> {{$customer->contact_person}} </td>
-                    <td>
-                    <a class="btn btn-success btn-sm" href="{{url ('customer/update/'.$customer->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                    </td>
-                    <td>
-                    <a class="btn btn-danger btn-sm" href="{{url ('customer/delete/'.$customer->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
-                    </td>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $customer->name }}</td>
+                    <td>{{ $customer->address }}</td>
+                    <td>{{ $customer->phone }}</td>
+                    <td>{{ $customer->email }}</td>
+                    <td>C{{ $customer->contact_person }}</td>
+                    <td>Update</td>
+                    <td>Delete</td>
                   </tr>
-                  @endforeach
-                </tbody>
+                @endforeach
+              </tbody>
             </table>
-          </div>
-        </div>
+          </div><!-- bd -->
+
+        </div><!-- br-section-wrapper -->
       </div>
-    </div>
-    
-    @endsection
+
+
+@endsection

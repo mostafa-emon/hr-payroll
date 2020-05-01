@@ -31,14 +31,14 @@
           </div>
         </a>
         
-        <a class="br-menu-link {{ (request()->is('customer')) ? 'active' : '' }}" href="{{url('customer')}}">
+        <a class="br-menu-link {{ (request()->is('customer*')) ? 'active' : '' }}" href="{{url('customer')}}">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-people tx-22"></i>
             <span class="menu-item-label">Customers</span>
           </div>
         </a>
 
-        <a  class="br-menu-link  {{ (request()->is('supplier')) ? 'active' : '' }} " href="{{url('supplier')}}">
+        <a  class="br-menu-link  {{ (request()->is('supplier*')) ? 'active' : '' }} " href="{{url('supplier')}}">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-person tx-22"></i>
             <span class="menu-item-label">Suppliers</span>
