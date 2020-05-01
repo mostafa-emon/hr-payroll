@@ -1,73 +1,91 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+        <!-- Twitter -->
+        <meta name="twitter:site" content="@themepixels">
+        <meta name="twitter:creator" content="@themepixels">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Bracket">
+        <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+        <meta name="twitter:image" content="../../../../themepixels.me/bracket/img/bracket-social.html">
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+        <!-- Facebook -->
+        <meta property="og:url" content="http://themepixels.me/bracket">
+        <meta property="og:title" content="Bracket">
+        <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+        <meta property="og:image" content="../../../../themepixels.me/bracket/img/bracket-social.html">
+        <meta property="og:image:secure_url" content="../../../../themepixels.me/bracket/img/bracket-social.html">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="600">
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        <!-- Meta -->
+        <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+        <meta name="author" content="ThemePixels">
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+        <title>Bracket Responsive Bootstrap 4 Admin Template</title>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+        <!-- vendor css -->
+        <link href="{{asset('lib/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+        <link href="{{asset('lib/Ionicons/css/ionicons.css')}}" rel="stylesheet">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        <!-- Bracket CSS -->
+        <link rel="stylesheet" href="{{asset('css/bracket.css')}}">
+    </head>
 
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+    <body>
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+        <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+            <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+                <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span> bracket <span class="tx-normal">]</span></div>
+                <div class="tx-center mg-b-60">The Admin Template For Perfectionist</div>
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                            <input id="email" type="email" placeholder="Enter your Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                    
+                    </div><!-- form-group -->
+                    
+                    <div class="form-group">
+                            <input id="password" type="password" placeholder="Enter your password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            
+                    </div>
+
+                    <button type="submit" class="btn btn-info btn-block">Sign In</button>
+                    @if (Route::has('password.request'))
+                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                        </a>
+                    @endif
+                </form>
+
+                <div class="mg-t-60 tx-center">Not yet a member? <a href="{{url('register')}}" class="tx-info">Sign Up</a></div>
+            </div><!-- login-wrapper -->
+        </div><!-- d-flex -->
+
+            <script src="{{asset('lib/jquery/jquery.js')}}"></script>
+            <script src="{{asset('lib/popper.js/popper.js')}}"></script>
+            <script src="{{asset('lib/bootstrap/bootstrap.js')}}"></script>
+
+    </body>
+
+</html>
