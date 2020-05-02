@@ -30,7 +30,7 @@
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Email address:</label>
                 <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$suppliers->email}}">
               </div>
             </div>
@@ -51,14 +51,14 @@
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Address:</label>
                 <input class="form-control" type="text" name="address" placeholder="Enter Address" value="{{$suppliers->address}}">
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group  bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Contact Person: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Contact Person:</label>
                 <input class="form-control" type="text" name="contact_person" placeholder="Contact Person Name" value="{{$suppliers->contact_person}}">
               </div>
             </div>

@@ -34,6 +34,7 @@
             <tr>
               <th>Sl</th>
               <th>Name</th>
+              <th>Cheque Name</th>
               <th>Address</th>
               <th>Phone</th>
               <th>Email</th>
@@ -47,6 +48,7 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $supplier->name }}</td>
+                <td>{{ $supplier->cheque_name }}</td>
                 <td>{{ $supplier->address }}</td>
                 <td>{{ $supplier->phone }}</td>
                 <td>{{ $supplier->email }}</td>
