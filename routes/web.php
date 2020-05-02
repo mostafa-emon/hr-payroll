@@ -34,18 +34,18 @@ Route::get('/supplier/delete/{supplier_id}', 'SupplierController@delete');
 Route::get('/supplier/update/{supplier_id}', 'SupplierController@update');
 Route::post('/supplier/update/{supplier_id}', 'SupplierController@update');
 
-Route::get('/currency', 'ConfigurationController@currencyindex');
+Route::get('/currency', 'ConfigurationController@index_currency');
 Route::get('/currency/add', 'ConfigurationController@add_currency');
 Route::post('/currency/add', 'ConfigurationController@add_currency');
-Route::get('/currency/delete/{currency_id}', 'ConfigurationController@currencydelete');
-Route::get('/currency/update/{currency_id}', 'ConfigurationController@currencyupdate');
-Route::post('/currency/update/{currency_id}', 'ConfigurationController@currencyupdate');
+Route::get('/currency/delete/{currency_id}', 'ConfigurationController@delete_currency');
+Route::get('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
+Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
 
-Route::get('/paymentmethod', 'ConfigurationController@paymentmethodindex');
-Route::get('/paymentmethod/add', 'ConfigurationController@paymentmethodadd');
-Route::post('/paymentmethod/add', 'ConfigurationController@paymentmethodadd');
-Route::get('/paymentmethod/delete/{paymentmethod_id}', 'ConfigurationController@paymentmethoddelete');
-Route::get('/paymentmethod/update/{paymentmethod_id}', 'ConfigurationController@paymentmethodupdate');
-Route::post('/paymentmethod/update/{paymentmethod_id}', 'ConfigurationController@paymentmethodupdate');
+Route::get('/paymentmethod', 'ConfigurationController@index_paymentmethod');
+Route::get('/paymentmethod/add', 'ConfigurationController@add_paymentmethod');
+Route::post('/paymentmethod/add', 'ConfigurationController@add_paymentmethod');
+Route::get('/paymentmethod/delete/{paymentmethod_id}', 'ConfigurationController@delete_paymentmethod');
+Route::get('/paymentmethod/update/{paymentmethod_id}', 'ConfigurationController@update_paymentmethod');
+Route::post('/paymentmethod/update/{paymentmethod_id}', 'ConfigurationController@update_paymentmethod');
 
 Route::get('/logout', 'HomeController@logout');

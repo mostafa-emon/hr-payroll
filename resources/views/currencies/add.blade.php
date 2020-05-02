@@ -24,14 +24,14 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="form-control-label">Full Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="full_name" placeholder="Enter Your Full Name">
+                <input class="form-control" type="text" name="full_name" placeholder="Enter Full Name">
               </div>
             </div>
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Fraction Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="fraction_name" placeholder="Enter Your Fraction Name">
+                <input class="form-control" type="text" name="fraction_name" placeholder="Enter Fraction Name">
               </div>
             </div>
 
