@@ -11,7 +11,7 @@
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Add Customer</h4>
+    <h4 class="tx-gray-800 mg-b-5">Update Customer</h4>
   </div>
 
   <form action="{{ url('customer/update/'.$customers->id) }}" method="POST">
@@ -30,7 +30,7 @@
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Email address:</label>
                 <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$customers->email}}">
               </div>
             </div>
@@ -44,14 +44,14 @@
 
             <div class="col-md-8">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Address:</label>
                 <input class="form-control" type="text" name="address" placeholder="Enter Address" value="{{$customers->address}}">
               </div>
             </div>
 
             <div class="col-md-4">
-              <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Contact Person: <span class="tx-danger">*</span></label>
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label">Contact Person:</label>
                 <input class="form-control" type="text" name="contact_person" placeholder="Contact Person Name" value="{{$customers->contact_person}}">
               </div>
             </div>
@@ -59,7 +59,7 @@
           </div>
 
           <div class="form-layout-footer bd pd-20 bd-t-0">
-            <input type="submit" value="Submit" class="btn btn-info"/>
+            <input type="submit" value="Update" class="btn btn-info"/>
           </div>
 
         </div>

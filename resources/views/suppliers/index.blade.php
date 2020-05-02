@@ -2,21 +2,12 @@
 
 @section('content')
 
-    <div class="br-pageheader pd-y-15 pd-l-20">
-      <nav class="breadcrumb pd-0 mg-0 tx-12">
-        <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-        <a class="breadcrumb-item" href="{{ url('supplier') }}">Supplier</a>
-      </nav>
-    </div>
-
-    @if(session()->has('message'))
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{ session()->get('message') }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    @endif
+  <div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
+      <a class="breadcrumb-item" href="{{ url('supplier') }}">Supplier</a>
+    </nav>
+  </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
@@ -29,6 +20,14 @@
 
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
+      @if(session()->has('message'))
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          {{ session()->get('message') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      @endif
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-striped mg-b-0">
           <thead>

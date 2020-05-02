@@ -30,7 +30,7 @@
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Email address:</label>
                 <input class="form-control" type="text" name="email" placeholder="Enter Email Address">
               </div>
             </div>
@@ -44,14 +44,14 @@
 
             <div class="col-md-8">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Address:</label>
                 <input class="form-control" type="text" name="address" placeholder="Enter Address">
               </div>
             </div>
 
             <div class="col-md-4">
-              <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Contact Person: <span class="tx-danger">*</span></label>
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label">Contact Person:</label>
                 <input class="form-control" type="text" name="contact_person" placeholder="Contact Person Name">
               </div>
             </div>

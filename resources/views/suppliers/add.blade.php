@@ -43,21 +43,21 @@
             </div>
 
             <div class="col-md-4">
-              <div class="form-group">
+              <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Cheque Name: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="cheque_name" placeholder="Enter Cheque Name">
               </div>
             </div>
 
             <div class="col-md-4">
-              <div class="form-group bd-t-0-force">
+              <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="address" placeholder="Enter Address">
               </div>
             </div>
 
             <div class="col-md-4">
-              <div class="form-group mg-md-l--1">
+              <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label">Contact Person: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="contact_person" placeholder="Contact Person Name">
               </div>
