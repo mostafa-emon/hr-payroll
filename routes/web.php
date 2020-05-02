@@ -34,4 +34,18 @@ Route::get('/supplier/delete/{supplier_id}', 'SupplierController@delete');
 Route::get('/supplier/update/{supplier_id}', 'SupplierController@update');
 Route::post('/supplier/update/{supplier_id}', 'SupplierController@update');
 
+Route::get('/currency', 'ConfigurationController@currencyindex');
+Route::get('/currency/add', 'ConfigurationController@add_currency');
+Route::post('/currency/add', 'ConfigurationController@add_currency');
+Route::get('/currency/delete/{currency_id}', 'ConfigurationController@currencydelete');
+Route::get('/currency/update/{currency_id}', 'ConfigurationController@currencyupdate');
+Route::post('/currency/update/{currency_id}', 'ConfigurationController@currencyupdate');
+
+Route::get('/paymentmethod', 'ConfigurationController@paymentmethodindex');
+Route::get('/paymentmethod/add', 'ConfigurationController@paymentmethodadd');
+Route::post('/paymentmethod/add', 'ConfigurationController@paymentmethodadd');
+Route::get('/paymentmethod/delete/{paymentmethod_id}', 'ConfigurationController@paymentmethoddelete');
+Route::get('/paymentmethod/update/{paymentmethod_id}', 'ConfigurationController@paymentmethodupdate');
+Route::post('/paymentmethod/update/{paymentmethod_id}', 'ConfigurationController@paymentmethodupdate');
+
 Route::get('/logout', 'HomeController@logout');
