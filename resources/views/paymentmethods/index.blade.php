@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Payment Methods</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('paymentmethod/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Payment Method</a>
+      <a href="{{ url('payment-method/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Payment Method</a>
     </div>
   </div>
 
@@ -44,10 +44,10 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $paymentmethod->method_name }}</td>
                 <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('paymentmethod/update/'.$paymentmethod->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('payment-method/update/'.$paymentmethod->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
-                  <a class="btn btn-danger btn-sm" href="{{url ('paymentmethod/delete/'.$paymentmethod->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  <a class="btn btn-danger btn-sm" href="{{url ('payment-method/delete/'.$paymentmethod->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
             @endforeach
