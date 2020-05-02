@@ -24,7 +24,7 @@
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
       <div class="br-sideleft-menu">
 
-        <a  class="br-menu-link {{ (request()->is('dashboard')) ? 'active' : '' }}" href="{{url('dashboard')}}">
+        <a  class="br-menu-link {{ (request()->is('home')) ? 'active' : '' }}" href="{{url('home')}}">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-home tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
