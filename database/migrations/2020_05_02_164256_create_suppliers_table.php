@@ -17,10 +17,10 @@ class CreateSuppliersTable extends Migration
             $table->id();
             $table->string('name',100);
             $table->string('cheque_name',100);
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->string('phone',20);
-            $table->string('email',100);
-            $table->string('contact_person',100);
+            $table->string('email',100)->nullable();
+            $table->string('contact_person',100)->nullable();
             $table->timestamps();
         });
     }
