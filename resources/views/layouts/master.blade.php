@@ -65,7 +65,7 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="#" class="nav-link">Bank List</a></li>
+          <li class="nav-item"><a href="{{url('bank')}}" class="nav-link">Bank List</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Bank Accounts</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Check Books</a></li>
         </ul>

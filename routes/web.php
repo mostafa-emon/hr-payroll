@@ -34,6 +34,13 @@ Route::get('/supplier/delete/{supplier_id}', 'SupplierController@delete');
 Route::get('/supplier/update/{supplier_id}', 'SupplierController@update');
 Route::post('/supplier/update/{supplier_id}', 'SupplierController@update');
 
+Route::get('/bank', 'BankController@index');
+Route::get('/bank/add', 'BankController@add');
+Route::post('/bank/add', 'BankController@add');
+Route::get('/bank/delete/{bank_id}', 'BankController@delete');
+Route::get('/bank/update/{bank_id}', 'BankController@update');
+Route::post('/bank/update/{bank_id}', 'BankController@update');
+
 Route::get('/currency', 'ConfigurationController@index_currency');
 Route::get('/currency/add', 'ConfigurationController@add_currency');
 Route::post('/currency/add', 'ConfigurationController@add_currency');
