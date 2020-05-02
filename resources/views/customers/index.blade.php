@@ -53,7 +53,7 @@
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->contact_person }}</td>
                 <td>
-                  <a class="btn btn-success btn-sm" href="{{url ('customer/update/'.$customer->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('customer/update/'.$customer->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
                   <a class="btn btn-danger btn-sm" href="{{url ('customer/delete/'.$customer->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>

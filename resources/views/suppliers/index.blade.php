@@ -53,7 +53,7 @@
                 <td>{{ $supplier->email }}</td>
                 <td>{{ $supplier->contact_person }}</td>
                 <td>
-                  <a class="btn btn-success btn-sm" href="{{url ('supplier/update/'.$supplier->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('supplier/update/'.$supplier->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
                   <a class="btn btn-danger btn-sm" href="{{url ('supplier/delete/'.$supplier->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
