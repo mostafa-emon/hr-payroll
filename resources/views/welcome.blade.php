@@ -19,7 +19,8 @@
               </div>
             </div>
           </div>
-        </div><!-- col-3 -->
+        </div>
+        
         <div class="col-sm-6 col-xl-3 mg-t-20 mg-sm-t-0">
           <div class="bg-danger rounded overflow-hidden">
             <div class="pd-25 d-flex align-items-center">
@@ -31,7 +32,8 @@
               </div>
             </div>
           </div>
-        </div><!-- col-3 -->
+        </div>
+        
         <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
           <div class="bg-primary rounded overflow-hidden">
             <div class="pd-25 d-flex align-items-center">
@@ -43,7 +45,8 @@
               </div>
             </div>
           </div>
-        </div><!-- col-3 -->
+        </div>
+        
         <div class="col-sm-6 col-xl-3 mg-t-20 mg-xl-t-0">
           <div class="bg-br-primary rounded overflow-hidden">
             <div class="pd-25 d-flex align-items-center">
@@ -55,8 +58,8 @@
               </div>
             </div>
           </div>
-        </div><!-- col-3 -->
-      </div><!-- row -->
+        </div>
+      </div>
 
       <div class="row row-sm mg-t-20">
         <div class="col-md-8">
@@ -167,8 +170,8 @@
             </div><!-- row -->
           </div><!-- card -->
 
-
-        </div><!-- col-9 -->
+        </div>
+        
         <div class="col-md-4">
           <div class="card bd-0 shadow-base pd-30">
             <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server Status</h6>

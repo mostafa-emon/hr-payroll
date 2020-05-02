@@ -16,6 +16,7 @@ class SupplierController extends Controller
         $supplier = Supplier::orderBy('name', 'asc')->get();
         return view('suppliers.index', ['suppliers'=>$supplier]);
     }
+
     public function add(Request $request){
         if($request->name !=""){
             $supplier = new Supplier();
@@ -30,11 +31,13 @@ class SupplierController extends Controller
         }
         return view('suppliers.add');
     }
+
     public function delete($supplier_id){
         $supplier = Supplier::find($supplier_id);
         $supplier->delete();
         return redirect('supplier')->with('message', 'Supplier deleted successfully!');
     }
+
     public function update($supplier_id, Request $request){
         if($request->name !=""){
             $supplier = Supplier::where('id',$supplier_id)->first();
@@ -47,7 +50,7 @@ class SupplierController extends Controller
             $supplier->save();
             return redirect('supplier')->with('message', 'Supplier updated successfully!');
         }
-            $suppliers = Supplier::where('id',$supplier_id)->first();
+        $suppliers = Supplier::where('id',$supplier_id)->first();
         return view('suppliers.update', ['suppliers' => $suppliers]);
     }
 }

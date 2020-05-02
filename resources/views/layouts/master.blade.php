@@ -30,6 +30,18 @@
             <span class="menu-item-label">Dashboard</span>
           </div>
         </a>
+
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <span class="menu-item-label">Company</span>
+            <i class="menu-item-arrow fas fa-angle-down"></i>
+          </div>
+        </a>
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="#" class="nav-link">Information</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Site Offices</a></li>
+        </ul>
         
         <a class="br-menu-link {{ (request()->is('customer*')) ? 'active' : '' }}" href="{{url('customer')}}">
           <div class="br-menu-item">
@@ -48,13 +60,61 @@
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
-            <span class="menu-item-label">Navigation</span>
+            <span class="menu-item-label">Bank</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="navigation.html" class="nav-link">Basic Nav</a></li>
-          <li class="nav-item"><a href="navigation-layouts.html" class="nav-link">Nav Layouts</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Bank List</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Bank Accounts</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Check Books</a></li>
+        </ul>
+
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <span class="menu-item-label">Transaction</span>
+            <i class="menu-item-arrow fas fa-angle-down"></i>
+          </div>
+        </a>
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="#" class="nav-link">Money Receipt</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Cheque</a></li>
+        </ul>
+
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <span class="menu-item-label">Reports</span>
+            <i class="menu-item-arrow fas fa-angle-down"></i>
+          </div>
+        </a>
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="#" class="nav-link">Issued MR</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Void MR</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Issued Cheque</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Void Cheque</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Audit Trail</a></li>
+        </ul>
+        
+        <a  href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-people tx-22"></i>
+            <span class="menu-item-label">Users</span>
+          </div>
+        </a>
+
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <span class="menu-item-label">Configuration</span>
+            <i class="menu-item-arrow fas fa-angle-down"></i>
+          </div>
+        </a>
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="#" class="nav-link">Currency</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Payment Method</a></li>
+          <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
         </ul>
       </div>
 
