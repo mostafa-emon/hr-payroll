@@ -2,12 +2,12 @@
 
 @section('content')
 
-  <div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('customer') }}">Customer</a>
-    </nav>
-  </div>
+    <div class="br-pageheader pd-y-15 pd-l-20">
+      <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
+        <a class="breadcrumb-item" href="{{ url('customer') }}">Customer</a>
+      </nav>
+    </div>
 
     @if(session()->has('message'))
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -57,7 +57,7 @@
                   </td>
                   <td>
                   <a class="btn btn-danger btn-sm" href="{{url ('customer/delete/'.$customer->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
-                  </td>
+                </td>
               </tr>
             @endforeach
           </tbody>
