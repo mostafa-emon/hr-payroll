@@ -1,66 +1,77 @@
 @extends('layouts.master')
 
-    @section('content')
+@section('content')
 
-      <div class="br-mainpanel">
-          <div class="br-pageheader pd-y-15 pd-l-20">
-            <nav class="breadcrumb pd-0 mg-0 tx-12">
-            </nav>
-          </div>
-          <div class="card">
-            <div class="card-header">
-            <div class="row">
-              <div class="col-md-10">
-              <h2>Update Supplier</h2>
-          
-              <form action="{{ url('supplier/update/'.$suppliers->id) }}" method="POST" class="form-horizontal">
-                {{ csrf_field() }}
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="name" placeholder="Name" value="{{$suppliers->name}}"/>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputChequeName" class="col-sm-2 col-form-label">Cheque Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="cheque_name" placeholder="Cheque Name" value="{{$suppliers->cheque_name}}"/>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputAddress" class="col-sm-2 col-form-label">Address</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="address" placeholder="Address" value="{{$suppliers->address}}"/>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputPhone" class="col-sm-2 col-form-label">Phone</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="phone" placeholder="Phone" value="{{$suppliers->phone}}"/>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="email" placeholder="Email" value="{{$suppliers->email}}"/>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputContactPerson" class="col-sm-2 col-form-label">Contact Person</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" name="contact_person" placeholder="Contact Person" value="{{$suppliers->contact_person}}"/>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <input type="submit" value="Submit" class="btn btn-danger btn-sm"/>
-                    </div>
-                  </div>
-              </form>
+    <div class="br-pageheader pd-y-15 pd-l-20">
+      <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item" href="url{{ url('/') }}">Home</a>
+        <a class="breadcrumb-item" href="url{{ url('/supplier') }}">Suppliers</a>
+        <span class="breadcrumb-item active">Add</span>
+      </nav>
+    </div>
+
+    <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+      <h4 class="tx-gray-800 mg-b-5">Add Supplier</h4>
+    </div>
+
+    <form action="{{ url('supplier/update/'.$suppliers->id) }}" method="POST">
+      {{ csrf_field() }}
+      <div class="br-pagebody">
+        <div class="br-section-wrapper">
+          <div class="form-layout form-layout-2">
+            <div class="row no-gutters">
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="name" placeholder="Enter Name" value="{{$suppliers->name}}">
+                </div>
               </div>
-            </div>
-            </div>
-          </div> 
-      </div>
 
-    @endsection
+              <div class="col-md-4 mg-t--1 mg-md-t-0">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$suppliers->email}}">
+                </div>
+              </div>
+
+              <div class="col-md-4 mg-t--1 mg-md-t-0">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number" value="{{$suppliers->phone}}">
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-control-label">Cheque Name: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" name="cheque_name" placeholder="Enter Cheque Name" value="{{$suppliers->cheque_name}}">
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group bd-t-0-force">
+                  <label class="form-control-label">Address: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" name="address" placeholder="Enter Address" value="{{$suppliers->address}}">
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">Contact Person: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" name="contact_person" placeholder="Contact Person Name" value="{{$suppliers->contact_person}}">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form-layout-footer bd pd-20 bd-t-0">
+              <input type="submit" value="Submit" class="btn btn-info"/>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+
+@endsection
