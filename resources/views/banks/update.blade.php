@@ -37,7 +37,7 @@
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
+                <label class="form-control-label">Phone Number:</label>
                 <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number" value="{{$banks->phone}}">
               </div>
             </div>
