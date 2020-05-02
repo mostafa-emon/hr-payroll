@@ -9,6 +9,15 @@
     </nav>
   </div>
 
+    @if(session()->has('message'))
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ session()->get('message') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    @endif
+
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
       <h4 class="tx-gray-800 mg-b-5">Customers</h4>
@@ -42,15 +51,19 @@
                 <td>{{ $customer->address }}</td>
                 <td>{{ $customer->phone }}</td>
                 <td>{{ $customer->email }}</td>
-                <td>C{{ $customer->contact_person }}</td>
-                <td>Update</td>
-                <td>Delete</td>
+                <td>{{ $customer->contact_person }}</td>
+                <td>
+                  <a class="btn btn-success btn-sm" href="{{url ('customer/update/'.$customer->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  </td>
+                  <td>
+                  <a class="btn btn-danger btn-sm" href="{{url ('customer/delete/'.$customer->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  </td>
               </tr>
             @endforeach
           </tbody>
         </table>
-      </div><!-- bd -->
-    </div><!-- br-section-wrapper -->
+      </div>
+    </div>
   </div>
 
 @endsection
