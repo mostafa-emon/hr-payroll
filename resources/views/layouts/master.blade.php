@@ -113,7 +113,7 @@
         </a>
         <ul class="br-menu-sub nav flex-column">
         <li class="nav-item"><a href="{{url('currency')}}" class="nav-link">Currency</a></li>
-          <li class="nav-item"><a href="{{url('paymentmethod')}}" class="nav-link">Payment Method</a></li>
+          <li class="nav-item"><a href="{{url('payment-method')}}" class="nav-link">Payment Method</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
         </ul>
       </div>

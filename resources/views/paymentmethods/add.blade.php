@@ -5,7 +5,7 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('/paymentmethod') }}">Payment Method</a>
+      <a class="breadcrumb-item" href="{{ url('/payment-method') }}">Payment Method</a>
       <span class="breadcrumb-item active">Add</span>
     </nav>
   </div>
@@ -14,7 +14,7 @@
     <h4 class="tx-gray-800 mg-b-5">Add Payment Method</h4>
   </div>
 
-  <form action="{{ url('paymentmethod/add') }}" method="POST">
+  <form action="{{ url('payment-method/add') }}" method="POST">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">

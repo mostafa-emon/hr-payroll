@@ -47,10 +47,6 @@ class ConfigurationController extends Controller
         return view('currencies.update', ['currencies' => $currencies]);
     }
 
-
-
-
-
     public function index_paymentmethod(){
         $paymentmethod = PaymentMethod::orderBy('id', 'asc')->paginate(10);
         return view('paymentmethods.index', ['paymentmethods'=>$paymentmethod]);
@@ -61,7 +57,7 @@ class ConfigurationController extends Controller
             $paymentmethod = new PaymentMethod();
             $paymentmethod->method_name        = $request->method_name;
             $paymentmethod->save();
-            return redirect('paymentmethod')->with('message', 'Payment Method added successfully!');
+            return redirect('payment-method')->with('message', 'Payment Method added successfully!');
         }
         return view('paymentmethods.add');
     }
@@ -69,7 +65,7 @@ class ConfigurationController extends Controller
     public function delete_paymentmethod($paymentmethod_id){
         $paymentmethod = PaymentMethod::find($paymentmethod_id);
         $paymentmethod->delete();
-        return redirect('paymentmethod')->with('message', 'Payment Method deleted successfully!');
+        return redirect('payment-method')->with('message', 'Payment Method deleted successfully!');
     }
 
     public function update_paymentmethod($paymentmethod_id, Request $request){
@@ -77,7 +73,7 @@ class ConfigurationController extends Controller
             $paymentmethod = PaymentMethod::where('id',$paymentmethod_id)->first();
             $paymentmethod->method_name        = $request->method_name;
             $paymentmethod->save();
-            return redirect('paymentmethod')->with('message', 'Payment Method updated successfully!');
+            return redirect('payment-method')->with('message', 'Payment Method updated successfully!');
         }
         $paymentmethods = PaymentMethod::where('id',$paymentmethod_id)->first();
         return view('paymentmethods.update', ['paymentmethods' => $paymentmethods]);
