@@ -5,7 +5,7 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('paymentmethod') }}">Payment Method</a>
+      <a class="breadcrumb-item" href="{{ url('payment-method') }}">Payment Method</a>
     </nav>
   </div>
 
@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Payment Methods</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('payment-method/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Payment Method</a>
+      <a href="{{ url('payment-method/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i>Add Method</a>
     </div>
   </div>
 
