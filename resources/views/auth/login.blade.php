@@ -79,7 +79,7 @@
                     @endif
                 </form>
 
-                <div class="mg-t-60 tx-center">Not yet a member? <a href="{{url('register')}}" class="tx-info">Sign Up</a></div>
+                <div class="mg-t-40 tx-center">Axis Cheque & MR</a></div>
             </div><!-- login-wrapper -->
         </div><!-- d-flex -->
 
