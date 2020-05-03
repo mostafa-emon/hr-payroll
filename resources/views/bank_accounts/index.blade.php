@@ -34,8 +34,8 @@
             <tr>
               <th>Sl</th>
               <th>Bank Name</th>
-              <th>A\C Number</th>
-              <th>A\C Type</th>
+              <th>A/C Number</th>
+              <th>A/C Type</th>
               <th>Currency</th>
               <th>Update</th>
               <th>Delete</th>

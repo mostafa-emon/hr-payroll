@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\BankAccount;
 use App\Bank;
 use App\Currency;
-use Auth;
 
 class BankAccountController extends Controller
 {

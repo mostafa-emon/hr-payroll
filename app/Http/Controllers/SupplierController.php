@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Supplier;
-use Auth;
 
 class SupplierController extends Controller
 {

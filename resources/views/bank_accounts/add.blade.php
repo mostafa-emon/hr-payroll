@@ -22,7 +22,7 @@
           <div class="row no-gutters">
             
             <div class="col-md-6">
-              <div class="form-group mg-md-l--1 bd-t-0-force">
+              <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Bank Name: <span class="tx-danger">*</span></label>
                 <select name="bank_id" class="form-control">
                   <option selected disabled>Select Bank</option>
@@ -35,17 +35,17 @@
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">A\C Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="ac_number" placeholder="Enter A\C Number">
+                <label class="form-control-label">A/C Number: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="ac_number" placeholder="Enter A/C Number">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">Country: <span class="tx-danger">*</span></label>
-                <select id="select2-a" class="form-control" name="ac_type" data-placeholder="A\C Type">
-                  <option label="A\C Type"></option>
-                  <option selected disabled>Select A\C Type</option>
+                <select id="select2-a" class="form-control" name="ac_type" data-placeholder="A/C Type">
+                  <option label="A/C Type"></option>
+                  <option selected disabled>Select A/C Type</option>
                   <option value="Current">Current</option>
                   <option value="Savings">Savings</option>
                   <option value="Others">Others</option>
