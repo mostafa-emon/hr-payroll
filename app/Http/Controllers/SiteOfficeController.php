@@ -21,13 +21,13 @@ class SiteOfficeController extends Controller
     public function add(Request $request){
         if($request->name !=""){
             $siteoffice = new SiteOffice();
-            $siteoffice->name             = $request->name;
-            $siteoffice->address          = $request->address;
-            $siteoffice->phone            = $request->phone;
-            $siteoffice->email            = $request->email;
-            $siteoffice->mr_suffix   = $request->mr_suffix;
-            $siteoffice->mr_prefix   = $request->mr_prefix;
-            $siteoffice->mr_start_from   = $request->mr_start_from;
+            $siteoffice->name               = $request->name;
+            $siteoffice->address            = $request->address;
+            $siteoffice->phone              = $request->phone;
+            $siteoffice->email              = $request->email;
+            $siteoffice->mr_suffix          = $request->mr_suffix;
+            $siteoffice->mr_prefix          = $request->mr_prefix;
+            $siteoffice->mr_start_from      = $request->mr_start_from;
             $siteoffice->save();
             return redirect('site-office')->with('message', 'Site Office added successfully!');
         }
@@ -43,13 +43,13 @@ class SiteOfficeController extends Controller
     public function update($siteoffice_id, Request $request){
         if($request->name !=""){
             $siteoffice = SiteOffice::where('id',$siteoffice_id)->first();
-            $siteoffice->name             = $request->name;
-            $siteoffice->address          = $request->address;
-            $siteoffice->phone            = $request->phone;
-            $siteoffice->email            = $request->email;
-            $siteoffice->mr_suffix   = $request->mr_suffix;
-            $siteoffice->mr_prefix   = $request->mr_prefix;
-            $siteoffice->mr_start_from   = $request->mr_start_from;
+            $siteoffice->name               = $request->name;
+            $siteoffice->address            = $request->address;
+            $siteoffice->phone              = $request->phone;
+            $siteoffice->email              = $request->email;
+            $siteoffice->mr_suffix          = $request->mr_suffix;
+            $siteoffice->mr_prefix          = $request->mr_prefix;
+            $siteoffice->mr_start_from      = $request->mr_start_from;
             $siteoffice->save();
             return redirect('site-office')->with('message', 'Site Office updated successfully!');
         }
