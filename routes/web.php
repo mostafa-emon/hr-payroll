@@ -65,4 +65,7 @@ Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController
 Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_paymentmethod');
 Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_paymentmethod');
 
+Route::get('/settings', 'SettingsController@index');
+Route::post('/settings/update', 'SettingsController@update');
+
 Route::get('/logout', 'HomeController@logout');
