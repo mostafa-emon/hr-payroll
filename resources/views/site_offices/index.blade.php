@@ -5,16 +5,16 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('payment-method') }}">Payment Method</a>
+      <a class="breadcrumb-item" href="{{ url('site-office') }}">Site Office</a>
     </nav>
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
-      <h4 class="tx-gray-800 mg-b-5">Payment Methods</h4>
+      <h4 class="tx-gray-800 mg-b-5">Site Offices</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('payment-method/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i>Add Method</a>
+      <a href="{{ url('site-office/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Site</a>
     </div>
   </div>
 
@@ -33,21 +33,33 @@
           <thead>
             <tr>
               <th>Sl</th>
-              <th>Method Name</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>MR Suffix</th>
+              <th>MR Prefix</th>
+              <th>MR Start From</th>
               <th>Update</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($paymentmethods as $paymentmethod)
+            @foreach($site_offices as $site_office)
               <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $paymentmethod->method_name }}</td>
+                <td>{{ $site_office->name }}</td>
+                <td>{{ $site_office->address }}</td>
+                <td>{{ $site_office->phone }}</td>
+                <td>{{ $site_office->email }}</td>
+                <td>{{ $site_office->mr_suffix }}</td>
+                <td>{{ $site_office->mr_prefix }}</td>
+                <td>{{ $site_office->mr_start_from }}</td>
                 <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('payment-method/update/'.$paymentmethod->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('site-office/update/'.$site_office->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
-                  <a class="btn btn-danger btn-sm" href="{{url ('payment-method/delete/'.$paymentmethod->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  <a class="btn btn-danger btn-sm" href="{{url ('site-office/delete/'.$site_office->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
             @endforeach

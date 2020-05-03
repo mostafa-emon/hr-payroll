@@ -44,7 +44,6 @@
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">A\C Type: <span class="tx-danger">*</span></label>
               <select id="select2-a" class="form-control" name="ac_type" data-placeholder="A\C Type">
-             
                   <option selected disabled>Select A\C Type</option>
                   <option value="Current"  @if($bank_accounts->ac_type == "Current") selected @endif>Current</option>
                   <option value="Savings" @if($bank_accounts->ac_type == "Savings") selected @endif>Savings</option>

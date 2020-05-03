@@ -48,35 +48,36 @@ class ConfigurationController extends Controller
         return view('currencies.update', ['currencies' => $currencies]);
     }
 
+    
     public function index_paymentmethod(){
-        $paymentmethod = PaymentMethod::orderBy('id', 'asc')->paginate(10);
-        return view('paymentmethods.index', ['paymentmethods'=>$paymentmethod]);
+        $payment_method = PaymentMethod::orderBy('id', 'asc')->paginate(10);
+        return view('payment_methods.index', ['payment_methods'=>$payment_method]);
     }
     
     public function add_paymentmethod(Request $request){
         if($request->method_name !=""){
-            $paymentmethod = new PaymentMethod();
-            $paymentmethod->method_name        = $request->method_name;
-            $paymentmethod->save();
+            $payment_method = new PaymentMethod();
+            $payment_method->method_name        = $request->method_name;
+            $payment_method->save();
             return redirect('payment-method')->with('message', 'Payment Method added successfully!');
         }
-        return view('paymentmethods.add');
+        return view('payment_methods.add');
     }
 
-    public function delete_paymentmethod($paymentmethod_id){
-        $paymentmethod = PaymentMethod::find($paymentmethod_id);
-        $paymentmethod->delete();
+    public function delete_paymentmethod($payment_method_id){
+        $payment_method = PaymentMethod::find($payment_method_id);
+        $payment_method->delete();
         return redirect('payment-method')->with('message', 'Payment Method deleted successfully!');
     }
 
-    public function update_paymentmethod($paymentmethod_id, Request $request){
+    public function update_paymentmethod($payment_method_id, Request $request){
         if($request->method_name !=""){
-            $paymentmethod = PaymentMethod::where('id',$paymentmethod_id)->first();
-            $paymentmethod->method_name        = $request->method_name;
-            $paymentmethod->save();
+            $payment_method = PaymentMethod::where('id',$payment_method_id)->first();
+            $payment_method->method_name        = $request->method_name;
+            $payment_method->save();
             return redirect('payment-method')->with('message', 'Payment Method updated successfully!');
         }
-        $paymentmethods = PaymentMethod::where('id',$paymentmethod_id)->first();
-        return view('paymentmethods.update', ['paymentmethods' => $paymentmethods]);
+        $payment_methods = PaymentMethod::where('id',$payment_method_id)->first();
+        return view('payment_methods.update', ['payment_methods' => $payment_methods]);
     }
 }

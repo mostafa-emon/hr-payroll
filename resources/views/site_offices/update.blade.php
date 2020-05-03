@@ -14,7 +14,7 @@
     <h4 class="tx-gray-800 mg-b-5">Update Site Office</h4>
   </div>
 
-  <form action="{{ url('site-office/update/'.$siteoffices->id) }}" method="POST">
+  <form action="{{ url('site-office/update/'.$site_offices->id) }}" method="POST">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -24,49 +24,49 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-              <input class="form-control" type="text" name="name" placeholder="Enter Name" value="{{$siteoffices->name}}">
+              <input class="form-control" type="text" name="name" placeholder="Enter Name" value="{{$site_offices->name}}">
               </div>
             </div>
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Email address:</label>
-                <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$siteoffices->email}}">
+                <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$site_offices->email}}">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Address:</label>
-                <input class="form-control" type="text" name="address" placeholder="Enter Address" value="{{$siteoffices->address}}">
+                <input class="form-control" type="text" name="address" placeholder="Enter Address" value="{{$site_offices->address}}">
               </div>
             </div>
             
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number" value="{{$siteoffices->phone}}">
+                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number" value="{{$site_offices->phone}}">
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">MR Suffix:</label>
-                <input class="form-control" type="text" name="mr_suffix" placeholder="MR Suffix" value="{{$siteoffices->mr_suffix}}">
+                <input class="form-control" type="text" name="mr_suffix" placeholder="MR Suffix" value="{{$site_offices->mr_suffix}}">
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">MR Prefix:</label>
-                <input class="form-control" type="text" name="mr_prefix" placeholder="MR Prefix" value="{{$siteoffices->mr_prefix}}">
+                <input class="form-control" type="text" name="mr_prefix" placeholder="MR Prefix" value="{{$site_offices->mr_prefix}}">
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">MR Start From:</label>
-                <input class="form-control" type="text" name="mr_start_from" placeholder="MR Start From" value="{{$siteoffices->mr_start_from}}">
+                <input class="form-control" type="text" name="mr_start_from" placeholder="MR Start From" value="{{$site_offices->mr_start_from}}">
               </div>
             </div>
 

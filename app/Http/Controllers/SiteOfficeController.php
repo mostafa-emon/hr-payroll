@@ -14,46 +14,46 @@ class SiteOfficeController extends Controller
     }
     
     public function index(){
-        $siteoffice = SiteOffice::orderBy('name', 'asc')->paginate(10);
-        return view('siteoffices.index', ['siteoffices'=>$siteoffice]);
+        $site_office = SiteOffice::orderBy('name', 'asc')->paginate(10);
+        return view('site_offices.index', ['site_offices'=>$site_office]);
     }
     
     public function add(Request $request){
         if($request->name !=""){
-            $siteoffice = new SiteOffice();
-            $siteoffice->name               = $request->name;
-            $siteoffice->address            = $request->address;
-            $siteoffice->phone              = $request->phone;
-            $siteoffice->email              = $request->email;
-            $siteoffice->mr_suffix          = $request->mr_suffix;
-            $siteoffice->mr_prefix          = $request->mr_prefix;
-            $siteoffice->mr_start_from      = $request->mr_start_from;
-            $siteoffice->save();
+            $site_office = new SiteOffice();
+            $site_office->name               = $request->name;
+            $site_office->address            = $request->address;
+            $site_office->phone              = $request->phone;
+            $site_office->email              = $request->email;
+            $site_office->mr_suffix          = $request->mr_suffix;
+            $site_office->mr_prefix          = $request->mr_prefix;
+            $site_office->mr_start_from      = $request->mr_start_from;
+            $site_office->save();
             return redirect('site-office')->with('message', 'Site Office added successfully!');
         }
-        return view('siteoffices.add');
+        return view('site_offices.add');
     }
 
-    public function delete($siteoffice_id){
-        $siteoffice = SiteOffice::find($siteoffice_id);
-        $siteoffice->delete();
+    public function delete($site_office_id){
+        $site_office = SiteOffice::find($site_office_id);
+        $site_office->delete();
         return redirect('site-office')->with('message', 'Site Office deleted successfully!');
     }
 
-    public function update($siteoffice_id, Request $request){
+    public function update($site_office_id, Request $request){
         if($request->name !=""){
-            $siteoffice = SiteOffice::where('id',$siteoffice_id)->first();
-            $siteoffice->name               = $request->name;
-            $siteoffice->address            = $request->address;
-            $siteoffice->phone              = $request->phone;
-            $siteoffice->email              = $request->email;
-            $siteoffice->mr_suffix          = $request->mr_suffix;
-            $siteoffice->mr_prefix          = $request->mr_prefix;
-            $siteoffice->mr_start_from      = $request->mr_start_from;
-            $siteoffice->save();
+            $site_office = SiteOffice::where('id',$site_office_id)->first();
+            $site_office->name               = $request->name;
+            $site_office->address            = $request->address;
+            $site_office->phone              = $request->phone;
+            $site_office->email              = $request->email;
+            $site_office->mr_suffix          = $request->mr_suffix;
+            $site_office->mr_prefix          = $request->mr_prefix;
+            $site_office->mr_start_from      = $request->mr_start_from;
+            $site_office->save();
             return redirect('site-office')->with('message', 'Site Office updated successfully!');
         }
-        $siteoffices = SiteOffice::where('id',$siteoffice_id)->first();
-        return view('siteoffices.update', ['siteoffices' => $siteoffices]);
+        $site_offices = SiteOffice::where('id',$site_office_id)->first();
+        return view('site_offices.update', ['site_offices' => $site_offices]);
     }
 }

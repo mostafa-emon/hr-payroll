@@ -33,7 +33,7 @@ class BankAccountController extends Controller
             $bank_account->save();
             return redirect('bank-account')->with('message', 'Bank Account added successfully!');
         }
-        $banks  = Bank::orderBy('name', 'asc')->get();
+        $banks      = Bank::orderBy('name', 'asc')->get();
         $currencies = Currency::orderBy('full_name', 'asc')->get();
         return view('bank_accounts.add', ['banks' => $banks, 'currencies' => $currencies]);
     }
@@ -54,9 +54,9 @@ class BankAccountController extends Controller
             $bank_account->save();
             return redirect('bank-account')->with('message', 'Bank Account updated successfully!');
         }
-        $bank_accounts = BankAccount::where('id',$bank_account_id)->first();
-        $banks  = Bank::orderBy('name', 'asc')->get();
-        $currencies = Currency::orderBy('full_name', 'asc')->get();
+        $bank_accounts  = BankAccount::where('id',$bank_account_id)->first();
+        $banks          = Bank::orderBy('name', 'asc')->get();
+        $currencies     = Currency::orderBy('full_name', 'asc')->get();
         return view('bank_accounts.update', ['banks' => $banks, 'currencies' => $currencies,'bank_accounts' => $bank_accounts]);
     }
 }

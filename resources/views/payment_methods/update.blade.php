@@ -14,7 +14,7 @@
     <h4 class="tx-gray-800 mg-b-5">Update Payment Method</h4>
   </div>
 
-  <form action="{{ url('payment-method/update/'.$paymentmethods->id) }}" method="POST">
+  <form action="{{ url('payment-method/update/'.$payment_methods->id) }}" method="POST">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -24,7 +24,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label class="form-control-label">Method Name: <span class="tx-danger">*</span></label>
-              <input class="form-control" type="text" name="method_name" placeholder="Enter Method Name" value="{{$paymentmethods->method_name}}">
+              <input class="form-control" type="text" name="method_name" placeholder="Enter Method Name" value="{{$payment_methods->method_name}}">
               </div>
             </div>
 

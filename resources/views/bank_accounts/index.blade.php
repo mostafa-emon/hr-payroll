@@ -51,8 +51,8 @@
                 <td>{{ $bank_account->currency_name }}</td>
                 <td>
                   <a class="btn btn-info btn-sm" href="{{url ('bank-account/update/'.$bank_account->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
-                  <td>
+                </td>
+                <td>
                   <a class="btn btn-danger btn-sm" href="{{url ('bank-account/delete/'.$bank_account->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
