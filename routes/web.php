@@ -65,6 +65,9 @@ Route::get('/user/delete/{user_id}', 'UserController@delete');
 Route::get('/user/update/{user_id}', 'UserController@update');
 Route::post('/user/update/{user_id}', 'UserController@update');
 
+Route::get('/user/profile/{user_id}', 'UserController@profile');
+Route::post('/user/profile/{user_id}', 'UserController@profile');
+
 Route::get('/currency', 'ConfigurationController@index_currency');
 Route::get('/currency/add', 'ConfigurationController@add_currency');
 Route::post('/currency/add', 'ConfigurationController@add_currency');

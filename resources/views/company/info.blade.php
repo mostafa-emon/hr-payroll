@@ -33,7 +33,7 @@
               <div class="form-group">
                   <div class="mg-b-10">
                       @if(isset($info) && $info->logo != "")
-                          <img class="pointer" id="logo" src="storage/{{ $info->logo }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
+                          <img class="pointer" id="logo" src="{{ asset('storage/'.$info->logo) }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
                       @else
                           <img class="pointer" id="logo" src="{{ asset('img/logo-placeholder.png') }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
                       @endif
@@ -97,15 +97,14 @@
   </form>
 
   <script>
-    function preview_image(event) 
-{
- var reader = new FileReader();
- reader.onload = function()
- {
-  var output = document.getElementById('logo');
-  output.src = reader.result;
- }
- reader.readAsDataURL(event.target.files[0]);
-}
+    function preview_image(event) {
+      var reader = new FileReader();
+      reader.onload = function()
+      {
+        var output = document.getElementById('logo');
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
   </script>
 @endsection

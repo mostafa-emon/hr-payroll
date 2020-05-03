@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -50,5 +51,27 @@ class UserController extends Controller
         }
         $users = User::where('id',$user_id)->first();
         return view('users.update', ['users' => $users]);
+    }
+
+    public function profile($user_id, Request $request){
+        if($request->name !=""){
+            $user = User::where('id',$user_id)->first();
+            $user->name             = $request->name;
+            $user->designation      = $request->designation;
+            $user->email            = $request->email;
+            if($request->password != ""){
+               $user->password      = Hash::make($request->password);
+            }
+            if($request->hasFile('avatar')){
+                if($user->avatar != ""){
+                    Storage::delete($user->avatar);
+                }
+                $user->avatar       = $request->file('avatar')->store('users');
+            }
+            $user->save();
+            return redirect('user/profile/'.$user_id)->with('message', 'Profile updated successfully!');
+        }
+        $users = User::where('id',$user_id)->first();
+        return view('users.profile', ['users' => $users]);
     }
 }

@@ -132,13 +132,17 @@
         <nav class="nav">
           <div class="dropdown">
             <a href="#" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down">Katherine</span>
-              <img src="{{asset('img/img1.jpg')}}" class="wd-32 rounded-circle" alt="">
+              <span class="logged-name hidden-md-down">{{ Auth::user()->name }}</span>
+              @if(Auth::user()->avatar != "")
+                  <img src="{{asset('storage/'.Auth::user()->avatar)}}" class="wd-32 rounded-circle" alt="">
+              @else
+                  <img src="{{asset('img/user.png')}}" class="wd-32 rounded-circle" alt="">
+              @endif
               <span class="square-10 bg-success"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <li><a href="#"><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href="{{ url('user/profile/'.Auth::user()->id) }}"><i class="icon ion-ios-person"></i> Edit Profile</a></li>
                 <li><a href="{{ url('logout') }}"><i class="icon ion-md-power"></i> Sign Out</a></li>
               </ul>
             </div>
