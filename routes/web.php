@@ -71,8 +71,14 @@ Route::post('/payment-method/add', 'ConfigurationController@add_payment_method')
 Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController@delete_payment_method');
 Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
 Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
+Route::get('/settings', 'ConfigurationController@index');
+Route::post('/settings/update', 'ConfigurationController@update');
 
-Route::get('/settings', 'SettingsController@index');
-Route::post('/settings/update', 'SettingsController@update');
+Route::get('/cheque-books', 'ChequeBookController@index');
+Route::get('/cheque-books/add', 'ChequeBookController@add');
+Route::post('/cheque-books/add', 'ChequeBookController@add');
+Route::get('/cheque-books/delete/{paymentmethod_id}', 'ChequeBookController@delete');
+Route::get('/cheque-books/update/{paymentmethod_id}', 'ChequeBookController@update');
+Route::post('/cheque-books/update/{paymentmethod_id}', 'ChequeBookController@update');
 
 Route::get('/logout', 'HomeController@logout');
