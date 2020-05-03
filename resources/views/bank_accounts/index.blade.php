@@ -42,18 +42,18 @@
             </tr>
           </thead>
           <tbody>
-            @foreach($bankaccounts as $bankaccount)
+            @foreach($bank_accounts as $bank_account)
               <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $bankaccount->bank_name }}</td>
-                <td>{{ $bankaccount->ac_number }}</td>
-                <td>{{ $bankaccount->ac_type }}</td>
-                <td>{{ $bankaccount->currency_name }}</td>
+                <td>{{ $bank_account->bank_name }}</td>
+                <td>{{ $bank_account->ac_number }}</td>
+                <td>{{ $bank_account->ac_type }}</td>
+                <td>{{ $bank_account->currency_name }}</td>
                 <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('bank-account/update/'.$bankaccount->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('bank-account/update/'.$bank_account->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
-                  <a class="btn btn-danger btn-sm" href="{{url ('bank-account/delete/'.$bankaccount->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  <a class="btn btn-danger btn-sm" href="{{url ('bank-account/delete/'.$bank_account->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
             @endforeach

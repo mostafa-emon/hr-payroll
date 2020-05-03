@@ -14,7 +14,7 @@
     <h4 class="tx-gray-800 mg-b-5">Update Bank Account</h4>
   </div>
 
-  <form action="{{ url('bank-account/update/'.$bankaccounts->id) }}" method="POST">
+  <form action="{{ url('bank-account/update/'.$bank_accounts->id) }}" method="POST">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -27,7 +27,7 @@
                 <select name="bank_id" class="form-control">
                   <option selected disabled>Select Bank</option>
                       @foreach($banks as $bank)
-                          <option value="{{ $bank->id }}" @if($bankaccounts->bank_id == $bank->id) selected @endif>{{ $bank->name }}</option>
+                          <option value="{{ $bank->id }}" @if($bank_accounts->bank_id == $bank->id) selected @endif>{{ $bank->name }}</option>
                       @endforeach
                 </select>
               </div>
@@ -36,7 +36,7 @@
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">A\C Number: <span class="tx-danger">*</span></label>
-              <input class="form-control" type="text" name="ac_number" placeholder="Enter A\C Number" value="{{$bankaccounts->ac_number}}">
+              <input class="form-control" type="text" name="ac_number" placeholder="Enter A\C Number" value="{{$bank_accounts->ac_number}}">
               </div>
             </div>
 
@@ -46,9 +46,9 @@
               <select id="select2-a" class="form-control" name="ac_type" data-placeholder="A\C Type">
              
                   <option selected disabled>Select A\C Type</option>
-                  <option value="Current"  @if($bankaccounts->ac_type == "Current") selected @endif>Current</option>
-                  <option value="Savings" @if($bankaccounts->ac_type == "Savings") selected @endif>Savings</option>
-                  <option value="Others"  @if($bankaccounts->ac_type == "Others") selected @endif>Others</option>
+                  <option value="Current"  @if($bank_accounts->ac_type == "Current") selected @endif>Current</option>
+                  <option value="Savings" @if($bank_accounts->ac_type == "Savings") selected @endif>Savings</option>
+                  <option value="Others"  @if($bank_accounts->ac_type == "Others") selected @endif>Others</option>
                 </select>
               </div>
             </div>
@@ -59,7 +59,7 @@
                 <select name="currency_id" class="form-control">
                   <option selected disabled>Select Currency</option>
                       @foreach($currencies as $currency)
-                          <option value="{{ $currency->id }}" @if($bankaccounts->currency_id == $currency->id) selected @endif>{{ $currency->full_name }}</option>
+                          <option value="{{ $currency->id }}" @if($bank_accounts->currency_id == $currency->id) selected @endif>{{ $currency->full_name }}</option>
                       @endforeach
                 </select>
               </div>
