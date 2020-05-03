@@ -24,14 +24,14 @@
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
       <div class="br-sideleft-menu">
 
-        <a  class="br-menu-link {{ (request()->is('dashboard')) ? 'active' : '' }}" href="{{url('dashboard')}}">
+        <a  class="br-menu-link {{ (request()->is('dashboard')) || (request()->is('/')) || (request()->is('home')) ? 'active' : '' }}" href="{{url('dashboard')}}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-md-home tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
           </div>
         </a>
 
-        <a href="#" class="br-menu-link {{ (request()->is('company*')) ? 'active' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('site-office*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-warehouse tx-14"></i>
             <span class="menu-item-label">Company</span>
@@ -57,7 +57,7 @@
           </div>
         </a>
 
-        <a href="#" class="br-menu-link">
+        <a href="#" class="br-menu-link {{ (request()->is('bank*')) || (request()->is('cheque-books*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-university tx-19"></i>
             <span class="menu-item-label">Bank</span>
@@ -65,9 +65,9 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{url('bank')}}" class="nav-link">Bank List</a></li>
-          <li class="nav-item"><a href="{{url('bank-account')}}" class="nav-link">Bank Accounts</a></li>
-          <li class="nav-item"><a href="{{url('cheque-books')}}" class="nav-link">Cheque Books</a></li>
+          <li class="nav-item"><a href="{{url('bank')}}" class="nav-link {{ (request()->is('bank')) || (request()->is('bank/add')) || (request()->is('bank/update*')) ? 'active' : '' }}">Bank List</a></li>
+          <li class="nav-item"><a href="{{url('bank-account')}}" class="nav-link {{ (request()->is('bank-account*')) ? 'active' : '' }}">Bank Accounts</a></li>
+          <li class="nav-item"><a href="{{url('cheque-books')}}" class="nav-link {{ (request()->is('cheque-books*')) ? 'active' : '' }}">Cheque Books</a></li>
         </ul>
 
         <a href="#" class="br-menu-link">
@@ -104,7 +104,7 @@
           </div>
         </a>
 
-        <a href="#" class="br-menu-link">
+        <a href="#" class="br-menu-link {{ (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('settings')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-settings tx-24"></i>
             <span class="menu-item-label">Configuration</span>
@@ -174,6 +174,15 @@
     <script src="{{asset('js/ResizeSensor.js')}}"></script>
     <script src="{{asset('js/dashboard.js')}}"></script>
     
+    <script>
+        $(".form-layout .form-control").on("focusin", function () {
+          $(this).closest(".form-group").addClass("form-group-active");
+        });
+
+        $(".form-layout .form-control").on("focusout", function () {
+          $(this).closest(".form-group").removeClass("form-group-active");
+        });
+    </script>
   </body>
 
 </html>
