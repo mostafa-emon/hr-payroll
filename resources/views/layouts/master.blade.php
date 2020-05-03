@@ -26,14 +26,14 @@
 
         <a  class="br-menu-link {{ (request()->is('dashboard')) ? 'active' : '' }}" href="{{url('dashboard')}}">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-home tx-22"></i>
+            <i class="menu-item-icon ion-md-home tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
           </div>
         </a>
 
         <a href="#" class="br-menu-link {{ (request()->is('company*')) ? 'active' : '' }}">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon fa fa-warehouse tx-14"></i>
             <span class="menu-item-label">Company</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
@@ -45,7 +45,7 @@
         
         <a class="br-menu-link {{ (request()->is('customer*')) ? 'active' : '' }}" href="{{url('customer')}}">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-people tx-22"></i>
+            <i class="menu-item-icon fa fa-user-friends tx-15"></i>
             <span class="menu-item-label">Customers</span>
           </div>
         </a>
@@ -59,7 +59,7 @@
 
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon fa fa-university tx-19"></i>
             <span class="menu-item-label">Bank</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
@@ -72,7 +72,7 @@
 
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon fa fa-file-alt tx-19 pd-l-2"></i>
             <span class="menu-item-label">Transaction</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
@@ -84,7 +84,7 @@
 
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon fa fa-chart-bar tx-19"></i>
             <span class="menu-item-label">Reports</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
@@ -99,14 +99,14 @@
         
         <a  href="#" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon fa fa-user-friends tx-16"></i>
             <span class="menu-item-label">Users</span>
           </div>
         </a>
 
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon ion-ios-settings tx-24"></i>
             <span class="menu-item-label">Configuration</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
