@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Site Offices</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('site-office/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Site</a>
+      <a href="{{ url('site-office/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Office</a>
     </div>
   </div>
 

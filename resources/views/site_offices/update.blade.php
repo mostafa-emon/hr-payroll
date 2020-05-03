@@ -43,7 +43,7 @@
             </div>
             
             <div class="col-md-6 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1">
+              <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number" value="{{$site_offices->phone}}">
               </div>

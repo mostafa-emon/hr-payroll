@@ -41,7 +41,7 @@
             </div>
 
             <div class="col-md-6">
-              <div class="form-group mg-md-l--1 bd-t-0-force">
+              <div class="form-group bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">A/C Type: <span class="tx-danger">*</span></label>
                 <select id="select2-a" class="form-control" name="ac_type" data-placeholder="A/C Type">
                   <option selected disabled>Select A/C Type</option>
