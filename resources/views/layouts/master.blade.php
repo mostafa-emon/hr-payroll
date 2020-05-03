@@ -31,7 +31,7 @@
           </div>
         </a>
 
-        <a href="#" class="br-menu-link">
+        <a href="#" class="br-menu-link {{ (request()->is('company*')) ? 'active' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Company</span>
@@ -39,7 +39,7 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="#" class="nav-link">Information</a></li>
+          <li class="nav-item"><a href="{{ url('company') }}" class="nav-link">Information</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Site Offices</a></li>
         </ul>
         
@@ -50,7 +50,7 @@
           </div>
         </a>
 
-        <a  class="br-menu-link  {{ (request()->is('supplier*')) ? 'active' : '' }} " href="{{url('supplier')}}">
+        <a  class="br-menu-link {{ (request()->is('supplier*')) ? 'active' : '' }}" href="{{url('supplier')}}">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-person tx-22"></i>
             <span class="menu-item-label">Suppliers</span>
@@ -156,7 +156,7 @@
         </div>
       </footer>
     </div>
-
+    
     <script src="{{asset('lib/jquery/jquery.js')}}"></script>
     <script src="{{asset('lib/popper.js/popper.js')}}"></script>
     <script src="{{asset('lib/bootstrap/bootstrap.js')}}"></script>
@@ -169,7 +169,6 @@
     <script src="{{asset('lib/jquery.sparkline.bower/jquery.sparkline.min.js')}}"></script>
     <script src="{{asset('lib/d3/d3.js')}}"></script>
     <script src="{{asset('lib/rickshaw/rickshaw.min.js')}}"></script>
-
 
     <script src="{{asset('js/bracket.js')}}"></script>
     <script src="{{asset('js/ResizeSensor.js')}}"></script>

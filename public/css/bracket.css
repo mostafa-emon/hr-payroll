@@ -53324,6 +53324,10 @@ a.hover-white-8:focus {
     width: 100px;
 }
 
+.wd-120 {
+    width: 120px;
+}
+
 .wd-100p {
     width: 100%;
 }
@@ -59703,4 +59707,8 @@ a.hover-white-8:focus {
 
 .mx-wd-1350 {
     max-width: 1350px;
+}
+
+.pointer {
+    cursor: pointer;
 }
