@@ -97,7 +97,7 @@
           <li class="nav-item"><a href="#" class="nav-link">Audit Trail</a></li>
         </ul>
         
-        <a  href="#" class="br-menu-link">
+        <a  href="{{url('user')}}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-user-friends tx-16"></i>
             <span class="menu-item-label">Users</span>

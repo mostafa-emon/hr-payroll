@@ -58,6 +58,13 @@ Route::get('/bank-account/delete/{bankaccount_id}', 'BankAccountController@delet
 Route::get('/bank-account/update/{bankaccount_id}', 'BankAccountController@update');
 Route::post('/bank-account/update/{bankaccount_id}', 'BankAccountController@update');
 
+Route::get('/user', 'UserController@index');
+Route::get('/user/add', 'UserController@add');
+Route::post('/user/add', 'UserController@add');
+Route::get('/user/delete/{user_id}', 'UserController@delete');
+Route::get('/user/update/{user_id}', 'UserController@update');
+Route::post('/user/update/{user_id}', 'UserController@update');
+
 Route::get('/currency', 'ConfigurationController@index_currency');
 Route::get('/currency/add', 'ConfigurationController@add_currency');
 Route::post('/currency/add', 'ConfigurationController@add_currency');

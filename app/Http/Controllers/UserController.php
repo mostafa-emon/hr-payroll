@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\User;
+use Hash;
+
+class UserController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    public function index(){
+        $user = User::orderBy('name', 'asc')->get();
+        return view('users.index', ['users'=>$user]);
+    }
+    
+    public function add(Request $request){
+        if($request->name !=""){
+            $user = new User();
+            $user->name             = $request->name;
+            $user->designation      = $request->designation;
+            $user->email            = $request->email;
+            $user->password         = Hash::make($request->password);
+            $user->save();
+            return redirect('user')->with('message', 'User added successfully!');
+        }
+        return view('users.add');
+    }
+    public function delete($user_id){
+        $user = User::find($user_id);
+        $user->delete();
+        return redirect('user')->with('message', 'User deleted successfully!');
+    }
+
+    public function update($user_id, Request $request){
+        if($request->name !=""){
+            $user = User::where('id',$user_id)->first();
+            $user->name             = $request->name;
+            $user->designation      = $request->designation;
+            $user->email            = $request->email;
+            if($request->password != ""){
+               $user->password      = Hash::make($request->password);
+            }
+            $user->save();
+            return redirect('user')->with('message', 'User updated successfully!');
+        }
+        $users = User::where('id',$user_id)->first();
+        return view('users.update', ['users' => $users]);
+    }
+}
