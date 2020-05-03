@@ -23,6 +23,13 @@ Route::get('/dashboard', 'HomeController@index');
 Route::get('/company', 'CompanyController@index');
 Route::post('/company/update', 'CompanyController@update');
 
+Route::get('/site-office', 'SiteOfficeController@index');
+Route::get('/site-office/add', 'SiteOfficeController@add');
+Route::post('/site-office/add', 'SiteOfficeController@add');
+Route::get('/site-office/delete/{siteoffice_id}', 'SiteOfficeController@delete');
+Route::get('/site-office/update/{siteoffice_id}', 'SiteOfficeController@update');
+Route::post('/site-office/update/{siteoffice_id}', 'SiteOfficeController@update');
+
 Route::get('/customer', 'CustomerController@index');
 Route::get('/customer/add', 'CustomerController@add');
 Route::post('/customer/add', 'CustomerController@add');

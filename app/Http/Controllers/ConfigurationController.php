@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\PaymentMethod;
+use Auth;
 
 class ConfigurationController extends Controller
 {

@@ -40,7 +40,7 @@
         </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="{{ url('company') }}" class="nav-link">Information</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Site Offices</a></li>
+          <li class="nav-item"><a href="{{ url('site-office') }}" class="nav-link">Site Offices</a></li>
         </ul>
         
         <a class="br-menu-link {{ (request()->is('customer*')) ? 'active' : '' }}" href="{{url('customer')}}">
