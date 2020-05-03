@@ -49,12 +49,12 @@ class ConfigurationController extends Controller
     }
 
     
-    public function index_paymentmethod(){
+    public function index_payment_method(){
         $payment_method = PaymentMethod::orderBy('id', 'asc')->paginate(10);
         return view('payment_methods.index', ['payment_methods'=>$payment_method]);
     }
     
-    public function add_paymentmethod(Request $request){
+    public function add_payment_method(Request $request){
         if($request->method_name !=""){
             $payment_method = new PaymentMethod();
             $payment_method->method_name        = $request->method_name;
@@ -64,13 +64,13 @@ class ConfigurationController extends Controller
         return view('payment_methods.add');
     }
 
-    public function delete_paymentmethod($payment_method_id){
+    public function delete_payment_method($payment_method_id){
         $payment_method = PaymentMethod::find($payment_method_id);
         $payment_method->delete();
         return redirect('payment-method')->with('message', 'Payment Method deleted successfully!');
     }
 
-    public function update_paymentmethod($payment_method_id, Request $request){
+    public function update_payment_method($payment_method_id, Request $request){
         if($request->method_name !=""){
             $payment_method = PaymentMethod::where('id',$payment_method_id)->first();
             $payment_method->method_name        = $request->method_name;

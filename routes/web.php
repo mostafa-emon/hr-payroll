@@ -65,12 +65,12 @@ Route::get('/currency/delete/{currency_id}', 'ConfigurationController@delete_cur
 Route::get('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
 Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
 
-Route::get('/payment-method', 'ConfigurationController@index_paymentmethod');
-Route::get('/payment-method/add', 'ConfigurationController@add_paymentmethod');
-Route::post('/payment-method/add', 'ConfigurationController@add_paymentmethod');
-Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController@delete_paymentmethod');
-Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_paymentmethod');
-Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_paymentmethod');
+Route::get('/payment-method', 'ConfigurationController@index_payment_method');
+Route::get('/payment-method/add', 'ConfigurationController@add_payment_method');
+Route::post('/payment-method/add', 'ConfigurationController@add_payment_method');
+Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController@delete_payment_method');
+Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
+Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
 
 Route::get('/settings', 'SettingsController@index');
 Route::post('/settings/update', 'SettingsController@update');
