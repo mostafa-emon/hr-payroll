@@ -15,7 +15,7 @@ class BankAccountController extends Controller
     }
     
     public function index(){
-        $bank_account = BankAccount::select('bank_accounts.*','banks.name as bank_name','currencies.full_name as currency_name')
+        $bank_account = BankAccount::select('bank_accounts.*','banks.name as bank_name','currencies.full_name as currency_name','currencies.fraction_name as currency_frname')
                   ->join('banks','banks.id','bank_accounts.bank_id')->orderBy('banks.name', 'asc')
                   ->join('currencies','currencies.id','bank_accounts.currency_id')->orderBy('currencies.full_name','asc')
                   ->paginate(10);

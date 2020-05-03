@@ -48,7 +48,7 @@
                 <td>{{ $bank_account->bank_name }}</td>
                 <td>{{ $bank_account->ac_number }}</td>
                 <td>{{ $bank_account->ac_type }}</td>
-                <td>{{ $bank_account->currency_name }}</td>
+                <td>{{ $bank_account->currency_name }} ({{ $bank_account->currency_frname }})</td>
                 <td>
                   <a class="btn btn-info btn-sm" href="{{url ('bank-account/update/'.$bank_account->id) }}"><i class= "fa fa-edit"></i> Update </a>
                 </td>
