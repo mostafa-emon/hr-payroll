@@ -49,7 +49,7 @@
                   <a class="btn btn-info btn-sm" href="{{url ('currency/update/'.$currency->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
-                  <a class="btn btn-danger btn-sm" href="{{url ('currency/delete/'.$currency->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$currency->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
             @endforeach
@@ -58,5 +58,14 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function confirmDelete(id){
+      var result = confirm("Are you confirm to delete?");
+      if (result) {
+          window.location = 'currency/delete/'+id
+      }
+    }
+  </script>
 
 @endsection

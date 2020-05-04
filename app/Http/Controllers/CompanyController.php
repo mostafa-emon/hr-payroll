@@ -10,7 +10,7 @@ class CompanyController extends Controller
 {
     public function index() {
         $info = Company::where('id',1)->first();
-        return view('company.info', ['info' => $info]);
+        return view('company.index', ['info' => $info]);
     }
 
     public function update(Request $request){

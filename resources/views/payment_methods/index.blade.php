@@ -47,7 +47,7 @@
                   <a class="btn btn-info btn-sm" href="{{url ('payment-method/update/'.$payment_method->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
-                  <a class="btn btn-danger btn-sm" href="{{url ('payment-method/delete/'.$payment_method->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$payment_method->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
             @endforeach
@@ -56,5 +56,14 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function confirmDelete(id){
+      var result = confirm("Are you confirm to delete");
+      if (result) {
+        window.location = 'payment-method/delete/'+id
+      }
+    }
+  </script>
 
 @endsection
