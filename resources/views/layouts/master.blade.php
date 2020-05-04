@@ -72,6 +72,13 @@
           <li class="nav-item"><a href="{{url('cheque-books')}}" class="nav-link {{ (request()->is('cheque-books*')) ? 'active' : '' }}">Cheque Books</a></li>
         </ul>
 
+        <a  href="{{url('user')}}" class="br-menu-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">
+          <div class="br-menu-item">
+            <i class="menu-item-icon fa fa-object-ungroup tx-16"></i>
+            <span class="menu-item-label">Cheque Layouts</span>
+          </div>
+        </a>
+
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-file-alt tx-19 pd-l-2"></i>
