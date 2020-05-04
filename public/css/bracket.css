@@ -14770,6 +14770,10 @@ textarea.parsley-success:focus {
     .br-contentpanel {
         margin-left: 230px;
     }
+    .br-footer {
+        position: fixed;
+        bottom: 0px;
+    }
 }
 
 .tooltip-static-demo .tooltip {

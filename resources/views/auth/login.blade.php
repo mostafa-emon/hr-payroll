@@ -49,31 +49,35 @@
                     <img src="{{asset('img/logo.png')}}" height="80"/>
                 </div>
                 
+                @error('email')
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        Invalid email or password!
+                    </div>
+                @enderror
+                
+                @error('password')
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        Invalid email or password!
+                    </div>
+                @enderror
+
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                            <input id="email" type="email" placeholder="Enter your Email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                    
-                    </div><!-- form-group -->
+                        <input id="email" type="email" placeholder="Enter your Email" class="form-control" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    </div>
                     
                     <div class="form-group">
-                            <input id="password" type="password" placeholder="Enter your password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                            @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            
+                        <input id="password" type="password" placeholder="Enter your password" class="form-control" name="password" value="{{ old('password') }}" required autocomplete="current-password">
                     </div>
 
-                    <button type="submit" class="btn btn-info btn-block">Sign In</button>
+                    <button type="submit" class="btn btn-info btn-block pointer">Sign In</button>
                     @if (Route::has('password.request'))
                         <a class="btn btn-link" href="{{ route('password.request') }}">
                         </a>

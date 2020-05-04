@@ -2,6 +2,8 @@
 <html lang="en">
 
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Axis Cheque & MR</title>
     <link rel="icon" href="{{asset('img/favicon.png')}}">
 
