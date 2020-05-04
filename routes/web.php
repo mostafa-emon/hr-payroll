@@ -88,8 +88,8 @@ Route::post('/settings/update', 'ConfigurationController@update');
 Route::get('/cheque-books', 'ChequeBookController@index');
 Route::get('/cheque-books/add', 'ChequeBookController@add');
 Route::post('/cheque-books/add', 'ChequeBookController@add');
-Route::get('/cheque-books/delete/{paymentmethod_id}', 'ChequeBookController@delete');
-Route::get('/cheque-books/update/{paymentmethod_id}', 'ChequeBookController@update');
-Route::post('/cheque-books/update/{paymentmethod_id}', 'ChequeBookController@update');
+Route::get('/cheque-books/delete/{cheque_book_id}', 'ChequeBookController@delete');
+Route::get('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
+Route::post('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
 
 Route::get('/logout', 'HomeController@logout');

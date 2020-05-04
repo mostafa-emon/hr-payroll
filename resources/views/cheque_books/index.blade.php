@@ -48,16 +48,16 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $cheque_book->bank_name }}</td>
-                <td>{{ $cheque_book->account_number }}</td>
+                <td>{{ $cheque_book->ac_number }}</td>
                 <td>{{ $cheque_book->book_no }}</td>
                 <td>{{ $cheque_book->no_of_leaves }}</td>
                 <td>{{ $cheque_book->starting_number }}</td>
                 <td>{{ $cheque_book->ending_number }}</td>
                 <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('customer/update/'.$customer->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('cheque-books/update/'.$cheque_book->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                   <td>
-                  <a class="btn btn-danger btn-sm" href="{{url ('customer/delete/'.$customer->id) }}"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$cheque_book->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>
             @endforeach
@@ -67,4 +67,12 @@
     </div>
   </div>
 
+  <script>
+   function confirmDelete(id){
+     var result = confirm("Are you confirm to delete?");
+     if (result) {
+       window.location = 'cheque-books/delete/'+id
+     }
+   }
+  </script>
 @endsection

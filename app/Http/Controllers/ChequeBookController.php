@@ -7,6 +7,7 @@ use App\ChequeBook;
 use App\Cheque;
 use App\Bank;
 use App\BankAccount;
+use DB;
 
 class ChequeBookController extends Controller
 {
@@ -16,7 +17,11 @@ class ChequeBookController extends Controller
     }
     
     public function index(){
-        $cheque_books = ChequeBook::orderBy('id', 'asc')->get();
+        $cheque_books = DB::table('cheque_books')
+                        ->select('cheque_books.*','banks.name as bank_name','bank_accounts.ac_number as ac_number')
+                        ->join('banks','banks.id','cheque_books.bank_id')
+                        ->join('bank_accounts','bank_accounts.id','cheque_books.account_id')
+                        ->get();
         return view('cheque_books.index', ['cheque_books'=>$cheque_books]);
     }
 
@@ -35,7 +40,7 @@ class ChequeBookController extends Controller
                 $cheque = new Cheque;
                 $cheque->cheque_book_id = $cheque_book->id;
                 $cheque->cheque_no      = $i;
-                $cheque->status         = 1;
+                $cheque->status         = 0;
                 $cheque->save();
             }
 
@@ -44,5 +49,40 @@ class ChequeBookController extends Controller
         $banks      = Bank::orderBy('name', 'asc')->get();
         $accounts   = BankAccount::orderBy('id', 'asc')->get();
         return view('cheque_books.add', ['banks' => $banks, 'accounts' => $accounts]);
+    }
+
+    public function update($cheque_book_id,Request $request){
+        if($request->bank_id !=""){
+            $cheque_book = ChequeBook::where('id',$cheque_book_id)->first();
+            $cheque_book->bank_id          = $request->bank_id;
+            $cheque_book->account_id       = $request->account_id;
+            $cheque_book->book_no          = $request->book_no;
+            $cheque_book->no_of_leaves     = $request->no_of_leaves;
+            $cheque_book->starting_number  = $request->starting_number;
+            $cheque_book->ending_number    = $request->ending_number;
+            $cheque_book->save();
+
+            Cheque::where('cheque_book_id',$cheque_book_id)->delete();
+            for($i = $cheque_book->starting_number;$i<=$cheque_book->ending_number;$i++) {
+                $cheque = new Cheque;
+                $cheque->cheque_book_id = $cheque_book->id;
+                $cheque->cheque_no      = $i;
+                $cheque->status         = 0;
+                $cheque->save();
+            }
+
+            return redirect('cheque-books')->with('message', 'Cheque book updated successfully!');
+        }
+
+        $cheque_book = ChequeBook::where('id',$cheque_book_id)->first();
+        $banks      = Bank::orderBy('name', 'asc')->get();
+        $accounts   = BankAccount::where('bank_id',$cheque_book->bank_id)->orderBy('id', 'asc')->get();
+        return view('cheque_books.update', ['cheque_book' => $cheque_book, 'banks' => $banks, 'accounts' => $accounts]);
+    }
+
+    public function delete($cheque_book_id){
+        $cheque_book = ChequeBook::find($cheque_book_id);
+        $cheque_book->delete();
+        return redirect('cheque-books')->with('message', 'Cheque book deleted successfully!');
     }
 }
