@@ -59,13 +59,27 @@ Route::get('/bank-account/update/{bankaccount_id}', 'BankAccountController@updat
 Route::post('/bank-account/update/{bankaccount_id}', 'BankAccountController@update');
 Route::get('/get-account-by-bank/{bank_id}', 'BankAccountController@get_account_by_bank');
 
+Route::get('/cheque-books', 'ChequeBookController@index');
+Route::get('/cheque-books/add', 'ChequeBookController@add');
+Route::post('/cheque-books/add', 'ChequeBookController@add');
+Route::get('/cheque-books/delete/{cheque_book_id}', 'ChequeBookController@delete');
+Route::get('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
+Route::post('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
+
+Route::get('/cheque-layouts', 'ChequeLayoutController@index');
+Route::get('/cheque-layouts/add', 'ChequeLayoutController@add');
+Route::post('/cheque-layouts/add', 'ChequeLayoutController@add');
+Route::get('/cheque-layouts/delete/{cheque_layouts_id}', 'ChequeLayoutController@delete');
+Route::get('/cheque-layouts/update/{cheque_layouts_id}', 'ChequeLayoutController@update');
+Route::post('/cheque-layouts/update/{cheque_layouts_id}', 'ChequeLayoutController@update');
+Route::post('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
+
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');
 Route::post('/user/add', 'UserController@add');
 Route::get('/user/delete/{user_id}', 'UserController@delete');
 Route::get('/user/update/{user_id}', 'UserController@update');
 Route::post('/user/update/{user_id}', 'UserController@update');
-
 Route::get('/user/profile/{user_id}', 'UserController@profile');
 Route::post('/user/profile/{user_id}', 'UserController@profile');
 
@@ -82,14 +96,8 @@ Route::post('/payment-method/add', 'ConfigurationController@add_payment_method')
 Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController@delete_payment_method');
 Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
 Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
+
 Route::get('/settings', 'ConfigurationController@index');
 Route::post('/settings/update', 'ConfigurationController@update');
-
-Route::get('/cheque-books', 'ChequeBookController@index');
-Route::get('/cheque-books/add', 'ChequeBookController@add');
-Route::post('/cheque-books/add', 'ChequeBookController@add');
-Route::get('/cheque-books/delete/{cheque_book_id}', 'ChequeBookController@delete');
-Route::get('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
-Route::post('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
 
 Route::get('/logout', 'HomeController@logout');
