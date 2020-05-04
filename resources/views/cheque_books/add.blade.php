@@ -14,7 +14,7 @@
     <h4 class="tx-gray-800 mg-b-5">Add Bank Account</h4>
   </div>
 
-  <form action="{{ url('bank-account/add') }}" method="POST">
+  <form action="{{ url('cheque-books/add') }}" method="POST">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -44,29 +44,29 @@
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number">
+                <label class="form-control-label">Book Number: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="book_no" placeholder="Enter Book Number">
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number">
+                <label class="form-control-label">No. of Leaves: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="no_of_leaves" placeholder="Enter No. of Leaves">
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
-                <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number">
+                <label class="form-control-label">Starting Number: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="starting_number" placeholder="Enter Starting Number">
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
-                <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number">
+                <label class="form-control-label">Ending Number: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="ending_number" placeholder="Enter Ending Number">
               </div>
             </div>
 

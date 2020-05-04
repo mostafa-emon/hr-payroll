@@ -30,7 +30,16 @@ class ChequeBookController extends Controller
             $cheque_book->starting_number  = $request->starting_number;
             $cheque_book->ending_number    = $request->ending_number;
             $cheque_book->save();
-            return redirect('cheque_books')->with('message', 'Cheque book added successfully!');
+
+            for($i = $cheque_book->starting_number;$i<=$cheque_book->ending_number;$i++) {
+                $cheque = new Cheque;
+                $cheque->cheque_book_id = $cheque_book->id;
+                $cheque->cheque_no      = $i;
+                $cheque->status         = 1;
+                $cheque->save();
+            }
+
+            return redirect('cheque-books')->with('message', 'Cheque book added successfully!');
         }
         $banks      = Bank::orderBy('name', 'asc')->get();
         $accounts   = BankAccount::orderBy('id', 'asc')->get();
