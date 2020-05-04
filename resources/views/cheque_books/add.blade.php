@@ -24,7 +24,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Bank Name: <span class="tx-danger">*</span></label>
-                <select name="bank_id" class="form-control" onchange="get_accounts(this.value)">
+                <select name="bank_id" class="form-control mg-l--4" onchange="get_accounts(this.value)">
                   <option selected disabled>Select Bank</option>
                       @foreach($banks as $bank)
                           <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -35,7 +35,7 @@
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">A/C Number: <span class="tx-danger">*</span></label>
+                <label class="form-control-label mg-l--4">A/C Number: <span class="tx-danger">*</span></label>
                 <select id="account_id" name="account_id" class="form-control">
                   
                 </select>

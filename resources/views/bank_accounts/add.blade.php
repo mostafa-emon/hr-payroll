@@ -24,7 +24,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Bank Name: <span class="tx-danger">*</span></label>
-                <select name="bank_id" class="form-control">
+                <select name="bank_id" class="form-control mg-l--4">
                   <option selected disabled>Select Bank</option>
                       @foreach($banks as $bank)
                           <option value="{{ $bank->id }}">{{ $bank->name }}</option>
@@ -43,7 +43,7 @@
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">A/C Type: <span class="tx-danger">*</span></label>
-                <select id="select2-a" class="form-control" name="ac_type" data-placeholder="A/C Type">
+                <select id="select2-a" class="form-control mg-l--4" name="ac_type" data-placeholder="A/C Type">
                   <option selected disabled>Select A/C Type</option>
                   <option value="Current">Current</option>
                   <option value="Savings">Savings</option>
@@ -55,7 +55,7 @@
             <div class="col-md-6  mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">Currency Name: <span class="tx-danger">*</span></label>
-                <select name="currency_id" class="form-control">
+                <select name="currency_id" class="form-control  mg-l--4">
                   <option selected disabled>Select Currency</option>
                       @foreach($currencies as $currency)
                           <option value="{{ $currency->id }}">{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>
