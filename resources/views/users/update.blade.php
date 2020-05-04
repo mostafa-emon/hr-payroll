@@ -14,13 +14,27 @@
     <h4 class="tx-gray-800 mg-b-5">Update User</h4>
   </div>
 
-  <form action="{{ url('user/update/'.$users->id) }}" method="POST">
+  <form action="{{ url('user/update/'.$users->id) }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
 
+            <div class="col-md-12">
+              <div class="form-group">
+                  <div class="mg-b-10">
+                      @if($users->avatar != "")
+                          <img class="pointer" id="avatar" src="{{ asset('storage/'.$users->avatar)}}" width="120" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
+                      @else
+                          <img class="pointer" id="avatar" src="{{ asset('img/user.png') }}" width="120" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
+                      @endif
+                  </div>
+                  <a onclick="document.getElementById('imgInp').click()" class="pointer wd-120 btn btn-secondary btn-sm text-white">Choose</a>
+                  <input class="collapse" type="file" name="avatar" id="imgInp" onchange="preview_image(event)" />
+              </div>
+            </div>
+            
             <div class="col-md-6">
               <div class="form-group">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
@@ -58,5 +72,17 @@
       </div>
     </div>
   </form>
+
+  <script>
+    function preview_image(event) {
+      var reader = new FileReader();
+      reader.onload = function()
+      {
+        var output = document.getElementById('avatar');
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
 
 @endsection

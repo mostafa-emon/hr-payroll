@@ -26,11 +26,15 @@ class UserController extends Controller
             $user->designation      = $request->designation;
             $user->email            = $request->email;
             $user->password         = Hash::make($request->password);
+            if($request->hasFile('avatar')){  
+                $user->avatar       = $request->file('avatar')->store('users');
+            }
             $user->save();
             return redirect('user')->with('message', 'User added successfully!');
         }
         return view('users.add');
     }
+    
     public function delete($user_id){
         $user = User::find($user_id);
         $user->delete();
@@ -45,6 +49,12 @@ class UserController extends Controller
             $user->email            = $request->email;
             if($request->password != ""){
                $user->password      = Hash::make($request->password);
+            }
+            if($request->hasFile('avatar')){
+                if($user->avatar != ""){
+                    Storage::delete($user->avatar);
+                }
+                $user->avatar       = $request->file('avatar')->store('users');
             }
             $user->save();
             return redirect('user')->with('message', 'User updated successfully!');
