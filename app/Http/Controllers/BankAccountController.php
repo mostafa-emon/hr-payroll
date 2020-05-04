@@ -58,4 +58,11 @@ class BankAccountController extends Controller
         $currencies     = Currency::orderBy('full_name', 'asc')->get();
         return view('bank_accounts.update', ['banks' => $banks, 'currencies' => $currencies,'bank_accounts' => $bank_accounts]);
     }
+
+    public function get_account_by_bank($bank_id){
+        $accounts = BankAccount::where('bank_id',$bank_id)->get();
+        foreach($accounts as $account){
+            echo '<option value="'.$account->id.'">'.$account->ac_number.'</option>';
+        }
+    }
 }

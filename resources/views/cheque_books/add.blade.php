@@ -33,11 +33,11 @@
               </div>
             </div>
 
-            <div class="col-md-4 mg-t--1 mg-md-t-0">
+            <div class="col-md-4">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label mg-l--4">A/C Number: <span class="tx-danger">*</span></label>
-                <select id="account_id" name="account_id" class="form-control">
-                  
+                <label class="form-control-label mg-b-0-force">Account Number: <span class="tx-danger">*</span></label>
+                <select id="account_id" name="account_id" class="form-control mg-l--4">
+                  <option selected disabled>Select Account</option>
                 </select>
               </div>
             </div>
@@ -82,15 +82,14 @@
   </form>
 
   <script>
-    function get_accounts(value) {
+    function get_accounts(bank_id) {
       $.ajax({
           type: 'GET',
-          url: 'helloworld/shownew',
-          dataType: 'json',
-          success: function (data) {
-            alert('hello');
-          },error:function(){ 
-            console.log(data);
+          url: '/get-account-by-bank/'+bank_id,
+          success:function(data) {
+            $('#account_id').html('');
+            $('#account_id').append('<option value="" disabled selected>Select Account</option>');
+            $('#account_id').append(data);
           }
       });
     }

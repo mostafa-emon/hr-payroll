@@ -57,6 +57,7 @@ Route::post('/bank-account/add', 'BankAccountController@add');
 Route::get('/bank-account/delete/{bankaccount_id}', 'BankAccountController@delete');
 Route::get('/bank-account/update/{bankaccount_id}', 'BankAccountController@update');
 Route::post('/bank-account/update/{bankaccount_id}', 'BankAccountController@update');
+Route::get('/get-account-by-bank/{bank_id}', 'BankAccountController@get_account_by_bank');
 
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');
