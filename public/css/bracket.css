@@ -9507,14 +9507,16 @@ a:active {
     border-radius: 2px;
     top: 1px;
     left: 0;
+    line-height: 17px;
+    border-radius: 2px;
 }
 .ckbox span:after {
     top: 1px;
     left: 0;
     width: 16px;
     height: 16px;
-    content: "\f00c";
-    font-family: "FontAwesome";
+    content: "\2714";
+    font-family: "Arial";
     font-size: 9px;
     text-align: center;
     color: #fff;
@@ -33998,6 +34000,10 @@ a.hover-white-8:focus {
 .pd-y-50-force {
     padding-top: 50px !important;
     padding-bottom: 50px !important;
+}
+
+.pd-l-20p {
+    padding-left: 20%;
 }
 
 .pd-x-50 {
