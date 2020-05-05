@@ -13,7 +13,8 @@
     #date{ cursor: move; }
     #payee{ cursor: move; }
     #amount{ cursor: move; }
-    #amount_in_word{ cursor: move; }
+    #amount_in_word_line_1{ cursor: move; }
+    #amount_in_word_line_2{ cursor: move; }
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -23,11 +24,6 @@
       <span class="breadcrumb-item active">Add</span>
     </nav>
   </div>
-
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Add Layout</h4>
-  </div>
-
 
   <div class="br-pagebody">
       <div class="row">
@@ -40,10 +36,11 @@
             <div id="printArea">
               <div id="containment-wrapper" style="height: 89mm; width: 191mm; position: relative">
                 <div id="acpay" onclick="acpayDrag();" class="draggable ui-widget-content" style="position: absolute;top:0mm;left:0mm"><img src="{{ asset('img/acpay.png') }}"/></div>
-                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; line-height: 16px; letter-spacing: 10px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5);">DDMMYYYY</div>
-                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute;top:30mm;left:130mm">Payee</div>
-                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute;top:10mm;left:30mm">Amount</div>
-                <div id="amount_in_word" onclick="amountWordDrag()" class="draggable ui-widget-content" style="position: absolute;top:20mm;left:30mm">Amount in Word</div>
+                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; line-height: 16px; letter-spacing: 10px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">DDMMYYYY</div>
+                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: 22mm; left: 15mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee</div>
+                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: 38mm; left: 154mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount</div>
+                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: 31mm; left: 30mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #1</div>
+                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: 40mm; left: 8mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #2</div>
               </div>
             </div>
           </div>
@@ -51,77 +48,73 @@
 
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
+            <div class="pd-b-10">
+              <button class="btn btn-info btn-block pointer" onclick="PrintElem()">Print Preview</button>
+            </div>
+            
+            <div class="row pd-b-10">
+              <div class="col-md-6">
+                <div class="tx-black pd-b-5">Height: <input type="text" oninput="divHeight(this.value)" class="wd-100p pd-l-5 tx-gray-600"/></div>
+              </div>
+              <div class="col-md-6">
+                <div class="tx-black pd-b-5">Width: <input type="text" oninput="divWidth(this.value)" class="wd-100p pd-l-5 tx-gray-600"/></div>
+              </div>
+            </div>
+            
+
             <ul class="list-group">
-              <li class="list-group-item">
-                <select class="form-control">
-                  <option>Select Bank</option>
-                </select>
-              </li>
               <li class="list-group-item">
                 <label class="ckbox">
                   <input type="checkbox" name="date" value="1" checked><span>Date</span>
-                  <input type="hidden" id="date_top" name="date_top" placeholder="top" class="form-control"/>
-                  <input type="hidden" id="date_left" name="date_left" placeholder="left" class="form-control"/>
+                  <input type="hidden" id="date_top" name="date_top" value="7" placeholder="top" class="form-control"/>
+                  <input type="hidden" id="date_left" name="date_left" value="139" placeholder="left" class="form-control"/>
                 </label>
               </li>
               <li class="list-group-item">
                 <label class="ckbox">
                   <input type="checkbox" name="payee" value="1" checked><span>Payee</span>
-                  <input type="hidden" id="payee_top" name="payee_top" placeholder="top" class="form-control"/>
-                  <input type="hidden" id="payee_left" name="payee_left" placeholder="left" class="form-control"/>
+                  <input type="hidden" id="payee_top" name="payee_top" value="22" placeholder="top" class="form-control"/>
+                  <input type="hidden" id="payee_left" name="payee_left" value="15" placeholder="left" class="form-control"/>
                 </label>
               </li>
               <li class="list-group-item">
                 <label class="ckbox">
                   <input type="checkbox" name="amount" value="1" checked><span>Amount</span>
+                  <input type="hidden" id="amount_top" name="amount_top" value="38" placeholder="top" class="form-control"/>
+                  <input type="hidden" id="amount_left" name="amount_left" value="154" placeholder="left" class="form-control"/>
                 </label>
               </li>
               <li class="list-group-item">
                 <label class="ckbox">
-                  <input type="checkbox" name="amount_in_word" value="1" checked><span>Amount in Word</span>
+                  <input type="checkbox" name="amount_in_word_line_1" value="1" checked><span>Amount in words line #1</span>
+                  <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
+                  <input type="hidden" id="amount_in_word_line_1_left" value="30" name="amount_in_word_line_1_left" placeholder="left" class="form-control"/>
+                </label>
+              </li>
+              <li class="list-group-item">
+                <label class="ckbox">
+                  <input type="checkbox" name="amount_in_word_line_2" value="1" checked><span>Amount in words line #2</span>
+                  <input type="hidden" id="amount_in_word_line_2_top" value="40" name="amount_in_word_line_2_top" placeholder="top" class="form-control"/>
+                  <input type="hidden" id="amount_in_word_line_2_left" value="8" name="amount_in_word_line_2_left" placeholder="left" class="form-control"/>
                 </label>
               </li>
               <li class="list-group-item">
                 <label class="ckbox">
                   <input type="checkbox" name="ac_payee_only" value="1" checked><span>AC Payee</span>
+                  <input type="hidden" id="ac_payee_only_top" value="0" name="ac_payee_only_top" placeholder="top" class="form-control"/>
+                  <input type="hidden" id="ac_payee_only_left" value="0" name="ac_payee_only_left" placeholder="left" class="form-control"/>
                 </label>
               </li>
             </ul>
 
-            <div class="row pd-t-20">
-              <div class="col-md-3">
-                
-              </div>
-              <div class="col-md-3">
-                
-              </div>
+            <div class="pd-t-30">
+              <select class="form-control">
+                <option>Select Bank</option>
+              </select>
             </div>
 
-            <div class="row pd-t-20">
-              <div class="col-md-3">
-                <input type="text" id="amount_top" name="amount_top" placeholder="top" class="form-control"/>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="amount_left" name="amount_left" placeholder="left" class="form-control"/>
-              </div>
-            </div>
-
-            <div class="row pd-t-20">
-              <div class="col-md-3">
-                <input type="text" id="amount_in_word_top" name="amount_in_word_top" placeholder="top" class="form-control"/>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="amount_in_word_left" name="amount_in_word_left" placeholder="left" class="form-control"/>
-              </div>
-            </div>
-
-            <div class="row pd-t-20">
-              <div class="col-md-3">
-                <input type="text" id="ac_payee_only_top" name="ac_payee_only_top" placeholder="top" class="form-control"/>
-              </div>
-              <div class="col-md-3">
-                <input type="text" id="ac_payee_only_left" name="ac_payee_only_left" placeholder="left" class="form-control"/>
-              </div>
+            <div class="pd-t-15">
+              <input type="submit" value="Save Layout" class="pd-15 btn btn-success btn-block pointer"/>
             </div>
 
           </div>
@@ -140,7 +133,7 @@
 
     function PrintElem(){
         var mywindow = window.open('', 'PRINT');
-        mywindow.document.write('<style>#containment-wrapper{margin-left:20px;margin-top:-10px;background-color:black;}</style>');
+        mywindow.document.write('<style>#containment-wrapper{margin-left:20px;margin-top:-10px;}</style>');
         mywindow.document.write(document.getElementById('printArea').innerHTML);
 
         mywindow.document.close();
@@ -174,8 +167,6 @@
     }
 
     function dateDrag(){
-      document.getElementById('display').style.display = 'block';
-
       var sDatePosition = "{}",
       datePositions = JSON.parse(sDatePosition);
       $.each(datePositions, function (id, pos) {
@@ -189,6 +180,7 @@
           document.getElementById('date_top').value = Math.round(datePositions.date.top * 0.2645833333);
           document.getElementById('date_left').value = Math.round(datePositions.date.left * 0.2645833333);
           
+          document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(datePositions.date.top * 0.2645833333);
           document.getElementById('left').value = Math.round(datePositions.date.left * 0.2645833333);
         }
@@ -196,8 +188,6 @@
     }
 
     function payeeDrag(){
-      document.getElementById('display').style.display = 'block';
-
       var sPayeePosition = "{}",
       payeePositions = JSON.parse(sPayeePosition);
       $.each(payeePositions, function (id, pos) {
@@ -211,6 +201,7 @@
           document.getElementById('payee_top').value = Math.round(payeePositions.payee.top * 0.2645833333);
           document.getElementById('payee_left').value = Math.round(payeePositions.payee.left * 0.2645833333);
           
+          document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(payeePositions.payee.top * 0.2645833333);
           document.getElementById('left').value = Math.round(payeePositions.payee.left * 0.2645833333); 
         }
@@ -218,8 +209,6 @@
     }
 
     function amountDrag(){
-      document.getElementById('display').style.display = 'block';
-
       var sAmountPosition = "{}",
       amountPositions = JSON.parse(sAmountPosition);
       $.each(amountPositions, function (id, pos) {
@@ -233,30 +222,51 @@
           document.getElementById('amount_top').value = Math.round(amountPositions.amount.top * 0.2645833333);
           document.getElementById('amount_left').value = Math.round(amountPositions.amount.left * 0.2645833333);
         
+          document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(amountPositions.amount.top * 0.2645833333);
           document.getElementById('left').value = Math.round(amountPositions.amount.left * 0.2645833333);
         }
       });
     }
 
-    function amountWordDrag(){
-      document.getElementById('display').style.display = 'block';
-
-      var sAmountWordPosition = "{}",
-      amountWordPositions = JSON.parse(sAmountWordPosition);
-      $.each(amountWordPositions, function (id, pos) {
+    function amountWord1Drag(){
+      var sAmountWord1Position = "{}",
+      amountWord1Positions = JSON.parse(sAmountWord1Position);
+      $.each(amountWord1Positions, function (id, pos) {
         $("#" + id).css(pos)
       })
-      $("#amount_in_word").draggable({
+      $("#amount_in_word_line_1").draggable({
         containment: "#containment-wrapper",
         scroll: false,
         stop: function (event, ui) {
-          amountWordPositions[this.id] = ui.position
-          document.getElementById('amount_in_word_top').value = Math.round(amountWordPositions.amount_in_word.top * 0.2645833333);
-          document.getElementById('amount_in_word_left').value = Math.round(amountWordPositions.amount_in_word.left * 0.2645833333);
-          
-          document.getElementById('top').value = Math.round(amountWordPositions.amount_in_word.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountWordPositions.amount_in_word.left * 0.2645833333);
+          amountWord1Positions[this.id] = ui.position
+          document.getElementById('amount_in_word_line_1_top').value = Math.round(amountWord1Positions.amount_in_word_line_1.top * 0.2645833333);
+          document.getElementById('amount_in_word_line_1_left').value = Math.round(amountWord1Positions.amount_in_word_line_1.left * 0.2645833333);
+
+          document.getElementById('display').style.display = 'block';
+          document.getElementById('top').value = Math.round(amountWord1Positions.amount_in_word_line_1.top * 0.2645833333);
+          document.getElementById('left').value = Math.round(amountWord1Positions.amount_in_word_line_1.left * 0.2645833333);
+        }
+      });
+    }
+
+    function amountWord2Drag(){
+      var sAmountWord2Position = "{}",
+      amountWord2Positions = JSON.parse(sAmountWord2Position);
+      $.each(amountWord2Positions, function (id, pos) {
+        $("#" + id).css(pos)
+      })
+      $("#amount_in_word_line_2").draggable({
+        containment: "#containment-wrapper",
+        scroll: false,
+        stop: function (event, ui) {
+          amountWord2Positions[this.id] = ui.position
+          document.getElementById('amount_in_word_line_2_top').value = Math.round(amountWord2Positions.amount_in_word_line_2.top * 0.2645833333);
+          document.getElementById('amount_in_word_line_2_left').value = Math.round(amountWord2Positions.amount_in_word_line_2.left * 0.2645833333);
+
+          document.getElementById('display').style.display = 'block';
+          document.getElementById('top').value = Math.round(amountWord2Positions.amount_in_word_line_2.top * 0.2645833333);
+          document.getElementById('left').value = Math.round(amountWord2Positions.amount_in_word_line_2.left * 0.2645833333);
         }
       });
     }
