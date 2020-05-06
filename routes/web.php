@@ -75,6 +75,13 @@ Route::post('/cheque-layouts/update/{cheque_layouts_id}', 'ChequeLayoutControlle
 Route::get('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
 Route::post('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
 
+Route::get('/cheque-transactions', 'ChequeTransactionController@index');
+Route::get('/cheque-transactions/add', 'ChequeTransactionController@add');
+Route::post('/cheque-transactions/add', 'ChequeTransactionController@add');
+Route::get('/cheque-transactions/delete/{cheque-transactions_id}', 'ChequeTransactionController@delete');
+Route::get('/cheque-transactions/update/{cheque-transactions_id}', 'ChequeTransactionController@update');
+Route::post('/cheque-transactions/update/{cheque-transactions_id}', 'ChequeTransactionController@update');
+
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');
 Route::post('/user/add', 'UserController@add');
