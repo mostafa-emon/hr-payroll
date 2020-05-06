@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ChequeLayout;
+use App\Bank;
 
 class ChequeLayoutController extends Controller
 {
@@ -24,7 +25,8 @@ class ChequeLayoutController extends Controller
             $cheque_layout->save();
             return redirect('cheque-layouts')->with('message', 'Cheque Layout added successfully!');
         }
-        return view('cheque_layouts.add');
+        $banks = Bank::orderby('name','asc')->get();
+        return view('cheque_layouts.add', ['banks' => $banks]);
     }
 
     public function delete($cheque_layout_id){
