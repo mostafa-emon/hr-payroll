@@ -52,8 +52,20 @@
         
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
-            <div class="pd-b-10">
-              <a class="btn btn-info btn-block pointer text-white" onclick="PrintElem()">Print Preview</a>
+
+            <div class="row pd-b-10">
+              <div class="col-md-6">
+                <select class="form-control" id="printer">
+                  @foreach($printers as $printer)
+                    <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="col-md-6">
+                <div class="pd-b-10">
+                  <a class="btn btn-info btn-block pointer text-white" onclick="PrintElem()">Print Preview</a>
+                </div>
+              </div>
             </div>
             
             <div class="row pd-b-10">
@@ -191,8 +203,11 @@
     }
 
     function PrintElem(){
+        var printer     = $('#printer').val();
+        var printConf   = printer.split("_");
+
         var mywindow = window.open('', 'PRINT');
-        mywindow.document.write('<style>#containment-wrapper{margin-left:20px;margin-top:-10px;}</style>');
+        mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg)}</style>');
         mywindow.document.write(document.getElementById('printArea').innerHTML);
 
         setTimeout(function () {

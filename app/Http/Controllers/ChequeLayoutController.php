@@ -129,9 +129,10 @@ class ChequeLayoutController extends Controller
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout updated successfully!');
         }
+        $printers   = Printer::orderby('id','desc')->get();
         $layout = ChequeLayout::where('id',$cheque_layout_id)->first();
         $banks  = Bank::orderby('name','asc')->get();
-        return view('cheque_layouts.update', ['banks' => $banks, 'layout' => $layout]);
+        return view('cheque_layouts.update', ['banks' => $banks, 'layout' => $layout, 'printers' => $printers]);
     }
 
     public function duplicate($cheque_layout_id, Request $request){
@@ -182,8 +183,9 @@ class ChequeLayoutController extends Controller
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout duplicated successfully!');
         }
+        $printers   = Printer::orderby('id','desc')->get();
         $layout = ChequeLayout::where('id',$cheque_layout_id)->first();
         $banks  = Bank::orderby('name','asc')->get();
-        return view('cheque_layouts.duplicate', ['banks' => $banks, 'layout' => $layout]);
+        return view('cheque_layouts.duplicate', ['banks' => $banks, 'layout' => $layout, 'printers' => $printers]);
     }
 }
