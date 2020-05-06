@@ -72,6 +72,7 @@ Route::post('/cheque-layouts/add', 'ChequeLayoutController@add');
 Route::get('/cheque-layouts/delete/{cheque_layouts_id}', 'ChequeLayoutController@delete');
 Route::get('/cheque-layouts/update/{cheque_layouts_id}', 'ChequeLayoutController@update');
 Route::post('/cheque-layouts/update/{cheque_layouts_id}', 'ChequeLayoutController@update');
+Route::get('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
 Route::post('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
 
 Route::get('/user', 'UserController@index');

@@ -131,4 +131,57 @@ class ChequeLayoutController extends Controller
         $banks  = Bank::orderby('name','asc')->get();
         return view('cheque_layouts.update', ['banks' => $banks, 'layout' => $layout]);
     }
+
+    public function duplicate($cheque_layout_id, Request $request){
+        if($request->height !=""){
+            $cheque_layout = new ChequeLayout();
+            $cheque_layout->bank_id                     = $request->bank_id;
+            $cheque_layout->height                      = $request->height;
+            $cheque_layout->width                       = $request->width;
+
+            if($request->date == 1) {
+                $cheque_layout->date                    = 1;
+            }else { $cheque_layout->date                = 0; }
+            $cheque_layout->date_top                    = $request->date_top;
+            $cheque_layout->date_left                   = $request->date_left;
+
+            if($request->payee == 1) {
+                $cheque_layout->payee                   = 1;
+            }else { $cheque_layout->payee               = 0; }
+            $cheque_layout->payee_top                   = $request->payee_top;
+            $cheque_layout->payee_left                  = $request->payee_left;
+
+            if($request->amount == 1) {
+                $cheque_layout->amount                  = 1;
+            }else { $cheque_layout->amount              = 0; }
+            $cheque_layout->amount_top                  = $request->amount_top;
+            $cheque_layout->amount_left                 = $request->amount_left;
+
+            if($request->amoamount_in_word_line_1 == 1) {
+                $cheque_layout->amount_in_word_line_1       = 1;
+            }else { $cheque_layout->amount_in_word_line_1   = 0; }
+            $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
+            $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
+            $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
+            
+            if($request->amount_in_word_line_2 == 1) {
+                $cheque_layout->amount_in_word_line_2       = 1;
+            }else { $cheque_layout->amount_in_word_line_2   = 0; }
+            $cheque_layout->amount_in_word_line_2_top       = $request->amount_in_word_line_2_top;
+            $cheque_layout->amount_in_word_line_2_left      = $request->amount_in_word_line_2_left;
+            
+            if($request->ac_payee_only == 1) {
+                $cheque_layout->ac_payee_only               = 1;
+            }else { $cheque_layout->ac_payee_only           = 0; }
+            $cheque_layout->ac_payee_only_top               = $request->ac_payee_only_top;
+            $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
+            
+            $cheque_layout->save();
+
+            return redirect('cheque-layouts')->with('message', 'Cheque Layout duplicated successfully!');
+        }
+        $layout = ChequeLayout::where('id',$cheque_layout_id)->first();
+        $banks  = Bank::orderby('name','asc')->get();
+        return view('cheque_layouts.duplicate', ['banks' => $banks, 'layout' => $layout]);
+    }
 }
