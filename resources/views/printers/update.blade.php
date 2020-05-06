@@ -31,21 +31,26 @@
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Top: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="top" placeholder="Enter Top (px)" value="{{$printers->top}}">
+                <input class="form-control" type="text" name="top" placeholder="Enter Top" value="{{$printers->top}}">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Left: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="left" placeholder="Enter Left (px)" value="{{$printers->left}}">
+                <input class="form-control" type="text" name="left" placeholder="Enter Left" value="{{$printers->left}}">
               </div>
             </div>
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
-                <label class="form-control-label">Rotate: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="rotate" placeholder="Enter Rotate (degree)" value="{{$printers->rotate}}">
+                <label class="form-control-label mg-b-0-force">Rotate: <span class="tx-danger">*</span></label>
+                <select id="select2-a" class="form-control mg-l--4" name="rotate" data-placeholder="Rotate">
+                  <option value="0" @if($printers->rotate == "0") selected @endif>0 Degree</option>
+                  <option value="90" @if($printers->rotate == "90") selected @endif>90 Degree</option>
+                  <option value="180" @if($printers->rotate == "180") selected @endif>180 Degree</option>
+                  <option value="270" @if($printers->rotate == "270") selected @endif>270 Degree</option>
+                </select>
               </div>
             </div>
 

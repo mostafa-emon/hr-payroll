@@ -31,21 +31,26 @@
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Top: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="top" placeholder="Enter Top (px)">
+                <input class="form-control" type="text" name="top" placeholder="Enter Top">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Left: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="left" placeholder="Enter Left (px)">
+                <input class="form-control" type="text" name="left" placeholder="Enter Left">
               </div>
             </div>
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
-                <label class="form-control-label">Rotate: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="rotate" placeholder="Enter Rotate (degree)">
+                <label class="form-control-label mg-b-0-force">A/C Type: <span class="tx-danger">*</span></label>
+                <select id="select2-a" class="form-control mg-l--4" name="rotate" data-placeholder="Rotate">
+                  <option value="0">0 Degree</option>
+                  <option value="90">90 Degree</option>
+                  <option value="180">180 Degree</option>
+                  <option value="270">270 Degree</option>
+                </select>
               </div>
             </div>
 
