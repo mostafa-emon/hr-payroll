@@ -25,6 +25,8 @@
     </nav>
   </div>
 
+  <form action="{{ url('cheque-layouts/add') }}" method="POST">
+    {{ csrf_field() }}
   <div class="br-pagebody">
       <div class="row">
 
@@ -47,7 +49,7 @@
             <div class="tx-teal pd-t-20 tx-16">** Click on elements to activate, then drag to set the position.</div>
           </div>
         </div>
-
+        
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
             <div class="pd-b-10">
@@ -56,10 +58,10 @@
             
             <div class="row pd-b-10">
               <div class="col-md-6">
-                <div class="tx-black pd-b-5">Height: <input type="text" oninput="divHeight(this.value)" value="89" class="wd-100p pd-l-5 tx-gray-600"/></div>
+                <div class="tx-black pd-b-5">Height: <input type="text" name="height" oninput="divHeight(this.value)" value="89" class="wd-100p pd-l-5 tx-gray-600"/></div>
               </div>
               <div class="col-md-6">
-                <div class="tx-black pd-b-5">Width: <input type="text" oninput="divWidth(this.value)" value="191" class="wd-100p pd-l-5 tx-gray-600"/></div>
+                <div class="tx-black pd-b-5">Width: <input type="text" name="width" oninput="divWidth(this.value)" value="191" class="wd-100p pd-l-5 tx-gray-600"/></div>
               </div>
             </div>
             
@@ -112,7 +114,7 @@
             </ul>
 
             <div class="pd-t-30">
-              <select class="form-control" required>
+              <select class="form-control" name="bank_id" required>
                 <option disabled selected value="">Select Bank</option>
                 @foreach($banks as $bank)
                   <option value="{{$bank->id}}">{{$bank->name}}</option>
@@ -126,8 +128,10 @@
 
           </div>
         </div>
+        
       </div>
   </div>
+  </form>
 
   <script>
     function divHeight(height){

@@ -32,23 +32,23 @@
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th>Sl</th>
-              <th>Bank</th>
-              <th>Height</th>
-              <th>Width</th>
-              <th>Action</th>
+              <th class="wd-5p text-center">Sl</th>
+              <th class="wd-40p">Bank</th>
+              <th class="wd-15p text-center">Height</th>
+              <th class="wd-15p text-center">Width</th>
+              <th class="wd-25p text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             @foreach($cheque_layouts as $cheque_layout)
               <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $cheque_layout->bank }}</td>
-                <td>{{ $cheque_layout->height }}</td>
-                <td>{{ $cheque_layout->width }}</td>
-                <td>
-                  <a class="btn btn-warning btn-sm" href="{{url ('cheque-layouts/duplicate/'.$cheque_layout->id) }}"> Duplicate </a>
-                  <a class="btn btn-info btn-sm" href="{{url ('cheque-layouts/update/'.$cheque_layout->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                <td class="text-center">{{ $loop->iteration }}</td>
+                <td>{{ $cheque_layout->bank_name }}</td>
+                <td class="text-center">{{ $cheque_layout->height }}</td>
+                <td class="text-center">{{ $cheque_layout->width }}</td>
+                <td class="text-center">
+                  <a class="btn btn-info btn-sm" href="{{url ('cheque-layouts/duplicate/'.$cheque_layout->id) }}"><i class= "fa fa-copy"></i> Duplicate </a>
+                  <a class="btn btn-warning btn-sm" href="{{url ('cheque-layouts/update/'.$cheque_layout->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$cheque_layout->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
               </tr>

@@ -28,9 +28,12 @@ class CreateChequeLayoutsTable extends Migration
             $table->boolean('amount')->default(1);
             $table->integer('amount_top')->nullable();
             $table->integer('amount_left')->nullable();
-            $table->boolean('amount_in_word')->default(1);
-            $table->integer('amount_in_word_top')->nullable();
-            $table->integer('amount_in_word_left')->nullable();
+            $table->boolean('amount_in_word_line_1')->default(1);
+            $table->integer('amount_in_word_line_1_top')->nullable();
+            $table->integer('amount_in_word_line_1_left')->nullable();
+            $table->boolean('amount_in_word_line_2')->default(1);
+            $table->integer('amount_in_word_line_2_top')->nullable();
+            $table->integer('amount_in_word_line_2_left')->nullable();
             $table->boolean('ac_payee_only')->default(1);
             $table->integer('ac_payee_only_top')->nullable();
             $table->integer('ac_payee_only_left')->nullable();
