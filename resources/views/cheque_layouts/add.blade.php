@@ -53,7 +53,7 @@
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
             <div class="pd-b-10">
-              <button class="btn btn-info btn-block pointer" onclick="PrintElem()">Print Preview</button>
+              <a class="btn btn-info btn-block pointer text-white" onclick="PrintElem()">Print Preview</a>
             </div>
             
             <div class="row pd-b-10">

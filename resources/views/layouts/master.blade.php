@@ -113,7 +113,7 @@
           </div>
         </a>
 
-        <a href="#" class="br-menu-link {{ (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('settings')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('settings')) || (request()->is('printer*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-settings tx-24"></i>
             <span class="menu-item-label">Configuration</span>
@@ -121,8 +121,9 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-        <li class="nav-item"><a href="{{url('currency')}}" class="nav-link {{ (request()->is('currency*')) ? 'active' : '' }}">Currency</a></li>
+          <li class="nav-item"><a href="{{url('currency')}}" class="nav-link {{ (request()->is('currency*')) ? 'active' : '' }}">Currency</a></li>
           <li class="nav-item"><a href="{{url('payment-method')}}" class="nav-link {{ (request()->is('payment-method*')) ? 'active' : '' }}">Payment Method</a></li>
+          <li class="nav-item"><a href="{{url('printer')}}" class="nav-link {{ (request()->is('printer*')) ? 'active' : '' }}">Printer</a></li>
           <li class="nav-item"><a href="{{url('settings')}}" class="nav-link {{ (request()->is('settings')) ? 'active' : '' }}">Settings</a></li>
         </ul>
       </div>

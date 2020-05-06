@@ -101,4 +101,11 @@ Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationControlle
 Route::get('/settings', 'ConfigurationController@index');
 Route::post('/settings/update', 'ConfigurationController@update');
 
+Route::get('/printer', 'ConfigurationController@index_printer');
+Route::get('/printer/add', 'ConfigurationController@add_printer');
+Route::post('/printer/add', 'ConfigurationController@add_printer');
+Route::get('/printer/delete/{printer_id}', 'ConfigurationController@delete_printer');
+Route::get('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
+Route::post('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
+
 Route::get('/logout', 'HomeController@logout');

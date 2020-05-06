@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Currency;
 use App\PaymentMethod;
 use App\Setting;
+use App\Printer;
 
 class ConfigurationController extends Controller
 {
@@ -107,5 +108,43 @@ class ConfigurationController extends Controller
             $setting->save();
         }
         return redirect('settings')->with('message','Settings updated successfully!');
+    }
+
+    public function index_printer(){
+        $printer = Printer::orderBy('id', 'asc')->paginate(10);
+        return view('printers.index', ['printers'=>$printer]);
+    }
+    
+    public function add_printer(Request $request){
+        if($request->print_name !=""){
+            $printer = new Printer();
+            $printer->print_name        = $request->print_name;
+            $printer->top               = $request->top;
+            $printer->left              = $request->left;
+            $printer->rotate            = $request->rotate;
+            $printer->save();
+            return redirect('printer')->with('message', 'Printer added successfully!');
+        }
+        return view('printers.add');
+    }
+
+    public function delete_printer($printer_id){
+        $printer = Printer::find($printer_id);
+        $printer->delete();
+        return redirect('printer')->with('message', 'Printer deleted successfully!');
+    }
+
+    public function update_printer($printer_id, Request $request){
+        if($request->print_name !=""){
+            $printer = Printer::where('id',$printer_id)->first();
+            $printer->print_name        = $request->print_name;
+            $printer->top               = $request->top;
+            $printer->left              = $request->left;
+            $printer->rotate            = $request->rotate;
+            $printer->save();
+            return redirect('printer')->with('message', 'Printer updated successfully!');
+        }
+        $printers = Printer::where('id',$printer_id)->first();
+        return view('printers.update', ['printers' => $printers]);
     }
 }
