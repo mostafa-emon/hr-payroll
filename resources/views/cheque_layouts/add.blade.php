@@ -16,11 +16,17 @@
     #amount_in_word_line_1{ cursor: move; }
     #amount_in_word_line_2{ cursor: move; }
 
+    #date_sizes {display:none;}
+    #date_list:hover #date_sizes {display:block;}
+
     #amount_sizes {display:none;}
     #amount_list:hover #amount_sizes {display:block;}
 
     #payee_sizes {display:none;}
     #payee_list:hover #payee_sizes {display:block;}
+
+    #amount_word_sizes {display:none;}
+    #amount_word_list:hover #amount_word_sizes {display:block;}
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -44,11 +50,11 @@
             <div id="printArea">
               <div id="containment-wrapper" style="height: 89mm; width: 191mm; position: relative">
                 <div id="acpay" onclick="acpayDrag();" class="draggable ui-widget-content" style="position: absolute;top:0mm;left:0mm"><img src="{{ asset('img/acpay.png') }}"/></div>
-                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">DDMMYYYY</div>
+                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">DDMMYYYY</div>
                 <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: 22mm; left: 15mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee</div>
                 <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: 38mm; left: 154mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount</div>
-                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: 31mm; left: 30mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #1</div>
-                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: 40mm; left: 8mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #2</div>
+                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: 31mm; left: 30mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount in words line #1</div>
+                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: 40mm; left: 8mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount in words line #2</div>
               </div>
             </div>
 
@@ -80,12 +86,30 @@
             </div>
 
             <ul class="list-group">
-              <li class="list-group-item">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('date')" id="date_checkbox" name="date" value="1" checked><span>Date</span>
                 </label>
                 <input type="hidden" id="date_top" name="date_top" value="7" placeholder="top" class="form-control"/>
                 <input type="hidden" id="date_left" name="date_left" value="139" placeholder="left" class="form-control"/>
+              
+                <div id="date_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Date Format:</label>
+                    <select class="form-control" name="date_format" onchange="set_date_format(this.value)">
+                      <option value="DDMMYYYY">DD-MM-YYYY</option>
+                      <option value="MMDDYYYY">MM-DD-YYYY</option>
+                    </select>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="dateFontSize(this.value)" name="date_font_size" value="16" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Letter Spacing: (px)</label>
+                    <input type="text" oninput="dateLetterSpacing(this.value)" name="date_letter_spacing" value="12" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                </div>
               </li>
               <li class="list-group-item" id="payee_list">
                 <label class="ckbox pointer">
@@ -100,7 +124,7 @@
                     <input type="text" oninput="payeeFontSize(this.value)" name="payee_font_size" value="16" placeholder="font size" class="form-control"/>
                   </div>
                   <div class="pd-t-10">
-                    <label class="tx-black">Font Size: (px)</label>
+                    <label class="tx-black">Letter Spacing: (px)</label>
                     <input type="text" oninput="payeeLetterSpacing(this.value)" name="payee_letter_spacing" value="0" placeholder="letter spacing" class="form-control"/>
                   </div>
                 </div>
@@ -118,12 +142,12 @@
                     <input type="text" oninput="amountFontSize(this.value)" name="amount_font_size" value="16" placeholder="font size" class="form-control"/>
                   </div>
                   <div class="pd-t-10">
-                    <label class="tx-black">Font Size: (px)</label>
+                    <label class="tx-black">Letter Spacing: (px)</label>
                     <input type="text" oninput="amountLetterSpacing(this.value)" name="amount_letter_spacing" value="0" placeholder="letter spacing" class="form-control"/>
                   </div>
                 </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item" id="amount_word_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('amount_word_1')" id="amount_word_1_checkbox" name="amount_in_word_line_1" value="1" checked><span>Amount in words line #1</span>
                   <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
@@ -131,6 +155,21 @@
                 </label>
                 <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
                 <input type="hidden" id="amount_in_word_line_1_left" value="30" name="amount_in_word_line_1_left" placeholder="left" class="form-control"/>
+                
+                <div id="amount_word_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="amountWordFontSize(this.value)" name="amount_in_word_font_size" value="16" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Letter Spacing: (px)</label>
+                    <input type="text" oninput="amountWordSpacing(this.value)" name="amount_in_word_letter_spacing" value="0" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Max Character:</label>
+                    <input type="text" name="amount_in_word_max_character" value="45" placeholder="line #1 max character" class="form-control"/>
+                  </div>
+                </div>
               </li>
               <li class="list-group-item">
                 <label class="ckbox pointer">
@@ -384,6 +423,28 @@
 
     function payeeLetterSpacing(value){
       document.getElementById("payee").style.letterSpacing = value+'px';
+    }
+
+    function dateFontSize(value){
+      document.getElementById("date").style.fontSize  = value+'px';
+    }
+
+    function dateLetterSpacing(value){
+      document.getElementById("date").style.letterSpacing = value+'px';
+    }
+
+    function amountWordFontSize(value){
+      document.getElementById("amount_in_word_line_1").style.fontSize  = value+'px';
+      document.getElementById("amount_in_word_line_2").style.fontSize  = value+'px';
+    }
+
+    function amountWordSpacing(value){
+      document.getElementById("amount_in_word_line_1").style.letterSpacing  = value+'px';
+      document.getElementById("amount_in_word_line_2").style.letterSpacing  = value+'px';
+    }
+
+    function set_date_format(value){
+      document.getElementById("date").innerHTML  = value;
     }
   </script>
 @endsection

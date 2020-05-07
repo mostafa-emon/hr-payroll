@@ -34,18 +34,25 @@ class ChequeLayoutController extends Controller
             }else { $cheque_layout->date                = 0; }
             $cheque_layout->date_top                    = $request->date_top;
             $cheque_layout->date_left                   = $request->date_left;
+            $cheque_layout->date_format                 = $request->date_format;
+            $cheque_layout->date_font_size              = $request->date_font_size;
+            $cheque_layout->date_letter_spacing         = $request->date_letter_spacing;
 
             if($request->payee == 1) {
                 $cheque_layout->payee                   = 1;
             }else { $cheque_layout->payee               = 0; }
             $cheque_layout->payee_top                   = $request->payee_top;
             $cheque_layout->payee_left                  = $request->payee_left;
+            $cheque_layout->payee_font_size             = $request->payee_font_size;
+            $cheque_layout->payee_letter_spacing        = $request->payee_letter_spacing;
 
             if($request->amount == 1) {
                 $cheque_layout->amount                  = 1;
             }else { $cheque_layout->amount              = 0; }
             $cheque_layout->amount_top                  = $request->amount_top;
             $cheque_layout->amount_left                 = $request->amount_left;
+            $cheque_layout->amount_font_size            = $request->amount_font_size;
+            $cheque_layout->amount_letter_spacing       = $request->amount_letter_spacing;
 
             if($request->amoamount_in_word_line_1 == 1) {
                 $cheque_layout->amount_in_word_line_1       = 1;
@@ -53,6 +60,9 @@ class ChequeLayoutController extends Controller
             $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
             $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
             $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
+            $cheque_layout->amount_in_word_max_character    = $request->amount_in_word_max_character;
+            $cheque_layout->amount_in_word_font_size        = $request->amount_in_word_font_size;
+            $cheque_layout->amount_in_word_letter_spacing   = $request->amount_in_word_letter_spacing;
             
             if($request->amount_in_word_line_2 == 1) {
                 $cheque_layout->amount_in_word_line_2       = 1;
@@ -93,18 +103,25 @@ class ChequeLayoutController extends Controller
             }else { $cheque_layout->date                = 0; }
             $cheque_layout->date_top                    = $request->date_top;
             $cheque_layout->date_left                   = $request->date_left;
+            $cheque_layout->date_format                 = $request->date_format;
+            $cheque_layout->date_font_size              = $request->date_font_size;
+            $cheque_layout->date_letter_spacing         = $request->date_letter_spacing;
 
             if($request->payee == 1) {
                 $cheque_layout->payee                   = 1;
             }else { $cheque_layout->payee               = 0; }
             $cheque_layout->payee_top                   = $request->payee_top;
             $cheque_layout->payee_left                  = $request->payee_left;
+            $cheque_layout->payee_font_size             = $request->payee_font_size;
+            $cheque_layout->payee_letter_spacing        = $request->payee_letter_spacing;
 
             if($request->amount == 1) {
                 $cheque_layout->amount                  = 1;
             }else { $cheque_layout->amount              = 0; }
             $cheque_layout->amount_top                  = $request->amount_top;
             $cheque_layout->amount_left                 = $request->amount_left;
+            $cheque_layout->amount_font_size            = $request->amount_font_size;
+            $cheque_layout->amount_letter_spacing       = $request->amount_letter_spacing;
 
             if($request->amoamount_in_word_line_1 == 1) {
                 $cheque_layout->amount_in_word_line_1       = 1;
@@ -112,6 +129,9 @@ class ChequeLayoutController extends Controller
             $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
             $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
             $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
+            $cheque_layout->amount_in_word_max_character    = $request->amount_in_word_max_character;
+            $cheque_layout->amount_in_word_font_size        = $request->amount_in_word_font_size;
+            $cheque_layout->amount_in_word_letter_spacing   = $request->amount_in_word_letter_spacing;
             
             if($request->amount_in_word_line_2 == 1) {
                 $cheque_layout->amount_in_word_line_2       = 1;
@@ -147,18 +167,25 @@ class ChequeLayoutController extends Controller
             }else { $cheque_layout->date                = 0; }
             $cheque_layout->date_top                    = $request->date_top;
             $cheque_layout->date_left                   = $request->date_left;
+            $cheque_layout->date_format                 = $request->date_format;
+            $cheque_layout->date_font_size              = $request->date_font_size;
+            $cheque_layout->date_letter_spacing         = $request->date_letter_spacing;
 
             if($request->payee == 1) {
                 $cheque_layout->payee                   = 1;
             }else { $cheque_layout->payee               = 0; }
             $cheque_layout->payee_top                   = $request->payee_top;
             $cheque_layout->payee_left                  = $request->payee_left;
+            $cheque_layout->payee_font_size             = $request->payee_font_size;
+            $cheque_layout->payee_letter_spacing        = $request->payee_letter_spacing;
 
             if($request->amount == 1) {
                 $cheque_layout->amount                  = 1;
             }else { $cheque_layout->amount              = 0; }
             $cheque_layout->amount_top                  = $request->amount_top;
             $cheque_layout->amount_left                 = $request->amount_left;
+            $cheque_layout->amount_font_size            = $request->amount_font_size;
+            $cheque_layout->amount_letter_spacing       = $request->amount_letter_spacing;
 
             if($request->amoamount_in_word_line_1 == 1) {
                 $cheque_layout->amount_in_word_line_1       = 1;
@@ -166,6 +193,9 @@ class ChequeLayoutController extends Controller
             $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
             $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
             $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
+            $cheque_layout->amount_in_word_max_character    = $request->amount_in_word_max_character;
+            $cheque_layout->amount_in_word_font_size        = $request->amount_in_word_font_size;
+            $cheque_layout->amount_in_word_letter_spacing   = $request->amount_in_word_letter_spacing;
             
             if($request->amount_in_word_line_2 == 1) {
                 $cheque_layout->amount_in_word_line_2       = 1;

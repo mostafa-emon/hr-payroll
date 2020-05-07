@@ -15,6 +15,18 @@
     #amount{ cursor: move; }
     #amount_in_word_line_1{ cursor: move; }
     #amount_in_word_line_2{ cursor: move; }
+
+    #date_sizes {display:none;}
+    #date_list:hover #date_sizes {display:block;}
+
+    #amount_sizes {display:none;}
+    #amount_list:hover #amount_sizes {display:block;}
+
+    #payee_sizes {display:none;}
+    #payee_list:hover #payee_sizes {display:block;}
+
+    #amount_word_sizes {display:none;}
+    #amount_word_list:hover #amount_word_sizes {display:block;}
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -38,11 +50,11 @@
             <div id="printArea">
                 <div id="containment-wrapper" style="height: {{$layout->height}}mm; width: {{$layout->width}}mm; position: relative">
                 <div id="acpay" onclick="acpayDrag();" class="draggable ui-widget-content" style="position: absolute;top:{{$layout->ac_payee_only_top}}mm;left:{{$layout->ac_payee_only_left}}mm;@if($layout->ac_payee_only == 0) display:none; @endif"><img src="{{ asset('img/acpay.png') }}"/></div>
-                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->date_top}}mm; left: {{$layout->date_left}}mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;@if($layout->date == 0) display:none; @endif">DDMMYYYY</div>
-                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->payee_top}}mm; left: {{$layout->payee_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;@if($layout->payee == 0) display:none; @endif">Payee</div>
-                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_top}}mm; left: {{$layout->amount_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;@if($layout->amount == 0) display:none; @endif">Amount</div>
-                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_1_top}}mm; left: {{$layout->amount_in_word_line_1_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;@if($layout->amount_in_word_line_1 == 0) display:none; @endif">Amount in words line #1</div>
-                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_2_top}}mm; left: {{$layout->amount_in_word_line_2_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;@if($layout->amount_in_word_line_2 == 0) display:none; @endif">Amount in words line #2</div>
+                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->date_top}}mm; left: {{$layout->date_left}}mm; letter-spacing: {{$layout->date_letter_spacing}}px; font-family: Courier; font-size: {{$layout->date_font_size}}px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;@if($layout->date == 0) display:none; @endif">@if($layout->date_format == "DDMMYYYY")DDMMYYYY @else MMDDYYYY @endif</div>
+                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->payee_top}}mm; left: {{$layout->payee_left}}mm; letter-spacing: {{$layout->payee_letter_spacing}}px; font-family: Arial; font-size: {{$layout->payee_font_size}}px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;@if($layout->payee == 0) display:none; @endif">Payee</div>
+                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_top}}mm; left: {{$layout->amount_left}}mm; letter-spacing: {{$layout->amount_letter_spacing}}px; font-family: Arial; font-size: {{$layout->amount_font_size}}px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;@if($layout->amount == 0) display:none; @endif">Amount</div>
+                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_1_top}}mm; left: {{$layout->amount_in_word_line_1_left}}mm; letter-spacing: {{$layout->amount_in_word_letter_spacing}}px; font-family: Arial; font-size: {{$layout->amount_in_word_font_size}}px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;@if($layout->amount_in_word_line_1 == 0) display:none; @endif">Amount in words line #1</div>
+                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_2_top}}mm; left: {{$layout->amount_in_word_line_2_left}}mm; letter-spacing: {{$layout->amount_in_word_letter_spacing}}px; font-family: Arial; font-size: {{$layout->amount_in_word_font_size}}px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;@if($layout->amount_in_word_line_2 == 0) display:none; @endif">Amount in words line #2</div>
               </div>
             </div>
 
@@ -74,33 +86,90 @@
             </div>
 
             <ul class="list-group">
-              <li class="list-group-item">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('date')" id="date_checkbox" name="date" value="1" @if($layout->date == 1) checked @endif><span>Date</span>
                 </label>
                 <input type="hidden" id="date_top" name="date_top" value="{{$layout->date_top}}" class="form-control"/>
                 <input type="hidden" id="date_left" name="date_left" value="{{$layout->date_left}}" class="form-control"/>
+                
+                <div id="date_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Date Format:</label>
+                    <select class="form-control" name="date_format" onchange="set_date_format(this.value)">
+                      <option value="DDMMYYYY" @if($layout->date_format == "DDMMYYYY") selected @endif>DD-MM-YYYY</option>
+                      <option value="MMDDYYYY" @if($layout->date_format == "MMDDYYYY") selected @endif>MM-DD-YYYY</option>
+                    </select>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="dateFontSize(this.value)" name="date_font_size" value="{{$layout->date_font_size}}" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Letter Spacing: (px)</label>
+                    <input type="text" oninput="dateLetterSpacing(this.value)" name="date_letter_spacing" value="{{$layout->date_letter_spacing}}" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                </div>
               </li>
-              <li class="list-group-item">
+
+              <li class="list-group-item" id="payee_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('payee')" id="payee_checkbox" name="payee" value="1" @if($layout->payee == 1) checked @endif><span>Payee</span>
                 </label>
                 <input type="hidden" id="payee_top" name="payee_top" value="{{$layout->payee_top}}" class="form-control"/>
                 <input type="hidden" id="payee_left" name="payee_left" value="{{$layout->payee_left}}" class="form-control"/>
+                
+                <div id="payee_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="payeeFontSize(this.value)" name="payee_font_size" value="{{$layout->payee_font_size}}" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Letter Spacing: (px)</label>
+                    <input type="text" oninput="payeeLetterSpacing(this.value)" name="payee_letter_spacing" value="{{$layout->payee_letter_spacing}}" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                </div>
               </li>
-              <li class="list-group-item">
+
+              <li class="list-group-item" id="amount_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('amount')" id="amount_checkbox" name="amount" value="1" @if($layout->amount == 1) checked @endif><span>Amount</span>
                 </label>
                 <input type="hidden" id="amount_top" name="amount_top" value="{{$layout->amount_top}}" class="form-control"/>
                 <input type="hidden" id="amount_left" name="amount_left" value="{{$layout->amount_left}}" class="form-control"/>
+                
+                <div id="amount_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="amountFontSize(this.value)" name="amount_font_size" value="{{$layout->amount_font_size}}" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Letter Spacing: (px)</label>
+                    <input type="text" oninput="amountLetterSpacing(this.value)" name="amount_letter_spacing" value="{{$layout->amount_letter_spacing}}" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item"  id="amount_word_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('amount_word_1')" id="amount_word_1_checkbox" name="amount_in_word_line_1" value="1" @if($layout->amount_in_word_line_1 == 1) checked @endif><span>Amount in words line #1</span>
                 </label>
                 <input type="hidden" id="amount_in_word_line_1_top" value="{{$layout->amount_in_word_line_1_top}}" name="amount_in_word_line_1_top" class="form-control"/>
                 <input type="hidden" id="amount_in_word_line_1_left" value="{{$layout->amount_in_word_line_1_left}}" name="amount_in_word_line_1_left" class="form-control"/>
+                
+                <div id="amount_word_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="amountWordFontSize(this.value)" name="amount_in_word_font_size" value="{{$layout->amount_in_word_font_size}}" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Letter Spacing: (px)</label>
+                    <input type="text" oninput="amountWordSpacing(this.value)" name="amount_in_word_letter_spacing" value="{{$layout->amount_in_word_letter_spacing}}" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Max Character:</label>
+                    <input type="text" name="amount_in_word_max_character" value="{{$layout->amount_in_word_max_character}}" placeholder="line #1 max character" class="form-control"/>
+                  </div>
+                </div>
               </li>
               <li class="list-group-item">
                 <label class="ckbox pointer">
@@ -340,5 +409,42 @@
       });
     }
     
+    function amountFontSize(value){
+      document.getElementById("amount").style.fontSize  = value+'px';
+    }
+
+    function amountLetterSpacing(value){
+      document.getElementById("amount").style.letterSpacing = value+'px';
+    }
+
+    function payeeFontSize(value){
+      document.getElementById("payee").style.fontSize  = value+'px';
+    }
+
+    function payeeLetterSpacing(value){
+      document.getElementById("payee").style.letterSpacing = value+'px';
+    }
+
+    function dateFontSize(value){
+      document.getElementById("date").style.fontSize  = value+'px';
+    }
+
+    function dateLetterSpacing(value){
+      document.getElementById("date").style.letterSpacing = value+'px';
+    }
+
+    function amountWordFontSize(value){
+      document.getElementById("amount_in_word_line_1").style.fontSize  = value+'px';
+      document.getElementById("amount_in_word_line_2").style.fontSize  = value+'px';
+    }
+
+    function amountWordSpacing(value){
+      document.getElementById("amount_in_word_line_1").style.letterSpacing  = value+'px';
+      document.getElementById("amount_in_word_line_2").style.letterSpacing  = value+'px';
+    }
+
+    function set_date_format(value){
+      document.getElementById("date").innerHTML  = value;
+    }
   </script>
 @endsection
