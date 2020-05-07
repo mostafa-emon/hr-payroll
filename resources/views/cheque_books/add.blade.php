@@ -52,21 +52,21 @@
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">No. of Leaves: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="no_of_leaves" placeholder="Enter No. of Leaves">
+                <input class="form-control" type="text" id="no_of_leaves" name="no_of_leaves" placeholder="Enter No. of Leaves">
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label">Starting Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="starting_number" placeholder="Enter Starting Number">
+                <input class="form-control" type="text" oninput="set_ending_number(this.value)" name="starting_number" placeholder="Enter Starting Number">
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label">Ending Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="ending_number" placeholder="Enter Ending Number">
+                <input class="form-control" type="text" id="ending_number" name="ending_number" placeholder="Enter Ending Number">
               </div>
             </div>
 
@@ -92,6 +92,19 @@
             $('#account_id').append(data);
           }
       });
+    }
+    
+    function set_ending_number(value) {
+      if(value != ''){
+        var no_of_leaves = $('#no_of_leaves').val();
+        if(no_of_leaves == ''){
+          no_of_leaves = 0;
+        }
+        var ending_number = parseInt(value) + parseInt(no_of_leaves) - 1;
+        $('#ending_number').val(ending_number);
+      }else{
+        $('#ending_number').val('');
+      }
     }
   </script>
 @endsection
