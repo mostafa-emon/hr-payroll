@@ -15,6 +15,12 @@
     #amount{ cursor: move; }
     #amount_in_word_line_1{ cursor: move; }
     #amount_in_word_line_2{ cursor: move; }
+
+    #amount_sizes {display:none;}
+    #amount_list:hover #amount_sizes {display:block;}
+
+    #payee_sizes {display:none;}
+    #payee_list:hover #payee_sizes {display:block;}
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -39,8 +45,8 @@
               <div id="containment-wrapper" style="height: 89mm; width: 191mm; position: relative">
                 <div id="acpay" onclick="acpayDrag();" class="draggable ui-widget-content" style="position: absolute;top:0mm;left:0mm"><img src="{{ asset('img/acpay.png') }}"/></div>
                 <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">DDMMYYYY</div>
-                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: 22mm; left: 15mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee</div>
-                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: 38mm; left: 154mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount</div>
+                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: 22mm; left: 15mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee</div>
+                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: 38mm; left: 154mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount</div>
                 <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: 31mm; left: 30mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #1</div>
                 <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: 40mm; left: 8mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #2</div>
               </div>
@@ -81,19 +87,41 @@
                 <input type="hidden" id="date_top" name="date_top" value="7" placeholder="top" class="form-control"/>
                 <input type="hidden" id="date_left" name="date_left" value="139" placeholder="left" class="form-control"/>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item" id="payee_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('payee')" id="payee_checkbox" name="payee" value="1" checked><span>Payee</span>
                 </label>
                 <input type="hidden" id="payee_top" name="payee_top" value="22" placeholder="top" class="form-control"/>
                 <input type="hidden" id="payee_left" name="payee_left" value="15" placeholder="left" class="form-control"/>
+                
+                <div id="payee_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="payeeFontSize(this.value)" name="payee_font_size" value="16" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="payeeLetterSpacing(this.value)" name="payee_letter_spacing" value="0" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item" id="amount_list">
                 <label class="ckbox pointer">
                   <input type="checkbox" onclick="hideShowElement('amount')" id="amount_checkbox" name="amount" value="1" checked><span>Amount</span>
                 </label>
                 <input type="hidden" id="amount_top" name="amount_top" value="38" placeholder="top" class="form-control"/>
                 <input type="hidden" id="amount_left" name="amount_left" value="154" placeholder="left" class="form-control"/>
+                
+                <div id="amount_sizes">
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="amountFontSize(this.value)" name="amount_font_size" value="16" placeholder="font size" class="form-control"/>
+                  </div>
+                  <div class="pd-t-10">
+                    <label class="tx-black">Font Size: (px)</label>
+                    <input type="text" oninput="amountLetterSpacing(this.value)" name="amount_letter_spacing" value="0" placeholder="letter spacing" class="form-control"/>
+                  </div>
+                </div>
               </li>
               <li class="list-group-item">
                 <label class="ckbox pointer">
@@ -342,5 +370,20 @@
       });
     }
     
+    function amountFontSize(value){
+      document.getElementById("amount").style.fontSize  = value+'px';
+    }
+
+    function amountLetterSpacing(value){
+      document.getElementById("amount").style.letterSpacing = value+'px';
+    }
+
+    function payeeFontSize(value){
+      document.getElementById("payee").style.fontSize  = value+'px';
+    }
+
+    function payeeLetterSpacing(value){
+      document.getElementById("payee").style.letterSpacing = value+'px';
+    }
   </script>
 @endsection
