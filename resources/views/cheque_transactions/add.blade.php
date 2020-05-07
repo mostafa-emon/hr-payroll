@@ -194,9 +194,11 @@
       $('#date').text(formatted);
     }
 
-    function setChequeAmount(amount) {
-      if(amount != ''){ 
-        $('#amount').text(amount);
+    function setChequeAmount(value) {
+      if(value != ''){ 
+        $('#amount').text(value);
+
+        var amount = value.replace(/[^0-9 ]/g, "")
 
         var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
         if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
@@ -265,7 +267,11 @@
                       words_string += "Crores ";
                   }
                   if ((i == 3 && value != 0) || (i == 2 && value != 0 && n_array[i + 1] == 0)) {
+                    if(amount_in_word_format == 'crore_lakh_thousand') {
                       words_string += "Lakhs ";
+                    }else if(amount_in_word_format == 'crore_lac_thousand') {
+                      words_string += "Lacs ";
+                    } 
                   }
                   if ((i == 5 && value != 0) || (i == 4 && value != 0 && n_array[i + 1] == 0)) {
                       words_string += "Thousand ";
@@ -348,7 +354,24 @@
               str += dg[n[i]] +' ';
             }
             var final = str.replace(/\s+/g,' ');
-            $('#amount_in_word_line_1').text(final);
+
+            var word = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
+            var amount_in_word = word + ' Only'
+            //var amount_in_word = final_string.charAt(0).toUpperCase() + final_string.slice(1)
+
+            if(amount_in_word.length > '{{ $layout->amount_in_word_max_character }}') {
+              var first_line = amount_in_word.substring(0,45);
+              var lastIndex = first_line.lastIndexOf(" ");
+              var first = first_line.replace(/ [^ ]+$/, "");
+              var second_line = amount_in_word.substring(lastIndex,100);
+            }
+            else{
+              var first  = amount_in_word
+              var second_line = '' 
+            }
+            
+            $('#amount_in_word_line_1').text(first);
+            $('#amount_in_word_line_2').text(second_line);
         }
       }else{
         $('#amount').text('Amount');
