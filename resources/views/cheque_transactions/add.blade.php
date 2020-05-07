@@ -28,13 +28,13 @@
           
           <div class="card pd-0 bd-0 pd-30 table-responsive">
             <div id="printArea">
-              <div id="containment-wrapper" style="height: 89mm; width: 191mm; position: relative">
+              <div id="containment-wrapper" style="height: {{$layout->height}}mm; width: {{$layout->width}}mm; position: relative">
                 <div id="acpay" class="draggable ui-widget-content" style="position: absolute;top:{{$layout->ac_payee_only_top}}mm;left:{{$layout->ac_payee_only_left}}mm;@if($layout->ac_payee_only == 0) display:none; @endif"><img src="{{ asset('img/acpay.png') }}"/></div>
-                <div id="date" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->date_top}}mm; left: {{$layout->date_left}}mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; @if($layout->date == 0) display:none; @endif">DDMMYYYY</div>
-                <div id="payee" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->payee_top}}mm; left: {{$layout->payee_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->payee == 0) display:none; @endif">Payee</div>
-                <div id="amount" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_top}}mm; left: {{$layout->amount_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->amount == 0) display:none; @endif">Amount</div>
-                <div id="amount_in_word_line_1" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_1_top}}mm; left: {{$layout->amount_in_word_line_1_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->amount_in_word_line_1 == 0) display:none; @endif">Amount in words line #1</div>
-                <div id="amount_in_word_line_2" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_2_top}}mm; left: {{$layout->amount_in_word_line_2_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->amount_in_word_line_2 == 0) display:none; @endif">Amount in words line #2</div>
+                <div id="date" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->date_top}}mm; left: {{$layout->date_left}}mm; letter-spacing: {{$layout->date_letter_spacing}}px; font-family: Courier; font-size: {{$layout->date_font_size}}px; color: black; @if($layout->date == 0) display:none; @endif">@if($layout->date_format == "DDMMYYYY")DDMMYYYY @else MMDDYYYY @endif</div>
+                <div id="payee" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->payee_top}}mm; left: {{$layout->payee_left}}mm; letter-spacing: {{$layout->payee_letter_spacing}}px; font-family: Arial; font-size: {{$layout->payee_font_size}}px; color: black; @if($layout->payee == 0) display:none; @endif">Payee</div>
+                <div id="amount" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_top}}mm; left: {{$layout->amount_left}}mm; letter-spacing: {{$layout->amount_letter_spacing}}px; font-family: Arial; font-size: {{$layout->amount_font_size}}px; color: black; @if($layout->amount == 0) display:none; @endif">Amount</div>
+                <div id="amount_in_word_line_1" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_1_top}}mm; left: {{$layout->amount_in_word_line_1_left}}mm; letter-spacing: {{$layout->amount_in_word_letter_spacing}}px; font-family: Arial; font-size: {{$layout->amount_in_word_font_size}}px; color: black; @if($layout->amount_in_word_line_1 == 0) display:none; @endif">Amount in words line #1</div>
+                <div id="amount_in_word_line_2" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_2_top}}mm; left: {{$layout->amount_in_word_line_2_left}}mm; letter-spacing: {{$layout->amount_in_word_letter_spacing}}px; font-family: Arial; font-size: {{$layout->amount_in_word_font_size}}px; color: black; @if($layout->amount_in_word_line_2 == 0) display:none; @endif">Amount in words line #2</div>
               </div>
             </div>
           </div>
@@ -161,11 +161,16 @@
           url: '/get-cheque-book-by-account/'+account_id,
           success:function(data) {
             $('#cheque_books').html('');
-            $('#cheque_books').append('<option value="" disabled selected>Select Account</option>');
+            $('#cheque_books').append('<option value="" disabled selected>Select Book</option>');
             $('#cheque_books').append(data);
           }
       });
-      $( "#chooseDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
+      var date_formatting = '{{$layout->date_format}}'
+      if(date_formatting == "DDMMYYYY") {
+        $( "#chooseDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
+      }else if(date_formatting == "MMDDYYYY") {
+        $( "#chooseDate" ).datepicker({ dateFormat: 'mm-dd-yy' });
+      }
     }
 
     function get_cheques(book_id) {
@@ -174,7 +179,7 @@
           url: '/get-cheques-by-book/'+book_id,
           success:function(data) {
             $('#cheques').html('');
-            $('#cheques').append('<option value="" disabled selected>Select Account</option>');
+            $('#cheques').append('<option value="" disabled selected>Select Cheque</option>');
             $('#cheques').append(data);
           }
       });
@@ -266,13 +271,26 @@
                       words_string += "Thousand ";
                   }
                   if (i == 6 && value != 0 && (n_array[i + 1] != 0 && n_array[i + 2] != 0)) {
-                      words_string += "Hundred and ";
+                      words_string += "Hundred ";
                   } else if (i == 6 && value != 0) {
                       words_string += "Hundred ";
                   }
               }
-              words_string = words_string.split("  ").join(" ");
-              $('#amount_in_word_line_1').text(words_string);
+              words_string = words_string.split("  ").join(" ") + ' Only';
+              
+              if(words_string.length > '{{ $layout->amount_in_word_max_character }}') {
+                var first_line = words_string.substring(0,45);
+                var lastIndex = first_line.lastIndexOf(" ");
+                var first = first_line.replace(/ [^ ]+$/, "");
+                var second_line = words_string.substring(lastIndex,100);
+              }
+              else{
+                var first  = words_string
+                var second_line = '' 
+              }
+
+              $('#amount_in_word_line_1').text(first);
+              $('#amount_in_word_line_2').text(second_line);
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
