@@ -9,12 +9,6 @@
       linear-gradient(to right, #D7DBDD 1px, transparent 1px),
       linear-gradient(to bottom, #D7DBDD 1px, transparent 1px);
     }
-    #acpay{ cursor: move; }
-    #date{ cursor: move; }
-    #payee{ cursor: move; }
-    #amount{ cursor: move; }
-    #amount_in_word_line_1{ cursor: move; }
-    #amount_in_word_line_2{ cursor: move; }
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -24,36 +18,33 @@
       <span class="breadcrumb-item active">Add</span>
     </nav>
   </div>
-
+  
   <form action="{{ url('cheque-layouts/add') }}" method="POST">
     {{ csrf_field() }}
   <div class="br-pagebody">
       <div class="row">
-
+        @if($bank_id != "" && $bank_id != null)
         <div class="col-md-9 mg-t-10 d-flex align-items-center justify-content-center bg-white">
           
           <div class="card pd-0 bd-0 pd-30 table-responsive">
-            <div id="display" class="tx-black pd-b-5 collapse">Top: <input type="text" id="top" class="wd-40"/> &nbsp;Left: <input type="text" id="left" class="wd-40"/></div>
-
             <div id="printArea">
               <div id="containment-wrapper" style="height: 89mm; width: 191mm; position: relative">
-                <div id="acpay" onclick="acpayDrag();" class="draggable ui-widget-content" style="position: absolute;top:0mm;left:0mm"><img src="{{ asset('img/acpay.png') }}"/></div>
-                <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">DDMMYYYY</div>
-                <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: 22mm; left: 15mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee</div>
-                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: 38mm; left: 154mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount</div>
-                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: 31mm; left: 30mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #1</div>
-                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: 40mm; left: 8mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Amount in words line #2</div>
+                <div id="acpay" class="draggable ui-widget-content" style="position: absolute;top:{{$layout->ac_payee_only_top}}mm;left:{{$layout->ac_payee_only_left}}mm;@if($layout->ac_payee_only == 0) display:none; @endif"><img src="{{ asset('img/acpay.png') }}"/></div>
+                <div id="date" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->date_top}}mm; left: {{$layout->date_left}}mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; @if($layout->date == 0) display:none; @endif">DDMMYYYY</div>
+                <div id="payee" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->payee_top}}mm; left: {{$layout->payee_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->payee == 0) display:none; @endif">Payee</div>
+                <div id="amount" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_top}}mm; left: {{$layout->amount_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->amount == 0) display:none; @endif">Amount</div>
+                <div id="amount_in_word_line_1" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_1_top}}mm; left: {{$layout->amount_in_word_line_1_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->amount_in_word_line_1 == 0) display:none; @endif">Amount in words line #1</div>
+                <div id="amount_in_word_line_2" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->amount_in_word_line_2_top}}mm; left: {{$layout->amount_in_word_line_2_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; @if($layout->amount_in_word_line_2 == 0) display:none; @endif">Amount in words line #2</div>
               </div>
             </div>
-
-            <div class="tx-teal pd-t-20 tx-16">** Click on elements to activate, then drag to set the position.</div>
           </div>
         </div>
-        
+        @endif
+
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
-
-            <div class="row pd-b-10">
+            @if($bank_id != "" && $bank_id != null)
+            <div class="row pd-b-20">
               <div class="col-md-6">
                 <select class="form-control" id="printer">
                   @foreach($printers as $printer)
@@ -67,141 +58,79 @@
                 </div>
               </div>
             </div>
-            
-            
-            <div class="row pd-b-10">
-              <div class="col-md-6">
-                <div class="tx-black pd-b-5">Height: <input type="text" name="height" oninput="divHeight(this.value)" value="89" class="wd-100p pd-l-5 tx-gray-600"/></div>
-              </div>
-              <div class="col-md-6">
-                <div class="tx-black pd-b-5">Width: <input type="text" name="width" oninput="divWidth(this.value)" value="191" class="wd-100p pd-l-5 tx-gray-600"/></div>
-              </div>
-            </div>
-            
+            @endif
 
-            <ul class="list-group">
-              <li class="list-group-item">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('date')" id="date_checkbox" name="date" value="1" checked><span>Date</span>
-                </label>
-                <input type="hidden" id="date_top" name="date_top" value="7" placeholder="top" class="form-control"/>
-                <input type="hidden" id="date_left" name="date_left" value="139" placeholder="left" class="form-control"/>
-              </li>
-              <li class="list-group-item">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('payee')" id="payee_checkbox" name="payee" value="1" checked><span>Payee</span>
-                </label>
-                <input type="hidden" id="payee_top" name="payee_top" value="22" placeholder="top" class="form-control"/>
-                <input type="hidden" id="payee_left" name="payee_left" value="15" placeholder="left" class="form-control"/>
-              </li>
-              <li class="list-group-item">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('amount')" id="amount_checkbox" name="amount" value="1" checked><span>Amount</span>
-                </label>
-                <input type="hidden" id="amount_top" name="amount_top" value="38" placeholder="top" class="form-control"/>
-                <input type="hidden" id="amount_left" name="amount_left" value="154" placeholder="left" class="form-control"/>
-              </li>
-              <li class="list-group-item">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('amount_word_1')" id="amount_word_1_checkbox" name="amount_in_word_line_1" value="1" checked><span>Amount in words line #1</span>
-                  <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
-                  <input type="hidden" id="amount_in_word_line_1_left" value="30" name="amount_in_word_line_1_left" placeholder="left" class="form-control"/>
-                </label>
-                <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
-                <input type="hidden" id="amount_in_word_line_1_left" value="30" name="amount_in_word_line_1_left" placeholder="left" class="form-control"/>
-              </li>
-              <li class="list-group-item">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('amount_word_2')" id="amount_word_2_checkbox" name="amount_in_word_line_2" value="1" checked><span>Amount in words line #2</span>
-                </label>
-                <input type="hidden" id="amount_in_word_line_2_top" value="40" name="amount_in_word_line_2_top" placeholder="top" class="form-control"/>
-                <input type="hidden" id="amount_in_word_line_2_left" value="8" name="amount_in_word_line_2_left" placeholder="left" class="form-control"/>
-              </li>
-              <li class="list-group-item">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('ac_pay')" id="ac_pay_checkbox" name="ac_payee_only" value="1" checked><span>AC Payee</span>
-                </label>
-                <input type="hidden" id="ac_payee_only_top" value="0" name="ac_payee_only_top" placeholder="top" class="form-control"/>
-                <input type="hidden" id="ac_payee_only_left" value="0" name="ac_payee_only_left" placeholder="left" class="form-control"/>
-              </li>
-            </ul>
-
-            <div class="pd-t-30">
-              <select class="form-control" name="bank_id" required>
+            <div>
+              <select class="form-control" name="bank_name" onchange="bank_onchage(this.value)" required>
                 <option disabled selected value="">Select Bank</option>
                 @foreach($banks as $bank)
-                  <option value="{{$bank->id}}">{{$bank->name}}</option>
+                  <option value="{{$bank->id}}" @if($bank_id == $bank->id) selected @endif>{{$bank->name}}</option>
                 @endforeach
               </select>
+            </div>
+
+            @if($bank_id != "" && $bank_id != null)
+            <div class="pd-t-10">
+              <select class="form-control" name="ac_number" onchange="get_cheque_books(this.value)" required>
+                <option disabled selected value="">Select Account</option>
+                @foreach($accounts as $account)
+                  <option value="{{$account->id}}">{{$account->ac_number}}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="pd-t-10">
+              <select id="cheque_books" name="book_no" class="form-control" onchange="get_cheques(this.value)" required>
+                <option selected disabled>Select Book</option>
+              </select>
+            </div>
+
+            <div class="pd-t-10">
+              <select id="cheques" id="cheque_no" name="cheque_no" class="form-control" required>
+                <option selected disabled>Select Cheque</option>
+              </select>
+            </div>
+
+            <div class="pd-t-10">
+              <input type="text" id="chooseDate" class="form-control" name="date" onchange="setChequeDate(this.value)" placeholder="date"/>
+            </div>
+
+            <div class="pd-t-10">
+              <select class="form-control" name="supplier_name" onchange="setChequeName(this.value)" required>
+                <option disabled selected value="">Select Supplier</option>
+                @foreach($suppliers as $supplier)
+                  <option value="{{$supplier->cheque_name}}">{{$supplier->name}}</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="pd-t-10">
+              <input type="text" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount"/>
+            </div>
+
+            <div class="pd-t-15">
+              <label class="ckbox pointer">
+                <input type="checkbox" id="ac_pay_checkbox" onclick="hideShowElement('ac_pay')" name="ac_payee_only" value="1" checked><span>A/C Payee Only</span>
+              </label>
             </div>
 
             <div class="pd-t-15">
               <input type="submit" value="Save Layout" class="pd-15 btn btn-success btn-block pointer"/>
             </div>
-
+            @endif
           </div>
         </div>
         
       </div>
   </div>
   </form>
-
+  
   <script>
-    function divHeight(height){
-      document.getElementById("containment-wrapper").style.height = height+"mm";
-    }
-
-    function divWidth(width){
-      document.getElementById("containment-wrapper").style.width = width+"mm";
-    }
-
     function hideShowElement(value) {
-      if(value == "date") {
-        if ($('#date_checkbox').is(':checked')) {
-          $('#date').show();
-        }else{
-          $('#date').hide();
-        }
-      }
-
-      else if(value == "payee") {
-        if ($('#payee_checkbox').is(':checked')) {
-          $('#payee').show();
-        }else{
-          $('#payee').hide();
-        }
-      }
-
-      else if(value == "amount") {
-        if ($('#amount_checkbox').is(':checked')) {
-          $('#amount').show();
-        }else{
-          $('#amount').hide();
-        }
-      }
-
-      else if(value == "ac_pay") {
-        if ($('#ac_pay_checkbox').is(':checked')) {
-          $('#acpay').show();
-        }else{
-          $('#acpay').hide();
-        }
-      }
-
-      else if(value == "amount_word_1") {
-        if ($('#amount_word_1_checkbox').is(':checked')) {
-          $('#amount_in_word_line_1').show();
-        }else{
-          $('#amount_in_word_line_1').hide();
-        }
-      }
-
-      else if(value == "amount_word_2") {
-        if ($('#amount_word_2_checkbox').is(':checked')) {
-          $('#amount_in_word_line_2').show();
-        }else{
-          $('#amount_in_word_line_2').hide();
-        }
+      if ($('#ac_pay_checkbox').is(':checked')) {
+        $('#acpay').show();
+      }else{
+        $('#acpay').hide();
       }
     }
 
@@ -222,131 +151,191 @@
         return true;
     }
 
-    function acpayDrag(){
-      var sAcpayPosition = "{}",
-      acpayPositions = JSON.parse(sAcpayPosition);
-      $.each(acpayPositions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#acpay").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          acpayPositions[this.id] = ui.position
-          document.getElementById('ac_payee_only_top').value = Math.round(acpayPositions.acpay.top * 0.2645833333);
-          document.getElementById('ac_payee_only_left').value = Math.round(acpayPositions.acpay.left * 0.2645833333);
-
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(acpayPositions.acpay.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(acpayPositions.acpay.left * 0.2645833333);
-        }
-      });
+    function bank_onchage(bank_id) {
+      window.location = '/cheque-transactions/add/'+bank_id;
     }
 
-    function dateDrag(){
-      var sDatePosition = "{}",
-      datePositions = JSON.parse(sDatePosition);
-      $.each(datePositions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#date").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          datePositions[this.id] = ui.position
-          document.getElementById('date_top').value = Math.round(datePositions.date.top * 0.2645833333);
-          document.getElementById('date_left').value = Math.round(datePositions.date.left * 0.2645833333);
-          
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(datePositions.date.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(datePositions.date.left * 0.2645833333);
-        }
+    function get_cheque_books(account_id) {
+      $.ajax({
+          type: 'GET',
+          url: '/get-cheque-book-by-account/'+account_id,
+          success:function(data) {
+            $('#cheque_books').html('');
+            $('#cheque_books').append('<option value="" disabled selected>Select Account</option>');
+            $('#cheque_books').append(data);
+          }
       });
+      $( "#chooseDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
     }
 
-    function payeeDrag(){
-      var sPayeePosition = "{}",
-      payeePositions = JSON.parse(sPayeePosition);
-      $.each(payeePositions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#payee").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          payeePositions[this.id] = ui.position
-          document.getElementById('payee_top').value = Math.round(payeePositions.payee.top * 0.2645833333);
-          document.getElementById('payee_left').value = Math.round(payeePositions.payee.left * 0.2645833333);
-          
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(payeePositions.payee.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(payeePositions.payee.left * 0.2645833333); 
-        }
-      });
-    }
-
-    function amountDrag(){
-      var sAmountPosition = "{}",
-      amountPositions = JSON.parse(sAmountPosition);
-      $.each(amountPositions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#amount").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          amountPositions[this.id] = ui.position
-          document.getElementById('amount_top').value = Math.round(amountPositions.amount.top * 0.2645833333);
-          document.getElementById('amount_left').value = Math.round(amountPositions.amount.left * 0.2645833333);
-        
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(amountPositions.amount.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountPositions.amount.left * 0.2645833333);
-        }
-      });
-    }
-
-    function amountWord1Drag(){
-      var sAmountWord1Position = "{}",
-      amountWord1Positions = JSON.parse(sAmountWord1Position);
-      $.each(amountWord1Positions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#amount_in_word_line_1").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          amountWord1Positions[this.id] = ui.position
-          document.getElementById('amount_in_word_line_1_top').value = Math.round(amountWord1Positions.amount_in_word_line_1.top * 0.2645833333);
-          document.getElementById('amount_in_word_line_1_left').value = Math.round(amountWord1Positions.amount_in_word_line_1.left * 0.2645833333);
-
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(amountWord1Positions.amount_in_word_line_1.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountWord1Positions.amount_in_word_line_1.left * 0.2645833333);
-        }
-      });
-    }
-
-    function amountWord2Drag(){
-      var sAmountWord2Position = "{}",
-      amountWord2Positions = JSON.parse(sAmountWord2Position);
-      $.each(amountWord2Positions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#amount_in_word_line_2").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          amountWord2Positions[this.id] = ui.position
-          document.getElementById('amount_in_word_line_2_top').value = Math.round(amountWord2Positions.amount_in_word_line_2.top * 0.2645833333);
-          document.getElementById('amount_in_word_line_2_left').value = Math.round(amountWord2Positions.amount_in_word_line_2.left * 0.2645833333);
-
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(amountWord2Positions.amount_in_word_line_2.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountWord2Positions.amount_in_word_line_2.left * 0.2645833333);
-        }
+    function get_cheques(book_id) {
+      $.ajax({
+          type: 'GET',
+          url: '/get-cheques-by-book/'+book_id,
+          success:function(data) {
+            $('#cheques').html('');
+            $('#cheques').append('<option value="" disabled selected>Select Account</option>');
+            $('#cheques').append(data);
+          }
       });
     }
     
+    function setChequeName(name) {
+      $('#payee').text(name);
+    }
+
+    function setChequeDate(date) {
+      var formatted = date.replace(/-/g, "");
+      $('#date').text(formatted);
+    }
+
+    function setChequeAmount(amount) {
+      if(amount != ''){ 
+        $('#amount').text(amount);
+
+        var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
+        if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
+          var words = new Array();
+          words[0] = '';
+          words[1] = 'One';
+          words[2] = 'Two';
+          words[3] = 'Three';
+          words[4] = 'Four';
+          words[5] = 'Five';
+          words[6] = 'Six';
+          words[7] = 'Seven';
+          words[8] = 'Eight';
+          words[9] = 'Nine';
+          words[10] = 'Ten';
+          words[11] = 'Eleven';
+          words[12] = 'Twelve';
+          words[13] = 'Thirteen';
+          words[14] = 'Fourteen';
+          words[15] = 'Fifteen';
+          words[16] = 'Sixteen';
+          words[17] = 'Seventeen';
+          words[18] = 'Eighteen';
+          words[19] = 'Nineteen';
+          words[20] = 'Twenty';
+          words[30] = 'Thirty';
+          words[40] = 'Forty';
+          words[50] = 'Fifty';
+          words[60] = 'Sixty';
+          words[70] = 'Seventy';
+          words[80] = 'Eighty';
+          words[90] = 'Ninety';
+          amount = amount.toString();
+          var atemp = amount.split(".");
+          var number = atemp[0].split(",").join("");
+          var n_length = number.length;
+          var words_string = "";
+          if (n_length <= 9) {
+              var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
+              var received_n_array = new Array();
+              for (var i = 0; i < n_length; i++) {
+                  received_n_array[i] = number.substr(i, 1);
+              }
+              for (var i = 9 - n_length, j = 0; i < 9; i++, j++) {
+                  n_array[i] = received_n_array[j];
+              }
+              for (var i = 0, j = 1; i < 9; i++, j++) {
+                  if (i == 0 || i == 2 || i == 4 || i == 7) {
+                      if (n_array[i] == 1) {
+                          n_array[j] = 10 + parseInt(n_array[j]);
+                          n_array[i] = 0;
+                      }
+                  }
+              }
+              value = "";
+              for (var i = 0; i < 9; i++) {
+                  if (i == 0 || i == 2 || i == 4 || i == 7) {
+                      value = n_array[i] * 10;
+                  } else {
+                      value = n_array[i];
+                  }
+                  if (value != 0) {
+                      words_string += words[value] + " ";
+                  }
+                  if ((i == 1 && value != 0) || (i == 0 && value != 0 && n_array[i + 1] == 0)) {
+                      words_string += "Crores ";
+                  }
+                  if ((i == 3 && value != 0) || (i == 2 && value != 0 && n_array[i + 1] == 0)) {
+                      words_string += "Lakhs ";
+                  }
+                  if ((i == 5 && value != 0) || (i == 4 && value != 0 && n_array[i + 1] == 0)) {
+                      words_string += "Thousand ";
+                  }
+                  if (i == 6 && value != 0 && (n_array[i + 1] != 0 && n_array[i + 2] != 0)) {
+                      words_string += "Hundred and ";
+                  } else if (i == 6 && value != 0) {
+                      words_string += "Hundred ";
+                  }
+              }
+              words_string = words_string.split("  ").join(" ");
+              $('#amount_in_word_line_1').text(words_string);
+          }
+        }
+        else if(amount_in_word_format == 'billion_million_thousand'){
+            var th = ['','thousand', 'million', 'billion', 'trillion'];
+            var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
+            var tn=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+            var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+            var s = amount;
+            s = s.toString();
+            s = s.replace(/[\, ]/g,'');
+            if (s != parseFloat(s)) return 'not a number';
+            var x = s.indexOf('.');
+            if (x == -1)
+            x = s.length;
+            if (x > 15)
+            return 'too big';
+            var n = s.split('');
+            var str = '';
+            var sk = 0;
+            for (var i=0; i < x; i++)
+            {
+              if ((x-i)%3==2)
+              {
+                if (n[i] == '1')
+                {
+                  str += tn[Number(n[i+1])] + ' ';
+                  i++;
+                  sk=1;
+                }
+                else if (n[i]!=0)
+                {
+                  str += tw[n[i]-2] + ' ';
+                  sk=1;
+                }
+              }
+              else if (n[i]!=0)
+              {
+                str += dg[n[i]] +' ';
+                if ((x-i)%3==0) str += 'hundred ';
+                sk=1;
+              }
+              if ((x-i)%3==1)
+              {
+                if (sk)
+                  str += th[(x-i-1)/3] + ' ';
+                  sk=0;
+              }
+            }
+            if (x != s.length)
+            {
+              var y = s.length;
+              str += 'point ';
+              for (var i=x+1; i<y; i++)
+              str += dg[n[i]] +' ';
+            }
+            var final = str.replace(/\s+/g,' ');
+            $('#amount_in_word_line_1').text(final);
+        }
+      }else{
+        $('#amount').text('Amount');
+        $('#amount_in_word_line_1').text('Amount in words line #1');
+      }
+    }
   </script>
 @endsection

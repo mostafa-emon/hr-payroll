@@ -36,7 +36,7 @@
             <div id="display" class="tx-black pd-b-5 collapse">Top: <input type="text" id="top" class="wd-40"/> &nbsp;Left: <input type="text" id="left" class="wd-40"/></div>
 
             <div id="printArea">
-              <div id="containment-wrapper" style="height: 89mm; width: 191mm; position: relative">
+                <div id="containment-wrapper" style="height: {{$layout->height}}mm; width: {{$layout->width}}mm; position: relative">
                 <div id="acpay" onclick="acpayDrag();" class="draggable ui-widget-content" style="position: absolute;top:{{$layout->ac_payee_only_top}}mm;left:{{$layout->ac_payee_only_left}}mm;@if($layout->ac_payee_only == 0) display:none; @endif"><img src="{{ asset('img/acpay.png') }}"/></div>
                 <div id="date" onclick="dateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->date_top}}mm; left: {{$layout->date_left}}mm; line-height: 16px; letter-spacing: 12px; font-family: Courier; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;@if($layout->date == 0) display:none; @endif">DDMMYYYY</div>
                 <div id="payee" onclick="payeeDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$layout->payee_top}}mm; left: {{$layout->payee_left}}mm; line-height: 16px; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;@if($layout->payee == 0) display:none; @endif">Payee</div>
@@ -52,31 +52,26 @@
         
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
+            
+            <div>
+              <select class="form-control" id="printer">
+                @foreach($printers as $printer)
+                  <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
+                @endforeach
+              </select>
+            </div>
 
-            <div class="row pd-b-10">
-              <div class="col-md-6">
-                <select class="form-control" id="printer">
-                  @foreach($printers as $printer)
-                    <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="col-md-6">
-                <div class="pd-b-10">
-                  <a class="btn btn-info btn-block pointer text-white" onclick="PrintElem()">Print Preview</a>
-                </div>
-              </div>
+            <div class="pd-t-10 pd-b-10 text-right">
+              <a class="btn btn-info pointer text-white" onclick="PrintElem()">Print Preview</a>
             </div>
-            
-            <div class="row pd-b-10">
-              <div class="col-md-6">
-                <div class="tx-black pd-b-5">Height: <input type="text" name="height" oninput="divHeight(this.value)" value="{{$layout->height}}" class="wd-100p pd-l-5 tx-gray-600"/></div>
-              </div>
-              <div class="col-md-6">
-                <div class="tx-black pd-b-5">Width: <input type="text" name="width" oninput="divWidth(this.value)" value="{{$layout->width}}" class="wd-100p pd-l-5 tx-gray-600"/></div>
-              </div>
+
+            <div>
+              <div class="tx-black pd-b-5">Height (mm): <input type="text" class="form-control" name="height" oninput="divHeight(this.value)" value="{{$layout->height}}"/></div>
             </div>
-            
+
+            <div class="pd-t-5 pd-b-20">
+              <div class="tx-black pd-b-5">Width(mm): <input type="text" class="form-control" name="width" oninput="divWidth(this.value)" value="{{$layout->width}}"/></div>
+            </div>
 
             <ul class="list-group">
               <li class="list-group-item">
@@ -123,7 +118,7 @@
               </li>
             </ul>
 
-            <div class="pd-t-30">
+            <div class="pd-t-25">
               <select class="form-control" name="bank_id" required>
                 <option disabled selected value="">Select Bank</option>
                 @foreach($banks as $bank)

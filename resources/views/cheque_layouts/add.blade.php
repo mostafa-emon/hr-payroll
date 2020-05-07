@@ -53,31 +53,25 @@
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
 
-            <div class="row pd-b-10">
-              <div class="col-md-6">
-                <select class="form-control" id="printer">
-                  @foreach($printers as $printer)
-                    <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="col-md-6">
-                <div class="pd-b-10">
-                  <a class="btn btn-info btn-block pointer text-white" onclick="PrintElem()">Print Preview</a>
-                </div>
-              </div>
+            <div>
+              <select class="form-control" id="printer">
+                @foreach($printers as $printer)
+                  <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
+                @endforeach
+              </select>
             </div>
-            
-            
-            <div class="row pd-b-10">
-              <div class="col-md-6">
-                <div class="tx-black pd-b-5">Height: <input type="text" name="height" oninput="divHeight(this.value)" value="89" class="wd-100p pd-l-5 tx-gray-600"/></div>
-              </div>
-              <div class="col-md-6">
-                <div class="tx-black pd-b-5">Width: <input type="text" name="width" oninput="divWidth(this.value)" value="191" class="wd-100p pd-l-5 tx-gray-600"/></div>
-              </div>
+
+            <div class="pd-t-10 pd-b-10 text-right">
+                <a class="btn btn-info pointer text-white" onclick="PrintElem()">Print Preview</a>
             </div>
-            
+
+            <div>
+              <div class="tx-black pd-b-5">Height (mm): <input type="text" class="form-control" name="height" oninput="divHeight(this.value)" value="89"/></div>
+            </div>
+
+            <div class="pd-t-5 pd-b-20">
+              <div class="tx-black pd-b-5">Width(mm): <input type="text" class="form-control" name="width" oninput="divWidth(this.value)" value="191"/></div>
+            </div>
 
             <ul class="list-group">
               <li class="list-group-item">
@@ -126,7 +120,7 @@
               </li>
             </ul>
 
-            <div class="pd-t-30">
+            <div class="pd-t-25">
               <select class="form-control" name="bank_id" required>
                 <option disabled selected value="">Select Bank</option>
                 @foreach($banks as $bank)
