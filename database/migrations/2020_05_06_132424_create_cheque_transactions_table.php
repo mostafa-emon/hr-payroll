@@ -24,6 +24,7 @@ class CreateChequeTransactionsTable extends Migration
             $table->integer('amount');
             $table->text('amount_in_words');
             $table->boolean('ac_payee_only')->default(0);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

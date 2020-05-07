@@ -51,7 +51,6 @@
                 <td>{{ $cheque_transaction->book_no }}</td>
                 <td>{{ $cheque_transaction->cheque_no }}</td>
                 <td>{{ $cheque_transaction->cheque_name }}</td>
-                <td>{{ $cheque_transaction->cheque_name }}</td>
                 <td>{{ $cheque_transaction->amount }}</td>
                 <td class="text-center">
                   <a class="btn btn-warning btn-sm" href="{{url ('cheque-transactions/update/'.$cheque_transaction->id) }}"><i class= "fa fa-edit"></i> Update </a>

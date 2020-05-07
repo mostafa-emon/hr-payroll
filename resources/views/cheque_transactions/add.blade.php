@@ -19,11 +19,11 @@
     </nav>
   </div>
   
-  <form action="{{ url('cheque-layouts/add') }}" method="POST">
+  <form action="{{ url('cheque-transactions/add') }}" method="POST">
     {{ csrf_field() }}
   <div class="br-pagebody">
       <div class="row">
-        @if($bank_id != "" && $bank_id != null)
+        @if($layout != "")
         <div class="col-md-9 mg-t-10 d-flex align-items-center justify-content-center bg-white">
           
           <div class="card pd-0 bd-0 pd-30 table-responsive">
@@ -43,7 +43,8 @@
 
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
-            @if($bank_id != "" && $bank_id != null)
+            {{--
+            @if($layout !="")
             <div class="row pd-b-20">
               <div class="col-md-6">
                 <select class="form-control" id="printer">
@@ -59,7 +60,16 @@
               </div>
             </div>
             @endif
-
+            --}}
+            
+            @if($bank_id != null && $bank_id != "" && $layout == "")
+            <div class="alert alert-primary pd-10 mg-b-10" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              No layout found!
+            </div>
+            @endif
             <div>
               <select class="form-control" name="bank_name" onchange="bank_onchage(this.value)" required>
                 <option disabled selected value="">Select Bank</option>
@@ -69,7 +79,7 @@
               </select>
             </div>
 
-            @if($bank_id != "" && $bank_id != null)
+            @if($layout != "")
             <div class="pd-t-10">
               <select class="form-control" name="ac_number" onchange="get_cheque_books(this.value)" required>
                 <option disabled selected value="">Select Account</option>
@@ -92,20 +102,21 @@
             </div>
 
             <div class="pd-t-10">
-              <input type="text" id="chooseDate" class="form-control" name="date" onchange="setChequeDate(this.value)" placeholder="date"/>
-            </div>
-
-            <div class="pd-t-10">
-              <select class="form-control" name="supplier_name" onchange="setChequeName(this.value)" required>
+              <select class="form-control" name="cheque_name" onchange="setChequeName(this.value)" required>
                 <option disabled selected value="">Select Supplier</option>
                 @foreach($suppliers as $supplier)
                   <option value="{{$supplier->cheque_name}}">{{$supplier->name}}</option>
                 @endforeach
               </select>
             </div>
+            
+            <div class="pd-t-10">
+              <input type="text" id="chooseDate" class="form-control" name="date_field" onchange="setChequeDate(this.value)" placeholder="date" required/>
+            </div>
 
             <div class="pd-t-10">
-              <input type="text" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount"/>
+              <input type="text" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
+              <input type="hidden" id="amount_in_word" name="amount_in_words"/>
             </div>
 
             <div class="pd-t-15">
@@ -115,7 +126,7 @@
             </div>
 
             <div class="pd-t-15">
-              <input type="submit" value="Save Layout" class="pd-15 btn btn-success btn-block pointer"/>
+              <input type="submit" value="Create Cheque" class="pd-15 btn btn-success btn-block pointer"/>
             </div>
             @endif
           </div>
@@ -126,6 +137,11 @@
   </form>
   
   <script>
+    function bank_onchage(bank_id) {
+      window.location = '/cheque-transactions/add/'+bank_id;
+    }
+
+    @if($layout != "")
     function hideShowElement(value) {
       if ($('#ac_pay_checkbox').is(':checked')) {
         $('#acpay').show();
@@ -134,6 +150,7 @@
       }
     }
 
+    /*
     function PrintElem(){
         var printer     = $('#printer').val();
         var printConf   = printer.split("_");
@@ -150,10 +167,7 @@
 
         return true;
     }
-
-    function bank_onchage(bank_id) {
-      window.location = '/cheque-transactions/add/'+bank_id;
-    }
+    */
 
     function get_cheque_books(account_id) {
       $.ajax({
@@ -285,7 +299,7 @@
               words_string = words_string.split("  ").join(" ") + ' Only';
               
               if(words_string.length > '{{ $layout->amount_in_word_max_character }}') {
-                var first_line = words_string.substring(0,45);
+                var first_line = words_string.substring(0,'{{$layout->amount_in_word_max_character}}');
                 var lastIndex = first_line.lastIndexOf(" ");
                 var first = first_line.replace(/ [^ ]+$/, "");
                 var second_line = words_string.substring(lastIndex,100);
@@ -297,6 +311,8 @@
 
               $('#amount_in_word_line_1').text(first);
               $('#amount_in_word_line_2').text(second_line);
+
+              $('#amount_in_word').val(words_string);
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
@@ -360,7 +376,7 @@
             //var amount_in_word = final_string.charAt(0).toUpperCase() + final_string.slice(1)
 
             if(amount_in_word.length > '{{ $layout->amount_in_word_max_character }}') {
-              var first_line = amount_in_word.substring(0,45);
+              var first_line = amount_in_word.substring(0,'{{ $layout->amount_in_word_max_character }}');
               var lastIndex = first_line.lastIndexOf(" ");
               var first = first_line.replace(/ [^ ]+$/, "");
               var second_line = amount_in_word.substring(lastIndex,100);
@@ -372,11 +388,14 @@
             
             $('#amount_in_word_line_1').text(first);
             $('#amount_in_word_line_2').text(second_line);
+            
+            $('#amount_in_word').val(amount_in_word);
         }
       }else{
         $('#amount').text('Amount');
         $('#amount_in_word_line_1').text('Amount in words line #1');
       }
     }
+    @endif
   </script>
 @endsection

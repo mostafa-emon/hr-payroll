@@ -25,51 +25,24 @@ class ChequeTransactionController extends Controller
         return view('cheque_transactions.index', ['cheque_transactions'=>$cheque_transactions]);
     }
     public function add($bank_id = null,Request $request){
-        if($request->height !=""){
-            $cheque_layout = new ChequeLayout();
+        if($request->amount !="" && $request->cheque_name != ""){
+            $cheque_transaction = new ChequeTransaction();
 
-            $cheque_layout->bank_id                     = $request->bank_id;
-            $cheque_layout->height                      = $request->height;
-            $cheque_layout->width                       = $request->width;
+            $cheque_transaction->bank_name      = Bank::where('id',$request->bank_name)->value('name');
+            $cheque_transaction->ac_number      = BankAccount::where('id',$request->ac_number)->value('ac_number');
+            $cheque_transaction->book_no        = ChequeBook::where('id',$request->book_no)->value('book_no');
+            $cheque_transaction->cheque_no      = $request->cheque_no;
+            $cheque_transaction->date           = date('Y-m-d',strtotime($request->date_field));
+            $cheque_transaction->cheque_name    = $request->cheque_name;
+            $cheque_transaction->amount         = $request->amount;
+            $cheque_transaction->amount_in_words= $request->amount_in_words;
 
-            if($request->date == 1) {
-                $cheque_layout->date                    = 1;
-            }else { $cheque_layout->date                = 0; }
-            $cheque_layout->date_top                    = $request->date_top;
-            $cheque_layout->date_left                   = $request->date_left;
-
-            if($request->payee == 1) {
-                $cheque_layout->payee                   = 1;
-            }else { $cheque_layout->payee               = 0; }
-            $cheque_layout->payee_top                   = $request->payee_top;
-            $cheque_layout->payee_left                  = $request->payee_left;
-
-            if($request->amount == 1) {
-                $cheque_layout->amount                  = 1;
-            }else { $cheque_layout->amount              = 0; }
-            $cheque_layout->amount_top                  = $request->amount_top;
-            $cheque_layout->amount_left                 = $request->amount_left;
-
-            if($request->amoamount_in_word_line_1 == 1) {
-                $cheque_layout->amount_in_word_line_1       = 1;
-            }else { $cheque_layout->amount_in_word_line_1   = 0; }
-            $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
-            $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
-            $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
-            
-            if($request->amount_in_word_line_2 == 1) {
-                $cheque_layout->amount_in_word_line_2       = 1;
-            }else { $cheque_layout->amount_in_word_line_2   = 0; }
-            $cheque_layout->amount_in_word_line_2_top       = $request->amount_in_word_line_2_top;
-            $cheque_layout->amount_in_word_line_2_left      = $request->amount_in_word_line_2_left;
-            
             if($request->ac_payee_only == 1) {
-                $cheque_layout->ac_payee_only               = 1;
-            }else { $cheque_layout->ac_payee_only           = 0; }
-            $cheque_layout->ac_payee_only_top               = $request->ac_payee_only_top;
-            $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
-
-            $cheque_layout->save();
+                $cheque_transaction->ac_payee_only       = 1;
+            }else { $cheque_transaction->ac_payee_only   = 0; }
+            
+            $cheque_transaction->status         = 0;
+            $cheque_transaction->save();
 
             return redirect('cheque-transactions')->with('message', 'Cheque added successfully!');
         }
@@ -77,12 +50,13 @@ class ChequeTransactionController extends Controller
         $printers   = Printer::orderby('id','desc')->get();
         $banks      = Bank::orderby('name','asc')->get();
         $accounts   = [];
-        $layout = "";
-
+        $layout     = "";
+        
         if($bank_id != "" && $bank_id != null) {
             $accounts = BankAccount::where('bank_id',$bank_id)->get();
             $layout = ChequeLayout::where('bank_id',$bank_id)->first();
         }
+
         $suppliers  = Supplier::orderby('name','asc')->get();
         return view('cheque_transactions.add', ['banks' => $banks, 'printers' => $printers, 'suppliers' => $suppliers, 'bank_id' => $bank_id, 'accounts' => $accounts, 'layout' => $layout, 'setting' => $setting]);
     }
@@ -97,7 +71,7 @@ class ChequeTransactionController extends Controller
     public function get_cheques_by_book($book_id){
         $cheques = Cheque::where('cheque_book_id',$book_id)->where('status',0)->get();
         foreach($cheques as $cheque){
-            echo '<option value="'.$cheque->id.'">'.$cheque->cheque_no.'</option>';
+            echo '<option value="'.$cheque->cheque_no.'">'.$cheque->cheque_no.'</option>';
         }
     }
 }
