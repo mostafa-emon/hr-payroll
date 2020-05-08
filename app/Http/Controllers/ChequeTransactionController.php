@@ -21,8 +21,9 @@ class ChequeTransactionController extends Controller
     }
     
     public function index(){
+        $setting = Setting::where('id',1)->first();
         $cheque_transactions = ChequeTransaction::orderby('created_at','desc')->paginate(10);
-        return view('cheque_transactions.index', ['cheque_transactions'=>$cheque_transactions]);
+        return view('cheque_transactions.index', ['cheque_transactions'=>$cheque_transactions, 'setting'=>$setting]);
     }
     public function add($bank_id = null,Request $request){
         if($request->amount !="" && $request->cheque_name != ""){
@@ -73,5 +74,32 @@ class ChequeTransactionController extends Controller
         foreach($cheques as $cheque){
             echo '<option value="'.$cheque->cheque_no.'">'.$cheque->cheque_no.'</option>';
         }
+    }
+
+    public function approve($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction->status = 1;
+        $transaction->save();
+        echo "Ok";                
+    }
+
+    public function print($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
+        $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
+        $setting = Setting::where('id',1)->first();
+        $printer = Printer::where('id',$layout->printer_id)->first();
+        if($transaction->status == 0 && $setting->approval_for_print == 1){
+            $status = "PEDNING";
+        }else if($transaction->status == 0 && $setting->approval_for_print == 0){
+            $status = "APPROVED";
+        }else if($transaction->status == 1){
+            $status = "APPROVED";
+        }else if($transaction->status == 2){
+            $status = "REJECTED";
+        }else if($transaction->status == 3){
+            $status = "VOID";
+        }
+        return view('cheque_transactions.print', ['transaction'=>$transaction, 'layout'=>$layout, 'status'=>$status, 'printer'=>$printer]);
     }
 }

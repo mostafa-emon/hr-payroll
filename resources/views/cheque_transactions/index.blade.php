@@ -39,6 +39,7 @@
               <th>Cheque No.</th>
               <th>Payee</th>
               <th>Amount</th>
+              <th class="text-center">Status</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -53,8 +54,39 @@
                 <td>{{ $cheque_transaction->cheque_name }}</td>
                 <td>{{ $cheque_transaction->amount }}</td>
                 <td class="text-center">
-                  <a class="btn btn-warning btn-sm" href="{{url ('cheque-transactions/update/'.$cheque_transaction->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$cheque_transaction->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  @if($cheque_transaction->status == 0)
+                    @if($setting->approval_for_cheque == 1)
+                      <span class="badge badge-warning">Pending</span>
+                    @else
+                      <span class="badge badge-success">Approved</span>
+                    @endif
+                  @endif
+                  @if($cheque_transaction->status == 1)
+                    <span class="badge badge-success">Approved</span>
+                  @endif
+                  @if($cheque_transaction->status == 2)
+                    <span class="badge badge-danger">Rejected</span>
+                  @endif
+                  @if($cheque_transaction->status == 3)
+                    <span class="badge badge-danger">Void</span>
+                  @endif
+                </td>
+                <td class="text-center">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-info btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                    <button type="button" class="btn btn-info btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item pointer" onclick="approve({{$cheque_transaction->id}})">Approve</a>
+                      <a class="dropdown-item pointer" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
+                      <a class="dropdown-item pointer" onclick="printasdraft({{$cheque_transaction->id}})">Print as Draft</a>
+                      <a class="dropdown-item pointer" onclick="print({{$cheque_transaction->id}})">Print</a>
+                      <a class="dropdown-item pointer" onclick="reject({{$cheque_transaction->id}})">Reject</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item pointer" onclick="void({{$cheque_transaction->id}})">Void</a>
+                    </div>
+                  </div>
                 </td>
               </tr>
             @endforeach
@@ -65,12 +97,33 @@
   </div>
 
   <script>
-    function confirmDelete(id){
-      var result = confirm("Are you confirm to delete?");
+    function approve(id){
+      var result = confirm("Are you confirm to approve?");
       if (result) {
-          window.location = 'cheque-layouts/delete/'+id
+        $.ajax({
+            type: 'GET',
+            url: '/approve-cheque/'+id,
+            success:function(data) {
+              location.reload();
+            }
+        });
       }
     }
+
+    function approveandprint(id){
+      var result = confirm("Are you confirm to approve?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/approve-cheque/'+id,
+            success:function(data) {
+              window.location = "/cheque/print/"+id
+            }
+        });
+      }
+    }
+
+    
   </script>
 
 @endsection

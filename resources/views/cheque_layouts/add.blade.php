@@ -66,7 +66,7 @@
           <div class="card bd-0 shadow-base pd-30">
 
             <div>
-              <select class="form-control" id="printer">
+              <select class="form-control" id="printer" name="printer_setup">
                 @foreach($printers as $printer)
                   <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
                 @endforeach
