@@ -21,8 +21,9 @@ class CreateChequeTransactionsTable extends Migration
             $table->string('cheque_no',30);
             $table->string('cheque_name',100);
             $table->date('date');
-            $table->integer('amount');
-            $table->text('amount_in_words');
+            $table->string('amount');
+            $table->string('amount_in_word_line_1')->nullable();
+            $table->string('amount_in_word_line_2')->nullable();
             $table->boolean('ac_payee_only')->default(0);
             $table->integer('status')->default(0);
             $table->timestamps();

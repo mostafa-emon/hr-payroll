@@ -15,10 +15,10 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
       <a class="breadcrumb-item" href="{{ url('/cheque-transactions') }}">Cheque</a>
-      <span class="breadcrumb-item active">Print</span>
+      <span class="breadcrumb-item active">Draft</span>
     </nav>
   </div>
- 
+  
   <div class="br-pagebody">
       <div class="row">
         <div class="col-md-12 mg-t-10 d-flex align-items-center justify-content-center bg-white">
@@ -42,7 +42,7 @@
   <script>
     var printConf   = '{{$layout->printer_setup}}'.split("_");
     var mywindow = window.open('', 'PRINT');
-    mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg); background-image: url("{{ asset("img/".$status.".png")}}"); background-repeat: no-repeat center center fixed; background-size: cover;}</style>');
+    mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg); background-image: url("{{ asset("img/draft.png")}}"); background-repeat: no-repeat center center fixed; background-size: cover;}</style>');
     mywindow.document.write(document.getElementById('printArea').innerHTML);
 
     setTimeout(function () {

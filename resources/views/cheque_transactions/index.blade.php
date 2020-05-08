@@ -78,13 +78,13 @@
                       <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item pointer" onclick="approve({{$cheque_transaction->id}})">Approve</a>
-                      <a class="dropdown-item pointer" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
-                      <a class="dropdown-item pointer" onclick="printasdraft({{$cheque_transaction->id}})">Print as Draft</a>
-                      <a class="dropdown-item pointer" onclick="print({{$cheque_transaction->id}})">Print</a>
-                      <a class="dropdown-item pointer" onclick="reject({{$cheque_transaction->id}})">Reject</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$cheque_transaction->id}})">Approve</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
+                      <a class="dropdown-item pointer" href="{{url('cheque/draft/'.$cheque_transaction->id)}}">Print as Draft</a>
+                      <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item pointer" onclick="void({{$cheque_transaction->id}})">Void</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidCheque({{$cheque_transaction->id}})">Void</a>
                     </div>
                   </div>
                 </td>
@@ -122,8 +122,32 @@
         });
       }
     }
-
     
+    function rejectCheque(id){
+      var result = confirm("Are you confirm to reject?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/reject-cheque/'+id,
+            success:function(data) {
+              location.reload();
+            }
+        });
+      }
+    }
+
+    function voidCheque(id){
+      var result = confirm("Are you confirm to void?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/void-cheque/'+id,
+            success:function(data) {
+              location.reload();
+            }
+        });
+      }
+    }
   </script>
 
 @endsection

@@ -36,7 +36,8 @@ class ChequeTransactionController extends Controller
             $cheque_transaction->date           = date('Y-m-d',strtotime($request->date_field));
             $cheque_transaction->cheque_name    = $request->cheque_name;
             $cheque_transaction->amount         = $request->amount;
-            $cheque_transaction->amount_in_words= $request->amount_in_words;
+            $cheque_transaction->amount_in_word_line_1 = $request->amount_in_word_line_1_input;
+            $cheque_transaction->amount_in_word_line_2 = $request->amount_in_word_line_2_input;
 
             if($request->ac_payee_only == 1) {
                 $cheque_transaction->ac_payee_only       = 1;
@@ -83,23 +84,51 @@ class ChequeTransactionController extends Controller
         echo "Ok";                
     }
 
+    public function reject($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction->status = 2;
+        $transaction->save();
+        echo "Ok";                
+    }
+
+    public function void($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction->status = 3;
+        $transaction->save();
+        echo "Ok";                
+    }
+
     public function print($cheque_id){
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
         $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
         $setting = Setting::where('id',1)->first();
         $printer = Printer::where('id',$layout->printer_id)->first();
-        if($transaction->status == 0 && $setting->approval_for_print == 1){
-            $status = "PEDNING";
-        }else if($transaction->status == 0 && $setting->approval_for_print == 0){
-            $status = "APPROVED";
-        }else if($transaction->status == 1){
-            $status = "APPROVED";
-        }else if($transaction->status == 2){
-            $status = "REJECTED";
-        }else if($transaction->status == 3){
-            $status = "VOID";
+
+        if($transaction->status == 0 && $setting->approval_for_cheque == 1){
+            $status = "pending";
+        }
+        if($transaction->status == 0 && $setting->approval_for_cheque == 0){
+            $status = "approved";
+        }
+        if($transaction->status == 1){
+            $status = "approved";
+        }
+        if($transaction->status == 2){
+            $status = "rejected";
+        }
+        if($transaction->status == 3){
+            $status = "void";
         }
         return view('cheque_transactions.print', ['transaction'=>$transaction, 'layout'=>$layout, 'status'=>$status, 'printer'=>$printer]);
+    }
+
+    public function draft($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
+        $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
+        $setting = Setting::where('id',1)->first();
+        $printer = Printer::where('id',$layout->printer_id)->first();
+        return view('cheque_transactions.draft', ['transaction'=>$transaction, 'layout'=>$layout, 'printer'=>$printer]);
     }
 }

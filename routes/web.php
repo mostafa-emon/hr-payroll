@@ -82,7 +82,10 @@ Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionControl
 Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
 
 Route::get('/approve-cheque/{cheque_id}', 'ChequeTransactionController@approve');
+Route::get('/reject-cheque/{cheque_id}', 'ChequeTransactionController@reject');
+Route::get('/void-cheque/{cheque_id}', 'ChequeTransactionController@void');
 Route::get('/cheque/print/{id}', 'ChequeTransactionController@print');
+Route::get('/cheque/draft/{id}', 'ChequeTransactionController@draft');
 
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');

@@ -116,7 +116,8 @@
 
             <div class="pd-t-10">
               <input type="text" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
-              <input type="hidden" id="amount_in_word" name="amount_in_words"/>
+              <input type="hidden" id="amount_in_word_line_1_input" name="amount_in_word_line_1_input"/>
+              <input type="hidden" id="amount_in_word_line_2_input" name="amount_in_word_line_2_input"/>
             </div>
 
             <div class="pd-t-15">
@@ -312,7 +313,8 @@
               $('#amount_in_word_line_1').text(first);
               $('#amount_in_word_line_2').text(second_line);
 
-              $('#amount_in_word').val(words_string);
+              $('#amount_in_word_line_1_input').val(first);
+              $('#amount_in_word_line_2_input').val(second_line);
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
@@ -389,7 +391,8 @@
             $('#amount_in_word_line_1').text(first);
             $('#amount_in_word_line_2').text(second_line);
             
-            $('#amount_in_word').val(amount_in_word);
+            $('#amount_in_word_line_1_input').val(first);
+            $('#amount_in_word_line_2_input').val(second_line);
         }
       }else{
         $('#amount').text('Amount');
