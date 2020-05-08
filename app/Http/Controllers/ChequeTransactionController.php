@@ -46,6 +46,10 @@ class ChequeTransactionController extends Controller
             $cheque_transaction->status         = 0;
             $cheque_transaction->save();
 
+            $cheque = Cheque::where('cheque_no',$request->cheque_no)->first();
+            $cheque->status = 1;
+            $cheque->save();
+            
             return redirect('cheque-transactions')->with('message', 'Cheque added successfully!');
         }
         $setting   = Setting::where('id',1)->first();

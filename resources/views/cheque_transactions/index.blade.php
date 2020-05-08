@@ -58,7 +58,7 @@
                     @if($setting->approval_for_cheque == 1)
                       <span class="badge badge-warning">Pending</span>
                     @else
-                      <span class="badge badge-success">Approved</span>
+                      <span class="badge badge-success">Issued</span>
                     @endif
                   @endif
                   @if($cheque_transaction->status == 1)
@@ -75,13 +75,23 @@
                   <div class="btn-group">
                     <button type="button" class="btn btn-info btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                     <button type="button" class="btn btn-info btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only">Toggle Dropdown</span>
+                      <span class="sr-only"></span>
                     </button>
                     <div class="dropdown-menu">
+                      <a class="dropdown-item pointer" href="{{url('cheque/draft/'.$cheque_transaction->id)}}">Print as Draft</a>
+                      @if($setting->approval_for_cheque == 1 && $cheque_transaction->status != 1)
                       <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$cheque_transaction->id}})">Approve</a>
                       <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
-                      <a class="dropdown-item pointer" href="{{url('cheque/draft/'.$cheque_transaction->id)}}">Print as Draft</a>
+                      @endif
+
+                      @if($setting->approval_for_cheque == 1 && $cheque_transaction->status == 1)
                       <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                      @endif
+
+                      @if($setting->approval_for_cheque != 1)
+                      <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                      @endif
+
                       <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidCheque({{$cheque_transaction->id}})">Void</a>
