@@ -106,6 +106,7 @@ class MRController extends Controller
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
         $company     = Company::where('id',1)->first();
         $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
-        return view('mr.draft', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office]);
+        $customer    = Customer::where('name',$transaction->customer_name)->first();
+        return view('mr.draft', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer]);
     }
 }
