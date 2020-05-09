@@ -38,6 +38,7 @@
               <th>Customer</th>
               <th>Amount</th>
               <th class="text-center">Payment Method</th>
+              <th class="text-center">Status</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -49,8 +50,24 @@
               <td>{{$mr->site_office_name}}</td>
               <td>{{$mr->customer_name}}</td>
               <td>{{$mr->amount}}</td>
+              <td class="text-center">{{$mr->payment_method}}</td>
               <td class="text-center">
-                <span class="badge badge-info">{{ $mr->payment_method }}</span>
+                  @if($mr->status == 0)
+                    @if($setting->approval_for_mr == 1)
+                      <span class="badge badge-warning">Pending</span>
+                    @else
+                      <span class="badge badge-success">Issued</span>
+                    @endif
+                  @endif
+                  @if($mr->status == 1)
+                    <span class="badge badge-success">Approved</span>
+                  @endif
+                  @if($mr->status == 2)
+                    <span class="badge badge-danger">Rejected</span>
+                  @endif
+                  @if($mr->status == 3)
+                    <span class="badge badge-danger">Void</span>
+                  @endif
               </td>
               <td class="text-center">
                 <div class="btn-group">
@@ -65,13 +82,7 @@
                     <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
                     @endif
 
-                    @if($setting->approval_for_mr == 1 && $mr->status == 1)
                     <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
-                    @endif
-
-                    @if($setting->approval_for_mr != 1)
-                    <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
-                    @endif
 
                     <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
                     <div class="dropdown-divider"></div>

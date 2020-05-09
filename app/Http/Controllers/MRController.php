@@ -68,26 +68,30 @@ class MRController extends Controller
     }
 
     public function reject($cheque_id){
-        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction = MoneyReceipt::where('id',$cheque_id)->first();
         $transaction->status = 2;
         $transaction->save();
         echo "Ok";                
     }
 
     public function void($cheque_id){
-        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction = MoneyReceipt::where('id',$cheque_id)->first();
         $transaction->status = 3;
         $transaction->save();
         echo "Ok";                
     }
 
-    public function print($cheque_id){
-        $transaction = MR::where('id',$cheque_id)->first();
+    public function print($mr_id){
+        $transaction = MoneyReceipt::where('id',$mr_id)->first();
+        $company     = Company::where('id',1)->first();
+        $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
+        $customer    = Customer::where('name',$transaction->customer_name)->first();
+        $setting     = Setting::where('id',1)->first();
 
-        if($transaction->status == 0 && $setting->approval_for_cheque == 1){
+        if($transaction->status == 0 && $setting->approval_for_mr == 1){
             $status = "pending";
         }
-        if($transaction->status == 0 && $setting->approval_for_cheque == 0){
+        if($transaction->status == 0 && $setting->approval_for_mr == 0){
             $status = "approved";
         }
         if($transaction->status == 1){
@@ -99,7 +103,12 @@ class MRController extends Controller
         if($transaction->status == 3){
             $status = "void";
         }
-        return view('cheque_transactions.print', ['transaction'=>$transaction, 'layout'=>$layout, 'status'=>$status, 'printer'=>$printer]);
+
+        if($setting->mr_size == "full_page"){
+            return view('mr.print_full', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer, 'status' => $status]);
+        }else{
+            return view('mr.print_half', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer, 'status' => $status]);
+        }
     }
 
     public function draft($mr_id){

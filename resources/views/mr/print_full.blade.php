@@ -222,8 +222,18 @@
 </div>
 
 <script>
+    var status = "{{$status}}"
+
     var mywindow = window.open('', 'PRINT');
-    mywindow.document.write('<style>#containment-wrapper{background-image: url("{{ asset("img/draft-full-mr.png")}}"); background-repeat: no-repeat; background-size: cover;}</style>');
+    
+    if(status == "pending") {
+      mywindow.document.write('<style>#containment-wrapper{background-image: url("{{ asset("img/pending-full-mr.png")}}"); background-repeat: no-repeat; background-size: cover;}</style>');
+    }else if(status == "rejected") {
+      mywindow.document.write('<style>#containment-wrapper{background-image: url("{{ asset("img/rejected-full-mr.png")}}"); background-repeat: no-repeat; background-size: cover;}</style>');
+    }else if(status == "void") {
+      mywindow.document.write('<style>#containment-wrapper{background-image: url("{{ asset("img/void-full-mr.png")}}"); background-repeat: no-repeat; background-size: cover;}</style>');
+    }
+    
     mywindow.document.write(document.getElementById('printArea').innerHTML);
 
     setTimeout(function () {

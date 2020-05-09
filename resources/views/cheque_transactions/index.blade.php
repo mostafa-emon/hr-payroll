@@ -84,13 +84,7 @@
                       <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
                       @endif
 
-                      @if($setting->approval_for_cheque == 1 && $cheque_transaction->status == 1)
                       <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
-                      @endif
-
-                      @if($setting->approval_for_cheque != 1)
-                      <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
-                      @endif
 
                       <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
                       <div class="dropdown-divider"></div>
