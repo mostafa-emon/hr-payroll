@@ -81,9 +81,10 @@ Route::get('/cheque-transactions/add/{bank_id?}', 'ChequeTransactionController@a
 Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');
 Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
 
-Route::get('/mr-transactions', 'MRTransactionController@index');
-Route::post('/mr-transactions/add', 'MRTransactionController@add');
-Route::get('/mr/print/{id}', 'MRTransactionController@print');
+Route::get('/mr', 'MRController@index');
+Route::get('/mr/add', 'MRController@add');
+Route::post('/mr/add', 'MRController@add');
+Route::get('/mr/print/{id}', 'MRController@print');
 
 Route::get('/approve-cheque/{cheque_id}', 'ChequeTransactionController@approve');
 Route::get('/reject-cheque/{cheque_id}', 'ChequeTransactionController@reject');

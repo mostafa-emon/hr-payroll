@@ -79,7 +79,7 @@
           </div>
         </a>
 
-        <a href="#" class="br-menu-link {{ (request()->is('cheque-transactions*')) || (request()->is('mr-transactions*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('cheque-transactions*')) || (request()->is('mr*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-file-alt tx-19 pd-l-2"></i>
             <span class="menu-item-label">Transaction</span>
@@ -87,7 +87,7 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="#" class="nav-link">Money Receipt</a></li>
+          <li class="nav-item"><a href="{{ url('mr') }}" class="nav-link  {{ (request()->is('mr*')) ? 'active' : '' }}">Money Receipt</a></li>
           <li class="nav-item"><a href="{{ url('cheque-transactions') }}" class="nav-link {{ (request()->is('cheque-transactions*')) ? 'active' : '' }}">Cheque</a></li>
         </ul>
 
