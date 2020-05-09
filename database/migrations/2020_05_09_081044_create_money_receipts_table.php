@@ -28,6 +28,7 @@ class CreateMoneyReceiptsTable extends Migration
             $table->date('cheque_date')->nullable();
             $table->string('bank_name',100)->nullable();
             $table->string('purpose')->nullable();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

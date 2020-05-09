@@ -9,12 +9,14 @@ use App\Customer;
 use App\Currency;
 use App\PaymentMethod;
 use App\Setting;
+use App\Company;
 
 class MRController extends Controller
 {
     public function index(){
         $money_receipts = MoneyReceipt::all();
-        return view('mr.index', ['money_receipts' => $money_receipts]);
+        $setting = Setting::where('id',1)->first();
+        return view('mr.index', ['money_receipts' => $money_receipts, 'setting' => $setting]);
     }
 
     public function add(Request $request){
@@ -56,5 +58,54 @@ class MRController extends Controller
         $payment_methods= PaymentMethod::orderBy('id','asc')->get();
         $setting        = Setting::where('id',1)->first();
         return view('mr.add', ['site_offices' => $site_offices, 'customers' => $customers, 'currency' => $currency, 'payment_methods' => $payment_methods, 'setting' => $setting]);
+    }
+
+    public function approve($mr_id){
+        $transaction = MoneyReceipt::where('id',$mr_id)->first();
+        $transaction->status = 1;
+        $transaction->save();
+        echo "Ok";                
+    }
+
+    public function reject($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction->status = 2;
+        $transaction->save();
+        echo "Ok";                
+    }
+
+    public function void($cheque_id){
+        $transaction = ChequeTransaction::where('id',$cheque_id)->first();
+        $transaction->status = 3;
+        $transaction->save();
+        echo "Ok";                
+    }
+
+    public function print($cheque_id){
+        $transaction = MR::where('id',$cheque_id)->first();
+
+        if($transaction->status == 0 && $setting->approval_for_cheque == 1){
+            $status = "pending";
+        }
+        if($transaction->status == 0 && $setting->approval_for_cheque == 0){
+            $status = "approved";
+        }
+        if($transaction->status == 1){
+            $status = "approved";
+        }
+        if($transaction->status == 2){
+            $status = "rejected";
+        }
+        if($transaction->status == 3){
+            $status = "void";
+        }
+        return view('cheque_transactions.print', ['transaction'=>$transaction, 'layout'=>$layout, 'status'=>$status, 'printer'=>$printer]);
+    }
+
+    public function draft($mr_id){
+        $transaction = MoneyReceipt::where('id',$mr_id)->first();
+        $company     = Company::where('id',1)->first();
+        $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
+        return view('mr.draft', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office]);
     }
 }

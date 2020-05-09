@@ -85,6 +85,11 @@ Route::get('/mr', 'MRController@index');
 Route::get('/mr/add', 'MRController@add');
 Route::post('/mr/add', 'MRController@add');
 Route::get('/mr/print/{id}', 'MRController@print');
+Route::get('/approve-mr/{mr_id}', 'MRController@approve');
+Route::get('/reject-mr/{mr_id}', 'MRController@reject');
+Route::get('/void-mr/{mr_id}', 'MRController@void');
+Route::get('/mr/print/{id}', 'MRController@print');
+Route::get('/mr/draft/{id}', 'MRController@draft');
 
 Route::get('/approve-cheque/{cheque_id}', 'ChequeTransactionController@approve');
 Route::get('/reject-cheque/{cheque_id}', 'ChequeTransactionController@reject');

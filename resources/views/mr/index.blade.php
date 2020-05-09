@@ -52,7 +52,33 @@
               <td class="text-center">
                 <span class="badge badge-info">{{ $mr->payment_method }}</span>
               </td>
-              <td class="text-center">Action</td>
+              <td class="text-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-info btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                  <button type="button" class="btn btn-info btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only"></span>
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item pointer" href="{{url('mr/draft/'.$mr->id)}}">Print as Draft</a>
+                    @if($setting->approval_for_mr == 1 && $mr->status != 1)
+                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$mr->id}})">Approve</a>
+                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
+                    @endif
+
+                    @if($setting->approval_for_mr == 1 && $mr->status == 1)
+                    <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                    @endif
+
+                    @if($setting->approval_for_mr != 1)
+                    <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                    @endif
+
+                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidMR({{$mr->id}})">Void</a>
+                  </div>
+                </div>
+              </td>
             </tr>
             @endforeach
           </tbody>
@@ -61,4 +87,57 @@
     </div>
   </div>
 
+  <script>
+    function approve(id){
+      var result = confirm("Are you confirm to approve?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/approve-mr/'+id,
+            success:function(data) {
+              location.reload();
+            }
+        });
+      }
+    }
+
+    function approveandprint(id){
+      var result = confirm("Are you confirm to approve?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/approve-mr/'+id,
+            success:function(data) {
+              window.location = "/mr/print/"+id
+            }
+        });
+      }
+    }
+    
+    function rejectMR(id){
+      var result = confirm("Are you confirm to reject?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/reject-mr/'+id,
+            success:function(data) {
+              location.reload();
+            }
+        });
+      }
+    }
+
+    function voidMR(id){
+      var result = confirm("Are you confirm to void?");
+      if (result) {
+        $.ajax({
+            type: 'GET',
+            url: '/void-mr/'+id,
+            success:function(data) {
+              location.reload();
+            }
+        });
+      }
+    }
+  </script>
 @endsection
