@@ -229,6 +229,8 @@
         mywindow.focus();
         mywindow.print();
         mywindow.close();
+
+        window.location = "/mr"
     }, 500);
 
 </script>

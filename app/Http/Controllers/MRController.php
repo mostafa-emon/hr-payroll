@@ -107,6 +107,12 @@ class MRController extends Controller
         $company     = Company::where('id',1)->first();
         $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
         $customer    = Customer::where('name',$transaction->customer_name)->first();
-        return view('mr.draft', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer]);
+        $setting     = Setting::where('id',1)->first();
+
+        if($setting->mr_size == "full_page"){
+            return view('mr.draft_full', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer]);
+        }else{
+            return view('mr.draft_half', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer]);
+        }
     }
 }
