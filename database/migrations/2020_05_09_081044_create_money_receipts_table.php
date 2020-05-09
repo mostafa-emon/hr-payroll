@@ -22,7 +22,7 @@ class CreateMoneyReceiptsTable extends Migration
             $table->string('customer_name',100);
             $table->string('amount',30);
             $table->string('currency',30);
-            $table->string('amount_in_word',30)->nullable();
+            $table->text('amount_in_word')->nullable();
             $table->string('payment_method',30)->nullable();
             $table->string('cheque_no',30)->nullable();
             $table->date('cheque_date')->nullable();

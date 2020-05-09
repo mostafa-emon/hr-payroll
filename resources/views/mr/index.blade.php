@@ -37,12 +37,24 @@
               <th>Site Office</th>
               <th>Customer</th>
               <th>Amount</th>
-              <th>Payment Method</th>
-              <th>Action</th>
+              <th class="text-center">Payment Method</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
-            
+            @foreach ($money_receipts as $mr)
+            <tr>
+              <td>{{$loop->iteration}}</td>
+              <td>{{$mr->site_office_prefix}}{{$mr->invoice_no}}{{$mr->site_office_suffix}}</td>
+              <td>{{$mr->site_office_name}}</td>
+              <td>{{$mr->customer_name}}</td>
+              <td>{{$mr->amount}}</td>
+              <td class="text-center">
+                <span class="badge badge-info">{{ $mr->payment_method }}</span>
+              </td>
+              <td class="text-center">Action</td>
+            </tr>
+            @endforeach
           </tbody>
         </table>
       </div>

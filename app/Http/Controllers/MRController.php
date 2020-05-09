@@ -41,7 +41,7 @@ class MRController extends Controller
             $mr->customer_name          = $request->customer_name;
             $mr->amount                 = $request->amount;
             $mr->currency               = $request->currency;
-            $mr->amount_in_word         = $request->amount_in_word;
+            $mr->amount_in_word         = $request->amount_in_words;
             $mr->payment_method         = $request->payment_method;
             $mr->cheque_no              = $request->cheque_no;
             $mr->cheque_date            = date('Y-m-d',strtotime($request->cheque_date));
@@ -54,6 +54,7 @@ class MRController extends Controller
         $customers      = Customer::orderBy('name','asc')->get();
         $currency       = Currency::orderBy('id','asc')->get();
         $payment_methods= PaymentMethod::orderBy('id','asc')->get();
-        return view('mr.add', ['site_offices' => $site_offices, 'customers' => $customers, 'currency' => $currency, 'payment_methods' => $payment_methods]);
+        $setting        = Setting::where('id',1)->first();
+        return view('mr.add', ['site_offices' => $site_offices, 'customers' => $customers, 'currency' => $currency, 'payment_methods' => $payment_methods, 'setting' => $setting]);
     }
 }
