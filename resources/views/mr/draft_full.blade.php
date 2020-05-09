@@ -23,16 +23,18 @@
                 <img src="{{asset('storage/'.$company->logo)}}" height="100"/>
             </div>
         
-            <h3 style="text-align: center; font-size: 27px; font-weight: bold; padding-top: 135px;padding-bottom:5px;">Money Receipt</h3>
+            <div style="text-align: center; font-size: 27px; font-weight: bold; margin-top: 160px;margin-bottom:50px;padding-bottom:5px;">Money Receipt</div>
         
-            <div style="font-weight: bold; font-size: 19px;">Received Form</div>
+            <div style="float:left; width: 45%;">
+              <div style="font-weight: bold; font-size: 19px;margin-top:-20px;">Received Form</div>
         
-            <div style="border: 1px solid; width: 42%; height: auto; padding-bottom: 10px; padding-top: 10px; padding-left: 10px; padding-right: 5px;" >
-              <div>{{$transaction->customer_name}}</div>
-              <div>{{$customer->address}}</div>
+              <div style="border: 1px solid; padding-bottom: 10px; padding-top: 10px; padding-left: 10px; padding-right: 5px;height:70px" >
+                <div>{{$transaction->customer_name}}</div>
+                <div>{{$customer->address}}</div>
+              </div>
             </div>
         
-            <div style="float: right; margin-top:-90px;  padding-bottom: 30px;">
+            <div style="float: right; padding-bottom: 10px;">
               <div>
                 <div style="font-weight: bold; padding-right: 160px;">Money Receipt No</div>
                 <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ $transaction->invoice_no }}</div>
@@ -49,132 +51,134 @@
               </div>
             </div>
             
-            <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
-              <thead>
-                <tr>
-                  <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Sl</th>
-                  <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Currency</th>
-                  <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Cheque No</th>
-                  <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Cheque Date</th>
-                  <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Bank Name</th>
-                  <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">1</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->currency}}</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->cheque_no}}</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">@if($transaction->cheque_date != "1970-01-01"){{date('d-m-Y',strtotime($transaction->cheque_date))}}@endif</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->bank_name}}</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->amount}}</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-
-                <tr>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
-                </tr>
-        
-                <tr style="border: 1px solid black;padding-top:5px;padding-bottom:5px;">
-                  <td colspan="5" style="text-align: right;padding-top:5px;padding-bottom:5px;padding-right:10px;">Total</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">{{$transaction->amount}}</td>
-                </tr>
-              </tbody>
-            </table>
+            <div style="margin-top:150px;">
+              <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
+                <thead>
+                  <tr>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Sl</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Currency</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Cheque No</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Cheque Date</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Bank Name</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">1</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->currency}}</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->cheque_no}}</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">@if($transaction->cheque_date != "1970-01-01"){{date('d-m-Y',strtotime($transaction->cheque_date))}}@endif</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->bank_name}}</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->amount}}</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+  
+                  <tr>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                      <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                  </tr>
+          
+                  <tr style="border: 1px solid black;padding-top:5px;padding-bottom:5px;">
+                    <td colspan="5" style="text-align: right;padding-top:5px;padding-bottom:5px;padding-right:10px;">Total</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">{{$transaction->amount}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
         
             <div style="margin-top: 45px;">
               <div style="float: left;">Amount in Word
