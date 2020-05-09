@@ -65,7 +65,7 @@
                   <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">1</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->currency}}</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->cheque_no}}</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{date('d-m-Y',strtotime($transaction->cheque_date))}}</td>
+                  <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">@if($transaction->cheque_date != "1970-01-01"){{date('d-m-Y',strtotime($transaction->cheque_date))}}@endif</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->bank_name}}</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->amount}}</td>
                 </tr>

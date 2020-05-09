@@ -11,7 +11,7 @@
 
 <div class="br-pagebody">
     <div id="printArea">
-        <div style="font-family: Arial; padding:30px">
+        <div id="containment-wrapper" style="font-family: Arial; padding:30px">
             <div style="float: left;width:55%;margin-top:-15px;">
               <h1 style="font-size: 20px; font-weight: bold;">{{$company->name}}</h1>
               <div style="margin-top:-10px">{{$site_office->address}}</div>
@@ -65,7 +65,7 @@
                   <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">1</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">{{$transaction->currency}}</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">{{$transaction->cheque_no}}</td>
-                  <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">{{date('d-m-Y',strtotime($transaction->cheque_date))}}</td>
+                  <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">@if($transaction->cheque_date != "1970-01-01"){{date('d-m-Y',strtotime($transaction->cheque_date))}}@endif</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">{{$transaction->bank_name}}</td>
                   <td style="text-align: center; border: 1px solid black;padding-top:3px;padding-bottom:3px;font-size:14px;">{{$transaction->amount}}</td>
                 </tr>
@@ -134,6 +134,7 @@
 
 <script>
     var mywindow = window.open('', 'PRINT');
+    mywindow.document.write('<style>#containment-wrapper{background-image: url("{{ asset("img/draft-half-mr.png")}}"); background-repeat: no-repeat; background-size: cover;}</style>');
     mywindow.document.write(document.getElementById('printArea').innerHTML);
 
     setTimeout(function () {
