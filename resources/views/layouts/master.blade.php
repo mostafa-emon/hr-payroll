@@ -4,7 +4,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Axis Cheque & MR</title>
+    <title>@if(!isset(app()->view->getSections()['title'])) Axis Cheque & MR @else {{ app()->view->getSections()['title'] }} @endif</title>
     <link rel="icon" href="{{asset('img/favicon.png')}}">
 
     <link href="{{asset('lib/font-awesome/css/all.min.css')}}" rel="stylesheet">
@@ -216,14 +216,29 @@
           },
           dom: 'Bfrtip',
           buttons: [
-              'excel', 'pdf',
-              {extend: 'print',
-                title: function() {
-                  return "<div style='font-size: 14px;'>My Title</div>";
-                },
-              }
+              {
+                extend: 'excel'
+              },
+              {
+                extend: 'pdf'
+              },
+              {
+                extend: 'print',
+                customize: function ( win ) {
+                    $(win.document.body).find( 'h1' )
+                    .css( 'font-size', '18px');
+
+                    $(win.document.body).find( 'h1' )
+                    .css( 'text-align', 'center');
+
+                    $(win.document.body).find('table').css('font-size', '10pt');
+                }
+            }
           ],
         });
+
+        $('#dtpick1').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick2').datepicker({ dateFormat: 'dd-mm-yy' });
     </script>
   </body>
 

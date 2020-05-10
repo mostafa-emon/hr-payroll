@@ -7,13 +7,13 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
       <a class="breadcrumb-item" href="{{ url('mr') }}">Report</a>
-      <span class="breadcrumb-item active">Issued MR</span>
+      <span class="breadcrumb-item active">Void MR</span>
     </nav>
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
-      <h4 class="tx-gray-800 mg-b-5">Issued MR</h4>
+      <h4 class="tx-gray-800 mg-b-5">Void MR</h4>
     </div>
   </div>
 
