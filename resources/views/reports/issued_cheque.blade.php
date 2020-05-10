@@ -70,12 +70,12 @@
 
             <div class="col-md-2">
                 <label class="tx-black tx-13">From Date</label>
-                <input type="text" id="dtpick1" name="from_date" value="{{$from_date}}" class="form-control"/>
+                <input type="text" id="dtpick1" name="from_date" value="{{$from_date}}" class="form-control" autocomplete="off"/>
             </div>
 
             <div class="col-md-2">
                 <label class="tx-black tx-13">To Date</label>
-                <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control"/>
+                <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
             </div>
 
             <div class="col-md-2" style="margin-top:10px">
