@@ -13,6 +13,8 @@
     <link href="{{asset('lib/jquery-switchbutton/jquery.switchButton.css')}}" rel="stylesheet">
     <link href="{{asset('lib/rickshaw/rickshaw.min.css')}}" rel="stylesheet">
     <link href="{{asset('lib/chartist/chartist.css')}}" rel="stylesheet">
+    <link href="{{asset('lib/datatables/jquery.dataTables.css')}}" rel="stylesheet">
+    <link href="{{asset('lib/datatables/buttons.dataTables.min.css')}}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/bracket.css')}}">
 
@@ -99,10 +101,10 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="#" class="nav-link">Issued MR</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Void MR</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Issued Cheque</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Void Cheque</a></li>
+          <li class="nav-item"><a href="{{ url('issued-mr') }}" class="nav-link">Issued MR</a></li>
+          <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link">Void MR</a></li>
+          <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link">Issued Cheque</a></li>
+          <li class="nav-item"><a href="{{ url('void-cheque') }}" class="nav-link">Void Cheque</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Audit Trail</a></li>
         </ul>
         
@@ -184,6 +186,15 @@
     <script src="{{asset('lib/d3/d3.js')}}"></script>
     <script src="{{asset('lib/rickshaw/rickshaw.min.js')}}"></script>
 
+    <script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('lib/datatables/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('lib/datatables/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('lib/datatables/jszip.min.js')}}"></script>
+    <script src="{{asset('lib/datatables/pdfmake.min.js')}}"></script>
+    <script src="{{asset('lib/datatables/vfs_fonts.js')}}"></script>
+    <script src="{{asset('lib/datatables/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('lib/datatables/buttons.print.min.js')}}"></script>
+
     <script src="{{asset('js/bracket.js')}}"></script>
     <script src="{{asset('js/ResizeSensor.js')}}"></script>
     <script src="{{asset('js/dashboard.js')}}"></script>
@@ -195,6 +206,23 @@
 
         $(".form-layout .form-control").on("focusout", function () {
           $(this).closest(".form-group").removeClass("form-group-active");
+        });
+
+        $('#datatable1').DataTable({
+          responsive: true,
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: ''
+          },
+          dom: 'Bfrtip',
+          buttons: [
+              'excel', 'pdf',
+              {extend: 'print',
+                title: function() {
+                  return "<div style='font-size: 14px;'>My Title</div>";
+                },
+              }
+          ],
         });
     </script>
   </body>
