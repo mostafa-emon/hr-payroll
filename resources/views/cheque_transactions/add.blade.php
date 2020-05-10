@@ -184,7 +184,7 @@
       if(date_formatting == "DDMMYYYY") {
         $( "#chooseDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
       }else if(date_formatting == "MMDDYYYY") {
-        $( "#chooseDate" ).datepicker({ dateFormat: 'mm-dd-yy' });
+        $( "#chooseDate" ).datepicker();
       }
     }
 
@@ -205,7 +205,7 @@
     }
 
     function setChequeDate(date) {
-      var formatted = date.replace(/-/g, "");
+      var formatted = date.replace(/[^0-9 ]/g, "")
       $('#date').text(formatted);
     }
 

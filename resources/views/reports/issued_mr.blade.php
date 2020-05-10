@@ -73,41 +73,24 @@
           <thead>
             <tr>
               <th>Sl</th>
+              <th>Date</th>
               <th>Invoice No</th>
               <th>Site Office</th>
               <th>Customer</th>
               <th>Amount</th>
-              <th>Payment Method</th>
-              <th class="text-center">Status</th>
+              <th>Pay Method</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($money_receipts as $mr)
             <tr>
               <td>{{$loop->iteration}}</td>
+              <td>{{ date('d-m-Y', strtotime($mr->created_at))}}</td>
               <td>{{$mr->site_office_prefix}}{{$mr->invoice_no}}{{$mr->site_office_suffix}}</td>
               <td>{{$mr->site_office_name}}</td>
               <td>{{$mr->customer_name}}</td>
               <td>{{$mr->amount}}</td>
               <td>{{$mr->payment_method}}</td>
-              <td class="text-center">
-                  @if($mr->status == 0)
-                    @if($setting->approval_for_mr == 1)
-                      <span class="badge badge-warning">Pending</span>
-                    @else
-                      <span class="badge badge-success">Issued</span>
-                    @endif
-                  @endif
-                  @if($mr->status == 1)
-                    <span class="badge badge-success">Approved</span>
-                  @endif
-                  @if($mr->status == 2)
-                    <span class="badge badge-danger">Rejected</span>
-                  @endif
-                  @if($mr->status == 3)
-                    <span class="badge badge-danger">Void</span>
-                  @endif
-              </td>
             </tr>
             @endforeach
           </tbody>

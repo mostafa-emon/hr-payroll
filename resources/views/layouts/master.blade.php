@@ -93,7 +93,7 @@
           <li class="nav-item"><a href="{{ url('cheque-transactions') }}" class="nav-link {{ (request()->is('cheque-transactions*')) ? 'active' : '' }}">Cheque</a></li>
         </ul>
 
-        <a href="#" class="br-menu-link">
+        <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-chart-bar tx-19"></i>
             <span class="menu-item-label">Reports</span>
@@ -101,10 +101,10 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ url('issued-mr') }}" class="nav-link">Issued MR</a></li>
-          <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link">Void MR</a></li>
-          <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link">Issued Cheque</a></li>
-          <li class="nav-item"><a href="{{ url('void-cheque') }}" class="nav-link">Void Cheque</a></li>
+          <li class="nav-item"><a href="{{ url('issued-mr') }}" class="nav-link {{ (request()->is('issued-mr*')) ? 'active' : '' }}">Issued MR</a></li>
+          <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link {{ (request()->is('void-mr*')) ? 'active' : '' }}">Void MR</a></li>
+          <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link {{ (request()->is('issued-cheque*')) ? 'active' : '' }}">Issued Cheque</a></li>
+          <li class="nav-item"><a href="{{ url('void-cheque') }}" class="nav-link {{ (request()->is('void-cheque*')) ? 'active' : '' }}">Void Cheque</a></li>
           <li class="nav-item"><a href="#" class="nav-link">Audit Trail</a></li>
         </ul>
         
@@ -220,7 +220,7 @@
                 extend: 'excel'
               },
               {
-                extend: 'pdf'
+                extend: 'pdf',
               },
               {
                 extend: 'print',
