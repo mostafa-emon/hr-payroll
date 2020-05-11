@@ -10,6 +10,12 @@ use OwenIt\Auditing\Contracts\Auditable;
 class User extends Authenticatable implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
+    protected $auditInclude = [
+        'name',
+        'designation',
+        'email',
+    ];
+
     use Notifiable;
 
     /**

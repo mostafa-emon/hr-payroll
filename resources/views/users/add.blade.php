@@ -14,7 +14,7 @@
     <h4 class="tx-gray-800 mg-b-5">Add User</h4>
   </div>
 
-  <form action="{{ url('user/add') }}" method="POST">
+  <form action="{{ url('user/add') }}" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
