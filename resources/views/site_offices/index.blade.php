@@ -2,11 +2,6 @@
 
 @section('content')
 
-@php
-  $user_roles = DB::table('roles')->where('id',Auth::user()->roles)->first();
-  if($user_roles == null){$roles = "";} else {$roles = $user_roles->access;}
-@endphp
-
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
@@ -19,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Site Offices</h4>
     </div>
     <div style="float:right">
-      @if($roles != "" && in_array(2, json_decode($roles,false)))
+      @if(roles() != "" && in_array(2, json_decode(roles(),false)))
       <a href="{{ url('site-office/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Office</a>
       @endif
     </div>
@@ -47,11 +42,11 @@
               <th>MR Suffix</th>
               <th>MR Prefix</th>
               <th>MR Start From</th>
-              @if($roles != "" && in_array(3, json_decode($roles,false)))
+              @if(roles() != "" && in_array(3, json_decode(roles(),false)))
               <th>Update</th>
               @endif
 
-              @if($roles != "" && in_array(4, json_decode($roles,false)))
+              @if(roles() != "" && in_array(4, json_decode(roles(),false)))
               <th>Delete</th>
               @endif
             </tr>
@@ -67,12 +62,12 @@
                 <td>{{ $site_office->mr_suffix }}</td>
                 <td>{{ $site_office->mr_prefix }}</td>
                 <td>{{ $site_office->mr_start_from }}</td>
-                @if($roles != "" && in_array(3, json_decode($roles,false)))
+                @if(roles() != "" && in_array(3, json_decode(roles(),false)))
                 <td>
                   <a class="btn btn-info btn-sm" href="{{url ('site-office/update/'.$site_office->id) }}"><i class= "fa fa-edit"></i> Update </a>
                 </td>
                 @endif
-                @if($roles != "" && in_array(4, json_decode($roles,false)))
+                @if(roles() != "" && in_array(4, json_decode(roles(),false)))
                 <td>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$site_office->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\SiteOffice;
 use DB;
 use Auth;
+use App\Helpers\ViewHelper;
 
 class SiteOfficeController extends Controller
 {
@@ -20,6 +21,10 @@ class SiteOfficeController extends Controller
     }
     
     public function add(Request $request){
+        if(roles() != "" && !in_array(2, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $user_roles = DB::table('roles')->where('id',Auth::user()->roles)->first();
         if($user_roles == null){$roles = "";} else {$roles = $user_roles->access;}
         if($roles != "" && !in_array(2, json_decode($roles,false))){
@@ -42,12 +47,19 @@ class SiteOfficeController extends Controller
     }
 
     public function delete($site_office_id){
+        if(roles() != "" && !in_array(4, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $site_office = SiteOffice::find($site_office_id);
         $site_office->delete();
         return redirect('site-office')->with('message', 'Site Office deleted successfully!');
     }
 
     public function update($site_office_id, Request $request){
+        if(roles() != "" && !in_array(3, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($request->name !=""){
             $site_office = SiteOffice::where('id',$site_office_id)->first();
             $site_office->name               = $request->name;
