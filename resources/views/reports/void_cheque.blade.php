@@ -86,7 +86,10 @@
         </form>
 
         <div class="table-responsive">
-            <table id="datatable1" class="table display responsive nowrap">
+          <table 
+            @if(roles() != "" && in_array(48, json_decode(roles(),false))) id="datatable1" @endif 
+            @if(roles() != "" && !in_array(48, json_decode(roles(),false))) id="datatable2" @endif
+            class="table display responsive nowrap">
               <thead>
                 <tr>
                   <th class="text-center">Sl</th>

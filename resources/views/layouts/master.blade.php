@@ -203,6 +203,15 @@
           ],
         });
 
+        $('#datatable2').DataTable({
+          responsive: true,
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+          },
+          "lengthChange": false
+        });
+
         $('#dtpick1').datepicker({ dateFormat: 'dd-mm-yy' });
         $('#dtpick2').datepicker({ dateFormat: 'dd-mm-yy' });
     </script>
