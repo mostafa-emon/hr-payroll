@@ -14,7 +14,9 @@
       <h4 class="tx-gray-800 mg-b-5">Roles</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('roles/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Roles</a>
+      @if(roles() != "" && in_array(32, json_decode(roles(),false)))
+        <a href="{{ url('roles/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Roles</a>
+      @endif
     </div>
   </div>
 
@@ -34,8 +36,13 @@
             <tr>
               <th>Sl</th>
               <th>Role name</th>
-              <th>Update</th>
-              <th>Delete</th>
+              @if(roles() != "" && in_array(33, json_decode(roles(),false)))
+                <th>Update</th>
+              @endif
+
+              @if(roles() != "" && in_array(34, json_decode(roles(),false)))
+                <th>Delete</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -43,12 +50,16 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $role->role_name }}</td>
-                <td>
+                @if(roles() != "" && in_array(33, json_decode(roles(),false)))
+                  <td>
                   <a class="btn btn-info btn-sm" href="{{url ('roles/update/'.$role->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
+                @endif
+                @if(roles() != "" && in_array(34, json_decode(roles(),false)))
                   <td>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$role->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                </td>
+                  </td>
+                @endif
               </tr>
             @endforeach
           </tbody>

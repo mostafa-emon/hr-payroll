@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class RolesController extends Controller
 {
@@ -13,6 +16,9 @@ class RolesController extends Controller
     }
     
     public function add(Request $request){
+        if(roles() != "" && !in_array(32, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->role_name !=""){
             
             $roles = config('app.roles');
@@ -33,12 +39,18 @@ class RolesController extends Controller
     }
     
     public function delete($role_id){
+        if(roles() != "" && !in_array(34, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $role = Role::find($role_id);
         $role->delete();
         return redirect('roles')->with('message', 'Roles deleted successfully!');
     }
 
     public function update($role_id, Request $request){
+        if(roles() != "" && !in_array(33, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->role_name !=""){
             
             $roles = config('app.roles');
