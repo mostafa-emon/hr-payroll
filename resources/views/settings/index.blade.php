@@ -76,10 +76,11 @@
                     </select>
                 </div>
             </div>
-            
+            @if(roles() != "" && in_array(53, json_decode(roles(),false)))
             <div class="form-layout-footer mg-t-30">
                 <button class="btn btn-info pointer">Update</button>
             </div>
+            @endif
         </div>
       </div>
     </div>

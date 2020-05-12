@@ -91,6 +91,9 @@ class ConfigurationController extends Controller
         $count = Setting::where('id',1)->count();
 
         if($count == 0) {
+            if(roles() != "" && !in_array(53, json_decode(roles(),false))){
+                return redirect('404');
+            }
             $setting = new Setting;
             $setting->mr_number                 = $request->mr_number;
             $setting->mr_size                   = $request->mr_size;
@@ -99,6 +102,9 @@ class ConfigurationController extends Controller
             $setting->approval_for_cheque       = $request->approval_for_cheque;
             $setting->save();
         }else{
+            if(roles() != "" && !in_array(53, json_decode(roles(),false))){
+                return redirect('404');
+            }
             $setting = Setting::where('id',1)->first();
             $setting->mr_number                 = $request->mr_number;
             $setting->mr_size                   = $request->mr_size;
