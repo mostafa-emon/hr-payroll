@@ -121,9 +121,9 @@ Route::post('/user/profile/{user_id}', 'UserController@profile');
 Route::get('/roles', 'RolesController@index');
 Route::get('/roles/add', 'RolesController@add');
 Route::post('/roles/add', 'RolesController@add');
-Route::get('/roles/delete/{user_id}', 'RolesController@delete');
-Route::get('/roles/update/{user_id}', 'RolesController@update');
-Route::post('/roles/update/{user_id}', 'RolesController@update');
+Route::get('/roles/delete/{role_id}', 'RolesController@delete');
+Route::get('/roles/update/{role_id}', 'RolesController@update');
+Route::post('/roles/update/{role_id}', 'RolesController@update');
 
 Route::get('/currency', 'ConfigurationController@index_currency');
 Route::get('/currency/add', 'ConfigurationController@add_currency');

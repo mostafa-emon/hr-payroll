@@ -14,39 +14,48 @@ class RolesController extends Controller
     
     public function add(Request $request){
         if($request->role_name !=""){
-            $roles = new Role();
-            $roles->role_name       = $request->name;
-            $roles->save();
+            
+            $roles = config('app.roles');
+            $access = [];
+            foreach($roles as $key => $role){
+                if($request->$key == 1){
+                    $access[] = $role;
+                }
+            }
+            
+            $newRole = new Role();
+            $newRole->role_name         = $request->role_name;
+            $newRole->access            = json_encode($access);
+            $newRole->save();
             return redirect('roles')->with('message', 'Roles added successfully!');
         }
         return view('roles.add');
     }
     
-    public function delete($user_id){
-        $user = User::find($user_id);
-        $user->delete();
-        return redirect('user')->with('message', 'User deleted successfully!');
+    public function delete($role_id){
+        $role = Role::find($role_id);
+        $role->delete();
+        return redirect('roles')->with('message', 'Roles deleted successfully!');
     }
 
-    public function update($user_id, Request $request){
-        if($request->name !=""){
-            $user = User::where('id',$user_id)->first();
-            $user->name             = $request->name;
-            $user->designation      = $request->designation;
-            $user->email            = $request->email;
-            if($request->password != ""){
-               $user->password      = Hash::make($request->password);
-            }
-            if($request->hasFile('avatar')){
-                if($user->avatar != ""){
-                    Storage::delete($user->avatar);
+    public function update($role_id, Request $request){
+        if($request->role_name !=""){
+            
+            $roles = config('app.roles');
+            $access = [];
+            foreach($roles as $key => $role){
+                if($request->$key == 1){
+                    $access[] = $role;
                 }
-                $user->avatar       = $request->file('avatar')->store('users');
             }
-            $user->save();
-            return redirect('user')->with('message', 'User updated successfully!');
+            
+            $newRole = Role::where('id',$role_id)->first();
+            $newRole->role_name         = $request->role_name;
+            $newRole->access            = json_encode($access);
+            $newRole->save();
+            return redirect('roles')->with('message', 'Roles updated successfully!');
         }
-        $users = User::where('id',$user_id)->first();
-        return view('users.update', ['users' => $users]);
+        $roles = Role::where('id',$role_id)->first();
+        return view('roles.update', ['roles' => $roles]);
     }
 }
