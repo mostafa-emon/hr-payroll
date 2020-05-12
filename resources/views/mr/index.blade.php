@@ -14,7 +14,9 @@
       <h4 class="tx-gray-800 mg-b-5">Money Receipt</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('mr/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add MR</a>
+      @if(roles() != "" && in_array(35, json_decode(roles(),false)))
+        <a href="{{ url('mr/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add MR</a>
+      @endif
     </div>
   </div>
 
@@ -76,17 +78,39 @@
                     <span class="sr-only"></span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item pointer" href="{{url('mr/draft/'.$mr->id)}}">Print as Draft</a>
-                    @if($setting->approval_for_mr == 1 && $mr->status != 1)
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$mr->id}})">Approve</a>
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
+                    @if($setting->approval_for_mr == 1 && $mr->status == 0)
+                      @if(roles() != "" && in_array(39, json_decode(roles(),false)))
+                        <a class="dropdown-item pointer" href="{{url('mr/draft/'.$mr->id)}}">Print as Draft</a>
+                      @endif
+
+                      @if(roles() != "" && in_array(36, json_decode(roles(),false)))
+                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$mr->id}})">Approve</a>
+                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
+                      @endif
+
+                      @if(roles() != "" && in_array(37, json_decode(roles(),false)))
+                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
+                      @endif
                     @endif
 
-                    <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                    @if($setting->approval_for_mr == 0 &&  $mr->status == 0)
+                      @if(roles() != "" && in_array(39, json_decode(roles(),false)))
+                        <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                      @endif
+                    @endif
 
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidMR({{$mr->id}})">Void</a>
+                    @if($mr->status != 0)
+                      @if(roles() != "" && in_array(39, json_decode(roles(),false)))
+                        <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                      @endif
+                    @endif
+
+                    @if(($setting->approval_for_mr == 0 || $mr->status == 1) && $mr->status != 3)
+                      @if(roles() != "" && in_array(38, json_decode(roles(),false)))
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidMR({{$mr->id}})">Void</a>
+                      @endif
+                    @endif
                   </div>
                 </div>
               </td>

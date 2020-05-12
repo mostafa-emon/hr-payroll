@@ -36,7 +36,7 @@
 
         <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
-            <i class="menu-item-icon fa fa-warehouse tx-14"></i>
+            <i class="menu-item-icon ion-ios-settings tx-24"></i>
             <span class="menu-item-label">Master Setup</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
@@ -85,7 +85,7 @@
 
         <a href="#" class="br-menu-link {{ (request()->is('settings')) || (request()->is('printer*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-settings tx-24"></i>
+            <i class="menu-item-icon fa fa-tools tx-14"></i>
             <span class="menu-item-label">Configuration</span>
             <i class="menu-item-arrow fas fa-angle-down"></i>
           </div>
@@ -201,6 +201,15 @@
                 }
             }
           ],
+        });
+
+        $('#datatable2').DataTable({
+          responsive: true,
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+          },
+          "lengthChange": false
         });
 
         $('#dtpick1').datepicker({ dateFormat: 'dd-mm-yy' });

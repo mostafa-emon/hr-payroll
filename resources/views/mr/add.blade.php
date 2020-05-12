@@ -81,7 +81,7 @@
             <div class="col-md-3">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                     <label class="form-control-label">Cheque Date:</label>
-                    <input class="form-control" type="text" id="cheque_date" name="cheque_date" placeholder="Enter Cheque Date">
+                    <input class="form-control" type="text" id="cheque_date" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off">
                 </div>
             </div>
 

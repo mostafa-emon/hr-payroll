@@ -50,7 +50,7 @@
         mywindow.print();
         mywindow.close();
         window.location = "/cheque-transactions"
-    }, 500);
+    }, 1000);
 
   </script>
 @endsection

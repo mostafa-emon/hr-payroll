@@ -111,7 +111,7 @@
             </div>
             
             <div class="pd-t-10">
-              <input type="text" id="chooseDate" class="form-control" name="date_field" onchange="setChequeDate(this.value)" placeholder="date" required/>
+              <input type="text" id="chooseDate" class="form-control" name="date_field" onchange="setChequeDate(this.value)" placeholder="date" required autocomplete="off"/>
             </div>
 
             <div class="pd-t-10">

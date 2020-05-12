@@ -20,6 +20,9 @@ class MRController extends Controller
     }
 
     public function add(Request $request){
+        if(roles() != "" && !in_array(35, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->customer_name !=""){
             list($site_office_name,$prefix,$suffix,$mr_start_from) = explode('_',$request->site_office);
             
@@ -61,6 +64,9 @@ class MRController extends Controller
     }
 
     public function approve($mr_id){
+        if(roles() != "" && !in_array(36, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
         $transaction->status = 1;
         $transaction->save();
@@ -68,6 +74,9 @@ class MRController extends Controller
     }
 
     public function reject($cheque_id){
+        if(roles() != "" && !in_array(37, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = MoneyReceipt::where('id',$cheque_id)->first();
         $transaction->status = 2;
         $transaction->save();
@@ -75,6 +84,9 @@ class MRController extends Controller
     }
 
     public function void($cheque_id){
+        if(roles() != "" && !in_array(38, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = MoneyReceipt::where('id',$cheque_id)->first();
         $transaction->status = 3;
         $transaction->save();
@@ -82,6 +94,9 @@ class MRController extends Controller
     }
 
     public function print($mr_id){
+        if(roles() != "" && !in_array(39, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
         $company     = Company::where('id',1)->first();
         $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
@@ -112,6 +127,9 @@ class MRController extends Controller
     }
 
     public function draft($mr_id){
+        if(roles() != "" && !in_array(39, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
         $company     = Company::where('id',1)->first();
         $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();

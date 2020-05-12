@@ -26,6 +26,9 @@ class ChequeTransactionController extends Controller
         return view('cheque_transactions.index', ['cheque_transactions'=>$cheque_transactions, 'setting'=>$setting]);
     }
     public function add($bank_id = null,Request $request){
+        if(roles() != "" && !in_array(40, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->amount !="" && $request->cheque_name != ""){
             $cheque_transaction = new ChequeTransaction();
 
@@ -82,6 +85,9 @@ class ChequeTransactionController extends Controller
     }
 
     public function approve($cheque_id){
+        if(roles() != "" && !in_array(41, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $transaction->status = 1;
         $transaction->save();
@@ -89,6 +95,9 @@ class ChequeTransactionController extends Controller
     }
 
     public function reject($cheque_id){
+        if(roles() != "" && !in_array(42, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $transaction->status = 2;
         $transaction->save();
@@ -96,6 +105,9 @@ class ChequeTransactionController extends Controller
     }
 
     public function void($cheque_id){
+        if(roles() != "" && !in_array(43, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $transaction->status = 3;
         $transaction->save();
@@ -103,6 +115,9 @@ class ChequeTransactionController extends Controller
     }
 
     public function print($cheque_id){
+        if(roles() != "" && !in_array(44, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
         $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
@@ -128,6 +143,9 @@ class ChequeTransactionController extends Controller
     }
 
     public function draft($cheque_id){
+        if(roles() != "" && !in_array(44, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
         $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
