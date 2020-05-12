@@ -87,7 +87,6 @@
                         <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
                       @endif
                       
-                      {{-- Checked --}}
                       @if($setting->approval_for_cheque == 0 &&  $cheque_transaction->status == 0)
                         <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
                       @endif

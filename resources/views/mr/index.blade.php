@@ -76,17 +76,25 @@
                     <span class="sr-only"></span>
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item pointer" href="{{url('mr/draft/'.$mr->id)}}">Print as Draft</a>
-                    @if($setting->approval_for_mr == 1 && $mr->status != 1)
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$mr->id}})">Approve</a>
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
+                    @if($setting->approval_for_mr == 1 && $mr->status == 0)
+                      <a class="dropdown-item pointer" href="{{url('mr/draft/'.$mr->id)}}">Print as Draft</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$mr->id}})">Approve</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
                     @endif
 
-                    <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                    @if($setting->approval_for_mr == 0 &&  $mr->status == 0)
+                      <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                    @endif
 
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidMR({{$mr->id}})">Void</a>
+                    @if($mr->status != 0)
+                      <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
+                    @endif
+
+                    @if(($setting->approval_for_mr == 0 || $mr->status == 1) && $mr->status != 3)
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidMR({{$mr->id}})">Void</a>
+                    @endif
                   </div>
                 </div>
               </td>
