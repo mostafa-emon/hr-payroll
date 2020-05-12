@@ -32,14 +32,14 @@
             </div>
 
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="name" placeholder="Enter Name">
               </div>
             </div>
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1">
+              <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label">Designation:</label>
                 <input class="form-control" type="text" name="designation" placeholder="Enter Desination">
               </div>
@@ -56,6 +56,18 @@
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Password: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="password" placeholder="Enter Password">
+              </div>
+            </div>
+
+            <div class="col-md-12 mg-t--1 mg-md-t-0">
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label mg-b-0-force">Roles: <span class="tx-danger">*</span></label>
+                <select name="roles" class="form-control mg-l--4" required>
+                  <option selected disabled>Select Role</option>
+                      @foreach($roles as $role)
+                          <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                      @endforeach
+                </select>
               </div>
             </div>
 

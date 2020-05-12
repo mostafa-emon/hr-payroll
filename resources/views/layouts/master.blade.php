@@ -21,7 +21,6 @@
   </head>
 
   <body>
-
     <div class="br-logo text-center"><a href="#"><img src="{{asset('img/logo.png')}}" height="60"/></a></div>
 
     <div class="br-sideleft overflow-y-auto">

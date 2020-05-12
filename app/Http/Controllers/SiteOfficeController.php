@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SiteOffice;
+use DB;
+use Auth;
 
 class SiteOfficeController extends Controller
 {
@@ -18,6 +20,12 @@ class SiteOfficeController extends Controller
     }
     
     public function add(Request $request){
+        $user_roles = DB::table('roles')->where('id',Auth::user()->roles)->first();
+        if($user_roles == null){$roles = "";} else {$roles = $user_roles->access;}
+        if($roles != "" && !in_array(2, json_decode($roles,false))){
+            return redirect('404');
+        }
+
         if($request->name !=""){
             $site_office = new SiteOffice();
             $site_office->name               = $request->name;

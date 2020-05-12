@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Role;
 
 class UserController extends Controller
 {
@@ -29,10 +30,12 @@ class UserController extends Controller
             if($request->hasFile('avatar')){  
                 $user->avatar       = $request->file('avatar')->store('users');
             }
+            $user->roles = $request->roles;
             $user->save();
             return redirect('user')->with('message', 'User added successfully!');
         }
-        return view('users.add');
+        $roles = Role::orderBy('role_name','asc')->get();
+        return view('users.add',['roles'=>$roles]);
     }
     
     public function delete($user_id){
@@ -56,11 +59,13 @@ class UserController extends Controller
                 }
                 $user->avatar       = $request->file('avatar')->store('users');
             }
+            $user->roles = $request->roles;
             $user->save();
             return redirect('user')->with('message', 'User updated successfully!');
         }
         $users = User::where('id',$user_id)->first();
-        return view('users.update', ['users' => $users]);
+        $roles = Role::orderBy('role_name','asc')->get();
+        return view('users.update', ['users' => $users, 'roles' => $roles]);
     }
 
     public function profile($user_id, Request $request){

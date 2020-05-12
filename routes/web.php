@@ -149,4 +149,5 @@ Route::get('/printer/delete/{printer_id}', 'ConfigurationController@delete_print
 Route::get('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
 Route::post('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
 
+Route::get('/404', 'HomeController@pageNotFound');
 Route::get('/logout', 'HomeController@logout');

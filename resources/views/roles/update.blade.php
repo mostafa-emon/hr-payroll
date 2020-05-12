@@ -28,10 +28,7 @@
             <label>Role Name:</label>
             <input type="text" name="role_name" value="{{ $roles->role_name }}" class="form-control"/>
           </div>
-          <div class="col-md-8">
-          </div>
-          <div class="col-md-1" style="margin-top:32px">
-            <a class="btn btn-info btn-sm text-white" onclick="checkAll()">Check All</a>
+          <div class="col-md-9">
           </div>
         </div>
         <br>

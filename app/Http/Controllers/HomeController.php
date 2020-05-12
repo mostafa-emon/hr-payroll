@@ -52,6 +52,10 @@ class HomeController extends Controller
         ]);
     }
     
+    public function pageNotFound(){
+        return view('404');
+    }
+
     public function logout(){
         Auth::logout();
         return redirect('login');
