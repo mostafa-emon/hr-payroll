@@ -5,13 +5,13 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('cheque-layouts') }}">Cheque Layout</a>
+      <a class="breadcrumb-item" href="{{ url('cheque-layouts') }}">Cheque Format</a>
     </nav>
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
-      <h4 class="tx-gray-800 mg-b-5">Cheque Layouts</h4>
+      <h4 class="tx-gray-800 mg-b-5">Cheque Formats</h4>
     </div>
     <div style="float:right">
       <a href="{{ url('cheque-layouts/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Layout</a>
