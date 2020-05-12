@@ -87,10 +87,11 @@
 
           </div>
 
+          @if(roles() != "" && in_array(1, json_decode(roles(),false)))
           <div class="form-layout-footer bd pd-20 bd-t-0">
             <input type="submit" value="Update" class="btn btn-info pointer"/>
           </div>
-
+          @endif
         </div>
       </div>
     </div>

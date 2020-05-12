@@ -17,6 +17,9 @@ class CompanyController extends Controller
         $count = Company::where('id',1)->count();
 
         if($count == 0) {
+            if(roles() != "" && !in_array(1, json_decode(roles(),false))){
+                return redirect('404');
+            }
             $company = new Company;
             $company->name      = $request->name;
             $company->phone     = $request->phone;
@@ -29,6 +32,9 @@ class CompanyController extends Controller
             }
             $company->save();
         }else{
+            if(roles() != "" && !in_array(1, json_decode(roles(),false))){
+                return redirect('404');
+            }
             $company = Company::where('id',1)->first();
             $company->name      = $request->name;
             $company->phone     = $request->phone;
