@@ -246,7 +246,7 @@
         mywindow.close();
 
         window.location = "/mr"
-    }, 500);
+    }, 1000);
 
 </script>
 @endsection

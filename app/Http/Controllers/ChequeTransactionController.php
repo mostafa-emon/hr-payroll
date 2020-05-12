@@ -26,6 +26,9 @@ class ChequeTransactionController extends Controller
         return view('cheque_transactions.index', ['cheque_transactions'=>$cheque_transactions, 'setting'=>$setting]);
     }
     public function add($bank_id = null,Request $request){
+        if(roles() != "" && !in_array(40, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->amount !="" && $request->cheque_name != ""){
             $cheque_transaction = new ChequeTransaction();
 
