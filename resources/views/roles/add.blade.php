@@ -25,8 +25,8 @@
       <div class="br-section-wrapper">
         <div class="row">
           <div class="col-md-3">
-            <label>Role Name:</label>
-            <input type="text" name="role_name" class="form-control"/>
+            <label>Role Name:</label> 
+            <input type="text" name="role_name" class="form-control" required/>
           </div>
           <div class="col-md-8">
           </div>

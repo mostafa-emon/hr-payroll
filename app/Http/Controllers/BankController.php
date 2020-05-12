@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Bank;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class BankController extends Controller
 {
@@ -18,6 +21,9 @@ class BankController extends Controller
     }
     
     public function add(Request $request){
+        if(roles() != "" && !in_array(17, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $bank = new Bank();
             $bank->name             = $request->name;
@@ -32,12 +38,18 @@ class BankController extends Controller
     }
 
     public function delete($bank_id){
+        if(roles() != "" && !in_array(19, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $bank = Bank::find($bank_id);
         $bank->delete();
         return redirect('bank')->with('message', 'Bank deleted successfully!');
     }
 
     public function update($bank_id, Request $request){
+        if(roles() != "" && !in_array(18, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $bank = Bank::where('id',$bank_id)->first();
             $bank->name             = $request->name;

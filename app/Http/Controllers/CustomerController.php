@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class CustomerController extends Controller
 {
@@ -35,12 +38,18 @@ class CustomerController extends Controller
     }
 
     public function delete($customer_id){
+        if(roles() != "" && !in_array(7, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $customer = Customer::find($customer_id);
         $customer->delete();
         return redirect('customer')->with('message', 'Customer deleted successfully!');
     }
 
     public function update($customer_id, Request $request){
+        if(roles() != "" && !in_array(6, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $customer = Customer::where('id',$customer_id)->first();
             $customer->name             = $request->name;

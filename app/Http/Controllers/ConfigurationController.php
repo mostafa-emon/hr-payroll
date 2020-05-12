@@ -7,6 +7,9 @@ use App\Currency;
 use App\PaymentMethod;
 use App\Setting;
 use App\Printer;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class ConfigurationController extends Controller
 {
@@ -21,6 +24,9 @@ class ConfigurationController extends Controller
     }
     
     public function add_currency(Request $request){
+        if(roles() != "" && !in_array(11, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->full_name !=""){
             $currency = new Currency();
             $currency->full_name        = $request->full_name;
@@ -32,12 +38,18 @@ class ConfigurationController extends Controller
     }
 
     public function delete_currency($currency_id){
+        if(roles() != "" && !in_array(13, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $currency = Currency::find($currency_id);
         $currency->delete();
         return redirect('currency')->with('message', 'Currency deleted successfully!');
     }
 
     public function update_currency($currency_id, Request $request){
+        if(roles() != "" && !in_array(12, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->full_name !=""){
             $currency = Currency::where('id',$currency_id)->first();
             $currency->full_name        = $request->full_name;
@@ -56,6 +68,9 @@ class ConfigurationController extends Controller
     }
     
     public function add_payment_method(Request $request){
+        if(roles() != "" && !in_array(14, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->method_name !=""){
             $payment_method = new PaymentMethod();
             $payment_method->method_name        = $request->method_name;
@@ -66,12 +81,18 @@ class ConfigurationController extends Controller
     }
 
     public function delete_payment_method($payment_method_id){
+        if(roles() != "" && !in_array(16, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $payment_method = PaymentMethod::find($payment_method_id);
         $payment_method->delete();
         return redirect('payment-method')->with('message', 'Payment Method deleted successfully!');
     }
 
     public function update_payment_method($payment_method_id, Request $request){
+        if(roles() != "" && !in_array(15, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->method_name !=""){
             $payment_method = PaymentMethod::where('id',$payment_method_id)->first();
             $payment_method->method_name        = $request->method_name;

@@ -40,8 +40,13 @@
               <th>Phone</th>
               <th>Email</th>
               <th>Contact Person</th>
+              @if(roles() != "" && in_array(6, json_decode(roles(),false)))
               <th>Update</th>
+              @endif
+
+              @if(roles() != "" && in_array(7, json_decode(roles(),false)))
               <th>Delete</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -53,12 +58,16 @@
                 <td>{{ $customer->phone }}</td>
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->contact_person }}</td>
+                @if(roles() != "" && in_array(6, json_decode(roles(),false)))
                 <td>
                   <a class="btn btn-info btn-sm" href="{{url ('customer/update/'.$customer->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
-                  <td>
+                </td>
+                @endif
+                @if(roles() != "" && in_array(7, json_decode(roles(),false)))
+                <td>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$customer->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
+                @endif
               </tr>
             @endforeach
           </tbody>

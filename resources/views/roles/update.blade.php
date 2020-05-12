@@ -26,7 +26,7 @@
         <div class="row">
           <div class="col-md-3">
             <label>Role Name:</label>
-            <input type="text" name="role_name" value="{{ $roles->role_name }}" class="form-control"/>
+            <input type="text" name="role_name" value="{{ $roles->role_name }}" class="form-control" required/>
           </div>
           <div class="col-md-9">
           </div>

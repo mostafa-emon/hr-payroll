@@ -24,13 +24,6 @@ class SiteOfficeController extends Controller
         if(roles() != "" && !in_array(2, json_decode(roles(),false))){
             return redirect('404');
         }
-
-        $user_roles = DB::table('roles')->where('id',Auth::user()->roles)->first();
-        if($user_roles == null){$roles = "";} else {$roles = $user_roles->access;}
-        if($roles != "" && !in_array(2, json_decode($roles,false))){
-            return redirect('404');
-        }
-
         if($request->name !=""){
             $site_office = new SiteOffice();
             $site_office->name               = $request->name;

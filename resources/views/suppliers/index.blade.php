@@ -14,7 +14,9 @@
       <h4 class="tx-gray-800 mg-b-5">Suppliers</h4>
     </div>
     <div style="float:right">
+      @if(roles() != "" && in_array(8, json_decode(roles(),false)))
       <a href="{{ url('supplier/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Supplier</a>
+      @endif
     </div>
   </div>
 
@@ -39,8 +41,13 @@
               <th>Phone</th>
               <th>Email</th>
               <th>Contact Person</th>
+              @if(roles() != "" && in_array(9, json_decode(roles(),false)))
               <th>Update</th>
+              @endif
+
+              @if(roles() != "" && in_array(10, json_decode(roles(),false)))
               <th>Delete</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -53,12 +60,16 @@
                 <td>{{ $supplier->phone }}</td>
                 <td>{{ $supplier->email }}</td>
                 <td>{{ $supplier->contact_person }}</td>
-                <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('supplier/update/'.$supplier->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
+                @if(roles() != "" && in_array(9, json_decode(roles(),false)))
                   <td>
-                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$supplier->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                </td>
+                    <a class="btn btn-info btn-sm" href="{{url ('supplier/update/'.$supplier->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  </td>
+                @endif
+                @if(roles() != "" && in_array(10, json_decode(roles(),false)))
+                  <td>
+                    <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$supplier->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  </td>
+                @endif
               </tr>
             @endforeach
           </tbody>

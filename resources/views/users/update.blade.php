@@ -62,6 +62,18 @@
                 <input class="form-control" type="text" name="password" placeholder="Enter Password" value="">
               </div>
             </div>
+
+            <div class="col-md-12 mg-t--1 mg-md-t-0">
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label mg-b-0-force">Roles: <span class="tx-danger">*</span></label>
+                <select name="roles" class="form-control mg-l--4" required>
+                  <option selected disabled>Select Role</option>
+                      @foreach($roles as $role)
+                          <option value="{{ $role->id }}" @if($users->roles == $role->id) selected @endif>{{ $role->role_name }}</option>
+                      @endforeach
+                </select>
+              </div>
+            </div>
           </div>
 
           <div class="form-layout-footer bd pd-20 bd-t-0">

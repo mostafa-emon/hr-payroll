@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Supplier;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class SupplierController extends Controller
 {
@@ -18,6 +21,9 @@ class SupplierController extends Controller
     }
 
     public function add(Request $request){
+        if(roles() != "" && !in_array(8, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $supplier = new Supplier();
             $supplier->name             = $request->name;
@@ -33,12 +39,18 @@ class SupplierController extends Controller
     }
 
     public function delete($supplier_id){
+        if(roles() != "" && !in_array(10, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $supplier = Supplier::find($supplier_id);
         $supplier->delete();
         return redirect('supplier')->with('message', 'Supplier deleted successfully!');
     }
 
     public function update($supplier_id, Request $request){
+        if(roles() != "" && !in_array(9, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $supplier = Supplier::where('id',$supplier_id)->first();
             $supplier->name             = $request->name;
