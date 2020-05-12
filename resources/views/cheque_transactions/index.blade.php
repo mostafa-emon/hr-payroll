@@ -42,7 +42,9 @@
               <th>Payee</th>
               <th>Amount</th>
               <th class="text-center">Status</th>
+              @if(roles() != "" && (in_array(41, json_decode(roles(),false)) || in_array(42, json_decode(roles(),false)) || in_array(43, json_decode(roles(),false)) || in_array(44, json_decode(roles(),false))))
               <th class="text-center">Action</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -81,23 +83,37 @@
                     </button>
                     <div class="dropdown-menu">
                       @if($setting->approval_for_cheque == 1 && $cheque_transaction->status == 0)
-                        <a class="dropdown-item pointer" href="{{url('cheque/draft/'.$cheque_transaction->id)}}">Print as Draft</a>
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$cheque_transaction->id}})">Approve</a>
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
+                        @if(roles() != "" && in_array(44, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="{{url('cheque/draft/'.$cheque_transaction->id)}}">Print as Draft</a>
+                        @endif
+
+                        @if(roles() != "" && in_array(41, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$cheque_transaction->id}})">Approve</a>
+                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
+                        @endif
+
+                        @if(roles() != "" && in_array(42, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
+                        @endif
                       @endif
                       
                       @if($setting->approval_for_cheque == 0 &&  $cheque_transaction->status == 0)
-                        <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                        @if(roles() != "" && in_array(44, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                        @endif
                       @endif
 
                       @if($cheque_transaction->status != 0)
-                        <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                        @if(roles() != "" && in_array(44, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
+                        @endif
                       @endif
 
                       @if(($setting->approval_for_cheque == 0 || $cheque_transaction->status == 1) && $cheque_transaction->status != 3)
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidCheque({{$cheque_transaction->id}})">Void</a>
+                        @if(roles() != "" && in_array(43, json_decode(roles(),false)))
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidCheque({{$cheque_transaction->id}})">Void</a>
+                        @endif
                       @endif
                     </div>
                   </div>
