@@ -68,7 +68,7 @@
           <li class="nav-item"><a href="{{ url('cheque-transactions') }}" class="nav-link {{ (request()->is('cheque-transactions*')) ? 'active' : '' }}">Cheque</a></li>
         </ul>
 
-        <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) ? 'active show-sub' : '' || (request()->is('audits*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-chart-bar tx-19"></i>
             <span class="menu-item-label">Reports</span>
@@ -80,7 +80,7 @@
           <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link {{ (request()->is('void-mr*')) ? 'active' : '' }}">Void MR</a></li>
           <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link {{ (request()->is('issued-cheque*')) ? 'active' : '' }}">Issued Cheque</a></li>
           <li class="nav-item"><a href="{{ url('void-cheque') }}" class="nav-link {{ (request()->is('void-cheque*')) ? 'active' : '' }}">Void Cheque</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">Audit Trail</a></li>
+          <li class="nav-item"><a href="{{ url('audits') }}" class="nav-link {{ (request()->is('audits*')) ? 'active' : '' }}">Audit Trail</a></li>
         </ul>
 
         <a href="#" class="br-menu-link {{ (request()->is('settings')) || (request()->is('printer*')) ? 'active show-sub' : '' }}">
@@ -200,6 +200,20 @@
                     $(win.document.body).find('table').css('font-size', '10pt');
                 }
             }
+          ],
+        });
+
+        $('#dtable').DataTable({
+          responsive: true,
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: ''
+          },
+          dom: 'Bfrtip',
+          buttons: [
+              {
+                extend: 'excel'
+              }
           ],
         });
 

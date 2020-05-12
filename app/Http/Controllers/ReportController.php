@@ -12,6 +12,7 @@ use App\Bank;
 use App\BankAccount;
 use App\ChequeBook;
 use App\Supplier;
+use App\Audit;
 
 class ReportController extends Controller
 {
@@ -218,8 +219,8 @@ class ReportController extends Controller
     }
 
     public function audits(){
-        $audits = Supplier::first();
-        $audits = $audits->audits;
-        return response()->json($audits);
+        $audits = Audit::select('audits.*','users.name as user_name')
+                ->join('users','users.id','audits.user_id')->get();
+        return view('reports.audits',['audits' => $audits]);
     }
 }
