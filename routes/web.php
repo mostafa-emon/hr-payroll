@@ -91,6 +91,8 @@ Route::get('/void-mr/{mr_id}', 'MRController@void');
 Route::get('/mr/print/{id}', 'MRController@print');
 Route::get('/mr/draft/{id}', 'MRController@draft');
 
+Route::get('/audits', 'ReportController@audits');
+
 Route::get('/issued-mr', 'ReportController@issued_mr');
 Route::post('/issued-mr', 'ReportController@issued_mr');
 Route::get('/void-mr', 'ReportController@void_mr');
@@ -115,6 +117,13 @@ Route::get('/user/update/{user_id}', 'UserController@update');
 Route::post('/user/update/{user_id}', 'UserController@update');
 Route::get('/user/profile/{user_id}', 'UserController@profile');
 Route::post('/user/profile/{user_id}', 'UserController@profile');
+
+Route::get('/roles', 'RolesController@index');
+Route::get('/roles/add', 'RolesController@add');
+Route::post('/roles/add', 'RolesController@add');
+Route::get('/roles/delete/{user_id}', 'RolesController@delete');
+Route::get('/roles/update/{user_id}', 'RolesController@update');
+Route::post('/roles/update/{user_id}', 'RolesController@update');
 
 Route::get('/currency', 'ConfigurationController@index_currency');
 Route::get('/currency/add', 'ConfigurationController@add_currency');

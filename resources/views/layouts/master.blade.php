@@ -115,6 +115,13 @@
           </div>
         </a>
 
+        <a  href="{{url('roles')}}" class="br-menu-link {{ (request()->is('roles*')) ? 'active' : '' }}">
+          <div class="br-menu-item">
+            <i class="menu-item-icon fa fa-box tx-16"></i>
+            <span class="menu-item-label">Roles</span>
+          </div>
+        </a>
+
         <a href="#" class="br-menu-link {{ (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('settings')) || (request()->is('printer*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-settings tx-24"></i>

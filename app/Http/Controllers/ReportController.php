@@ -216,4 +216,10 @@ class ReportController extends Controller
             'cheque_books'      => $cheque_books
         ]);
     }
+
+    public function audits(){
+        $audits = Supplier::first();
+        $audits = $audits->audits;
+        return response()->json($audits);
+    }
 }
