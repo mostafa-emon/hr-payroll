@@ -14,7 +14,9 @@
       <h4 class="tx-gray-800 mg-b-5">Users</h4>
     </div>
     <div style="float:right">
-      <a href="{{ url('user/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add User</a>
+      @if(roles() != "" && in_array(29, json_decode(roles(),false)))
+        <a href="{{ url('user/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add User</a>
+      @endif
     </div>
   </div>
 
@@ -36,8 +38,13 @@
               <th>Name</th>
               <th>Designation</th>
               <th>Email</th>
+              @if(roles() != "" && in_array(30, json_decode(roles(),false)))
               <th>Update</th>
+              @endif
+
+              @if(roles() != "" && in_array(31, json_decode(roles(),false)))
               <th>Delete</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -47,12 +54,16 @@
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->designation }}</td>
                 <td>{{ $user->email }}</td>
-                <td>
+                @if(roles() != "" && in_array(30, json_decode(roles(),false)))
+                  <td>
                   <a class="btn btn-info btn-sm" href="{{url ('user/update/'.$user->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
+                @endif
+                @if(roles() != "" && in_array(31, json_decode(roles(),false)))
                   <td>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$user->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                </td>
+                  </td>
+                  @endif
               </tr>
             @endforeach
           </tbody>

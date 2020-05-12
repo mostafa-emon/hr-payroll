@@ -137,6 +137,9 @@ class ConfigurationController extends Controller
     }
     
     public function add_printer(Request $request){
+        if(roles() != "" && !in_array(50, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->print_name !=""){
             $printer = new Printer();
             $printer->print_name        = $request->print_name;
@@ -150,12 +153,18 @@ class ConfigurationController extends Controller
     }
 
     public function delete_printer($printer_id){
+        if(roles() != "" && !in_array(52, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $printer = Printer::find($printer_id);
         $printer->delete();
         return redirect('printer')->with('message', 'Printer deleted successfully!');
     }
 
     public function update_printer($printer_id, Request $request){
+        if(roles() != "" && !in_array(51, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->print_name !=""){
             $printer = Printer::where('id',$printer_id)->first();
             $printer->print_name        = $request->print_name;

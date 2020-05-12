@@ -7,6 +7,9 @@ use App\User;
 use Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Role;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class UserController extends Controller
 {
@@ -21,6 +24,9 @@ class UserController extends Controller
     }
     
     public function add(Request $request){
+        if(roles() != "" && !in_array(29, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $user = new User();
             $user->name             = $request->name;
@@ -39,12 +45,18 @@ class UserController extends Controller
     }
     
     public function delete($user_id){
+        if(roles() != "" && !in_array(31, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $user = User::find($user_id);
         $user->delete();
         return redirect('user')->with('message', 'User deleted successfully!');
     }
 
     public function update($user_id, Request $request){
+        if(roles() != "" && !in_array(30, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $user = User::where('id',$user_id)->first();
             $user->name             = $request->name;
