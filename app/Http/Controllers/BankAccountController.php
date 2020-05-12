@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\BankAccount;
 use App\Bank;
 use App\Currency;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class BankAccountController extends Controller
 {
@@ -23,6 +26,9 @@ class BankAccountController extends Controller
     }
     
     public function add(Request $request){
+        if(roles() != "" && !in_array(20, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->ac_number !=""){
             $bank_account = new BankAccount();
             $bank_account->bank_id          = $request->bank_id;
@@ -38,12 +44,18 @@ class BankAccountController extends Controller
     }
 
     public function delete($bank_account_id){
+        if(roles() != "" && !in_array(22, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $bank_account = BankAccount::find($bank_account_id);
         $bank_account->delete();
         return redirect('bank-account')->with('message', 'Bank Account deleted successfully!');
     }
 
     public function update($bank_account_id, Request $request){
+        if(roles() != "" && !in_array(21, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->ac_number !=""){
             $bank_account = BankAccount::where('id',$bank_account_id)->first();
             $bank_account->bank_id          = $request->bank_id;

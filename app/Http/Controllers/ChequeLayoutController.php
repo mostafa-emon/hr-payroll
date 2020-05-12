@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\ChequeLayout;
 use App\Bank;
 use App\Printer;
+use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class ChequeLayoutController extends Controller
 {
@@ -22,6 +25,9 @@ class ChequeLayoutController extends Controller
         return view('cheque_layouts.index', ['cheque_layouts'=>$cheque_layout]);
     }
     public function add(Request $request){
+        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->height !=""){
             $cheque_layout = new ChequeLayout();
 
@@ -87,12 +93,18 @@ class ChequeLayoutController extends Controller
     }
 
     public function delete($cheque_layout_id){
+        if(roles() != "" && !in_array(28, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $cheque_layout = ChequeLayout::find($cheque_layout_id);
         $cheque_layout->delete();
         return redirect('cheque-layouts')->with('message', 'Cheque Layout deleted successfully!');
     }
 
     public function update($cheque_layout_id, Request $request){
+        if(roles() != "" && !in_array(27, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->height !=""){
             $cheque_layout = ChequeLayout::where('id',$cheque_layout_id)->first();
             $cheque_layout->bank_id                     = $request->bank_id;
@@ -158,6 +170,9 @@ class ChequeLayoutController extends Controller
     }
 
     public function duplicate($cheque_layout_id, Request $request){
+        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->height !=""){
             $cheque_layout = new ChequeLayout();
             $cheque_layout->bank_id                     = $request->bank_id;

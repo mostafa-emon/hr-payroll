@@ -8,6 +8,8 @@ use App\Cheque;
 use App\Bank;
 use App\BankAccount;
 use DB;
+use Auth;
+use App\Helpers\ViewHelper;
 
 class ChequeBookController extends Controller
 {
@@ -26,6 +28,9 @@ class ChequeBookController extends Controller
     }
 
     public function add(Request $request){
+        if(roles() != "" && !in_array(23, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->bank_id !=""){
             $cheque_book = new ChequeBook();
             $cheque_book->bank_id          = $request->bank_id;
@@ -52,6 +57,9 @@ class ChequeBookController extends Controller
     }
 
     public function update($cheque_book_id,Request $request){
+        if(roles() != "" && !in_array(24, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->bank_id !=""){
             $cheque_book = ChequeBook::where('id',$cheque_book_id)->first();
             $cheque_book->bank_id          = $request->bank_id;
@@ -81,6 +89,9 @@ class ChequeBookController extends Controller
     }
 
     public function delete($cheque_book_id){
+        if(roles() != "" && !in_array(25, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $cheque_book = ChequeBook::find($cheque_book_id);
         $cheque_book->delete();
         return redirect('cheque-books')->with('message', 'Cheque book deleted successfully!');
