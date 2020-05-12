@@ -14,7 +14,9 @@
       <h4 class="tx-gray-800 mg-b-5">Customers</h4>
     </div>
     <div style="float:right">
+      @if(roles() != "" && in_array(5, json_decode(roles(),false)))
       <a href="{{ url('customer/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Customer</a>
+      @endif
     </div>
   </div>
 

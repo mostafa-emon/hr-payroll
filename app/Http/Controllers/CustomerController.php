@@ -18,6 +18,9 @@ class CustomerController extends Controller
     }
     
     public function add(Request $request){
+        if(roles() != "" && !in_array(5, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $customer = new Customer();
             $customer->name             = $request->name;
