@@ -18,6 +18,24 @@
 
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
+        <form action="{{ url('audits') }}" method="POST">
+            {{ csrf_field() }}
+            <div class="row mg-b-30 b">
+                <div class="col-md-2">
+                    <label class="tx-black tx-13">From Date</label>
+                    <input type="text" id="dtpick1" name="from_date" value="{{$from_date}}" class="form-control" autocomplete="off"/>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="tx-black tx-13">To Date</label>
+                    <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
+                </div>
+
+                <div class="col-md-2" style="margin-top:28px">
+                    <input type="submit" class="btn btn-primary pointer" value="Search"/>
+                </div>
+            </div>
+        </form>
       <div class="table-responsive">
         <table id="dtable" class="table display responsive">
           <thead>

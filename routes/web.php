@@ -93,6 +93,7 @@ Route::get('/mr/print/{id}', 'MRController@print');
 Route::get('/mr/draft/{id}', 'MRController@draft');
 
 Route::get('/audits', 'ReportController@audits');
+Route::post('/audits', 'ReportController@audits');
 
 Route::get('/issued-mr', 'ReportController@issued_mr');
 Route::post('/issued-mr', 'ReportController@issued_mr');

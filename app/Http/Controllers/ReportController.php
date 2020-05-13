@@ -218,9 +218,25 @@ class ReportController extends Controller
         ]);
     }
 
-    public function audits(){
+    public function audits(Request $request){
+        $from_date = date('d-m-Y', strtotime('-7 days'));
+        $to_date = date('d-m-Y');
+
+        $date_formated_from = date('Y-m-d', strtotime('-7 days'));
+        $date_formated_to = date('Y-m-d');
+
+        if($request->from_date != "" && $request->to_date != ""){
+            $date_formated_from = date('Y-m-d', strtotime($request->from_date));
+            $date_formated_to = date('Y-m-d', strtotime($request->to_date));
+
+            $from_date = date('d-m-Y', strtotime($request->from_date));
+            $to_date = date('d-m-Y', strtotime($request->to_date));
+        }
         $audits = Audit::select('audits.*','users.name as user_name')
-                ->join('users','users.id','audits.user_id')->get();
-        return view('reports.audits',['audits' => $audits]);
+                ->join('users','users.id','audits.user_id')
+                ->whereBetween('audits.created_at', [$date_formated_from, $date_formated_to.' 23:59'])
+                ->orderBy('audits.created_at','desc')
+                ->get();
+        return view('reports.audits',['audits' => $audits, 'from_date' => $from_date, 'to_date' => $to_date]);
     }
 }
