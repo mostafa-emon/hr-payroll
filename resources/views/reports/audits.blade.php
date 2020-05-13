@@ -69,6 +69,14 @@
                         @if($audit->event == "created") Create Bank @endif
                         @if($audit->event == "updated") Update Bank @endif
                         @if($audit->event == "deleted") Delete Bank @endif
+                        @elseif($audit->auditable_type == "App\Currency")
+                        @if($audit->event == "created") Create Currency @endif
+                        @if($audit->event == "updated") Update Currency @endif
+                        @if($audit->event == "deleted") Delete Currency @endif
+                        @elseif($audit->auditable_type == "App\PaymentMethod")
+                        @if($audit->event == "created") Create Payment Method @endif
+                        @if($audit->event == "updated") Update Payment Method @endif
+                        @if($audit->event == "deleted") Delete Payment Method @endif
                     @endif
                 </td>
                 <td>
@@ -222,6 +230,25 @@
                                 else if($key == "phone") {$old = $old."Phone: ".$value.', ';}
                                 else if($key == "email") {$old = $old."Email: ".$value.', ';}
                                 else if($key == "contact_person") {$old = $old."Contact Person: ".$value.', ';}
+                            }
+                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\Currency"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "full_name") {$old = $old."Full Name: ".$value.', ';}
+                                else if($key == "fraction_name") {$old = $old."Fraction Name: ".$value.', ';}
+                            }
+                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\PaymentMethod"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "method_name") {$old = $old."Method Name: ".$value.', ';}
                             }
                             echo rtrim($old, ', ');
                         }
@@ -382,6 +409,24 @@
                             echo rtrim($new, ', ');
                         }
 
+                        if($audit->auditable_type == "App\Currency"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "full_name") {$new = $new."Full Name: ".$value.', ';}
+                                else if($key == "fraction_name") {$new = $new."Fraction Name: ".$value.', ';}
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\PaymentMethod"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "method_name") {$new = $new."Method Name: ".$value.', ';}
+                            }
+                            echo rtrim($new, ', ');
+                        }
                     @endphp
                 </td>
               </tr>
