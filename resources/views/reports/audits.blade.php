@@ -61,22 +61,30 @@
                         @if($audit->event == "created") Create Customer @endif
                         @if($audit->event == "updated") Update Customer @endif
                         @if($audit->event == "deleted") Delete Customer @endif
-                        @elseif($audit->auditable_type == "App\Supplier")
+                    @elseif($audit->auditable_type == "App\Supplier")
                         @if($audit->event == "created") Create Supplier @endif
                         @if($audit->event == "updated") Update Supplier @endif
                         @if($audit->event == "deleted") Delete Supplier @endif
-                        @elseif($audit->auditable_type == "App\Bank")
+                    @elseif($audit->auditable_type == "App\Bank")
                         @if($audit->event == "created") Create Bank @endif
                         @if($audit->event == "updated") Update Bank @endif
                         @if($audit->event == "deleted") Delete Bank @endif
-                        @elseif($audit->auditable_type == "App\Currency")
+                    @elseif($audit->auditable_type == "App\Currency")
                         @if($audit->event == "created") Create Currency @endif
                         @if($audit->event == "updated") Update Currency @endif
                         @if($audit->event == "deleted") Delete Currency @endif
-                        @elseif($audit->auditable_type == "App\PaymentMethod")
+                    @elseif($audit->auditable_type == "App\PaymentMethod")
                         @if($audit->event == "created") Create Payment Method @endif
                         @if($audit->event == "updated") Update Payment Method @endif
                         @if($audit->event == "deleted") Delete Payment Method @endif
+                    @elseif($audit->auditable_type == "App\ChequeLayout")
+                        @if($audit->event == "created") Create Cheque Format @endif
+                        @if($audit->event == "updated") Update Cheque Format @endif
+                        @if($audit->event == "deleted") Delete Cheque Format @endif
+                    @elseif($audit->auditable_type == "App\BankAccount")
+                        @if($audit->event == "created") Create Bank Account @endif
+                        @if($audit->event == "updated") Update Bank Account @endif
+                        @if($audit->event == "deleted") Delete Bank Account @endif
                     @endif
                 </td>
                 <td>
@@ -252,6 +260,36 @@
                             }
                             echo rtrim($old, ', ');
                         }
+
+                        if($audit->auditable_type == "App\ChequeLayout"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "bank_id") {
+                                    $bank_name = DB::table('banks')->where('id',$value)->value('name');
+                                    $old = "Cheque format for ".$old.$bank_name.', ';
+                                }
+                            }
+                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\BankAccount"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "bank_id") {
+                                    $bank_name = DB::table('banks')->where('id',$value)->value('name');
+                                    $old = $old."Bank ".$bank_name.', ';
+                                }
+                                if($key == "ac_number") { $old = $old."Account No: ".$value.', '; }
+                                if($key == "ac_type") { $old = $old."Type: ".$value.', '; }
+                                if($key == "currency_id") {
+                                    $currency = DB::table('currencies')->where('id',$value)->value('full_name');
+                                    $old = $old."Currency: ".$currency.', ';
+                                }
+                            }
+                            echo rtrim($old, ', ');
+                        }
                     @endphp
                 </td>
                 <td>
@@ -424,6 +462,36 @@
                             $new = "";
                             foreach($new_value as $key => $value){
                                 if($key == "method_name") {$new = $new."Method Name: ".$value.', ';}
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\ChequeLayout"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "bank_id") {
+                                    $bank_name = DB::table('banks')->where('id',$value)->value('name');
+                                    $new = "Cheque format for ".$new.$bank_name.', ';
+                                }
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\BankAccount"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "bank_id") {
+                                    $bank_name = DB::table('banks')->where('id',$value)->value('name');
+                                    $new = $new."Bank ".$bank_name.', ';
+                                }
+                                if($key == "ac_number") { $new = $new."Account No: ".$value.', '; }
+                                if($key == "ac_type") { $new = $new."Type: ".$value.', '; }
+                                if($key == "currency_id") {
+                                    $currency = DB::table('currencies')->where('id',$value)->value('full_name');
+                                    $new = $new."Currency: ".$currency.', ';
+                                }
                             }
                             echo rtrim($new, ', ');
                         }
