@@ -97,6 +97,7 @@
                         @if($audit->event == "created") Create User @endif
                         @if($audit->event == "updated") Update User @endif
                         @if($audit->event == "deleted") Delete User @endif
+                        @if($audit->event == "Logged In") Logged In @endif
                     @endif
                 </td>
                 <td>
