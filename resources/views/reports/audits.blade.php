@@ -85,6 +85,10 @@
                         @if($audit->event == "created") Create Bank Account @endif
                         @if($audit->event == "updated") Update Bank Account @endif
                         @if($audit->event == "deleted") Delete Bank Account @endif
+                    @elseif($audit->auditable_type == "App\ChequeBook")
+                        @if($audit->event == "created") Create Cheque Book @endif
+                        @if($audit->event == "updated") Update Cheque Book @endif
+                        @if($audit->event == "deleted") Delete Cheque Book @endif
                     @endif
                 </td>
                 <td>
@@ -279,7 +283,7 @@
                             foreach($old_value as $key => $value){
                                 if($key == "bank_id") {
                                     $bank_name = DB::table('banks')->where('id',$value)->value('name');
-                                    $old = $old."Bank ".$bank_name.', ';
+                                    $old = $old."Bank: ".$bank_name.', ';
                                 }
                                 if($key == "ac_number") { $old = $old."Account No: ".$value.', '; }
                                 if($key == "ac_type") { $old = $old."Type: ".$value.', '; }
@@ -287,6 +291,26 @@
                                     $currency = DB::table('currencies')->where('id',$value)->value('full_name');
                                     $old = $old."Currency: ".$currency.', ';
                                 }
+                            }
+                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\ChequeBook"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "bank_id") {
+                                    $bank_name = DB::table('banks')->where('id',$value)->value('name');
+                                    $old = $old."Bank: ".$bank_name.', ';
+                                }
+                                if($key == "account_id") {
+                                    $account = DB::table('bank_accounts')->where('id',$value)->value('ac_number');
+                                    $old = $old."Account: ".$account.', ';
+                                }
+                                if($key == "book_no") { $old = $old."Book No: ".$value.', '; }
+                                if($key == "no_of_leaves") { $old = $old."No of Leaves: ".$value.', '; }
+                                if($key == "starting_number") { $old = $old."Start From: ".$value.', '; }
+                                if($key == "ending_number") { $old = $old."End To: ".$value.', '; }
                             }
                             echo rtrim($old, ', ');
                         }
@@ -484,7 +508,7 @@
                             foreach($new_value as $key => $value){
                                 if($key == "bank_id") {
                                     $bank_name = DB::table('banks')->where('id',$value)->value('name');
-                                    $new = $new."Bank ".$bank_name.', ';
+                                    $new = $new."Bank: ".$bank_name.', ';
                                 }
                                 if($key == "ac_number") { $new = $new."Account No: ".$value.', '; }
                                 if($key == "ac_type") { $new = $new."Type: ".$value.', '; }
@@ -492,6 +516,26 @@
                                     $currency = DB::table('currencies')->where('id',$value)->value('full_name');
                                     $new = $new."Currency: ".$currency.', ';
                                 }
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\ChequeBook"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "bank_id") {
+                                    $bank_name = DB::table('banks')->where('id',$value)->value('name');
+                                    $new = $new."Bank: ".$bank_name.', ';
+                                }
+                                if($key == "account_id") {
+                                    $account = DB::table('bank_accounts')->where('id',$value)->value('ac_number');
+                                    $new = $new."Account: ".$account.', ';
+                                }
+                                if($key == "book_no") { $new = $new."Book No: ".$value.', '; }
+                                if($key == "no_of_leaves") { $new = $new."No of Leaves: ".$value.', '; }
+                                if($key == "starting_number") { $new = $new."Start From: ".$value.', '; }
+                                if($key == "ending_number") { $new = $new."End To: ".$value.', '; }
                             }
                             echo rtrim($new, ', ');
                         }
