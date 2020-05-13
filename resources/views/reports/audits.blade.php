@@ -65,6 +65,10 @@
                         @if($audit->event == "created") Create Supplier @endif
                         @if($audit->event == "updated") Update Supplier @endif
                         @if($audit->event == "deleted") Delete Supplier @endif
+                        @elseif($audit->auditable_type == "App\Bank")
+                        @if($audit->event == "created") Create Bank @endif
+                        @if($audit->event == "updated") Update Bank @endif
+                        @if($audit->event == "deleted") Delete Bank @endif
                     @endif
                 </td>
                 <td>
@@ -207,7 +211,20 @@
                                 else if($key == "contact_person") {$old = $old."Contact Person: ".$value.', ';}
                             }
                             echo rtrim($old, ', ');
-                        }                        
+                        }
+                        
+                        if($audit->auditable_type == "App\Bank"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "name") {$old = $old."Name: ".$value.', ';}
+                                else if($key == "address") {$old = $old."Address: ".$value.', ';}
+                                else if($key == "phone") {$old = $old."Phone: ".$value.', ';}
+                                else if($key == "email") {$old = $old."Email: ".$value.', ';}
+                                else if($key == "contact_person") {$old = $old."Contact Person: ".$value.', ';}
+                            }
+                            echo rtrim($old, ', ');
+                        }
                     @endphp
                 </td>
                 <td>
@@ -351,6 +368,20 @@
                             }
                             echo rtrim($new, ', ');
                         }
+
+                        if($audit->auditable_type == "App\Bank"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "name") {$new = $new."Name: ".$value.', ';}
+                                else if($key == "address") {$new = $new."Address: ".$value.', ';}
+                                else if($key == "phone") {$new = $new."Phone: ".$value.', ';}
+                                else if($key == "email") {$new = $new."Email: ".$value.', ';}
+                                else if($key == "contact_person") {$new = $new."Contact Person: ".$value.', ';}
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
                     @endphp
                 </td>
               </tr>
