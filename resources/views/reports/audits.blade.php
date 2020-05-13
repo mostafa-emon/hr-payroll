@@ -89,6 +89,14 @@
                         @if($audit->event == "created") Create Cheque Book @endif
                         @if($audit->event == "updated") Update Cheque Book @endif
                         @if($audit->event == "deleted") Delete Cheque Book @endif
+                    @elseif($audit->auditable_type == "App\Role")
+                        @if($audit->event == "created") Create Role @endif
+                        @if($audit->event == "updated") Update Role @endif
+                        @if($audit->event == "deleted") Delete Role @endif
+                    @elseif($audit->auditable_type == "App\User")
+                        @if($audit->event == "created") Create User @endif
+                        @if($audit->event == "updated") Update User @endif
+                        @if($audit->event == "deleted") Delete User @endif
                     @endif
                 </td>
                 <td>
@@ -314,6 +322,26 @@
                             }
                             echo rtrim($old, ', ');
                         }
+
+                        if($audit->auditable_type == "App\Role"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "role_name") { $old = $old."Role: ".$value.', '; }
+                            }
+                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\User"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "name") { $old = $old."Name: ".$value.', '; }
+                                else if($key == "designation") { $old = $old."Designation: ".$value.', '; }
+                                else if($key == "email") { $old = $old."Email: ".$value.', '; }
+                            }
+                            echo rtrim($old, ', ');
+                        }
                     @endphp
                 </td>
                 <td>
@@ -536,6 +564,26 @@
                                 if($key == "no_of_leaves") { $new = $new."No of Leaves: ".$value.', '; }
                                 if($key == "starting_number") { $new = $new."Start From: ".$value.', '; }
                                 if($key == "ending_number") { $new = $new."End To: ".$value.', '; }
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\Role"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "role_name") { $new = $new."Role: ".$value.', '; }
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\User"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "name") { $new = $new."Name: ".$value.', '; }
+                                else if($key == "designation") { $new = $new."Designation: ".$value.', '; }
+                                else if($key == "email") { $new = $new."Email: ".$value.', '; }
                             }
                             echo rtrim($new, ', ');
                         }

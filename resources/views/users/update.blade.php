@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-md-12 mg-t--1 mg-md-t-0">
-              <div class="form-group bd-t-0-force mg-md-l--1">
+              <div class="form-group bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">Roles: <span class="tx-danger">*</span></label>
                 <select name="roles" class="form-control mg-l--4" required>
                   <option selected disabled>Select Role</option>
