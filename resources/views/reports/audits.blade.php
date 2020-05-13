@@ -54,6 +54,9 @@
                     @elseif($audit->auditable_type == "App\MoneyReceipt")
                         @if($audit->event == "created") Create MR @endif
                         @if($audit->event == "updated") Update MR @endif
+                    @elseif($audit->auditable_type == "App\ChequeTransaction")
+                        @if($audit->event == "created") Create Cheque @endif
+                        @if($audit->event == "updated") Update Cheque @endif
                     @endif
                 </td>
                 <td>
@@ -140,7 +143,28 @@
                                 else if($key == "cheque_date") {$old = $old."Cheque Date: ".$value.', ';}
                                 else if($key == "bank_name") {$old = $old."Bank: ".$value.', ';}
                                 else if($key == "purpose") {$old = $old."Purpose: ".$value.', ';}
-                                else if($key == "status") {
+                                else if($key == "status" && $audit->event == "updated") {
+                                    if($value == 0) { $old = $old."Status: Pending, "; }
+                                    if($value == 1) { $old = $old."Status: Approved, "; }
+                                    if($value == 2) { $old = $old."Status: Rejected, "; }
+                                    if($value == 3) { $old = $old."Status: Void, "; }
+                                }
+                            }
+                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\ChequeTransaction"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "bank_name") {$old = $old."Bank: ".$value.', ';}
+                                else if($key == "ac_number") {$old = $old."Account No: ".$value.', ';}
+                                else if($key == "book_no") {$old = $old."Cheque Book: ".$value.', ';}
+                                else if($key == "cheque_no") {$old = $old."Cheque No: ".$value.', ';}
+                                else if($key == "date") {$old = $old."Cheque Date: ".date('d M Y',strtotime($value)).', ';}
+                                else if($key == "cheque_name") {$old = $old."Supplier: ".$value.', ';}
+                                else if($key == "amount") {$old = $old."Amount: ".$value.', ';}
+                                else if($key == "status" && $audit->event == "updated") {
                                     if($value == 0) { $old = $old."Status: Pending, "; }
                                     if($value == 1) { $old = $old."Status: Approved, "; }
                                     if($value == 2) { $old = $old."Status: Rejected, "; }
@@ -235,7 +259,28 @@
                                 else if($key == "cheque_date") {$new = $new."Cheque Date: ".$value.', ';}
                                 else if($key == "bank_name") {$new = $new."Bank: ".$value.', ';}
                                 else if($key == "purpose") {$new = $new."Purpose: ".$value.', ';}
-                                else if($key == "status") {
+                                else if($key == "status" && $audit->event == "updated") {
+                                    if($value == 0) { $new = $new."Status: Pending, "; }
+                                    if($value == 1) { $new = $new."Status: Approved, "; }
+                                    if($value == 2) { $new = $new."Status: Rejected, "; }
+                                    if($value == 3) { $new = $new."Status: Void, "; }
+                                }
+                            }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\ChequeTransaction"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "bank_name") {$new = $new."Bank: ".$value.', ';}
+                                else if($key == "ac_number") {$new = $new."Account No: ".$value.', ';}
+                                else if($key == "book_no") {$new = $new."Cheque Book: ".$value.', ';}
+                                else if($key == "cheque_no") {$new = $new."Cheque No: ".$value.', ';}
+                                else if($key == "date") {$new = $new."Cheque Date: ".date('d M Y',strtotime($value)).', ';}
+                                else if($key == "cheque_name") {$new = $new."Supplier: ".$value.', ';}
+                                else if($key == "amount") {$new = $new."Amount: ".$value.', ';}
+                                else if($key == "status" && $audit->event == "updated") {
                                     if($value == 0) { $new = $new."Status: Pending, "; }
                                     if($value == 1) { $new = $new."Status: Approved, "; }
                                     if($value == 2) { $new = $new."Status: Rejected, "; }
