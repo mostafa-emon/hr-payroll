@@ -68,7 +68,7 @@
           <li class="nav-item"><a href="{{ url('cheque-transactions') }}" class="nav-link {{ (request()->is('cheque-transactions*')) ? 'active' : '' }}">Cheque</a></li>
         </ul>
 
-        <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) ? 'active show-sub' : '' || (request()->is('audits*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) || (request()->is('audits*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-chart-bar tx-19"></i>
             <span class="menu-item-label">Reports</span>
