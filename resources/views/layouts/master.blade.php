@@ -174,58 +174,6 @@
           $(this).closest(".form-group").removeClass("form-group-active");
         });
 
-        $('#datatable1').DataTable({
-          responsive: true,
-          language: {
-            searchPlaceholder: 'Search...',
-            sSearch: ''
-          },
-          dom: 'Bfrtip',
-          buttons: [
-              {
-                extend: 'excel'
-              },
-              {
-                extend: 'pdf',
-              },
-              {
-                extend: 'print',
-                customize: function ( win ) {
-                    $(win.document.body).find( 'h1' )
-                    .css( 'font-size', '18px');
-
-                    $(win.document.body).find( 'h1' )
-                    .css( 'text-align', 'center');
-
-                    $(win.document.body).find('table').css('font-size', '10pt');
-                }
-            }
-          ],
-        });
-
-        $('#dtable').DataTable({
-          responsive: true,
-          language: {
-            searchPlaceholder: 'Search...',
-            sSearch: ''
-          },
-          dom: 'Bfrtip',
-          buttons: [
-              {
-                extend: 'excel'
-              }
-          ],
-        });
-
-        $('#datatable2').DataTable({
-          responsive: true,
-          language: {
-            searchPlaceholder: 'Search...',
-            sSearch: '',
-          },
-          "lengthChange": false
-        });
-
         $('#dtpick1').datepicker({ dateFormat: 'dd-mm-yy' });
         $('#dtpick2').datepicker({ dateFormat: 'dd-mm-yy' });
     </script>

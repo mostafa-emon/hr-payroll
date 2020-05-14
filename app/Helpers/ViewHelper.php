@@ -9,4 +9,8 @@ function roles(){
     return $roles;
 }
 
+function amountFormat($amount) {
+    return $amount;
+}
+
 

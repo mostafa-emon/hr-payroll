@@ -37,7 +37,7 @@ class ReportController extends Controller
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
         }
-        $money_receipts = $money_receipts->where('status','!=3')->get();
+        $money_receipts = $money_receipts->where('status','!=',3)->get();
 
         $site_offices = SiteOffice::orderBy('name','asc')->get();
         $customers = Customer::orderBy('name','asc')->get();
@@ -134,7 +134,7 @@ class ReportController extends Controller
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
         }
-        $cheques = $cheques->where('status','!=3')->get();
+        $cheques = $cheques->where('status','!=',3)->get();
 
         $banks     = Bank::orderBy('name','asc')->get();
         $suppliers = Supplier::orderBy('name','asc')->get();
