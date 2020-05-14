@@ -115,7 +115,8 @@
             </div>
 
             <div class="pd-t-10">
-              <input type="number" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
+              <input type="text" class="form-control" name="inputAmount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
+              <input type="hidden" id="realAmount" name="amount" required/>
               <input type="hidden" id="amount_in_word_line_1_input" name="amount_in_word_line_1_input"/>
               <input type="hidden" id="amount_in_word_line_2_input" name="amount_in_word_line_2_input"/>
             </div>
@@ -225,7 +226,10 @@
 
     function setChequeAmount(value) {
       if(value != ''){ 
-        var makeDecimal  = (Math.round(value * 100) / 100).toFixed(2);
+
+        var removeUnwanted = value.replace(/[^0-9.]/g, "")
+
+        var makeDecimal  = (Math.round(removeUnwanted * 100) / 100).toFixed(2);
         var splitDecimal = makeDecimal.split(".");
         var mainPart     = splitDecimal[0];
         var decimalPart  = splitDecimal[1];
@@ -280,6 +284,7 @@
               croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
               croreFormat = croreFormat + '.' + decimalPart
               $('#amount').text(croreFormat);
+              $('#realAmount').val(croreFormat);
               // COMMA SEPARATE END
 
               var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -335,6 +340,7 @@
             //COMMA SEPARATE START
             var millionFormat = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             $('#amount').text(millionFormat);
+            $('#realAmount').val(millionFormat);
             //COMMA SEPARATE END
 
             var th = ['','thousand', 'million', 'billion', 'trillion'];
@@ -481,6 +487,7 @@
 
       }else{
         $('#amount').text('Amount');
+        $('#realAmount').val('');
         $('#amount_in_word_line_1').text('Amount in words line #1');
         $('#amount_in_word_line_2').text('Amount in words line #2');
       }
