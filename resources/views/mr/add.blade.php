@@ -63,8 +63,8 @@
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Amount: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="amountInput" oninput="setChequeAmount(this.value)" placeholder="Enter Amount">
-                <input class="form-control" type="text" id="realAmount" name="amount">
-                <input type="text" id="amount_in_words" name="amount_in_words"/>
+                <input class="form-control" type="hidden" id="realAmount" name="amount">
+                <input type="hidden" id="amount_in_words" name="amount_in_words"/>
               </div>
             </div>
 

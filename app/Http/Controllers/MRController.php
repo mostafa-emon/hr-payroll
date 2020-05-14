@@ -38,6 +38,7 @@ class MRController extends Controller
                 $invoice_no = $last_invoice->invoice_no + 1;
             }
             
+            list($currency_full_name,$currency_fraction_name) = explode("_",$request->currency);
             $mr = new MoneyReceipt();
             $mr->site_office_name       = $site_office_name;
             $mr->site_office_prefix     = $prefix;
@@ -45,7 +46,7 @@ class MRController extends Controller
             $mr->invoice_no             = $invoice_no;
             $mr->customer_name          = $request->customer_name;
             $mr->amount                 = $request->amount;
-            $mr->currency               = $request->currency;
+            $mr->currency               = $currency_full_name;
             $mr->amount_in_word         = $request->amount_in_words;
             $mr->payment_method         = $request->payment_method;
             $mr->cheque_no              = $request->cheque_no;
