@@ -229,14 +229,12 @@
         var splitDecimal = makeDecimal.split(".");
         var mainPart     = splitDecimal[0];
         var decimalPart  = splitDecimal[1];
-
-
-        $('#amount').text(value);
-        //value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        
         var amount = mainPart
 
         var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
         if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
+          
           var words = new Array();
           words[0] = '';
           words[1] = 'One';
@@ -272,6 +270,18 @@
           var n_length = number.length;
           var words_string = "";
           if (n_length <= 9) {
+
+              //COMMA SEPARATE START
+              var croreFormat = mainPart.toString();
+              var lastThree = croreFormat.substring(croreFormat.length-3);
+              var otherNumbers = croreFormat.substring(0,croreFormat.length-3);
+              if(otherNumbers != '')
+                  lastThree = ',' + lastThree;
+              croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+              croreFormat = croreFormat + '.' + decimalPart
+              $('#amount').text(croreFormat);
+              // COMMA SEPARATE END
+
               var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
               var received_n_array = new Array();
               for (var i = 0; i < n_length; i++) {
@@ -321,6 +331,12 @@
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
+
+            //COMMA SEPARATE START
+            var millionFormat = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            $('#amount').text(millionFormat);
+            //COMMA SEPARATE END
+
             var th = ['','thousand', 'million', 'billion', 'trillion'];
             var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
             var tn=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
