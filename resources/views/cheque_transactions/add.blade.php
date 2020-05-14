@@ -126,8 +126,8 @@
               </label>
             </div>
 
-            <input type="text" id="currency_full_name" value="BDT"/>
-            <input type="text" id="currency_fraction_name" value="Paisa"/>
+            <input type="hidden" id="currency_full_name" value="BDT"/>
+            <input type="hidden" id="currency_fraction_name" value="Paisa"/>
 
             <div class="pd-t-15">
               <input type="submit" value="Create Cheque" class="pd-15 btn btn-success btn-block pointer"/>
@@ -298,13 +298,13 @@
                       words_string += words[value] + " ";
                   }
                   if ((i == 1 && value != 0) || (i == 0 && value != 0 && n_array[i + 1] == 0)) {
-                      words_string += "Crores ";
+                      words_string += "Crore ";
                   }
                   if ((i == 3 && value != 0) || (i == 2 && value != 0 && n_array[i + 1] == 0)) {
                     if(amount_in_word_format == 'crore_lakh_thousand') {
-                      words_string += "Lakhs ";
+                      words_string += "Lakh ";
                     }else if(amount_in_word_format == 'crore_lac_thousand') {
-                      words_string += "Lacs ";
+                      words_string += "Lac ";
                     } 
                   }
                   if ((i == 5 && value != 0) || (i == 4 && value != 0 && n_array[i + 1] == 0)) {
@@ -316,7 +316,7 @@
                       words_string += "Hundred ";
                   }
               }
-              words_string = words_string.split("  ").join(" ") + ' Only';
+              words_string = words_string.split("  ").join(" ");
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
@@ -449,7 +449,7 @@
           var first_line = fullString.substring(0,'{{ $layout->amount_in_word_max_character }}');
           var lastIndex = first_line.lastIndexOf(" ");
           var first = first_line.replace(/ [^ ]+$/, "");
-          var second_line = fullString.substring(lastIndex,100);
+          var second_line = fullString.substring(lastIndex);
         }
         else{
           var first  = fullString
