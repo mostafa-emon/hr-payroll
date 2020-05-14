@@ -225,13 +225,14 @@
 
     function setChequeAmount(value) {
       if(value != ''){ 
-        var makeDecimal  = (Math.round(value * 100) / 100).toFixed(2);//value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var makeDecimal  = (Math.round(value * 100) / 100).toFixed(2);
         var splitDecimal = makeDecimal.split(".");
         var mainPart     = splitDecimal[0];
         var decimalPart  = splitDecimal[1];
 
-        $('#amount').text(makeDecimal);
 
+        $('#amount').text(value);
+        //value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         var amount = mainPart
 
         var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
