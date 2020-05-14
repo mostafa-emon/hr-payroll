@@ -47,21 +47,25 @@
 
             <div class="col-md-3 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Amount: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="amount" oninput="setChequeAmount(this.value)" placeholder="Enter Amount">
-                <input type="hidden" id="amount_in_words" name="amount_in_words"/>
+                <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
+                  <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)">
+                      <option value="" disabled selected>Select Currency</option>
+                      @foreach($currency as $currency)
+                          <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}">{{ $currency->full_name }}</option>
+                      @endforeach
+                  </select> 
+                  <input type="hidden" id="currency_full_name" value="BDT"/>
+                  <input type="hidden" id="currency_fraction_name" value="Paisa"/>
               </div>
             </div>
 
             <div class="col-md-3 mg-t--1 mg-md-t-0">
-                <div class="form-group mg-md-l--1">
-                  <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
-                    <select name="currency" class="form-control mg-l--4">
-                        @foreach($currency as $currency)
-                            <option value="{{ $currency->fraction_name }}">{{ $currency->fraction_name }}</option>
-                        @endforeach
-                    </select> 
-                </div>
+              <div class="form-group mg-md-l--1">
+                <label class="form-control-label">Amount: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="amountInput" oninput="setChequeAmount(this.value)" placeholder="Enter Amount">
+                <input class="form-control" type="text" id="realAmount" name="amount">
+                <input type="text" id="amount_in_words" name="amount_in_words"/>
+              </div>
             </div>
 
             <div class="col-md-6">
@@ -121,13 +125,19 @@
 
       function setChequeAmount(value) {
       if(value != ''){ 
-        $('#amount').text(value);
 
-        var amount = value.replace(/[^0-9 ]/g, "")
+        var removeUnwanted = value.replace(/[^0-9.]/g, "")
+
+        var makeDecimal  = (Math.round(removeUnwanted * 100) / 100).toFixed(2);
+        var splitDecimal = makeDecimal.split(".");
+        var mainPart     = splitDecimal[0];
+        var decimalPart  = splitDecimal[1];
+        
+        var amount = mainPart
 
         var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
-        
         if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
+          
           var words = new Array();
           words[0] = '';
           words[1] = 'One';
@@ -163,6 +173,19 @@
           var n_length = number.length;
           var words_string = "";
           if (n_length <= 9) {
+
+              //COMMA SEPARATE START
+              var croreFormat = mainPart.toString();
+              var lastThree = croreFormat.substring(croreFormat.length-3);
+              var otherNumbers = croreFormat.substring(0,croreFormat.length-3);
+              if(otherNumbers != '')
+                  lastThree = ',' + lastThree;
+              croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+              croreFormat = croreFormat + '.' + decimalPart
+              $('#amount').text(croreFormat);
+              $('#realAmount').val(croreFormat);
+              // COMMA SEPARATE END
+
               var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
               var received_n_array = new Array();
               for (var i = 0; i < n_length; i++) {
@@ -190,13 +213,13 @@
                       words_string += words[value] + " ";
                   }
                   if ((i == 1 && value != 0) || (i == 0 && value != 0 && n_array[i + 1] == 0)) {
-                      words_string += "Crores ";
+                      words_string += "Crore ";
                   }
                   if ((i == 3 && value != 0) || (i == 2 && value != 0 && n_array[i + 1] == 0)) {
                     if(amount_in_word_format == 'crore_lakh_thousand') {
-                      words_string += "Lakhs ";
+                      words_string += "Lakh ";
                     }else if(amount_in_word_format == 'crore_lac_thousand') {
-                      words_string += "Lacs ";
+                      words_string += "Lac ";
                     } 
                   }
                   if ((i == 5 && value != 0) || (i == 4 && value != 0 && n_array[i + 1] == 0)) {
@@ -208,12 +231,17 @@
                       words_string += "Hundred ";
                   }
               }
-              words_string = words_string.split("  ").join(" ") + ' Only';
-              
-              $('#amount_in_words').val(words_string);
+              words_string = words_string.split("  ").join(" ");
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
+
+            //COMMA SEPARATE START
+            var millionFormat = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            $('#amount').text(millionFormat);
+            $('#realAmount').val(millionFormat);
+            //COMMA SEPARATE END
+
             var th = ['','thousand', 'million', 'billion', 'trillion'];
             var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
             var tn=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
@@ -268,16 +296,90 @@
               str += dg[n[i]] +' ';
             }
             var final = str.replace(/\s+/g,' ');
-
-            var word = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
-            var amount_in_word = word + ' Only'
-            //var amount_in_word = final_string.charAt(0).toUpperCase() + final_string.slice(1)
-            
-            $('#amount_in_words').val(amount_in_word);
+            var words_string = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
         }
+
+        // DECIMAL PART START
+          var th = ['','thousand', 'million', 'billion', 'trillion'];
+          var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
+          var tn=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+          var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+          var s = decimalPart;
+          s = s.toString();
+          s = s.replace(/[\, ]/g,'');
+          if (s != parseFloat(s)) return 'not a number';
+          var x = s.indexOf('.');
+          if (x == -1)
+          x = s.length;
+          if (x > 15)
+          return 'too big';
+          var n = s.split('');
+          var str = '';
+          var sk = 0;
+          for (var i=0; i < x; i++)
+          {
+            if ((x-i)%3==2)
+            {
+              if (n[i] == '1')
+              {
+                str += tn[Number(n[i+1])] + ' ';
+                i++;
+                sk=1;
+              }
+              else if (n[i]!=0)
+              {
+                str += tw[n[i]-2] + ' ';
+                sk=1;
+              }
+            }
+            else if (n[i]!=0)
+            {
+              str += dg[n[i]] +' ';
+              if ((x-i)%3==0) str += 'hundred ';
+              sk=1;
+            }
+            if ((x-i)%3==1)
+            {
+              if (sk)
+                str += th[(x-i-1)/3] + ' ';
+                sk=0;
+            }
+          }
+          if (x != s.length)
+          {
+            var y = s.length;
+            str += 'point ';
+            for (var i=x+1; i<y; i++)
+            str += dg[n[i]] +' ';
+          }
+          var final = str.replace(/\s+/g,' ');
+          var decimalString = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
+        // DECIMAL PART END
+
+        // START MECHANISM
+        if(words_string != "") {
+          words_string = $('#currency_full_name').val() + ' ' + words_string;
+        }
+
+        if(decimalString != "") {
+          decimalString = 'and ' + $('#currency_fraction_name').val() + ' ' + decimalString;
+        }
+
+        var fullString = words_string + decimalString + 'Only'
+
+        $('#amount_in_words').val(fullString);
+
       }else{
+        $('#realAmount').val('');
         $('#amount_in_words').val('');
       }
+    }
+
+    function setCurrency(value){
+      var currency = value.split("_");
+      $('#currency_full_name').val(currency[0])
+      $('#currency_fraction_name').val(currency[1])
     }
   </script>
 @endsection
