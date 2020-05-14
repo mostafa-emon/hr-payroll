@@ -12,6 +12,7 @@ use App\Printer;
 use App\ChequeTransaction;
 use App\Supplier;
 use App\Setting;
+use App\Currency;
 
 class ChequeTransactionController extends Controller
 {
@@ -82,6 +83,12 @@ class ChequeTransactionController extends Controller
         foreach($cheques as $cheque){
             echo '<option value="'.$cheque->cheque_no.'">'.$cheque->cheque_no.'</option>';
         }
+    }
+
+    public function get_currency_by_account($account_id){
+        $account = BankAccount::where('id',$account_id)->first();
+        $currency = Currency::where('id',$account->currency_id)->first();
+        echo json_encode($currency);
     }
 
     public function approve($cheque_id){

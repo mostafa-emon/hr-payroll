@@ -115,7 +115,7 @@
             </div>
 
             <div class="pd-t-10">
-              <input type="text" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
+              <input type="number" class="form-control" name="amount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
               <input type="hidden" id="amount_in_word_line_1_input" name="amount_in_word_line_1_input"/>
               <input type="hidden" id="amount_in_word_line_2_input" name="amount_in_word_line_2_input"/>
             </div>
@@ -125,6 +125,9 @@
                 <input type="checkbox" id="ac_pay_checkbox" onclick="hideShowElement('ac_pay')" name="ac_payee_only" value="1" checked><span>A/C Payee Only</span>
               </label>
             </div>
+
+            <input type="text" id="currency_full_name" value="BDT"/>
+            <input type="text" id="currency_fraction_name" value="Paisa"/>
 
             <div class="pd-t-15">
               <input type="submit" value="Create Cheque" class="pd-15 btn btn-success btn-block pointer"/>
@@ -180,6 +183,17 @@
             $('#cheque_books').append(data);
           }
       });
+
+      $.ajax({
+          type: 'GET',
+          url: '/get-account-currency/'+account_id,
+          success:function(data) {
+            var currency = JSON.parse(data);
+            $('#currency_full_name').val(currency.full_name);
+            $('#currency_fraction_name').val(currency.fraction_name);
+          }
+      });
+
       var date_formatting = '{{$layout->date_format}}'
       if(date_formatting == "DDMMYYYY") {
         $( "#chooseDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -211,9 +225,14 @@
 
     function setChequeAmount(value) {
       if(value != ''){ 
-        $('#amount').text(value);
+        var makeDecimal  = (Math.round(value * 100) / 100).toFixed(2);//value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var splitDecimal = makeDecimal.split(".");
+        var mainPart     = splitDecimal[0];
+        var decimalPart  = splitDecimal[1];
 
-        var amount = value.replace(/[^0-9 ]/g, "")
+        $('#amount').text(makeDecimal);
+
+        var amount = mainPart
 
         var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
         if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
@@ -298,23 +317,6 @@
                   }
               }
               words_string = words_string.split("  ").join(" ") + ' Only';
-              
-              if(words_string.length > '{{ $layout->amount_in_word_max_character }}') {
-                var first_line = words_string.substring(0,'{{$layout->amount_in_word_max_character}}');
-                var lastIndex = first_line.lastIndexOf(" ");
-                var first = first_line.replace(/ [^ ]+$/, "");
-                var second_line = words_string.substring(lastIndex,100);
-              }
-              else{
-                var first  = words_string
-                var second_line = '' 
-              }
-
-              $('#amount_in_word_line_1').text(first);
-              $('#amount_in_word_line_2').text(second_line);
-
-              $('#amount_in_word_line_1_input').val(first);
-              $('#amount_in_word_line_2_input').val(second_line);
           }
         }
         else if(amount_in_word_format == 'billion_million_thousand'){
@@ -372,31 +374,98 @@
               str += dg[n[i]] +' ';
             }
             var final = str.replace(/\s+/g,' ');
-
-            var word = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
-            var amount_in_word = word + ' Only'
-            //var amount_in_word = final_string.charAt(0).toUpperCase() + final_string.slice(1)
-
-            if(amount_in_word.length > '{{ $layout->amount_in_word_max_character }}') {
-              var first_line = amount_in_word.substring(0,'{{ $layout->amount_in_word_max_character }}');
-              var lastIndex = first_line.lastIndexOf(" ");
-              var first = first_line.replace(/ [^ ]+$/, "");
-              var second_line = amount_in_word.substring(lastIndex,100);
-            }
-            else{
-              var first  = amount_in_word
-              var second_line = '' 
-            }
-            
-            $('#amount_in_word_line_1').text(first);
-            $('#amount_in_word_line_2').text(second_line);
-            
-            $('#amount_in_word_line_1_input').val(first);
-            $('#amount_in_word_line_2_input').val(second_line);
+            var words_string = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
         }
+
+        // DECIMAL PART START
+          var th = ['','thousand', 'million', 'billion', 'trillion'];
+          var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
+          var tn=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+          var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+          var s = decimalPart;
+          s = s.toString();
+          s = s.replace(/[\, ]/g,'');
+          if (s != parseFloat(s)) return 'not a number';
+          var x = s.indexOf('.');
+          if (x == -1)
+          x = s.length;
+          if (x > 15)
+          return 'too big';
+          var n = s.split('');
+          var str = '';
+          var sk = 0;
+          for (var i=0; i < x; i++)
+          {
+            if ((x-i)%3==2)
+            {
+              if (n[i] == '1')
+              {
+                str += tn[Number(n[i+1])] + ' ';
+                i++;
+                sk=1;
+              }
+              else if (n[i]!=0)
+              {
+                str += tw[n[i]-2] + ' ';
+                sk=1;
+              }
+            }
+            else if (n[i]!=0)
+            {
+              str += dg[n[i]] +' ';
+              if ((x-i)%3==0) str += 'hundred ';
+              sk=1;
+            }
+            if ((x-i)%3==1)
+            {
+              if (sk)
+                str += th[(x-i-1)/3] + ' ';
+                sk=0;
+            }
+          }
+          if (x != s.length)
+          {
+            var y = s.length;
+            str += 'point ';
+            for (var i=x+1; i<y; i++)
+            str += dg[n[i]] +' ';
+          }
+          var final = str.replace(/\s+/g,' ');
+          var decimalString = final.replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
+        // DECIMAL PART END
+
+        // START MECHANISM
+        if(words_string != "") {
+          words_string = $('#currency_full_name').val() + ' ' + words_string;
+        }
+
+        if(decimalString != "") {
+          decimalString = ' and ' + $('#currency_fraction_name').val() + ' ' + decimalString;
+        }
+
+        var fullString = words_string + decimalString + ' Only'
+        if(fullString.length > '{{ $layout->amount_in_word_max_character }}') {
+          var first_line = fullString.substring(0,'{{ $layout->amount_in_word_max_character }}');
+          var lastIndex = first_line.lastIndexOf(" ");
+          var first = first_line.replace(/ [^ ]+$/, "");
+          var second_line = fullString.substring(lastIndex,100);
+        }
+        else{
+          var first  = fullString
+          var second_line = '' 
+        }
+
+        $('#amount_in_word_line_1').text(first);
+        $('#amount_in_word_line_2').text(second_line);
+        
+        $('#amount_in_word_line_1_input').val(first);
+        $('#amount_in_word_line_2_input').val(second_line);
+
       }else{
         $('#amount').text('Amount');
         $('#amount_in_word_line_1').text('Amount in words line #1');
+        $('#amount_in_word_line_2').text('Amount in words line #2');
       }
     }
     @endif

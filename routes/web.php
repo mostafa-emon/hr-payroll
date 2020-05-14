@@ -80,6 +80,7 @@ Route::get('/cheque-transactions', 'ChequeTransactionController@index');
 Route::post('/cheque-transactions/add', 'ChequeTransactionController@add');
 Route::get('/cheque-transactions/add/{bank_id?}', 'ChequeTransactionController@add');
 Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');
+Route::get('/get-account-currency/{account_id}', 'ChequeTransactionController@get_currency_by_account');
 Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
 
 Route::get('/mr', 'MRController@index');
