@@ -37,7 +37,7 @@
             <div style="float: right; padding-bottom: 10px;">
               <div>
                 <div style="font-weight: bold; padding-right: 160px;">Money Receipt No</div>
-                <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ $transaction->invoice_no }}</div>
+                <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ $transaction->site_office_prefix }}{{ $transaction->invoice_no }}{{ $transaction->site_office_suffix }}</div>
               </div><br>
               <div>
                 <div style="font-weight: bold; padding-right: 160px;">Money Receipt Date</div>
@@ -55,12 +55,12 @@
               <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
                 <thead>
                   <tr>
-                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Sl</th>
-                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Currency</th>
-                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Cheque No</th>
-                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Cheque Date</th>
-                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Bank Name</th>
-                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">Amount</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:13px;">Sl</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:13px;">Currency</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:13px;">Cheque No</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:13px;">Cheque Date</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:13px;">Bank Name</th>
+                    <th style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:13px;">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@
                     <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->cheque_no}}</td>
                     <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">@if($transaction->cheque_date != "1970-01-01"){{date('d-m-Y',strtotime($transaction->cheque_date))}}@endif</td>
                     <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->bank_name}}</td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->amount}}</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;text-align:right;padding-right:5px;">{{$transaction->amount}}</td>
                   </tr>
   
                   <tr>
@@ -173,20 +173,18 @@
                   </tr>
           
                   <tr style="border: 1px solid black;padding-top:5px;padding-bottom:5px;">
-                    <td colspan="5" style="text-align: right;padding-top:5px;padding-bottom:5px;padding-right:10px;">Total</td>
-                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;">{{$transaction->amount}}</td>
+                    <td colspan="5" style="text-align: right;padding-top:5px;padding-bottom:5px;padding-right:10px;font-weight:bold">Total</td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;text-align:right;font-weight:bold;padding-right:5px;">{{$transaction->amount}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
         
             <div style="margin-top: 45px;">
-              <div style="float: left;">Amount in Word
-              </div>
-              <div style="float: left; padding-left: 20px;">{{$transaction->amount_in_word}}
-              </div>
+              <div style="float: left;">Amount in Word</div>
+              <div style="float: right; width:81%;">{{$transaction->amount_in_word}}</div>
               <br>
-              <div style="float: left; padding-left: 138px; margin-top: -13px;">_________________________________________________________________
+              <div style="float: left; padding-left: 136px; margin-top: -13px;">_________________________________________________________________
               </div>
             </div>
             <br>

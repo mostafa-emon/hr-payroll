@@ -51,15 +51,15 @@
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">MR Suffix:</label>
-                <input class="form-control" type="text" name="mr_suffix" placeholder="MR Suffix" value="{{$site_offices->mr_suffix}}">
+                <label class="form-control-label">MR Prefix:</label>
+                <input class="form-control" type="text" name="mr_prefix" placeholder="MR Prefix" value="{{$site_offices->mr_prefix}}">
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">MR Prefix:</label>
-                <input class="form-control" type="text" name="mr_prefix" placeholder="MR Prefix" value="{{$site_offices->mr_prefix}}">
+                <label class="form-control-label">MR Suffix:</label>
+                <input class="form-control" type="text" name="mr_suffix" placeholder="MR Suffix" value="{{$site_offices->mr_suffix}}">
               </div>
             </div>
 

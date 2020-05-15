@@ -25,24 +25,35 @@ class MRController extends Controller
         }
         if($request->customer_name !=""){
             list($site_office_name,$prefix,$suffix,$mr_start_from) = explode('_',$request->site_office);
-            
-            $last_invoice = MoneyReceipt::where('site_office_name',$site_office_name)->orderBy('created_at','desc')->first();
-            if(!isset($last_invoice->invoice_no)){
-                $setting = Setting::where('id',1)->first();
-                if($setting->mr_number == "auto"){
-                    $invoice_no = 1;
-                }else{
+            $setting = Setting::where('id',1)->first();
+            // NEW INVOICE NO CODE
+            if($setting->mr_number == "auto"){
+                $last_invoice = MoneyReceipt::where('site_office_name',$site_office_name)->orderBy('created_at','desc')->first();
+                if(!isset($last_invoice->invoice_no)){
                     $invoice_no = $mr_start_from;
+                } else{
+                    if($last_invoice->site_office_prefix == $prefix && $last_invoice->site_office_suffix == $suffix) {
+                        $invoice_no = $last_invoice->invoice_no + 1;
+                    }else{
+                        $invoice_no = $mr_start_from;
+                    }
                 }
             }else{
-                $invoice_no = $last_invoice->invoice_no + 1;
+                $invoice_no = $request->invoice_no;
             }
             
             list($currency_full_name,$currency_fraction_name) = explode("_",$request->currency);
             $mr = new MoneyReceipt();
             $mr->site_office_name       = $site_office_name;
-            $mr->site_office_prefix     = $prefix;
-            $mr->site_office_suffix     = $suffix;
+
+            if($setting->mr_number == "manual"){
+                $mr->site_office_prefix     = "";
+                $mr->site_office_suffix     = "";
+            }else{
+                $mr->site_office_prefix     = $prefix;
+                $mr->site_office_suffix     = $suffix;
+            }
+            
             $mr->invoice_no             = $invoice_no;
             $mr->customer_name          = $request->customer_name;
             $mr->amount                 = $request->amount;
