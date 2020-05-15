@@ -110,7 +110,7 @@
             <div class="col-md-3">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">MR Number:  @if($setting->mr_number == "auto") (N/A) @endif</label>
-                <input class="form-control" type="text" name="invoice_no" placeholder="Enter Invoice No." @if($setting->mr_number == "auto") readonly @endif>
+                <input class="form-control" type="text" name="invoice_no" placeholder="Enter Invoice No." @if($setting->mr_number == "auto") readonly @else required @endif>
               </div>
             </div>
 
