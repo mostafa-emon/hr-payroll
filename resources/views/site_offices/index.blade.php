@@ -39,8 +39,8 @@
               <th>Address</th>
               <th>Phone</th>
               <th>Email</th>
-              <th>MR Suffix</th>
               <th>MR Prefix</th>
+              <th>MR Suffix</th>
               <th>MR Start From</th>
               @if(roles() != "" && in_array(3, json_decode(roles(),false)))
               <th>Update</th>
@@ -59,8 +59,8 @@
                 <td>{{ $site_office->address }}</td>
                 <td>{{ $site_office->phone }}</td>
                 <td>{{ $site_office->email }}</td>
-                <td>{{ $site_office->mr_suffix }}</td>
                 <td>{{ $site_office->mr_prefix }}</td>
+                <td>{{ $site_office->mr_suffix }}</td>
                 <td>{{ $site_office->mr_start_from }}</td>
                 @if(roles() != "" && in_array(3, json_decode(roles(),false)))
                 <td>
