@@ -65,7 +65,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $cheque_layouts -> links() }}
     </div>
   </div>
 

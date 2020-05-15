@@ -118,7 +118,8 @@
                 </tbody>
             </table>
             <br>
-        </div>
+        </div><br>
+        {{ $cheques -> links() }}
     </div>
   </div>
 

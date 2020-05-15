@@ -74,7 +74,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $suppliers -> links() }}
     </div>
   </div>
 

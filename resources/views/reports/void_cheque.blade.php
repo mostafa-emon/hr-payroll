@@ -20,9 +20,8 @@
 
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
-
-        <form action="{{ url('void-cheque') }}" method="POST">
-            {{ csrf_field() }}
+      <form action="{{ url('void-cheque') }}" method="POST">
+        {{ csrf_field() }}
         <div class="row mg-b-30 b">
             <div class="col-md-2">
                 <label class="tx-black tx-13">Bank</label>
@@ -83,42 +82,43 @@
             </div>
         
         </div>
-        </form>
+      </form>
 
-        <div class="table-responsive">
-          <table 
-            @if(roles() != "" && in_array(48, json_decode(roles(),false))) id="datatable1" @endif 
-            @if(roles() != "" && !in_array(48, json_decode(roles(),false))) id="datatable2" @endif
-            class="table display responsive nowrap">
-              <thead>
+      <div class="table-responsive">
+        <table 
+          @if(roles() != "" && in_array(48, json_decode(roles(),false))) id="datatable1" @endif 
+          @if(roles() != "" && !in_array(48, json_decode(roles(),false))) id="datatable2" @endif
+          class="table display responsive nowrap">
+            <thead>
+              <tr>
+                <th class="text-center">Sl</th>
+                <th>Date</th>
+                <th>Bank</th>
+                <th>Account</th>
+                <th>Book No.</th>
+                <th>Cheque No.</th>
+                <th>Payee</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($cheques as $cheque)
                 <tr>
-                  <th class="text-center">Sl</th>
-                  <th>Date</th>
-                  <th>Bank</th>
-                  <th>Account</th>
-                  <th>Book No.</th>
-                  <th>Cheque No.</th>
-                  <th>Payee</th>
-                  <th>Amount</th>
+                  <td class="text-center">{{ $loop->iteration }}</td>
+                  <td>&nbsp;{{ date('d-m-Y',strtotime($cheque->date)) }}&nbsp;</td>
+                  <td>&nbsp;{{ $cheque->bank_name }}&nbsp;</td>
+                  <td>&nbsp;{{ $cheque->ac_number }}&nbsp;</td>
+                  <td>&nbsp;{{ $cheque->book_no }}&nbsp;</td>
+                  <td>&nbsp;{{ $cheque->cheque_no }}&nbsp;</td>
+                  <td>&nbsp;{{ $cheque->cheque_name }}&nbsp;</td>
+                  <td>&nbsp;{{ $cheque->amount }}&nbsp;</td>
                 </tr>
-              </thead>
-              <tbody>
-                @foreach($cheques as $cheque)
-                  <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
-                    <td>&nbsp;{{ date('d-m-Y',strtotime($cheque->date)) }}&nbsp;</td>
-                    <td>&nbsp;{{ $cheque->bank_name }}&nbsp;</td>
-                    <td>&nbsp;{{ $cheque->ac_number }}&nbsp;</td>
-                    <td>&nbsp;{{ $cheque->book_no }}&nbsp;</td>
-                    <td>&nbsp;{{ $cheque->cheque_no }}&nbsp;</td>
-                    <td>&nbsp;{{ $cheque->cheque_name }}&nbsp;</td>
-                    <td>&nbsp;{{ $cheque->amount }}&nbsp;</td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-            <br>
-        </div>
+              @endforeach
+            </tbody>
+        </table>
+        <br>
+      </div><br>
+      {{ $cheques -> links() }}
     </div>
   </div>
 

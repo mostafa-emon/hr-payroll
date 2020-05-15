@@ -612,7 +612,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $audits -> links() }}
     </div>
   </div>
 

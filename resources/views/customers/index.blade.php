@@ -72,7 +72,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $customers -> links() }}
     </div>
   </div>
 

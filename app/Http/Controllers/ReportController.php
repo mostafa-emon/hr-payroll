@@ -37,7 +37,7 @@ class ReportController extends Controller
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
         }
-        $money_receipts = $money_receipts->where('status','!=',3)->get();
+        $money_receipts = $money_receipts->where('status','!=',3)->paginate(10);
 
         $site_offices = SiteOffice::orderBy('name','asc')->get();
         $customers = Customer::orderBy('name','asc')->get();
@@ -78,7 +78,7 @@ class ReportController extends Controller
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
         }
-        $money_receipts = $money_receipts->where('status','3')->get();
+        $money_receipts = $money_receipts->where('status','3')->paginate(10);
 
         $site_offices = SiteOffice::orderBy('name','asc')->get();
         $customers = Customer::orderBy('name','asc')->get();
@@ -134,7 +134,7 @@ class ReportController extends Controller
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
         }
-        $cheques = $cheques->where('status','!=',3)->get();
+        $cheques = $cheques->where('status','!=',3)->paginate(10);
 
         $banks     = Bank::orderBy('name','asc')->get();
         $suppliers = Supplier::orderBy('name','asc')->get();
@@ -194,7 +194,7 @@ class ReportController extends Controller
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
         }
-        $cheques = $cheques->where('status','3')->get();
+        $cheques = $cheques->where('status','3')->paginate(10);
 
         $banks     = Bank::orderBy('name','asc')->get();
         $suppliers = Supplier::orderBy('name','asc')->get();
@@ -236,7 +236,7 @@ class ReportController extends Controller
                 ->join('users','users.id','audits.user_id')
                 ->whereBetween('audits.created_at', [$date_formated_from, $date_formated_to.' 23:59'])
                 ->orderBy('audits.created_at','desc')
-                ->get();
+                ->paginate(10);
         return view('reports.audits',['audits' => $audits, 'from_date' => $from_date, 'to_date' => $to_date]);
     }
 }

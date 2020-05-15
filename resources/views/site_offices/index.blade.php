@@ -76,7 +76,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $site_offices -> links() }}
     </div>
   </div>
 

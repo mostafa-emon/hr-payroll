@@ -99,7 +99,8 @@
           </tbody>
         </table>
         <br>
-      </div>
+      </div><br>
+      {{ $money_receipts -> links() }}
     </div>
   </div>
 @endsection

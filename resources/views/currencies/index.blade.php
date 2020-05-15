@@ -66,7 +66,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $currencies -> links() }}
     </div>
   </div>
 

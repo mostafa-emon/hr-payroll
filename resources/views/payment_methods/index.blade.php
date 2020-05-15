@@ -64,7 +64,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $payment_methods -> links() }}
     </div>
   </div>
 

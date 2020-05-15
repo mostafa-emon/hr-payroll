@@ -16,7 +16,7 @@ class BankController extends Controller
     }
     
     public function index(){
-        $bank = Bank::orderBy('name', 'asc')->get();
+        $bank = Bank::orderBy('name', 'asc')->paginate(10);
         return view('banks.index', ['banks'=>$bank]);
     }
     

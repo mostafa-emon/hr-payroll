@@ -14,7 +14,7 @@ use App\Company;
 class MRController extends Controller
 {
     public function index(){
-        $money_receipts = MoneyReceipt::all();
+        $money_receipts = MoneyReceipt::paginate(10);
         $setting = Setting::where('id',1)->first();
         return view('mr.index', ['money_receipts' => $money_receipts, 'setting' => $setting]);
     }

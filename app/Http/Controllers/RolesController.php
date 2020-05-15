@@ -11,7 +11,7 @@ use App\Helpers\ViewHelper;
 class RolesController extends Controller
 {
     public function index(){
-        $roles = Role::orderBy('role_name', 'asc')->get();
+        $roles = Role::orderBy('role_name', 'asc')->paginate(10);
         return view('roles.index', ['roles'=>$roles]);
     }
     

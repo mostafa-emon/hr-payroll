@@ -74,7 +74,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $cheque_books -> links() }}
     </div>
   </div>
 

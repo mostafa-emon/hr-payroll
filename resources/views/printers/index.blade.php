@@ -70,7 +70,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $printers -> links() }}
     </div>
   </div>
 

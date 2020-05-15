@@ -72,7 +72,8 @@
             @endforeach
           </tbody>
         </table>
-      </div>
+      </div><br>
+      {{ $banks -> links() }}
     </div>
   </div>
 

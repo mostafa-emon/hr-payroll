@@ -23,7 +23,7 @@ class ChequeBookController extends Controller
                         ->select('cheque_books.*','banks.name as bank_name','bank_accounts.ac_number as ac_number')
                         ->join('banks','banks.id','cheque_books.bank_id')
                         ->join('bank_accounts','bank_accounts.id','cheque_books.account_id')
-                        ->get();
+                        ->paginate(10);
         return view('cheque_books.index', ['cheque_books'=>$cheque_books]);
     }
 
