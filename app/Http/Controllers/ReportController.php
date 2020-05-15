@@ -13,15 +13,16 @@ use App\BankAccount;
 use App\ChequeBook;
 use App\Supplier;
 use App\Audit;
+use App\Company;
 
 class ReportController extends Controller
 {
     public function issued_mr(Request $request) {
-        
+        $company     = Company::where('id',1)->first();
         $site_office = "All";
         $customer    = "All";
-        $from_date   = "";
-        $to_date     = "";
+        $from_date = date('01-m-Y');
+        $to_date   = date('d-m-Y');
 
         $money_receipts = MoneyReceipt::orderBy('created_at','desc');
         if($request->site_office != "" && $request->site_office != "All"){
@@ -36,8 +37,15 @@ class ReportController extends Controller
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
+        }else{
+            $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $money_receipts = $money_receipts->where('status','!=',3)->paginate(10);
+        $money_receipts = $money_receipts->where('status','!=',3)->get();
+
+        $total = 0; 
+        foreach($money_receipts as $money_receipt) {
+            $total = $total + (float) filter_var( $money_receipt->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
+        }
 
         $site_offices = SiteOffice::orderBy('name','asc')->get();
         $customers = Customer::orderBy('name','asc')->get();
@@ -53,7 +61,9 @@ class ReportController extends Controller
             'customers'         => $customers, 
             'customer'          => $customer, 
             'from_date'         => $from_date,
-            'to_date'           => $to_date
+            'to_date'           => $to_date,
+            'company'           => $company,
+            'total'             => $total
         ]);
     }
 
@@ -99,7 +109,7 @@ class ReportController extends Controller
     }
 
     public function issued_cheque(Request $request) {
-        
+        $company        = Company::where('id',1)->first();
         $bank_name      = "All";
         $ac_number      = "All";
         $accounts       = "";
