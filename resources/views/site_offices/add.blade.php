@@ -51,15 +51,15 @@
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">MR Suffix:</label>
-                <input class="form-control" type="text" name="mr_suffix" placeholder="MR Suffix">
+                <label class="form-control-label">MR Prefix:</label>
+                <input class="form-control" type="text" name="mr_prefix" placeholder="MR Prefix">
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">MR Prefix:</label>
-                <input class="form-control" type="text" name="mr_prefix" placeholder="MR Prefix">
+                <label class="form-control-label">MR Suffix:</label>
+                <input class="form-control" type="text" name="mr_suffix" placeholder="MR Suffix">
               </div>
             </div>
 
