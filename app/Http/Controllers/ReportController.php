@@ -198,15 +198,15 @@ class ReportController extends Controller
     }
 
     public function void_cheque(Request $request) {
-        
+        $company        = Company::where('id',1)->first();
         $bank_name      = "All";
         $ac_number      = "All";
         $accounts       = "";
         $cheque_book    = "All";
         $cheque_books   = "";
         $supplier_name  = "All";
-        $from_date      = "";
-        $to_date        = "";
+        $from_date = date('01-m-Y');
+        $to_date   = date('d-m-Y');
 
         $cheques = ChequeTransaction::orderBy('created_at','desc');
         if($request->bank_id != "" && $request->bank_id != "All"){
@@ -235,17 +235,20 @@ class ReportController extends Controller
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status','3')->paginate(10);
+        $cheques = $cheques->where('status',3)->get();
+
+        $total = 0; 
+        foreach($cheques as $cheque) {
+            $total = $total + (float) filter_var( $cheque->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
+        }
 
         $banks     = Bank::orderBy('name','asc')->get();
         $suppliers = Supplier::orderBy('name','asc')->get();
         $setting = Setting::where('id',1)->first();
-        $title = "Void Cheques";
 
         return view('reports.void_cheque', [
             'cheques'           => $cheques, 
             'setting'           => $setting, 
-            'title'             => $title, 
             'banks'             => $banks, 
             'bank_name'         => $bank_name, 
             'ac_number'         => $ac_number, 
@@ -255,8 +258,14 @@ class ReportController extends Controller
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'accounts'          => $accounts,
-            'cheque_books'      => $cheque_books
+            'cheque_books'      => $cheque_books,
+            'company'           => $company,
+            'total'             => $total
         ]);
+    }
+
+    public function export_void_cheque(){
+        return Excel::download(new ChequeVoidExportView(), 'Void Cheque.xlsx');
     }
 
     public function audits(Request $request){
