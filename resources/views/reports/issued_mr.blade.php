@@ -1,7 +1,5 @@
 @extends('layouts.master')
 
-@section('title', $title)
-
 @section('content')
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -19,14 +17,6 @@
 
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
-      @if(session()->has('message'))
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          {{ session()->get('message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
       
       <form action="{{ url('issued-mr') }}" method="POST">
         {{ csrf_field() }}
@@ -120,7 +110,7 @@
 
     function printElem(){
       var mywindow = window.open('', 'PRINT');
-      mywindow.document.write('<style>@page { size: landscape; } .div-padding-30{padding: 30px !important} table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:5px;} .no-border{border:none;}</style>');
+      mywindow.document.write('<style>@body{size: landscape;} .div-padding-30{padding-left: 30px;padding-right: 30px;} table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .no-border{border:none;}</style>');
       mywindow.document.write(document.getElementById('printArea').innerHTML);
 
       setTimeout(function () {

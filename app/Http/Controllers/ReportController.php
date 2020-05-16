@@ -52,12 +52,10 @@ class ReportController extends Controller
         $site_offices = SiteOffice::orderBy('name','asc')->get();
         $customers = Customer::orderBy('name','asc')->get();
         $setting = Setting::where('id',1)->first();
-        $title = "Issued Money Receipts";
 
         return view('reports.issued_mr', [
             'money_receipts'    => $money_receipts, 
             'setting'           => $setting, 
-            'title'             => $title, 
             'site_offices'      => $site_offices, 
             'site_office'       => $site_office, 
             'customers'         => $customers, 
@@ -69,7 +67,11 @@ class ReportController extends Controller
         ]);
     }
 
-    public function export_issued_mr(Request $request) {
+    public function export_issued_mr(){
+        return Excel::download(new MRExportView(), 'Issued Money Receipt.xlsx');
+    }
+
+    public function void_mr(Request $request) {
         $company     = Company::where('id',1)->first();
         $site_office = "All";
         $customer    = "All";
@@ -89,61 +91,29 @@ class ReportController extends Controller
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
             $to_date    = $request->to_date;
-        }else{
-            $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $money_receipts = $money_receipts->where('status','!=',3)->get();
+        $money_receipts = $money_receipts->where('status','3')->get();
 
         $total = 0; 
         foreach($money_receipts as $money_receipt) {
             $total = $total + (float) filter_var( $money_receipt->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        // EXCEL EXPORT HERE
-    }
-
-    public function ExportView(){
-        return Excel::download(new MRExportView(), 'mr.xlsx');
-    }
-
-    public function void_mr(Request $request) {
-        
-        $site_office = "All";
-        $customer    = "All";
-        $from_date   = "";
-        $to_date     = "";
-
-        $money_receipts = MoneyReceipt::orderBy('created_at','desc');
-        if($request->site_office != "" && $request->site_office != "All"){
-            $money_receipts = $money_receipts->where('site_office_name',$request->site_office);
-            $site_office = $request->site_office;
-        }
-        if($request->customer != "" && $request->customer != "All"){
-            $money_receipts = $money_receipts->where('customer_name',$request->customer);
-            $customer = $request->customer;
-        }
-        if($request->from_date != "" && $request->to_date != ""){
-            $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
-            $from_date  = $request->from_date;
-            $to_date    = $request->to_date;
-        }
-        $money_receipts = $money_receipts->where('status','3')->paginate(10);
-
         $site_offices = SiteOffice::orderBy('name','asc')->get();
         $customers = Customer::orderBy('name','asc')->get();
         $setting = Setting::where('id',1)->first();
-        $title = "Void Money Receipts";
 
         return view('reports.void_mr', [
             'money_receipts'    => $money_receipts, 
             'setting'           => $setting, 
-            'title'             => $title, 
             'site_offices'      => $site_offices, 
             'site_office'       => $site_office, 
             'customers'         => $customers, 
             'customer'          => $customer, 
             'from_date'         => $from_date,
-            'to_date'           => $to_date
+            'to_date'           => $to_date,
+            'company'           => $company,
+            'total'             => $total
         ]);
     }
 

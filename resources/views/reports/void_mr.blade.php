@@ -1,7 +1,5 @@
 @extends('layouts.master')
 
-@section('title', $title)
-
 @section('content')
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -68,39 +66,29 @@
       </div>
       </form>
 
-      <div class="table-responsive">
-        <table 
-        @if(roles() != "" && in_array(46, json_decode(roles(),false))) id="datatable1" @endif 
-        @if(roles() != "" && !in_array(46, json_decode(roles(),false))) id="datatable2" @endif
-        class="table display responsive nowrap">
-          <thead>
-            <tr>
-              <th>Sl</th>
-              <th>Date</th>
-              <th>Invoice No</th>
-              <th>Site Office</th>
-              <th>Customer</th>
-              <th>Amount</th>
-              <th>Pay Method</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($money_receipts as $mr)
-            <tr>
-              <td>{{$loop->iteration}}</td>
-              <td>{{ date('d-m-Y', strtotime($mr->created_at))}}</td>
-              <td>{{$mr->site_office_prefix}}{{$mr->invoice_no}}{{$mr->site_office_suffix}}</td>
-              <td>{{$mr->site_office_name}}</td>
-              <td>{{$mr->customer_name}}</td>
-              <td>{{$mr->amount}}</td>
-              <td>{{$mr->payment_method}}</td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-        <br>
-      </div><br>
-      {{ $money_receipts -> links() }}
+      <div class="text-right mg-b-15">
+        <a class="btn btn-info btn-sm pointer" id="excelButton" href="">Excel</a>
+        <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
+      </div>
+
+      <style>
+        table {
+          border-collapse: collapse;
+        }
+        th, td {
+          border: 1px solid black;
+          font-family:arial;
+          font-size:13px;
+          padding:5px;
+        }
+        .no-border{border:none;}
+      </style>
+
+      <div id="printArea" style="color:black;">
+        <div class="div-padding-30">
+          @include('reports.exports.void_mr_table',$money_receipts)
+        </div>
+      </div>
     </div>
   </div>
 @endsection
