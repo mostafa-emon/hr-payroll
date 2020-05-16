@@ -35,6 +35,8 @@ class MRVoidExportView implements FromView
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime(request()->from_date)), date('Y-m-d',strtotime(request()->to_date)).' 23:59']);
             $from_date  = request()->from_date;
             $to_date    = request()->to_date;
+        }else{
+            $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
         $money_receipts = $money_receipts->where('status','3')->get();
 

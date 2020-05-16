@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Exports;
+
+use App\ChequeTransaction;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use App\Company;
+use App\Setting;
+use Illuminate\Http\Request;
+
+class ChequeExportView implements FromView
+{
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function view(): View
+    {
+        $company        = Company::where('id',1)->first();
+        $bank_name      = "All";
+        $ac_number      = "All";
+        $accounts       = "";
+        $cheque_book    = "All";
+        $cheque_books   = "";
+        $supplier_name  = "All";
+        $from_date = date('01-m-Y');
+        $to_date   = date('d-m-Y');
+
+        $cheques = ChequeTransaction::orderBy('created_at','desc');
+        if(request()->bank_id != "" && request()->bank_id != "All"){
+            $bank_name = Bank::where('id',request()->bank_id)->value('name');
+            $cheques = $cheques->where('bank_name',$bank_name);
+            $accounts = BankAccount::where('bank_id',request()->bank_id)->get();
+        }
+        if(request()->account_id != "" && request()->account_id != "All"){
+            $ac_number = BankAccount::where('id',request()->account_id)->value('ac_number');
+            $cheques   = $cheques->where('ac_number',$ac_number);
+            $cheque_books = ChequeBook::where('account_id',request()->account_id)->get();
+        }
+        if(request()->book_no != "" && request()->book_no != "All"){
+            $cheque_book = request()->book_no;
+            $cheques   = $cheques->where('book_no',$cheque_book);
+            $cheque_books = ChequeBook::where('account_id',request()->account_id)->get();
+        }
+        if(request()->supplier != "" && request()->supplier != "All"){
+            $cheques = $cheques->where('cheque_name',request()->supplier);
+            $supplier_name = request()->supplier;
+        }
+        if(request()->from_date != "" && request()->to_date != ""){
+            $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime(request()->from_date)), date('Y-m-d',strtotime(request()->to_date)).' 23:59']);
+            $from_date  = request()->from_date;
+            $to_date    = request()->to_date;
+        }else{
+            $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
+        }
+        $cheques = $cheques->where('status','!=',3)->get();
+
+        $setting = Setting::where('id',1)->first();
+
+        return view('reports.exports.issued_cheque_table', [
+            'cheques'           => $cheques, 
+            'setting'           => $setting, 
+            'bank_name'         => $bank_name, 
+            'ac_number'         => $ac_number, 
+            'cheque_book'       => $cheque_book, 
+            'supplier_name'     => $supplier_name,
+            'from_date'         => $from_date,
+            'to_date'           => $to_date,
+            'accounts'          => $accounts,
+            'cheque_books'      => $cheque_books,
+            'company'           => $company,
+            'total'             => request()->total
+        ]);
+    }
+}

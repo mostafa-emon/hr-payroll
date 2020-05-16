@@ -1,7 +1,5 @@
 @extends('layouts.master')
 
-@section('title', $title)
-
 @section('content')
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -85,45 +83,70 @@
         </div>
         </form>
 
-        <div class="table-responsive">
-            <table 
-              @if(roles() != "" && in_array(47, json_decode(roles(),false))) id="datatable1" @endif 
-              @if(roles() != "" && !in_array(47, json_decode(roles(),false))) id="datatable2" @endif
-              class="table display responsive nowrap">
-                <thead>
-                  <tr>
-                    <th class="text-center">Sl</th>
-                    <th>Date</th>
-                    <th>Bank</th>
-                    <th>Account</th>
-                    <th>Book No.</th>
-                    <th>Cheque No.</th>
-                    <th>Payee</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($cheques as $cheque)
-                    <tr>
-                      <td class="text-center">{{ $loop->iteration }}</td>
-                      <td>&nbsp;{{ date('d-m-Y',strtotime($cheque->date)) }}&nbsp;</td>
-                      <td>&nbsp;{{ $cheque->bank_name }}&nbsp;</td>
-                      <td>&nbsp;{{ $cheque->ac_number }}&nbsp;</td>
-                      <td>&nbsp;{{ $cheque->book_no }}&nbsp;</td>
-                      <td>&nbsp;{{ $cheque->cheque_no }}&nbsp;</td>
-                      <td>&nbsp;{{ $cheque->cheque_name }}&nbsp;</td>
-                      <td>&nbsp;{{ $cheque->amount }}&nbsp;</td>
-                    </tr>
-                  @endforeach
-                </tbody>
-            </table>
-            <br>
-        </div><br>
-        {{ $cheques -> links() }}
+        <div class="text-right mg-b-15">
+          <a class="btn btn-info btn-sm pointer" id="excelButton" href="">Excel</a>
+          <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
+        </div>
+  
+        <style>
+          table {
+            border-collapse: collapse;
+          }
+          th, td {
+            border: 1px solid black;
+            font-family:arial;
+            font-size:13px;
+            padding:5px;
+          }
+          .no-border{border:none;}
+        </style>
+        
+        <div id="printArea" class="table-responsive" style="color:black; margin-top:-20px;">
+          <div class="div-padding-30">
+            @include('reports.exports.issued_cheque_table',$cheques)
+          </div>
+        </div>
     </div>
   </div>
 
   <script>
+    var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
+    var removeUnwanted = '{{$total}}'.replace(/[^0-9.]/g, "")
+    var makeDecimal  = (Math.round(removeUnwanted * 100) / 100).toFixed(2);
+    var splitDecimal = makeDecimal.split(".");
+    var mainPart     = splitDecimal[0];
+    var decimalPart  = splitDecimal[1];
+
+    if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
+      var croreFormat = mainPart.toString();
+      var lastThree = croreFormat.substring(croreFormat.length-3);
+      var otherNumbers = croreFormat.substring(0,croreFormat.length-3);
+      if(otherNumbers != '')
+          lastThree = ',' + lastThree;
+      croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+      croreFormat = croreFormat + '.' + decimalPart
+      document.getElementById("grandTotal").innerHTML = croreFormat;
+      document.getElementById("excelButton").href="/export-issued-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&supplier={{$supplier_name}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+croreFormat; 
+    }else{
+      var millionFormat = '{{$total}}'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      document.getElementById("grandTotal").innerHTML = millionFormat;
+      document.getElementById("excelButton").href="/export-issued-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&supplier={{$supplier_name}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+millionFormat; 
+    }
+
+    function printElem(){
+      var mywindow = window.open('', 'PRINT');
+      mywindow.document.write('<style>table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .no-border{border:none;}</style>');
+      mywindow.document.write(document.getElementById('printArea').innerHTML);
+
+      setTimeout(function () {
+          mywindow.focus();
+          mywindow.print();
+          mywindow.close();
+
+          //window.location = "/mr"
+      }, 1000);
+    }
+
     function get_accounts(bank_id) {
       $.ajax({
           type: 'GET',
