@@ -6,6 +6,9 @@ use App\ChequeTransaction;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use App\Company;
+use App\Bank;
+use App\BankAccount;
+use App\ChequeBook;
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -28,14 +31,10 @@ class ChequeExportView implements FromView
 
         $cheques = ChequeTransaction::orderBy('created_at','desc');
         if(request()->bank_id != "" && request()->bank_id != "All"){
-            $bank_name = Bank::where('id',request()->bank_id)->value('name');
-            $cheques = $cheques->where('bank_name',$bank_name);
-            $accounts = BankAccount::where('bank_id',request()->bank_id)->get();
+            $cheques = $cheques->where('bank_name',request()->bank_id);
         }
         if(request()->account_id != "" && request()->account_id != "All"){
-            $ac_number = BankAccount::where('id',request()->account_id)->value('ac_number');
-            $cheques   = $cheques->where('ac_number',$ac_number);
-            $cheque_books = ChequeBook::where('account_id',request()->account_id)->get();
+            $cheques   = $cheques->where('ac_number',request()->account_id);
         }
         if(request()->book_no != "" && request()->book_no != "All"){
             $cheque_book = request()->book_no;
@@ -66,8 +65,6 @@ class ChequeExportView implements FromView
             'supplier_name'     => $supplier_name,
             'from_date'         => $from_date,
             'to_date'           => $to_date,
-            'accounts'          => $accounts,
-            'cheque_books'      => $cheque_books,
             'company'           => $company,
             'total'             => request()->total
         ]);
