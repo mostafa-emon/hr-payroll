@@ -52,7 +52,7 @@
               </div>
             </div>
             
-            <div style="margin-top:135px;">
+            <div style="margin-top:120px;">
               <table style="border: 1px solid black; border-collapse: collapse; width: 100%;">
                 <thead>
                   <tr>
@@ -112,7 +112,7 @@
             </div>
             <br>
         
-            <div style="margin-top: 40px; float: left; margin-bottom: 80px;">
+            <div style="margin-top: 30px; float: left; margin-bottom: 80px;">
               <div style="text-align: center;">
               </div>
               <br>
@@ -122,7 +122,7 @@
               </div>
             </div>
         
-            <div style="margin-top: 40px; float: right; margin-bottom: 80px;">
+            <div style="margin-top: 30px; float: right; margin-bottom: 80px;">
               <div style="text-align: center;">
               </div>
               <br>
@@ -130,6 +130,10 @@
               </div><br>
               <div style="margin-left: 50px; margin-top: -16px;">Authorized By
               </div>
+            </div>
+
+            <div style="font-size:12px;float:left;width:100%;text-align:center;margin-top:-75px;">
+              This is a System Generated Money Receipt. No Signatory is Required.
             </div>
         </div>
     </div>

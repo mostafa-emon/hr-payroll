@@ -219,6 +219,10 @@
               <div style="margin-left: 50px; margin-top: -16px;">Authorized By
               </div>
             </div>
+
+            <div style="font-size:12px;float:left;width:100%;text-align:center;margin-top:-75px;">
+              This is a System Generated Money Receipt. No Signatory is Required.
+            </div>
         </div>
     </div>
 </div>
