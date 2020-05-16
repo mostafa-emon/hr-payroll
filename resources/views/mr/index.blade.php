@@ -35,6 +35,7 @@
           <thead>
             <tr>
               <th>Sl</th>
+              <th class="text-center">Date</th>
               <th>Invoice No</th>
               <th>Site Office</th>
               <th>Customer</th>
@@ -48,6 +49,7 @@
             @foreach ($money_receipts as $mr)
             <tr>
               <td>{{$loop->iteration}}</td>
+              <td style="text-align: center">{{ date('d-m-Y', strtotime($mr->created_at))}}</td>
               <td>{{$mr->site_office_prefix}}{{$mr->invoice_no}}{{$mr->site_office_suffix}}</td>
               <td>{{$mr->site_office_name}}</td>
               <td>{{$mr->customer_name}}</td>

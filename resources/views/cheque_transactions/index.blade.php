@@ -35,6 +35,7 @@
           <thead>
             <tr>
               <th class="text-center">Sl</th>
+              <th style="text-align: center">Cheque Date</th>
               <th>Bank</th>
               <th>Account No.</th>
               <th>Book No.</th>
@@ -51,6 +52,7 @@
             @foreach($cheque_transactions as $cheque_transaction)
               <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
+                <td style="text-align: center">{{ date('d-m-Y',strtotime($cheque_transaction->date)) }}</td>
                 <td>{{ $cheque_transaction->bank_name }}</td>
                 <td>{{ $cheque_transaction->ac_number }}</td>
                 <td>{{ $cheque_transaction->book_no }}</td>
