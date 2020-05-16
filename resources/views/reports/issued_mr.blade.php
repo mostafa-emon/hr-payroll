@@ -88,7 +88,7 @@
 
       <div id="printArea" style="color:black;">
         <div class="div-padding-30">
-          @include('reports.issued_mr_table',$money_receipts)
+          @include('reports.exports.issued_mr_table',$money_receipts)
         </div>
       </div>
     </div>

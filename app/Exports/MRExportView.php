@@ -42,7 +42,7 @@ class MRExportView implements FromView
 
         $setting = Setting::where('id',1)->first();
 
-        return view('reports.issued_mr_table', [
+        return view('reports.exports.issued_mr_table', [
             'money_receipts'    => $money_receipts, 
             'setting'           => $setting, 
             'site_office'       => $site_office, 
