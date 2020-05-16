@@ -34,8 +34,8 @@
       @endforeach
 
       <tr>
-        <th colspan="7" style="text-align:right">Total</th>
-        <th style="text-align:right"><span id="grandTotal">{{$total}}</span></th>
+        <th colspan="6" style="text-align:right">Total</th>
+        <th style="text-align:right" id="grandTotal">{{$total}}</th>
       </tr>
     </tbody>
   </table>

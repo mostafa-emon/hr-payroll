@@ -16,6 +16,7 @@ use App\Audit;
 use App\Company;
 use Excel;
 use App\Exports\MRExportView;
+use App\Exports\MRVoidExportView;
 
 class ReportController extends Controller
 {
@@ -115,6 +116,10 @@ class ReportController extends Controller
             'company'           => $company,
             'total'             => $total
         ]);
+    }
+
+    public function export_void_mr(){
+        return Excel::download(new MRVoidExportView(), 'Void Money Receipt.xlsx');
     }
 
     public function issued_cheque(Request $request) {

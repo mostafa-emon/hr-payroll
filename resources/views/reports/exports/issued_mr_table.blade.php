@@ -2,7 +2,7 @@
     <thead>
         
       <tr>
-        <td colspan="8" class="no-border" style="text-align: center; font-size:17px; font-weight:bold;"><br>{{ $company->name}}</td>
+        <td colspan="8" class="no-border" style="text-align: center; font-size:17px; font-weight:bold;">{{ $company->name}}</td>
       </tr>
       <tr>
         <td colspan="8" class="no-border" style="text-align: center;font-size:15px; font-weight:bold;">Issued Money Receipt</td>
@@ -56,7 +56,7 @@
 
       <tr>
         <th colspan="7" style="text-align:right">Total</th>
-        <th style="text-align:right"><span id="grandTotal">{{$total}}</span></th>
+        <th style="text-align:right" id="grandTotal">{{$total}}</th>
       </tr>
     </tbody>
   </table>

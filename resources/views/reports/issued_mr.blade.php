@@ -76,7 +76,7 @@
         .no-border{border:none;}
       </style>
 
-      <div id="printArea" style="color:black;">
+      <div id="printArea" style="color:black; margin-top:-20px;">
         <div class="div-padding-30">
           @include('reports.exports.issued_mr_table',$money_receipts)
         </div>
@@ -110,7 +110,7 @@
 
     function printElem(){
       var mywindow = window.open('', 'PRINT');
-      mywindow.document.write('<style>@body{size: landscape;} .div-padding-30{padding-left: 30px;padding-right: 30px;} table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .no-border{border:none;}</style>');
+      mywindow.document.write('<style>table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .no-border{border:none;}</style>');
       mywindow.document.write(document.getElementById('printArea').innerHTML);
 
       setTimeout(function () {
