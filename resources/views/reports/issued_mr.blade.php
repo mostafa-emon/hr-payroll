@@ -69,6 +69,7 @@
       </form>
 
       <div class="text-right mg-b-15">
+        <a class="btn btn-info btn-sm pointer" id="excelButton" href="">Excel</a>
         <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
       </div>
 
@@ -87,65 +88,7 @@
 
       <div id="printArea" style="color:black;">
         <div class="div-padding-30">
-        <table style="width:100%;">
-          <thead>
-            <tr>
-              <td colspan="8" class="no-border" style="text-align: center; font-size:17px; font-weight:bold;">{{ $company->name}}</td>
-            </tr>
-            <tr>
-              <td colspan="8" class="no-border" style="text-align: center;font-size:15px; font-weight:bold;">Issued Money Receipt</td>
-            </tr>
-            <tr>
-              <td colspan="8" class="no-border" style="text-align: center;font-size:13px; font-weight:bold;">From {{ date('d-M-Y',strtotime($from_date)) }} to {{ date('d-M-Y',strtotime($to_date)) }}</td>
-            </tr>
-            <tr>
-              <th style="text-align: center">Sl</th>
-              <th style="text-align: center">Date</th>
-              <th style="text-align: left">Invoice No</th>
-              <th style="text-align: left">Site Office</th>
-              <th style="text-align: left">Customer</th>
-              <th style="text-align: left">Pay Method</th>
-              <th style="text-align: center">Status</th>
-              <th style="text-align: center">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($money_receipts as $mr)
-            <tr>
-              <td style="text-align: center">{{$loop->iteration}}</td>
-              <td style="text-align: center">{{ date('d-m-Y', strtotime($mr->created_at))}}</td>
-              <td>{{$mr->site_office_prefix}}{{$mr->invoice_no}}{{$mr->site_office_suffix}}</td>
-              <td>{{$mr->site_office_name}}</td>
-              <td>{{$mr->customer_name}}</td>
-              <td>{{$mr->payment_method}}</td>
-              <td style="text-align: right">
-                  @if($mr->status == 0)
-                    @if($setting->approval_for_mr == 1)
-                      <span style="color:#FF9633">Pending</span>
-                    @else
-                      <span style="color:green">Issued</span>
-                    @endif
-                  @endif
-                  @if($mr->status == 1)
-                    <span style="color:green">Approved</span>
-                  @endif
-                  @if($mr->status == 2)
-                    <span style="color:red">Rejected</span>
-                  @endif
-                  @if($mr->status == 3)
-                    <span style="color:red">Void</span>
-                  @endif
-              </td>
-              <td style="text-align: right">{{ $mr->amount }}</td>
-            </tr>
-            @endforeach
-          </tbody>
-
-          <tfoot>
-            <th colspan="7" style="text-align:right">Total</th>
-            <th style="text-align:right"><span id="grandTotal"></span></th>
-          </tfoot>
-        </table>
+          @include('reports.issued_mr_table',$money_receipts)
         </div>
       </div>
     </div>
@@ -168,9 +111,11 @@
       croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
       croreFormat = croreFormat + '.' + decimalPart
       document.getElementById("grandTotal").innerHTML = croreFormat;
+      document.getElementById("excelButton").href="/export-issued-mr?site_office={{$site_office}}&customer={{$customer}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+croreFormat; 
     }else{
       var millionFormat = '{{$total}}'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       document.getElementById("grandTotal").innerHTML = millionFormat;
+      document.getElementById("excelButton").href="/export-issued-mr?site_office={{$site_office}}&customer={{$customer}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+millionFormat; 
     }
 
     function printElem(){

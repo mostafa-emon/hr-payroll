@@ -101,6 +101,8 @@ Route::post('/issued-mr', 'ReportController@issued_mr');
 Route::get('/void-mr', 'ReportController@void_mr');
 Route::post('/void-mr', 'ReportController@void_mr');
 
+Route::get('/export-issued-mr', 'ReportController@ExportView');
+
 Route::get('/issued-cheque', 'ReportController@issued_cheque');
 Route::post('/issued-cheque', 'ReportController@issued_cheque');
 Route::get('/void-cheque', 'ReportController@void_cheque');
