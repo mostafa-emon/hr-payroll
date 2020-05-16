@@ -76,7 +76,7 @@
         .no-border{border:none;}
       </style>
 
-      <div id="printArea" style="color:black; margin-top:-20px;">
+      <div id="printArea" class="table-responsive" style="color:black; margin-top:-20px;">
         <div class="div-padding-30">
           @include('reports.exports.issued_mr_table',$money_receipts)
         </div>
