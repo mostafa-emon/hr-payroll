@@ -15,6 +15,8 @@ class CreateChequeLayoutsTable extends Migration
     {
         Schema::create('cheque_layouts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('bank_id');
             $table->foreign('bank_id')->references('id')->on('banks')->onDelete('cascade');
             $table->integer('height')->nullable();

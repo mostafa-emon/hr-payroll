@@ -15,6 +15,8 @@ class CreatePrintersTable extends Migration
     {
         Schema::create('printers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('print_name',30);
             $table->integer('top')->default(0);
             $table->integer('left')->default(0);

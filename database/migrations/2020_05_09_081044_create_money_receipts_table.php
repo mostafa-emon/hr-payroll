@@ -15,6 +15,8 @@ class CreateMoneyReceiptsTable extends Migration
     {
         Schema::create('money_receipts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('site_office_name',100);
             $table->string('site_office_prefix',10)->nullable();
             $table->string('site_office_suffix',10)->nullable();

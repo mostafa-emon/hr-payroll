@@ -15,6 +15,8 @@ class CreateSiteOfficesTable extends Migration
     {
         Schema::create('site_offices', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('name',100);
             $table->text('address',100)->nullable();
             $table->string('phone',20);

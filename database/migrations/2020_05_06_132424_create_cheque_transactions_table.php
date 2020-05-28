@@ -15,6 +15,8 @@ class CreateChequeTransactionsTable extends Migration
     {
         Schema::create('cheque_transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('bank_name',100);
             $table->string('ac_number',30);
             $table->string('book_no',30);
