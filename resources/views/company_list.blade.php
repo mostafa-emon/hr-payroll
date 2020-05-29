@@ -13,6 +13,11 @@
     <div style="float:left">
       <h4 class="tx-gray-800 mg-b-5">Company</h4>
     </div>
+    <div style="float:right">
+      {{--@if(roles() != "" && in_array(5, json_decode(roles(),false)))--}}
+      <a href="{{ url('company-register') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add New</a>
+      {{--@endif--}}
+    </div>
   </div>
 
   <div class="br-pagebody pd-t-15">
@@ -37,13 +42,13 @@
               <th>Tin</th>
               <th>Vat Reg. No.</th>
 
-              @if(roles() != "" && in_array(6, json_decode(roles(),false)))
+              {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
               <th>Update</th>
-              @endif
+              {{--@endif--}}
 
-              @if(roles() != "" && in_array(7, json_decode(roles(),false)))
+              {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}
               <th>Delete</th>
-              @endif
+              {{--@endif--}}
             </tr>
           </thead>
           <tbody>
@@ -56,16 +61,16 @@
                 <td>{{ $company->email }}</td>
                 <td>{{ $company->tin }}</td>
                 <td>{{ $company->vat_reg_no }}</td>
-                @if(roles() != "" && in_array(6, json_decode(roles(),false)))
+                {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
                 <td>
                   <a class="btn btn-info btn-sm" href="{{url ('company/update/'.$company->id) }}"><i class= "fa fa-edit"></i> Update </a>
                 </td>
-                @endif
-                @if(roles() != "" && in_array(7, json_decode(roles(),false)))
+                {{--@endif--}}
+                {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}
                 <td>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$company->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                 </td>
-                @endif
+                {{--@endif--}}
               </tr>
             @endforeach
           </tbody>
