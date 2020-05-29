@@ -121,7 +121,7 @@
               <i class="fa fa-university tx-60 lh-0 tx-white op-7"></i>
               <div class="mg-l-20">
                 <p class="tx-13 tx-spacing-1 tx-uppercase tx-white mg-b-10 tx-semibold">Companies</p>
-                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$total_bank}}</p>
+                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$total_company}}</p>
               </div>
             </div>
           </div>
@@ -133,7 +133,7 @@
               <i class="fa fa-pause-circle tx-60 lh-0 tx-white op-7"></i>
               <div class="mg-l-20">
                 <p class="tx-13 tx-spacing-1 tx-uppercase tx-white mg-b-10 tx-semibold">Pending</p>
-                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$total_account}}</p>
+                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$pending_company}}</p>
               </div>
             </div>
           </div>
@@ -145,7 +145,7 @@
               <i class="fa fa-calendar-check tx-60 lh-0 tx-white op-7"></i>
               <div class="mg-l-20">
                 <p class="tx-13 tx-spacing-1 tx-uppercase tx-white mg-b-10 tx-semibold">Active</p>
-                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$total_cheque_book}}</p>
+                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$active_company}}</p>
               </div>
             </div>
           </div>
@@ -157,7 +157,7 @@
               <i class="fa fa-calendar-times tx-60 lh-0 tx-white op-7"></i>
               <div class="mg-l-20">
                 <p class="tx-13 tx-spacing-1 tx-uppercase tx-white mg-b-10 tx-semibold">Expired</p>
-                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$total_cheque}}</p>
+                <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">{{$expired_company}}</p>
               </div>
             </div>
           </div>

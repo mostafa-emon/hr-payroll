@@ -12,6 +12,7 @@ use App\User;
 use App\SiteOffice;
 use App\Customer;
 use App\Supplier;
+use App\Company;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,12 @@ class HomeController extends Controller
         $total_customer     = Customer::count();
         $total_supplier     = Supplier::count();
         $total_user         = User::count();
+
+        $total_company      = Company::count();
+        $pending_company    = Company::where('status',0)->count();
+        $active_company     = Company::where('status',1)->where('subscription_end_date','>=',date('Y-m-d'))->count();
+        $expired_company    = Company::where('subscription_end_date','<',date('Y-m-d'))->count();
+
         return view('welcome', [
             'total_bank'        => $total_bank,
             'total_account'     => $total_account,
@@ -48,7 +55,12 @@ class HomeController extends Controller
             'total_site_office' => $total_site_office,
             'total_customer'    => $total_customer,
             'total_supplier'    => $total_supplier,
-            'total_user'        => $total_user
+            'total_user'        => $total_user,
+
+            'total_company'     => $total_company,
+            'pending_company'   => $pending_company,
+            'active_company'    => $active_company,
+            'expired_company'   => $expired_company
         ]);
     }
     
