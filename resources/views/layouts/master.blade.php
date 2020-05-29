@@ -34,6 +34,16 @@
           </div>
         </a>
 
+        @if(roles() != "" && in_array(100, json_decode(roles(),false)))
+        <a  class="br-menu-link {{ (request()->is('subscription')) ? 'active' : '' }}" href="{{url('subscription')}}">
+          <div class="br-menu-item">
+            <i class="menu-item-icon fa fa-id-card tx-15"></i>
+            <span class="menu-item-label">Subscription</span>
+          </div>
+        </a>
+        @endif
+
+        @if(roles() != "" && !in_array(100, json_decode(roles(),false)))
         <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-settings tx-24"></i>
@@ -94,6 +104,8 @@
           <li class="nav-item"><a href="{{url('printer')}}" class="nav-link {{ (request()->is('printer*')) ? 'active' : '' }}">Printer</a></li>
           <li class="nav-item"><a href="{{url('settings')}}" class="nav-link {{ (request()->is('settings')) ? 'active' : '' }}">Settings</a></li>
         </ul>
+        @endif
+
       </div>
 
       <br>
