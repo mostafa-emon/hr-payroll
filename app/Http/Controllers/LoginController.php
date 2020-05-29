@@ -20,16 +20,18 @@ class LoginController extends Controller
     public function getLogin(Request $request){
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             
-            $company = Company::where('id',Auth::user()->company_id)->first();
-            if($company->status == 0){
-                Auth::logout();
-                return redirect('/login')->with('error_message', 'Activation pending!');
-            }else{
-                if($company->subscription_end_date < date('Y-m-d')){
+            if(Auth::user()->id != 1){
+                $company = Company::where('id',Auth::user()->company_id)->first();
+                if($company->status == 0){
                     Auth::logout();
-                    return redirect('/login')->with('error_message', 'Subscription expired!');
+                    return redirect('/login')->with('error_message', 'Activation pending!');
+                }else{
+                    if($company->subscription_end_date < date('Y-m-d')){
+                        Auth::logout();
+                        return redirect('/login')->with('error_message', 'Subscription expired!');
+                    }
                 }
-            }
+            } 
 
             $old_values = []; $new_values = [];
             $audit = new Audit();
