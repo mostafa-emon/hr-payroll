@@ -12,12 +12,14 @@ class RegisterController extends Controller
     public function register(Request $request){
         if($request->name !=""){
             $company = new Company();
-            $company->name          = $request->name;
-            $company->address       = $request->address;
-            $company->phone         = $request->phone;
-            $company->email         = $request->email;
-            $company->tin           = $request->tin;
-            $company->vat_reg_no    = $request->vat_reg_no;
+            $company->name                   = $request->name;
+            $company->address                = $request->address;
+            $company->phone                  = $request->phone;
+            $company->email                  = $request->email;
+            $company->tin                    = $request->tin;
+            $company->vat_reg_no             = $request->vat_reg_no;
+            $company->subscription_end_date  = $request->subscription_end_date;
+            $company->status                 = 1;
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');
             }
@@ -32,7 +34,7 @@ class RegisterController extends Controller
             $user->roles        = 1;
             $user->save();
 
-            return redirect('company-register')->with('message', 'Your Registration is kept for Admin Review');
+            return redirect('subscription')->with('message', 'Your Registration is kept for Admin Review');
         }
         return view('register');
     }

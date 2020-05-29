@@ -5,13 +5,13 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('company-request') }}">Company</a>
+      <a class="breadcrumb-item" href="{{ url('subscription') }}">Subscriptions</a>
     </nav>
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
-      <h4 class="tx-gray-800 mg-b-5">Company</h4>
+      <h4 class="tx-gray-800 mg-b-5">Subscriptions</h4>
     </div>
     <div style="float:right">
       {{--@if(roles() != "" && in_array(5, json_decode(roles(),false)))--}}
@@ -35,19 +35,15 @@
           <thead>
             <tr>
               <th>Sl</th>
-              <th>Name</th>
-              <th>Address</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Tin</th>
-              <th>Vat Reg. No.</th>
+              <th>Company Name</th>
+              <th>Subscription End Date</th>
 
               {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
-              <th>Update</th>
+              <th>Renew</th>
               {{--@endif--}}
 
               {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}
-              <th>Delete</th>
+              <th>Activate/Deactivate</th>
               {{--@endif--}}
             </tr>
           </thead>
@@ -56,19 +52,19 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $company->name }}</td>
-                <td>{{ $company->address }}</td>
-                <td>{{ $company->phone }}</td>
-                <td>{{ $company->email }}</td>
-                <td>{{ $company->tin }}</td>
-                <td>{{ $company->vat_reg_no }}</td>
+                <td>{{ $company->subscription_end_date }}</td>
                 {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
                 <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('company/update/'.$company->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url ('company/update/'.$company->id) }}"> Renew </a>
                 </td>
                 {{--@endif--}}
                 {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}
                 <td>
-                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$company->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  @if($company->status == 0)
+                    <a class="btn btn-success btn-sm" href="{{url('company-active/'.$company->id)}}"> Activate </a>
+                  @else
+                    <a class="btn btn-danger btn-sm" href="{{url('company-inactive/'.$company->id)}}"> Deactivate </a>
+                  @endif
                 </td>
                 {{--@endif--}}
               </tr>

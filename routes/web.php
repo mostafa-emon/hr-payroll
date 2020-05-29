@@ -28,6 +28,9 @@ Route::get('/company-register', 'RegisterController@register');
 Route::post('/company-register', 'RegisterController@register');
 Route::get('/subscription', 'CompanyController@company_list');
 
+Route::get('/company-active/{company_id}', 'CompanyController@active');
+Route::get('/company-inactive/{company_id}', 'CompanyController@inactive');
+
 Route::get('/site-office', 'SiteOfficeController@index');
 Route::get('/site-office/add', 'SiteOfficeController@add');
 Route::post('/site-office/add', 'SiteOfficeController@add');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Company;
+use DB;
 use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
@@ -56,5 +57,19 @@ class CompanyController extends Controller
     public function company_list(){
         $company = Company::orderBy('name','asc')->paginate(10);
         return view('company_list', ['companies' => $company]);
+    }
+    
+    public function active($company_id){
+        DB::table('companies')
+            ->where('id', $company_id)
+            ->update(['status' => 1]);
+        return redirect('subscription');
+    }
+
+    public function inactive($company_id){
+        DB::table('companies')
+            ->where('id', $company_id)
+            ->update(['status' => 0]);
+        return redirect('subscription');
     }
 }

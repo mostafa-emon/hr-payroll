@@ -1,143 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
 
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@section('content')
 
-        <!-- Twitter -->
-        <meta name="twitter:site" content="@themepixels">
-        <meta name="twitter:creator" content="@themepixels">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Bracket">
-        <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
-        <meta name="twitter:image" content="../../../../themepixels.me/bracket/img/bracket-social.html">
+  <div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
+      <a class="breadcrumb-item" href="{{ url('company-register') }}">Subscription Company</a>
+    </nav>
+  </div>
 
-        <!-- Facebook -->
-        <meta property="og:url" content="http://themepixels.me/bracket">
-        <meta property="og:title" content="Bracket">
-        <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Subscription</h4>
+  </div>
 
-        <meta property="og:image" content="../../../../themepixels.me/bracket/img/bracket-social.html">
-        <meta property="og:image:secure_url" content="../../../../themepixels.me/bracket/img/bracket-social.html">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="1200">
-        <meta property="og:image:height" content="600">
+  <form action="{{ url('company-register') }}" method="POST" enctype="multipart/form-data">
+    {{ csrf_field() }}
+    <div class="br-pagebody">
+      <div class="br-section-wrapper">
+        @if(session()->has('message'))
+          <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
+        
+        <div class="form-layout form-layout-2">
+          <div class="row no-gutters">
 
-        <!-- Meta -->
-        <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
-        <meta name="author" content="ThemePixels">
+            <div class="col-md-12">
+              <div class="form-group">
+                  <div class="mg-b-10">
+                      @if(isset($info) && $info->logo != "")
+                          <img class="pointer" id="logo" src="{{ asset('storage/'.$info->logo) }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
+                      @else
+                          <img class="pointer" id="logo" src="{{ asset('img/logo-placeholder.png') }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
+                      @endif
+                  </div>
+                  <a onclick="document.getElementById('imgInp').click()" class="pointer wd-120 btn btn-secondary btn-sm text-white">Choose</a>
+                  <input class="collapse" type="file" name="logo" id="imgInp" onchange="preview_image(event)" />
+              </div>
+            </div>
 
-        <title>Axis Cheque & MR</title>
-        <link rel="icon" href="{{asset('img/favicon.png')}}">
+            <div class="col-md-4">
+              <div class="form-group bd-t-0-force ">
+                <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
+                <input id="name" type="text" name="name" placeholder="Company Name" class="form-control">
+              </div>
+            </div>
 
-        <!-- vendor css -->
-        <link href="{{asset('lib/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
-        <link href="{{asset('lib/Ionicons/css/ionicons.css')}}" rel="stylesheet">
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
+              <div class="form-group bd-t-0-force  mg-md-l--1">
+                <label class="form-control-label">Email address:</label>
+                <input id="email" type="text" name="email" placeholder="Email Address" class="form-control">
+              </div>
+            </div>
 
-        <!-- Bracket CSS -->
-        <link rel="stylesheet" href="{{asset('css/bracket.css')}}">
-    </head>
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label">Phone Number:</label>
+                <input id="phone" type="text" name="phone" placeholder="Phone Number" class="form-control">
+              </div>
+            </div>
 
-    <body>
+            <div class="col-md-4">
+              <div class="form-group bd-t-0-force">
+                <label class="form-control-label">Address:</label>
+                <input id="address" type="text" name="address" placeholder="Address" class="form-control">
+              </div>
+            </div>
 
-        <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+            <div class="col-md-4">
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label">TIN:</label>
+                <input id="tin" type="text" name="tin" placeholder="Tin Number" class="form-control">
+              </div>
+            </div>
 
-            <div class="login-wrapper wd-400 wd-xs-400 pd-10 pd-xs-20 bg-white rounded shadow-base">
+            <div class="col-md-4">
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label">VAT Registration Number:</label>
+                <input id="vat_reg_no" type="text" name="vat_reg_no" placeholder="VAT Registration Number" class="form-control">
+              </div>
+            </div>
 
-                <form action="{{ url('company-register') }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
+            <div class="col-md-4">
+                <div class="form-group bd-t-0-force">
+                  <label class="form-control-label">Login Email:</label>
+                  <input id="login-email" type="text" name="login_email" placeholder="Login Email" class="form-control">
+                </div>
+              </div>
+  
+              <div class="col-md-4">
+                <div class="form-group bd-t-0-force mg-md-l--1">
+                  <label class="form-control-label">Login Password:</label>
+                  <input id="login-password" type="text" name="login_password" placeholder="Login Password" class="form-control">
+                </div>
+              </div>
+  
+              <div class="col-md-4">
+                <div class="form-group bd-t-0-force mg-md-l--1">
+                  <label class="form-control-label">Subscription End Date:</label>
+                  <input id="vat_reg_no" type="date" name="subscription_end_date" placeholder="Subscription End Date" class="form-control">
+                </div>
+              </div>
 
-                    @if(session()->has('message'))
-                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
-                      {{ session()->get('message') }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    @endif
+          </div>
 
-                    <div class="row mg-b-10" style="margin-top:20px !important">
-                        <div class="col-md-12">
-                            @if(isset($info) && $info->logo != "")
-                                <img class="pointer" id="logo" src="{{ asset('storage/'.$info->logo) }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
-                            @else
-                                <img class="pointer" id="logo" src="{{ asset('img/logo-placeholder.png') }}" width="120" alt="logo" onclick="document.getElementById('imgInp').click()"/>
-                            @endif
-                            <input class="collapse" type="file" name="logo" id="imgInp" onchange="preview_image(event)" />
-                        </div>
-                    </div>
+          {{--@if(roles() != "" && in_array(1, json_decode(roles(),false)))--}}
+          <div class="form-layout-footer bd pd-20 bd-t-0">
+            <input type="submit" value="Update" class="btn btn-info pointer"/>
+          </div>
+          {{--@endif--}}
+        </div>
+      </div>
+    </div>
+  </form>
 
-                    <div class="row mg-b-10">
-                        <div class="col-md-12">
-                            <input id="name" type="text" name="name" placeholder="Company Name" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mg-b-10">
-                            <input id="email" type="text" name="email" placeholder="Email Address" class="form-control">
-                        </div>
-
-                        <div class="col-md-6 mg-b-10">
-                            <input id="phone" type="text" name="phone" placeholder="Phone Number" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mg-b-10">
-                            <input id="tin" type="text" name="tin" placeholder="Tin Number" class="form-control">
-                        </div>
-
-                        <div class="col-md-6 mg-b-10">
-                            <input id="vat_reg_no" type="text" name="vat_reg_no" placeholder="Vat Reg. No:" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="row mg-b-10">
-                        <div class="col-md-12">
-                            <textarea id="address" type="text" name="address" placeholder="Address" class="form-control"></textarea>
-                        </div>
-                    </div>
-
-                    <br>
-                    <div class="row mg-b-10">
-                        <div class="col-md-12">
-                            <input id="login-email" type="text" name="login_email" placeholder="Login Email" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="row mg-b-10">
-                        <div class="col-md-12">
-                            <input id="login-password" type="text" name="login_password" placeholder="Login Password" class="form-control">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-info btn-block pointer">Sign In</button>
-
-                </form>
-
-                <div class="mg-t-30 tx-center tx-13 tx-uppercase tx-semibold tx-spacing-1">AXIS CHEQUE & MR</a></div>
-            </div><!-- login-wrapper -->
-        </div><!-- d-flex -->
-
-            <script>
-                function preview_image(event) {
-                var reader = new FileReader();
-                reader.onload = function()
-                {
-                    var output = document.getElementById('logo');
-                    output.src = reader.result;
-                }
-                reader.readAsDataURL(event.target.files[0]);
-                }
-            </script>
-
-            <script src="{{asset('lib/jquery/jquery.js')}}"></script>
-            <script src="{{asset('lib/popper.js/popper.js')}}"></script>
-            <script src="{{asset('lib/bootstrap/bootstrap.js')}}"></script>
-
-    </body>
-
-</html>
+  <script>
+    function preview_image(event) {
+      var reader = new FileReader();
+      reader.onload = function()
+      {
+        var output = document.getElementById('logo');
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  </script>
+@endsection
