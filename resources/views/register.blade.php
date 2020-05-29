@@ -102,7 +102,9 @@
               <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                   <label class="form-control-label">Subscription End Date:</label>
-                  <input id="vat_reg_no" type="date" name="subscription_end_date" placeholder="Subscription End Date" class="form-control">
+                  @php $sl = 0; @endphp
+                    @php $sl = $sl+1; @endphp
+                  <input type="text" id="dtpick{{$sl}}" name="subscription_end_date" class="form-control datepicker"/>
                 </div>
               </div>
 
@@ -119,6 +121,9 @@
   </form>
 
   <script>
+    $('.datepicker').datepicker({
+      format: 'dd-mm-yy'
+    });
     function preview_image(event) {
       var reader = new FileReader();
       reader.onload = function()

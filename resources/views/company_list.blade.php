@@ -48,14 +48,22 @@
             </tr>
           </thead>
           <tbody>
+            @php $sl = 0; @endphp
             @foreach($companies as $company)
+              @php $sl = $sl+1; @endphp
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $company->name }}</td>
                 <td>{{ $company->subscription_end_date }}</td>
                 {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
                 <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('company/update/'.$company->id) }}"> Renew </a>
+                  <form action="{{url ('company-renew/'.$company->id) }}" method="POST">
+                    {{ csrf_field() }}
+                  <div class="input-group mb-3">
+                    <input type="text" name="subscription_end_date" id="dtpick{{$sl}}" class="form-control" autocomplete="off"/>
+                    <input type="submit" class="btn btn-info btn-sm" value="Renew"/>
+                  </div>
+                  </form><span class="input-group-text" id="basic-addon2">
                 </td>
                 {{--@endif--}}
                 {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}

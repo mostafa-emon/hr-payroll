@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Company;
-use DB;
 use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
@@ -60,16 +59,17 @@ class CompanyController extends Controller
     }
     
     public function active($company_id){
-        DB::table('companies')
-            ->where('id', $company_id)
-            ->update(['status' => 1]);
-        return redirect('subscription');
+        Company::where('id',$company_id)->update(['status' => 1]);
+        return redirect('subscription')->with('message', 'Company is active now!');
     }
 
     public function inactive($company_id){
-        DB::table('companies')
-            ->where('id', $company_id)
-            ->update(['status' => 0]);
-        return redirect('subscription');
+        Company::where('id',$company_id)->update(['status' => 0]);
+        return redirect('subscription')->with('message', 'Company is inactive now!');;
+    }
+
+    public function renew($company_id, Request $request){
+        Company::where('id',$company_id)->update(['subscription_end_date' => date('Y-m-d',strtotime($request->subscription_end_date))]);
+        return redirect('subscription')->with('message', 'Renew Successful!');
     }
 }

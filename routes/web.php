@@ -30,6 +30,7 @@ Route::get('/subscription', 'CompanyController@company_list');
 
 Route::get('/company-active/{company_id}', 'CompanyController@active');
 Route::get('/company-inactive/{company_id}', 'CompanyController@inactive');
+Route::post('/company-renew/{company_id}', 'CompanyController@renew');
 
 Route::get('/site-office', 'SiteOfficeController@index');
 Route::get('/site-office/add', 'SiteOfficeController@add');

@@ -188,6 +188,14 @@
 
         $('#dtpick1').datepicker({ dateFormat: 'dd-mm-yy' });
         $('#dtpick2').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick3').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick4').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick5').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick6').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick7').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick8').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick9').datepicker({ dateFormat: 'dd-mm-yy' });
+        $('#dtpick10').datepicker({ dateFormat: 'dd-mm-yy' });
     </script>
   </body>
 
