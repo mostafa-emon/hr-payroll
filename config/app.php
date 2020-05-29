@@ -82,7 +82,9 @@ return [
         'printer_add'                       => 50,
         'printer_update'                    => 51,
         'printer_delete'                    => 52,
-        'settings_update'                   => 53
+        'settings_update'                   => 53,
+
+        'subscription'                      => 100
     ],
 
     'env' => env('APP_ENV', 'production'),
