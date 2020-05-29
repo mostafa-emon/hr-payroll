@@ -52,4 +52,9 @@ class CompanyController extends Controller
         }
         return redirect('company')->with('message','Profile updated successfully!');
     }
+
+    public function company_list(){
+        $company = Company::orderBy('name','asc')->paginate(10);
+        return view('company_list', ['companies' => $company]);
+    }
 }

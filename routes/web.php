@@ -24,6 +24,10 @@ Route::get('/dashboard', 'HomeController@index');
 Route::get('/company', 'CompanyController@index');
 Route::post('/company/update', 'CompanyController@update');
 
+Route::get('/company-register', 'RegisterController@register');
+Route::post('/company-register', 'RegisterController@register');
+Route::get('/company-list', 'CompanyController@company_list');
+
 Route::get('/site-office', 'SiteOfficeController@index');
 Route::get('/site-office/add', 'SiteOfficeController@add');
 Route::post('/site-office/add', 'SiteOfficeController@add');

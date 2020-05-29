@@ -23,6 +23,7 @@ class CreateCompaniesTable extends Migration
             $table->string('vat_reg_no',50)->nullable();
             $table->string('logo',150)->nullable();
             $table->boolean('status')->default(false);
+            $table->date('subscription_end_date',150)->nullable();
             $table->timestamps();
         });
     }
