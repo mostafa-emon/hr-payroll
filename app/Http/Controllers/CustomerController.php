@@ -16,7 +16,7 @@ class CustomerController extends Controller
     }
     
     public function index(){
-        $customer = Customer::orderBy('name', 'asc')->paginate(10);
+        $customer = Customer::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('customers.index', ['customers'=>$customer]);
     }
     
@@ -26,6 +26,7 @@ class CustomerController extends Controller
         }
         if($request->name !=""){
             $customer = new Customer();
+            $customer->company_id       = Auth::user()->company_id;
             $customer->name             = $request->name;
             $customer->address          = $request->address;
             $customer->phone            = $request->phone;

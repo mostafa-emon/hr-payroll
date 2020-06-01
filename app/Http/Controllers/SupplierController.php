@@ -16,7 +16,7 @@ class SupplierController extends Controller
     }
     
     public function index(){
-        $supplier = Supplier::orderBy('name', 'asc')->paginate(10);
+        $supplier = Supplier::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('suppliers.index', ['suppliers'=>$supplier]);
     }
 
@@ -26,6 +26,7 @@ class SupplierController extends Controller
         }
         if($request->name !=""){
             $supplier = new Supplier();
+            $supplier->company_id       = Auth::user()->company_id;
             $supplier->name             = $request->name;
             $supplier->cheque_name      = $request->cheque_name;
             $supplier->address          = $request->address;
