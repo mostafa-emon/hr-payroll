@@ -95,7 +95,7 @@
               <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                   <label class="form-control-label">Login Password: <span class="tx-danger">*</span></label>
-                  <input id="login-password" type="text" name="login_password" placeholder="Login Password" class="form-control" required>
+                  <input id="login-password" type="text" name="login_password" placeholder="Login Password" autocomplete="off" class="form-control" required>
                 </div>
               </div>
   

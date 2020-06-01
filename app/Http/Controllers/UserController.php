@@ -19,7 +19,7 @@ class UserController extends Controller
     }
     
     public function index(){
-        $user = User::orderBy('name', 'asc')->paginate(10);
+        $user = User::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('users.index', ['users'=>$user]);
     }
     
@@ -29,6 +29,7 @@ class UserController extends Controller
         }
         if($request->name !=""){
             $user = new User();
+            $user->company_id       = Auth::user()->company_id;
             $user->name             = $request->name;
             $user->designation      = $request->designation;
             $user->email            = $request->email;

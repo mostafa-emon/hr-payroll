@@ -58,7 +58,7 @@
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Password:</label>
-                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="">
+                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="" autocomplete="off">
               </div>
             </div>
           </div>
