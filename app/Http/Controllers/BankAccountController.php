@@ -21,6 +21,7 @@ class BankAccountController extends Controller
         $bank_account = BankAccount::select('bank_accounts.*','banks.name as bank_name','currencies.full_name as currency_name','currencies.fraction_name as currency_frname')
                     ->join('banks','banks.id','bank_accounts.bank_id')->orderBy('banks.name', 'asc')
                     ->join('currencies','currencies.id','bank_accounts.currency_id')->orderBy('currencies.full_name','asc')
+                    ->where('bank_accounts.company_id', Auth::user()->company_id)
                     ->paginate(10);
         return view('bank_accounts.index', ['bank_accounts'=>$bank_account]);
     }
@@ -39,8 +40,8 @@ class BankAccountController extends Controller
             $bank_account->save();
             return redirect('bank-account')->with('message', 'Bank Account added successfully!');
         }
-        $banks      = Bank::orderBy('name', 'asc')->get();
-        $currencies = Currency::orderBy('full_name', 'asc')->get();
+        $banks      = Bank::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->get();
+        $currencies = Currency::where('company_id', Auth::user()->company_id)->orderBy('full_name', 'asc')->get();
         return view('bank_accounts.add', ['banks' => $banks, 'currencies' => $currencies]);
     }
 
@@ -67,8 +68,8 @@ class BankAccountController extends Controller
             return redirect('bank-account')->with('message', 'Bank Account updated successfully!');
         }
         $bank_accounts  = BankAccount::where('id',$bank_account_id)->first();
-        $banks          = Bank::orderBy('name', 'asc')->get();
-        $currencies     = Currency::orderBy('full_name', 'asc')->get();
+        $banks          = Bank::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->get();
+        $currencies     = Currency::where('company_id', Auth::user()->company_id)->orderBy('full_name', 'asc')->get();
         return view('bank_accounts.update', ['banks' => $banks, 'currencies' => $currencies,'bank_accounts' => $bank_accounts]);
     }
 

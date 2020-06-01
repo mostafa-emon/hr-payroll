@@ -36,7 +36,7 @@
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">A/C Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="ac_number" placeholder="Enter A/C Number">
+                <input class="form-control" type="text" name="ac_number" placeholder="Enter A/C Number" autocomplete="off">
               </div>
             </div>
 
