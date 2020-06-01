@@ -39,7 +39,7 @@ class RegisterController extends Controller
             $user->roles        = 2;
             $user->save();
 
-            return redirect('subscription')->with('message', 'Your Registration is kept for Admin Review');
+            return redirect('subscription')->with('message', 'Registration successful');
         }
         return view('register');
     }
