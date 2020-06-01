@@ -29,6 +29,15 @@ class CreateRolesTable extends Migration
         $role->role_name = "System Admin";
         $role->access    = json_encode($access);
         $role->save(); 
+
+        $access = [];
+        for($i=1; $i<=53; $i++){
+            $access[] = $i;
+        }
+        $role = new Role();
+        $role->role_name = "Company Admin";
+        $role->access    = json_encode($access);
+        $role->save(); 
     }
 
     /**

@@ -36,7 +36,7 @@ class RegisterController extends Controller
             $user->designation  = "Admin";
             $user->email        = $request->login_email;
             $user->password     = Hash::make($request->login_password);
-            $user->roles        = 1;
+            $user->roles        = 2;
             $user->save();
 
             return redirect('subscription')->with('message', 'Your Registration is kept for Admin Review');
