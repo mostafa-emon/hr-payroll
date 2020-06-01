@@ -46,7 +46,7 @@
             <div class="col-md-4">
               <div class="form-group bd-t-0-force ">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-                <input id="name" type="text" name="name" placeholder="Company Name" class="form-control">
+                <input id="name" type="text" name="name" placeholder="Company Name" class="form-control" required>
               </div>
             </div>
 
@@ -87,24 +87,24 @@
 
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force">
-                  <label class="form-control-label">Login Email:</label>
-                  <input id="login-email" type="text" name="login_email" placeholder="Login Email" class="form-control">
+                  <label class="form-control-label">Login Email: <span class="tx-danger">*</span></label>
+                  <input id="login-email" type="text" name="login_email" placeholder="Login Email" class="form-control" required>
                 </div>
               </div>
   
               <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
-                  <label class="form-control-label">Login Password:</label>
-                  <input id="login-password" type="text" name="login_password" placeholder="Login Password" class="form-control">
+                  <label class="form-control-label">Login Password: <span class="tx-danger">*</span></label>
+                  <input id="login-password" type="text" name="login_password" placeholder="Login Password" class="form-control" required>
                 </div>
               </div>
   
               <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
-                  <label class="form-control-label">Subscription End Date:</label>
+                  <label class="form-control-label">Subscription Validity: <span class="tx-danger">*</span></label>
                   @php $sl = 0; @endphp
                     @php $sl = $sl+1; @endphp
-                  <input type="text" id="dtpick{{$sl}}" name="subscription_end_date" class="form-control datepicker"/>
+                  <input type="text" id="dtpick{{$sl}}" name="subscription_end_date" class="form-control datepicker" autocomplete="off" required/>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@
 
           {{--@if(roles() != "" && in_array(1, json_decode(roles(),false)))--}}
           <div class="form-layout-footer bd pd-20 bd-t-0">
-            <input type="submit" value="Update" class="btn btn-info pointer"/>
+            <input type="submit" value="Register" class="btn btn-info pointer"/>
           </div>
           {{--@endif--}}
         </div>

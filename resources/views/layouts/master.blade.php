@@ -35,7 +35,7 @@
         </a>
 
         @if(roles() != "" && in_array(100, json_decode(roles(),false)))
-        <a  class="br-menu-link {{ (request()->is('subscription')) ? 'active' : '' }}" href="{{url('subscription')}}">
+        <a  class="br-menu-link {{ (request()->is('subscription')) || (request()->is('company-register')) ? 'active' : '' }}" href="{{url('subscription')}}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-id-card tx-15"></i>
             <span class="menu-item-label">Subscription</span>

@@ -9,6 +9,11 @@ use Hash;
 
 class RegisterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function register(Request $request){
         if($request->name !=""){
             $company = new Company();

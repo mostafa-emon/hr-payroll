@@ -34,17 +34,11 @@
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th>Sl</th>
-              <th>Company Name</th>
-              <th>Subscription End Date</th>
-
-              {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
-              <th>Renew</th>
-              {{--@endif--}}
-
-              {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}
-              <th>Activate/Deactivate</th>
-              {{--@endif--}}
+              <th class="text-center wd-5p">Sl</th>
+              <th class="wd-30p">Company Name</th>
+              <th class="text-center wd-20p">Validity</th>
+              <th class="wd-25p">Renew</th>
+              <th class="text-center wd-20p">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -52,29 +46,25 @@
             @foreach($companies as $company)
               @php $sl = $sl+1; @endphp
               <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $company->name }}</td>
-                <td>{{ $company->subscription_end_date }}</td>
-                {{--@if(roles() != "" && in_array(6, json_decode(roles(),false)))--}}
-                <td>
+                <td class="text-center" style="vertical-align: middle">{{ $loop->iteration }}</td>
+                <td style="vertical-align: middle">{{ $company->name }}</td>
+                <td class="text-center" style="vertical-align: middle">{{ date('d M Y',strtotime($company->subscription_end_date)) }}</td>
+                <td class="text-center">
                   <form action="{{url ('company-renew/'.$company->id) }}" method="POST">
                     {{ csrf_field() }}
-                  <div class="input-group mb-3">
-                    <input type="text" name="subscription_end_date" id="dtpick{{$sl}}" class="form-control" autocomplete="off"/>
-                    <input type="submit" class="btn btn-info btn-sm" value="Renew"/>
-                  </div>
-                  </form><span class="input-group-text" id="basic-addon2">
+                    <div class="input-group mb-3" style="margin-top:17px;">
+                      <input type="text" name="subscription_end_date" id="dtpick{{$sl}}" class="form-control" autocomplete="off" required style="border-top-right-radius:0px;border-bottom-right-radius:0px;"/>
+                      <input type="submit" class="btn btn-info btn-sm pointer" value="Renew" style="border-top-left-radius:0px;border-bottom-left-radius:0px;"/>
+                    </div>
+                  </form>
                 </td>
-                {{--@endif--}}
-                {{--@if(roles() != "" && in_array(7, json_decode(roles(),false)))--}}
-                <td>
+                <td class="text-center" style="vertical-align: middle">
                   @if($company->status == 0)
-                    <a class="btn btn-success btn-sm" href="{{url('company-active/'.$company->id)}}"> Activate </a>
+                    <a class="btn btn-success btn-sm" href="{{url('company-active/'.$company->id)}}" style="width:100px"> Activate </a>
                   @else
-                    <a class="btn btn-danger btn-sm" href="{{url('company-inactive/'.$company->id)}}"> Deactivate </a>
+                    <a class="btn btn-danger btn-sm" href="{{url('company-inactive/'.$company->id)}}" style="width:100px"> Deactivate </a>
                   @endif
                 </td>
-                {{--@endif--}}
               </tr>
             @endforeach
           </tbody>
