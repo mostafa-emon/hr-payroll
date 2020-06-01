@@ -23,6 +23,7 @@ class ChequeBookController extends Controller
                         ->select('cheque_books.*','banks.name as bank_name','bank_accounts.ac_number as ac_number')
                         ->join('banks','banks.id','cheque_books.bank_id')
                         ->join('bank_accounts','bank_accounts.id','cheque_books.account_id')
+                        ->where('cheque_books.company_id', Auth::user()->company_id)
                         ->paginate(10);
         return view('cheque_books.index', ['cheque_books'=>$cheque_books]);
     }
@@ -33,6 +34,7 @@ class ChequeBookController extends Controller
         }
         if($request->bank_id !=""){
             $cheque_book = new ChequeBook();
+            $cheque_book->company_id       = Auth::user()->company_id;
             $cheque_book->bank_id          = $request->bank_id;
             $cheque_book->account_id       = $request->account_id;
             $cheque_book->book_no          = $request->book_no;
@@ -43,6 +45,7 @@ class ChequeBookController extends Controller
 
             for($i = $cheque_book->starting_number;$i<=$cheque_book->ending_number;$i++) {
                 $cheque = new Cheque;
+                $cheque->company_id     = Auth::user()->company_id;
                 $cheque->cheque_book_id = $cheque_book->id;
                 $cheque->cheque_no      = $i;
                 $cheque->status         = 0;
@@ -51,8 +54,8 @@ class ChequeBookController extends Controller
 
             return redirect('cheque-books')->with('message', 'Cheque book added successfully!');
         }
-        $banks      = Bank::orderBy('name', 'asc')->get();
-        $accounts   = BankAccount::orderBy('id', 'asc')->get();
+        $banks      = Bank::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->get();
+        $accounts   = BankAccount::where('company_id', Auth::user()->company_id)->orderBy('id', 'asc')->get();
         return view('cheque_books.add', ['banks' => $banks, 'accounts' => $accounts]);
     }
 
@@ -83,7 +86,7 @@ class ChequeBookController extends Controller
         }
 
         $cheque_book = ChequeBook::where('id',$cheque_book_id)->first();
-        $banks      = Bank::orderBy('name', 'asc')->get();
+        $banks      = Bank::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->get();
         $accounts   = BankAccount::where('bank_id',$cheque_book->bank_id)->orderBy('id', 'asc')->get();
         return view('cheque_books.update', ['cheque_book' => $cheque_book, 'banks' => $banks, 'accounts' => $accounts]);
     }
