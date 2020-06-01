@@ -16,7 +16,7 @@ class SiteOfficeController extends Controller
     }
     
     public function index(){
-        $site_office = SiteOffice::orderBy('name', 'asc')->paginate(10);
+        $site_office = SiteOffice::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('site_offices.index', ['site_offices'=>$site_office]);
     }
     
@@ -26,6 +26,7 @@ class SiteOfficeController extends Controller
         }
         if($request->name !=""){
             $site_office = new SiteOffice();
+            $site_office->company_id         = Auth::user()->company_id;
             $site_office->name               = $request->name;
             $site_office->address            = $request->address;
             $site_office->phone              = $request->phone;

@@ -106,7 +106,7 @@ class ConfigurationController extends Controller
     }
 
     public function index() {
-        $settings = Setting::where('id',1)->first();
+        $settings = Setting::where('company_id', Auth::user()->company_id)->first();
         return view('settings.index', ['settings' => $settings]);
     }
 
@@ -115,6 +115,7 @@ class ConfigurationController extends Controller
 
         if($count == 0) {
             $setting = new Setting;
+            $setting->company_id                = Auth::user()->company_id;
             $setting->mr_number                 = $request->mr_number;
             $setting->mr_size                   = $request->mr_size;
             $setting->amount_in_word_format     = $request->amount_in_word_format;
@@ -122,7 +123,7 @@ class ConfigurationController extends Controller
             $setting->approval_for_cheque       = $request->approval_for_cheque;
             $setting->save();
         }else{
-            $setting = Setting::where('id',1)->first();
+            $setting = Setting::where('company_id', Auth::user()->company_id)->first();
             $setting->mr_number                 = $request->mr_number;
             $setting->mr_size                   = $request->mr_size;
             $setting->amount_in_word_format     = $request->amount_in_word_format;

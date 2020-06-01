@@ -19,9 +19,9 @@ class BankAccountController extends Controller
     
     public function index(){
         $bank_account = BankAccount::select('bank_accounts.*','banks.name as bank_name','currencies.full_name as currency_name','currencies.fraction_name as currency_frname')
-                  ->join('banks','banks.id','bank_accounts.bank_id')->orderBy('banks.name', 'asc')
-                  ->join('currencies','currencies.id','bank_accounts.currency_id')->orderBy('currencies.full_name','asc')
-                  ->paginate(10);
+                    ->join('banks','banks.id','bank_accounts.bank_id')->orderBy('banks.name', 'asc')
+                    ->join('currencies','currencies.id','bank_accounts.currency_id')->orderBy('currencies.full_name','asc')
+                    ->paginate(10);
         return view('bank_accounts.index', ['bank_accounts'=>$bank_account]);
     }
     
@@ -31,6 +31,7 @@ class BankAccountController extends Controller
         }
         if($request->ac_number !=""){
             $bank_account = new BankAccount();
+            $bank_account->company_id       = Auth::user()->company_id;
             $bank_account->bank_id          = $request->bank_id;
             $bank_account->currency_id      = $request->currency_id;
             $bank_account->ac_number        = $request->ac_number;
