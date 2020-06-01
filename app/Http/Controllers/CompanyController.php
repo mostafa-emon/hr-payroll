@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Company;
 use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class CompanyController extends Controller
 {
     public function index() {
-        $info = Company::where('id',1)->first();
+        $info = Company::where('id',Auth::user()->company_id)->first();
         return view('company.index', ['info' => $info]);
     }
 
     public function update(Request $request){
-        $count = Company::where('id',1)->count();
+        $count = Company::where('id',Auth::user()->company_id)->count();
 
         if($count == 0) {
             if(roles() != "" && !in_array(1, json_decode(roles(),false))){
@@ -35,7 +36,7 @@ class CompanyController extends Controller
             if(roles() != "" && !in_array(1, json_decode(roles(),false))){
                 return redirect('404');
             }
-            $company = Company::where('id',1)->first();
+            $company = Company::where('id',Auth::user()->company_id)->first();
             $company->name      = $request->name;
             $company->phone     = $request->phone;
             $company->email     = $request->email;
