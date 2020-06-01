@@ -19,7 +19,7 @@ class ConfigurationController extends Controller
     }
 
     public function index_currency(){
-        $currency = Currency::orderBy('id', 'asc')->paginate(10);
+        $currency = Currency::where('company_id', Auth::user()->company_id)->orderBy('id', 'asc')->paginate(10);
         return view('currencies.index', ['currencies'=>$currency]);
     }
     
@@ -29,6 +29,7 @@ class ConfigurationController extends Controller
         }
         if($request->full_name !=""){
             $currency = new Currency();
+            $currency->company_id       = Auth::user()->company_id;
             $currency->full_name        = $request->full_name;
             $currency->fraction_name    = $request->fraction_name;
             $currency->save();
@@ -63,7 +64,7 @@ class ConfigurationController extends Controller
 
     
     public function index_payment_method(){
-        $payment_method = PaymentMethod::orderBy('id', 'asc')->paginate(10);
+        $payment_method = PaymentMethod::where('company_id', Auth::user()->company_id)->orderBy('id', 'asc')->paginate(10);
         return view('payment_methods.index', ['payment_methods'=>$payment_method]);
     }
     
@@ -73,7 +74,8 @@ class ConfigurationController extends Controller
         }
         if($request->method_name !=""){
             $payment_method = new PaymentMethod();
-            $payment_method->method_name        = $request->method_name;
+            $payment_method->company_id          = Auth::user()->company_id;
+            $payment_method->method_name         = $request->method_name;
             $payment_method->save();
             return redirect('payment-method')->with('message', 'Payment Method added successfully!');
         }
@@ -132,7 +134,7 @@ class ConfigurationController extends Controller
     }
 
     public function index_printer(){
-        $printer = Printer::orderBy('id', 'asc')->paginate(10);
+        $printer = Printer::where('company_id', Auth::user()->company_id)->orderBy('id', 'asc')->paginate(10);
         return view('printers.index', ['printers'=>$printer]);
     }
     
@@ -142,6 +144,7 @@ class ConfigurationController extends Controller
         }
         if($request->print_name !=""){
             $printer = new Printer();
+            $printer->company_id        = Auth::user()->company_id;
             $printer->print_name        = $request->print_name;
             $printer->top               = $request->top;
             $printer->left              = $request->left;
