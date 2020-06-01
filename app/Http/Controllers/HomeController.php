@@ -33,14 +33,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $total_bank         = Bank::count();
-        $total_account      = BankAccount::count();
-        $total_cheque_book  = ChequeBook::count();
-        $total_cheque       = Cheque::count();
-        $total_site_office  = SiteOffice::count();
-        $total_customer     = Customer::count();
-        $total_supplier     = Supplier::count();
-        $total_user         = User::count();
+        $total_bank         = Bank::where('company_id',Auth::user()->company_id)->count();
+        $total_account      = BankAccount::where('company_id',Auth::user()->company_id)->count();
+        $total_cheque_book  = ChequeBook::where('company_id',Auth::user()->company_id)->count();
+        $total_cheque       = Cheque::where('company_id',Auth::user()->company_id)->count();
+        $total_site_office  = SiteOffice::where('company_id',Auth::user()->company_id)->count();
+        $total_customer     = Customer::where('company_id',Auth::user()->company_id)->count();
+        $total_supplier     = Supplier::where('company_id',Auth::user()->company_id)->count();
+        $total_user         = User::where('company_id',Auth::user()->company_id)->count();
 
         $total_company      = Company::count();
         $pending_company    = Company::where('status',0)->count();

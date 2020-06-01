@@ -11,7 +11,7 @@ use App\Helpers\ViewHelper;
 class RolesController extends Controller
 {
     public function index(){
-        $roles = Role::orderBy('role_name', 'asc')->paginate(10);
+        $roles = Role::where('id','>',2)->where('company_id',Auth::user()->company_id)->orderBy('role_name', 'asc')->paginate(10);
         return view('roles.index', ['roles'=>$roles]);
     }
     
@@ -32,6 +32,7 @@ class RolesController extends Controller
             $newRole = new Role();
             $newRole->role_name         = $request->role_name;
             $newRole->access            = json_encode($access);
+            $newRole->company_id        = Auth::user()->company_id;
             $newRole->save();
             return redirect('roles')->with('message', 'Roles added successfully!');
         }
