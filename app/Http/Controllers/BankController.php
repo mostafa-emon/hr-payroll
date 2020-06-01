@@ -16,7 +16,7 @@ class BankController extends Controller
     }
     
     public function index(){
-        $bank = Bank::orderBy('name', 'asc')->paginate(10);
+        $bank = Bank::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('banks.index', ['banks'=>$bank]);
     }
     
@@ -26,6 +26,7 @@ class BankController extends Controller
         }
         if($request->name !=""){
             $bank = new Bank();
+            $bank->company_id       = Auth::user()->company_id;
             $bank->name             = $request->name;
             $bank->address          = $request->address;
             $bank->phone            = $request->phone;
