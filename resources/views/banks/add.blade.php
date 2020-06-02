@@ -24,7 +24,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="name" placeholder="Enter Name">
+                <input class="form-control" type="text" name="name" placeholder="Enter Name" required>
               </div>
             </div>
 

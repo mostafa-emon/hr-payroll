@@ -24,7 +24,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="name" placeholder="Enter Name">
+                <input class="form-control" type="text" name="name" placeholder="Enter Name" required>
               </div>
             </div>
 
@@ -38,14 +38,14 @@
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Phone Number: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number">
+                <input class="form-control" type="text" name="phone" placeholder="Enter Phone Number" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Cheque Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="cheque_name" placeholder="Enter Cheque Name">
+                <input class="form-control" type="text" name="cheque_name" placeholder="Enter Cheque Name" required>
               </div>
             </div>
 

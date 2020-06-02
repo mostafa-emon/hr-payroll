@@ -34,7 +34,7 @@
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="name" placeholder="Enter Name">
+                <input class="form-control" type="text" name="name" placeholder="Enter Name" required>
               </div>
             </div>
 
@@ -48,14 +48,14 @@
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="email" placeholder="Enter Email Address">
+                <input class="form-control" type="text" name="email" placeholder="Enter Email Address" required>
               </div>
             </div>
 
             <div class="col-md-6 mg-t--1 mg-md-t-0">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Password: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="password" placeholder="Enter Password" autocomplete="off">
+                <input class="form-control" type="text" name="password" placeholder="Enter Password" autocomplete="off" required>
               </div>
             </div>
 

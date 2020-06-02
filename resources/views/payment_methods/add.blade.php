@@ -24,7 +24,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label class="form-control-label">Method Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="method_name" placeholder="Enter Method Name">
+                <input class="form-control" type="text" name="method_name" placeholder="Enter Method Name" required>
               </div>
             </div>
 
