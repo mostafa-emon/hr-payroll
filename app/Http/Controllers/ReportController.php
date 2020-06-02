@@ -15,6 +15,7 @@ use App\Supplier;
 use App\Audit;
 use App\Company;
 use Excel;
+use Auth;
 use App\Exports\MRExportView;
 use App\Exports\MRVoidExportView;
 use App\Exports\ChequeExportView;
@@ -23,13 +24,13 @@ use App\Exports\ChequeVoidExportView;
 class ReportController extends Controller
 {
     public function issued_mr(Request $request) {
-        $company     = Company::where('id',1)->first();
+        $company     = Company::where('id', Auth::user()->company_id)->first();
         $site_office = "All";
         $customer    = "All";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
-        $money_receipts = MoneyReceipt::orderBy('created_at','desc');
+        $money_receipts = MoneyReceipt::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->site_office != "" && $request->site_office != "All"){
             $money_receipts = $money_receipts->where('site_office_name',$request->site_office);
             $site_office = $request->site_office;
@@ -52,9 +53,9 @@ class ReportController extends Controller
             $total = $total + (float) filter_var( $money_receipt->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        $site_offices = SiteOffice::orderBy('name','asc')->get();
-        $customers = Customer::orderBy('name','asc')->get();
-        $setting = Setting::where('id',1)->first();
+        $site_offices = SiteOffice::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $customers = Customer::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.issued_mr', [
             'money_receipts'    => $money_receipts, 
@@ -75,13 +76,13 @@ class ReportController extends Controller
     }
 
     public function void_mr(Request $request) {
-        $company     = Company::where('id',1)->first();
+        $company     = Company::where('id', Auth::user()->company_id)->first();
         $site_office = "All";
         $customer    = "All";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
-        $money_receipts = MoneyReceipt::orderBy('created_at','desc');
+        $money_receipts = MoneyReceipt::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->site_office != "" && $request->site_office != "All"){
             $money_receipts = $money_receipts->where('site_office_name',$request->site_office);
             $site_office = $request->site_office;
@@ -104,9 +105,9 @@ class ReportController extends Controller
             $total = $total + (float) filter_var( $money_receipt->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        $site_offices = SiteOffice::orderBy('name','asc')->get();
-        $customers = Customer::orderBy('name','asc')->get();
-        $setting = Setting::where('id',1)->first();
+        $site_offices = SiteOffice::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $customers = Customer::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.void_mr', [
             'money_receipts'    => $money_receipts, 
@@ -127,7 +128,7 @@ class ReportController extends Controller
     }
 
     public function issued_cheque(Request $request) {
-        $company        = Company::where('id',1)->first();
+        $company        = Company::where('id', Auth::user()->company_id)->first();
         $bank_name      = "All";
         $ac_number      = "All";
         $accounts       = "";
@@ -137,7 +138,7 @@ class ReportController extends Controller
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
-        $cheques = ChequeTransaction::orderBy('created_at','desc');
+        $cheques = ChequeTransaction::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->bank_id != "" && $request->bank_id != "All"){
             $bank_name = Bank::where('id',$request->bank_id)->value('name');
             $cheques = $cheques->where('bank_name',$bank_name);
@@ -171,9 +172,9 @@ class ReportController extends Controller
             $total = $total + (float) filter_var( $cheque->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        $banks     = Bank::orderBy('name','asc')->get();
-        $suppliers = Supplier::orderBy('name','asc')->get();
-        $setting = Setting::where('id',1)->first();
+        $banks     = Bank::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $suppliers = Supplier::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.issued_cheque', [
             'cheques'           => $cheques, 
@@ -198,7 +199,7 @@ class ReportController extends Controller
     }
 
     public function void_cheque(Request $request) {
-        $company        = Company::where('id',1)->first();
+        $company        = Company::where('id', Auth::user()->company_id)->first();
         $bank_name      = "All";
         $ac_number      = "All";
         $accounts       = "";
@@ -208,7 +209,7 @@ class ReportController extends Controller
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
-        $cheques = ChequeTransaction::orderBy('created_at','desc');
+        $cheques = ChequeTransaction::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->bank_id != "" && $request->bank_id != "All"){
             $bank_name = Bank::where('id',$request->bank_id)->value('name');
             $cheques = $cheques->where('bank_name',$bank_name);
@@ -242,9 +243,9 @@ class ReportController extends Controller
             $total = $total + (float) filter_var( $cheque->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        $banks     = Bank::orderBy('name','asc')->get();
-        $suppliers = Supplier::orderBy('name','asc')->get();
-        $setting = Setting::where('id',1)->first();
+        $banks     = Bank::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $suppliers = Supplier::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
+        $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.void_cheque', [
             'cheques'           => $cheques, 
@@ -286,6 +287,7 @@ class ReportController extends Controller
                 ->join('users','users.id','audits.user_id')
                 ->whereBetween('audits.created_at', [$date_formated_from, $date_formated_to.' 23:59'])
                 ->orderBy('audits.created_at','desc')
+                ->where('audits.company_id', Auth::user()->company_id)
                 ->paginate(10);
         return view('reports.audits',['audits' => $audits, 'from_date' => $from_date, 'to_date' => $to_date]);
     }
