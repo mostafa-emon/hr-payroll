@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Company;
 use App\User;
+use App\Setting;
 use Hash;
 
 class RegisterController extends Controller
@@ -38,6 +39,15 @@ class RegisterController extends Controller
             $user->password     = Hash::make($request->login_password);
             $user->roles        = 2;
             $user->save();
+
+            $setting = new Setting();
+            $setting->company_id            = $company->id;
+            $setting->mr_number             = 'manual';
+            $setting->mr_size               = 'full_page';
+            $setting->amount_in_word_format = 'crore_lakh_thousand';
+            $setting->approval_for_mr       = 1;
+            $setting->approval_for_cheque   = 1;
+            $setting->save();
 
             return redirect('subscription')->with('message', 'Registration successful');
         }
