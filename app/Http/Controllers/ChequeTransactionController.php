@@ -13,6 +13,7 @@ use App\ChequeTransaction;
 use App\Supplier;
 use App\Setting;
 use App\Currency;
+use Auth;
 
 class ChequeTransactionController extends Controller
 {
@@ -22,8 +23,8 @@ class ChequeTransactionController extends Controller
     }
     
     public function index(){
-        $setting = Setting::where('id',1)->first();
-        $cheque_transactions = ChequeTransaction::orderby('created_at','desc')->paginate(10);
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
+        $cheque_transactions = ChequeTransaction::where('company_id',Auth::user()->company_id)->orderby('created_at','desc')->paginate(10);
         return view('cheque_transactions.index', ['cheque_transactions'=>$cheque_transactions, 'setting'=>$setting]);
     }
     public function add($bank_id = null,Request $request){
@@ -48,6 +49,7 @@ class ChequeTransactionController extends Controller
             }else { $cheque_transaction->ac_payee_only   = 0; }
             
             $cheque_transaction->status         = 0;
+            $cheque_transaction->company_id     = Auth::user()->company_id;
             $cheque_transaction->save();
 
             $cheque = Cheque::where('cheque_no',$request->cheque_no)->first();
@@ -56,7 +58,7 @@ class ChequeTransactionController extends Controller
             
             return redirect('cheque-transactions')->with('message', 'Cheque added successfully!');
         }
-        $setting   = Setting::where('id',1)->first();
+        $setting   = Setting::where('company_id',Auth::user()->company_id)->first();
         $printers   = Printer::orderby('id','desc')->get();
         $banks      = Bank::orderby('name','asc')->get();
         $accounts   = [];
@@ -128,7 +130,7 @@ class ChequeTransactionController extends Controller
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
         $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
-        $setting = Setting::where('id',1)->first();
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
         $printer = Printer::where('id',$layout->printer_id)->first();
 
         if($transaction->status == 0 && $setting->approval_for_cheque == 1){
@@ -156,7 +158,7 @@ class ChequeTransactionController extends Controller
         $transaction = ChequeTransaction::where('id',$cheque_id)->first();
         $account = BankAccount::where('ac_number',$transaction->ac_number)->first();
         $layout = ChequeLayout::where('bank_id',$account->bank_id)->first();
-        $setting = Setting::where('id',1)->first();
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
         $printer = Printer::where('id',$layout->printer_id)->first();
         return view('cheque_transactions.draft', ['transaction'=>$transaction, 'layout'=>$layout, 'printer'=>$printer]);
     }

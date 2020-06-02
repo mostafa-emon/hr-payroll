@@ -10,12 +10,13 @@ use App\Currency;
 use App\PaymentMethod;
 use App\Setting;
 use App\Company;
+use Auth;
 
 class MRController extends Controller
 {
     public function index(){
-        $money_receipts = MoneyReceipt::paginate(10);
-        $setting = Setting::where('id',1)->first();
+        $money_receipts = MoneyReceipt::where('company_id',Auth::user()->company_id)->paginate(10);
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
         return view('mr.index', ['money_receipts' => $money_receipts, 'setting' => $setting]);
     }
 
@@ -25,7 +26,7 @@ class MRController extends Controller
         }
         if($request->customer_name !=""){
             list($site_office_name,$prefix,$suffix,$mr_start_from) = explode('_',$request->site_office);
-            $setting = Setting::where('id',1)->first();
+            $setting = Setting::where('company_id',Auth::user()->company_id)->first();
             // NEW INVOICE NO CODE
             if($setting->mr_number == "auto"){
                 $last_invoice = MoneyReceipt::where('site_office_name',$site_office_name)->orderBy('created_at','desc')->first();
@@ -64,6 +65,8 @@ class MRController extends Controller
             $mr->cheque_date            = date('Y-m-d',strtotime($request->cheque_date));
             $mr->bank_name              = $request->bank_name;
             $mr->purpose                = $request->purpose;
+
+            $mr->company_id             = Auth::user()->company_id;
             $mr->save();
             return redirect('mr')->with('message', 'Money receipt added successfully!');
         }
@@ -71,7 +74,7 @@ class MRController extends Controller
         $customers      = Customer::orderBy('name','asc')->get();
         $currency       = Currency::orderBy('id','asc')->get();
         $payment_methods= PaymentMethod::orderBy('id','asc')->get();
-        $setting        = Setting::where('id',1)->first();
+        $setting        = Setting::where('company_id',Auth::user()->company_id)->first();
         return view('mr.add', ['site_offices' => $site_offices, 'customers' => $customers, 'currency' => $currency, 'payment_methods' => $payment_methods, 'setting' => $setting]);
     }
 
@@ -110,10 +113,10 @@ class MRController extends Controller
             return redirect('404');
         }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
-        $company     = Company::where('id',1)->first();
+        $company     = Company::where('id',Auth::user()->company_id)->first();
         $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
         $customer    = Customer::where('name',$transaction->customer_name)->first();
-        $setting     = Setting::where('id',1)->first();
+        $setting     = Setting::where('company_id',Auth::user()->company_id)->first();
 
         if($transaction->status == 0 && $setting->approval_for_mr == 1){
             $status = "pending";
@@ -143,10 +146,10 @@ class MRController extends Controller
             return redirect('404');
         }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
-        $company     = Company::where('id',1)->first();
+        $company     = Company::where('id',Auth::user()->company_id)->first();
         $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
         $customer    = Customer::where('name',$transaction->customer_name)->first();
-        $setting     = Setting::where('id',1)->first();
+        $setting     = Setting::where('company_id',Auth::user()->company_id)->first();
 
         if($setting->mr_size == "full_page"){
             return view('mr.draft_full', ['transaction'=>$transaction, 'company' => $company, 'site_office' => $site_office, 'customer' => $customer]);
