@@ -20,7 +20,7 @@
   </head>
 
   <body>
-    <div class="br-logo text-center"><a href="#"><img src="{{asset('img/logo.png')}}" height="60"/></a></div>
+    <div class="br-logo text-center" style="padding-left:70px"><a href="#"><img src="{{asset('img/logo.png')}}" height="38"/></a></div>
 
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
