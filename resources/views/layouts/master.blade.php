@@ -14,7 +14,6 @@
     <link href="{{asset('lib/rickshaw/rickshaw.min.css')}}" rel="stylesheet">
     <link href="{{asset('lib/chartist/chartist.css')}}" rel="stylesheet">
     <link href="{{asset('lib/datatables/jquery.dataTables.css')}}" rel="stylesheet">
-    <link href="{{asset('lib/datatables/buttons.dataTables.min.css')}}" rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('css/bracket.css')}}">
 
@@ -165,19 +164,14 @@
     <script src="{{asset('lib/rickshaw/rickshaw.min.js')}}"></script>
 
     <script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
-    <script src="{{asset('lib/datatables/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('lib/datatables/buttons.flash.min.js')}}"></script>
-    <script src="{{asset('lib/datatables/jszip.min.js')}}"></script>
-    <script src="{{asset('lib/datatables/pdfmake.min.js')}}"></script>
-    <script src="{{asset('lib/datatables/vfs_fonts.js')}}"></script>
-    <script src="{{asset('lib/datatables/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('lib/datatables/buttons.print.min.js')}}"></script>
 
     <script src="{{asset('js/bracket.js')}}"></script>
     <script src="{{asset('js/ResizeSensor.js')}}"></script>
     <script src="{{asset('js/dashboard.js')}}"></script>
     
     <script>
+        $('#datatable').DataTable();
+
         $(".form-layout .form-control").on("focusin", function () {
           $(this).closest(".form-group").addClass("form-group-active");
         });
@@ -186,16 +180,10 @@
           $(this).closest(".form-group").removeClass("form-group-active");
         });
 
-        $('#dtpick1').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick2').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick3').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick4').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick5').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick6').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick7').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick8').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick9').datepicker({ dateFormat: 'dd-mm-yy' });
-        $('#dtpick10').datepicker({ dateFormat: 'dd-mm-yy' });
+        var i;
+        for(i = 1; i <= 100; i++){
+          $('#dtpick'+i).datepicker({ dateFormat: 'dd-mm-yy' });
+        }
     </script>
   </body>
 

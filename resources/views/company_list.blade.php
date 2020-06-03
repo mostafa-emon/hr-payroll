@@ -30,8 +30,8 @@
           </button>
         </div>
       @endif
-      <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table table-striped mg-b-0">
+      <div class="table-responsive">
+        <table class="table table-striped mg-b-0" id="datatable">
           <thead>
             <tr>
               <th class="text-center wd-5p">Sl</th>
@@ -69,8 +69,7 @@
             @endforeach
           </tbody>
         </table>
-      </div><br>
-      {{ $companies -> links() }}
+      </div>
     </div>
   </div>
 

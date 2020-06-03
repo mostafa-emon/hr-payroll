@@ -55,7 +55,7 @@ class CompanyController extends Controller
     }
 
     public function company_list(){
-        $company = Company::orderBy('name','asc')->paginate(10);
+        $company = Company::orderBy('name','asc')->get();
         return view('company_list', ['companies' => $company]);
     }
     
