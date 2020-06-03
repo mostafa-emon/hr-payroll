@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use App\Company;
 use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MRExportView implements FromView
 {
@@ -16,7 +17,7 @@ class MRExportView implements FromView
     */
     public function view(): View
     {
-        $company     = Company::where('id',1)->first();
+        $company     = Company::where('id',Auth::user()->company_id)->first();
         $site_office = "All";
         $customer    = "All";
         $from_date = date('01-m-Y');
@@ -38,9 +39,9 @@ class MRExportView implements FromView
         }else{
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $money_receipts = $money_receipts->where('status','!=',3)->get();
+        $money_receipts = $money_receipts->where('status','!=',3)->where('company_id',Auth::user()->company_id)->get();
 
-        $setting = Setting::where('id',1)->first();
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
 
         return view('reports.exports.issued_mr_table', [
             'money_receipts'    => $money_receipts, 

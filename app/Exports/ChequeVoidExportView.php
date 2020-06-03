@@ -11,6 +11,7 @@ use App\BankAccount;
 use App\ChequeBook;
 use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChequeVoidExportView implements FromView
 {
@@ -19,7 +20,7 @@ class ChequeVoidExportView implements FromView
     */
     public function view(): View
     {
-        $company        = Company::where('id',1)->first();
+        $company        = Company::where('id',Auth::user()->company_id)->first();
         $bank_name      = "All";
         $ac_number      = "All";
         $accounts       = "";
@@ -52,9 +53,9 @@ class ChequeVoidExportView implements FromView
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status',3)->get();
+        $cheques = $cheques->where('status',3)->where('company_id',Auth::user()->company_id)->get();
 
-        $setting = Setting::where('id',1)->first();
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
 
         return view('reports.exports.void_cheque_table', [
             'cheques'           => $cheques, 

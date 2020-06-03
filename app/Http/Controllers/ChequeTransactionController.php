@@ -52,15 +52,15 @@ class ChequeTransactionController extends Controller
             $cheque_transaction->company_id     = Auth::user()->company_id;
             $cheque_transaction->save();
 
-            $cheque = Cheque::where('cheque_no',$request->cheque_no)->first();
+            $cheque = Cheque::where('cheque_no',$request->cheque_no)->where('company_id',Auth::user()->company_id)->first();
             $cheque->status = 1;
             $cheque->save();
             
             return redirect('cheque-transactions')->with('message', 'Cheque added successfully!');
         }
         $setting   = Setting::where('company_id',Auth::user()->company_id)->first();
-        $printers   = Printer::orderby('id','desc')->get();
-        $banks      = Bank::orderby('name','asc')->get();
+        $printers   = Printer::where('company_id',Auth::user()->company_id)->orderby('id','desc')->get();
+        $banks      = Bank::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $accounts   = [];
         $layout     = "";
         
@@ -69,7 +69,7 @@ class ChequeTransactionController extends Controller
             $layout = ChequeLayout::where('bank_id',$bank_id)->first();
         }
 
-        $suppliers  = Supplier::orderby('name','asc')->get();
+        $suppliers  = Supplier::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         return view('cheque_transactions.add', ['banks' => $banks, 'printers' => $printers, 'suppliers' => $suppliers, 'bank_id' => $bank_id, 'accounts' => $accounts, 'layout' => $layout, 'setting' => $setting]);
     }
 

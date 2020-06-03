@@ -29,7 +29,7 @@ class MRController extends Controller
             $setting = Setting::where('company_id',Auth::user()->company_id)->first();
             // NEW INVOICE NO CODE
             if($setting->mr_number == "auto"){
-                $last_invoice = MoneyReceipt::where('site_office_name',$site_office_name)->orderBy('created_at','desc')->first();
+                $last_invoice = MoneyReceipt::where('company_id',Auth::user()->company_id)->where('site_office_name',$site_office_name)->orderBy('created_at','desc')->first();
                 if(!isset($last_invoice->invoice_no)){
                     $invoice_no = $mr_start_from;
                 } else{
@@ -114,8 +114,8 @@ class MRController extends Controller
         }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
         $company     = Company::where('id',Auth::user()->company_id)->first();
-        $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
-        $customer    = Customer::where('name',$transaction->customer_name)->first();
+        $site_office = SiteOffice::where('company_id',Auth::user()->company_id)->where('name',$transaction->site_office_name)->first();
+        $customer    = Customer::where('company_id',Auth::user()->company_id)->where('name',$transaction->customer_name)->first();
         $setting     = Setting::where('company_id',Auth::user()->company_id)->first();
 
         if($transaction->status == 0 && $setting->approval_for_mr == 1){
@@ -147,8 +147,8 @@ class MRController extends Controller
         }
         $transaction = MoneyReceipt::where('id',$mr_id)->first();
         $company     = Company::where('id',Auth::user()->company_id)->first();
-        $site_office = SiteOffice::where('name',$transaction->site_office_name)->first();
-        $customer    = Customer::where('name',$transaction->customer_name)->first();
+        $site_office = SiteOffice::where('company_id',Auth::user()->company_id)->where('name',$transaction->site_office_name)->first();
+        $customer    = Customer::where('company_id',Auth::user()->company_id)->where('name',$transaction->customer_name)->first();
         $setting     = Setting::where('company_id',Auth::user()->company_id)->first();
 
         if($setting->mr_size == "full_page"){
