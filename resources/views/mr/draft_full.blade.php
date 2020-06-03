@@ -12,7 +12,7 @@
 <div class="br-pagebody">
     <div id="printArea">
         <div id="containment-wrapper" style="font-family: Arial; padding:30px">
-            <div style="float: left;width:55%;">
+            <div style="float: left;width:45%;">
               <h1 style="font-size: 20px; font-weight: bold;">{{$company->name}}</h1>
               <div style="margin-top:-10px">{{$site_office->address}}</div>
               <div>Phone: {{$site_office->phone}}</div>
@@ -26,7 +26,7 @@
             <div style="text-align: center; font-size: 27px; font-weight: bold; margin-top: 160px;margin-bottom:50px;padding-bottom:5px;">Money Receipt</div>
         
             <div style="float:left; width: 45%;">
-              <div style="font-weight: bold; font-size: 19px;margin-top:-20px;">Received Form</div>
+              <div style="font-weight: bold; font-size: 19px;margin-top:-20px;">Received From</div>
         
               <div style="border: 1px solid; padding-bottom: 10px; padding-top: 10px; padding-left: 10px; padding-right: 5px;height:70px" >
                 <div>{{$transaction->customer_name}}</div>
