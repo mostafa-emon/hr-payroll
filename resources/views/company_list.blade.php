@@ -53,7 +53,7 @@
                   <form action="{{url ('company-renew/'.$company->id) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="input-group mb-3" style="margin-top:17px;">
-                      <input type="text" name="subscription_end_date" id="dtpick{{$sl}}" class="form-control" autocomplete="off" required style="border-top-right-radius:0px;border-bottom-right-radius:0px;"/>
+                      <input type="text" name="subscription_end_date" id="dtpick{{$sl}}" class="form-control" autocomplete="off" required style="width:100px;border-top-right-radius:0px;border-bottom-right-radius:0px;"/>
                       <input type="submit" class="btn btn-info btn-sm pointer" value="Renew" style="border-top-left-radius:0px;border-bottom-left-radius:0px;"/>
                     </div>
                   </form>
