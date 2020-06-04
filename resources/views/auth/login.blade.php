@@ -46,7 +46,7 @@
 
             <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
                 <div class="signin-logo mg-b-40 tx-center tx-28 tx-bold tx-inverse">
-                    <img src="{{asset('img/logo.png')}}" height="80"/>
+                    <img src="{{asset('img/logo.png')}}" height="55"/>
                 </div>
                 
                 @error('email')
