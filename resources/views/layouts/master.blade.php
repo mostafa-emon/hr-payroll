@@ -4,7 +4,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>@if(!isset(app()->view->getSections()['title'])) Axis Cheque & MR @else {{ app()->view->getSections()['title'] }} @endif</title>
+    <title>@if(!isset(app()->view->getSections()['title'])) Axis QB Voucher @else {{ app()->view->getSections()['title'] }} @endif</title>
     <link rel="icon" href="{{asset('img/favicon.png')}}">
 
     <link href="{{asset('lib/font-awesome/css/all.min.css')}}" rel="stylesheet">

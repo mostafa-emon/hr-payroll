@@ -5,7 +5,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Axis Cheque & MR</title>
+        <title>Axis QB Voucher</title>
         <link rel="icon" href="{{asset('img/favicon.png')}}">
 
         <!-- vendor css -->
@@ -68,7 +68,7 @@
                     @endif
                 </form>
 
-                <div class="mg-t-30 tx-center tx-13 tx-uppercase tx-semibold tx-spacing-1">AXIS CHEQUE & MR</a></div>
+                <div class="mg-t-30 tx-center tx-13 tx-uppercase tx-semibold tx-spacing-1">AXIS QB VOUCHER</a></div>
             </div><!-- login-wrapper -->
         </div><!-- d-flex -->
 
