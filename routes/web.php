@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/login', [ 'as' => 'login', 'uses' => 'LoginController@setLoginView']);
 Route::post('auth/login', 'LoginController@getLogin');
 
@@ -119,20 +118,6 @@ Route::post('/roles/add', 'RolesController@add');
 Route::get('/roles/delete/{role_id}', 'RolesController@delete');
 Route::get('/roles/update/{role_id}', 'RolesController@update');
 Route::post('/roles/update/{role_id}', 'RolesController@update');
-
-Route::get('/currency', 'ConfigurationController@index_currency');
-Route::get('/currency/add', 'ConfigurationController@add_currency');
-Route::post('/currency/add', 'ConfigurationController@add_currency');
-Route::get('/currency/delete/{currency_id}', 'ConfigurationController@delete_currency');
-Route::get('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
-Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
-
-Route::get('/payment-method', 'ConfigurationController@index_payment_method');
-Route::get('/payment-method/add', 'ConfigurationController@add_payment_method');
-Route::post('/payment-method/add', 'ConfigurationController@add_payment_method');
-Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController@delete_payment_method');
-Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
-Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
 
 Route::get('/settings', 'ConfigurationController@index');
 Route::post('/settings/update', 'ConfigurationController@update');
