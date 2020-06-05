@@ -9,7 +9,6 @@ use App\BankAccount;
 use App\ChequeBook;
 use App\Cheque;
 use App\User;
-use App\SiteOffice;
 use App\Customer;
 use App\Supplier;
 use App\Company;
@@ -37,7 +36,6 @@ class HomeController extends Controller
         $total_account      = BankAccount::where('company_id',Auth::user()->company_id)->count();
         $total_cheque_book  = ChequeBook::where('company_id',Auth::user()->company_id)->count();
         $total_cheque       = Cheque::where('company_id',Auth::user()->company_id)->count();
-        $total_site_office  = SiteOffice::where('company_id',Auth::user()->company_id)->count();
         $total_customer     = Customer::where('company_id',Auth::user()->company_id)->count();
         $total_supplier     = Supplier::where('company_id',Auth::user()->company_id)->count();
         $total_user         = User::where('company_id',Auth::user()->company_id)->count();
@@ -52,7 +50,6 @@ class HomeController extends Controller
             'total_account'     => $total_account,
             'total_cheque_book' => $total_cheque_book,
             'total_cheque'      => $total_cheque,
-            'total_site_office' => $total_site_office,
             'total_customer'    => $total_customer,
             'total_supplier'    => $total_supplier,
             'total_user'        => $total_user,

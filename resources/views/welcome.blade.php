@@ -65,52 +65,6 @@
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-3 mg-t-15">
-          <div class="card shadow-base bd-0">
-            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Site Offices</h6>
-            </div>
-            <div class="card-body d-xs-flex justify-content-between align-items-center">
-              <h4 class="mg-b-0 tx-inverse tx-lato tx-bold">{{$total_site_office}}</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 mg-t-15">
-          <div class="card shadow-base bd-0">
-            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Customers</h6>
-            </div>
-            <div class="card-body d-xs-flex justify-content-between align-items-center">
-              <h4 class="mg-b-0 tx-inverse tx-lato tx-bold">{{$total_customer}}</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 mg-t-15">
-          <div class="card shadow-base bd-0">
-            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Suppliers</h6>
-            </div>
-            <div class="card-body d-xs-flex justify-content-between align-items-center">
-              <h4 class="mg-b-0 tx-inverse tx-lato tx-bold">{{$total_supplier}}</h4>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3 mg-t-15">
-          <div class="card shadow-base bd-0">
-            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
-              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Users</h6>
-            </div>
-            <div class="card-body d-xs-flex justify-content-between align-items-center">
-              <h4 class="mg-b-0 tx-inverse tx-lato tx-bold">{{$total_user}}</h4>
-            </div>
-          </div>
-        </div>
-      </div>
       @endif
 
       @if(roles() != "" && in_array(100, json_decode(roles(),false)))

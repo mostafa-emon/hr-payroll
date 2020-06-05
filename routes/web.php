@@ -32,13 +32,6 @@ Route::get('/company-active/{company_id}', 'CompanyController@active');
 Route::get('/company-inactive/{company_id}', 'CompanyController@inactive');
 Route::post('/company-renew/{company_id}', 'CompanyController@renew');
 
-Route::get('/site-office', 'SiteOfficeController@index');
-Route::get('/site-office/add', 'SiteOfficeController@add');
-Route::post('/site-office/add', 'SiteOfficeController@add');
-Route::get('/site-office/delete/{siteoffice_id}', 'SiteOfficeController@delete');
-Route::get('/site-office/update/{siteoffice_id}', 'SiteOfficeController@update');
-Route::post('/site-office/update/{siteoffice_id}', 'SiteOfficeController@update');
-
 Route::get('/customer', 'CustomerController@index');
 Route::get('/customer/add', 'CustomerController@add');
 Route::post('/customer/add', 'CustomerController@add');

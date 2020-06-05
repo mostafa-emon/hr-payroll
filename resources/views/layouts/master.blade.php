@@ -52,7 +52,6 @@
         </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="{{ url('company') }}" class="nav-link {{ (request()->is('company')) ? 'active' : '' }}">Company Setup</a></li>
-          <li class="nav-item"><a href="{{ url('site-office') }}" class="nav-link {{ (request()->is('site-office*')) ? 'active' : '' }}">Site Offices</a></li>
           <li class="nav-item"><a href="{{ url('customer') }}" class="nav-link {{ (request()->is('customer*')) ? 'active' : '' }}">Customers</a></li>
           <li class="nav-item"><a href="{{ url('supplier') }}" class="nav-link {{ (request()->is('supplier*')) ? 'active' : '' }}">Suppliers</a></li>
           <li class="nav-item"><a href="{{ url('cheque-layouts') }}" class="nav-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">Cheque Formats</a></li>
