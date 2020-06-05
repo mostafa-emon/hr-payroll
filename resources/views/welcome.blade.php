@@ -10,7 +10,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="alert alert-primary pd-20" role="alert">
-            <strong class="d-block d-sm-inline-block-force">Welcome to,</strong> Axis Cheque & MR
+            <strong class="d-block d-sm-inline-block-force">Welcome to,</strong> Axis QB Voucher
           </div>
         </div>
       </div>

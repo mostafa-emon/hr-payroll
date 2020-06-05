@@ -32,20 +32,6 @@ Route::get('/company-active/{company_id}', 'CompanyController@active');
 Route::get('/company-inactive/{company_id}', 'CompanyController@inactive');
 Route::post('/company-renew/{company_id}', 'CompanyController@renew');
 
-Route::get('/customer', 'CustomerController@index');
-Route::get('/customer/add', 'CustomerController@add');
-Route::post('/customer/add', 'CustomerController@add');
-Route::get('/customer/delete/{customer_id}', 'CustomerController@delete');
-Route::get('/customer/update/{customer_id}', 'CustomerController@update');
-Route::post('/customer/update/{customer_id}', 'CustomerController@update');
-
-Route::get('/supplier', 'SupplierController@index');
-Route::get('/supplier/add', 'SupplierController@add');
-Route::post('/supplier/add', 'SupplierController@add');
-Route::get('/supplier/delete/{supplier_id}', 'SupplierController@delete');
-Route::get('/supplier/update/{supplier_id}', 'SupplierController@update');
-Route::post('/supplier/update/{supplier_id}', 'SupplierController@update');
-
 Route::get('/bank', 'BankController@index');
 Route::get('/bank/add', 'BankController@add');
 Route::post('/bank/add', 'BankController@add');
