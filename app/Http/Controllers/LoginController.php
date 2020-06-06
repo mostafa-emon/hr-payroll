@@ -53,4 +53,8 @@ class LoginController extends Controller
         }
         return redirect('/login')->withErrors(['email'=> $request->email]);
     }
+
+    public function OAuth(){
+        return view('auth.OAuth');
+    }
 }
