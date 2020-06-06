@@ -10,6 +10,7 @@ use App\Role;
 use DB;
 use Auth;
 use App\Helpers\ViewHelper;
+use App\Company;
 
 class UserController extends Controller
 {
@@ -19,7 +20,8 @@ class UserController extends Controller
     }
     
     public function index(){
-        $user = User::where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
+        $company = Company::where('id',Auth::user()->company_id)->first();
+        $user = User::where('name','!=',$company->name)->where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('users.index', ['users'=>$user]);
     }
     
@@ -41,7 +43,7 @@ class UserController extends Controller
             $user->save();
             return redirect('user')->with('message', 'User added successfully!');
         }
-        $roles = Role::orderBy('role_name','asc')->get();
+        $roles = Role::orderBy('role_name','asc')->where('id','>',2)->get();
         return view('users.add',['roles'=>$roles]);
     }
     
@@ -77,7 +79,7 @@ class UserController extends Controller
             return redirect('user')->with('message', 'User updated successfully!');
         }
         $users = User::where('id',$user_id)->first();
-        $roles = Role::orderBy('role_name','asc')->get();
+        $roles = Role::orderBy('role_name','asc')->where('id','>',2)->get();
         return view('users.update', ['users' => $users, 'roles' => $roles]);
     }
 

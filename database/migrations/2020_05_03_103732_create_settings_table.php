@@ -17,6 +17,10 @@ class CreateSettingsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->string('voucher_number',10);
+            $table->string('voucher_size',10);
+            $table->string('voucher_prefix',10)->nullable();
+            $table->string('voucher_suffix',10)->nullable();
             $table->string('mr_number',10);
             $table->string('mr_size',10);
             $table->string('amount_in_word_format',30);

@@ -27,6 +27,39 @@
         <div class="form-layout form-layout-4">
             <h6 class="mg-b-30 tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">SETTINGS</h6>
             <div class="row">
+                <label class="col-sm-4 form-control-label">Voucher Number:</label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <select class="form-control" name="mr_number">
+                        <option value="manual" @if(isset($settings) && $settings->mr_number == "manual") selected @endif>Manual</option>
+                        <option value="auto" @if(isset($settings) && $settings->mr_number == "auto") selected @endif>Automatic</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <label class="mg-t-20 col-sm-4 form-control-label">Voucher Number Format:</label>
+                <label class="mg-t-20 col-sm-1 form-control-label">Prefix:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" class="form-control" name="voucher_prefix" value="{{$settings->voucher_prefix}}"/>
+                </div>
+
+                <label class="col-sm-1 form-control-label mg-t-20">Suffix:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" class="form-control" name="voucher_suffix" value="{{$settings->voucher_suffix}}"/>
+                </div>
+            </div>
+
+            <div class="row mg-t-20">
+                <label class="col-sm-4 form-control-label">Voucher Size:</label>
+                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <select class="form-control" name="mr_size">
+                        <option value="full_page" @if(isset($settings) && $settings->mr_size == "full_page") selected @endif>Full Page</option>
+                        <option value="half_page" @if(isset($settings) && $settings->mr_size == "half_page") selected @endif>Half Page</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row mg-t-20">
                 <label class="col-sm-4 form-control-label">MR Number:</label>
                 <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="mr_number">

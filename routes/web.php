@@ -69,6 +69,13 @@ Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionControl
 Route::get('/get-account-currency/{account_id}', 'ChequeTransactionController@get_currency_by_account');
 Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
 
+Route::get('/currency', 'ConfigurationController@index_currency');
+Route::get('/currency/add', 'ConfigurationController@add_currency');
+Route::post('/currency/add', 'ConfigurationController@add_currency');
+Route::get('/currency/delete/{currency_id}', 'ConfigurationController@delete_currency');
+Route::get('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
+Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
+
 Route::get('/mr', 'MRController@index');
 Route::get('/mr/add', 'MRController@add');
 Route::post('/mr/add', 'MRController@add');

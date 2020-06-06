@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Currency;
 use App\Setting;
 use App\Printer;
 use DB;
@@ -14,6 +15,50 @@ class ConfigurationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function index_currency(){
+        $currency = Currency::where('company_id', Auth::user()->company_id)->orderBy('id', 'asc')->paginate(10);
+        return view('currencies.index', ['currencies'=>$currency]);
+    }
+    
+    public function add_currency(Request $request){
+        if(roles() != "" && !in_array(11, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        if($request->full_name !=""){
+            $currency = new Currency();
+            $currency->company_id       = Auth::user()->company_id;
+            $currency->full_name        = $request->full_name;
+            $currency->fraction_name    = $request->fraction_name;
+            $currency->save();
+            return redirect('currency')->with('message', 'Currency added successfully!');
+        }
+        return view('currencies.add');
+    }
+
+    public function delete_currency($currency_id){
+        if(roles() != "" && !in_array(13, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        $currency = Currency::find($currency_id);
+        $currency->delete();
+        return redirect('currency')->with('message', 'Currency deleted successfully!');
+    }
+
+    public function update_currency($currency_id, Request $request){
+        if(roles() != "" && !in_array(12, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        if($request->full_name !=""){
+            $currency = Currency::where('id',$currency_id)->first();
+            $currency->full_name        = $request->full_name;
+            $currency->fraction_name    = $request->fraction_name;
+            $currency->save();
+            return redirect('currency')->with('message', 'Currency updated successfully!');
+        }
+        $currencies = Currency::where('id',$currency_id)->first();
+        return view('currencies.update', ['currencies' => $currencies]);
     }
 
     public function index() {
