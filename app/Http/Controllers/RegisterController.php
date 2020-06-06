@@ -42,9 +42,9 @@ class RegisterController extends Controller
 
             $setting = new Setting();
             $setting->company_id            = $company->id;
-            $setting->voucher_number        = 'manual';
-            $setting->voucher_size          = 'full_page';
-            $setting->mr_number             = 'manual';
+            $setting->voucher_number        = 'auto';
+            $setting->voucher_size          = 'half_page';
+            $setting->mr_number             = 'auto';
             $setting->mr_size               = 'full_page';
             $setting->amount_in_word_format = 'crore_lakh_thousand';
             $setting->approval_for_mr       = 1;

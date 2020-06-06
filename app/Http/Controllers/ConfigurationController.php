@@ -67,11 +67,16 @@ class ConfigurationController extends Controller
     }
 
     public function update(Request $request){
-        $count = Setting::where('id',1)->count();
+        $count = Setting::where('company_id',Auth::user()->company_id)->count();
 
         if($count == 0) {
             $setting = new Setting;
             $setting->company_id                = Auth::user()->company_id;
+            $setting->voucher_number            = $request->voucher_number;
+            $setting->voucher_size              = $request->voucher_size;
+            $setting->voucher_prefix            = $request->voucher_prefix;
+            $setting->voucher_suffix            = $request->voucher_suffix;
+            
             $setting->mr_number                 = $request->mr_number;
             $setting->mr_size                   = $request->mr_size;
             $setting->amount_in_word_format     = $request->amount_in_word_format;
@@ -80,6 +85,11 @@ class ConfigurationController extends Controller
             $setting->save();
         }else{
             $setting = Setting::where('company_id', Auth::user()->company_id)->first();
+            $setting->voucher_number            = $request->voucher_number;
+            $setting->voucher_size              = $request->voucher_size;
+            $setting->voucher_prefix            = $request->voucher_prefix;
+            $setting->voucher_suffix            = $request->voucher_suffix;
+
             $setting->mr_number                 = $request->mr_number;
             $setting->mr_size                   = $request->mr_size;
             $setting->amount_in_word_format     = $request->amount_in_word_format;

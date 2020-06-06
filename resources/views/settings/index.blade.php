@@ -29,9 +29,9 @@
             <div class="row">
                 <label class="col-sm-4 form-control-label">Voucher Number:</label>
                 <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="mr_number">
-                        <option value="manual" @if(isset($settings) && $settings->mr_number == "manual") selected @endif>Manual</option>
-                        <option value="auto" @if(isset($settings) && $settings->mr_number == "auto") selected @endif>Automatic</option>
+                    <select class="form-control" name="voucher_number">
+                        <option value="manual" @if(isset($settings) && $settings->voucher_number == "manual") selected @endif>Manual</option>
+                        <option value="auto" @if(isset($settings) && $settings->voucher_number == "auto") selected @endif>Automatic</option>
                     </select>
                 </div>
             </div>
@@ -52,9 +52,9 @@
             <div class="row mg-t-20">
                 <label class="col-sm-4 form-control-label">Voucher Size:</label>
                 <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="mr_size">
-                        <option value="full_page" @if(isset($settings) && $settings->mr_size == "full_page") selected @endif>Full Page</option>
-                        <option value="half_page" @if(isset($settings) && $settings->mr_size == "half_page") selected @endif>Half Page</option>
+                    <select class="form-control" name="voucher_size">
+                        <option value="full_page" @if(isset($settings) && $settings->voucher_size == "full_page") selected @endif>Full Page</option>
+                        <option value="half_page" @if(isset($settings) && $settings->voucher_size == "half_page") selected @endif>Half Page</option>
                     </select>
                 </div>
             </div>
