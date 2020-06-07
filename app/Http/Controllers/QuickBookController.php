@@ -11,9 +11,9 @@ class QuickBookController extends Controller
     public function firstCall() {
         $dataService = DataService::Configure(array(
             'auth_mode' => 'oauth2',
-            'ClientID' => 'ABRPnH1WCHSMnY9x1hAQDiUCGBTP1oYxjfNnwFAyXOeR0TmDae',
-            'ClientSecret' => 'z6ABHWMgXHLqhPAHHlnzzfCU635Soa5XjEHrq5eD',
-            'RedirectURI' => 'http://localhost:8000/callback',
+            'ClientID' => 'ABh75wOJ7wm73xm67Ay7usGdKsIv1AhTVnMKldtBhoB8vKH3oJ',
+            'ClientSecret' => 'nAkjbOfAf7DIV1Mi1hsHDVikU8RjUmEtcUUr1duh',
+            'RedirectURI' => 'http://localhost:8001/qb-auth-success',
             'scope' =>'com.intuit.quickbooks.accounting',
             'baseUrl' => "development"
         ));
@@ -41,9 +41,9 @@ class QuickBookController extends Controller
     {
         $dataService = DataService::Configure(array(
             'auth_mode' => 'oauth2',
-            'ClientID' => 'ABRPnH1WCHSMnY9x1hAQDiUCGBTP1oYxjfNnwFAyXOeR0TmDae',
-            'ClientSecret' => 'z6ABHWMgXHLqhPAHHlnzzfCU635Soa5XjEHrq5eD',
-            'RedirectURI' => 'http://localhost:8000/callback',
+            'ClientID' => 'ABh75wOJ7wm73xm67Ay7usGdKsIv1AhTVnMKldtBhoB8vKH3oJ',
+            'ClientSecret' => 'nAkjbOfAf7DIV1Mi1hsHDVikU8RjUmEtcUUr1duh',
+            'RedirectURI' => 'http://localhost:8001/qb-auth-success',
             'scope' =>'com.intuit.quickbooks.accounting',
             'baseUrl' => "development"
         ));
