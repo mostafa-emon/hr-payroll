@@ -54,7 +54,10 @@ class QuickBookController extends Controller
         $accessToken = $OAuth2LoginHelper->exchangeAuthorizationCodeForToken($parseUrl['code'], $parseUrl['realmId']);
         $dataService->updateOAuth2Token($accessToken);
         
-        echo $accessToken->getAccessToken();
+        echo "Access Token: <br>".$accessToken->getAccessToken();
+        echo "Refresh Token: <br>".$accessToken->getRefreshToken();
+        echo "Refresh Token Expire At: <br>".$accessToken->getRefreshTokenExpiresAt();
+        echo "Expires In: <br>".$accessToken->getAccessTokenExpiresAt();
     }
 
     public function parseAuthRedirectUrl($url)
