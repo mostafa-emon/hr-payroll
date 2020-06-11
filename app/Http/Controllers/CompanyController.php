@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Company;
+use App\Subscription;
 use Illuminate\Support\Facades\Storage;
 use Auth;
+use App\User;
+use Hash;
 
 class CompanyController extends Controller
 {
@@ -60,7 +63,8 @@ class CompanyController extends Controller
     }
 
     public function company_list(){
-        $company = Company::join('subscriptions','subscriptions.id','companies.subscription_id')
+        $company = Company::select('companies.*','subscriptions.amount','subscriptions.subscription_start_date','subscriptions.subscription_end_date')
+                ->join('subscriptions','subscriptions.id','companies.subscription_id')
                 ->orderBy('name','asc')
                 ->get();
         return view('company_list', ['companies' => $company]);
@@ -77,7 +81,27 @@ class CompanyController extends Controller
     }
 
     public function renew($company_id, Request $request){
-        Company::where('id',$company_id)->update(['subscription_end_date' => date('Y-m-d',strtotime($request->subscription_end_date))]);
+        $subscription = new Subscription();
+        $subscription->amount = $request->amount;
+        $subscription->subscription_start_date  = date('Y-m-d',strtotime($request->subscription_start_date));
+        $subscription->subscription_end_date    = date('Y-m-d',strtotime($request->subscription_end_date));
+        $subscription->save();
+        Company::where('id',$company_id)->update(['subscription_id' => $subscription->id]);
         return redirect('subscription')->with('message', 'Renew Successful!');
+    }
+
+    public function emailReset($company_id, Request $request) {
+        $user = User::where('company_id',$company_id)->where('roles',2)->first();
+        $user->email = $request->login_email;
+        $user->save();
+        return redirect('subscription')->with('message', 'Email reset Successful!');
+    }
+
+    public function passwordReset($company_id, Request $request) {
+        $password = Hash::make($request->password);
+        $user = User::where('company_id',$company_id)->where('roles',2)->first();
+        $user->password = $password;
+        $user->save();
+        return redirect('subscription')->with('message', 'Password reset Successful!');
     }
 }

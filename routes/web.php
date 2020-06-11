@@ -29,6 +29,9 @@ Route::post('/company/update', 'CompanyController@update');
 Route::get('/company-register', 'RegisterController@register');
 Route::post('/company-register', 'RegisterController@register');
 Route::get('/subscription', 'CompanyController@company_list');
+Route::post('/company-email-reset/{company_id}', 'CompanyController@emailReset');
+Route::post('/company-password-reset/{company_id}', 'CompanyController@passwordReset');
+
 
 Route::get('/company-active/{company_id}', 'CompanyController@active');
 Route::get('/company-inactive/{company_id}', 'CompanyController@inactive');
