@@ -9,6 +9,11 @@ use Auth;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index() {
         $info = Company::where('id',Auth::user()->company_id)->first();
         return view('company.index', ['info' => $info]);
@@ -55,7 +60,9 @@ class CompanyController extends Controller
     }
 
     public function company_list(){
-        $company = Company::orderBy('name','asc')->get();
+        $company = Company::join('subscriptions','subscriptions.id','companies.subscription_id')
+                ->orderBy('name','asc')
+                ->get();
         return view('company_list', ['companies' => $company]);
     }
     

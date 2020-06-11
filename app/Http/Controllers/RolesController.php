@@ -10,6 +10,11 @@ use App\Helpers\ViewHelper;
 
 class RolesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index(){
         $roles = Role::where('id','>',2)->where('company_id',Auth::user()->company_id)->orderBy('role_name', 'asc')->paginate(10);
         return view('roles.index', ['roles'=>$roles]);

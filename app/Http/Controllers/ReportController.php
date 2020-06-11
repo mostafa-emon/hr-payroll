@@ -23,6 +23,11 @@ use App\Exports\ChequeVoidExportView;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function issued_mr(Request $request) {
         $company     = Company::where('id', Auth::user()->company_id)->first();
         $site_office = "All";

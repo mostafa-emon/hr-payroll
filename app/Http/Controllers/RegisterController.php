@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Company;
 use App\User;
+use App\Subscription;
 use App\Setting;
 use Hash;
 
@@ -17,6 +18,12 @@ class RegisterController extends Controller
     
     public function register(Request $request){
         if($request->name !=""){
+            $subscription = new Subscription();
+            $subscription->amount                    = $request->subscription_amount;
+            $subscription->subscription_start_date   = date('Y-m-d',strtotime($request->subscription_start_date));
+            $subscription->subscription_end_date     = date('Y-m-d',strtotime($request->subscription_end_date));
+            $subscription->save();
+
             $company = new Company();
             $company->name                   = $request->name;
             $company->address                = $request->address;
@@ -24,8 +31,13 @@ class RegisterController extends Controller
             $company->email                  = $request->email;
             $company->tin                    = $request->tin;
             $company->vat_reg_no             = $request->vat_reg_no;
-            $company->subscription_end_date  = date('Y-m-d',strtotime($request->subscription_end_date));
             $company->status                 = 1;
+            $company->subscription_id        = $subscription->id;
+
+            $company->qb_client_id           = $request->qb_client_id;
+            $company->qb_client_secret       = $request->qb_client_secret;
+            $company->qb_company_id          = $request->qb_company_id;
+
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');
             }

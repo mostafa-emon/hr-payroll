@@ -7,6 +7,7 @@ use Auth;
 use Carbon\Carbon;
 use App\Audit;
 use App\Company;
+use App\QuickBook;
 
 class LoginController extends Controller
 {
@@ -21,17 +22,37 @@ class LoginController extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             
             if(Auth::user()->id != 1){
-                $company = Company::where('id',Auth::user()->company_id)->first();
+                $company = Company::join('subscriptions','subscriptions.id','companies.subscription_id')->where('id',Auth::user()->company_id)->first();
                 if($company->status == 0){
                     Auth::logout();
                     return redirect('/login')->with('error_message', 'Activation pending!');
                 }else{
-                    if($company->subscription_end_date < date('Y-m-d')){
+                    if($company->subscriptions->subscription_end_date < date('Y-m-d')){
                         Auth::logout();
                         return redirect('/login')->with('error_message', 'Subscription expired!');
                     }
                 }
-            } 
+                /*
+                if($company->qb_company_id != "" && $company->qb_client_id != "" && $company->qb_client_secret != "" && $company->qb_environment != "") {
+                    $qb_auth = QuickBook::where('company_id',$company->id)->count();
+                    if($qb_auth == 0) {
+                        return redirect('/qb-auth');
+                    }else{
+                        $auth_details = QuickBook::where('company_id',$company->id)->first();
+                        if($auth_details->token_validity < Carbon::now()){
+                            if($auth_details->refresh_token_validity < Carbon::now()){
+                                return redirect('/qb-auth');
+                            }else{
+                                return response()->json('need to generate refresh token');
+                            }
+                        }
+                        else {
+                            return redirect('/');
+                        }
+                    }
+                }
+                */
+            }
 
             $old_values = []; $new_values = [];
             $audit = new Audit();
@@ -48,8 +69,6 @@ class LoginController extends Controller
             $audit->old_values = json_encode($old_values);
             $audit->new_values = json_encode($new_values);
             $audit->save();
-
-            return redirect('/');
         }
         return redirect('/login')->withErrors(['email'=> $request->email]);
     }

@@ -38,8 +38,8 @@ class HomeController extends Controller
 
         $total_company      = Company::count();
         $pending_company    = Company::where('status',0)->count();
-        $active_company     = Company::where('status',1)->where('subscription_end_date','>=',date('Y-m-d'))->count();
-        $expired_company    = Company::where('subscription_end_date','<',date('Y-m-d'))->count();
+        $active_company     = Company::join('subscriptions','subscriptions.id','companies.subscription_id')->where('subscriptions.subscription_end_date','>=',date('Y-m-d'))->count();
+        $expired_company    = Company::join('subscriptions','subscriptions.id','companies.subscription_id')->where('subscriptions.subscription_end_date','<',date('Y-m-d'))->count();
 
         return view('welcome', [
             'total_bank'        => $total_bank,

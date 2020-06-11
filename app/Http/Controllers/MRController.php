@@ -14,6 +14,11 @@ use Auth;
 
 class MRController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index(){
         $money_receipts = MoneyReceipt::where('company_id',Auth::user()->company_id)->paginate(10);
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
