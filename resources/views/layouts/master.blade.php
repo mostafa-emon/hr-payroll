@@ -92,6 +92,8 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ url('issued-voucher') }}" class="nav-link {{ (request()->is('issued-voucher*')) ? 'active' : '' }}">Issued Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('void-voucher') }}" class="nav-link {{ (request()->is('issued-voucher*')) ? 'active' : '' }}">Void Voucher</a></li>
           <li class="nav-item"><a href="{{ url('issued-mr') }}" class="nav-link {{ (request()->is('issued-mr*')) ? 'active' : '' }}">Issued MR</a></li>
           <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link {{ (request()->is('void-mr*')) ? 'active' : '' }}">Void MR</a></li>
           <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link {{ (request()->is('issued-cheque*')) ? 'active' : '' }}">Issued Cheque</a></li>
