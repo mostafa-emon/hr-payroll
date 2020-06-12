@@ -22,7 +22,10 @@ class LoginController extends Controller
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             
             if(Auth::user()->id != 1){
-                $company = Company::join('subscriptions','subscriptions.id','companies.subscription_id')->where('companies.id',Auth::user()->company_id)->first();
+                $company = Company::select('companies.*','subscriptions.subscription_start_date','subscriptions.subscription_end_date')
+                        ->join('subscriptions','subscriptions.id','companies.subscription_id')
+                        ->where('companies.id',Auth::user()->company_id)
+                        ->first();
          
                 if($company->status == 0){
                     Auth::logout();
@@ -33,7 +36,7 @@ class LoginController extends Controller
                         return redirect('/login')->with('error_message', 'Subscription expired!');
                     }
                 }
-                /*
+
                 if($company->qb_company_id != "" && $company->qb_client_id != "" && $company->qb_client_secret != "" && $company->qb_environment != "") {
                     $qb_auth = QuickBook::where('company_id',$company->id)->count();
                     if($qb_auth == 0) {
@@ -44,7 +47,7 @@ class LoginController extends Controller
                             if($auth_details->refresh_token_validity < Carbon::now()){
                                 return redirect('/qb-auth');
                             }else{
-                                return response()->json('need to generate refresh token');
+                                return redirect('/qb-refresh-token');
                             }
                         }
                         else {
@@ -52,7 +55,7 @@ class LoginController extends Controller
                         }
                     }
                 }
-                */
+                
             }
 
             $old_values = []; $new_values = [];

@@ -18,6 +18,7 @@ Route::post('auth/login', 'LoginController@getLogin');
 
 Route::get('/qb-auth','QuickBookController@firstCall');
 Route::get('/qb-auth-success','QuickBookController@processCode');
+Route::get('/qb-refresh-token','QuickBookController@refreshToken');
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');

@@ -11,23 +11,21 @@ use App\Company;
 
 class QuickBookController extends Controller
 {
-    private $company;
-
     public function __construct()
     {
         $this->middleware('auth');
-        $this->company = Company::where('id',Auth::user()->company_id)->first();
     }
     
     public function firstCall() {
-        return response()->json(Auth::user()->company_id);
+        $company = Company::where('id',Auth::user()->company_id)->first();
+
         $dataService = DataService::Configure(array(
             'auth_mode'     => 'oauth2',
-            'ClientID'      => 'ABh75wOJ7wm73xm67Ay7usGdKsIv1AhTVnMKldtBhoB8vKH3oJ',
-            'ClientSecret'  => 'nAkjbOfAf7DIV1Mi1hsHDVikU8RjUmEtcUUr1duh',
+            'ClientID'      => $company->qb_client_id,
+            'ClientSecret'  => $company->qb_client_secret,
             'RedirectURI'   => 'http://localhost:8001/qb-auth-success',
             'scope'         =>'com.intuit.quickbooks.accounting',
-            'baseUrl'       => "development"
+            'baseUrl'       => $company->qb_environment,
         ));
 
         $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
@@ -51,13 +49,15 @@ class QuickBookController extends Controller
 
     public function processCode()
     {
+        $company = Company::where('id',Auth::user()->company_id)->first();
+
         $dataService = DataService::Configure(array(
             'auth_mode'     => 'oauth2',
-            'ClientID'      => 'ABh75wOJ7wm73xm67Ay7usGdKsIv1AhTVnMKldtBhoB8vKH3oJ',
-            'ClientSecret'  => 'nAkjbOfAf7DIV1Mi1hsHDVikU8RjUmEtcUUr1duh',
+            'ClientID'      => $company->qb_client_id,
+            'ClientSecret'  => $company->qb_client_secret,
             'RedirectURI'   => 'http://localhost:8001/qb-auth-success',
             'scope'         =>'com.intuit.quickbooks.accounting',
-            'baseUrl'       => "development"
+            'baseUrl'       => $company->qb_environment,
         ));
 
         $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
@@ -99,6 +99,24 @@ class QuickBookController extends Controller
     }
 
     public function refreshToken(){
+        $company    = Company::where('id',Auth::user()->company_id)->first();
+        $OAuth      = QuickBook::where('company_id',$company->id)->first();
+
+        $dataService = DataService::Configure(array(
+            'auth_mode'         => 'oauth2',
+            'ClientID'          => $company->qb_client_id,
+            'ClientSecret'      => $company->qb_client_secret,
+            'RedirectURI'       => 'http://localhost:8001/qb-auth-success',
+            'baseUrl'           => $company->qb_environment,
+            'refreshTokenKey'   => $OAuth->refresh_token,
+            'QBORealmID'        => $company->qb_company_id,
+        ));
         
+        $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
+        $refreshedAccessTokenObj = $OAuth2LoginHelper->refreshToken();
+
+        
+
+        return response()->json($OAuth2LoginHelper);
     } 
 }
