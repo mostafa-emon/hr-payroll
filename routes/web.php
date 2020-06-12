@@ -145,3 +145,18 @@ Route::post('/printer/update/{printer_id}', 'ConfigurationController@update_prin
 
 Route::get('/404', 'HomeController@pageNotFound');
 Route::get('/logout', 'HomeController@logout');
+
+Route::get('/signatory', 'SignatoryController@index');
+Route::post('/signatory/update', 'SignatoryController@update');
+
+Route::get('/voucher-cash-payment', 'VoucherController@cash_payment');
+Route::get('/voucher-bank-payment', 'VoucherController@bank_payment');
+Route::get('/voucher-cash-receipt', 'VoucherController@cash_receipt');
+Route::get('/voucher-bank-receipt', 'VoucherController@bank_receipt');
+Route::get('/voucher-void-voucher', 'VoucherController@void_voucher');
+Route::get('/voucher-contra-voucher', 'VoucherController@contra_voucher');
+Route::get('/voucher-journal-voucher', 'VoucherController@journal_voucher');
+
+Route::get('/create-mr', 'MRController@create_mr');
+Route::get('/create-cheque', 'MRController@create_cheque');
+

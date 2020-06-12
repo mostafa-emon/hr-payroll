@@ -7,6 +7,7 @@ use App\Company;
 use App\User;
 use App\Subscription;
 use App\Setting;
+use App\Signatory;
 use Hash;
 
 class RegisterController extends Controller
@@ -64,6 +65,14 @@ class RegisterController extends Controller
             $setting->approval_for_cheque   = 1;
             $setting->save();
 
+            $signatory = new Signatory();
+            $signatory->company_id          = $company->id;
+            $signatory->prepared_by         = 0;
+            $signatory->checked_by          = 0;
+            $signatory->verified_by         = 0;
+            $signatory->authorized_by       = 0;
+            $signatory->approved_by         = 1;
+            $signatory->save();
             return redirect('subscription')->with('message', 'Registration successful');
         }
         return view('register');

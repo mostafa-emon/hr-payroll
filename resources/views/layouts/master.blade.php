@@ -52,6 +52,7 @@
         </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="{{ url('company') }}" class="nav-link {{ (request()->is('company')) ? 'active' : '' }}">Company Setup</a></li>
+          <li class="nav-item"><a href="{{url('signatory')}}" class="nav-link {{ (request()->is('signatory')) ? 'active' : '' }}">Signatory</a></li>
           <li class="nav-item"><a href="{{ url('cheque-layouts') }}" class="nav-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">Cheque Formats</a></li>
           <li class="nav-item"><a href="{{url('bank')}}" class="nav-link {{ (request()->is('bank')) || (request()->is('bank/add')) || (request()->is('bank/update*')) ? 'active' : '' }}">Bank</a></li>
           <li class="nav-item"><a href="{{url('bank-account')}}" class="nav-link {{ (request()->is('bank-account*')) ? 'active' : '' }}">Bank Accounts</a></li>
@@ -61,7 +62,7 @@
           <li class="nav-item"><a href="{{url('user')}}" class="nav-link {{ (request()->is('user*')) ? 'active' : '' }}">Users</a></li>
         </ul>
 
-        <a href="#" class="br-menu-link {{ (request()->is('cheque-transactions*')) || (request()->is('mr*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('voucher*')) || (request()->is('create*')) || (request()->is('cheque-transactions*')) || (request()->is('mr*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-file-alt tx-19 pd-l-2"></i>
             <span class="menu-item-label">Transaction</span>
@@ -69,6 +70,16 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ url('voucher-cash-payment') }}" class="nav-link  {{ (request()->is('voucher-cash-payment*')) ? 'active' : '' }}">Cash Payment Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('voucher-bank-payment') }}" class="nav-link  {{ (request()->is('voucher-bank-payment*')) ? 'active' : '' }}">Bank Payment Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('voucher-cash-receipt') }}" class="nav-link  {{ (request()->is('voucher-cash-receipt*')) ? 'active' : '' }}">Cash Receipt Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('voucher-bank-receipt') }}" class="nav-link  {{ (request()->is('voucher-bank-receipt*')) ? 'active' : '' }}">Bank Receipt Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('voucher-void-voucher') }}" class="nav-link  {{ (request()->is('voucher-void-voucher*')) ? 'active' : '' }}">Void Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('voucher-contra-voucher') }}" class="nav-link  {{ (request()->is('voucher-contra-voucher*')) ? 'active' : '' }}">Contra Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('voucher-journal-voucher') }}" class="nav-link  {{ (request()->is('voucher-journal-voucher*')) ? 'active' : '' }}">Journal Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('create-mr') }}" class="nav-link  {{ (request()->is('create-mr*')) ? 'active' : '' }}">Create MR</a></li>
+          <li class="nav-item"><a href="{{ url('create-cheque') }}" class="nav-link  {{ (request()->is('create-cheque*')) ? 'active' : '' }}">Create Cheque</a></li>
+
           <li class="nav-item"><a href="{{ url('mr') }}" class="nav-link  {{ (request()->is('mr*')) ? 'active' : '' }}">Money Receipt</a></li>
           <li class="nav-item"><a href="{{ url('cheque-transactions') }}" class="nav-link {{ (request()->is('cheque-transactions*')) ? 'active' : '' }}">Cheque</a></li>
         </ul>
