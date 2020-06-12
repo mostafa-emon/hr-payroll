@@ -160,3 +160,6 @@ Route::get('/voucher-journal-voucher', 'VoucherController@journal_voucher');
 Route::get('/create-mr', 'MRController@create_mr');
 Route::get('/create-cheque', 'MRController@create_cheque');
 
+Route::get('/issued-voucher', 'MRController@issued_voucher');
+Route::get('/void-voucher', 'MRController@void_voucher');
+

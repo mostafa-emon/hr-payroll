@@ -32,4 +32,12 @@ class MRController extends Controller
     public function create_cheque(){
         return view('vouchers.create_cheque');
     }
+
+    public function issued_voucher(){
+        return view('vouchers.issued_voucher');
+    }
+
+    public function void_voucher(){
+        return view('vouchers.void_voucher');
+    }
 }
