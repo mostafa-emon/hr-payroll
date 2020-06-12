@@ -43,7 +43,7 @@
         @endif
 
         @if(roles() != "" && !in_array(100, json_decode(roles(),false)))
-        <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('signatory')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-settings tx-24"></i>
             <span class="menu-item-label">Master Setup</span>
@@ -79,9 +79,6 @@
           <li class="nav-item"><a href="{{ url('voucher-journal-voucher') }}" class="nav-link  {{ (request()->is('voucher-journal-voucher*')) ? 'active' : '' }}">Journal Voucher</a></li>
           <li class="nav-item"><a href="{{ url('create-mr') }}" class="nav-link  {{ (request()->is('create-mr*')) ? 'active' : '' }}">Create MR</a></li>
           <li class="nav-item"><a href="{{ url('create-cheque') }}" class="nav-link  {{ (request()->is('create-cheque*')) ? 'active' : '' }}">Create Cheque</a></li>
-
-          <li class="nav-item"><a href="{{ url('mr') }}" class="nav-link  {{ (request()->is('mr*')) ? 'active' : '' }}">Money Receipt</a></li>
-          <li class="nav-item"><a href="{{ url('cheque-transactions') }}" class="nav-link {{ (request()->is('cheque-transactions*')) ? 'active' : '' }}">Cheque</a></li>
         </ul>
 
         <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) || (request()->is('audits*')) ? 'active show-sub' : '' }}">
