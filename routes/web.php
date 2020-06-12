@@ -155,13 +155,13 @@ Route::get('/logout', 'HomeController@logout');
 Route::get('/signatory', 'SignatoryController@index');
 Route::post('/signatory/update', 'SignatoryController@update');
 
-Route::get('/voucher-cash-payment', 'VoucherController@cash_payment');
-Route::get('/voucher-bank-payment', 'VoucherController@bank_payment');
-Route::get('/voucher-cash-receipt', 'VoucherController@cash_receipt');
-Route::get('/voucher-bank-receipt', 'VoucherController@bank_receipt');
-Route::get('/voucher-void-voucher', 'VoucherController@void_voucher');
-Route::get('/voucher-contra-voucher', 'VoucherController@contra_voucher');
-Route::get('/voucher-journal-voucher', 'VoucherController@journal_voucher');
+Route::get('/tr-cash-payment-voucher', 'VoucherController@cash_payment');
+Route::get('/tr-bank-payment-voucher', 'VoucherController@bank_payment');
+Route::get('/tr-cash-receipt-voucher', 'VoucherController@cash_receipt');
+Route::get('/tr-bank-receipt-voucher', 'VoucherController@bank_receipt');
+Route::get('/tr-void-voucher', 'VoucherController@void_voucher');
+Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
+Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
 
 Route::get('/create-mr', 'MRController@create_mr');
 Route::get('/create-cheque', 'MRController@create_cheque');

@@ -3,8 +3,86 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\VoucherFormat;
+use Auth;
 
 class VourcherFormatController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    public function index(){
+        $voucher_formats = VoucherFormat::where('company_id', Auth::user()->company_id)
+        ->paginate(10);
+
+        return view('voucher_formats.index', ['voucher_formats'=>$voucher_formats]);
+    }
+
+    public function add(Request $request){
+        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        if($request->height !=""){
+            $cheque_layout = new ChequeLayout();
+            $cheque_layout->company_id                  = Auth::user()->company_id;
+            $cheque_layout->bank_id                     = $request->bank_id;
+            $cheque_layout->height                      = $request->height;
+            $cheque_layout->width                       = $request->width;
+
+            if($request->date == 1) {
+                $cheque_layout->date                    = 1;
+            }else { $cheque_layout->date                = 0; }
+            $cheque_layout->date_top                    = $request->date_top;
+            $cheque_layout->date_left                   = $request->date_left;
+            $cheque_layout->date_format                 = $request->date_format;
+            $cheque_layout->date_font_size              = $request->date_font_size;
+            $cheque_layout->date_letter_spacing         = $request->date_letter_spacing;
+
+            if($request->payee == 1) {
+                $cheque_layout->payee                   = 1;
+            }else { $cheque_layout->payee               = 0; }
+            $cheque_layout->payee_top                   = $request->payee_top;
+            $cheque_layout->payee_left                  = $request->payee_left;
+            $cheque_layout->payee_font_size             = $request->payee_font_size;
+            $cheque_layout->payee_letter_spacing        = $request->payee_letter_spacing;
+
+            if($request->amount == 1) {
+                $cheque_layout->amount                  = 1;
+            }else { $cheque_layout->amount              = 0; }
+            $cheque_layout->amount_top                  = $request->amount_top;
+            $cheque_layout->amount_left                 = $request->amount_left;
+            $cheque_layout->amount_font_size            = $request->amount_font_size;
+            $cheque_layout->amount_letter_spacing       = $request->amount_letter_spacing;
+
+            if($request->amoamount_in_word_line_1 == 1) {
+                $cheque_layout->amount_in_word_line_1       = 1;
+            }else { $cheque_layout->amount_in_word_line_1   = 0; }
+            $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
+            $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
+            $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
+            $cheque_layout->amount_in_word_max_character    = $request->amount_in_word_max_character;
+            $cheque_layout->amount_in_word_font_size        = $request->amount_in_word_font_size;
+            $cheque_layout->amount_in_word_letter_spacing   = $request->amount_in_word_letter_spacing;
+            
+            if($request->amount_in_word_line_2 == 1) {
+                $cheque_layout->amount_in_word_line_2       = 1;
+            }else { $cheque_layout->amount_in_word_line_2   = 0; }
+            $cheque_layout->amount_in_word_line_2_top       = $request->amount_in_word_line_2_top;
+            $cheque_layout->amount_in_word_line_2_left      = $request->amount_in_word_line_2_left;
+            
+            if($request->ac_payee_only == 1) {
+                $cheque_layout->ac_payee_only               = 1;
+            }else { $cheque_layout->ac_payee_only           = 0; }
+            $cheque_layout->ac_payee_only_top               = $request->ac_payee_only_top;
+            $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
+
+            $cheque_layout->printer_setup                   = $request->printer_setup;
+            $cheque_layout->save();
+
+            return redirect('voucher_formats')->with('message', 'Format added successfully!');
+        }
+        return view('voucher_formats.add');
+    }
 }
