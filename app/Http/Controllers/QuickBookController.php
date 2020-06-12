@@ -115,8 +115,11 @@ class QuickBookController extends Controller
         $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
         $refreshedAccessTokenObj = $OAuth2LoginHelper->refreshToken();
 
-        
+        $quick_book = QuickBook::where('company_id',$company->id)->first();
+        $quick_book->token          = $refreshedAccessTokenObj->getAccessToken();
+        $quick_book->token_validity = $refreshedAccessTokenObj->getAccessTokenExpiresAt();
+        $quick_book->save();
 
-        return response()->json($OAuth2LoginHelper);
+        return redirect('/');
     } 
 }

@@ -26,7 +26,7 @@ class LoginController extends Controller
                         ->join('subscriptions','subscriptions.id','companies.subscription_id')
                         ->where('companies.id',Auth::user()->company_id)
                         ->first();
-         
+                
                 if($company->status == 0){
                     Auth::logout();
                     return redirect('/login')->with('error_message', 'Activation pending!');
