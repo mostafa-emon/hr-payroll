@@ -37,7 +37,7 @@ class LoginController extends Controller
                     }
                 }
 
-                /*if($company->qb_company_id != "" && $company->qb_client_id != "" && $company->qb_client_secret != "" && $company->qb_environment != "") {
+                if($company->qb_company_id != "" && $company->qb_client_id != "" && $company->qb_client_secret != "" && $company->qb_environment != "") {
                     $qb_auth = QuickBook::where('company_id',$company->id)->count();
                     if($qb_auth == 0) {
                         return redirect('/qb-auth');
@@ -54,7 +54,7 @@ class LoginController extends Controller
                             return redirect('/');
                         }
                     }
-                }*/
+                }
                 
             }
 

@@ -60,6 +60,12 @@ Route::get('/cheque-books/delete/{cheque_book_id}', 'ChequeBookController@delete
 Route::get('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
 Route::post('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@update');
 
+Route::get('/voucher-formats', 'VourcherFormatController@index');
+Route::get('/voucher-formats/add', 'VourcherFormatController@add');
+Route::post('/voucher-formats/add', 'VourcherFormatController@add');
+Route::get('/voucher-formats/update/{format_id}', 'VourcherFormatController@update');
+Route::post('/voucher-formats/update/{format_id}', 'VourcherFormatController@update');
+
 Route::get('/cheque-layouts', 'ChequeLayoutController@index');
 Route::get('/cheque-layouts/add', 'ChequeLayoutController@add');
 Route::post('/cheque-layouts/add', 'ChequeLayoutController@add');
