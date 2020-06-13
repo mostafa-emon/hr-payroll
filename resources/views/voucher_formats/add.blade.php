@@ -17,6 +17,7 @@
     #cheque_date{ cursor: move; }
     #received_from{ cursor: move; }
     #tableDiv{ cursor: move; }
+    #signatory{ cursor: move; }
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -84,7 +85,7 @@
                 <div id="signatory" onclick="signatoryDrag();" style="position: absolute; top: 130mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
                   <div>
                     @php
-                      $total_field = 5;
+                      $total_field = 3;
                     @endphp
 
                     <table style="width:100%">
@@ -113,7 +114,7 @@
             </div>
 
             <div>
-              <div class="tx-black pd-b-5">Title: <input type="text" class="form-control" name="title"/></div>
+              <div class="tx-black pd-b-5">Title: <input type="text" class="form-control" name="title" required/></div>
             </div>
 
             <ul class="list-group">
@@ -180,11 +181,20 @@
                 </label>
               </li>
 
+              <input type="hidden" id="qb_logo_top" name="qb_logo_top"/>
+              <input type="hidden" id="qb_logo_left" name="qb_logo_left"/>
+
+              <input type="hidden" id="voucher_no_top" name="voucher_no_top"/>
+              <input type="hidden" id="voucher_no_left" name="voucher_no_left"/>
+
+              <input type="hidden" id="voucher_date_top" name="voucher_date_top"/>
+              <input type="hidden" id="voucher_date_left" name="voucher_date_left"/>
+
               <input type="hidden" id="table_top" name="table_top"/>
               <input type="hidden" id="table_left" name="table_left"/>
 
-              <input type="text" id="signatory_top" name="table_top"/>
-              <input type="text" id="signatory_left" name="table_left"/>
+              <input type="hidden" id="signatory_top" name="signatory_top"/>
+              <input type="hidden" id="signatory_left" name="signatory_left"/>
             </ul>
 
             <div class="pd-t-15">
@@ -325,8 +335,8 @@
         scroll: false,
         stop: function (event, ui) {
           qbLogoPositions[this.id] = ui.position
-          document.getElementById('ac_payee_only_top').value = Math.round(qbLogoPositions.qblogo.top * 0.2645833333);
-          document.getElementById('ac_payee_only_left').value = Math.round(qbLogoPositions.qblogo.left * 0.2645833333);
+          document.getElementById('qb_logo_top').value = Math.round(qbLogoPositions.qblogo.top * 0.2645833333);
+          document.getElementById('qb_logo_left').value = Math.round(qbLogoPositions.qblogo.left * 0.2645833333);
 
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(qbLogoPositions.qblogo.top * 0.2645833333);
@@ -346,8 +356,8 @@
         scroll: false,
         stop: function (event, ui) {
           voucherNo[this.id] = ui.position
-          document.getElementById('date_top').value = Math.round(voucherNo.voucher_no.top * 0.2645833333);
-          document.getElementById('date_left').value = Math.round(voucherNo.voucher_no.left * 0.2645833333);
+          document.getElementById('voucher_no_top').value = Math.round(voucherNo.voucher_no.top * 0.2645833333);
+          document.getElementById('voucher_no_left').value = Math.round(voucherNo.voucher_no.left * 0.2645833333);
           
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(voucherNo.voucher_no.top * 0.2645833333);
@@ -367,8 +377,8 @@
         scroll: false,
         stop: function (event, ui) {
           voucherDate[this.id] = ui.position
-          document.getElementById('date_top').value = Math.round(voucherDate.voucher_date.top * 0.2645833333);
-          document.getElementById('date_left').value = Math.round(voucherDate.voucher_date.left * 0.2645833333);
+          document.getElementById('voucher_date_top').value = Math.round(voucherDate.voucher_date.top * 0.2645833333);
+          document.getElementById('voucher_date_left').value = Math.round(voucherDate.voucher_date.left * 0.2645833333);
           
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(voucherDate.voucher_date.top * 0.2645833333);
@@ -478,6 +488,27 @@
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(tablePositions.tableDiv.top * 0.2645833333);
           document.getElementById('left').value = Math.round(tablePositions.tableDiv.left * 0.2645833333);
+        }
+      });
+    }
+
+    function signatoryDrag(){
+      var sSigPosition = "{}",
+      sigPositions = JSON.parse(sSigPosition);
+      $.each(sigPositions, function (id, pos) {
+        $("#" + id).css(pos)
+      })
+      $("#signatory").draggable({
+        containment: "#containment-wrapper",
+        scroll: false,
+        stop: function (event, ui) {
+          sigPositions[this.id] = ui.position
+          document.getElementById('signatory_top').value = Math.round(sigPositions.signatory.top * 0.2645833333);
+          document.getElementById('signatory_left').value = Math.round(sigPositions.signatory.left * 0.2645833333);
+        
+          document.getElementById('display').style.display = 'block';
+          document.getElementById('top').value = Math.round(sigPositions.signatory.top * 0.2645833333);
+          document.getElementById('left').value = Math.round(sigPositions.signatory.left * 0.2645833333);
         }
       });
     }

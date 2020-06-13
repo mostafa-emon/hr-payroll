@@ -26,65 +26,79 @@ class VourcherFormatController extends Controller
         if(roles() != "" && !in_array(26, json_decode(roles(),false))){
             return redirect('404');
         }
-        if($request->height !=""){
-            $cheque_layout = new ChequeLayout();
-            $cheque_layout->company_id                  = Auth::user()->company_id;
-            $cheque_layout->bank_id                     = $request->bank_id;
-            $cheque_layout->height                      = $request->height;
-            $cheque_layout->width                       = $request->width;
+        if($request->title !=""){
+            $voucher_format = new VoucherFormat();
+            $voucher_format->company_id             = Auth::user()->company_id;
+            $voucher_format->title                  = $request->title;
+            $voucher_format->type                   = $request->type;
 
-            if($request->date == 1) {
-                $cheque_layout->date                    = 1;
-            }else { $cheque_layout->date                = 0; }
+            $voucher_format->qb_logo_top               = $request->qb_logo_top;
+            $voucher_format->qb_logo_left               = $request->qb_logo_left;
+            $voucher_format->voucher_no_top               = $request->voucher_no_top;
+            $voucher_format->voucher_no_left               = $request->voucher_no_left;
+            $voucher_format->voucher_date_top               = $request->voucher_date_top;
+            $voucher_format->voucher_date_left               = $request->voucher_date_left;
+
+            if($request->payee_name == 1) {
+                $voucher_format->payee_name                    = 1;
+            }else { $voucher_format->payee_name                = 0; }
             
-            $cheque_layout->date_top                    = $request->date_top;
-            $cheque_layout->date_left                   = $request->date_left;
-            $cheque_layout->date_format                 = $request->date_format;
-            $cheque_layout->date_font_size              = $request->date_font_size;
-            $cheque_layout->date_letter_spacing         = $request->date_letter_spacing;
+            $voucher_format->payee_name_top                    = $request->payee_name_top;
+            $voucher_format->payee_name_left                   = $request->payee_name_left;
 
-            if($request->payee == 1) {
-                $cheque_layout->payee                   = 1;
-            }else { $cheque_layout->payee               = 0; }
-            $cheque_layout->payee_top                   = $request->payee_top;
-            $cheque_layout->payee_left                  = $request->payee_left;
-            $cheque_layout->payee_font_size             = $request->payee_font_size;
-            $cheque_layout->payee_letter_spacing        = $request->payee_letter_spacing;
-
-            if($request->amount == 1) {
-                $cheque_layout->amount                  = 1;
-            }else { $cheque_layout->amount              = 0; }
-            $cheque_layout->amount_top                  = $request->amount_top;
-            $cheque_layout->amount_left                 = $request->amount_left;
-            $cheque_layout->amount_font_size            = $request->amount_font_size;
-            $cheque_layout->amount_letter_spacing       = $request->amount_letter_spacing;
-
-            if($request->amoamount_in_word_line_1 == 1) {
-                $cheque_layout->amount_in_word_line_1       = 1;
-            }else { $cheque_layout->amount_in_word_line_1   = 0; }
-            $cheque_layout->amount_in_word_line_1           = $request->amount_in_word_line_1;
-            $cheque_layout->amount_in_word_line_1_top       = $request->amount_in_word_line_1_top;
-            $cheque_layout->amount_in_word_line_1_left      = $request->amount_in_word_line_1_left;
-            $cheque_layout->amount_in_word_max_character    = $request->amount_in_word_max_character;
-            $cheque_layout->amount_in_word_font_size        = $request->amount_in_word_font_size;
-            $cheque_layout->amount_in_word_letter_spacing   = $request->amount_in_word_letter_spacing;
+            if($request->cheque_no == 1) {
+                $voucher_format->cheque_no                    = 1;
+            }else { $voucher_format->cheque_no                = 0; }
             
-            if($request->amount_in_word_line_2 == 1) {
-                $cheque_layout->amount_in_word_line_2       = 1;
-            }else { $cheque_layout->amount_in_word_line_2   = 0; }
-            $cheque_layout->amount_in_word_line_2_top       = $request->amount_in_word_line_2_top;
-            $cheque_layout->amount_in_word_line_2_left      = $request->amount_in_word_line_2_left;
-            
-            if($request->ac_payee_only == 1) {
-                $cheque_layout->ac_payee_only               = 1;
-            }else { $cheque_layout->ac_payee_only           = 0; }
-            $cheque_layout->ac_payee_only_top               = $request->ac_payee_only_top;
-            $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
+            $voucher_format->cheque_no_top                    = $request->cheque_no_top;
+            $voucher_format->cheque_no_left                   = $request->cheque_no_left;
 
-            $cheque_layout->printer_setup                   = $request->printer_setup;
-            $cheque_layout->save();
+            if($request->cheque_date == 1) {
+                $voucher_format->cheque_date                    = 1;
+            }else { $voucher_format->cheque_date                = 0; }
             
-            return redirect('voucher_formats')->with('message', 'Format added successfully!');
+            $voucher_format->cheque_date_top                    = $request->cheque_date_top;
+            $voucher_format->cheque_date_left                   = $request->cheque_date_left;
+
+            if($request->received_from == 1) {
+                $voucher_format->received_from                    = 1;
+            }else { $voucher_format->received_from                = 0; }
+            
+            $voucher_format->received_from_top                    = $request->received_from_top;
+            $voucher_format->received_from_left                   = $request->received_from_left;
+
+            if($request->account_code == 1) {
+                $voucher_format->account_code                    = 1;
+            }else { $voucher_format->account_code                = 0; }
+
+            if($request->customer_job == 1) {
+                $voucher_format->customer_job                    = 1;
+            }else { $voucher_format->customer_job                = 0; }
+
+            if($request->class == 1) {
+                $voucher_format->class                    = 1;
+            }else { $voucher_format->class                = 0; }
+
+            if($request->name == 1) {
+                $voucher_format->name                    = 1;
+            }else { $voucher_format->name                = 0; }
+
+            if($request->project == 1) {
+                $voucher_format->project                    = 1;
+            }else { $voucher_format->project                = 0; }
+
+            if($request->location == 1) {
+                $voucher_format->location                    = 1;
+            }else { $voucher_format->location                = 0; }
+
+            $voucher_format->table_top                    = $request->table_top;
+            $voucher_format->table_left                   = $request->table_left;
+
+            $voucher_format->signatory_top                    = $request->signatory_top;
+            
+            $voucher_format->save();
+            
+            return redirect('voucher-formats')->with('message', 'Format added successfully!');
         }
 
         if($type != ""){

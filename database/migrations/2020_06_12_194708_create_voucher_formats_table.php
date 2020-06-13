@@ -20,9 +20,6 @@ class CreateVoucherFormatsTable extends Migration
             $table->string('title');
             $table->string('type');
 
-            $table->integer('page_heigth')->nullable();
-            $table->integer('page_width')->nullable();
-
             $table->integer('qb_logo_top')->nullable();
             $table->integer('qb_logo_left')->nullable();
             $table->integer('voucher_no_top')->nullable();
@@ -53,7 +50,6 @@ class CreateVoucherFormatsTable extends Migration
             $table->integer('table_top')->nullable();
             $table->integer('table_left')->nullable();
             $table->integer('signatory_top')->nullable();
-            $table->integer('signatory_left')->nullable();
 
             $table->timestamps();
         });
