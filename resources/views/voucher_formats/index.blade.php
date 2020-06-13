@@ -49,12 +49,7 @@
                 <td>{{ $voucher_format->title }}</td>
                 <td class="text-center">{{ $voucher_format->type }}</td>
                 <td class="text-center">
-                  @if(roles() != "" && in_array(27, json_decode(roles(),false)))
-                    <a class="btn btn-warning btn-sm" href="{{url ('cheque-layouts/update/'.$cheque_layout->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  @endif
-                  @if(roles() != "" && in_array(28, json_decode(roles(),false)))
-                    <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$cheque_layout->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                  @endif
+                  
                 </td>
               </tr>
             @endforeach
