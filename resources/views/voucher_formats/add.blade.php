@@ -16,9 +16,7 @@
     #cheque_name{ cursor: move; }
     #cheque_date{ cursor: move; }
     #received_from{ cursor: move; }
-    #amount{ cursor: move; }
-    #amount_in_word_line_1{ cursor: move; }
-    #amount_in_word_line_2{ cursor: move; }
+    #tableDiv{ cursor: move; }
   </style>
 
   <div class="br-pageheader pd-y-15 pd-l-20">
@@ -51,16 +49,55 @@
                   <div style="margin-top:8px">{{ str_replace("-", " ", $type) }}</div>
                 </div>
                 <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top:3.5mm;right:10mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
-                <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: 10mm; left: 139mm; font-family: arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No:</div>
-                <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 7mm; left: 139mm; font-family: arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date: </div>
-                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: 25mm; left: 15mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
-                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 15mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque name</div>
-                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 34mm; left: 15mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
-                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="position: absolute; top: 40mm; left: 15mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
-                
-                <div id="amount" onclick="amountDrag()" class="draggable ui-widget-content" style="position: absolute; top: 50mm; left: 154mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount</div>
-                <div id="amount_in_word_line_1" onclick="amountWord1Drag()" class="draggable ui-widget-content" style="position: absolute; top: 60mm; left: 30mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount in words line #1</div>
-                <div id="amount_in_word_line_2" onclick="amountWord2Drag()" class="draggable ui-widget-content" style="position: absolute; top: 70mm; left: 8mm; font-family: Arial; font-size: 16px; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 50px; border-right: 7px solid red;">Amount in words line #2</div>
+                <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 150mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
+                <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 35mm; left: 150mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
+                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 10mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
+                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 2mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
+                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 8mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
+                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 14mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
+
+                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: 43mm; left:5mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
+                  <table cellpadding="0" cellspacing="0" style="width:100% !important;">
+                    <thead>
+                      <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code</th>
+                      <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Name</th>
+                      <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Memo</th>
+                      <th class="customer_job" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job</th>
+                      <th class="class" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
+                      <th class="name" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
+                      <th class="project" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Project</th>
+                      <th class="location" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Location</th>
+                      <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
+                      <th style="border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
+                    </thead>
+
+                    <tfoot>
+                      <th id="table_total" colspan="5" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
+                      <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
+                      <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
+                    </tfoot>
+                  </table>
+
+                  <div style="font-weight: bold;margin-top:5px">Amount in Word :</div>
+                </div>
+
+                <div id="signatory" onclick="signatoryDrag();" style="position: absolute; top: 130mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
+                  <div>
+                    @php
+                      $total_field = 5;
+                    @endphp
+
+                    <table style="width:100%">
+                      <tr>
+                      @for($i = 1; $i <= $total_field; $i++)
+                        <td style="text-align:center;">__________________<br>Prepared By</td>
+                      @endfor
+                      </tr>
+                    </table>
+                    
+                  </div>
+                </div>
+
               </div>
             </div>
 
@@ -82,48 +119,72 @@
             <ul class="list-group">
               <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('date')" id="date_checkbox" name="date" value="1" checked><span>Date</span>
+                  <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1" checked><span>Payee Name</span>
                 </label>
-                <input type="hidden" id="date_top" name="date_top" value="7" placeholder="top" class="form-control"/>
-                <input type="hidden" id="date_left" name="date_left" value="139" placeholder="left" class="form-control"/>
+                <input type="hidden" id="payee_name_top" name="payee_name_top"/>
+                <input type="hidden" id="payee_name_left" name="payee_name_left"/>
               </li>
-              <li class="list-group-item" id="payee_list">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('payee')" id="payee_checkbox" name="payee" value="1" checked><span>Payee</span>
+                  <input type="checkbox" onclick="hideShowElement('cheque_name')" id="cheque_name_checkbox" name="cheque_no" value="1"><span>Cheque No</span>
                 </label>
-                <input type="hidden" id="payee_top" name="payee_top" value="22" placeholder="top" class="form-control"/>
-                <input type="hidden" id="payee_left" name="payee_left" value="15" placeholder="left" class="form-control"/>
+                <input type="hidden" id="cheque_name_top" name="cheque_no_top"/>
+                <input type="hidden" id="cheque_name_left" name="cheque_no_left"/>
               </li>
-              <li class="list-group-item" id="amount_list">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('amount')" id="amount_checkbox" name="amount" value="1" checked><span>Amount</span>
+                  <input type="checkbox" onclick="hideShowElement('cheque_date')" id="cheque_date_checkbox" name="cheque_date" value="1"><span>Cheque Date</span>
                 </label>
-                <input type="hidden" id="amount_top" name="amount_top" value="38" placeholder="top" class="form-control"/>
-                <input type="hidden" id="amount_left" name="amount_left" value="154" placeholder="left" class="form-control"/>
+                <input type="hidden" id="cheque_date_top" name="cheque_date_top"/>
+                <input type="hidden" id="cheque_date_left" name="cheque_date_left"/>
               </li>
-              <li class="list-group-item" id="amount_word_list">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('amount_word_1')" id="amount_word_1_checkbox" name="amount_in_word_line_1" value="1" checked><span>Amount in words line #1</span>
-                  <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
-                  <input type="hidden" id="amount_in_word_line_1_left" value="30" name="amount_in_word_line_1_left" placeholder="left" class="form-control"/>
+                  <input type="checkbox" onclick="hideShowElement('received_from')" id="received_from_checkbox" name="received_from" value="1"><span>Received From</span>
                 </label>
-                <input type="hidden" id="amount_in_word_line_1_top" value="31" name="amount_in_word_line_1_top" placeholder="top" class="form-control"/>
-                <input type="hidden" id="amount_in_word_line_1_left" value="30" name="amount_in_word_line_1_left" placeholder="left" class="form-control"/>
+                <input type="hidden" id="received_from_top" name="received_from_top"/>
+                <input type="hidden" id="received_from_left" name="received_from_left"/>
               </li>
-              <li class="list-group-item">
+            </ul>
+
+            <div class="tx-black" style="margin-top:10px;">Table Columns:</div>
+            <ul class="list-group">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('amount_word_2')" id="amount_word_2_checkbox" name="amount_in_word_line_2" value="1" checked><span>Amount in words line #2</span>
+                  <input type="checkbox" onclick="hideShowElement('account_code')" id="account_code_checkbox" name="account_code" value="1" checked><span>Account Code</span>
                 </label>
-                <input type="hidden" id="amount_in_word_line_2_top" value="40" name="amount_in_word_line_2_top" placeholder="top" class="form-control"/>
-                <input type="hidden" id="amount_in_word_line_2_left" value="8" name="amount_in_word_line_2_left" placeholder="left" class="form-control"/>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item" id="date_list">
                 <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('ac_pay')" id="ac_pay_checkbox" name="ac_payee_only" value="1" checked><span>AC Payee</span>
+                  <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" checked><span>Customer:Job</span>
                 </label>
-                <input type="hidden" id="ac_payee_only_top" value="0" name="ac_payee_only_top" placeholder="top" class="form-control"/>
-                <input type="hidden" id="ac_payee_only_left" value="0" name="ac_payee_only_left" placeholder="left" class="form-control"/>
               </li>
+              <li class="list-group-item" id="date_list">
+                <label class="ckbox pointer">
+                  <input type="checkbox" onclick="hideShowElement('class')" id="class_checkbox" name="class" value="1" checked><span>Class</span>
+                </label>
+              </li>
+              <li class="list-group-item" id="date_list">
+                <label class="ckbox pointer">
+                  <input type="checkbox" onclick="hideShowElement('name')" id="name_checkbox" name="name" value="1" ><span>Name</span>
+                </label>
+              </li>
+              <li class="list-group-item" id="date_list">
+                <label class="ckbox pointer">
+                  <input type="checkbox" onclick="hideShowElement('project')" id="project_checkbox" name="project" value="1"><span>Project</span>
+                </label>
+              </li>
+              <li class="list-group-item" id="date_list">
+                <label class="ckbox pointer">
+                  <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="1"><span>Location</span>
+                </label>
+              </li>
+
+              <input type="hidden" id="table_top" name="table_top"/>
+              <input type="hidden" id="table_left" name="table_left"/>
+
+              <input type="text" id="signatory_top" name="table_top"/>
+              <input type="text" id="signatory_left" name="table_left"/>
             </ul>
 
             <div class="pd-t-15">
@@ -138,54 +199,110 @@
   </form>
 
   <script>
+    var colspan = "5";
+
     function hideShowElement(value) {
-      if(value == "date") {
-        if ($('#date_checkbox').is(':checked')) {
-          $('#date').show();
+      if(value == "payee_name") {
+        if ($('#payee_name_checkbox').is(':checked')) {
+          $('#payee_name').show();
         }else{
-          $('#date').hide();
+          $('#payee_name').hide();
         }
       }
 
-      else if(value == "payee") {
-        if ($('#payee_checkbox').is(':checked')) {
-          $('#payee').show();
+      else if(value == "cheque_name") {
+        if ($('#cheque_name_checkbox').is(':checked')) {
+          $('#cheque_name').show();
         }else{
-          $('#payee').hide();
+          $('#cheque_name').hide();
         }
       }
 
-      else if(value == "amount") {
-        if ($('#amount_checkbox').is(':checked')) {
-          $('#amount').show();
+      else if(value == "cheque_date") {
+        if ($('#cheque_date_checkbox').is(':checked')) {
+          $('#cheque_date').show();
         }else{
-          $('#amount').hide();
+          $('#cheque_date').hide();
         }
       }
 
-      else if(value == "amount_word_1") {
-        if ($('#amount_word_1_checkbox').is(':checked')) {
-          $('#amount_in_word_line_1').show();
+      else if(value == "received_from") {
+        if ($('#received_from_checkbox').is(':checked')) {
+          $('#received_from').show();
         }else{
-          $('#amount_in_word_line_1').hide();
+          $('#received_from').hide();
         }
       }
 
-      else if(value == "amount_word_2") {
-        if ($('#amount_word_2_checkbox').is(':checked')) {
-          $('#amount_in_word_line_2').show();
+      else if(value == "account_code") {
+        if ($('#account_code_checkbox').is(':checked')) {
+          colspan = parseInt(colspan) + 1;
+          $('.account_code').show();
         }else{
-          $('#amount_in_word_line_2').hide();
+          colspan = parseInt(colspan) - 1;
+          $('.account_code').hide();
         }
+        document.getElementById('table_total').colSpan = colspan;
+      }
+
+      else if(value == "customer_job") {
+        if ($('#customer_job_checkbox').is(':checked')) {
+          colspan = parseInt(colspan) + 1;
+          $('.customer_job').show();
+        }else{
+          colspan = parseInt(colspan) - 1;
+          $('.customer_job').hide();
+        }
+        document.getElementById('table_total').colSpan = colspan;
+      }
+
+      else if(value == "class") {
+        if ($('#class_checkbox').is(':checked')) {
+          colspan = parseInt(colspan) + 1;
+          $('.class').show();
+        }else{
+          colspan = parseInt(colspan) - 1;
+          $('.class').hide();
+        }
+        document.getElementById('table_total').colSpan = colspan;
+      }
+
+      else if(value == "name") {
+        if ($('#name_checkbox').is(':checked')) {
+          colspan = parseInt(colspan) + 1;
+          $('.name').show();
+        }else{
+          colspan = parseInt(colspan) - 1;
+          $('.name').hide();
+        }
+        document.getElementById('table_total').colSpan = colspan;
+      }
+
+      else if(value == "project") {
+        if ($('#project_checkbox').is(':checked')) {
+          colspan = parseInt(colspan) + 1;
+          $('.project').show();
+        }else{
+          colspan = parseInt(colspan) - 1;
+          $('.project').hide();
+        }
+        document.getElementById('table_total').colSpan = colspan;
+      }
+
+      else if(value == "location") {
+        if ($('#location_checkbox').is(':checked')) {
+          colspan = parseInt(colspan) + 1;
+          $('.location').show();
+        }else{
+          colspan = parseInt(colspan) - 1;
+          $('.location').hide();
+        }
+        document.getElementById('table_total').colSpan = colspan;
       }
     }
 
     function PrintElem(){
-        var printer     = $('#printer').val();
-        var printConf   = printer.split("_");
-        
         var mywindow = window.open('', 'PRINT');
-        mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg)}</style>');
         mywindow.document.write(document.getElementById('printArea').innerHTML);
 
         setTimeout(function () {
@@ -271,8 +388,8 @@
         scroll: false,
         stop: function (event, ui) {
           payeeNamePositions[this.id] = ui.position
-          document.getElementById('payee_top').value = Math.round(payeeNamePositions.payee_name.top * 0.2645833333);
-          document.getElementById('payee_left').value = Math.round(payeeNamePositions.payee_name.left * 0.2645833333);
+          document.getElementById('payee_name_top').value = Math.round(payeeNamePositions.payee_name.top * 0.2645833333);
+          document.getElementById('payee_name_left').value = Math.round(payeeNamePositions.payee_name.left * 0.2645833333);
           
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(payeeNamePositions.payee_name.top * 0.2645833333);
@@ -292,8 +409,8 @@
         scroll: false,
         stop: function (event, ui) {
           chequeNamePositions[this.id] = ui.position
-          document.getElementById('payee_top').value = Math.round(chequeNamePositions.cheque_name.top * 0.2645833333);
-          document.getElementById('payee_left').value = Math.round(chequeNamePositions.cheque_name.left * 0.2645833333);
+          document.getElementById('cheque_name_top').value = Math.round(chequeNamePositions.cheque_name.top * 0.2645833333);
+          document.getElementById('cheque_name_left').value = Math.round(chequeNamePositions.cheque_name.left * 0.2645833333);
           
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(chequeNamePositions.cheque_name.top * 0.2645833333);
@@ -313,8 +430,8 @@
         scroll: false,
         stop: function (event, ui) {
           chequeDatePositions[this.id] = ui.position
-          document.getElementById('payee_top').value = Math.round(chequeDatePositions.cheque_date.top * 0.2645833333);
-          document.getElementById('payee_left').value = Math.round(chequeDatePositions.cheque_date.left * 0.2645833333);
+          document.getElementById('cheque_date_top').value = Math.round(chequeDatePositions.cheque_date.top * 0.2645833333);
+          document.getElementById('cheque_date_left').value = Math.round(chequeDatePositions.cheque_date.left * 0.2645833333);
           
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(chequeDatePositions.cheque_date.top * 0.2645833333);
@@ -334,8 +451,8 @@
         scroll: false,
         stop: function (event, ui) {
           receivedFromPositions[this.id] = ui.position
-          document.getElementById('payee_top').value = Math.round(receivedFromPositions.received_from.top * 0.2645833333);
-          document.getElementById('payee_left').value = Math.round(receivedFromPositions.received_from.left * 0.2645833333);
+          document.getElementById('received_from_top').value = Math.round(receivedFromPositions.received_from.top * 0.2645833333);
+          document.getElementById('received_from_left').value = Math.round(receivedFromPositions.received_from.left * 0.2645833333);
           
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(receivedFromPositions.received_from.top * 0.2645833333);
@@ -344,105 +461,25 @@
       });
     }
 
-    function amountDrag(){
-      var sAmountPosition = "{}",
-      amountPositions = JSON.parse(sAmountPosition);
-      $.each(amountPositions, function (id, pos) {
+    function tableDrag(){
+      var sTablePosition = "{}",
+      tablePositions = JSON.parse(sTablePosition);
+      $.each(tablePositions, function (id, pos) {
         $("#" + id).css(pos)
       })
-      $("#amount").draggable({
+      $("#tableDiv").draggable({
         containment: "#containment-wrapper",
         scroll: false,
         stop: function (event, ui) {
-          amountPositions[this.id] = ui.position
-          document.getElementById('amount_top').value = Math.round(amountPositions.amount.top * 0.2645833333);
-          document.getElementById('amount_left').value = Math.round(amountPositions.amount.left * 0.2645833333);
+          tablePositions[this.id] = ui.position
+          document.getElementById('table_top').value = Math.round(tablePositions.tableDiv.top * 0.2645833333);
+          document.getElementById('table_left').value = Math.round(tablePositions.tableDiv.left * 0.2645833333);
         
           document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(amountPositions.amount.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountPositions.amount.left * 0.2645833333);
+          document.getElementById('top').value = Math.round(tablePositions.tableDiv.top * 0.2645833333);
+          document.getElementById('left').value = Math.round(tablePositions.tableDiv.left * 0.2645833333);
         }
       });
-    }
-
-    function amountWord1Drag(){
-      var sAmountWord1Position = "{}",
-      amountWord1Positions = JSON.parse(sAmountWord1Position);
-      $.each(amountWord1Positions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#amount_in_word_line_1").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          amountWord1Positions[this.id] = ui.position
-          document.getElementById('amount_in_word_line_1_top').value = Math.round(amountWord1Positions.amount_in_word_line_1.top * 0.2645833333);
-          document.getElementById('amount_in_word_line_1_left').value = Math.round(amountWord1Positions.amount_in_word_line_1.left * 0.2645833333);
-
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(amountWord1Positions.amount_in_word_line_1.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountWord1Positions.amount_in_word_line_1.left * 0.2645833333);
-        }
-      });
-    }
-
-    function amountWord2Drag(){
-      var sAmountWord2Position = "{}",
-      amountWord2Positions = JSON.parse(sAmountWord2Position);
-      $.each(amountWord2Positions, function (id, pos) {
-        $("#" + id).css(pos)
-      })
-      $("#amount_in_word_line_2").draggable({
-        containment: "#containment-wrapper",
-        scroll: false,
-        stop: function (event, ui) {
-          amountWord2Positions[this.id] = ui.position
-          document.getElementById('amount_in_word_line_2_top').value = Math.round(amountWord2Positions.amount_in_word_line_2.top * 0.2645833333);
-          document.getElementById('amount_in_word_line_2_left').value = Math.round(amountWord2Positions.amount_in_word_line_2.left * 0.2645833333);
-
-          document.getElementById('display').style.display = 'block';
-          document.getElementById('top').value = Math.round(amountWord2Positions.amount_in_word_line_2.top * 0.2645833333);
-          document.getElementById('left').value = Math.round(amountWord2Positions.amount_in_word_line_2.left * 0.2645833333);
-        }
-      });
-    }
-    
-    function amountFontSize(value){
-      document.getElementById("amount").style.fontSize  = value+'px';
-    }
-
-    function amountLetterSpacing(value){
-      document.getElementById("amount").style.letterSpacing = value+'px';
-    }
-
-    function payeeFontSize(value){
-      document.getElementById("payee").style.fontSize  = value+'px';
-    }
-
-    function payeeLetterSpacing(value){
-      document.getElementById("payee").style.letterSpacing = value+'px';
-    }
-
-    function dateFontSize(value){
-      document.getElementById("date").style.fontSize  = value+'px';
-    }
-
-    function dateLetterSpacing(value){
-      document.getElementById("date").style.letterSpacing = value+'px';
-    }
-
-    function amountWordFontSize(value){
-      document.getElementById("amount_in_word_line_1").style.fontSize  = value+'px';
-      document.getElementById("amount_in_word_line_2").style.fontSize  = value+'px';
-    }
-
-    function amountWordSpacing(value){
-      document.getElementById("amount_in_word_line_1").style.letterSpacing  = value+'px';
-      document.getElementById("amount_in_word_line_2").style.letterSpacing  = value+'px';
-    }
-
-    function set_date_format(value){
-      document.getElementById("date").innerHTML  = value;
     }
   </script>
 @endsection

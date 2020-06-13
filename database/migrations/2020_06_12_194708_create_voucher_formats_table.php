@@ -44,11 +44,16 @@ class CreateVoucherFormatsTable extends Migration
             $table->integer('received_from_left')->nullable();
 
             $table->integer('account_code')->default(0);
-            $table->integer('class')->default(0);
             $table->integer('customer_job')->default(0);
+            $table->integer('class')->default(0);
             $table->integer('name')->default(0);
             $table->integer('project')->default(0);
             $table->integer('location')->default(0);
+
+            $table->integer('table_top')->nullable();
+            $table->integer('table_left')->nullable();
+            $table->integer('signatory_top')->nullable();
+            $table->integer('signatory_left')->nullable();
 
             $table->timestamps();
         });
