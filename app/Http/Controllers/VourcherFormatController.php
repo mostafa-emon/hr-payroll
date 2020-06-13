@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\VoucherFormat;
+use App\Setting;
+use App\Company;
 use Auth;
 
 class VourcherFormatController extends Controller
@@ -20,7 +22,7 @@ class VourcherFormatController extends Controller
         return view('voucher_formats.index', ['voucher_formats'=>$voucher_formats]);
     }
 
-    public function add(Request $request){
+    public function add($type = null, Request $request){
         if(roles() != "" && !in_array(26, json_decode(roles(),false))){
             return redirect('404');
         }
@@ -34,6 +36,7 @@ class VourcherFormatController extends Controller
             if($request->date == 1) {
                 $cheque_layout->date                    = 1;
             }else { $cheque_layout->date                = 0; }
+            
             $cheque_layout->date_top                    = $request->date_top;
             $cheque_layout->date_left                   = $request->date_left;
             $cheque_layout->date_format                 = $request->date_format;
@@ -80,9 +83,17 @@ class VourcherFormatController extends Controller
 
             $cheque_layout->printer_setup                   = $request->printer_setup;
             $cheque_layout->save();
-
+            
             return redirect('voucher_formats')->with('message', 'Format added successfully!');
         }
-        return view('voucher_formats.add');
+
+        if($type != ""){
+            $company = Company::where('id',Auth::user()->company_id)->first();
+            $settings = Setting::where('company_id',Auth::user()->company_id)->first();
+            return view('voucher_formats.add',['settings' => $settings, 'company' => $company, 'type' => $type]);
+        }else{
+            return view('voucher_formats.type');
+        }
+        
     }
 }

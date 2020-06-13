@@ -62,6 +62,7 @@ Route::post('/cheque-books/update/{cheque_book_id}', 'ChequeBookController@updat
 
 Route::get('/voucher-formats', 'VourcherFormatController@index');
 Route::get('/voucher-formats/add', 'VourcherFormatController@add');
+Route::get('/voucher-formats/add/{type}', 'VourcherFormatController@add');
 Route::post('/voucher-formats/add', 'VourcherFormatController@add');
 Route::get('/voucher-formats/update/{format_id}', 'VourcherFormatController@update');
 Route::post('/voucher-formats/update/{format_id}', 'VourcherFormatController@update');
