@@ -104,7 +104,8 @@ class VourcherFormatController extends Controller
         if($type != ""){
             $company = Company::where('id',Auth::user()->company_id)->first();
             $settings = Setting::where('company_id',Auth::user()->company_id)->first();
-            return view('voucher_formats.'.$type,['settings' => $settings, 'company' => $company, 'type' => $type]);
+            $voucher_format = VoucherFormat::where('title', 'default')->where('type',$type)->where('company_id',null)->first();
+            return view('voucher_formats.'.$type,['settings' => $settings, 'company' => $company, 'type' => $type, 'voucher_formats' => $voucher_format]);
         }else{
             return view('voucher_formats.type');
         }
