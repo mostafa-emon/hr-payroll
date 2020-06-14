@@ -46,7 +46,7 @@
         <div style="padding-left: 50px;" class="col-md-3">
           <li id="date_list">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1" checked><span>Payee Name</span>
+              <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1"><span>Payee Name</span>
             </label>
             <input type="hidden" id="payee_name_top" name="payee_name_top"/>
             <input type="hidden" id="payee_name_left" name="payee_name_left"/>
@@ -99,7 +99,7 @@
           <div class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" checked><span>Customer:Job</span>
+                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1"><span>Customer:Job</span>
               </label>
             </li>
           </div>
@@ -184,18 +184,18 @@
                 <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top:3.5mm;right:10mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
                 <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 150mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
                 <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 35mm; left: 150mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
-                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 10mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
-                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 2mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
-                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 8mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
-                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 14mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
+                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 22mm; left: 0mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
+                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 28mm; left: 10mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
+                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 35mm; left: 10mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
+                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 0mm; left: 0mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
 
-                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: 43mm; left:5mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
+                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: 44mm; left:5mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
                   <table cellpadding="0" cellspacing="0" style="width:100% !important;">
                     <thead>
                       <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Memo</th>
-                      <th class="customer_job" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job</th>
+                      <th class="customer_job" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job</th>
                       <th class="class" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
                       <th class="name" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
                       <th class="project" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Project</th>
@@ -205,7 +205,7 @@
                     </thead>
 
                     <tfoot>
-                      <th id="table_total" colspan="5" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
+                      <th id="table_total" colspan="4" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                       <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                     </tfoot>
@@ -243,7 +243,7 @@
   </form>
 
   <script>
-    var colspan = "5";
+    var colspan = "4";
 
     function hideShowElement(value) {
       if(value == "payee_name") {
