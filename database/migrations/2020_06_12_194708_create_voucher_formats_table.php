@@ -233,7 +233,7 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->cheque_date_top        = 5;
         $voucher_format->cheque_date_left       = 0;
         $voucher_format->received_from          = 0;
-        $voucher_format->received_from_top      = 10;
+        $voucher_format->received_from_top      = 15;
         $voucher_format->received_from_left     = 0;
         $voucher_format->account_code           = 1;
         $voucher_format->customer_job           = 0;

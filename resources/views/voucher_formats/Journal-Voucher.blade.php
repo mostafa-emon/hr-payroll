@@ -46,7 +46,7 @@
         <div style="padding-left: 50px;" class="col-md-3">
           <li id="date_list">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="{{$voucher_formats->payee_name}}"><span>Payee Name</span>
+              <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1" @if($voucher_formats->payee_name == 1) checked @endif><span>Payee Name</span>
             </label>
             <input type="hidden" id="payee_name_top" name="payee_name_top" value="{{$voucher_formats->payee_name_top}}"/>
             <input type="hidden" id="payee_name_left" name="payee_name_left" value="{{$voucher_formats->payee_name_left}}"/>
@@ -56,7 +56,7 @@
         <div class="col-md-3">
           <li id="date_list">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('cheque_name')" id="cheque_name_checkbox" name="cheque_no" value="{{$voucher_formats->cheque_no}}"><span>Cheque No</span>
+              <input type="checkbox" onclick="hideShowElement('cheque_name')" id="cheque_name_checkbox" name="cheque_no" value="1" @if($voucher_formats->cheque_no == 1) checked @endif><span>Cheque No</span>
             </label>
             <input type="hidden" id="cheque_name_top" name="cheque_no_top" value="{{$voucher_formats->cheque_no_top}}"/>
             <input type="hidden" id="cheque_name_left" name="cheque_no_left" value="{{$voucher_formats->cheque_no_left}}"/>
@@ -66,7 +66,7 @@
         <div class="col-md-3">
           <li id="date_list">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('cheque_date')" id="cheque_date_checkbox" name="cheque_date" value="{{$voucher_formats->cheque_date}}"><span>Cheque Date</span>
+              <input type="checkbox" onclick="hideShowElement('cheque_date')" id="cheque_date_checkbox" name="cheque_date" value="1" @if($voucher_formats->cheque_date == 1) checked @endif><span>Cheque Date</span>
             </label>
             <input type="hidden" id="cheque_date_top" name="cheque_date_top" value="{{$voucher_formats->cheque_date_top}}"/>
             <input type="hidden" id="cheque_date_left" name="cheque_date_left" value="{{$voucher_formats->cheque_date_left}}"/>
@@ -76,7 +76,7 @@
         <div class="col-md-3">
           <li id="date_list">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('received_from')" id="received_from_checkbox" name="received_from" value="{{$voucher_formats->received_from}}"><span>Received From</span>
+              <input type="checkbox" onclick="hideShowElement('received_from')" id="received_from_checkbox" name="received_from" value="1" @if($voucher_formats->received_from == 1) checked @endif><span>Received From</span>
             </label>
             <input type="hidden" id="received_from_top" name="received_from_top" value="{{$voucher_formats->received_from_top}}"/>
             <input type="hidden" id="received_from_left" name="received_from_left" value="{{$voucher_formats->received_from_left}}"/>
@@ -91,7 +91,7 @@
           <div style="padding-left:30px;" class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('account_code')" id="account_code_checkbox" name="account_code" value="{{$voucher_formats->account_code}}" checked><span>Account Code</span>
+                <input type="checkbox" onclick="hideShowElement('account_code')" id="account_code_checkbox" name="account_code" value="1" @if($voucher_formats->account_code == 1) checked @endif><span>Account Code</span>
               </label>
             </li>
           </div>
@@ -99,7 +99,7 @@
           <div class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="{{$voucher_formats->customer_job}}"><span>Customer:Job</span>
+                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" @if($voucher_formats->customer_job == 1) checked @endif><span>Customer:Job</span>
               </label>
             </li>
           </div>
@@ -107,7 +107,7 @@
           <div class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('class')" id="class_checkbox" name="class" value="{{$voucher_formats->class}}" checked><span>Class</span>
+                <input type="checkbox" onclick="hideShowElement('class')" id="class_checkbox" name="class" value="1" @if($voucher_formats->class == 1) checked @endif><span>Class</span>
               </label>
             </li>
           </div>
@@ -115,7 +115,7 @@
           <div class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('name')" id="name_checkbox" name="name" value="{{$voucher_formats->name}}" ><span>Name</span>
+                <input type="checkbox" onclick="hideShowElement('name')" id="name_checkbox" name="name" value="1" @if($voucher_formats->name == 1) checked @endif><span>Name</span>
               </label>
             </li>
           </div>
@@ -123,7 +123,7 @@
           <div class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('project')" id="project_checkbox" name="project" value="{{$voucher_formats->project}}"><span>Project</span>
+                <input type="checkbox" onclick="hideShowElement('project')" id="project_checkbox" name="project" value="1" @if($voucher_formats->project == 1) checked @endif><span>Project</span>
               </label>
             </li>
           </div>
@@ -131,7 +131,7 @@
           <div class="col-md-2">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="{{$voucher_formats->location}}"><span>Location</span>
+                <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="1" @if($voucher_formats->location == 1) checked @endif><span>Location</span>
               </label>
             </li>
           </div>

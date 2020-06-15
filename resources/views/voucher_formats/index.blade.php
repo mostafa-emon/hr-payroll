@@ -49,7 +49,7 @@
                 <td>{{ $voucher_format->title }}</td>
                 <td class="text-center">{{ $voucher_format->type }}</td>
                 <td class="text-center">
-                  <a class="btn btn-info btn-sm" href="{{url('voucher-formats/update/'.$voucher_format->id)}}"><i class= "fa fa-minus-circle"></i> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url('voucher-formats/update/'.$voucher_format->id)}}"> Update </a>
                 </td>
                 <td class="text-center">
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$voucher_format->id}})"><i class= "fa fa-minus-circle"></i> Delete </a>

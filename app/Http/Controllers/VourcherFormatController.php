@@ -109,7 +109,6 @@ class VourcherFormatController extends Controller
         }else{
             return view('voucher_formats.type');
         }
-        
     }
 
     public function delete($format_id){
@@ -123,8 +122,9 @@ class VourcherFormatController extends Controller
             $voucher_format = VoucherFormat::where('id',$format_id)->first();
             $voucher_format->company_id             = Auth::user()->company_id;
             $voucher_format->title                  = $request->title;
+            if($request->type !=""){
             $voucher_format->type                   = $request->type;
-
+            }
             $voucher_format->qb_logo_top            = $request->qb_logo_top;
             $voucher_format->qb_logo_left           = $request->qb_logo_left;
             $voucher_format->voucher_no_top         = $request->voucher_no_top;
@@ -193,7 +193,9 @@ class VourcherFormatController extends Controller
             
             return redirect('voucher-formats')->with('message', 'Format Updated Successfully!');
         }
-        $voucher_format = VoucherFormat::where('id',$format_id)->first();
-        return view('voucher_formats.update');
+        $company = Company::where('id',Auth::user()->company_id)->first();
+        $voucher_formats = VoucherFormat::where('id',$format_id)->first();
+        $settings = Setting::where('company_id',Auth::user()->company_id)->first();
+        return view('voucher_formats.update', ['settings' =>$settings, 'company' => $company, 'voucher_formats' => $voucher_formats]);
     }
 }
