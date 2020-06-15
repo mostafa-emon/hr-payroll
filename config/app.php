@@ -88,7 +88,7 @@ return [
     ],
 
     'env' => env('APP_ENV', 'production'),
-
+    'qb_auth_redirect_url' => env('QB_AUTH_REDIRECT_URL'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

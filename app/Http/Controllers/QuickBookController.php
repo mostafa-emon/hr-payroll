@@ -23,7 +23,7 @@ class QuickBookController extends Controller
             'auth_mode'     => 'oauth2',
             'ClientID'      => $company->qb_client_id,
             'ClientSecret'  => $company->qb_client_secret,
-            'RedirectURI'   => 'http://localhost:8001/qb-auth-success',
+            'RedirectURI'   => config('app.qb_auth_redirect_url'),
             'scope'         =>'com.intuit.quickbooks.accounting',
             'baseUrl'       => $company->qb_environment,
         ));
@@ -55,7 +55,7 @@ class QuickBookController extends Controller
             'auth_mode'     => 'oauth2',
             'ClientID'      => $company->qb_client_id,
             'ClientSecret'  => $company->qb_client_secret,
-            'RedirectURI'   => 'http://localhost:8001/qb-auth-success',
+            'RedirectURI'   => config('app.qb_auth_redirect_url'),
             'scope'         =>'com.intuit.quickbooks.accounting',
             'baseUrl'       => $company->qb_environment,
         ));
@@ -106,7 +106,7 @@ class QuickBookController extends Controller
             'auth_mode'         => 'oauth2',
             'ClientID'          => $company->qb_client_id,
             'ClientSecret'      => $company->qb_client_secret,
-            'RedirectURI'       => 'http://localhost:8001/qb-auth-success',
+            'RedirectURI'       => config('app.qb_auth_redirect_url'),
             'baseUrl'           => $company->qb_environment,
             'refreshTokenKey'   => $OAuth->refresh_token,
             'QBORealmID'        => $company->qb_company_id,
