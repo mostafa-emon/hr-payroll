@@ -28,7 +28,7 @@ class VoucherController extends Controller
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"SELECT * FROM purchase",
+        CURLOPT_POSTFIELDS =>"SELECT * FROM purchase WHERE AccountRef.value = '91'",
         CURLOPT_HTTPHEADER => array(
             "User-Agent: Token ".$qb->token,
             "Accept: application/json",
