@@ -24,56 +24,15 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
       <a class="breadcrumb-item" href="{{ url('/voucher-formats') }}">Voucher Formats</a>
-      <span class="breadcrumb-item active">Update</span>
+      <span class="breadcrumb-item active">Add</span>
     </nav>
   </div>
 
-  <form action="{{ url('voucher-formats/update/'.$voucher_formats->id) }}" method="POST">
+  <form action="{{ url('voucher-formats/add') }}" method="POST">
     {{ csrf_field() }}
-    @php
-      if($settings->voucher_size == "half_page"){
-        $page_height = 149;
-      } else{
-        $page_height = 297;
-      }
-      if($voucher_formats->type == "Cash-Payment-Voucher") { 
-        $colspan = 5;
-        if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->project == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->location == 1){ $colspan = $colspan + 1; }
-      }
-      else if($voucher_formats->type == "Bank-Payment-Voucher") { $colspan = 5; 
-        if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->project == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->location == 1){ $colspan = $colspan + 1; }
-      }
-      else if($voucher_formats->type == "Cash-Receipt-Voucher") { $colspan = 4; 
-        if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->project == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->location == 1){ $colspan = $colspan + 1; }
-      }
-      else if($voucher_formats->type == "Bank-Receipt-Voucher") { $colspan = 4; 
-        if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->project == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->location == 1){ $colspan = $colspan + 1; }
-      }
-      else if($voucher_formats->type == "Contra-Voucher") { $colspan = 4; 
-        if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->project == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->location == 1){ $colspan = $colspan + 1; }
-      }
-      else if($voucher_formats->type == "Journal-Voucher") { $colspan = 4; 
-        if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->project == 1){ $colspan = $colspan + 1; }
-        if($voucher_formats->location == 1){ $colspan = $colspan + 1; }
-      }
-    @endphp
+    @php if($settings->voucher_size == "half_page"){ $page_height = 149; } else{ $page_height = 297; } @endphp
     
-    <input type="hidden" class="form-control" name="type" value="{{$voucher_formats->type}}"/>
+    <input type="hidden" class="form-control" name="type" value="{{$type}}"/>
 
   <div style="margin-top:-11px;" class="br-pagebody">
 
@@ -198,7 +157,7 @@
 
         <div class="col-md-1 tx-black" style="margin-top:11px; font-size: 18px;">Title:</div>
           <div class="col-md-5 mg-t-6">
-            <input type="text" class="form-control" name="title" value="{{$voucher_formats->title}}" required/>
+            <input type="text" class="form-control" name="title" required/>
           </div>
 
         <div class="col-md-6">
@@ -213,38 +172,39 @@
           
           <div class="card pd-0 bd-0 pd-30 table-responsive">
             <div id="display" class="tx-black pd-b-5 collapse">Top: <input type="text" id="top" class="wd-40"/> &nbsp;Left: <input type="text" id="left" class="wd-40"/></div>
+
             <div id="printArea">
               <div id="containment-wrapper" style="height: {{$page_height}}mm; width: 210mm; position: relative">
                 <div style="margin-top:3mm;text-align:center;color:black;font-size:13px;font-weight:bold">
                   <div style="font-size: 16px;">{{$company->name}}</div>
                   <div style="width:70mm;margin-left:70mm;">{{$company->address}}</div>
-                  <div style="margin-top:8px">{{ str_replace("-", " ", $voucher_formats->type) }}</div>
+                  <div style="margin-top:8px">{{ str_replace("-", " ", $type) }}</div>
                 </div>
-                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top:{{$voucher_formats->qb_logo_top}}mm;left:{{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
+                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top: {{$voucher_formats->qb_logo_top}}mm;left: {{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
                 <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_no_top}}mm; left: {{$voucher_formats->voucher_no_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
                 <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_date_top}}mm; left: {{$voucher_formats->voucher_date_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
-                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="@if($voucher_formats->payee_name != 1) display:none; @endif position: absolute; top: {{$voucher_formats->payee_name_top}}mm; left: {{$voucher_formats->payee_name_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
-                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content"style="@if($voucher_formats->cheque_no != 1) display:none; @endif position: absolute; top: {{$voucher_formats->cheque_no_top}}mm; left: {{$voucher_formats->cheque_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
-                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="@if($voucher_formats->cheque_date != 1) display:none; @endif position: absolute; top: {{$voucher_formats->cheque_date_top}}mm; left: {{$voucher_formats->cheque_date_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
-                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="@if($voucher_formats->received_from != 1) display:none; @endif position: absolute; top: {{$voucher_formats->received_from_top}}mm; left: {{$voucher_formats->received_from_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
+                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->payee_name_top}}mm; left: {{$voucher_formats->payee_name_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
+                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->cheque_no_top}}mm; left: {{$voucher_formats->cheque_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
+                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->cheque_date_top}}mm; left: {{$voucher_formats->cheque_date_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
+                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->received_from_top}}mm; left: {{$voucher_formats->received_from_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
 
-                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: {{$voucher_formats->table_top}}mm; left:{{$voucher_formats->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
+                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: {{$voucher_formats->table_top}}mm; left: {{$voucher_formats->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
                   <table cellpadding="0" cellspacing="0" style="width:100% !important;">
                     <thead>
-                      <th class="account_code" @if($voucher_formats->account_code != 1) style="display:none;" @endif style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code</th>
+                      <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Memo</th>
-                      <th class="customer_job" style="@if($voucher_formats->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job</th>
-                      <th class="class" style="@if($voucher_formats->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
-                      <th class="name" style="@if($voucher_formats->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
-                      <th class="project" style="@if($voucher_formats->project != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Project</th>
-                      <th class="location" style="@if($voucher_formats->location != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Location</th>
+                      <th class="customer_job" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job</th>
+                      <th class="class" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
+                      <th class="name" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
+                      <th class="project" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Project</th>
+                      <th class="location" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Location</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
                     </thead>
 
                     <tfoot>
-                      <th id="table_total" colspan="{{$colspan}}" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
+                      <th id="table_total" colspan="4" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                       <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                     </tfoot>
@@ -282,7 +242,7 @@
   </form>
 
   <script>
-    var colspan = "{{$colspan}}";
+    var colspan = "4";
 
     function hideShowElement(value) {
       if(value == "payee_name") {

@@ -64,8 +64,10 @@ Route::get('/voucher-formats', 'VourcherFormatController@index');
 Route::get('/voucher-formats/add', 'VourcherFormatController@add');
 Route::get('/voucher-formats/add/{type}', 'VourcherFormatController@add');
 Route::post('/voucher-formats/add', 'VourcherFormatController@add');
+Route::get('/voucher-formats/delete/{format_id}', 'VourcherFormatController@delete');
 Route::get('/voucher-formats/update/{format_id}', 'VourcherFormatController@update');
 Route::post('/voucher-formats/update/{format_id}', 'VourcherFormatController@update');
+
 
 Route::get('/cheque-layouts', 'ChequeLayoutController@index');
 Route::get('/cheque-layouts/add', 'ChequeLayoutController@add');

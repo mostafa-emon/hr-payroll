@@ -33,11 +33,143 @@
     @php if($settings->voucher_size == "half_page"){ $page_height = 149; } else{ $page_height = 297; } @endphp
     
     <input type="hidden" class="form-control" name="type" value="{{$type}}"/>
-  
-  <div class="br-pagebody">
+
+  <div style="margin-top:-11px;" class="br-pagebody">
+
+    <div style="margin-bottom:10px;" class="pd-t-10 pd-b-10 text-right">
+      <a class="btn btn-info pointer text-white" onclick="PrintElem()">Print Preview</a>
+    </div>
+        
+    <div class="card">
+      <div style="margin-top:-10px;" class="row">
+
+        <div style="padding-left: 50px;" class="col-md-3">
+          <li id="date_list">
+            <label class="ckbox pointer">
+              <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1" @if($voucher_formats->payee_name == 1) checked @endif><span>Payee Name</span>
+            </label>
+            <input type="hidden" id="payee_name_top" name="payee_name_top" value="{{$voucher_formats->payee_name_top}}"/>
+            <input type="hidden" id="payee_name_left" name="payee_name_left" value="{{$voucher_formats->payee_name_left}}"/>
+          </li>
+        </div>
+        
+        <div class="col-md-3">
+          <li id="date_list">
+            <label class="ckbox pointer">
+              <input type="checkbox" onclick="hideShowElement('cheque_name')" id="cheque_name_checkbox" name="cheque_no" value="1" @if($voucher_formats->cheque_no == 1) checked @endif><span>Cheque No</span>
+            </label>
+            <input type="hidden" id="cheque_name_top" name="cheque_no_top" value="{{$voucher_formats->cheque_no_top}}"/>
+            <input type="hidden" id="cheque_name_left" name="cheque_no_left" value="{{$voucher_formats->cheque_no_left}}"/>
+          </li>
+        </div>
+
+        <div class="col-md-3">
+          <li id="date_list">
+            <label class="ckbox pointer">
+              <input type="checkbox" onclick="hideShowElement('cheque_date')" id="cheque_date_checkbox" name="cheque_date" value="1" @if($voucher_formats->cheque_date == 1) checked @endif><span>Cheque Date</span>
+            </label>
+            <input type="hidden" id="cheque_date_top" name="cheque_date_top" value="{{$voucher_formats->cheque_date_top}}"/>
+            <input type="hidden" id="cheque_date_left" name="cheque_date_left" value="{{$voucher_formats->cheque_date_left}}"/>
+          </li>
+        </div>
+
+        <div class="col-md-3">
+          <li id="date_list">
+            <label class="ckbox pointer">
+              <input type="checkbox" onclick="hideShowElement('received_from')" id="received_from_checkbox" name="received_from" value="1" @if($voucher_formats->received_from == 1) checked @endif><span>Received From</span>
+            </label>
+            <input type="hidden" id="received_from_top" name="received_from_top" value="{{$voucher_formats->received_from_top}}"/>
+            <input type="hidden" id="received_from_left" name="received_from_left" value="{{$voucher_formats->received_from_left}}"/>
+          </li>
+        </div>
+      </div>
+    </div>
+
+    <div class="tx-black" style="margin-top:10px;">Table Columns:</div>
+      <div class="card">
+        <div style="margin-top:-10px;" class="row">
+          <div style="padding-left:30px;" class="col-md-2">
+            <li id="date_list">
+              <label class="ckbox pointer">
+                <input type="checkbox" onclick="hideShowElement('account_code')" id="account_code_checkbox" name="account_code" value="1" @if($voucher_formats->account_code == 1) checked @endif><span>Account Code</span>
+              </label>
+            </li>
+          </div>
+
+          <div class="col-md-2">
+            <li id="date_list">
+              <label class="ckbox pointer">
+                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" @if($voucher_formats->customer_job == 1) checked @endif><span>Customer:Job</span>
+              </label>
+            </li>
+          </div>
+
+          <div class="col-md-2">
+            <li id="date_list">
+              <label class="ckbox pointer">
+                <input type="checkbox" onclick="hideShowElement('class')" id="class_checkbox" name="class" value="1" @if($voucher_formats->class == 1) checked @endif><span>Class</span>
+              </label>
+            </li>
+          </div>
+
+          <div class="col-md-2">
+            <li id="date_list">
+              <label class="ckbox pointer">
+                <input type="checkbox" onclick="hideShowElement('name')" id="name_checkbox" name="name" value="1" @if($voucher_formats->name == 1) checked @endif><span>Name</span>
+              </label>
+            </li>
+          </div>
+
+          <div class="col-md-2">
+            <li id="date_list">
+              <label class="ckbox pointer">
+                <input type="checkbox" onclick="hideShowElement('project')" id="project_checkbox" name="project" value="1" @if($voucher_formats->project == 1) checked @endif><span>Project</span>
+              </label>
+            </li>
+          </div>
+
+          <div class="col-md-2">
+            <li id="date_list">
+              <label class="ckbox pointer">
+                <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="1" @if($voucher_formats->location == 1) checked @endif><span>Location</span>
+              </label>
+            </li>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" id="qb_logo_top" name="qb_logo_top" value="{{$voucher_formats->qb_logo_top}}"/>
+      <input type="hidden" id="qb_logo_left" name="qb_logo_left" value="{{$voucher_formats->qb_logo_left}}"/>
+
+      <input type="hidden" id="voucher_no_top" name="voucher_no_top" value="{{$voucher_formats->voucher_no_top}}"/>
+      <input type="hidden" id="voucher_no_left" name="voucher_no_left" value="{{$voucher_formats->voucher_no_left}}"/>
+
+      <input type="hidden" id="voucher_date_top" name="voucher_date_top" value="{{$voucher_formats->voucher_date_top}}"/>
+      <input type="hidden" id="voucher_date_left" name="voucher_date_left" value="{{$voucher_formats->voucher_date_left}}"/>
+
+      <input type="hidden" id="table_top" name="table_top" value="{{$voucher_formats->table_top}}"/>
+      <input type="hidden" id="table_left" name="table_left" value="{{$voucher_formats->table_left}}"/>
+
+      <input type="hidden" id="signatory_top" name="signatory_top" value="{{$voucher_formats->signatory_top}}"/>
+      <input type="hidden" id="signatory_left" name="signatory_left" value="{{$voucher_formats->signatory_left}}"/>
+    </ul>
+
+    <div class="mg-t-8 row">
+
+        <div class="col-md-1 tx-black" style="margin-top:11px; font-size: 18px;">Title:</div>
+          <div class="col-md-5 mg-t-6">
+            <input type="text" class="form-control" name="title" required/>
+          </div>
+
+        <div class="col-md-6">
+          <input type="submit" value="Save Format" class="pd-15 btn btn-success btn-block pointer"/>
+        </div>
+
+    </div>
+
       <div class="row">
 
-        <div class="col-md-9 mg-t-10 d-flex align-items-center justify-content-center bg-white">
+        <div class="col-md-12 mg-t-10 d-flex align-items-center justify-content-center bg-white">
           
           <div class="card pd-0 bd-0 pd-30 table-responsive">
             <div id="display" class="tx-black pd-b-5 collapse">Top: <input type="text" id="top" class="wd-40"/> &nbsp;Left: <input type="text" id="left" class="wd-40"/></div>
@@ -49,15 +181,15 @@
                   <div style="width:70mm;margin-left:70mm;">{{$company->address}}</div>
                   <div style="margin-top:8px">{{ str_replace("-", " ", $type) }}</div>
                 </div>
-                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top:3.5mm;right:10mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
-                <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 150mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
-                <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: 35mm; left: 150mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
-                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: 28mm; left: 10mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
-                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 2mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
-                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 8mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
-                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: 14mm; left: 5mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
+                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top:{{$voucher_formats->qb_logo_top}}mm;left:{{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
+                <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_no_top}}mm; left: {{$voucher_formats->voucher_no_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
+                <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_date_top}}mm; left: {{$voucher_formats->voucher_date_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
+                <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->payee_name_top}}mm; left: {{$voucher_formats->payee_name_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
+                <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->cheque_no_top}}mm; left: {{$voucher_formats->cheque_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
+                <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->cheque_date_top}}mm; left: {{$voucher_formats->cheque_date_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
+                <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->received_from_top}}mm; left: {{$voucher_formats->received_from_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
 
-                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: 43mm; left:5mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
+                <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: {{$voucher_formats->table_top}}mm; left:{{$voucher_formats->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
                   <table cellpadding="0" cellspacing="0" style="width:100% !important;">
                     <thead>
                       <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code</th>
@@ -82,7 +214,7 @@
                   <div style="font-weight: bold;margin-top:5px">Amount in Word :</div>
                 </div>
 
-                <div id="signatory" onclick="signatoryDrag();" style="position: absolute; top: 130mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
+                <div id="signatory" onclick="signatoryDrag();" style="position: absolute; top: {{$voucher_formats->signatory_top}}mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
                   <div>
                     @php
                       $total_field = 3;
@@ -105,105 +237,7 @@
             <div class="tx-teal pd-t-20 tx-16">** Click on elements to activate, then drag to set the position.</div>
           </div>
         </div>
-        
-        <div class="col-md-3 mg-t-10">
-          <div class="card bd-0 shadow-base pd-30">
-
-            <div class="pd-t-10 pd-b-10 text-right">
-                <a class="btn btn-info pointer text-white" onclick="PrintElem()">Print Preview</a>
-            </div>
-
-            <div>
-              <div class="tx-black pd-b-5">Title: <input type="text" class="form-control" name="title" required/></div>
-            </div>
-
-            <ul class="list-group">
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1" checked><span>Payee Name</span>
-                </label>
-                <input type="hidden" id="payee_name_top" name="payee_name_top"/>
-                <input type="hidden" id="payee_name_left" name="payee_name_left"/>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('cheque_name')" id="cheque_name_checkbox" name="cheque_no" value="1"><span>Cheque No</span>
-                </label>
-                <input type="hidden" id="cheque_name_top" name="cheque_no_top"/>
-                <input type="hidden" id="cheque_name_left" name="cheque_no_left"/>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('cheque_date')" id="cheque_date_checkbox" name="cheque_date" value="1"><span>Cheque Date</span>
-                </label>
-                <input type="hidden" id="cheque_date_top" name="cheque_date_top"/>
-                <input type="hidden" id="cheque_date_left" name="cheque_date_left"/>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('received_from')" id="received_from_checkbox" name="received_from" value="1"><span>Received From</span>
-                </label>
-                <input type="hidden" id="received_from_top" name="received_from_top"/>
-                <input type="hidden" id="received_from_left" name="received_from_left"/>
-              </li>
-            </ul>
-
-            <div class="tx-black" style="margin-top:10px;">Table Columns:</div>
-            <ul class="list-group">
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('account_code')" id="account_code_checkbox" name="account_code" value="1" checked><span>Account Code</span>
-                </label>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" checked><span>Customer:Job</span>
-                </label>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('class')" id="class_checkbox" name="class" value="1" checked><span>Class</span>
-                </label>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('name')" id="name_checkbox" name="name" value="1" ><span>Name</span>
-                </label>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('project')" id="project_checkbox" name="project" value="1"><span>Project</span>
-                </label>
-              </li>
-              <li class="list-group-item" id="date_list">
-                <label class="ckbox pointer">
-                  <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="1"><span>Location</span>
-                </label>
-              </li>
-
-              <input type="hidden" id="qb_logo_top" name="qb_logo_top"/>
-              <input type="hidden" id="qb_logo_left" name="qb_logo_left"/>
-
-              <input type="hidden" id="voucher_no_top" name="voucher_no_top"/>
-              <input type="hidden" id="voucher_no_left" name="voucher_no_left"/>
-
-              <input type="hidden" id="voucher_date_top" name="voucher_date_top"/>
-              <input type="hidden" id="voucher_date_left" name="voucher_date_left"/>
-
-              <input type="hidden" id="table_top" name="table_top"/>
-              <input type="hidden" id="table_left" name="table_left"/>
-
-              <input type="hidden" id="signatory_top" name="signatory_top"/>
-              <input type="hidden" id="signatory_left" name="signatory_left"/>
-            </ul>
-
-            <div class="pd-t-15">
-              <input type="submit" value="Save Layout" class="pd-15 btn btn-success btn-block pointer"/>
-            </div>
-
-          </div>
-        </div>
-        
+      
       </div>
   </div>
   </form>
