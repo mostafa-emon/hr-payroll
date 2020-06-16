@@ -35,8 +35,8 @@
           <thead>
             <tr>
               <th class="wd-5p text-center">Sl</th>
-              <th class="wd-40p">Title</th>
-              <th class="wd-15p text-center">Type</th>
+              <th class="wd-25p">Title</th>
+              <th class="wd-30p text-center">Type</th>
               @if(roles() != "" && (in_array(26, json_decode(roles(),false))  || in_array(27, json_decode(roles(),false))  || in_array(28, json_decode(roles(),false))))
               <th class="wd-25p text-center">Update</th>
               <th class="wd-25p text-center">Delete</th>

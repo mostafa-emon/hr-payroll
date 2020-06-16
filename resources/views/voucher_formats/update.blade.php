@@ -39,24 +39,32 @@
       }
       if($voucher_formats->type == "Cash-Payment-Voucher") {
         $colspan = 4;
+        if($voucher_formats->customer_job != 1){ $colspan = $colspan - 1; }
+        if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
       }
       else if($voucher_formats->type == "Bank-Payment-Voucher") { $colspan = 4;
+        if($voucher_formats->customer_job != 1){ $colspan = $colspan - 1; }
+        if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
       }
       else if($voucher_formats->type == "Cash-Receipt-Voucher") { $colspan = 3;
+        if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
       }
       else if($voucher_formats->type == "Bank-Receipt-Voucher") { $colspan = 3;
+        if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
       }
       else if($voucher_formats->type == "Contra-Voucher") { $colspan = 3;
+        if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
       }
       else if($voucher_formats->type == "Journal-Voucher") { $colspan = 3;
+        if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->customer_job == 1){ $colspan = $colspan + 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
       }
