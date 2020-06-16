@@ -121,5 +121,5 @@ class QuickBookController extends Controller
         $quick_book->save();
 
         return redirect('/');
-    } 
+    }
 }

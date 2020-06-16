@@ -25,47 +25,92 @@
           </button>
         </div>
       @endif
+
+      <form action="{{ url('tr-cash-payment-voucher') }}" method="POST">
+        {{ csrf_field() }}
+      <div class="row mg-b-30 b">
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Type</label>
+          <select class="form-control" name="type">
+              <option value="all" @if($type == 'all') selected @endif>All</option>
+              <option value="expense" @if($type == 'expense') selected @endif>Expense</option>
+              <option value="pay_bills" @if($type == 'pay_bills') selected @endif>Pay Bills</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">From Date</label>
+          <input type="text" id="dtpick1" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">To Date</label>
+          <input type="text" id="dtpick2" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Payee Name</label>
+          <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Amount</label>
+          <input type="text" name="amount" value="{{$amount}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Memo</label>
+          <input type="text" name="memo" value="{{$memo}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2" style="margin-top:28px">
+          <input type="submit" class="btn btn-primary pointer" value="Search"/>
+        </div>
+        
+      </div>
+      </form>
+
+      @if(count($data) != 0)
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th class="text-center wd-5p">Sl</th>
-              <th class="wd-20p">Name</th>
-              <th class="text-center wd-15p">Top</th>
-              <th class="text-center wd-15p">Left</th>
-              <th class="text-center wd-15p">Rotate</th>
-              @if(roles() != "" && in_array(51, json_decode(roles(),false)))
-              <th class="text-center wd-15p">Update</th>
-              @endif
-
-              @if(roles() != "" && in_array(52, json_decode(roles(),false)))
-              <th class="text-center wd-15p">Delete</th>
-              @endif
+              <th class="text-center">Sl</th>
+              <th>Trx Date</th>
+              <th>Trx Type</th>
+              <th>Ref No.</th>
+              <th>Payee Name</th>
+              <th>Paid From</th>
+              <th>Memo</th>
+              <th>Total Amount</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {{--@foreach($printers as $printer)
+              @foreach($data as $dt)
               <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $printer->print_name }}</td>
-                <td class="text-center">{{ $printer->top }}</td>
-                <td class="text-center">{{ $printer->left }}</td>
-                <td class="text-center">{{ $printer->rotate }}</td>
-                @if(roles() != "" && in_array(51, json_decode(roles(),false)))
-                  <td class="text-center">
-                    <a class="btn btn-info btn-sm" href="{{url ('printer/update/'.$printer->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
-                @endif
-                @if(roles() != "" && in_array(52, json_decode(roles(),false)))
-                  <td class="text-center">
-                    <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$printer->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                  </td>
-                @endif
+                <td>{{$loop->iteration}}</td>
+                <td>{{ date('d-M-Y',strtotime($dt['TxnDate']))}}</td>
+                <td>{{$dt['TxnType']}}</td>
+                <td>{{$dt['DocNumber']}}</td>
+                <td>{{$dt['PayeeName']}}</td>
+                <td>{{$dt['PaidFrom']}}</td>
+                <td>{{$dt['Memo']}}</td>
+                <td>{{$dt['TotalAmt']}}</td>
+                <td>
+                  <span class="badge badge-primary">Not Printed</span>
+                </td>
+                <td>
+                  @php if($dt['TxnType'] == 'Pay Bills') {$printType = 'bill_payment';} else{$printType = 'expense';} @endphp
+                  <a href="{{url('voucher-print/cash-payment-voucher/'.$printType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
+                </td>
               </tr>
-            @endforeach--}}
+              @endforeach
           </tbody>
         </table>
-      </div><br>
+      </div>
+      @endif
     </div>
   </div>
 
