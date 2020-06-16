@@ -65,6 +65,13 @@ class VourcherFormatController extends Controller
             $voucher_format->received_from_top      = $request->received_from_top;
             $voucher_format->received_from_left     = $request->received_from_left;
 
+            if($request->location == 1) {
+                $voucher_format->location           = 1;
+            }else { $voucher_format->location       = 0; }
+            
+            $voucher_format->location_top           = $request->location_top;
+            $voucher_format->location_left          = $request->location_left;
+
             if($request->account_code == 1) {
                 $voucher_format->account_code       = 1;
             }else { $voucher_format->account_code   = 0; }
@@ -80,14 +87,6 @@ class VourcherFormatController extends Controller
             if($request->name == 1) {
                 $voucher_format->name               = 1;
             }else { $voucher_format->name           = 0; }
-
-            if($request->project == 1) {
-                $voucher_format->project            = 1;
-            }else { $voucher_format->project        = 0; }
-
-            if($request->location == 1) {
-                $voucher_format->location           = 1;
-            }else { $voucher_format->location       = 0; }
 
             $voucher_format->table_top              = $request->table_top;
             $voucher_format->table_left             = $request->table_left;
@@ -158,6 +157,13 @@ class VourcherFormatController extends Controller
             $voucher_format->received_from_top      = $request->received_from_top;
             $voucher_format->received_from_left     = $request->received_from_left;
 
+            if($request->location == 1) {
+                $voucher_format->location           = 1;
+            }else { $voucher_format->location       = 0; }
+            
+            $voucher_format->location_top           = $request->location_top;
+            $voucher_format->location_left          = $request->location_left;
+
             if($request->account_code == 1) {
                 $voucher_format->account_code       = 1;
             }else { $voucher_format->account_code   = 0; }
@@ -173,14 +179,6 @@ class VourcherFormatController extends Controller
             if($request->name == 1) {
                 $voucher_format->name               = 1;
             }else { $voucher_format->name           = 0; }
-
-            if($request->project == 1) {
-                $voucher_format->project            = 1;
-            }else { $voucher_format->project        = 0; }
-
-            if($request->location == 1) {
-                $voucher_format->location           = 1;
-            }else { $voucher_format->location       = 0; }
 
             $voucher_format->table_top              = $request->table_top;
             $voucher_format->table_left             = $request->table_left;

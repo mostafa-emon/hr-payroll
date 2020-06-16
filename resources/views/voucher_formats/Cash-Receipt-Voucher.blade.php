@@ -16,6 +16,7 @@
     #cheque_name{ cursor: move; }
     #cheque_date{ cursor: move; }
     #received_from{ cursor: move; }
+    #location{ cursor: move; }
     #tableDiv{ cursor: move; }
     #signatory{ cursor: move; }
   </style>
@@ -43,7 +44,7 @@
     <div class="card">
       <div style="margin-top:-10px;" class="row">
 
-        <div style="padding-left: 50px;" class="col-md-3">
+        <div style="padding-left: 50px;" class="col-md-2">
           <li id="date_list">
             <label class="ckbox pointer">
               <input type="checkbox" onclick="hideShowElement('payee_name')" id="payee_name_checkbox" name="payee_name" value="1" @if($voucher_formats->payee_name == 1) checked @endif><span>Payee Name</span>
@@ -53,7 +54,7 @@
           </li>
         </div>
         
-        <div class="col-md-3">
+        <div class="col-md-2">
           <li id="date_list">
             <label class="ckbox pointer">
               <input type="checkbox" onclick="hideShowElement('cheque_name')" id="cheque_name_checkbox" name="cheque_no" value="1" @if($voucher_formats->cheque_no == 1) checked @endif><span>Cheque No</span>
@@ -82,29 +83,32 @@
             <input type="hidden" id="received_from_left" name="received_from_left" value="{{$voucher_formats->received_from_left}}"/>
           </li>
         </div>
+        
+        <div class="col-md-2">
+          <li id="date_list">
+            <label class="ckbox pointer">
+              <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="1" @if($voucher_formats->location == 1) checked @endif><span>Location</span>
+            </label>
+            <input type="hidden" id="location_top" name="location_top" value="{{$voucher_formats->location_top}}"/>
+            <input type="hidden" id="location_left" name="location_left" value="{{$voucher_formats->location_left}}"/>
+          </li>
+        </div>
       </div>
     </div>
 
     <div class="tx-black" style="margin-top:10px;">Table Columns:</div>
       <div class="card">
         <div style="margin-top:-10px;" class="row">
-          <div style="padding-left:30px;" class="col-md-2">
+
+          <div style="padding-left:30px;" class="col-md-5">
             <li id="date_list">
               <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('account_code')" id="account_code_checkbox" name="account_code" value="1" @if($voucher_formats->account_code == 1) checked @endif><span>Account Code</span>
+                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" @if($voucher_formats->customer_job == 1) checked @endif><span>Customer:Job/Project</span>
               </label>
             </li>
           </div>
 
-          <div class="col-md-2">
-            <li id="date_list">
-              <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" @if($voucher_formats->customer_job == 1) checked @endif><span>Customer:Job</span>
-              </label>
-            </li>
-          </div>
-
-          <div class="col-md-2">
+          <div class="col-md-4">
             <li id="date_list">
               <label class="ckbox pointer">
                 <input type="checkbox" onclick="hideShowElement('class')" id="class_checkbox" name="class" value="1" @if($voucher_formats->class == 1) checked @endif><span>Class</span>
@@ -112,7 +116,7 @@
             </li>
           </div>
 
-          <div class="col-md-2">
+          <div class="col-md-3">
             <li id="date_list">
               <label class="ckbox pointer">
                 <input type="checkbox" onclick="hideShowElement('name')" id="name_checkbox" name="name" value="1" @if($voucher_formats->name == 1) checked @endif><span>Name</span>
@@ -120,21 +124,6 @@
             </li>
           </div>
 
-          <div class="col-md-2">
-            <li id="date_list">
-              <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('project')" id="project_checkbox" name="project" value="1" @if($voucher_formats->project == 1) checked @endif><span>Project</span>
-              </label>
-            </li>
-          </div>
-
-          <div class="col-md-2">
-            <li id="date_list">
-              <label class="ckbox pointer">
-                <input type="checkbox" onclick="hideShowElement('location')" id="location_checkbox" name="location" value="1" @if($voucher_formats->location == 1) checked @endif><span>Location</span>
-              </label>
-            </li>
-          </div>
         </div>
       </div>
 
@@ -151,7 +140,6 @@
       <input type="hidden" id="table_left" name="table_left" value="{{$voucher_formats->table_left}}"/>
 
       <input type="hidden" id="signatory_top" name="signatory_top" value="{{$voucher_formats->signatory_top}}"/>
-      <input type="hidden" id="signatory_left" name="signatory_left" value="{{$voucher_formats->signatory_left}}"/>
     </ul>
 
     <div class="mg-t-8 row">
@@ -181,31 +169,29 @@
                   <div style="width:70mm;margin-left:70mm;">{{$company->address}}</div>
                   <div style="margin-top:8px">{{ str_replace("-", " ", $type) }}</div>
                 </div>
-                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top:{{$voucher_formats->qb_logo_top}}mm;left:{{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
+                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top: {{$voucher_formats->qb_logo_top}}mm;left: {{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('img/qblogo.png') }}" height="35"/></div>
                 <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_no_top}}mm; left: {{$voucher_formats->voucher_no_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
                 <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_date_top}}mm; left: {{$voucher_formats->voucher_date_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
                 <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->payee_name_top}}mm; left: {{$voucher_formats->payee_name_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>
                 <div id="cheque_name" onclick="chequeNameDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->cheque_no_top}}mm; left: {{$voucher_formats->cheque_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque No</div>
                 <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->cheque_date_top}}mm; left: {{$voucher_formats->cheque_date_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
                 <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->received_from_top}}mm; left: {{$voucher_formats->received_from_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
+                <div id="location" onclick="locationDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->location_top}}mm; left: {{$voucher_formats->location_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Location</div>
 
                 <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: {{$voucher_formats->table_top}}mm; left: {{$voucher_formats->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
                   <table cellpadding="0" cellspacing="0" style="width:100% !important;">
                     <thead>
-                      <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code</th>
-                      <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Name</th>
+                      <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code & Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Memo</th>
-                      <th class="customer_job" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job</th>
+                      <th class="customer_job" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
                       <th class="class" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
                       <th class="name" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
-                      <th class="project" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Project</th>
-                      <th class="location" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Location</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
                     </thead>
 
                     <tfoot>
-                      <th id="table_total" colspan="4" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
+                      <th id="table_total" colspan="3" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                       <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                     </tfoot>
@@ -246,7 +232,7 @@
   </form>
 
   <script>
-    var colspan = "4";
+    var colspan = "3";
 
     function hideShowElement(value) {
       if(value == "payee_name") {
@@ -281,15 +267,12 @@
         }
       }
 
-      else if(value == "account_code") {
-        if ($('#account_code_checkbox').is(':checked')) {
-          colspan = parseInt(colspan) + 1;
-          $('.account_code').show();
+      else if(value == "location") {
+        if ($('#location_checkbox').is(':checked')) {
+          $('#location').show();
         }else{
-          colspan = parseInt(colspan) - 1;
-          $('.account_code').hide();
+          $('#location').hide();
         }
-        document.getElementById('table_total').colSpan = colspan;
       }
 
       else if(value == "customer_job") {
@@ -321,28 +304,6 @@
         }else{
           colspan = parseInt(colspan) - 1;
           $('.name').hide();
-        }
-        document.getElementById('table_total').colSpan = colspan;
-      }
-
-      else if(value == "project") {
-        if ($('#project_checkbox').is(':checked')) {
-          colspan = parseInt(colspan) + 1;
-          $('.project').show();
-        }else{
-          colspan = parseInt(colspan) - 1;
-          $('.project').hide();
-        }
-        document.getElementById('table_total').colSpan = colspan;
-      }
-
-      else if(value == "location") {
-        if ($('#location_checkbox').is(':checked')) {
-          colspan = parseInt(colspan) + 1;
-          $('.location').show();
-        }else{
-          colspan = parseInt(colspan) - 1;
-          $('.location').hide();
         }
         document.getElementById('table_total').colSpan = colspan;
       }
@@ -504,6 +465,27 @@
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(receivedFromPositions.received_from.top * 0.2645833333);
           document.getElementById('left').value = Math.round(receivedFromPositions.received_from.left * 0.2645833333); 
+        }
+      });
+    }
+
+    function locationDrag(){
+      var sLocationPosition = "{}",
+      locationPositions = JSON.parse(sLocationPosition);
+      $.each(locationPositions, function (id, pos) {
+        $("#" + id).css(pos)
+      })
+      $("#location").draggable({
+        containment: "#containment-wrapper",
+        scroll: false,
+        stop: function (event, ui) {
+          locationPositions[this.id] = ui.position
+          document.getElementById('location_top').value = Math.round(locationPositions.location.top * 0.2645833333);
+          document.getElementById('location_left').value = Math.round(locationPositions.location.left * 0.2645833333);
+          
+          document.getElementById('display').style.display = 'block';
+          document.getElementById('top').value = Math.round(locationPositions.location.top * 0.2645833333);
+          document.getElementById('left').value = Math.round(locationPositions.location.left * 0.2645833333); 
         }
       });
     }
