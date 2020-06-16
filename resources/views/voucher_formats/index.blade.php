@@ -38,7 +38,8 @@
               <th class="wd-40p">Title</th>
               <th class="wd-15p text-center">Type</th>
               @if(roles() != "" && (in_array(26, json_decode(roles(),false))  || in_array(27, json_decode(roles(),false))  || in_array(28, json_decode(roles(),false))))
-              <th class="wd-25p text-center">Action</th>
+              <th class="wd-25p text-center">Update</th>
+              <th class="wd-25p text-center">Delete</th>
               @endif
             </tr>
           </thead>
@@ -49,7 +50,7 @@
                 <td>{{ $voucher_format->title }}</td>
                 <td class="text-center">{{ $voucher_format->type }}</td>
                 <td class="text-center">
-                  <a class="btn btn-info btn-sm" href="{{url('voucher-formats/update/'.$voucher_format->id)}}"> Update </a>
+                  <a class="btn btn-info btn-sm" href="{{url('voucher-formats/update/'.$voucher_format->id)}}"><i class="fa fa-edit"></i> Update </a>
                 </td>
                 <td class="text-center">
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$voucher_format->id}})"><i class= "fa fa-minus-circle"></i> Delete </a>

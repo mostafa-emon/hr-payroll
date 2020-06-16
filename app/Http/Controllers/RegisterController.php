@@ -67,11 +67,17 @@ class RegisterController extends Controller
 
             $signatory = new Signatory();
             $signatory->company_id          = $company->id;
-            $signatory->prepared_by         = 0;
-            $signatory->checked_by          = 0;
-            $signatory->verified_by         = 0;
-            $signatory->authorized_by       = 0;
-            $signatory->approved_by         = 1;
+            $signatory->name                = 'Prepared By';
+            $signatory->save();
+
+            $signatory = new Signatory();
+            $signatory->company_id          = $company->id;
+            $signatory->name                = 'Verified By';
+            $signatory->save();
+
+            $signatory = new Signatory();
+            $signatory->company_id          = $company->id;
+            $signatory->name                = 'Checked By';
             $signatory->save();
             return redirect('subscription')->with('message', 'Registration successful');
         }

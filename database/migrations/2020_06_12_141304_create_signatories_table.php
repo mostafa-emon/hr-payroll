@@ -17,11 +17,7 @@ class CreateSignatoriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->boolean('prepared_by')->default(false);
-            $table->boolean('checked_by')->default(false);
-            $table->boolean('verified_by')->default(false);
-            $table->boolean('authorized_by')->default(false);
-            $table->boolean('approved_by')->default(true);
+            $table->string('name',60);
             $table->timestamps();
         });
     }

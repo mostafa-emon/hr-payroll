@@ -156,7 +156,11 @@ Route::get('/404', 'HomeController@pageNotFound');
 Route::get('/logout', 'HomeController@logout');
 
 Route::get('/signatory', 'SignatoryController@index');
-Route::post('/signatory/update', 'SignatoryController@update');
+Route::get('/signatory/add', 'SignatoryController@add');
+Route::post('/signatory/add', 'SignatoryController@add');
+Route::get('/signatory/delete/{signatory_id}', 'SignatoryController@delete');
+Route::get('/signatory/update/{signatory_id}', 'SignatoryController@update');
+Route::post('/signatory/update/{signatory_id}', 'SignatoryController@update');
 
 Route::get('/tr-cash-payment-voucher', 'VoucherController@cash_payment');
 Route::get('/tr-bank-payment-voucher', 'VoucherController@bank_payment');

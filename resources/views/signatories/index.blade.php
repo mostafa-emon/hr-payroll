@@ -5,97 +5,78 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('/signatory') }}">Signatory</a>
+      <a class="breadcrumb-item" href="{{ url('signatory') }}">Signatory</a>
     </nav>
   </div>
 
-  
-
-  <form action="{{ url('signatory/update') }}" method="POST" enctype="multipart/form-data">
-    {{ csrf_field() }}
-    <div class="br-pagebody">
-      <div class="br-section-wrapper">
-        @if(session()->has('message'))
-          <div class="alert alert-primary alert-dismissible fade show" role="alert">
-            {{ session()->get('message') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        @endif
-        
-        <div class="form-layout form-layout-4">
-            <h6 class="mg-b-30 tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">SIGNATORIES</h6>
-            <div class="row">
-                <label class="col-sm-4 form-control-label">Prepared By:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="prepared_by">
-                        <option value="1" @if(isset($signatories) && $signatories->prepared_by == 1) selected @endif>Enable</option>
-                        <option value="0" @if(isset($signatories) && $signatories->prepared_by == 0) selected @endif>Disable</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Checked By:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="checked_by">
-                        <option value="1" @if(isset($signatories) && $signatories->checked_by == 1) selected @endif>Enable</option>
-                        <option value="0" @if(isset($signatories) && $signatories->checked_by == 0) selected @endif>Disable</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Verified By:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="verified_by">
-                        <option value="1" @if(isset($signatories) && $signatories->verified_by == 1) selected @endif>Enable</option>
-                        <option value="0" @if(isset($signatories) && $signatories->verified_by == 0) selected @endif>Disable</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Authorized By:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="authorized_by">
-                        <option value="1" @if(isset($signatories) && $signatories->authorized_by == 1) selected @endif>Enable</option>
-                        <option value="0" @if(isset($signatories) && $signatories->authorized_by == 0) selected @endif>Disable</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Approved By:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <select class="form-control" name="approved_by">
-                        <option value="1" @if(isset($signatories) && $signatories->approved_by == 1) selected @endif>Enable</option>
-                        <option value="0" @if(isset($signatories) && $signatories->approved_by == 0) selected @endif>Disable</option>
-                    </select>
-                </div>
-            </div>
-
-            @if(roles() != "" && in_array(53, json_decode(roles(),false)))
-            <div class="form-layout-footer mg-t-30">
-                <button class="btn btn-info pointer">Update</button>
-            </div>
-            @endif
-        </div>
-      </div>
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <div style="float:left">
+      <h4 class="tx-gray-800 mg-b-5">Signatory</h4>
     </div>
-  </form>
+    <div style="float:right">
+      @if(roles() != "" && in_array(11, json_decode(roles(),false)))
+      <a href="{{ url('signatory/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Signatory</a>
+      @endif
+    </div>
+  </div>
+
+  <div class="br-pagebody pd-t-15">
+    <div class="br-section-wrapper">
+      @if(session()->has('message'))
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          {{ session()->get('message') }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      @endif
+      <div class="bd bd-gray-300 rounded table-responsive">
+        <table class="table table-striped mg-b-0">
+          <thead>
+            <tr>
+              <th>Sl</th>
+              <th>Name</th>
+              @if(roles() != "" && in_array(12, json_decode(roles(),false)))
+              <th>Update</th>
+              @endif
+
+              @if(roles() != "" && in_array(13, json_decode(roles(),false)))
+              <th>Delete</th>
+              @endif
+            </tr>
+          </thead>
+          <tbody>
+            @foreach($signatories as $signatory)
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $signatory->name }}</td>
+
+                @if(roles() != "" && in_array(12, json_decode(roles(),false)))
+                  <td>
+                  <a class="btn btn-info btn-sm" href="{{url ('signatory/update/'.$signatory->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                  </td>
+                @endif
+                @if(roles() != "" && in_array(13, json_decode(roles(),false)))
+                  <td>
+                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$signatory->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
+                  </td>
+                @endif 
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div><br>
+      {{ $signatories -> links() }}
+    </div>
+  </div>
 
   <script>
-    function preview_image(event) 
-{
- var reader = new FileReader();
- reader.onload = function()
- {
-  var output = document.getElementById('logo');
-  output.src = reader.result;
- }
- reader.readAsDataURL(event.target.files[0]);
-}
+    function confirmDelete(id){
+      var result = confirm("Are you confirm to delete?");
+      if (result) {
+          window.location = 'signatory/delete/'+id
+      }
+    }
   </script>
+
 @endsection

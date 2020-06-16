@@ -43,7 +43,7 @@
         @endif
 
         @if(roles() != "" && !in_array(100, json_decode(roles(),false)))
-        <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('voucher-formats*')) || (request()->is('signatory')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('voucher-formats*')) || (request()->is('signatory*')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-settings tx-24"></i>
             <span class="menu-item-label">Master Setup</span>
@@ -52,7 +52,7 @@
         </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="{{ url('company') }}" class="nav-link {{ (request()->is('company')) ? 'active' : '' }}">Company Setup</a></li>
-          <li class="nav-item"><a href="{{url('signatory')}}" class="nav-link {{ (request()->is('signatory')) ? 'active' : '' }}">Signatory</a></li>
+          <li class="nav-item"><a href="{{url('signatory')}}" class="nav-link {{ (request()->is('signatory*')) ? 'active' : '' }}">Signatory</a></li>
           <li class="nav-item"><a href="{{ url('voucher-formats') }}" class="nav-link {{ (request()->is('voucher-formats*')) ? 'active' : '' }}">Voucher Formats</a></li>
           <li class="nav-item"><a href="{{ url('cheque-layouts') }}" class="nav-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">Cheque Formats</a></li>
           <li class="nav-item"><a href="{{url('bank')}}" class="nav-link {{ (request()->is('bank')) || (request()->is('bank/add')) || (request()->is('bank/update*')) ? 'active' : '' }}">Bank</a></li>
