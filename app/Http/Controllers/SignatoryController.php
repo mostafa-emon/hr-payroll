@@ -21,8 +21,37 @@ class SignatoryController extends Controller
     public function add(Request $request){
         if($request->name !=""){
             $signatory = new Signatory();
-            $signatory->company_id       = Auth::user()->company_id;
-            $signatory->name             = $request->name;
+            $signatory->company_id              = Auth::user()->company_id;
+            $signatory->name                    = $request->name;
+
+            if($request->cash_payment_voucher == 1) {
+                $signatory->cash_payment_voucher         = 1;
+            }else { $signatory->cash_payment_voucher     = 0; }
+
+            if($request->bank_payment_voucher == 1) {
+                $signatory->bank_payment_voucher         = 1;
+            }else { $signatory->bank_payment_voucher     = 0; }
+
+            if($request->cash_receipt_voucher == 1) {
+                $signatory->cash_receipt_voucher         = 1;
+            }else { $signatory->cash_receipt_voucher     = 0; }
+
+            if($request->bank_receipt_voucher == 1) {
+                $signatory->bank_receipt_voucher         = 1;
+            }else { $signatory->bank_receipt_voucher     = 0; }
+
+            if($request->contra_voucher == 1) {
+                $signatory->contra_voucher         = 1;
+            }else { $signatory->contra_voucher     = 0; }
+
+            if($request->contra_voucher == 1) {
+                $signatory->contra_voucher         = 1;
+            }else { $signatory->contra_voucher     = 0; }
+
+            if($request->journal_voucher == 1) {
+                $signatory->journal_voucher         = 1;
+            }else { $signatory->journal_voucher     = 0; }
+
             $signatory->save();
             return redirect('signatory')->with('message', 'Signatory added successfully!');
         }
@@ -40,6 +69,35 @@ class SignatoryController extends Controller
             $signatory = Signatory::where('id', $signatory_id)->first();
             $signatory->company_id       = Auth::user()->company_id;
             $signatory->name             = $request->name;
+
+            if($request->cash_payment_voucher == 1) {
+                $signatory->cash_payment_voucher         = 1;
+            }else { $signatory->cash_payment_voucher     = 0; }
+
+            if($request->bank_payment_voucher == 1) {
+                $signatory->bank_payment_voucher         = 1;
+            }else { $signatory->bank_payment_voucher     = 0; }
+
+            if($request->cash_receipt_voucher == 1) {
+                $signatory->cash_receipt_voucher         = 1;
+            }else { $signatory->cash_receipt_voucher     = 0; }
+
+            if($request->bank_receipt_voucher == 1) {
+                $signatory->bank_receipt_voucher         = 1;
+            }else { $signatory->bank_receipt_voucher     = 0; }
+
+            if($request->contra_voucher == 1) {
+                $signatory->contra_voucher         = 1;
+            }else { $signatory->contra_voucher     = 0; }
+
+            if($request->contra_voucher == 1) {
+                $signatory->contra_voucher         = 1;
+            }else { $signatory->contra_voucher     = 0; }
+
+            if($request->journal_voucher == 1) {
+                $signatory->journal_voucher         = 1;
+            }else { $signatory->journal_voucher     = 0; }
+
             $signatory->save();
             return redirect('signatory')->with('message', 'Signatory updated successfully!');
         }

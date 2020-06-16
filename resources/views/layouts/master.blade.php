@@ -54,11 +54,11 @@
           <li class="nav-item"><a href="{{ url('company') }}" class="nav-link {{ (request()->is('company')) ? 'active' : '' }}">Company Setup</a></li>
           <li class="nav-item"><a href="{{url('signatory')}}" class="nav-link {{ (request()->is('signatory*')) ? 'active' : '' }}">Signatory</a></li>
           <li class="nav-item"><a href="{{ url('voucher-formats') }}" class="nav-link {{ (request()->is('voucher-formats*')) ? 'active' : '' }}">Voucher Formats</a></li>
-          <li class="nav-item"><a href="{{ url('cheque-layouts') }}" class="nav-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">Cheque Formats</a></li>
+          <li class="nav-item"><a href="{{url('currency')}}" class="nav-link {{ (request()->is('currency*')) ? 'active' : '' }}">Currency</a></li>
           <li class="nav-item"><a href="{{url('bank')}}" class="nav-link {{ (request()->is('bank')) || (request()->is('bank/add')) || (request()->is('bank/update*')) ? 'active' : '' }}">Bank</a></li>
           <li class="nav-item"><a href="{{url('bank-account')}}" class="nav-link {{ (request()->is('bank-account*')) ? 'active' : '' }}">Bank Accounts</a></li>
           <li class="nav-item"><a href="{{url('cheque-books')}}" class="nav-link {{ (request()->is('cheque-books*')) ? 'active' : '' }}">Cheque Books</a></li>
-          <li class="nav-item"><a href="{{url('currency')}}" class="nav-link {{ (request()->is('currency*')) ? 'active' : '' }}">Currency</a></li>
+          <li class="nav-item"><a href="{{ url('cheque-layouts') }}" class="nav-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">Cheque Formats</a></li>
           <li class="nav-item"><a href="{{url('roles')}}" class="nav-link {{ (request()->is('roles*')) ? 'active' : '' }}">Roles</a></li>
           <li class="nav-item"><a href="{{url('user')}}" class="nav-link {{ (request()->is('user*')) ? 'active' : '' }}">Users</a></li>
         </ul>

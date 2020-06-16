@@ -28,6 +28,34 @@
               </div>
             </div>
 
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label">Applied For: <span class="tx-danger">*</span></label>
+                <div class="row">
+                  <div class="col-md-4">
+                    <input type="checkbox" name="cash_payment_voucher" value="1">&nbsp;<span>Cash Payment Voucher</span>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="checkbox" name="bank_payment_voucher" value="1">&nbsp;<span>Bank Payment Voucher</span>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="checkbox" name="cash_receipt_voucher" value="1">&nbsp;<span>Cash Receipt Voucher</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <input type="checkbox" name="bank_receipt_voucher" value="1">&nbsp;<span>Bank Receipt Voucher</span>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="checkbox" name="contra_voucher" value="1">&nbsp;<span>Contra Voucher</span>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="checkbox" name="journal_voucher" value="1">&nbsp;<span>Journal Voucher</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
 
           <div class="form-layout-footer bd pd-20 bd-t-0">

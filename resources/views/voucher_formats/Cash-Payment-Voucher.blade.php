@@ -216,16 +216,19 @@
 
                 <div id="signatory" onclick="signatoryDrag();" style="position: absolute; top: {{$voucher_formats->signatory_top}}mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
                   <div>
-                    @php
-                      $total_field = 3;
-                    @endphp
 
                     <table style="width:100%">
+                      @php
+                      use App\Signatory;
+                      $signatories = Signatory::where('cash_payment_voucher',1)->get();
+                      @endphp
+                      
                       <tr>
-                      @for($i = 1; $i <= $total_field; $i++)
-                        <td style="text-align:center;">__________________<br>Prepared By</td>
-                      @endfor
+                      @foreach($signatories as $signatory)
+                        <td style="text-align:center;">__________________<br>{{$signatory->name}}</td>
+                      @endforeach
                       </tr>
+                      
                     </table>
                     
                   </div>
