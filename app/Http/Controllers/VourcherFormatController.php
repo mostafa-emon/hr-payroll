@@ -16,9 +16,7 @@ class VourcherFormatController extends Controller
     }
     
     public function index(){
-        $voucher_formats = VoucherFormat::where('company_id', Auth::user()->company_id)
-        ->paginate(10);
-
+        $voucher_formats = VoucherFormat::where('company_id', Auth::user()->company_id)->paginate(10);
         return view('voucher_formats.index', ['voucher_formats'=>$voucher_formats]);
     }
 
@@ -196,6 +194,7 @@ class VourcherFormatController extends Controller
         $company = Company::where('id',Auth::user()->company_id)->first();
         $voucher_formats = VoucherFormat::where('id',$format_id)->first();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
+
         return view('voucher_formats.update', ['settings' =>$settings, 'company' => $company, 'voucher_formats' => $voucher_formats]);
     }
 }
