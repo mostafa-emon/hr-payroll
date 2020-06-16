@@ -29,40 +29,29 @@
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th class="text-center wd-5p">Sl</th>
-              <th class="wd-20p">Name</th>
-              <th class="text-center wd-15p">Top</th>
-              <th class="text-center wd-15p">Left</th>
-              <th class="text-center wd-15p">Rotate</th>
-              @if(roles() != "" && in_array(51, json_decode(roles(),false)))
-              <th class="text-center wd-15p">Update</th>
-              @endif
-
-              @if(roles() != "" && in_array(52, json_decode(roles(),false)))
-              <th class="text-center wd-15p">Delete</th>
-              @endif
+              <th class="text-center">Sl</th>
+              <th>Trx Date</th>
+              <th>Trx Type</th>
+              <th>Ref No.</th>
+              <th>Payee Name</th>
+              <th>Paid From</th>
+              <th>Memo</th>
+              <th>Total Amount</th>
             </tr>
           </thead>
           <tbody>
-            {{--@foreach($printers as $printer)
+              @foreach($data as $dt)
               <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $printer->print_name }}</td>
-                <td class="text-center">{{ $printer->top }}</td>
-                <td class="text-center">{{ $printer->left }}</td>
-                <td class="text-center">{{ $printer->rotate }}</td>
-                @if(roles() != "" && in_array(51, json_decode(roles(),false)))
-                  <td class="text-center">
-                    <a class="btn btn-info btn-sm" href="{{url ('printer/update/'.$printer->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
-                @endif
-                @if(roles() != "" && in_array(52, json_decode(roles(),false)))
-                  <td class="text-center">
-                    <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$printer->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                  </td>
-                @endif
+                <td>{{$loop->iteration}}</td>
+                <td>{{ date('d-M-Y',strtotime($dt['TxnDate']))}}</td>
+                <td>{{$dt['TxnType']}}</td>
+                <td>{{$dt['DocNumber']}}</td>
+                <td>{{$dt['PayeeName']}}</td>
+                <td>{{$dt['PaidFrom']}}</td>
+                <td>{{$dt['Memo']}}</td>
+                <td>{{$dt['TotalAmt']}}</td>
               </tr>
-            @endforeach--}}
+              @endforeach
           </tbody>
         </table>
       </div><br>
