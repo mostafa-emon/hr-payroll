@@ -25,6 +25,52 @@
           </button>
         </div>
       @endif
+
+      <form action="{{ url('tr-cash-payment-voucher') }}" method="POST">
+        {{ csrf_field() }}
+      <div class="row mg-b-30 b">
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Type</label>
+          <select class="form-control" name="type">
+              <option value="all" @if($type == 'all') selected @endif>All</option>
+              <option value="expense" @if($type == 'expense') selected @endif>Expense</option>
+              <option value="pay_bills" @if($type == 'pay_bills') selected @endif>Pay Bills</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">From Date</label>
+          <input type="text" id="dtpick1" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">To Date</label>
+          <input type="text" id="dtpick2" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Payee Name</label>
+          <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Amount</label>
+          <input type="text" name="amount" value="{{$amount}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Memo</label>
+          <input type="text" name="memo" value="{{$memo}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2" style="margin-top:28px">
+          <input type="submit" class="btn btn-primary pointer" value="Search"/>
+        </div>
+        
+      </div>
+      </form>
+
+      @if(count($data) != 0)
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-striped mg-b-0">
           <thead>
@@ -37,6 +83,8 @@
               <th>Paid From</th>
               <th>Memo</th>
               <th>Total Amount</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -50,11 +98,19 @@
                 <td>{{$dt['PaidFrom']}}</td>
                 <td>{{$dt['Memo']}}</td>
                 <td>{{$dt['TotalAmt']}}</td>
+                <td>
+                  <span class="badge badge-primary">Not Printed</span>
+                </td>
+                <td>
+                  @php if($dt['TxnType'] == 'Pay Bills') {$printType = 'bill_payment';} else{$printType = 'expense';} @endphp
+                  <a href="{{url('voucher-print/cash-payment-voucher/'.$printType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
+                </td>
               </tr>
               @endforeach
           </tbody>
         </table>
-      </div><br>
+      </div>
+      @endif
     </div>
   </div>
 
