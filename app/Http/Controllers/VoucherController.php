@@ -259,6 +259,7 @@ class VoucherController extends Controller
         $token = getToken();
         $data = [];
         $settings = Setting::where('company_id',Auth::user()->company_id)->first(); 
+        
         if($api_type == 'expense') {
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -286,11 +287,14 @@ class VoucherController extends Controller
             if($settings->voucher_number == "auto"){
                 $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->voucher_prefix.'1'.$settings->voucher_suffix;
+                    $data['voucher_no'] = 1;
                 }else{
-                    $data['voucher_no'] = "";
+                    $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                 }
+            }else{
+                $data['voucher_no'] = "";
             }
+
             $data['voucher_date'] = $results['Purchase']['TxnDate'];
             if(isset($results['Purchase']['DocNumber'])){
                 $data['reference_no'] = $results['Purchase']['DocNumber'];
@@ -343,21 +347,21 @@ class VoucherController extends Controller
             $data['transactions'][$i]['class'] = "";
             $data['transactions'][$i]['debit'] = "";
             $data['transactions'][$i]['credit'] = $results['Purchase']['TotalAmt'];
+            return $data; 
         }
-        return $data; 
+        
 
         if($api_type == 'bill_payment') {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => config('app.qb_api_url')."/v3/company/4620816365062880570/query?minorversion=14",
+            CURLOPT_URL => config('app.qb_api_url')."/v3/company/4620816365062880570/billpayment/".$id."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"SELECT * FROM BillPayment WHERE BankAccountRef IN ($whereInIDs) AND TxnDate >= '$from_date' AND TxnDate <= '$to_date'",
+            CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
                 "User-Agent: Token ".$token,
                 "Accept: application/json",
@@ -370,47 +374,73 @@ class VoucherController extends Controller
             $response = curl_exec($curl);
             curl_close($curl);
 
-            if($response != ""){
-                $results = json_decode($response, true);
-                $resultCount = $results['QueryResponse']['maxResults'] - 1;
-                if($resultCount > -1){
-                    for($i = 0; $i <= $resultCount; $i++) {
-                        if(isset($results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['value'])) {
-                            if(in_array($results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['value'], $CashOnHandID)){
-                                //Filters
-                                if($payee_name != "" && $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'] != $payee_name) { continue; }
-                                if($amount != "" && $results['QueryResponse']['BillPayment'][$i]['TotalAmt'] != $amount) { continue; }
-                                if($memo != "") { 
-                                    if(!isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])) {
-                                        continue;
-                                    }
-                                    if(strpos($results['QueryResponse']['BillPayment'][$i]['PrivateNote'], $memo) === FALSE){
-                                        continue;
-                                    }
-                                }
+            $results = json_decode($response, true);
 
-                                $index = $index + 1;
-                                $data[$index]['Id'] = $results['QueryResponse']['BillPayment'][$i]['Id'];
-                                $data[$index]['TxnDate'] = $results['QueryResponse']['BillPayment'][$i]['TxnDate'];
-                                $data[$index]['TxnType'] = 'Pay Bills';
-                                if(isset($results['QueryResponse']['BillPayment'][$i]['DocNumber'])){
-                                    $data[$index]['DocNumber'] = $results['QueryResponse']['BillPayment'][$i]['DocNumber'];
-                                }else{
-                                    $data[$index]['DocNumber'] = "";
-                                }
-                                $data[$index]['PayeeName'] = $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'];
-                                $data[$index]['PaidFrom'] = $results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['name'];
-                                if(isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])){
-                                    $data[$index]['Memo'] = $results['QueryResponse']['BillPayment'][$i]['PrivateNote'];
-                                }else{
-                                    $data[$index]['Memo'] = "";
-                                }
-                                $data[$index]['TotalAmt'] = $results['QueryResponse']['BillPayment'][$i]['TotalAmt'];
-                            }
-                        }
-                    }
+            if($settings->voucher_number == "auto"){
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->orderBy('created_at','desc')->first();
+                if($latest_voucher == ""){
+                    $data['voucher_no'] = 1;
+                }else{
+                    $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                 }
+            }else{
+                $data['voucher_no'] = "";
             }
+
+            $data['voucher_date'] = $results['BillPayment']['TxnDate'];
+            if(isset($results['BillPayment']['DocNumber'])){
+                $data['reference_no'] = $results['BillPayment']['DocNumber'];
+            }else{
+                $data['reference_no'] = "";
+            }
+            $data['payee_name'] = $results['BillPayment']['VendorRef']['name'];
+            $data['received_from'] = "";
+            $data['cheque_no'] = "";
+            $data['cheque_date'] = "";
+            $data['location'] = "";
+
+            $bill_id = $results['BillPayment']['Line'][0]['LinkedTxn'][0]['TxnId'];
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => config('app.qb_api_url')."/v3/company/4620816365062880570/bill/".$bill_id."?minorversion=14",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "User-Agent: Token ".$token,
+                "Accept: application/json",
+                "Content-Type: application/text",
+                "Authorization: Bearer ".$token,
+                "Cookie: qboeuid=dd7e3fce.5a8116cd35a6f"
+            ),
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $bills = json_decode($response, true);
+
+            $data['transactions'] = [];
+
+            $data['transactions'][0]['account_code_name'] = $results['BillPayment']['VendorRef']['name'];
+            $data['transactions'][0]['memo'] = $bills['Bill']['APAccountRef']['name'];
+            $data['transactions'][0]['customer_job_project_name'] = "";
+            $data['transactions'][0]['class'] = "";
+            $data['transactions'][0]['debit'] = $results['BillPayment']['TotalAmt'];
+            $data['transactions'][0]['credit'] = "";
+
+            $data['transactions'][1]['account_code_name'] = $results['BillPayment']['CheckPayment']['BankAccountRef']['name'];
+            $data['transactions'][1]['memo'] = "";
+            $data['transactions'][1]['customer_job_project_name'] = "";
+            $data['transactions'][1]['class'] = "";
+            $data['transactions'][1]['debit'] = "";
+            $data['transactions'][1]['credit'] = $results['BillPayment']['TotalAmt'];
+            
+            return $data;
         }
     }
 }
