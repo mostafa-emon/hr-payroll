@@ -179,3 +179,4 @@ Route::get('/create-cheque', 'MRController@create_cheque');
 Route::get('/issued-voucher', 'MRController@issued_voucher');
 Route::get('/void-voucher', 'MRController@void_voucher');
 
+Route::post('/voucher/add', 'LocalVoucherController@add_voucher');

@@ -24,7 +24,7 @@ class CreateVouchersTable extends Migration
             $table->string('payee_name')->nullable();
             $table->string('received_from')->nullable();
             $table->string('cheque_no')->nullable();
-            $table->date('cheque_date');
+            $table->date('cheque_date')->nullable();
             $table->string('location')->nullable();
             $table->timestamps();
         });
