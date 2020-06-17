@@ -80,7 +80,7 @@
         </div>
 
         <br>
-        <input type="hidden" name="transactions" value="{{$data['transactions']}}"/>
+        
         <div class="bd bd-gray-300 rounded table-responsive">
           <table class="table table-striped mg-b-0">
             <thead>
@@ -105,12 +105,30 @@
                 }
               @endphp
               <tr>
-                <td>{{$row['account_code_name']}}</td>
-                <td>{{$row['memo']}}</td>
-                <td>{{$row['customer_job_project_name']}}</td>
-                <td>{{$row['class']}}</td>
-                <td>{{$row['debit']}}</td>
-                <td>{{$row['credit']}}</td>
+                <td>
+                  {{$row['account_code_name']}}
+                  <input type="hidden" name="account_code_name[]" value="{{$row['account_code_name']}}"/>
+                </td>
+                <td>
+                  {{$row['memo']}}
+                  <input type="hidden" name="memo[]" value="{{$row['memo']}}"/>
+                </td>
+                <td>
+                  {{$row['customer_job_project_name']}}
+                  <input type="hidden" name="customer_job_project_name[]" value="{{$row['customer_job_project_name']}}"/>
+                </td>
+                <td>
+                  {{$row['class']}}
+                  <input type="hidden" name="class[]" value="{{$row['class']}}"/>
+                </td>
+                <td>
+                  {{$row['debit']}}
+                  <input type="hidden" name="debit[]" value="{{$row['debit']}}"/>
+                </td>
+                <td>
+                  {{$row['credit']}}
+                  <input type="hidden" name="credit[]" value="{{$row['credit']}}"/>
+                </td>
               </tr>
               @endforeach
               <tr>
