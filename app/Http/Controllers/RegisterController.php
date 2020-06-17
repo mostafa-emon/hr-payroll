@@ -64,39 +64,7 @@ class RegisterController extends Controller
             $setting->approval_for_mr           = 1;
             $setting->approval_for_cheque       = 1;
             $setting->save();
-
-            $signatory = new Signatory();
-            $signatory->company_id              = $company->id;
-            $signatory->name                    = 'Prepared By';
-            $setting->cash_payment_voucher      = 0;
-            $setting->bank_payment_voucher      = 0;
-            $setting->cash_receipt_voucher      = 0;
-            $setting->bank_receipt_voucher      = 0;
-            $setting->contra_voucher            = 0;
-            $setting->journal_voucher           = 0;
-            $signatory->save();
-
-            $signatory = new Signatory();
-            $signatory->company_id              = $company->id;
-            $signatory->name                    = 'Verified By';
-            $signatory->cash_payment_voucher    = 0;
-            $signatory->bank_payment_voucher    = 0;
-            $signatory->cash_receipt_voucher    = 0;
-            $signatory->bank_receipt_voucher    = 0;
-            $signatory->contra_voucher          = 0;
-            $signatory->journal_voucher         = 0;
-            $signatory->save();
-
-            $signatory = new Signatory();
-            $signatory->company_id              = $company->id;
-            $signatory->name                    = 'Checked By';
-            $signatory->cash_payment_voucher    = 0;
-            $signatory->bank_payment_voucher    = 0;
-            $signatory->cash_receipt_voucher    = 0;
-            $signatory->bank_receipt_voucher    = 0;
-            $signatory->contra_voucher          = 0;
-            $signatory->journal_voucher         = 0;
-            $signatory->save();
+            
             return redirect('subscription')->with('message', 'Registration successful');
         }
         return view('register');

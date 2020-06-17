@@ -248,10 +248,10 @@ class VoucherController extends Controller
     }
 
     public function print($voucher_type,$api_type,$id){
-        if($voucher_type == "cash-payment-voucher") {
+        if($voucher_type == "Cash-Payment-Voucher") {
             $data = $this->cash_payment_voucher_print($api_type,$id);
-            $voucher_formats = VoucherFormat::select('title')->where('type',$api_type)->get();
-            return view('vouchers.print_preview',compact('data',$voucher_formats));
+            $voucher_formats = VoucherFormat::select('id','title')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
+            return view('vouchers.print_preview',compact('data','voucher_type','voucher_formats'));
         }
     }
 

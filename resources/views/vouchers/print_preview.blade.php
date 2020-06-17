@@ -13,8 +13,9 @@
     <h4 class="tx-gray-800 mg-b-5">Voucher Preview</h4>
   </div>
 
-  <form action="{{ url('mr/add') }}" method="POST">
+  <form action="{{ url('voucher/add') }}" method="POST">
     {{ csrf_field() }}
+    <input type="hidden" name="type" value="{{$voucher_type}}"/>
     <div class="br-pagebody">
       <div class="br-section-wrapper">
         <div class="form-layout form-layout-2">
@@ -79,7 +80,7 @@
         </div>
 
         <br>
-
+        <input type="hidden" name="transactions" value="{{$data['transactions']}}"/>
         <div class="bd bd-gray-300 rounded table-responsive">
           <table class="table table-striped mg-b-0">
             <thead>
@@ -129,7 +130,10 @@
               <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Voucher Format: <span class="tx-danger">*</span></label>
                     <select name="payment_method" class="form-control mg-l--4">
-                      <option value="default">Default</option>
+                      <option value="">Default</option>
+                      @foreach($voucher_formats as $voucher_format)
+                        <option value="{{$voucher_format->id}}">{{$voucher_format->title}}</option>
+                      @endforeach
                     </select> 
               </div>
             </div>
