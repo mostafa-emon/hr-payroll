@@ -248,7 +248,7 @@ class VoucherController extends Controller
     public function print($voucher_type,$api_type,$id){
         if($voucher_type == "cash-payment-voucher") {
             $data = $this->cash_payment_voucher_print($api_type,$id);
-            return response()->json($data);
+            return view('vouchers.print_preview',compact('data'));
         }
     }
 
