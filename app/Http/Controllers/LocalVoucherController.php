@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Voucher;
 use App\VoucherDetail;
 use App\VoucherFormat;
+use App\Company;
+use App\Setting;
 use Auth;
 
 class LocalVoucherController extends Controller
@@ -56,14 +58,17 @@ class LocalVoucherController extends Controller
 
     public function print($voucher_type,$format_id,$voucher_id){
         if($format_id == "default") {
-            $layout = VoucherFormat::where('title','Default')->where('company_id','')->first();
+            $layout = VoucherFormat::where('title','Default')->where('company_id',NULL)->first();
         }else{
             $layout = VoucherFormat::where('id',$format_id)->first();
         }
 
+        $settings = Setting::where('company_id',Auth::user()->company_id)->first();
+        $company = Company::where('id',Auth::user()->company_id)->first();
         $voucher = Voucher::where('id',$voucher_id)->first();
         $voucher_details = VoucherDetail::where('voucher_id',$voucher_id)->get();
-        return view('local_vouchers.print',compact('layout','voucher','voucher_details'));
+        
+        return view('local_vouchers.print',compact('settings','company','layout','voucher','voucher_details'));
     }
 
 }
