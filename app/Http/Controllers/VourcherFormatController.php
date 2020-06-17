@@ -72,13 +72,20 @@ class VourcherFormatController extends Controller
             $voucher_format->location_top           = $request->location_top;
             $voucher_format->location_left          = $request->location_left;
 
+            if($request->reference_no == 1) {
+                $voucher_format->reference_no           = 1;
+            }else { $voucher_format->reference_no       = 0; }
+            
+            $voucher_format->reference_no_top           = $request->reference_no_top;
+            $voucher_format->reference_no_left          = $request->reference_no_left;
+
             if($request->account_code == 1) {
                 $voucher_format->account_code       = 1;
             }else { $voucher_format->account_code   = 0; }
 
             if($request->customer_job == 1) {
-                $voucher_format->customer_job       = 1;
-            }else { $voucher_format->customer_job   = 0; }
+                $voucher_format->customer_job_project       = 1;
+            }else { $voucher_format->customer_job_project   = 0; }
 
             if($request->class == 1) {
                 $voucher_format->class              = 1;
@@ -164,13 +171,20 @@ class VourcherFormatController extends Controller
             $voucher_format->location_top           = $request->location_top;
             $voucher_format->location_left          = $request->location_left;
 
+            if($request->reference_no == 1) {
+                $voucher_format->reference_no           = 1;
+            }else { $voucher_format->reference_no       = 0; }
+            
+            $voucher_format->reference_no_top           = $request->reference_no_top;
+            $voucher_format->reference_no_left          = $request->reference_no_left;
+
             if($request->account_code == 1) {
                 $voucher_format->account_code       = 1;
             }else { $voucher_format->account_code   = 0; }
 
             if($request->customer_job == 1) {
-                $voucher_format->customer_job       = 1;
-            }else { $voucher_format->customer_job   = 0; }
+                $voucher_format->customer_job_project       = 1;
+            }else { $voucher_format->customer_job_project   = 0; }
 
             if($request->class == 1) {
                 $voucher_format->class              = 1;

@@ -42,12 +42,15 @@ class CreateVoucherFormatsTable extends Migration
             $table->integer('location')->default(0);
             $table->integer('location_top')->nullable();
             $table->integer('location_left')->nullable();
+            $table->integer('reference_no')->default(0);
+            $table->integer('reference_no_top')->nullable();
+            $table->integer('reference_no_left')->nullable();
+
 
             $table->integer('account_code')->default(0);
-            $table->integer('customer_job')->default(0);
+            $table->integer('customer_job_project')->default(0);
             $table->integer('class')->default(0);
             $table->integer('name')->default(0);
-            $table->integer('project')->default(0);
 
             $table->integer('table_top')->nullable();
             $table->integer('table_left')->nullable();
@@ -80,8 +83,11 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->location               = 0;
         $voucher_format->location_top           = 23;
         $voucher_format->location_left          = 140;
+        $voucher_format->reference_no           = 0;
+        $voucher_format->reference_no_top       = 18;
+        $voucher_format->reference_no_left      = 140;
         $voucher_format->account_code           = 1;
-        $voucher_format->customer_job           = 1;
+        $voucher_format->customer_job_project   = 1;
         $voucher_format->class                  = 1;
         $voucher_format->name                   = 0;
         $voucher_format->table_top              = 43;
@@ -113,8 +119,11 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->location               = 0;
         $voucher_format->location_top           = 23;
         $voucher_format->location_left          = 140;
+        $voucher_format->reference_no           = 0;
+        $voucher_format->reference_no_top       = 18;
+        $voucher_format->reference_no_left      = 140;
         $voucher_format->account_code           = 1;
-        $voucher_format->customer_job           = 1;
+        $voucher_format->customer_job_project   = 1;
         $voucher_format->class                  = 1;
         $voucher_format->name                   = 0;
         $voucher_format->table_top              = 52;
@@ -146,8 +155,11 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->location               = 0;
         $voucher_format->location_top           = 23;
         $voucher_format->location_left          = 140;
+        $voucher_format->reference_no           = 0;
+        $voucher_format->reference_no_top       = 18;
+        $voucher_format->reference_no_left      = 140;
         $voucher_format->account_code           = 1;
-        $voucher_format->customer_job           = 0;
+        $voucher_format->customer_job_project   = 0;
         $voucher_format->class                  = 1;
         $voucher_format->name                   = 0;
         $voucher_format->table_top              = 43;
@@ -179,8 +191,11 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->location               = 0;
         $voucher_format->location_top           = 23;
         $voucher_format->location_left          = 140;
+        $voucher_format->reference_no           = 0;
+        $voucher_format->reference_no_top       = 18;
+        $voucher_format->reference_no_left      = 140;
         $voucher_format->account_code           = 1;
-        $voucher_format->customer_job           = 0;
+        $voucher_format->customer_job_project   = 0;
         $voucher_format->class                  = 1;
         $voucher_format->name                   = 0;
         $voucher_format->table_top              = 52;
@@ -212,8 +227,11 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->location               = 0;
         $voucher_format->location_top           = 23;
         $voucher_format->location_left          = 140;
+        $voucher_format->reference_no           = 0;
+        $voucher_format->reference_no_top       = 18;
+        $voucher_format->reference_no_left      = 140;
         $voucher_format->account_code           = 1;
-        $voucher_format->customer_job           = 0;
+        $voucher_format->customer_job_project   = 0;
         $voucher_format->class                  = 1;
         $voucher_format->name                   = 0;
         $voucher_format->table_top              = 43;
@@ -245,8 +263,11 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->location               = 0;
         $voucher_format->location_top           = 23;
         $voucher_format->location_left          = 140;
+        $voucher_format->reference_no           = 0;
+        $voucher_format->reference_no_top       = 18;
+        $voucher_format->reference_no_left      = 140;
         $voucher_format->account_code           = 1;
-        $voucher_format->customer_job           = 0;
+        $voucher_format->customer_job_project   = 0;
         $voucher_format->class                  = 1;
         $voucher_format->name                   = 0;
         $voucher_format->table_top              = 43;

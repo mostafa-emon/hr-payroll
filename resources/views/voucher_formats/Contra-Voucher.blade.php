@@ -17,6 +17,7 @@
     #cheque_date{ cursor: move; }
     #received_from{ cursor: move; }
     #location{ cursor: move; }
+    #reference_no{ cursor: move; }
     #tableDiv{ cursor: move; }
     #signatory{ cursor: move; }
   </style>
@@ -37,7 +38,7 @@
 
   <div style="margin-top:-11px;" class="br-pagebody">
 
-    <div style="margin-bottom:10px;" class="pd-t-10 pd-b-10 text-right">
+    <div style="margin-bottom:10px;" class="pd-t-15 pd-b-10 text-right">
       <a class="btn btn-info pointer text-white" onclick="PrintElem()">Print Preview</a>
     </div>
         
@@ -64,7 +65,7 @@
           </li>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
           <li id="date_list">
             <label class="ckbox pointer">
               <input type="checkbox" onclick="hideShowElement('cheque_date')" id="cheque_date_checkbox" name="cheque_date" value="1" @if($voucher_formats->cheque_date == 1) checked @endif><span>Cheque Date</span>
@@ -74,7 +75,7 @@
           </li>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
           <li id="date_list">
             <label class="ckbox pointer">
               <input type="checkbox" onclick="hideShowElement('received_from')" id="received_from_checkbox" name="received_from" value="1" @if($voucher_formats->received_from == 1) checked @endif><span>Received From</span>
@@ -91,6 +92,16 @@
             </label>
             <input type="hidden" id="location_top" name="location_top" value="{{$voucher_formats->location_top}}"/>
             <input type="hidden" id="location_left" name="location_left" value="{{$voucher_formats->location_left}}"/>
+          </li>
+        </div>
+
+        <div class="col-md-2">
+          <li id="date_list">
+            <label class="ckbox pointer">
+              <input type="checkbox" onclick="hideShowElement('reference_no')" id="reference_no_checkbox" name="reference_no" value="1"><span>Reference No</span>
+            </label>
+            <input type="hidden" id="reference_no_top" name="reference_no_top" value="{{$voucher_formats->reference_no_top}}"/>
+            <input type="hidden" id="reference_no_left" name="reference_no_left" value="{{$voucher_formats->reference_no_left}}"/>
           </li>
         </div>
       </div>
@@ -177,6 +188,7 @@
                 <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->cheque_date_top}}mm; left: {{$voucher_formats->cheque_date_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
                 <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->received_from_top}}mm; left: {{$voucher_formats->received_from_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
                 <div id="location" onclick="locationDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->location_top}}mm; left: {{$voucher_formats->location_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Location</div>
+                <div id="reference_no" onclick="referenceNoDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->reference_no_top}}mm; left: {{$voucher_formats->reference_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Reference No : </div>
 
                 <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: {{$voucher_formats->table_top}}mm; left: {{$voucher_formats->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
                   <table cellpadding="0" cellspacing="0" style="width:100% !important;">
@@ -272,6 +284,14 @@
           $('#location').show();
         }else{
           $('#location').hide();
+        }
+      }
+
+      else if(value == "reference_no") {
+        if ($('#reference_no_checkbox').is(':checked')) {
+          $('#reference_no').show();
+        }else{
+          $('#reference_no').hide();
         }
       }
 
@@ -486,6 +506,27 @@
           document.getElementById('display').style.display = 'block';
           document.getElementById('top').value = Math.round(locationPositions.location.top * 0.2645833333);
           document.getElementById('left').value = Math.round(locationPositions.location.left * 0.2645833333); 
+        }
+      });
+    }
+
+    function referenceNoDrag(){
+      var sReferenceNoPosition = "{}",
+      referenceNoPositions = JSON.parse(sReferenceNoPosition);
+      $.each(referenceNoPositions, function (id, pos) {
+        $("#" + id).css(pos)
+      })
+      $("#reference_no").draggable({
+        containment: "#containment-wrapper",
+        scroll: false,
+        stop: function (event, ui) {
+          referenceNoPositions[this.id] = ui.position
+          document.getElementById('reference_no_top').value = Math.round(referenceNoPositions.reference_no.top * 0.2645833333);
+          document.getElementById('reference_no_left').value = Math.round(referenceNoPositions.reference_no.left * 0.2645833333);
+          
+          document.getElementById('display').style.display = 'block';
+          document.getElementById('top').value = Math.round(referenceNoPositions.reference_no.top * 0.2645833333);
+          document.getElementById('left').value = Math.round(referenceNoPositions.reference_no.left * 0.2645833333); 
         }
       });
     }
