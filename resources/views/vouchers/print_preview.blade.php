@@ -95,6 +95,7 @@
             </thead>
             <tbody>
               @php $total_debit = 0; $total_credit = 0; @endphp
+              @if($data['transactions'] != [])
               @foreach($data['transactions'] as $row)
               @php
                 if($row['debit'] != ""){
@@ -131,6 +132,7 @@
                 </td>
               </tr>
               @endforeach
+              @endif
               <tr>
                 <td colspan="4" style="text-align:center;font-weight:bold;">Total</td>
                 <td style="font-weight:bold;">{{$total_debit}}</td>
