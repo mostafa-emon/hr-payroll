@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\QuickBook;
+use App\Setting;
 use Auth;
 use App\VoucherFormat;
+use App\Voucher;
 
 class VoucherController extends Controller
 {
@@ -248,14 +250,15 @@ class VoucherController extends Controller
     public function print($voucher_type,$api_type,$id){
         if($voucher_type == "cash-payment-voucher") {
             $data = $this->cash_payment_voucher_print($api_type,$id);
-            return view('vouchers.print_preview',compact('data'));
+            $voucher_formats = VoucherFormat::select('title')->where('type',$api_type)->get();
+            return view('vouchers.print_preview',compact('data',$voucher_formats));
         }
     }
 
     public function cash_payment_voucher_print($api_type,$id){
         $token = getToken();
         $data = [];
-
+        $settings = Setting::where('company_id',Auth::user()->company_id)->first(); 
         if($api_type == 'expense') {
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -280,11 +283,66 @@ class VoucherController extends Controller
 
             $results = json_decode($response, true);
 
-            if($response != "") {
-                $results = json_decode($response, true);
-                $data['Id'] = $results['Purchase']['Id'];
-                $data['Id'] = $results['Purchase']['Id'];
+            if($settings->voucher_number == "auto"){
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->orderBy('created_at','desc')->first();
+                if($latest_voucher == ""){
+                    $data['voucher_no'] = $settings->voucher_prefix.'1'.$settings->voucher_suffix;
+                }else{
+                    $data['voucher_no'] = "";
+                }
             }
+            $data['voucher_date'] = $results['Purchase']['TxnDate'];
+            if(isset($results['Purchase']['DocNumber'])){
+                $data['reference_no'] = $results['Purchase']['DocNumber'];
+            }else{
+                $data['reference_no'] = "";
+            }
+            $data['payee_name'] = $results['Purchase']['EntityRef']['name'];
+            $data['received_from'] = "";
+            $data['cheque_no'] = "";
+            $data['cheque_date'] = "";
+            if(isset($results['Purchase']['DepartmentRef']['name'])){
+                $data['location'] = $results['Purchase']['DepartmentRef']['name'];
+            }else{
+                $data['location'] = "";
+            }
+
+            $data['transactions'] = [];
+            $count_debits = count($results['Purchase']['Line']) - 1;
+            if($count_debits > -1){
+                for($i = 0; $i <= $count_debits; $i++) {
+                    $data['transactions'][$i]['account_code_name'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['AccountRef']['name'];
+                    if(isset($results['Purchase']['Line'][$i]['Description'])){
+                        $data['transactions'][$i]['memo'] = $results['Purchase']['Line'][$i]['Description'];
+                    }else{
+                        $data['transactions'][$i]['memo'] = "";
+                    }
+                    if(isset($results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['CustomerRef']['name'])){
+                        $data['transactions'][$i]['customer_job_project_name'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['CustomerRef']['name'];
+                    }else{
+                        $data['transactions'][$i]['customer_job_project_name'] = "";
+                    }
+                    if(isset($results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['ClassRef']['name'])){
+                        $data['transactions'][$i]['class'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['ClassRef']['name'];
+                    }else{
+                        $data['transactions'][$i]['class'] = "";
+                    }
+                    $data['transactions'][$i]['debit'] = $results['Purchase']['Line'][$i]['Amount'];
+                    $data['transactions'][$i]['credit'] = "";
+                }
+            }
+
+            $i = $i + 1;
+            $data['transactions'][$i]['account_code_name'] = $results['Purchase']['AccountRef']['name'];
+            if(isset($results['Purchase']['PrivateNote'])){
+                $data['transactions'][$i]['memo'] = $results['Purchase']['PrivateNote'];
+            }else{
+                $data['transactions'][$i]['memo'] = "";
+            }
+            $data['transactions'][$i]['customer_job_project_name'] = "";
+            $data['transactions'][$i]['class'] = "";
+            $data['transactions'][$i]['debit'] = "";
+            $data['transactions'][$i]['credit'] = $results['Purchase']['TotalAmt'];
         }
         return $data; 
 
