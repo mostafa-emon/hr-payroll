@@ -103,7 +103,7 @@
                 </td>
                 <td>
                   @php if($dt['TxnType'] == 'Pay Bills') {$printType = 'bill_payment';} else{$printType = 'expense';} @endphp
-                  <a href="{{url('voucher-print/Cash-Payment-Voucher/'.$printType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
+                  <a href="{{url('voucher-preview/Cash-Payment-Voucher/'.$printType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
                 </td>
               </tr>
               @endforeach

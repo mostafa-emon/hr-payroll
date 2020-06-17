@@ -149,7 +149,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Voucher Format: <span class="tx-danger">*</span></label>
-                    <select name="payment_method" class="form-control mg-l--4">
+                    <select name="voucher_format_id" class="form-control mg-l--4">
                       <option value="">Default</option>
                       @foreach($voucher_formats as $voucher_format)
                         <option value="{{$voucher_format->id}}">{{$voucher_format->title}}</option>

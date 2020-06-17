@@ -207,8 +207,7 @@ class VoucherController extends Controller
                 }
             }
 
-            $voucher_formats = VoucherFormat::where('type','Cash-Payment-Voucher')->get();
-            return view('vouchers.cash_payment',compact('data','from_date','to_date','type','payee_name','amount','memo','voucher_formats'));
+            return view('vouchers.cash_payment',compact('data','from_date','to_date','type','payee_name','amount','memo'));
         }
         
         else{

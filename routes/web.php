@@ -171,7 +171,8 @@ Route::get('/tr-void-voucher', 'VoucherController@void_voucher');
 Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
 Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
 
-Route::get('/voucher-print/{voucher_type}/{api_type}/{id}', 'VoucherController@print');
+Route::get('/voucher-preview/{voucher_type}/{api_type}/{id}', 'VoucherController@print');
+Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 
 Route::get('/create-mr', 'MRController@create_mr');
 Route::get('/create-cheque', 'MRController@create_cheque');
