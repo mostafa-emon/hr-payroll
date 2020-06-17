@@ -15,6 +15,14 @@ class CreateVoucherDetailsTable extends Migration
     {
         Schema::create('voucher_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('voucher_id');
+            $table->foreign('voucher_id')->references('id')->on('vouchers')->onDelete('cascade');
+            $table->string('account_code_name')->nullable();
+            $table->string('memo')->nullable();
+            $table->string('customer_job_project_name')->nullable();
+            $table->string('class')->nullable();
+            $table->double('debit')->nullable();
+            $table->double('credit')->nullable();
             $table->timestamps();
         });
     }
