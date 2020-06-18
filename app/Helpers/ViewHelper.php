@@ -6,6 +6,7 @@ use QuickBooksOnline\API\DataService\DataService;
 use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
+use App\Voucher;
 
 function roles(){
     $user_roles = Role::where('id',Auth::user()->roles)->first();
@@ -45,4 +46,22 @@ function getToken(){
     }else{
         return $auth_details->token;
     }
+}
+
+function is_voucher_printed($voucher_type,$api_type,$id){
+    $count = 0;
+    if($voucher_type == "Cash-Payment-Voucher"){
+        if($api_type == "Check" || $api_type == "Expense"){
+            $count = Voucher::where('type','Cash-Payment-Voucher')
+                    ->where('api_type','expense')
+                    ->where('document_id',$id)
+                    ->count();
+        }else if($api_type == "Pay Bills"){
+            $count = Voucher::where('type','Cash-Payment-Voucher')
+                    ->where('api_type','bill_payment')
+                    ->where('document_id',$id)
+                    ->count();
+        }
+    }
+    return $count;
 }

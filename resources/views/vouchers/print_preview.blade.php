@@ -17,6 +17,8 @@
     {{ csrf_field() }}
     <input type="hidden" name="type" value="{{$voucher_type}}"/>
     <input type="hidden" name="api_type" value="{{$api_type}}"/>
+    <input type="hidden" name="document_id" value="{{$data['id']}}"/>
+    <input type="hidden" name="print_status" value="{{$print_status}}"/>
 
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -114,7 +116,7 @@
                 </td>
                 <td>
                   {{$row['memo']}}
-                  <input type="hidden" name="memo[]" value="{{$row['memo']}}"/>
+                  <input type="hidden" name="memoDetails[]" value="{{$row['memo']}}"/>
                 </td>
                 <td>
                   {{$row['customer_job_project_name']}}

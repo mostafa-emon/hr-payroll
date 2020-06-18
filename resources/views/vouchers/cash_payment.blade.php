@@ -99,11 +99,19 @@
                 <td>{{$dt['Memo']}}</td>
                 <td>{{$dt['TotalAmt']}}</td>
                 <td>
-                  <span class="badge badge-primary">Not Printed</span>
+                  @php $is_printed = is_voucher_printed('Cash-Payment-Voucher',$dt['TxnType'],$dt['Id']); @endphp
+                  @if($is_printed > 0)
+                    <span class="badge badge-danger">Printed</span>
+                  @else
+                    <span class="badge badge-primary">Not Printed</span>
+                  @endif
                 </td>
                 <td>
-                  @php if($dt['TxnType'] == 'Pay Bills') {$printType = 'bill_payment';} else{$printType = 'expense';} @endphp
-                  <a href="{{url('voucher-preview/Cash-Payment-Voucher/'.$printType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
+                  @php
+                    if($dt['TxnType'] == 'Pay Bills') {$apiType = 'bill_payment';} else{$apiType = 'expense';}
+                    if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
+                  @endphp
+                  <a href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
                 </td>
               </tr>
               @endforeach
