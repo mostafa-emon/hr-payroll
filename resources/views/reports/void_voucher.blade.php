@@ -1,0 +1,110 @@
+@extends('layouts.master')
+
+@section('content')
+  <div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
+      <a class="breadcrumb-item" href="{{ url('mr') }}">Report</a>
+      <span class="breadcrumb-item active">Void Voucher</span>
+    </nav>
+  </div>
+
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <div style="float:left">
+      <h4 class="tx-gray-800 mg-b-5">Void Voucher</h4>
+    </div>
+  </div>
+
+  <div class="br-pagebody pd-t-15">
+    <div class="br-section-wrapper">
+
+      <div class="text-right mg-b-15">
+        <a class="btn btn-info btn-sm pointer" id="excelButton" href="">Excel</a>
+        <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
+      </div>
+      
+      <form action="{{ url('void-voucher') }}" method="POST">
+          {{ csrf_field() }}
+        <div class="row mg-b-30 b">
+          <div class="col-md-2">
+            <label class="tx-black tx-13">Voucher Type</label>
+            <select class="form-control" name="voucher_type">
+              <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
+              <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
+              <option value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
+              <option value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
+              <option value="Contra-Voucher">Contra Voucher</option>
+              <option value="Journal-Voucher">Journal Voucher</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="tx-black tx-13">From Date</label>
+            <input type="text" id="dtpick1" name="from_date" value="{{date('d-M-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="tx-black tx-13">To Date</label>
+            <input type="text" id="dtpick2" name="to_date" value="{{date('d-M-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="tx-black tx-13">Payee Name</label>
+            <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="tx-black tx-13">Amount</label>
+            <input type="text" name="amount" value="{{$amount}}" class="form-control"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="tx-black tx-13">Memo</label>
+            <input type="text" name="memo" value="{{$memo}}" class="form-control"/>
+          </div>
+
+          <div class="col-md-2" style="margin-top:28px">
+            <input type="submit" class="btn btn-primary pointer" value="Search"/>
+          </div>
+          
+        </div>
+      </form>
+
+      <style>
+        table {
+          border-collapse: collapse;
+        }
+        th, td {
+          border: 1px solid black;
+          font-family:arial;
+          font-size:13px;
+          padding:5px;
+        }
+        .no-border{border:none;}
+      </style>
+
+      <div id="printArea" class="table-responsive" style="color:black; margin-top:-20px;">
+        <div class="div-padding-30">
+          @include('reports.exports.voucher_table',$vouchers)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function printElem(){
+      var mywindow = window.open('', 'PRINT');
+      mywindow.document.write('<style>table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .no-border{border:none;}</style>');
+      mywindow.document.write(document.getElementById('printArea').innerHTML);
+
+      setTimeout(function () {
+          mywindow.focus();
+          mywindow.print();
+          mywindow.close();
+
+          //window.location = "/mr"
+      }, 1000);
+    }
+  </script>
+
+@endsection

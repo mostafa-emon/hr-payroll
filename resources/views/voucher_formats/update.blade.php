@@ -76,7 +76,7 @@
 
   <div style="margin-top:-11px;" class="br-pagebody">
 
-    <div style="margin-bottom:10px;" class="pd-t-10 pd-b-10 text-right">
+    <div style="margin-bottom:10px;" class="pd-t-15 pd-b-10 text-right">
       <a class="btn btn-info pointer text-white" onclick="PrintElem()">Print Preview</a>
     </div>
         

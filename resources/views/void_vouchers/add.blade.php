@@ -26,7 +26,7 @@
         </div>
       @endif
 
-      <form action="{{ url('tr-void-voucher-add') }}" method="POST">
+    <form action="{{ url('tr-void-voucher-add') }}" method="POST">
         {{ csrf_field() }}
       <div class="row mg-b-30 b">
         <div class="col-md-2">
@@ -43,12 +43,12 @@
 
         <div class="col-md-2">
           <label class="tx-black tx-13">From Date</label>
-          <input type="text" id="dtpick1" name="from_date" value="" class="form-control" autocomplete="off"/>
+          <input type="text" id="dtpick1" name="from_date" value="{{$from_date}}" class="form-control" autocomplete="off"/>
         </div>
 
         <div class="col-md-2">
           <label class="tx-black tx-13">To Date</label>
-          <input type="text" id="dtpick2" name="to_date" value="" class="form-control" autocomplete="off"/>
+          <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
         </div>
 
         <div class="col-md-2">
@@ -71,7 +71,7 @@
         </div>
         
       </div>
-      </form>
+    </form>
 
       {{--@if(count($data) != 0)--}}
       <div class="bd bd-gray-300 rounded table-responsive">
@@ -99,7 +99,7 @@
                 <td>{{ $voucher->memo }}</td>
                 <td>{{ $voucher->total_credit }}</td>
                 <td>
-                    <a class="btn btn-info btn-sm" href="{{url ('voucher-void/'.$voucher->id) }}"> Void </a>
+                    <a class="btn btn-info btn-sm" href="{{url ('make-void/'.$voucher->id) }}"> Void </a>
                 </td>
               </tr>
               @endforeach

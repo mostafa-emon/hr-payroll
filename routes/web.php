@@ -171,7 +171,7 @@ Route::get('/tr-bank-receipt-voucher', 'VoucherController@bank_receipt');
 Route::get('/tr-void-voucher', 'LocalVoucherController@void_voucher');
 Route::get('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
 Route::post('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
-Route::get('/make-void/{id}', 'LocalVoucherController@make_void');
+Route::get('/make-void/{voucher_id}', 'LocalVoucherController@make_void');
 
 Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
 Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
@@ -184,6 +184,9 @@ Route::get('/create-mr', 'MRController@create_mr');
 Route::get('/create-cheque', 'MRController@create_cheque');
 
 Route::get('/issued-voucher', 'MRController@issued_voucher');
+Route::post('/issued-voucher', 'MRController@issued_voucher');
+
 Route::get('/void-voucher', 'MRController@void_voucher');
+Route::post('/void-voucher', 'MRController@void_voucher');
 
 Route::post('/voucher/add', 'LocalVoucherController@add_voucher');
