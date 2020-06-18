@@ -16,6 +16,7 @@
   <form action="{{ url('voucher/add') }}" method="POST">
     {{ csrf_field() }}
     <input type="hidden" name="type" value="{{$voucher_type}}"/>
+    <input type="hidden" name="trx_type" value="{{$voucher_trx_type}}"/>
     <div class="br-pagebody">
       <div class="br-section-wrapper">
         <div class="form-layout form-layout-2">

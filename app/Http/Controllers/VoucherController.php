@@ -18,7 +18,7 @@ class VoucherController extends Controller
 
     public function cash_payment(Request $request){
         if($request->from_date != "" && $request->to_date != "") {
-            $type = $request->type;
+            $type = $request->trx_type;
             $payee_name = $request->payee_name;
             $amount = $request->amount;
             $memo = $request->memo;
@@ -234,9 +234,6 @@ class VoucherController extends Controller
         return view('vouchers.bank_receipt');
     }
 
-    public function void_voucher(){
-        return view('vouchers.void');
-    }
 
     public function contra_voucher(){
         return view('vouchers.contra');
@@ -250,7 +247,7 @@ class VoucherController extends Controller
         if($voucher_type == "Cash-Payment-Voucher") {
             $data = $this->cash_payment_voucher_print($api_type,$id);
             $voucher_formats = VoucherFormat::select('id','title')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
-            return view('vouchers.print_preview',compact('data','voucher_type','voucher_formats'));
+            return view('vouchers.print_preview',compact('data','voucher_type','type','voucher_formats'));
         }
     }
 

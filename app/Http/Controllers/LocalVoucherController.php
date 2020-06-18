@@ -17,6 +17,7 @@ class LocalVoucherController extends Controller
         $voucher = new Voucher();
         $voucher->type          = $request->type;
         $voucher->company_id    = Auth::user()->company_id;
+        $voucher->trx_type      = $request->trx_type;
         $voucher->voucher_no    = $request->voucher_no;
         $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
         $voucher->payee_name    = $request->payee_name;
@@ -71,4 +72,8 @@ class LocalVoucherController extends Controller
         return view('local_vouchers.print',compact('settings','company','layout','voucher','voucher_details'));
     }
 
+    public function void_voucher(){
+        $voucher = Voucher::where('status',0)->get();
+        return view('vouchers.void_voucher', ['vouchers' => $voucher]);
+    }
 }

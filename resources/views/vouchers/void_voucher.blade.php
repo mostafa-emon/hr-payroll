@@ -44,21 +44,21 @@
             </tr>
           </thead>
           <tbody>
-            {{--@foreach($printers as $printer)
+            @foreach($vouchers as $voucher)
               <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>
-                <td>{{ $printer->print_name }}</td>
-                <td class="text-center">{{ $printer->top }}</td>
-                <td class="text-center">{{ $printer->left }}</td>
-                <td class="text-center">{{ $printer->rotate }}</td>
+                <td>{{ $voucher->voucher_no }}</td>
+                <td class="text-center">{{ $voucher->voucher_date }}</td>
+                <td class="text-center">{{ $voucher->left }}</td>
+                <td class="text-center">{{ $voucher->rotate }}</td>
                 @if(roles() != "" && in_array(51, json_decode(roles(),false)))
                   <td class="text-center">
-                    <a class="btn btn-info btn-sm" href="{{url ('printer/update/'.$printer->id) }}"><i class= "fa fa-edit"></i> Update </a>
+                    <a class="btn btn-info btn-sm" href="{{url ('voucher/update/'.$voucher->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                 @endif
                 @if(roles() != "" && in_array(52, json_decode(roles(),false)))
                   <td class="text-center">
-                    <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$printer->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
+                    <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$voucher->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   </td>
                 @endif
               </tr>
@@ -73,7 +73,7 @@
     function confirmDelete(id){
       var result = confirm("Are you confirm to delete?");
       if (result) {
-          window.location = 'printer/delete/'+id
+          window.location = 'voucher/delete/'+id
       }
     }
   </script>

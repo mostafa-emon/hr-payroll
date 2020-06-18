@@ -31,7 +31,7 @@
       <div class="row mg-b-30 b">
         <div class="col-md-2">
           <label class="tx-black tx-13">Type</label>
-          <select class="form-control" name="type">
+          <select class="form-control" name="trx_type">
               <option value="all" @if($type == 'all') selected @endif>All</option>
               <option value="expense" @if($type == 'expense') selected @endif>Expense</option>
               <option value="pay_bills" @if($type == 'pay_bills') selected @endif>Pay Bills</option>
