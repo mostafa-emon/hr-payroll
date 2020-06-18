@@ -122,8 +122,7 @@ class LocalVoucherController extends Controller
                 $memo = $request->memo;
                 $vouchers = $vouchers->where('memo','LIKE', '%'.$request->memo.'%');
             }
-
-            $vouchers = $vouchers->get();
+            $vouchers = $vouchers->where('status',1)->get();
         }
         
         return view('void_vouchers.add', compact('vouchers','amount','from_date','to_date','payee_name','memo'));

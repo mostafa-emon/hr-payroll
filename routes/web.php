@@ -110,15 +110,22 @@ Route::post('/issued-mr', 'ReportController@issued_mr');
 Route::get('/void-mr', 'ReportController@void_mr');
 Route::post('/void-mr', 'ReportController@void_mr');
 
-Route::get('/export-issued-mr', 'ReportController@export_issued_mr');
-Route::get('/export-void-mr', 'ReportController@export_void_mr');
-Route::get('/export-issued-cheque', 'ReportController@export_issued_cheque');
-Route::get('/export-void-cheque', 'ReportController@export_void_cheque');
-
 Route::get('/issued-cheque', 'ReportController@issued_cheque');
 Route::post('/issued-cheque', 'ReportController@issued_cheque');
 Route::get('/void-cheque', 'ReportController@void_cheque');
 Route::post('/void-cheque', 'ReportController@void_cheque');
+
+Route::get('/issued-voucher', 'ReportController@issued_voucher');
+Route::post('/issued-voucher', 'ReportController@issued_voucher');
+Route::get('/void-voucher', 'ReportController@void_voucher');
+Route::post('/void-voucher', 'ReportController@void_voucher');
+
+Route::get('/export-issued-voucher', 'ReportController@export_issued_voucher');
+Route::get('/export-void-voucher', 'ReportController@export_void_voucher');
+Route::get('/export-issued-mr', 'ReportController@export_issued_mr');
+Route::get('/export-void-mr', 'ReportController@export_void_mr');
+Route::get('/export-issued-cheque', 'ReportController@export_issued_cheque');
+Route::get('/export-void-cheque', 'ReportController@export_void_cheque');
 
 Route::get('/approve-cheque/{cheque_id}', 'ChequeTransactionController@approve');
 Route::get('/reject-cheque/{cheque_id}', 'ChequeTransactionController@reject');
@@ -182,11 +189,5 @@ Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVouch
 
 Route::get('/create-mr', 'MRController@create_mr');
 Route::get('/create-cheque', 'MRController@create_cheque');
-
-Route::get('/issued-voucher', 'MRController@issued_voucher');
-Route::post('/issued-voucher', 'MRController@issued_voucher');
-
-Route::get('/void-voucher', 'MRController@void_voucher');
-Route::post('/void-voucher', 'MRController@void_voucher');
 
 Route::post('/voucher/add', 'LocalVoucherController@add_voucher');

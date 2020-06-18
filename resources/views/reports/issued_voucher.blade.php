@@ -19,7 +19,7 @@
     <div class="br-section-wrapper">
 
       <div class="text-right mg-b-15">
-        <a class="btn btn-info btn-sm pointer" id="excelButton" href="">Excel</a>
+        <a class="btn btn-info btn-sm pointer" href="{{url('export-issued-voucher?voucher_type='.$voucher_type.'&from_date='.$from_date.'&to_date='.$to_date.'&payee_name='.$payee_name.'&amount='.$amount.'&memo='.$memo)}}">Excel</a>
         <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
       </div>
       
@@ -29,12 +29,13 @@
           <div class="col-md-2">
             <label class="tx-black tx-13">Voucher Type</label>
             <select class="form-control" name="voucher_type">
-              <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
-              <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
-              <option value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
-              <option value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
-              <option value="Contra-Voucher">Contra Voucher</option>
-              <option value="Journal-Voucher">Journal Voucher</option>
+              <option value="" selected>Select Type</option>
+              <option value="Cash-Payment-Voucher" @if($voucher_type == "Cash-Payment-Voucher") selected @endif>Cash Payment Voucher</option>
+              <option value="Bank-Payment-Voucher" @if($voucher_type == "Bank-Payment-Voucher") selected @endif>Bank Payment Voucher</option>
+              <option value="Cash-Receipt-Voucher" @if($voucher_type == "Cash-Receipt-Voucher") selected @endif>Cash Receipt Voucher</option>
+              <option value="Bank-Receipt-Voucher" @if($voucher_type == "Bank-Receipt-Voucher") selected @endif>Bank Receipt Voucher</option>
+              <option value="Contra-Voucher" @if($voucher_type == "Contra-Voucher") selected @endif>Contra Voucher</option>
+              <option value="Journal-Voucher" @if($voucher_type == "Journal-Voucher") selected @endif>Journal Voucher</option>
             </select>
           </div>
 
@@ -85,7 +86,7 @@
 
       <div id="printArea" class="table-responsive" style="color:black; margin-top:-20px;">
         <div class="div-padding-30">
-          @include('reports.exports.voucher_table',$vouchers)
+          @include('reports.exports.issued_voucher_table',$vouchers)
         </div>
       </div>
     </div>

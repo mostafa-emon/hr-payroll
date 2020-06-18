@@ -14,8 +14,11 @@ use App\ChequeBook;
 use App\Supplier;
 use App\Audit;
 use App\Company;
+use App\Voucher;
 use Excel;
 use Auth;
+use App\Exports\VoucherExportView;
+use App\Exports\VoucherVoidExportView;
 use App\Exports\MRExportView;
 use App\Exports\MRVoidExportView;
 use App\Exports\ChequeExportView;
@@ -272,6 +275,95 @@ class ReportController extends Controller
 
     public function export_void_cheque(){
         return Excel::download(new ChequeVoidExportView(), 'Void Cheque.xlsx');
+    }
+
+    public function issued_voucher(Request $request){
+        $vouchers = [];
+        $voucher_type = "";
+        $amount = "";
+        $from_date = date('Y-m-01');
+        $to_date = date('Y-m-d');
+
+        if($request->from_date != "") {$from_date = date('Y-m-d',strtotime($request->from_date));}
+        if($request->to_date != "") {$to_date = date('Y-m-d',strtotime($request->to_date));}
+
+        $payee_name = "";
+        $memo = "";
+        $vouchers = Voucher::whereBetween('voucher_date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
+
+        if($request->voucher_type != "") {
+            $voucher_type = $request->voucher_type;
+            $vouchers = $vouchers->where('type',$request->voucher_type);
+        }
+        if($request->payee_name != ""){
+            $payee_name = $request->payee_name;
+            $vouchers = $vouchers->where('payee_name',$request->payee_name);
+        }
+
+        if($request->amount != ""){
+            $amount = $request->amount;
+            $vouchers = $vouchers->where('total_credit',$request->amount);
+        }
+
+        if($request->memo != ""){
+            $memo = $request->memo;
+            $vouchers = $vouchers->where('memo','LIKE', '%'.$request->memo.'%');
+        }
+
+        $vouchers = $vouchers->where('company_id', Auth::user()->company_id)->where('status',1)->get();
+        
+        $setting        = Setting::where('company_id', Auth::user()->company_id)->first();
+        $company        = Company::where('id', Auth::user()->company_id)->first();
+        return view('reports.issued_voucher', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','memo','setting','company'));
+    }
+
+    public function export_issued_voucher(){
+        return Excel::download(new VoucherExportView(), 'Issued Vouchers.xlsx');
+    }
+
+    public function void_voucher(Request $request){
+        $vouchers = [];
+        $voucher_type = "";
+        $amount = "";
+        $from_date = date('Y-m-01');
+        $to_date = date('Y-m-d');
+
+        if($request->from_date != "") {$from_date = date('Y-m-d',strtotime($request->from_date));}
+        if($request->to_date != "") {$to_date = date('Y-m-d',strtotime($request->to_date));}
+
+        $payee_name = "";
+        $memo = "";
+
+        $vouchers = Voucher::whereBetween('voucher_date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
+
+        if($request->voucher_type != "") {
+            $voucher_type = $request->voucher_type;
+            $vouchers = $vouchers->where('type',$request->voucher_type);
+        }
+        if($request->payee_name != ""){
+            $payee_name = $request->payee_name;
+            $vouchers = $vouchers->where('payee_name',$request->payee_name);
+        }
+
+        if($request->amount != ""){
+            $amount = $request->amount;
+            $vouchers = $vouchers->where('total_credit',$request->amount);
+        }
+
+        if($request->memo != ""){
+            $memo = $request->memo;
+            $vouchers = $vouchers->where('memo','LIKE', '%'.$request->memo.'%');
+        }
+
+        $vouchers = $vouchers->where('company_id', Auth::user()->company_id)->where('status',0)->get();
+        
+        $setting        = Setting::where('company_id', Auth::user()->company_id)->first();
+        $company        = Company::where('id', Auth::user()->company_id)->first();
+        return view('reports.void_voucher', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','memo','setting','company'));
+    }
+
+    public function export_void_voucher(){
+        return Excel::download(new VoucherVoidExportView(), 'Void Vouchers.xlsx');
     }
 
     public function audits(Request $request){
