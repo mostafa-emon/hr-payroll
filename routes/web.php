@@ -167,7 +167,12 @@ Route::post('/tr-cash-payment-voucher', 'VoucherController@cash_payment');
 Route::get('/tr-bank-payment-voucher', 'VoucherController@bank_payment');
 Route::get('/tr-cash-receipt-voucher', 'VoucherController@cash_receipt');
 Route::get('/tr-bank-receipt-voucher', 'VoucherController@bank_receipt');
+
 Route::get('/tr-void-voucher', 'LocalVoucherController@void_voucher');
+Route::get('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
+Route::post('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
+Route::get('/make-void/{id}', 'LocalVoucherController@make_void');
+
 Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
 Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
 

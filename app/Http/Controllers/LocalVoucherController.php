@@ -79,7 +79,50 @@ class LocalVoucherController extends Controller
     }
 
     public function void_voucher(){
-        $voucher = Voucher::where('status',0)->get();
-        return view('vouchers.void_voucher', ['vouchers' => $voucher]);
+        $voucher = Voucher::where('status',0)->where('company_id',Auth::user()->company_id)->get();
+        return view('void_vouchers.index', ['vouchers' => $voucher]);
+    }
+
+    public function add_void_voucher(Request $request){
+        $vouchers = [];
+        $amount = "";
+        $from_date = "";
+        $to_date = "";
+        $payee_name = "";
+        $memo = "";
+        if($request->voucher_type != ""){
+            $vouchers = Voucher::where('type',$request->voucher_type);
+
+            if($request->from_date != "" && $request->to_date != ""){
+                $from_date = $request->from_date;
+                $to_date = $request->to_date;
+                $vouchers = $vouchers->whereBetween('voucher_date', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
+            }
+
+            if($request->payee_name != ""){
+                $payee_name = $request->payee_name;
+                $vouchers = $vouchers->where('payee_name',$request->payee_name);
+            }
+
+            if($request->amount != ""){
+                $amount = $request->amount;
+                $vouchers = $vouchers->where('total_credit',$request->amount);
+            }
+
+            if($request->memo != ""){
+                $memo = $request->memo;
+                $vouchers = $vouchers->where('memo','LIKE', '%'.$request->memo.'%');
+            }
+
+            $vouchers = $vouchers->get();
+        }
+        
+        return view('void_vouchers.add', compact('vouchers','amount','from_date','to_date','payee_name','memo'));
+    }
+
+    public function make_void($voucher_id)
+    {
+        Voucher::where('id',$voucher_id)->update(['status' => 0]);
+        return redirect('tr-void-voucher-add')->with('message', 'Void Added Successfully!');
     }
 }
