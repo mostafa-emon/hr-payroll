@@ -33,7 +33,7 @@
           <label class="tx-black tx-13">Voucher Type</label>
           <select class="form-control" name="voucher_type">
             <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
-            <option value="Cash-Payment-Voucher">Bank Payment Voucher</option>
+            <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
             <option value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
             <option value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
             <option value="Contra-Voucher">Contra Voucher</option>
