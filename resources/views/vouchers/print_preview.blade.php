@@ -165,7 +165,8 @@
             <input type="hidden" id="amount_in_word" name="amount_in_word"/>
             <input type="hidden" id="currency_full_name" value="{{$currency->full_name}}"/>
             <input type="hidden" id="currency_fraction_name" value="{{$currency->fraction_name}}"/>
-
+            
+            <input type="hidden" name="memo" value="{{$data['memo']}}"/>
             <div class="col-md-9">
               <div class="form-group mg-md-l--1">
                 <a onclick="calculateAmountInWord()" class="btn btn-success pointer" style="width:100px;color:white;">Print</a>

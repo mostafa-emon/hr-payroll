@@ -29,6 +29,7 @@ class LocalVoucherController extends Controller
         $voucher->total_debit   = $request->total_debit;
         $voucher->total_credit  = $request->total_credit;
         $voucher->amount_in_word= $request->amount_in_word;
+        $voucher->memo          = $request->memo;
 
         $voucher->save();
 

@@ -27,6 +27,7 @@ class CreateVouchersTable extends Migration
             $table->string('cheque_no')->nullable();
             $table->date('cheque_date')->nullable();
             $table->string('location')->nullable();
+            $table->string('memo')->nullable();
             $table->double('total_debit')->nullable();
             $table->double('total_credit')->nullable();
             $table->text('amount_in_word')->nullable();

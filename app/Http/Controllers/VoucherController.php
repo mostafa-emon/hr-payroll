@@ -309,6 +309,7 @@ class VoucherController extends Controller
             }else{
                 $data['location'] = "";
             }
+            $data['memo'] = $results['Purchase']['PrivateNote'];
 
             $data['transactions'] = [];
             $count_debits = count($results['Purchase']['Line']) - 1;
@@ -397,6 +398,7 @@ class VoucherController extends Controller
             $data['cheque_no'] = "";
             $data['cheque_date'] = "";
             $data['location'] = "";
+            $data['memo'] = $results['BillPayment']['PrivateNote'];
 
             $bill_id = $results['BillPayment']['Line'][0]['LinkedTxn'][0]['TxnId'];
             $curl = curl_init();
