@@ -13,8 +13,17 @@ use Auth;
 class LocalVoucherController extends Controller
 {
     public function add_voucher(Request $request){
-
+        if($request->print_status == "printed") {
+            $voucher = Voucher::where('type',$request->type)
+                        ->where('api_type',$request->api_type)
+                        ->where('document_id',$request->document_id)
+                        ->where('company_id',Auth::user()->company_id)
+                        ->first();
+            Voucher::where('id',$voucher->id)->delete();
+            VoucherDetail::where('voucher_id',$voucher->id)->delete();
+        }
         $voucher = new Voucher();
+        $voucher->document_id   = $request->document_id;
         $voucher->type          = $request->type;
         $voucher->api_type      = $request->api_type;
         $voucher->company_id    = Auth::user()->company_id;
@@ -37,13 +46,13 @@ class LocalVoucherController extends Controller
         $details_count = count($request->account_code_name) - 1;
         for($i = 0; $i <= $details_count; $i++) {
             $details[$i]['account_code_name'] = $request->account_code_name[$i];
-            $details[$i]['memo'] = $request->memo[$i];
+            $details[$i]['memo'] = $request->memoDetails[$i];
             $details[$i]['customer_job_project_name'] = $request->customer_job_project_name[$i];
             $details[$i]['class'] = $request->class[$i];
             $details[$i]['debit'] = $request->debit[$i];
             $details[$i]['credit'] = $request->credit[$i];
         }
-
+        
         foreach($details as $detail){
             $voucher_detail = new VoucherDetail();
             $voucher_detail->voucher_id                 = $voucher->id;

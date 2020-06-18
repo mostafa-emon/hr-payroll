@@ -162,8 +162,8 @@ Route::get('/signatory/delete/{signatory_id}', 'SignatoryController@delete');
 Route::get('/signatory/update/{signatory_id}', 'SignatoryController@update');
 Route::post('/signatory/update/{signatory_id}', 'SignatoryController@update');
 
-Route::get('/tr-cash-payment-voucher', 'VoucherController@cash_payment');
-Route::post('/tr-cash-payment-voucher', 'VoucherController@cash_payment');
+Route::get('/tr-cash-payment-voucher', 'CashPaymentVoucherController@index');
+Route::post('/tr-cash-payment-voucher', 'CashPaymentVoucherController@index');
 Route::get('/tr-bank-payment-voucher', 'VoucherController@bank_payment');
 Route::get('/tr-cash-receipt-voucher', 'VoucherController@cash_receipt');
 Route::get('/tr-bank-receipt-voucher', 'VoucherController@bank_receipt');
@@ -171,7 +171,8 @@ Route::get('/tr-void-voucher', 'LocalVoucherController@void_voucher');
 Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
 Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
 
-Route::get('/voucher-preview/{voucher_type}/{api_type}/{id}', 'VoucherController@print');
+Route::get('/cpv-voucher-preview/{print_status}/{api_type}/{id}', 'CashPaymentVoucherController@preview');
+
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 
 Route::get('/create-mr', 'MRController@create_mr');
