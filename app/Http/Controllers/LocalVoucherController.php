@@ -18,7 +18,6 @@ class LocalVoucherController extends Controller
         $voucher->type          = $request->type;
         $voucher->api_type      = $request->api_type;
         $voucher->company_id    = Auth::user()->company_id;
-        $voucher->trx_type      = $request->trx_type;
         $voucher->voucher_no    = $request->voucher_no;
         $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
         $voucher->payee_name    = $request->payee_name;
@@ -26,6 +25,11 @@ class LocalVoucherController extends Controller
         $voucher->cheque_no     = $request->cheque_no;
         $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
         $voucher->location      = $request->location;
+
+        $voucher->total_debit   = $request->total_debit;
+        $voucher->total_credit  = $request->total_credit;
+        $voucher->amount_in_word= $request->amount_in_word;
+
         $voucher->save();
 
         $details = [];

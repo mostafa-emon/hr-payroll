@@ -13,7 +13,7 @@
     <h4 class="tx-gray-800 mg-b-5">Voucher Preview</h4>
   </div>
 
-  <form action="{{ url('voucher/add') }}" method="POST">
+  <form id="thisForm" action="{{ url('voucher/add') }}" method="POST">
     {{ csrf_field() }}
     <input type="hidden" name="type" value="{{$voucher_type}}"/>
     <input type="hidden" name="api_type" value="{{$api_type}}"/>
@@ -162,7 +162,10 @@
 
             <input type="hidden" name="total_debit" value="{{$total_debit}}"/>
             <input type="hidden" id="total_credit" name="total_credit" value="{{$total_credit}}"/>
-            <input type="text" id="amount_in_word" name="amount_in_word"/>
+            <input type="hidden" id="amount_in_word" name="amount_in_word"/>
+            <input type="hidden" id="currency_full_name" value="{{$currency->full_name}}"/>
+            <input type="hidden" id="currency_fraction_name" value="{{$currency->fraction_name}}"/>
+
             <div class="col-md-9">
               <div class="form-group mg-md-l--1">
                 <a onclick="calculateAmountInWord()" class="btn btn-success pointer" style="width:100px;color:white;">Print</a>
@@ -406,5 +409,6 @@
         $('#amount_in_word').val(fullString);
 
       }
+      document.getElementById("thisForm").submit();
     }
 </script>

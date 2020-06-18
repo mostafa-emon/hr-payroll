@@ -79,12 +79,7 @@
                 </thead>
 
                 <tbody>
-                    @php $total_debit = 0; $total_credit = 0; @endphp
                     @foreach($voucher_details as $detail)
-                        @php 
-                            $total_debit = $total_debit + $detail->debit;
-                            $total_credit = $total_credit + $detail->credit;
-                        @endphp
                         <tr>
                             <td class="account_code" style="border-top:1px solid black; border-left:1px solid black;">{{$detail->account_code_name}}</td>
                             <td style="border-top:1px solid black; border-left:1px solid black;">{{$detail->memo}}</td>
@@ -99,12 +94,12 @@
 
                 <tfoot>
                   <th id="table_total" colspan="{{$colspan}}" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$total_debit}}</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$total_credit}}</th>
+                  <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$voucher->total_debit}}</th>
+                  <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$voucher->total_credit}}</th>
                 </tfoot>
               </table>
 
-              <div style="font-weight: bold;margin-top:5px">Amount in Word :</div>
+              <div style="font-weight: bold;margin-top:5px">Amount in Word : {{$voucher->amount_in_word}}</div>
             </div>
 
             <div id="signatory" style="position: absolute; top: {{$layout->signatory_top}}mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
@@ -133,11 +128,10 @@
 </div>
 
 <script>
-    /*
     var mywindow = window.open('', 'PRINT');
     mywindow.document.write('<style>td,th{padding:5px}</style>');
     mywindow.document.write(document.getElementById('printArea').innerHTML);
-    */
+    
     var redirect_to = '';
     var layout_type = '{{$layout->type}}';
     if(layout_type == "Cash-Payment-Voucher") {redirect_to = 'tr-cash-payment-voucher';}
@@ -147,124 +141,12 @@
     else if(layout_type == "Contra-Voucher") {redirect_to = 'tr-contra-voucher';}
     else if(layout_type == "Journal-Voucher") {redirect_to = 'tr-journal-voucher';}
 
-    var value = '500'
-    
-    if(value != ''){ 
-
-        var removeUnwanted = value.replace(/[^0-9.]/g, "")
-
-        var makeDecimal  = (Math.round(removeUnwanted * 100) / 100).toFixed(2);
-        var splitDecimal = makeDecimal.split(".");
-        var mainPart     = splitDecimal[0];
-        var decimalPart  = splitDecimal[1];
-
-        var amount = mainPart
-
-        var amount_in_word_format = '{{ $settings->amount_in_word_format }}';
-        
-        if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
-          
-          var words = new Array();
-          words[0] = '';
-          words[1] = 'One';
-          words[2] = 'Two';
-          words[3] = 'Three';
-          words[4] = 'Four';
-          words[5] = 'Five';
-          words[6] = 'Six';
-          words[7] = 'Seven';
-          words[8] = 'Eight';
-          words[9] = 'Nine';
-          words[10] = 'Ten';
-          words[11] = 'Eleven';
-          words[12] = 'Twelve';
-          words[13] = 'Thirteen';
-          words[14] = 'Fourteen';
-          words[15] = 'Fifteen';
-          words[16] = 'Sixteen';
-          words[17] = 'Seventeen';
-          words[18] = 'Eighteen';
-          words[19] = 'Nineteen';
-          words[20] = 'Twenty';
-          words[30] = 'Thirty';
-          words[40] = 'Forty';
-          words[50] = 'Fifty';
-          words[60] = 'Sixty';
-          words[70] = 'Seventy';
-          words[80] = 'Eighty';
-          words[90] = 'Ninety';
-          amount = amount.toString();
-          var atemp = amount.split(".");
-          var number = atemp[0].split(",").join("");
-          var n_length = number.length;
-          var words_string = "";
-          if (n_length <= 9) {
-              var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
-              var received_n_array = new Array();
-              for (var i = 0; i < n_length; i++) {
-                  received_n_array[i] = number.substr(i, 1);
-              }
-              for (var i = 9 - n_length, j = 0; i < 9; i++, j++) {
-                  n_array[i] = received_n_array[j];
-              }
-              for (var i = 0, j = 1; i < 9; i++, j++) {
-                  if (i == 0 || i == 2 || i == 4 || i == 7) {
-                      if (n_array[i] == 1) {
-                          n_array[j] = 10 + parseInt(n_array[j]);
-                          n_array[i] = 0;
-                      }
-                  }
-              }
-              value = "";
-              for (var i = 0; i < 9; i++) {
-                  if (i == 0 || i == 2 || i == 4 || i == 7) {
-                      value = n_array[i] * 10;
-                  } else {
-                      value = n_array[i];
-                  }
-                  if (value != 0) {
-                      words_string += words[value] + " ";
-                  }
-                  if ((i == 1 && value != 0) || (i == 0 && value != 0 && n_array[i + 1] == 0)) {
-                      words_string += "Crore ";
-                  }
-                  if ((i == 3 && value != 0) || (i == 2 && value != 0 && n_array[i + 1] == 0)) {
-                    if(amount_in_word_format == 'crore_lakh_thousand') {
-                      words_string += "Lakh ";
-                    }else if(amount_in_word_format == 'crore_lac_thousand') {
-                      words_string += "Lac ";
-                    } 
-                  }
-                  if ((i == 5 && value != 0) || (i == 4 && value != 0 && n_array[i + 1] == 0)) {
-                      words_string += "Thousand ";
-                  }
-                  if (i == 6 && value != 0 && (n_array[i + 1] != 0 && n_array[i + 2] != 0)) {
-                      words_string += "Hundred ";
-                  } else if (i == 6 && value != 0) {
-                      words_string += "Hundred ";
-                  }
-              }
-              words_string = words_string.split("  ").join(" ");
-          }
-        }
-        else if(amount_in_word_format == 'billion_million_thousand'){
-            var th = ['','thousand', 'million', 'billion', 'trillion'];
-            var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine'];
-            var tn=['ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
-            var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
-
-            var s = amount;
-            alert(amount_in_word_format);
-        }
-        alert(amount_in_word_format);
-    }
-    /*
     setTimeout(function () {
         mywindow.focus();
         mywindow.print();
         mywindow.close();
         window.location = '/'+redirect_to;
     }, 1000);
-    */
+    
 </script>
 @endsection
