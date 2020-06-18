@@ -19,6 +19,7 @@ class CreateCurrenciesTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('full_name',50);
             $table->string('fraction_name',10);
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
     }

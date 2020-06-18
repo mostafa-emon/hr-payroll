@@ -16,6 +16,7 @@ class LocalVoucherController extends Controller
 
         $voucher = new Voucher();
         $voucher->type          = $request->type;
+        $voucher->api_type      = $request->api_type;
         $voucher->company_id    = Auth::user()->company_id;
         $voucher->trx_type      = $request->trx_type;
         $voucher->voucher_no    = $request->voucher_no;

@@ -21,17 +21,26 @@
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
                 <label class="form-control-label">Full Name: <span class="tx-danger">*</span></label>
               <input class="form-control" type="text" name="full_name" placeholder="Enter Full Name" value="{{$currencies->full_name}}">
               </div>
             </div>
 
-            <div class="col-md-6 mg-t--1 mg-md-t-0">
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Fraction Name: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="fraction_name" placeholder="Enter Fraction Name" value="{{$currencies->fraction_name}}">
+              </div>
+            </div>
+
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
+              <div class="form-group mg-md-l--1">
+                <label class="form-control-label">Default: </label>
+                <label class="ckbox pointer">
+                  <input type="checkbox" name="default" value="1" @if($currencies->default == 1) checked @endif><span>Make Default</span>
+                </label>
               </div>
             </div>
 

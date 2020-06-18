@@ -8,6 +8,7 @@ use App\Setting;
 use Auth;
 use App\VoucherFormat;
 use App\Voucher;
+use App\Currency;
 
 class VoucherController extends Controller
 {
@@ -247,7 +248,9 @@ class VoucherController extends Controller
         if($voucher_type == "Cash-Payment-Voucher") {
             $data = $this->cash_payment_voucher_print($api_type,$id);
             $voucher_formats = VoucherFormat::select('id','title')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
-            return view('vouchers.print_preview',compact('data','voucher_type','type','voucher_formats'));
+            $settings = Setting::where('company_id',Auth::user()->company_id)->first();
+            $currency = Currency::where('company_id',Auth::user()->company_id)->first();
+            return view('vouchers.print_preview',compact('settings','data','voucher_type','api_type','voucher_formats'));
         }
     }
 

@@ -37,6 +37,7 @@
               <th>Sl</th>
               <th>Full Name</th>
               <th>Fraction Name</th>
+              <th class="text-center">Default</th>
               @if(roles() != "" && in_array(12, json_decode(roles(),false)))
               <th>Update</th>
               @endif
@@ -52,6 +53,11 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $currency->full_name }}</td>
                 <td>{{ $currency->fraction_name }}</td>
+                <td class="text-center">
+                  @if($currency->default == 1)
+                    <span class="badge badge-success">Default</span>
+                  @endif
+                </td>
                 @if(roles() != "" && in_array(12, json_decode(roles(),false)))
                   <td>
                   <a class="btn btn-info btn-sm" href="{{url ('currency/update/'.$currency->id) }}"><i class= "fa fa-edit"></i> Update </a>

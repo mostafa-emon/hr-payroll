@@ -31,6 +31,11 @@ class ConfigurationController extends Controller
             $currency->company_id       = Auth::user()->company_id;
             $currency->full_name        = $request->full_name;
             $currency->fraction_name    = $request->fraction_name;
+
+            if($request->default == 1) {
+                $currency->default      = 1;
+            }else { $currency->default  = 0; }
+
             $currency->save();
             return redirect('currency')->with('message', 'Currency added successfully!');
         }
@@ -54,6 +59,9 @@ class ConfigurationController extends Controller
             $currency = Currency::where('id',$currency_id)->first();
             $currency->full_name        = $request->full_name;
             $currency->fraction_name    = $request->fraction_name;
+            if($request->default == 1) {
+                $currency->default      = 1;
+            }else { $currency->default  = 0; }
             $currency->save();
             return redirect('currency')->with('message', 'Currency updated successfully!');
         }
