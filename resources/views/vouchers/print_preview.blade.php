@@ -13,12 +13,24 @@
     <h4 class="tx-gray-800 mg-b-5">Voucher Preview</h4>
   </div>
 
+  @if (count($errors) > 0)
+    <div class = "alert alert-danger">
+        <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+    </div>
+  @endif
+
   <form id="thisForm" action="{{ url('voucher/add') }}" method="POST">
     {{ csrf_field() }}
     <input type="hidden" name="type" value="{{$voucher_type}}"/>
     <input type="hidden" name="api_type" value="{{$api_type}}"/>
     <input type="hidden" name="document_id" value="{{$data['id']}}"/>
     <input type="hidden" name="print_status" value="{{$print_status}}"/>
+    <input type="hidden" name="prefix" value="{{$data['prefix']}}"/>
+    <input type="hidden" name="suffix" value="{{$data['suffix']}}"/>
 
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -28,35 +40,35 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="form-control-label">Voucher No: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="voucher_no" placeholder="Enter Voucher No" @if($data['voucher_no'] != "") value="{{$data['voucher_no']}}" @endif>
+                <input class="form-control" type="text" name="voucher_no" placeholder="Enter Voucher No" @if($data['voucher_no'] != "") value="{{$data['voucher_no']}}" readonly @endif required/>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Voucher Date: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="voucher_date" placeholder="Enter Voucher Date" @if($data['voucher_date'] != "") value="{{ date('d-m-Y',strtotime($data['voucher_date']))}}" @endif>
+                <input class="form-control" type="text" name="voucher_date" placeholder="Enter Voucher Date" @if($data['voucher_date'] != "") value="{{ date('d-m-Y',strtotime($data['voucher_date']))}}" @endif readonly>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">QB Ref No:</label>
-                <input class="form-control" type="text" name="reference_no" placeholder="Enter Reference No" @if($data['reference_no'] != "") value="{{$data['reference_no']}}" @endif>
+                <input class="form-control" type="text" name="reference_no" placeholder="Enter Reference No" @if($data['reference_no'] != "") value="{{$data['reference_no']}}" @endif readonly>
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Payee Name:</label>
-                <input class="form-control" type="text" name="payee_name" placeholder="Enter Payee Name" @if($data['payee_name'] != "") value="{{$data['payee_name']}}" @endif>
+                <input class="form-control" type="text" name="payee_name" placeholder="Enter Payee Name" @if($data['payee_name'] != "") value="{{$data['payee_name']}}" @endif readonly>
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Received From:</label>
-                <input class="form-control" type="text" name="received_from" placeholder="Enter Received From" @if($data['received_from'] != "") value="{{$data['received_from']}}" @endif>
+                <input class="form-control" type="text" name="received_from" placeholder="Enter Received From" @if($data['received_from'] != "") value="{{$data['received_from']}}" @endif readonly>
               </div>
             </div>
 
@@ -70,14 +82,14 @@
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                     <label class="form-control-label">Cheque Date:</label>
-                    <input class="form-control" type="text" id="cheque_date" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif>
+                    <input class="form-control" type="text" id="dtpick1" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif>
                 </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Location:</label>
-                <input class="form-control" type="text" name="location" placeholder="Enter Location" @if($data['location'] != "") value="{{$data['location']}}" @endif>
+                <input class="form-control" type="text" name="location" placeholder="Enter Location" @if($data['location'] != "") value="{{$data['location']}}" @endif readonly>
               </div>
             </div>
           </div>
@@ -115,8 +127,7 @@
                   <input type="hidden" name="account_code_name[]" value="{{$row['account_code_name']}}"/>
                 </td>
                 <td>
-                  {{$row['memo']}}
-                  <input type="hidden" name="memoDetails[]" value="{{$row['memo']}}"/>
+                  <input type="text" name="memoDetails[]" value="{{$row['memo']}}"/>
                 </td>
                 <td>
                   {{$row['customer_job_project_name']}}

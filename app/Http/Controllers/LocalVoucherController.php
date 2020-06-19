@@ -9,10 +9,15 @@ use App\VoucherFormat;
 use App\Company;
 use App\Setting;
 use Auth;
+use Validator;
 
 class LocalVoucherController extends Controller
 {
     public function add_voucher(Request $request){
+        $this->validate($request, [
+            'voucher_no' => 'required'
+        ]);
+    
         if($request->print_status == "printed") {
             $voucher = Voucher::where('type',$request->type)
                         ->where('api_type',$request->api_type)
@@ -28,6 +33,8 @@ class LocalVoucherController extends Controller
         $voucher->api_type      = $request->api_type;
         $voucher->company_id    = Auth::user()->company_id;
         $voucher->voucher_no    = $request->voucher_no;
+        $voucher->prefix        = $request->prefix;
+        $voucher->suffix        = $request->suffix;
         $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
         $voucher->payee_name    = $request->payee_name;
         $voucher->received_from = $request->received_from;

@@ -21,6 +21,8 @@ class CreateVouchersTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('api_type');
             $table->string('voucher_no')->nullable();
+            $table->string('prefix',20)->nullable();
+            $table->string('suffix',20)->nullable();
             $table->date('voucher_date');
             $table->string('reference_no')->nullable();
             $table->string('payee_name')->nullable();

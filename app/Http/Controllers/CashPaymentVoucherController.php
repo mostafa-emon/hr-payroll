@@ -57,7 +57,7 @@ class CashPaymentVoucherController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"SELECT * FROM Account WHERE AccountSubType = 'CashOnHand'",
+            CURLOPT_POSTFIELDS =>"SELECT * FROM Account",
             CURLOPT_HTTPHEADER => array(
                 "User-Agent: Token ".$token,
                 "Accept: application/json",
@@ -71,7 +71,6 @@ class CashPaymentVoucherController extends Controller
             curl_close($curl);
 
             $accounts = json_decode($response, true);
-            return response()->json($accounts);
             
             $resultCount = $accounts['QueryResponse']['maxResults'] - 1;
             if($resultCount > -1){
@@ -282,12 +281,20 @@ class CashPaymentVoucherController extends Controller
             if($settings->voucher_number == "auto"){
                 $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = 1;
+                    $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
                 }else{
-                    $data['voucher_no'] = $latest_voucher->voucher_no + 1;
+                    if($settings->cash_payment_voucher_prefix == $latest_voucher->prefix && $settings->cash_payment_voucher_suffix == $latest_voucher->suffix){
+                        $data['voucher_no'] = $latest_voucher->voucher_no + 1;
+                    }else{
+                        $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                    }
                 }
+                $data['prefix'] = $settings->cash_payment_voucher_prefix;
+                $data['suffix'] = $settings->cash_payment_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
+                $data['prefix'] = "";
+                $data['suffix'] = "";
             }
             $data['id'] = $results['Purchase']['Id'];
             $data['voucher_date'] = $results['Purchase']['TxnDate'];
@@ -379,12 +386,20 @@ class CashPaymentVoucherController extends Controller
             if($settings->voucher_number == "auto"){
                 $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = 1;
+                    $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
                 }else{
-                    $data['voucher_no'] = $latest_voucher->voucher_no + 1;
+                    if($settings->cash_payment_voucher_prefix == $latest_voucher->prefix && $settings->cash_payment_voucher_suffix == $latest_voucher->suffix){
+                        $data['voucher_no'] = $latest_voucher->voucher_no + 1;
+                    }else{
+                        $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                    }
                 }
+                $data['prefix'] = $settings->cash_payment_voucher_prefix;
+                $data['suffix'] = $settings->cash_payment_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
+                $data['prefix'] = "";
+                $data['suffix'] = "";
             }
             $data['id'] = $results['BillPayment']['Id'];
             $data['voucher_date'] = $results['BillPayment']['TxnDate'];

@@ -102,9 +102,7 @@
                 <td>
                   @php $is_printed = is_voucher_printed('Cash-Payment-Voucher',$dt['TxnType'],$dt['Id']); @endphp
                   @if($is_printed > 0)
-                    <span class="badge badge-danger">Printed</span>
-                  @else
-                    <span class="badge badge-primary">Not Printed</span>
+                    <span class="badge badge-success">Printed</span>
                   @endif
                 </td>
                 <td>
@@ -115,7 +113,7 @@
 
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
-                  <a href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>
+                  <a href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
                 </td>
               </tr>
               @endforeach

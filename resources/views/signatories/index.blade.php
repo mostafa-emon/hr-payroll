@@ -34,14 +34,16 @@
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th>Sl</th>
-              <th>Name</th>
+              <th class="wd-10p">Sl</th>
+              <th class="wd-10p">Name</th>
+              <th class="wd-50p text-center">Applied To</th>
+
               @if(roles() != "" && in_array(12, json_decode(roles(),false)))
-              <th>Update</th>
+              <th class="wd-15p text-center">Update</th>
               @endif
 
               @if(roles() != "" && in_array(13, json_decode(roles(),false)))
-              <th>Delete</th>
+              <th class="wd-15p text-center">Delete</th>
               @endif
             </tr>
           </thead>
@@ -50,14 +52,22 @@
               <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $signatory->name }}</td>
+                <td class="text-center">
+                  @if($signatory->cash_payment_voucher == 1) <span class="badge badge-secondary">Cash Payment Voucher</span>  @endif
+                  @if($signatory->bank_payment_voucher == 1) <span class="badge badge-secondary">Bank Payment Voucher</span> @endif 
+                  @if($signatory->cash_receipt_voucher == 1) <span class="badge badge-secondary">Cash Receipt Voucher</span> @endif
+                  @if($signatory->bank_receipt_voucher == 1) <span class="badge badge-secondary">Bank Receipt Voucher</span> @endif
+                  @if($signatory->contra_voucher == 1) <span class="badge badge-secondary">Contra Voucher</span> @endif
+                  @if($signatory->journal_voucher == 1) <span class="badge badge-secondary">Journal Voucher</span> @endif
+                </td>
 
                 @if(roles() != "" && in_array(12, json_decode(roles(),false)))
-                  <td>
+                  <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{url ('signatory/update/'.$signatory->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
+                  </td class="text-center">
                 @endif
                 @if(roles() != "" && in_array(13, json_decode(roles(),false)))
-                  <td>
+                  <td class="text-center">
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$signatory->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   </td>
                 @endif 
