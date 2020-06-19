@@ -79,30 +79,85 @@ class ConfigurationController extends Controller
 
         if($count == 0) {
             $setting = new Setting;
-            $setting->company_id                = Auth::user()->company_id;
-            $setting->voucher_number            = $request->voucher_number;
-            $setting->voucher_size              = $request->voucher_size;
-            $setting->voucher_prefix            = $request->voucher_prefix;
-            $setting->voucher_suffix            = $request->voucher_suffix;
+            $setting->company_id                            = Auth::user()->company_id;
+            $setting->voucher_number                        = $request->voucher_number;
+            $setting->voucher_size                          = $request->voucher_size;
+
+            $setting->cash_payment_voucher_prefix           = $request->cash_payment_voucher_prefix;
+            $setting->cash_payment_voucher_suffix           = $request->cash_payment_voucher_suffix;
+            $setting->cash_payment_voucher_start_from       = $request->cash_payment_voucher_start_from;
+
+            $setting->bank_payment_voucher_prefix           = $request->bank_payment_voucher_prefix;
+            $setting->bank_payment_voucher_suffix           = $request->bank_payment_voucher_suffix;
+            $setting->bank_payment_voucher_start_from       = $request->bank_payment_voucher_start_from;
+
+            $setting->cash_receipt_voucher_prefix           = $request->cash_receipt_voucher_prefix;
+            $setting->cash_receipt_voucher_suffix           = $request->cash_receipt_voucher_suffix;
+            $setting->cash_receipt_voucher_start_from       = $request->cash_receipt_voucher_start_from;
             
-            $setting->mr_number                 = $request->mr_number;
-            $setting->mr_size                   = $request->mr_size;
-            $setting->amount_in_word_format     = $request->amount_in_word_format;
-            $setting->approval_for_mr           = $request->approval_for_mr;
-            $setting->approval_for_cheque       = $request->approval_for_cheque;
+            $setting->bank_receipt_voucher_prefix           = $request->bank_receipt_voucher_prefix;
+            $setting->bank_receipt_voucher_suffix           = $request->bank_receipt_voucher_suffix;
+            $setting->bank_receipt_voucher_start_from       = $request->bank_receipt_voucher_start_from;
+
+            $setting->contra_voucher_prefix                 = $request->contra_voucher_prefix;
+            $setting->contra_voucher_suffix                 = $request->contra_voucher_suffix;
+            $setting->contra_voucher_start_from             = $request->contra_voucher_start_from;
+
+            $setting->journal_voucher_prefix                = $request->journal_voucher_prefix;
+            $setting->journal_voucher_suffix                = $request->journal_voucher_suffix;
+            $setting->journal_voucher_start_from            = $request->journal_voucher_start_from;
+
+            $setting->mr_number                             = $request->mr_number;
+
+            $setting->mr_prefix                             = $request->mr_prefix;
+            $setting->mr_suffix                             = $request->mr_suffix;
+            $setting->mr_start_from                         = $request->mr_start_from;
+
+            $setting->mr_size                               = $request->mr_size;
+
+            $setting->amount_in_word_format                 = $request->amount_in_word_format;
+            $setting->approval_for_mr                       = $request->approval_for_mr;
+            $setting->approval_for_cheque                   = $request->approval_for_cheque;
             $setting->save();
         }else{
             $setting = Setting::where('company_id', Auth::user()->company_id)->first();
-            $setting->voucher_number            = $request->voucher_number;
-            $setting->voucher_size              = $request->voucher_size;
-            $setting->voucher_prefix            = $request->voucher_prefix;
-            $setting->voucher_suffix            = $request->voucher_suffix;
+            $setting->voucher_number                        = $request->voucher_number;
+            $setting->voucher_size                          = $request->voucher_size;
 
-            $setting->mr_number                 = $request->mr_number;
-            $setting->mr_size                   = $request->mr_size;
-            $setting->amount_in_word_format     = $request->amount_in_word_format;
-            $setting->approval_for_mr           = $request->approval_for_mr;
-            $setting->approval_for_cheque       = $request->approval_for_cheque;
+            $setting->cash_payment_voucher_prefix           = $request->cash_payment_voucher_prefix;
+            $setting->cash_payment_voucher_suffix           = $request->cash_payment_voucher_suffix;
+            $setting->cash_payment_voucher_start_from       = $request->cash_payment_voucher_start_from;
+
+            $setting->bank_payment_voucher_prefix           = $request->bank_payment_voucher_prefix;
+            $setting->bank_payment_voucher_suffix           = $request->bank_payment_voucher_suffix;
+            $setting->bank_payment_voucher_start_from       = $request->bank_payment_voucher_start_from;
+
+            $setting->cash_receipt_voucher_prefix           = $request->cash_receipt_voucher_prefix;
+            $setting->cash_receipt_voucher_suffix           = $request->cash_receipt_voucher_suffix;
+            $setting->cash_receipt_voucher_start_from       = $request->cash_receipt_voucher_start_from;
+            
+            $setting->bank_receipt_voucher_prefix           = $request->bank_receipt_voucher_prefix;
+            $setting->bank_receipt_voucher_suffix           = $request->bank_receipt_voucher_suffix;
+            $setting->bank_receipt_voucher_start_from       = $request->bank_receipt_voucher_start_from;
+
+            $setting->contra_voucher_prefix                 = $request->contra_voucher_prefix;
+            $setting->contra_voucher_suffix                 = $request->contra_voucher_suffix;
+            $setting->contra_voucher_start_from             = $request->contra_voucher_start_from;
+
+            $setting->journal_voucher_prefix                = $request->journal_voucher_prefix;
+            $setting->journal_voucher_suffix                = $request->journal_voucher_suffix;
+            $setting->journal_voucher_start_from            = $request->journal_voucher_start_from;
+
+            $setting->mr_number                             = $request->mr_number;
+
+            $setting->mr_prefix                             = $request->mr_prefix;
+            $setting->mr_suffix                             = $request->mr_suffix;
+            $setting->mr_start_from                         = $request->mr_start_from;
+
+            $setting->mr_size                               = $request->mr_size;
+            $setting->amount_in_word_format                 = $request->amount_in_word_format;
+            $setting->approval_for_mr                       = $request->approval_for_mr;
+            $setting->approval_for_cheque                   = $request->approval_for_cheque;
             $setting->save();
         }
         return redirect('settings')->with('message','Settings updated successfully!');

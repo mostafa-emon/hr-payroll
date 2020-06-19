@@ -38,7 +38,7 @@
               <th>Sl</th>
               <th>Voucher Type</th>
               <th>TRX Date</th>
-              <th>REF NO.</th>
+              <th>QB REF NO.</th>
               <th>Payee Name</th>
               <th>Memo</th>
               <th>Total Amount</th>

@@ -27,8 +27,8 @@
         <div class="form-layout form-layout-4">
             <h6 class="mg-b-30 tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">SETTINGS</h6>
             <div class="row">
-                <label class="col-sm-4 form-control-label">Voucher Number:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">Voucher Number:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="voucher_number">
                         <option value="manual" @if(isset($settings) && $settings->voucher_number == "manual") selected @endif>Manual</option>
                         <option value="auto" @if(isset($settings) && $settings->voucher_number == "auto") selected @endif>Automatic</option>
@@ -37,21 +37,104 @@
             </div>
 
             <div class="row">
-                <label class="mg-t-20 col-sm-4 form-control-label">Voucher Number Format:</label>
-                <label class="mg-t-20 col-sm-1 form-control-label">Prefix:</label>
+                <label class="mg-t-20 col-sm-3 form-control-label">CPV Format:</label>
                 <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
-                  <input type="text" class="form-control" name="voucher_prefix" value="{{$settings->voucher_prefix}}"/>
+                  <input type="text" placeholder="Prefix" class="form-control" name="cash_payment_voucher_prefix" value="{{$settings->cash_payment_voucher_prefix}}"/>
                 </div>
 
-                <label class="col-sm-1 form-control-label mg-t-20">Suffix:</label>
                 <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
-                  <input type="text" class="form-control" name="voucher_suffix" value="{{$settings->voucher_suffix}}"/>
+                  <input type="text" placeholder="Suffix" class="form-control" name="cash_payment_voucher_suffix" value="{{$settings->cash_payment_voucher_suffix}}"/>
                 </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="cash_payment_voucher_start_from" value="{{$settings->cash_payment_voucher_start_from}}"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label class="mg-t-20 col-sm-3 form-control-label">BPV Format:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Prefix" class="form-control" name="bank_payment_voucher_prefix" value="{{$settings->bank_payment_voucher_prefix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Suffix" class="form-control" name="bank_payment_voucher_suffix" value="{{$settings->bank_payment_voucher_suffix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="bank_payment_voucher_start_from" value="{{$settings->bank_payment_voucher_start_from}}"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label class="mg-t-20 col-sm-3 form-control-label">CRV Format:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Prefix" class="form-control" name="cash_receipt_voucher_prefix" value="{{$settings->cash_receipt_voucher_prefix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Suffix" class="form-control" name="cash_receipt_voucher_suffix" value="{{$settings->cash_receipt_voucher_suffix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="cash_receipt_voucher_start_from" value="{{$settings->cash_receipt_voucher_start_from}}"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label class="mg-t-20 col-sm-3 form-control-label">BRV Format:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Prefix" class="form-control" name="bank_receipt_voucher_prefix" value="{{$settings->bank_receipt_voucher_prefix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Suffix" class="form-control" name="bank_receipt_voucher_suffix" value="{{$settings->bank_receipt_voucher_suffix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="bank_receipt_voucher_start_from" value="{{$settings->bank_receipt_voucher_start_from}}"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label class="mg-t-20 col-sm-3 form-control-label">CONV Format:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Prefix" class="form-control" name="contra_voucher_prefix" value="{{$settings->contra_voucher_prefix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Suffix" class="form-control" name="contra_voucher_suffix" value="{{$settings->contra_voucher_suffix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="contra_voucher_start_from" value="{{$settings->contra_voucher_start_from}}"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <label class="mg-t-20 col-sm-3 form-control-label">JV Format:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Prefix" class="form-control" name="journal_voucher_prefix" value="{{$settings->journal_voucher_prefix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Suffix" class="form-control" name="journal_voucher_suffix" value="{{$settings->journal_voucher_suffix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="journal_voucher_start_from" value="{{$settings->journal_voucher_start_from}}"/>
+                </div>
+
             </div>
 
             <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Voucher Size:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">Voucher Size:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="voucher_size">
                         <option value="full_page" @if(isset($settings) && $settings->voucher_size == "full_page") selected @endif>Full Page</option>
                         <option value="half_page" @if(isset($settings) && $settings->voucher_size == "half_page") selected @endif>Half Page</option>
@@ -60,8 +143,8 @@
             </div>
             
             <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">MR Number:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">MR Number:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="mr_number">
                         <option value="manual" @if(isset($settings) && $settings->mr_number == "manual") selected @endif>Manual</option>
                         <option value="auto" @if(isset($settings) && $settings->mr_number == "auto") selected @endif>Automatic</option>
@@ -69,9 +152,25 @@
                 </div>
             </div>
 
+            <div class="row">
+                <label class="mg-t-20 col-sm-3 form-control-label">MR Format:</label>
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Prefix" class="form-control" name="mr_prefix" value="{{$settings->mr_prefix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Suffix" class="form-control" name="mr_suffix" value="{{$settings->mr_suffix}}"/>
+                </div>
+
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
+                  <input type="text" placeholder="Start From" class="form-control" name="mr_start_from" value="{{$settings->mr_start_from}}"/>
+                </div>
+
+            </div>
+
             <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">MR Size:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">MR Size:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="mr_size">
                         <option value="full_page" @if(isset($settings) && $settings->mr_size == "full_page") selected @endif>Full Page</option>
                         <option value="half_page" @if(isset($settings) && $settings->mr_size == "half_page") selected @endif>Half Page</option>
@@ -80,8 +179,8 @@
             </div>
 
             <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Amount in Word Format:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">Amount in Word Format:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="amount_in_word_format">
                         <option value="crore_lakh_thousand" @if(isset($settings) && $settings->amount_in_word_format == "crore_lakh_thousand") selected @endif>Crore-Lakh-Thousand</option>
                         <option value="crore_lac_thousand" @if(isset($settings) && $settings->amount_in_word_format == "crore_lac_thousand") selected @endif>Crore-Lac-Thousand</option>
@@ -91,8 +190,8 @@
             </div>
 
             <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Approval for MR:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">Approval for MR:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="approval_for_mr">
                         <option value="1" @if(isset($settings) && $settings->approval_for_mr == 1) selected @endif>Active</option>
                         <option value="0" @if(isset($settings) && $settings->approval_for_mr == 0) selected @endif>Inactive</option>
@@ -101,8 +200,8 @@
             </div>
 
             <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Approval for Cheque:</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                <label class="col-sm-3 form-control-label">Approval for Cheque:</label>
+                <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="approval_for_cheque">
                         <option value="1" @if(isset($settings) && $settings->approval_for_cheque == 1) selected @endif>Active</option>
                         <option value="0" @if(isset($settings) && $settings->approval_for_cheque == 0) selected @endif>Inactive</option>

@@ -78,7 +78,7 @@
               <th class="text-center">Sl</th>
               <th>Trx Date</th>
               <th>Trx Type</th>
-              <th>Ref No.</th>
+              <th>QB Ref No.</th>
               <th>Payee Name</th>
               <th>Paid From</th>
               <th>Memo</th>

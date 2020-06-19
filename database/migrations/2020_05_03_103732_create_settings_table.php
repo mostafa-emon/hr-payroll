@@ -19,9 +19,37 @@ class CreateSettingsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('voucher_number',10);
             $table->string('voucher_size',10);
-            $table->string('voucher_prefix',10)->nullable();
-            $table->string('voucher_suffix',10)->nullable();
+
+            $table->string('cash_payment_voucher_prefix',10)->nullable();
+            $table->string('cash_payment_voucher_suffix',10)->nullable();
+            $table->string('cash_payment_voucher_start_from',10)->nullable();
+
+            $table->string('bank_payment_voucher_prefix',10)->nullable();
+            $table->string('bank_payment_voucher_suffix',10)->nullable();
+            $table->string('bank_payment_voucher_start_from',10)->nullable();
+
+            $table->string('cash_receipt_voucher_prefix',10)->nullable();
+            $table->string('cash_receipt_voucher_suffix',10)->nullable();
+            $table->string('cash_receipt_voucher_start_from',10)->nullable();
+
+            $table->string('bank_receipt_voucher_prefix',10)->nullable();
+            $table->string('bank_receipt_voucher_suffix',10)->nullable();
+            $table->string('bank_receipt_voucher_start_from',10)->nullable();
+
+            $table->string('contra_voucher_prefix',10)->nullable();
+            $table->string('contra_voucher_suffix',10)->nullable();
+            $table->string('contra_voucher_start_from',10)->nullable();
+
+            $table->string('journal_voucher_prefix',10)->nullable();
+            $table->string('journal_voucher_suffix',10)->nullable();
+            $table->string('journal_voucher_start_from',10)->nullable();
+
             $table->string('mr_number',10);
+
+            $table->string('mr_prefix',10)->nullable();
+            $table->string('mr_suffix',10)->nullable();
+            $table->string('mr_start_from',10)->nullable();
+
             $table->string('mr_size',10);
             $table->string('amount_in_word_format',30);
             $table->boolean('approval_for_mr')->default(true);

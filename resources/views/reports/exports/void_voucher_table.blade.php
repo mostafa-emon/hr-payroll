@@ -14,7 +14,7 @@
         <th style="text-align: center">Sl</th>
         <th>Voucher Type</th>
         <th style="text-align: left">TRX Date</th>
-        <th style="text-align: left">REF NO.</th>
+        <th style="text-align: left">QB REF NO.</th>
         <th style="text-align: left">Payee Name</th>
         <th style="text-align: left">Memo</th>
         <th style="text-align: left">Total Amount</th>

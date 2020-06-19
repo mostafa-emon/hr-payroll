@@ -98,7 +98,7 @@
         <div class="col-md-2">
           <li id="date_list">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('reference_no')" id="reference_no_checkbox" name="reference_no" value="1"><span>Reference No</span>
+              <input type="checkbox" onclick="hideShowElement('reference_no')" id="reference_no_checkbox" name="reference_no" value="1"><span>QB Ref No</span>
             </label>
             <input type="hidden" id="reference_no_top" name="reference_no_top" value="{{$voucher_formats->reference_no_top}}"/>
             <input type="hidden" id="reference_no_left" name="reference_no_left" value="{{$voucher_formats->reference_no_left}}"/>
@@ -188,7 +188,7 @@
                 <div id="cheque_date" onclick="chequeDateDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->cheque_date_top}}mm; left: {{$voucher_formats->cheque_date_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Cheque Date</div>
                 <div id="received_from" onclick="receivedFromDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->received_from_top}}mm; left: {{$voucher_formats->received_from_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Received From</div>
                 <div id="location" onclick="locationDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->location_top}}mm; left: {{$voucher_formats->location_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Location</div>
-                <div id="reference_no" onclick="referenceNoDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->reference_no_top}}mm; left: {{$voucher_formats->reference_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Reference No : </div>
+                <div id="reference_no" onclick="referenceNoDrag()" class="draggable ui-widget-content" style="display:none;position: absolute; top: {{$voucher_formats->reference_no_top}}mm; left: {{$voucher_formats->reference_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">QB Ref No : </div>
 
                 <div id="tableDiv" onclick="tableDrag();" style="position: absolute; top: {{$voucher_formats->table_top}}mm; left: {{$voucher_formats->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
                   <table cellpadding="0" cellspacing="0" style="width:100% !important;">

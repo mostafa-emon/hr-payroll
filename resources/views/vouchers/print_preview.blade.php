@@ -41,7 +41,7 @@
 
             <div class="col-md-4">
               <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Reference No:</label>
+                <label class="form-control-label">QB Ref No:</label>
                 <input class="form-control" type="text" name="reference_no" placeholder="Enter Reference No" @if($data['reference_no'] != "") value="{{$data['reference_no']}}" @endif>
               </div>
             </div>

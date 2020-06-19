@@ -81,7 +81,7 @@
               <th class="text-center">Sl</th>
               <th>Voucher Type</th>
               <th>Trx Date</th>
-              <th>Ref No.</th>
+              <th>QB Ref No.</th>
               <th>Payee Name</th>
               <th>Memo</th>
               <th>Total Amount</th>
