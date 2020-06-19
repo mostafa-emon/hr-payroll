@@ -49,7 +49,7 @@ class CashPaymentVoucherController extends Controller
             // GET CASH_ON_HAND ACCOUNTS
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => config('app.qb_api_url')."/v3/company/".$company->qb_company_id."/query?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -57,7 +57,7 @@ class CashPaymentVoucherController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"SELECT * FROM Account WHERE AccountType = 'Bank' AND AccountSubType = 'CashOnHand'",
+            CURLOPT_POSTFIELDS =>"SELECT * FROM Account WHERE AccountSubType = 'CashOnHand'",
             CURLOPT_HTTPHEADER => array(
                 "User-Agent: Token ".$token,
                 "Accept: application/json",
@@ -71,6 +71,8 @@ class CashPaymentVoucherController extends Controller
             curl_close($curl);
 
             $accounts = json_decode($response, true);
+            return response()->json($accounts);
+            
             $resultCount = $accounts['QueryResponse']['maxResults'] - 1;
             if($resultCount > -1){
                 for($i = 0; $i <= $resultCount; $i++) {
@@ -82,10 +84,10 @@ class CashPaymentVoucherController extends Controller
 
             if(count($CashOnHandID) != 0) {
                 // GET DATA FROM PURCHASE
-                if($type == 'all' || $type == 'expense') {
+                if($type == 'all' || $type == 'expense' || $type == 'cheque') {
                     $curl = curl_init();
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => config('app.qb_api_url')."/v3/company/".$company->qb_company_id."/query?minorversion=14",
+                    CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,
@@ -112,7 +114,6 @@ class CashPaymentVoucherController extends Controller
                         if($resultCount > -1){
                             for($i = 0; $i <= $resultCount; $i++) {
                                 if(in_array($results['QueryResponse']['Purchase'][$i]['AccountRef']['value'], $CashOnHandID)){
-                                    
                                     //Filters
                                     if($payee_name != "" && $results['QueryResponse']['Purchase'][$i]['EntityRef']['name'] != $payee_name) { continue; }
                                     if($amount != "" && $results['QueryResponse']['Purchase'][$i]['TotalAmt'] != $amount) { continue; }
@@ -124,7 +125,9 @@ class CashPaymentVoucherController extends Controller
                                             continue;
                                         }
                                     }
-                                    
+                                    if($type == 'cheque' && $results['QueryResponse']['Purchase'][$i]['PaymentType'] != "Check") { continue; }
+                                    if($type == 'expense' && $results['QueryResponse']['Purchase'][$i]['PaymentType'] != "Cash") { continue; }
+
                                     $index = $index + 1;
                                     
                                     $data[$index]['Id'] = $results['QueryResponse']['Purchase'][$i]['Id'];
@@ -158,7 +161,7 @@ class CashPaymentVoucherController extends Controller
                 if($type == 'all' || $type == 'pay_bills') {
                     $curl = curl_init();
                     curl_setopt_array($curl, array(
-                    CURLOPT_URL => config('app.qb_api_url')."/v3/company/".$company->qb_company_id."/query?minorversion=14",
+                    CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,
@@ -252,10 +255,10 @@ class CashPaymentVoucherController extends Controller
         $data = [];
         $settings = Setting::where('company_id',Auth::user()->company_id)->first(); 
         
-        if($api_type == 'expense') {
+        if($api_type == 'expense' || $api_type == 'cheque') {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => config('app.qb_api_url')."/v3/company/".$company->qb_company_id."/purchase/".$id."?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/purchase/".$id."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -351,7 +354,7 @@ class CashPaymentVoucherController extends Controller
         if($api_type == 'bill_payment') {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => config('app.qb_api_url')."/v3/company/".$company->qb_company_id."/billpayment/".$id."?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/billpayment/".$id."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -400,7 +403,7 @@ class CashPaymentVoucherController extends Controller
             $bill_id = $results['BillPayment']['Line'][0]['LinkedTxn'][0]['TxnId'];
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => config('app.qb_api_url')."/v3/company/4620816365062880570/bill/".$bill_id."?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/4620816365062880570/bill/".$bill_id."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

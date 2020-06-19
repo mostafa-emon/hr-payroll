@@ -34,6 +34,7 @@
           <select class="form-control" name="trx_type">
               <option value="all" @if($type == 'all') selected @endif>All</option>
               <option value="expense" @if($type == 'expense') selected @endif>Expense</option>
+              <option value="cheque" @if($type == 'cheque') selected @endif>Cheque</option>
               <option value="pay_bills" @if($type == 'pay_bills') selected @endif>Pay Bills</option>
           </select>
         </div>
@@ -108,7 +109,10 @@
                 </td>
                 <td>
                   @php
-                    if($dt['TxnType'] == 'Pay Bills') {$apiType = 'bill_payment';} else{$apiType = 'expense';}
+                    if($dt['TxnType'] == 'Pay Bills') {$apiType = 'bill_payment';}
+                    else if($dt['TxnType'] == 'Check') {$apiType = 'cheque';}
+                    else if($dt['TxnType'] == 'Expense') {$apiType = 'expense';}
+
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
                   <a href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-success btn-sm pointer" style="color:white">Print</a>

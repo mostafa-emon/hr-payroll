@@ -38,7 +38,11 @@ class RegisterController extends Controller
             $company->qb_client_id              = $request->qb_client_id;
             $company->qb_client_secret          = $request->qb_client_secret;
             $company->qb_company_id             = $request->qb_company_id;
-            $company->qb_environment            = $request->qb_environment;
+            if($request->qb_environment == "development"){
+                $company->qb_environment = "https://sandbox-quickbooks.api.intuit.com";
+            }else{
+                $company->qb_environment = "https://quickbooks.api.intuit.com";
+            } 
 
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');

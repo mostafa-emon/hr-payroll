@@ -51,9 +51,14 @@ function getToken(){
 function is_voucher_printed($voucher_type,$api_type,$id){
     $count = 0;
     if($voucher_type == "Cash-Payment-Voucher"){
-        if($api_type == "Check" || $api_type == "Expense"){
+        if($api_type == "Expense"){
             $count = Voucher::where('type','Cash-Payment-Voucher')
                     ->where('api_type','expense')
+                    ->where('document_id',$id)
+                    ->count();
+        }else if($api_type == "Check"){
+            $count = Voucher::where('type','Cash-Payment-Voucher')
+                    ->where('api_type','cheque')
                     ->where('document_id',$id)
                     ->count();
         }else if($api_type == "Pay Bills"){
