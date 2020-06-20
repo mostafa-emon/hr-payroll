@@ -118,7 +118,7 @@ class CashPaymentVoucherController extends Controller
                                         if(!isset($results['QueryResponse']['Purchase'][$i]['EntityRef']['name'])) {
                                             continue;
                                         }
-                                        if(strpos($results['QueryResponse']['Purchase'][$i]['EntityRef']['name'], $payee_name) === FALSE){
+                                        if(strpos(strtolower($results['QueryResponse']['Purchase'][$i]['EntityRef']['name']), strtolower($payee_name)) === FALSE){
                                             continue;
                                         }
                                     }
@@ -127,7 +127,7 @@ class CashPaymentVoucherController extends Controller
                                         if(!isset($results['QueryResponse']['Purchase'][$i]['PrivateNote'])) {
                                             continue;
                                         }
-                                        if(strpos($results['QueryResponse']['Purchase'][$i]['PrivateNote'], $memo) === FALSE){
+                                        if(strpos(strtolower($results['QueryResponse']['Purchase'][$i]['PrivateNote']), strtolower($memo)) === FALSE){
                                             continue;
                                         }
                                     }
@@ -204,7 +204,7 @@ class CashPaymentVoucherController extends Controller
                                             if(!isset($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])) {
                                                 continue;
                                             }
-                                            if(strpos($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'], $payee_name) === FALSE){
+                                            if(strpos(strtolower($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name']), strtolower($payee_name)) === FALSE){
                                                 continue;
                                             }
                                         }
@@ -213,7 +213,7 @@ class CashPaymentVoucherController extends Controller
                                             if(!isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])) {
                                                 continue;
                                             }
-                                            if(strpos($results['QueryResponse']['BillPayment'][$i]['PrivateNote'], $memo) === FALSE){
+                                            if(strpos(strtolower($results['QueryResponse']['BillPayment'][$i]['PrivateNote']), strtolower($memo)) === FALSE){
                                                 continue;
                                             }
                                         }
