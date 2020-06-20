@@ -117,7 +117,7 @@ class LocalVoucherController extends Controller
 
             if($request->payee_name != ""){
                 $payee_name = $request->payee_name;
-                $vouchers = $vouchers->where('payee_name',$request->payee_name);
+                $vouchers = $vouchers->where('payee_name','LIKE', '%'.$request->payee_name.'%');
             }
 
             if($request->amount != ""){

@@ -29,7 +29,7 @@
           <div class="col-md-2">
             <label class="tx-black tx-13">Voucher Type</label>
             <select class="form-control" name="voucher_type">
-              <option value="" selected>Select Type</option>
+              <option value="" selected>All</option>
               <option value="Cash-Payment-Voucher" @if($voucher_type == "Cash-Payment-Voucher") selected @endif>Cash Payment Voucher</option>
               <option value="Bank-Payment-Voucher" @if($voucher_type == "Bank-Payment-Voucher") selected @endif>Bank Payment Voucher</option>
               <option value="Cash-Receipt-Voucher" @if($voucher_type == "Cash-Receipt-Voucher") selected @endif>Cash Receipt Voucher</option>
@@ -41,12 +41,12 @@
 
           <div class="col-md-2">
             <label class="tx-black tx-13">From Date</label>
-            <input type="text" id="dtpick1" name="from_date" value="{{date('d-M-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
+            <input type="text" id="dtpick1" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
           </div>
 
           <div class="col-md-2">
             <label class="tx-black tx-13">To Date</label>
-            <input type="text" id="dtpick2" name="to_date" value="{{date('d-M-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
+            <input type="text" id="dtpick2" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
           </div>
 
           <div class="col-md-2">

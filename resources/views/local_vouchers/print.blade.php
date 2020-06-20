@@ -74,13 +74,13 @@
             <div id="tableDiv" style="position: absolute; top: {{$layout->table_top}}mm; left: {{$layout->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
               <table cellpadding="0" cellspacing="0" style="width:100% !important;font-size:13px">
                 <thead>
-                  <th class="account_code" style="border-top:1px solid black; border-left:1px solid black;text-align:left;">Account Code & Name</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black;text-align:left;">Memo</th>
-                  <th class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:left;">Customer:Job/Project</th>
-                  <th class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:left;">Class</th>
-                  <th class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:left;">Name</th>
-                  <th style="text-align:right;border-top:1px solid black; border-left:1px solid black;text-align:right;">Debit</th>
-                  <th style="text-align:right;border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:right;">Credit</th>
+                  <th class="account_code" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Account Code & Name</th>
+                  <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Memo</th>
+                  <th class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
+                  <th class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
+                  <th class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
+                  <th style="text-align:right;border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
+                  <th style="text-align:right;border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
                 </thead>
 
                 <tbody>
@@ -98,7 +98,7 @@
                 </tbody>
 
                 <tfoot>
-                  <th id="table_total" colspan="{{$colspan}}" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
+                  <th id="table_total" colspan="{{$colspan}}" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">Total</th>
                   <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$voucher->total_debit}}</th>
                   <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$voucher->total_credit}}</th>
                 </tfoot>
