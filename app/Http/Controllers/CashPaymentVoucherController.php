@@ -114,7 +114,14 @@ class CashPaymentVoucherController extends Controller
                             for($i = 0; $i <= $resultCount; $i++) {
                                 if(in_array($results['QueryResponse']['Purchase'][$i]['AccountRef']['value'], $CashOnHandID)){
                                     //Filters
-                                    if($payee_name != "" && $results['QueryResponse']['Purchase'][$i]['EntityRef']['name'] != $payee_name) { continue; }
+                                    if($payee_name != "") {
+                                        if(!isset($results['QueryResponse']['Purchase'][$i]['EntityRef']['name'])) {
+                                            continue;
+                                        }
+                                        if(strpos($results['QueryResponse']['Purchase'][$i]['EntityRef']['name'], $payee_name) === FALSE){
+                                            continue;
+                                        }
+                                    }
                                     if($amount != "" && $results['QueryResponse']['Purchase'][$i]['TotalAmt'] != $amount) { continue; }
                                     if($memo != "") { 
                                         if(!isset($results['QueryResponse']['Purchase'][$i]['PrivateNote'])) {
@@ -189,7 +196,14 @@ class CashPaymentVoucherController extends Controller
                                 if(isset($results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['value'])) {
                                     if(in_array($results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['value'], $CashOnHandID)){
                                         //Filters
-                                        if($payee_name != "" && $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'] != $payee_name) { continue; }
+                                        if($payee_name != "") {
+                                            if(!isset($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])) {
+                                                continue;
+                                            }
+                                            if(strpos($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'], $payee_name) === FALSE){
+                                                continue;
+                                            }
+                                        }
                                         if($amount != "" && $results['QueryResponse']['BillPayment'][$i]['TotalAmt'] != $amount) { continue; }
                                         if($memo != "") { 
                                             if(!isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])) {
@@ -303,7 +317,11 @@ class CashPaymentVoucherController extends Controller
             }else{
                 $data['reference_no'] = "";
             }
-            $data['payee_name'] = $results['Purchase']['EntityRef']['name'];
+            if(isset($results['Purchase']['EntityRef']['name'])){
+                $data['payee_name'] = $results['Purchase']['EntityRef']['name'];
+            }else{
+                $data['payee_name'] = "";
+            }
             $data['received_from'] = "";
             $data['cheque_no'] = "";
             $data['cheque_date'] = "";
@@ -408,7 +426,11 @@ class CashPaymentVoucherController extends Controller
             }else{
                 $data['reference_no'] = "";
             }
-            $data['payee_name'] = $results['BillPayment']['VendorRef']['name'];
+            if(isset($results['BillPayment']['VendorRef']['name'])){
+                $data['payee_name'] = $results['BillPayment']['VendorRef']['name'];
+            }else{
+                $data['payee_name'] = "";
+            }
             $data['received_from'] = "";
             $data['cheque_no'] = "";
             $data['cheque_date'] = "";
