@@ -7,6 +7,7 @@ use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
 use App\Voucher;
+use App\Setting;
 
 function roles(){
     $user_roles = Role::where('id',Auth::user()->roles)->first();
@@ -70,3 +71,51 @@ function is_voucher_printed($voucher_type,$api_type,$id){
     }
     return $count;
 }
+
+function number_formatting($amount){
+    $setting = Setting::where('company_id',Auth::user()->company_id)->first();
+    if($setting->amount_in_word_format == "crore_lakh_thousand" || $setting->amount_in_word_format == "crore_lac_thousand") {
+        $intpart = floor( $amount );
+        $fraction = $amount - $intpart;
+
+        $lenght = strlen($intpart);
+        if($lenght > 3) {
+            $last_3_digits  = substr($intpart, -3);
+            $rest_digits    = substr($intpart, 0, -3);
+
+            $rest_digits = (string)$rest_digits;
+            $arr = str_split($rest_digits, "2");
+            $comma_separated = implode(",", $arr);
+
+            $full_digit = $comma_separated.','.$last_3_digits;
+
+            if($fraction != 0) {
+                $fraction = substr(number_format($fraction,2), -2);
+                $full_digit = $full_digit.'.'.$fraction;
+            }else{
+                $full_digit = $full_digit.'.00';
+            }
+        }else{
+            $full_digit = "&nbsp;".number_format($amount,2);
+        }
+    }else if($setting->amount_in_word_format == "billion_million_thousand") {
+        $intpart = floor( $amount );
+        $fraction = $amount - $intpart;
+        
+        $lenght = strlen($intpart);
+        if($lenght > 3) {
+            $full_digit = number_format($amount, 0, '', ',');
+
+            if($fraction != 0) {
+                $fraction = substr(number_format($fraction,2), -2);
+                $full_digit = $full_digit.'.'.$fraction;
+            }else{
+                $full_digit = $full_digit.'.00';
+            }
+        }else{
+            $full_digit = "&nbsp;".number_format($amount,2);
+        }
+    }
+
+    return $full_digit;
+}  

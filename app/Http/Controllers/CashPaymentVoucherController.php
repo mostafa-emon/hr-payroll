@@ -443,7 +443,11 @@ class CashPaymentVoucherController extends Controller
             $data['cheque_no'] = "";
             $data['cheque_date'] = "";
             $data['location'] = "";
-            $data['memo'] = $results['BillPayment']['PrivateNote'];
+            if(isset($results['BillPayment']['PrivateNote'])){
+                $data['memo'] = $results['BillPayment']['PrivateNote'];
+            }else{
+                $data['memo'] = "";
+            }
 
             $bill_id = $results['BillPayment']['Line'][0]['LinkedTxn'][0]['TxnId'];
             $curl = curl_init();
