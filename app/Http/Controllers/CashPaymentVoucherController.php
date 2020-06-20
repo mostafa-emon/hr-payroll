@@ -227,7 +227,7 @@ class CashPaymentVoucherController extends Controller
                                         }else{
                                             $data[$index]['DocNumber'] = "";
                                         }
-                                        if(isset($$results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])){
+                                        if(isset($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])){
                                             $data[$index]['PayeeName'] = $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'];
                                         }else{
                                             $data[$index]['PayeeName'] = "";
