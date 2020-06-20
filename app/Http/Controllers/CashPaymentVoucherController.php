@@ -149,7 +149,11 @@ class CashPaymentVoucherController extends Controller
                                     }else{
                                         $data[$index]['DocNumber'] = "";
                                     }
-                                    $data[$index]['PayeeName'] = $results['QueryResponse']['Purchase'][$i]['EntityRef']['name'];
+                                    if(isset($results['QueryResponse']['Purchase'][$i]['EntityRef']['name'])){
+                                        $data[$index]['PayeeName'] = $results['QueryResponse']['Purchase'][$i]['EntityRef']['name'];
+                                    }else{
+                                        $data[$index]['PayeeName'] = "";
+                                    }
                                     $data[$index]['PaidFrom'] = $results['QueryResponse']['Purchase'][$i]['AccountRef']['name'];
                                     if(isset($results['QueryResponse']['Purchase'][$i]['PrivateNote'])){
                                         $data[$index]['Memo'] = $results['QueryResponse']['Purchase'][$i]['PrivateNote'];
@@ -223,7 +227,11 @@ class CashPaymentVoucherController extends Controller
                                         }else{
                                             $data[$index]['DocNumber'] = "";
                                         }
-                                        $data[$index]['PayeeName'] = $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'];
+                                        if(isset($$results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])){
+                                            $data[$index]['PayeeName'] = $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'];
+                                        }else{
+                                            $data[$index]['PayeeName'] = "";
+                                        }
                                         $data[$index]['PaidFrom'] = $results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['name'];
                                         if(isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])){
                                             $data[$index]['Memo'] = $results['QueryResponse']['BillPayment'][$i]['PrivateNote'];
