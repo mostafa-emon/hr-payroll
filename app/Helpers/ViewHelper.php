@@ -98,6 +98,7 @@ function number_formatting($amount){
         }else{
             $full_digit = "&nbsp;".number_format($amount,2);
         }
+        
     }else if($setting->amount_in_word_format == "billion_million_thousand") {
         $intpart = floor( $amount );
         $fraction = $amount - $intpart;
