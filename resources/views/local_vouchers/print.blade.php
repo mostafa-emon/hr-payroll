@@ -74,58 +74,58 @@
             <div id="tableDiv" style="position: absolute; top: {{$layout->table_top}}mm; left: {{$layout->table_left}}mm; width: 95% !important;color:black;font-size:13px;font-family:arial">
               <table cellpadding="0" cellspacing="0" style="width:100% !important;font-size:13px">
                 <thead>
-                  <th class="account_code" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Account Code & Name</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Memo</th>
-                  <th class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
-                  <th class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
-                  <th class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
-                  <th style="text-align:right;border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
-                  <th style="text-align:right;border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
+                  <th class="account_code" style="border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Account Code & Name</th>
+                  <th style="border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Memo</th>
+                  <th class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
+                  <th class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
+                  <th class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
+                  <th style="text-align:right;border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
+                  <th style="text-align:right;border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
                 </thead>
 
                 <tbody>
                     @foreach($voucher_details as $detail)
                         <tr>
-                            <td class="account_code" style="border-top:1px solid black; border-left:1px solid black;">{{$detail->account_code_name}}</td>
-                            <td style="border-top:1px solid black; border-left:1px solid black;">{{$detail->memo}}</td>
-                            <td class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
-                            <td class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;">{{$detail->class}}</td>
-                            <td class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
-                            <td style="text-align:right;border-top:1px solid black; border-left:1px solid black;text-align:right;">{!! number_formatting($detail->debit) !!}</td>
-                            <td style="text-align:right;border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:right;">{!! number_formatting($detail->credit) !!}</td>
+                            <td class="account_code" style="border-bottom:1px solid black; border-left:1px solid black;">{{$detail->account_code_name}}</td>
+                            <td style="border-bottom:1px solid black; border-left:1px solid black;">{{$detail->memo}}</td>
+                            <td class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
+                            <td class="class" style="@if($layout->class != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->class}}</td>
+                            <td class="name" style="@if($layout->name != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
+                            <td style="text-align:right;border-bottom:1px solid black; border-left:1px solid black;text-align:right;">{!! number_formatting($detail->debit) !!}</td>
+                            <td style="text-align:right;border-bottom:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:right;">{!! number_formatting($detail->credit) !!}</td>
                         </tr>
                     @endforeach
+                    <tr>
+                      <th id="table_total" colspan="{{$colspan}}" style="border-bottom:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">Total</th>
+                      <th style="border-bottom:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{!! number_formatting($voucher->total_debit) !!}</th>
+                      <th style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{!! number_formatting($voucher->total_credit) !!}</th>
+                    </tr>
                 </tbody>
-
-                <tfoot>
-                  <th id="table_total" colspan="{{$colspan}}" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">Total</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{!! number_formatting($voucher->total_debit) !!}</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{!! number_formatting($voucher->total_credit) !!}</th>
-                </tfoot>
               </table>
 
               <div style="font-weight: bold;margin-top:5px">Amount in Word : {{$voucher->amount_in_word}}</div>
-            </div>
-
-            <div id="signatory" style="position: absolute; top: {{$layout->signatory_top}}mm; width: 100% !important; color:black;font-size:13px;font-family:arial">
-              <div>
-
-                <table style="width:100%">
-                  @php
-                    use App\Signatory;
-                    $query = strtolower(str_replace("-", "_", $type));
-                    $signatories = Signatory::where($query,1)->get();
-                  @endphp
+              
+              <div id="signatory" style="padding-top:80px;width: 100% !important; color:black;font-size:13px;font-family:arial">
+                <div>
+  
+                  <table style="width:100%">
+                    @php
+                      use App\Signatory;
+                      $query = strtolower(str_replace("-", "_", $type));
+                      $signatories = Signatory::where($query,1)->get();
+                    @endphp
+                    
+                    <tr>
+                    @foreach($signatories as $signatory)
+                      <td style="text-align:center;">__________________<br>{{$signatory->name}}</td>
+                    @endforeach
+                    </tr>
+                    
+                  </table>
                   
-                  <tr>
-                  @foreach($signatories as $signatory)
-                    <td style="text-align:center;">__________________<br>{{$signatory->name}}</td>
-                  @endforeach
-                  </tr>
-                  
-                </table>
-                
+                </div>
               </div>
+
             </div>
 
           </div>
