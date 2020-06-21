@@ -145,8 +145,8 @@
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">Environment: <span class="tx-danger">*</span></label>
                 <select name="qb_environment" class="form-control  mg-l--4" required>
-                  <option value="development">Development</option>
                   <option value="production">Production</option>
+                  <option value="development">Development</option>
                 </select>
               </div>
             </div>
