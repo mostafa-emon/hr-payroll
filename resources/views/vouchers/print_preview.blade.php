@@ -138,11 +138,11 @@
                   <input type="hidden" name="class[]" value="{{$row['class']}}"/>
                 </td>
                 <td>
-                  {{$row['debit']}}
+                  {!! number_formatting($row['debit']) !!}
                   <input type="hidden" name="debit[]" value="{{$row['debit']}}"/>
                 </td>
                 <td>
-                  {{$row['credit']}}
+                  {!! number_formatting($row['credit']) !!}
                   <input type="hidden" name="credit[]" value="{{$row['credit']}}"/>
                 </td>
               </tr>
@@ -150,8 +150,8 @@
               @endif
               <tr>
                 <td colspan="4" style="text-align:center;font-weight:bold;">Total</td>
-                <td style="font-weight:bold;">{{$total_debit}}</td>
-                <td style="font-weight:bold;">{{$total_credit}}</td>
+                <td style="font-weight:bold;">{!! number_formatting($total_debit) !!}</td>
+                <td style="font-weight:bold;">{!! number_formatting($total_credit) !!}</td>
               </tr>
             </tbody>
           </table>

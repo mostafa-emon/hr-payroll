@@ -54,7 +54,7 @@
                 <td>{{ $voucher->reference_no }}</td>
                 <td>{{ $voucher->payee_name }}</td>
                 <td>{{ $voucher->memo }}</td>
-                <td>{{ $voucher->total_credit }}</td>
+                <td>{!! number_formatting($voucher->total_credit) !!}</td>
                 <td class="text-center">
                   <span class="badge badge-success">Void</span>
                 </td>

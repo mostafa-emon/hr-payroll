@@ -476,8 +476,8 @@ class CashPaymentVoucherController extends Controller
 
             $data['transactions'] = [];
 
-            $data['transactions'][0]['account_code_name'] = $results['BillPayment']['VendorRef']['name'];
-            $data['transactions'][0]['memo'] = $bills['Bill']['APAccountRef']['name'];
+            $data['transactions'][0]['account_code_name'] = $bills['Bill']['APAccountRef']['name'];
+            $data['transactions'][0]['memo'] = $results['BillPayment']['VendorRef']['name'];
             $data['transactions'][0]['customer_job_project_name'] = "";
             $data['transactions'][0]['class'] = "";
             $data['transactions'][0]['debit'] = $results['BillPayment']['TotalAmt'];
