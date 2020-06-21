@@ -97,7 +97,7 @@
                 <td>{{ $voucher->reference_no }}</td>
                 <td>{{ $voucher->payee_name }}</td>
                 <td>{{ $voucher->memo }}</td>
-                <td>{{ $voucher->total_credit }}</td>
+                <td>{!! number_formatting($voucher->total_credit) !!}</td>
                 <td>
                     <a class="btn btn-info btn-sm" href="{{url ('make-void/'.$voucher->id) }}"> Void </a>
                 </td>

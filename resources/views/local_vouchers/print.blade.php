@@ -91,16 +91,16 @@
                             <td class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
                             <td class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;">{{$detail->class}}</td>
                             <td class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
-                            <td style="text-align:right;border-top:1px solid black; border-left:1px solid black;text-align:right;">{{$detail->debit}}</td>
-                            <td style="text-align:right;border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:right;">{{$detail->credit}}</td>
+                            <td style="text-align:right;border-top:1px solid black; border-left:1px solid black;text-align:right;">{!! number_formatting($detail->debit) !!}</td>
+                            <td style="text-align:right;border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:right;">{!! number_formatting($detail->credit) !!}</td>
                         </tr>
                     @endforeach
                 </tbody>
 
                 <tfoot>
                   <th id="table_total" colspan="{{$colspan}}" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">Total</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$voucher->total_debit}}</th>
-                  <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{{$voucher->total_credit}}</th>
+                  <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:right;">{!! number_formatting($voucher->total_debit) !!}</th>
+                  <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:right;">{!! number_formatting($voucher->total_credit) !!}</th>
                 </tfoot>
               </table>
 

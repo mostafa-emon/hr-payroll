@@ -98,7 +98,7 @@
                 <td>{{$dt['PayeeName']}}</td>
                 <td>{{$dt['PaidFrom']}}</td>
                 <td>{{$dt['Memo']}}</td>
-                <td>{{$dt['TotalAmt']}}</td>
+                <td>{!! number_formatting($dt['TotalAmt']) !!}</td>
                 <td>
                   @php $is_printed = is_voucher_printed('Cash-Payment-Voucher',$dt['TxnType'],$dt['Id']); @endphp
                   @if($is_printed > 0)
