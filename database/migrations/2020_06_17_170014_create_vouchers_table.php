@@ -19,8 +19,6 @@ class CreateVouchersTable extends Migration
             $table->string('type');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->unsignedBigInteger('currency_id');
-            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->string('api_type');
             $table->string('voucher_no')->nullable();
             $table->string('prefix',20)->nullable();
@@ -29,6 +27,7 @@ class CreateVouchersTable extends Migration
             $table->string('reference_no')->nullable();
             $table->string('payee_name')->nullable();
             $table->string('received_from')->nullable();
+            $table->string('deposit_to')->nullable();
             $table->string('cheque_no')->nullable();
             $table->date('cheque_date')->nullable();
             $table->string('location')->nullable();

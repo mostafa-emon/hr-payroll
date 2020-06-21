@@ -17,15 +17,6 @@
 
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
-      @if(session()->has('message'))
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          {{ session()->get('message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
-
     <form action="{{ url('tr-void-voucher-add') }}" method="POST">
         {{ csrf_field() }}
       <div class="row mg-b-30 b">

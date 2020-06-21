@@ -12,9 +12,9 @@
       </tr>
       <tr>
         <th style="text-align: center">Sl</th>
-        <th>Voucher Type</th>
-        <th>Voucher Date</th>
-        <th>Voucher No</th>
+        <th style="text-align: center">Voucher Type</th>
+        <th style="text-align: center">Voucher Date</th>
+        <th style="text-align: center">Voucher No</th>
         <th style="text-align: center">QB Option</th>
         <th style="text-align: center">QB REF NO.</th>
         <th style="text-align: center">Payee Name</th>
@@ -38,15 +38,15 @@
           @if( $voucher->type == "Contra-Voucher") CONV @endif
           @if( $voucher->type == "Journal-Voucher") JV @endif
         </td>
-        <td> {{date('d-M-Y',strtotime($voucher->voucher_date)) }} </td>
-        <td> {{ $voucher->voucher_no }} </td>
-        <td> {{ ucfirst($voucher->api_type) }} </td>
-        <td> {{ $voucher->reference_no }} </td>
-        <td> {{ $voucher->payee_name }} </td>
-        <td> {{ $voucher->received_from }} </td>
-        <td></td>
-        <td> {{ $voucher->memo }} </td>
-        <td style="text-align: right"> {{ $voucher->total_credit }} </td>
+        <td>{{date('d-M-Y',strtotime($voucher->voucher_date)) }}</td>
+        <td>{{ $voucher->voucher_no }}</td>
+        <td>{{ ucfirst($voucher->api_type) }}</td>
+        <td style="text-align: center"> {{ $voucher->reference_no }}</td>
+        <td>{{ $voucher->payee_name }}</td>
+        <td>{{ $voucher->received_from }}</td>
+        <td>{{ $voucher->deposit_to }}</td>
+        <td>{{ $voucher->memo }}</td>
+        <td style="text-align: right">{{ $voucher->total_credit }}</td>
       </tr>
       @endforeach
 

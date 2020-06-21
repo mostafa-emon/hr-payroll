@@ -176,10 +176,10 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
-                    <select name="currency_id" class="form-control mg-l--4">
+                    <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)" required>
                       <option value="" selected>Select Currency</option>
                       @foreach($currencies as $currency)
-                        <option value="{{$currency->id}}">{{ $currency->full_name }} {{ $currency->fraction_name }}</option>
+                        <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}">{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>
                       @endforeach
                     </select>
               </div>
@@ -187,9 +187,10 @@
 
             <input type="hidden" name="total_debit" value="{{$total_debit}}"/>
             <input type="hidden" id="total_credit" name="total_credit" value="{{$total_credit}}"/>
+            
             <input type="hidden" id="amount_in_word" name="amount_in_word"/>
-            {{--<input type="hidden" id="currency_full_name" value="{{$currency->full_name}}"/>
-            <input type="hidden" id="currency_fraction_name" value="{{$currency->fraction_name}}"/>--}}
+            <input type="hidden" id="currency_full_name"/>
+            <input type="hidden" id="currency_fraction_name"/>
             
             <input type="hidden" name="memo" value="{{$data['memo']}}"/>
             <div class="col-md-9">
@@ -207,6 +208,14 @@
 @endsection
 
 <script>
+  function setCurrency(value){
+    var split = value.split("_");
+    var name = split[0];
+    var fraction = split[1];
+    $('#currency_full_name').val(name);
+    $('#currency_fraction_name').val(fraction);
+  }
+
   function calculateAmountInWord() {
       var value = $('#total_credit').val();
       if(value != ''){ 

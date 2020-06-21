@@ -30,7 +30,6 @@ class LocalVoucherController extends Controller
         }
         $voucher = new Voucher();
         $voucher->document_id   = $request->document_id;
-        $voucher->currency_id   = $request->currency_id;
         $voucher->type          = $request->type;
         $voucher->api_type      = $request->api_type;
         $voucher->company_id    = Auth::user()->company_id;
@@ -43,6 +42,7 @@ class LocalVoucherController extends Controller
         $voucher->cheque_no     = $request->cheque_no;
         $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
         $voucher->location      = $request->location;
+        $voucher->reference_no  = $request->reference_no;
 
         $voucher->total_debit   = $request->total_debit;
         $voucher->total_credit  = $request->total_credit;
@@ -140,6 +140,6 @@ class LocalVoucherController extends Controller
     public function make_void($voucher_id)
     {
         Voucher::where('id',$voucher_id)->update(['status' => 0]);
-        return redirect('tr-void-voucher-add')->with('message', 'Void Added Successfully!');
+        return redirect('tr-void-voucher')->with('message', 'Void Added Successfully!');
     }
 }
