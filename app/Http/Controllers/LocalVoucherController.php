@@ -15,7 +15,8 @@ class LocalVoucherController extends Controller
 {
     public function add_voucher(Request $request){
         $this->validate($request, [
-            'voucher_no' => 'required'
+            'voucher_no' => 'required',
+            'currency' => 'required'
         ]);
     
         if($request->print_status == "printed") {
@@ -29,6 +30,7 @@ class LocalVoucherController extends Controller
         }
         $voucher = new Voucher();
         $voucher->document_id   = $request->document_id;
+        $voucher->currency_id   = $request->currency_id;
         $voucher->type          = $request->type;
         $voucher->api_type      = $request->api_type;
         $voucher->company_id    = Auth::user()->company_id;

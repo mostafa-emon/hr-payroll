@@ -19,6 +19,8 @@ class CreateVouchersTable extends Migration
             $table->string('type');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->unsignedBigInteger('currency_id');
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->string('api_type');
             $table->string('voucher_no')->nullable();
             $table->string('prefix',20)->nullable();

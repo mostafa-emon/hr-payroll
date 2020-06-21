@@ -173,6 +173,18 @@
               </div>
             </div>
 
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
+                    <select name="currency_id" class="form-control mg-l--4">
+                      <option value="" selected>Select Currency</option>
+                      {{--@foreach($currency as $money)
+                        <option value="{{$money->id}}">{{$money->full_name}}</option>
+                      @endforeach--}}
+                    </select>
+              </div>
+            </div>
+
             <input type="hidden" name="total_debit" value="{{$total_debit}}"/>
             <input type="hidden" id="total_credit" name="total_credit" value="{{$total_credit}}"/>
             <input type="hidden" id="amount_in_word" name="amount_in_word"/>
