@@ -59,7 +59,7 @@
                     {{ csrf_field() }}
                     <div class="input-group mb-3" style="margin-top:17px;">
                       <input type="text" name="amount" class="form-control" required style="width:60px;border-right:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;" placeholder="amount"/>
-                      <input type="text" id="dtpick{{$sl}}" name="subscription_start_date" class="form-control datepicker" autocomplete="off" required style="width:85px;border-right:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;" placeholder="start date"/>
+                      <input type="text" id="dtpick{{$sl}}" name="subscription_start_date" class="form-control datepicker" value="{{date('d-m-Y',strtotime($company->subscription_start_date))}}" autocomplete="off" required style="width:85px;border-right:0px;border-top-right-radius:0px;border-bottom-right-radius:0px;" placeholder="start date"/>
                       <input type="text" id="dtpick{{$sl+1}}" name="subscription_end_date" class="form-control datepicker" autocomplete="off" required style="width:85px;border-top-right-radius:0px;border-bottom-right-radius:0px;" placeholder="end date"/>
                       <input type="submit" class="btn btn-info btn-sm pointer" value="Renew" style="border-top-left-radius:0px;border-bottom-left-radius:0px;"/>
                     </div>
