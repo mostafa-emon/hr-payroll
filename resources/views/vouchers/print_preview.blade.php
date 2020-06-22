@@ -25,7 +25,7 @@
 
   <form id="thisForm" action="{{ url('voucher/add') }}" method="POST">
     {{ csrf_field() }}
-    <input type="text" name="type" value="{{$voucher_type}}"/>
+    <input type="hidden" name="type" value="{{$voucher_type}}"/>
     <input type="hidden" name="api_type" value="{{$api_type}}"/>
     <input type="hidden" name="document_id" value="{{$data['id']}}"/>
     <input type="hidden" name="print_status" value="{{$print_status}}"/>
@@ -159,7 +159,6 @@
 
         <br>
 
-        {{$voucher_formats}}
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
             <div class="col-md-3">
