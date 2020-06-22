@@ -139,7 +139,7 @@
 
           <div style="padding-left:30px;" class="col-md-5">
             <label class="ckbox pointer">
-              <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" @if($voucher_formats->customer_job == 1) checked @endif><span>Customer:Job/Project</span>
+              <input type="checkbox" onclick="hideShowElement('customer_job')" id="customer_job_checkbox" name="customer_job" value="1" @if($voucher_formats->customer_job_project == 1) checked @endif><span>Customer:Job/Project</span>
             </label>
           </div>
 
@@ -175,12 +175,19 @@
 
     <div class="mg-t-8 row">
 
-        <div class="col-md-1 tx-black" style="margin-top:11px; font-size: 18px;">Title:</div>
-          <div class="col-md-5 mg-t-6">
+          <div class="col-md-1 tx-black" style="margin-top:11px; font-size: 18px;">Title:</div>
+          <div class="col-md-4 mg-t-6">
             <input type="text" class="form-control" name="title" value="{{$voucher_formats->title}}" required/>
           </div>
 
-        <div class="col-md-6">
+          <div class="col-md-2 mg-t-5">
+            <div class="mg-t-8" style="float:left; font-size:15px;"> Make Default: </div>
+            <div style="padding-top: 10px; float:right">
+              <input type="checkbox" name="default" value="1" @if($voucher_formats->default == 1) checked @endif/>
+            </div>
+          </div>
+
+        <div class="col-md-5">
           <input type="submit" value="Save Format" class="pd-15 btn btn-success btn-block pointer"/>
         </div>
 

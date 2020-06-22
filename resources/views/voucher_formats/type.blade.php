@@ -34,15 +34,15 @@
         <div class="col-md-3 mg-t-10">
             <div class="card bd-0 shadow-base pd-30">
                 <div>
-                    <select class="form-control" id="type" onchange="onchangeType(this.value)">
-                        <option value="">-- select type --</option>
-                        <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
-                        <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
-                        <option value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
-                        <option value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
-                        <option value="Contra-Voucher">Contra Voucher</option>
-                        <option value="Journal-Voucher">Journal Voucher</option>
-                      </select>
+                  <select class="form-control" id="type" onchange="onchangeType(this.value)">
+                    <option value="">-- select type --</option>
+                    <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
+                    <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
+                    <option value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
+                    <option value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
+                    <option value="Contra-Voucher">Contra Voucher</option>
+                    <option value="Journal-Voucher">Journal Voucher</option>
+                  </select>
                 </div>
             </div>
         </div>

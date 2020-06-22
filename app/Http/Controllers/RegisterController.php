@@ -8,6 +8,7 @@ use App\User;
 use App\Subscription;
 use App\Setting;
 use App\Signatory;
+use App\Currency;
 use Hash;
 
 class RegisterController extends Controller
@@ -68,7 +69,14 @@ class RegisterController extends Controller
             $setting->approval_for_mr           = 1;
             $setting->approval_for_cheque       = 1;
             $setting->save();
-            
+
+            $currency = new Currency();
+            $currency->company_id               = $company->id;
+            $currency->full_name                = "Taka";
+            $currency->fraction_name            = "Paisa";
+            $currency->default                  = 1;
+            $currency->save();
+
             return redirect('subscription')->with('message', 'Registration successful');
         }
         return view('register');

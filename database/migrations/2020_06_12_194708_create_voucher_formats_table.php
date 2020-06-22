@@ -51,6 +51,7 @@ class CreateVoucherFormatsTable extends Migration
             $table->integer('customer_job_project')->default(0);
             $table->integer('class')->default(0);
             $table->integer('name')->default(0);
+            $table->integer('default')->default(0);
 
             $table->integer('table_top')->nullable();
             $table->integer('table_left')->nullable();

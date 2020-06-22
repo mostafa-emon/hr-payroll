@@ -25,7 +25,7 @@
 
   <form id="thisForm" action="{{ url('voucher/add') }}" method="POST">
     {{ csrf_field() }}
-    <input type="hidden" name="type" value="{{$voucher_type}}"/>
+    <input type="text" name="type" value="{{$voucher_type}}"/>
     <input type="hidden" name="api_type" value="{{$api_type}}"/>
     <input type="hidden" name="document_id" value="{{$data['id']}}"/>
     <input type="hidden" name="print_status" value="{{$print_status}}"/>
@@ -75,14 +75,14 @@
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force">
                     <label class="form-control-label">Cheque No:</label>
-                    <input class="form-control" type="text" name="cheque_no" placeholder="Enter Cheque Number" @if($data['cheque_no'] != "") value="{{$data['cheque_no']}}" @endif>
+                    <input class="form-control" type="text" name="cheque_no" placeholder="Enter Cheque Number" @if($data['cheque_no'] != "") value="{{$data['cheque_no']}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || "Cash-Receipt-Voucher") readonly @endif>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                     <label class="form-control-label">Cheque Date:</label>
-                    <input class="form-control" type="text" id="dtpick1" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif>
+                    <input class="form-control" type="text" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || "Cash-Receipt-Voucher") readonly @else id="dtpick1" @endif>
                 </div>
             </div>
 
@@ -159,6 +159,7 @@
 
         <br>
 
+        {{$voucher_formats}}
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
             <div class="col-md-3">
@@ -167,7 +168,7 @@
                     <select name="voucher_format_id" class="form-control mg-l--4">
                       <option value="">Default</option>
                       @foreach($voucher_formats as $voucher_format)
-                        <option value="{{$voucher_format->id}}">{{$voucher_format->title}}</option>
+                        <option value="{{$voucher_format->id}}" @if($voucher_format->default == 1) selected @endif>{{$voucher_format->title}}</option>
                       @endforeach
                     </select> 
               </div>
@@ -176,12 +177,11 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
-                    <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)" required>
-                      <option value="" selected>Select Currency</option>
-                      @foreach($currencies as $currency)
-                        <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}">{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>
-                      @endforeach
-                    </select>
+                  <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)" required>
+                    @foreach($currencies as $currency)
+                      <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}">{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>
+                    @endforeach
+                  </select>
               </div>
             </div>
 
@@ -189,13 +189,13 @@
             <input type="hidden" id="total_credit" name="total_credit" value="{{$total_credit}}"/>
             
             <input type="hidden" id="amount_in_word" name="amount_in_word"/>
-            <input type="hidden" id="currency_full_name"/>
-            <input type="hidden" id="currency_fraction_name"/>
+            <input type="hidden" id="currency_full_name" value="Taka"/>
+            <input type="hidden" id="currency_fraction_name" value="Paisa"/>
             
             <input type="hidden" name="memo" value="{{$data['memo']}}"/>
-            <div class="col-md-9">
+            <div class="col-md-6">
               <div class="form-group mg-md-l--1">
-                <a onclick="calculateAmountInWord()" class="btn btn-success pointer" style="width:100px;color:white;">Print</a>
+                <a onclick="calculateAmountInWord()" class="btn btn-success pointer" style="width:100px;color:white;float:right;">Print</a>
               </div>
             </div>
           </div>

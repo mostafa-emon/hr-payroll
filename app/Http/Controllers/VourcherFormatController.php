@@ -87,6 +87,10 @@ class VourcherFormatController extends Controller
                 $voucher_format->customer_job_project       = 1;
             }else { $voucher_format->customer_job_project   = 0; }
 
+            if($request->default == 1) {
+                $voucher_format->default                    = 1;
+            }else { $voucher_format->default                = 0; }
+
             if($request->class == 1) {
                 $voucher_format->class              = 1;
             }else { $voucher_format->class          = 0; }
@@ -185,6 +189,10 @@ class VourcherFormatController extends Controller
             if($request->customer_job == 1) {
                 $voucher_format->customer_job_project       = 1;
             }else { $voucher_format->customer_job_project   = 0; }
+
+            if($request->default == 1) {
+                $voucher_format->default                    = 1;
+            }else { $voucher_format->default                = 0; }
 
             if($request->class == 1) {
                 $voucher_format->class              = 1;
