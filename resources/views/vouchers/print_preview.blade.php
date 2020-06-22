@@ -178,7 +178,7 @@
                 <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
                   <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)" required>
                     @foreach($currencies as $currency)
-                      <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}">{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>
+                      <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}" @if($currency->default == 1) selected @endif>{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>
                     @endforeach
                   </select>
               </div>
