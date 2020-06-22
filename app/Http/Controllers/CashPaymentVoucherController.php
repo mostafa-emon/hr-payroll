@@ -266,7 +266,7 @@ class CashPaymentVoucherController extends Controller
         $data = $this->cash_payment_voucher_print($api_type,$id);
         $voucher_formats = VoucherFormat::select('id','title','default')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
-        $currencies = Currency::select('default')->where('company_id',Auth::user()->company_id)->get();
+        $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
         return view('vouchers.print_preview',compact('print_status','settings','currencies','data','voucher_type','api_type','voucher_formats'));
     }
 
