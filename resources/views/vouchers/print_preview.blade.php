@@ -127,7 +127,7 @@
                   <input type="hidden" name="account_code_name[]" value="{{$row['account_code_name']}}"/>
                 </td>
                 <td>
-                  <input type="text" name="memoDetails[]" value="{{$row['memo']}}"/>
+                  <input type="text" class="form-control" style="padding:5px;" name="memoDetails[]" value="{{$row['memo']}}"/>
                 </td>
                 <td>
                   {{$row['customer_job_project_name']}}
@@ -186,15 +186,14 @@
 
             <input type="hidden" name="total_debit" value="{{$total_debit}}"/>
             <input type="hidden" id="total_credit" name="total_credit" value="{{$total_credit}}"/>
-            
             <input type="hidden" id="amount_in_word" name="amount_in_word"/>
-            <input type="hidden" id="currency_full_name" value="Taka"/>
-            <input type="hidden" id="currency_fraction_name" value="Paisa"/>
+            <input type="hidden" id="currency_full_name" value="{{$defaults->full_name}}"/>
+            <input type="hidden" id="currency_fraction_name" value="{{$defaults->fraction_name}}"/>
             
             <input type="hidden" name="memo" value="{{$data['memo']}}"/>
             <div class="col-md-6">
               <div class="form-group mg-md-l--1">
-                <a onclick="calculateAmountInWord()" class="btn btn-success pointer" style="width:100px;color:white;float:right;">Print</a>
+                <a onclick="calculateAmountInWord()" class="btn btn-success pointer" style="width:100px;color:white;">Print</a>
               </div>
             </div>
           </div>

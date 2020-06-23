@@ -76,36 +76,36 @@
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th class="text-center">Sl</th>
-              <th>Trx Date</th>
-              <th>Trx Type</th>
-              <th>QB Ref No.</th>
-              <th>Payee Name</th>
-              <th>Paid From</th>
-              <th>Memo</th>
-              <th>Total Amount</th>
-              <th>Status</th>
-              <th>Action</th>
+              <th style="width:5%" class="text-center">Sl</th>
+              <th style="width:10%">Trx Date</th>
+              <th style="width:10%">Trx Type</th>
+              <th style="width:10%">QB Ref No.</th>
+              <th style="width:10%">Payee Name</th>
+              <th style="width:10%">Paid From</th>
+              <th style="width:15%">Memo</th>
+              <th style="text-align:center; width:10%">Total Amount</th>
+              <th style="width:10%;text-align:right;">Status</th>
+              <th style="width:10%;text-align:right;">Action</th>
             </tr>
           </thead>
           <tbody>
               @foreach($data as $dt)
               <tr>
-                <td>{{$loop->iteration}}</td>
-                <td>{{ date('d-M-Y',strtotime($dt['TxnDate']))}}</td>
-                <td>{{$dt['TxnType']}}</td>
-                <td>{{$dt['DocNumber']}}</td>
-                <td>{{$dt['PayeeName']}}</td>
-                <td>{{$dt['PaidFrom']}}</td>
-                <td>{{$dt['Memo']}}</td>
-                <td>{!! number_formatting($dt['TotalAmt']) !!}</td>
-                <td>
+                <td style="width:5%">{{$loop->iteration}}</td>
+                <td style="width:10%">{{ date('d-M-Y',strtotime($dt['TxnDate']))}}</td>
+                <td style="width:10%">{{$dt['TxnType']}}</td>
+                <td style="width:10%">{{$dt['DocNumber']}}</td>
+                <td style="width:10%">{{$dt['PayeeName']}}</td>
+                <td style="width:10%">{{$dt['PaidFrom']}}</td>
+                <td style="width:15%">{{$dt['Memo']}}</td>
+                <td style="text-align:right; width:10%">{!! number_formatting($dt['TotalAmt']) !!}</td>
+                <td style="width:10%;text-align:right;">
                   @php $is_printed = is_voucher_printed('Cash-Payment-Voucher',$dt['TxnType'],$dt['Id']); @endphp
                   @if($is_printed > 0)
                     <span class="badge badge-success">Printed</span>
                   @endif
                 </td>
-                <td>
+                <td style="width:10%;text-align:right;">
                   @php
                     if($dt['TxnType'] == 'Pay Bills') {$apiType = 'bill_payment';}
                     else if($dt['TxnType'] == 'Check') {$apiType = 'cheque';}

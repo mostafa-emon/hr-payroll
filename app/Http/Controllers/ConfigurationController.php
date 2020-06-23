@@ -33,7 +33,8 @@ class ConfigurationController extends Controller
             $currency->fraction_name    = $request->fraction_name;
 
             if($request->default == 1) {
-                $currency->default      = 1;
+                Currency::where('company_id',Auth::user()->company_id)->where('default', 1)->update(['default' => 0]);
+                $currency->default      = 1; 
             }else { $currency->default  = 0; }
 
             $currency->save();
@@ -60,6 +61,7 @@ class ConfigurationController extends Controller
             $currency->full_name        = $request->full_name;
             $currency->fraction_name    = $request->fraction_name;
             if($request->default == 1) {
+                Currency::where('company_id',Auth::user()->company_id)->where('default', 1)->update(['default' => 0]);
                 $currency->default      = 1;
             }else { $currency->default  = 0; }
             $currency->save();
