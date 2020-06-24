@@ -26,6 +26,7 @@ class CreateVouchersTable extends Migration
             $table->date('voucher_date');
             $table->string('reference_no')->nullable();
             $table->string('payee_name')->nullable();
+            $table->string('paid_from')->nullable();
             $table->string('received_from')->nullable();
             $table->string('deposit_to')->nullable();
             $table->string('cheque_no')->nullable();
