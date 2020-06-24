@@ -35,11 +35,12 @@
           <thead>
             <tr>
               <th class="wd-5p text-center">Sl</th>
-              <th class="wd-25p">Title</th>
-              <th class="wd-30p text-center">Type</th>
+              <th class="wd-20p">Title</th>
+              <th class="wd-35p text-center">Type</th>
+              <th class="wd-20p text-center">Default</th>
               @if(roles() != "" && (in_array(26, json_decode(roles(),false))  || in_array(27, json_decode(roles(),false))  || in_array(28, json_decode(roles(),false))))
-              <th class="wd-25p text-center">Update</th>
-              <th class="wd-25p text-center">Delete</th>
+              <th class="wd-20p text-center">Update</th>
+              <th class="wd-20p text-center">Delete</th>
               @endif
             </tr>
           </thead>
@@ -49,6 +50,11 @@
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $voucher_format->title }}</td>
                 <td class="text-center">{{ $voucher_format->type }}</td>
+                <td class="text-center">
+                  @if($voucher_format->default == 1)
+                    <span class="badge badge-success">Default</span>
+                  @endif
+                </td>
                 <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{url('voucher-formats/update/'.$voucher_format->id)}}"><i class="fa fa-edit"></i> Update </a>
                 </td>

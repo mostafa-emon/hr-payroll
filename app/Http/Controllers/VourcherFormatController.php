@@ -88,8 +88,9 @@ class VourcherFormatController extends Controller
             }else { $voucher_format->customer_job_project   = 0; }
 
             if($request->default == 1) {
-                $voucher_format->default                    = 1;
-            }else { $voucher_format->default                = 0; }
+                VoucherFormat::where('company_id',Auth::user()->company_id)->where('type',$request->type)->where('default', 1)->update(['default' => 0]);
+                $voucher_format->default      = 1;
+            }else { $voucher_format->default  = 0; }
 
             if($request->class == 1) {
                 $voucher_format->class              = 1;
@@ -191,8 +192,9 @@ class VourcherFormatController extends Controller
             }else { $voucher_format->customer_job_project   = 0; }
 
             if($request->default == 1) {
-                $voucher_format->default                    = 1;
-            }else { $voucher_format->default                = 0; }
+                VoucherFormat::where('company_id',Auth::user()->company_id)->where('type',$request->type)->where('default', 1)->update(['default' => 0]);
+                $voucher_format->default      = 1;
+            }else { $voucher_format->default  = 0; }
 
             if($request->class == 1) {
                 $voucher_format->class              = 1;
