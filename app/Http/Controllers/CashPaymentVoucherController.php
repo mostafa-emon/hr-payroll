@@ -264,11 +264,11 @@ class CashPaymentVoucherController extends Controller
     public function preview($print_status,$api_type,$id){
         $voucher_type = "Cash-Payment-Voucher";
         $data = $this->cash_payment_voucher_print($api_type,$id);
-        $voucher_formats = VoucherFormat::select('id','title','default')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
+        $voucher_formats = VoucherFormat::select('id','title')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
         $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
         $defaults = Currency::where('company_id',Auth::user()->company_id)->where('default',1)->first();
-        return view('vouchers.print_preview',compact('print_status','settings','currencies','defaults','data','voucher_type','api_type','voucher_formats'));
+        return view('vouchers.print_preview',compact('print_status','settings','currencies','data','voucher_type','api_type','voucher_formats','defaults'));
     }
 
     public function cash_payment_voucher_print($api_type,$id){
@@ -345,29 +345,80 @@ class CashPaymentVoucherController extends Controller
             }else{
                 $data['memo'] = "";
             }
-
+            $data['PaidFrom'] = $results['Purchase']['AccountRef']['name'];
             $data['transactions'] = [];
             $count_debits = count($results['Purchase']['Line']) - 1;
             if($count_debits > -1){
                 for($i = 0; $i <= $count_debits; $i++) {
-                    $data['transactions'][$i]['account_code_name'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['AccountRef']['name'];
-                    if(isset($results['Purchase']['Line'][$i]['Description'])){
-                        $data['transactions'][$i]['memo'] = $results['Purchase']['Line'][$i]['Description'];
-                    }else{
-                        $data['transactions'][$i]['memo'] = "";
+                    if($results['Purchase']['Line'][$i]['DetailType'] == "AccountBasedExpenseLineDetail") {
+                        $data['transactions'][$i]['account_code_name'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['AccountRef']['name'];
+                        if(isset($results['Purchase']['Line'][$i]['Description'])){
+                            $data['transactions'][$i]['memo'] = $results['Purchase']['Line'][$i]['Description'];
+                        }else{
+                            $data['transactions'][$i]['memo'] = "";
+                        }
+                        if(isset($results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['CustomerRef']['name'])){
+                            $data['transactions'][$i]['customer_job_project_name'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['CustomerRef']['name'];
+                        }else{
+                            $data['transactions'][$i]['customer_job_project_name'] = "";
+                        }
+                        if(isset($results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['ClassRef']['name'])){
+                            $data['transactions'][$i]['class'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['ClassRef']['name'];
+                        }else{
+                            $data['transactions'][$i]['class'] = "";
+                        }
+                        $data['transactions'][$i]['debit'] = $results['Purchase']['Line'][$i]['Amount'];
+                        $data['transactions'][$i]['credit'] = "";
                     }
-                    if(isset($results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['CustomerRef']['name'])){
-                        $data['transactions'][$i]['customer_job_project_name'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['CustomerRef']['name'];
-                    }else{
-                        $data['transactions'][$i]['customer_job_project_name'] = "";
+                    else if($results['Purchase']['Line'][$i]['DetailType'] == "ItemBasedExpenseLineDetail") {
+                        
+                        // ACCOUNT NAME FROM ITEM API
+                        $item_id = $results['Purchase']['Line'][$i]['ItemBasedExpenseLineDetail']['ItemRef']['value'];
+                        $curl = curl_init();
+                        curl_setopt_array($curl, array(
+                        CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/item/".$item_id."?minorversion=14",
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => "",
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => "GET",
+                        CURLOPT_HTTPHEADER => array(
+                            "User-Agent: Token ".$token,
+                            "Accept: application/json",
+                            "Content-Type: application/text",
+                            "Authorization: Bearer ".$token,
+                            "Cookie: qboeuid=dd7e3fce.5a8116cd35a6f"
+                        ),
+                        ));
+
+                        $response = curl_exec($curl);
+                        curl_close($curl);
+
+                        $items = json_decode($response, true);
+
+                        $data['transactions'][$i]['account_code_name'] = $items['Item']['AssetAccountRef']['name'];
+                        
+                        if(isset($results['Purchase']['Line'][$i]['Description'])){
+                            $data['transactions'][$i]['memo'] = $results['Purchase']['Line'][$i]['Description'];
+                        }else{
+                            $data['transactions'][$i]['memo'] = "";
+                        }
+                        if(isset($results['Purchase']['Line'][$i]['ItemBasedExpenseLineDetail']['CustomerRef']['name'])){
+                            $data['transactions'][$i]['customer_job_project_name'] = $results['Purchase']['Line'][$i]['ItemBasedExpenseLineDetail']['CustomerRef']['name'];
+                        }else{
+                            $data['transactions'][$i]['customer_job_project_name'] = "";
+                        }
+                        if(isset($results['Purchase']['Line'][$i]['ItemBasedExpenseLineDetail']['ClassRef']['name'])){
+                            $data['transactions'][$i]['class'] = $results['Purchase']['Line'][$i]['ItemBasedExpenseLineDetail']['ClassRef']['name'];
+                        }else{
+                            $data['transactions'][$i]['class'] = "";
+                        }
+                        $data['transactions'][$i]['debit'] = $results['Purchase']['Line'][$i]['Amount'];
+                        $data['transactions'][$i]['credit'] = "";
                     }
-                    if(isset($results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['ClassRef']['name'])){
-                        $data['transactions'][$i]['class'] = $results['Purchase']['Line'][$i]['AccountBasedExpenseLineDetail']['ClassRef']['name'];
-                    }else{
-                        $data['transactions'][$i]['class'] = "";
-                    }
-                    $data['transactions'][$i]['debit'] = $results['Purchase']['Line'][$i]['Amount'];
-                    $data['transactions'][$i]['credit'] = "";
+                    
                 }
             }
 
@@ -450,11 +501,12 @@ class CashPaymentVoucherController extends Controller
             }else{
                 $data['memo'] = "";
             }
+            $data['PaidFrom'] = $results['BillPayment']['CheckPayment']['BankAccountRef']['name'];
 
             $bill_id = $results['BillPayment']['Line'][0]['LinkedTxn'][0]['TxnId'];
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => $company->qb_environment."/v3/company/4620816365062880570/bill/".$bill_id."?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/bill/".$bill_id."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

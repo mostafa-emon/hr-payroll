@@ -31,6 +31,7 @@
     <input type="hidden" name="print_status" value="{{$print_status}}"/>
     <input type="hidden" name="prefix" value="{{$data['prefix']}}"/>
     <input type="hidden" name="suffix" value="{{$data['suffix']}}"/>
+    <input type="hidden" name="paid_from" value="{{$data['PaidFrom']}}"/>
 
     <div class="br-pagebody">
       <div class="br-section-wrapper">

@@ -56,16 +56,19 @@ function is_voucher_printed($voucher_type,$api_type,$id){
             $count = Voucher::where('type','Cash-Payment-Voucher')
                     ->where('api_type','expense')
                     ->where('document_id',$id)
+                    ->where('status',1)
                     ->count();
         }else if($api_type == "Check"){
             $count = Voucher::where('type','Cash-Payment-Voucher')
                     ->where('api_type','cheque')
                     ->where('document_id',$id)
+                    ->where('status',1)
                     ->count();
         }else if($api_type == "Pay Bills"){
             $count = Voucher::where('type','Cash-Payment-Voucher')
                     ->where('api_type','bill_payment')
                     ->where('document_id',$id)
+                    ->where('status',1)
                     ->count();
         }
     }
