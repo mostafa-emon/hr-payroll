@@ -47,7 +47,7 @@
         </td>
         <td style="text-align: center"> {{ $voucher->reference_no }} </td>
         <td>{{ $voucher->payee_name }}</td>
-        <td>{{ $voucher->received_from }}</td>
+        <td>{{ $voucher->paid_from }}</td>
         <td>{{ $voucher->deposit_to }}</td>
         <td>{{ $voucher->memo }} </td>
         <td style="text-align: right">{!! number_formatting($voucher->total_credit) !!} </td>

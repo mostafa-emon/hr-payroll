@@ -24,6 +24,7 @@ class LocalVoucherController extends Controller
                         ->where('api_type',$request->api_type)
                         ->where('document_id',$request->document_id)
                         ->where('company_id',Auth::user()->company_id)
+                        ->where('status',1)
                         ->first();
             Voucher::where('id',$voucher->id)->delete();
             VoucherDetail::where('voucher_id',$voucher->id)->delete();
@@ -43,6 +44,7 @@ class LocalVoucherController extends Controller
         $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
         $voucher->location      = $request->location;
         $voucher->reference_no  = $request->reference_no;
+        $voucher->paid_from     = $request->paid_from;
 
         $voucher->total_debit   = $request->total_debit;
         $voucher->total_credit  = $request->total_credit;
