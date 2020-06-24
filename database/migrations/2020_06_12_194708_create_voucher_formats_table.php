@@ -63,8 +63,8 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format = new VoucherFormat();
         $voucher_format->title                  = "Default";
         $voucher_format->type                   = "Cash-Payment-Voucher";
-        $voucher_format->qb_logo_top            = 4;
-        $voucher_format->qb_logo_left           = 153;
+        $voucher_format->qb_logo_top            = 0;
+        $voucher_format->qb_logo_left           = 5;
         $voucher_format->voucher_no_top         = 28;
         $voucher_format->voucher_no_left        = 150;
         $voucher_format->voucher_date_top       = 35;
@@ -99,8 +99,8 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format = new VoucherFormat();
         $voucher_format->title                  = "Default";
         $voucher_format->type                   = "Bank-Payment-Voucher";
-        $voucher_format->qb_logo_top            = 4;
-        $voucher_format->qb_logo_left           = 153;
+        $voucher_format->qb_logo_top            = 0;
+        $voucher_format->qb_logo_left           = 5;
         $voucher_format->voucher_no_top         = 28;
         $voucher_format->voucher_no_left        = 150;
         $voucher_format->voucher_date_top       = 35;
@@ -135,8 +135,8 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format = new VoucherFormat();
         $voucher_format->title                  = "Default";
         $voucher_format->type                   = "Cash-Receipt-Voucher";
-        $voucher_format->qb_logo_top            = 4;
-        $voucher_format->qb_logo_left           = 153;
+        $voucher_format->qb_logo_top            = 0;
+        $voucher_format->qb_logo_left           = 5;
         $voucher_format->voucher_no_top         = 28;
         $voucher_format->voucher_no_left        = 150;
         $voucher_format->voucher_date_top       = 35;
@@ -171,8 +171,8 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format = new VoucherFormat();
         $voucher_format->title                  = "Default";
         $voucher_format->type                   = "Bank-Receipt-Voucher";
-        $voucher_format->qb_logo_top            = 4;
-        $voucher_format->qb_logo_left           = 153;
+        $voucher_format->qb_logo_top            = 0;
+        $voucher_format->qb_logo_left           = 5;
         $voucher_format->voucher_no_top         = 28;
         $voucher_format->voucher_no_left        = 150;
         $voucher_format->voucher_date_top       = 35;
@@ -207,8 +207,8 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format = new VoucherFormat();
         $voucher_format->title                  = "Default";
         $voucher_format->type                   = "Contra-Voucher";
-        $voucher_format->qb_logo_top            = 4;
-        $voucher_format->qb_logo_left           = 153;
+        $voucher_format->qb_logo_top            = 0;
+        $voucher_format->qb_logo_left           = 5;
         $voucher_format->voucher_no_top         = 28;
         $voucher_format->voucher_no_left        = 150;
         $voucher_format->voucher_date_top       = 35;
@@ -243,8 +243,8 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format = new VoucherFormat();
         $voucher_format->title                  = "Default";
         $voucher_format->type                   = "Journal-Voucher";
-        $voucher_format->qb_logo_top            = 4;
-        $voucher_format->qb_logo_left           = 153;
+        $voucher_format->qb_logo_top            = 0;
+        $voucher_format->qb_logo_left           = 5;
         $voucher_format->voucher_no_top         = 28;
         $voucher_format->voucher_no_left        = 150;
         $voucher_format->voucher_date_top       = 35;

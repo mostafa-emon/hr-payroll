@@ -202,12 +202,12 @@
 
             <div id="printArea">
               <div id="containment-wrapper" style="height: {{$page_height}}mm; width: 210mm; position: relative">
-                <div style="margin-top:3mm;text-align:center;color:black;font-size:13px;font-weight:bold">
+                <div style="text-align:center;color:black;font-size:13px;font-weight:bold">
                   <div style="font-size: 16px;">{{$company->name}}</div>
                   <div style="width:70mm;margin-left:70mm;">{{$company->address}}</div>
                   <div style="margin-top:8px">{{ str_replace("-", " ", $type) }}</div>
                 </div>
-                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top: {{$voucher_formats->qb_logo_top}}mm;left: {{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('storage/'.$company->logo) }}" height="45"/></div>
+                <div id="qblogo" onclick="qbLogoDrag();" class="draggable ui-widget-content" style="position: absolute;top: {{$voucher_formats->qb_logo_top}}mm;right: {{$voucher_formats->qb_logo_left}}mm"><img src="{{ asset('storage/'.$company->logo) }}" height="50"/></div>
                 <div id="voucher_no" onclick="voucherNoDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_no_top}}mm; left: {{$voucher_formats->voucher_no_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher No :</div>
                 <div id="voucher_date" onclick="voucherDateDrag()" class="draggable ui-widget-content" style="position: absolute; top: {{$voucher_formats->voucher_date_top}}mm; left: {{$voucher_formats->voucher_date_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 10px; border-right: 7px solid red;">Voucher Date : </div>
                 <div id="payee_name" onclick="payeeNameDrag()" class="draggable ui-widget-content" style="@if($voucher_formats->payee_name != 1) display:none; @endif position: absolute; top: {{$voucher_formats->payee_name_top}}mm; left: {{$voucher_formats->payee_name_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black; background-color:rgba(60, 141, 188, 0.5); padding-right: 200px; border-right: 7px solid red;">Payee Name</div>

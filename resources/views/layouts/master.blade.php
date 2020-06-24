@@ -63,7 +63,7 @@
           <li class="nav-item"><a href="{{url('user')}}" class="nav-link {{ (request()->is('user*')) ? 'active' : '' }}">Users</a></li>
         </ul>
 
-        <a href="#" class="br-menu-link {{ (request()->is('tr*')) || (request()->is('create*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('tr*')) || (request()->is('create*')) || (request()->is('cpv-voucher-preview*')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-file-alt tx-19 pd-l-2"></i>
             <span class="menu-item-label">Transaction</span>
@@ -71,7 +71,7 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ url('tr-cash-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-payment-voucher*')) ? 'active' : '' }}">Cash Payment Voucher</a></li>
+          <li class="nav-item"><a href="{{ url('tr-cash-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-payment-voucher*')) || (request()->is('cpv-voucher-preview*')) ? 'active' : '' }}">Cash Payment Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-bank-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-bank-payment-voucher*')) ? 'active' : '' }}">Bank Payment Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-cash-receipt-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-receipt-voucher*')) ? 'active' : '' }}">Cash Receipt Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-bank-receipt-voucher') }}" class="nav-link  {{ (request()->is('tr-bank-receipt-voucher*')) ? 'active' : '' }}">Bank Receipt Voucher</a></li>

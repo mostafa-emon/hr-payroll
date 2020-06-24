@@ -61,8 +61,8 @@
               <div style="width:75mm;margin-left:70mm;">{{$company->address}}</div>
               <div style="margin-top:8px">{{ str_replace("-", " ", $type) }}</div>
             </div>
-            <div id="qblogo" style="position: absolute;top: {{$layout->qb_logo_top}}mm;left: {{$layout->qb_logo_left}}mm"><img src="{{ asset('storage/'.$company->logo) }}" height="45"/></div>
-            <div id="voucher_no" style="position: absolute; top: {{$layout->voucher_no_top}}mm; left: {{$layout->voucher_no_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black;">Voucher No : {{$voucher->prefix}}-{{$voucher->voucher_no}}-{{$voucher->suffix}}</div>
+            <div id="qblogo" style="position: absolute;top: {{$layout->qb_logo_top}}mm;right: {{$layout->qb_logo_left}}mm"><img src="{{ asset('storage/'.$company->logo) }}" height="45"/></div>
+            <div id="voucher_no" style="position: absolute; top: {{$layout->voucher_no_top}}mm; left: {{$layout->voucher_no_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black;">Voucher No : @if($voucher->prefix !="") {{$voucher->prefix}}-@endif{{$voucher->voucher_no}}@if($voucher->suffix !="")-{{$voucher->suffix}}@endif</div>
             <div id="voucher_date"  style="position: absolute; top: {{$layout->voucher_date_top}}mm; left: {{$layout->voucher_date_left}}mm; font-family: arial; font-size: 13px; font-weight:bold; color: black;">Voucher Date : {{date('d-M-y',strtotime($voucher->voucher_date))}}</div>
             <div id="payee_name" style="@if($layout->payee_name != 1) display:none; @endif position: absolute; top: {{$layout->payee_name_top}}mm; left: {{$layout->payee_name_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black;">Payee Name : {{$voucher->payee_name}}</div>
             <div id="cheque_name" style="@if($layout->cheque_no != 1) display:none; @endif position: absolute; top: {{$layout->cheque_no_top}}mm; left: {{$layout->cheque_no_left}}mm; font-family: Arial; font-size: 13px; font-weight:bold; color: black;">Cheque No : {{$voucher->cheque_no}}</div>
