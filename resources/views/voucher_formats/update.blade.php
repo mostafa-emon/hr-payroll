@@ -39,7 +39,7 @@
         $page_height = 297;
       }
       if($voucher_formats->type == "Cash-Payment-Voucher") {
-        $colspan = 4;
+        $colspan = 5;
         if($voucher_formats->customer_job != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->class != 1){ $colspan = $colspan - 1; }
         if($voucher_formats->name == 1){ $colspan = $colspan + 1; }
@@ -222,7 +222,7 @@
                     <thead>
                       <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code & Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Memo</th>
-                      <th class="customer_job" style="@if($voucher_formats->customer_job != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
+                      <th class="customer_job" style="@if($voucher_formats->customer_job_project != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
                       <th class="class" style="@if($voucher_formats->class != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
                       <th class="name" style="@if($voucher_formats->name != 1) display:none; @endif border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>

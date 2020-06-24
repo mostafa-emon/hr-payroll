@@ -16,38 +16,38 @@
       }
       if($layout->type == "Cash-Payment-Voucher") {
         $colspan = 4;
-        if($layout->customer_job != 1){ $colspan = $colspan - 1; }
+        if($layout->customer_job_project != 1){ $colspan = $colspan - 1; }
         if($layout->class != 1){ $colspan = $colspan - 1; }
         if($layout->name == 1){ $colspan = $colspan + 1; }
       }
       else if($layout->type == "Bank-Payment-Voucher") {
         $colspan = 4;
-        if($layout->customer_job != 1){ $colspan = $colspan - 1; }
+        if($layout->customer_job_project != 1){ $colspan = $colspan - 1; }
         if($layout->class != 1){ $colspan = $colspan - 1; }
         if($layout->name == 1){ $colspan = $colspan + 1; }
       }
       else if($layout->type == "Cash-Receipt-Voucher") {
         $colspan = 3;
         if($layout->class != 1){ $colspan = $colspan - 1; }
-        if($layout->customer_job == 1){ $colspan = $colspan + 1; }
+        if($layout->customer_job_project == 1){ $colspan = $colspan + 1; }
         if($layout->name == 1){ $colspan = $colspan + 1; }
       }
       else if($layout->type == "Bank-Receipt-Voucher") {
         $colspan = 3;
         if($layout->class != 1){ $colspan = $colspan - 1; }
-        if($layout->customer_job == 1){ $colspan = $colspan + 1; }
+        if($layout->customer_job_project == 1){ $colspan = $colspan + 1; }
         if($layout->name == 1){ $colspan = $colspan + 1; }
       }
       else if($layout->type == "Contra-Voucher") {
         $colspan = 3;
         if($layout->class != 1){ $colspan = $colspan - 1; }
-        if($layout->customer_job == 1){ $colspan = $colspan + 1; }
+        if($layout->customer_job_project == 1){ $colspan = $colspan + 1; }
         if($layout->name == 1){ $colspan = $colspan + 1; }
       }
       else if($layout->type == "Journal-Voucher") {
         $colspan = 3;
         if($layout->class != 1){ $colspan = $colspan - 1; }
-        if($layout->customer_job == 1){ $colspan = $colspan + 1; }
+        if($layout->customer_job_project == 1){ $colspan = $colspan + 1; }
         if($layout->name == 1){ $colspan = $colspan + 1; }
       }
       $type = $layout->type
@@ -76,7 +76,7 @@
                 <thead>
                   <th class="account_code" style="border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Account Code & Name</th>
                   <th style="border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Memo</th>
-                  <th class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
+                  <th class="customer_job" style="@if($layout->customer_job_project != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
                   <th class="class" style="@if($layout->class != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
                   <th class="name" style="@if($layout->name != 1) display:none; @endif border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
                   <th style="text-align:right;border-top:1px solid black; border-bottom:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
@@ -88,7 +88,7 @@
                         <tr>
                             <td class="account_code" style="border-bottom:1px solid black; border-left:1px solid black;">{{$detail->account_code_name}}</td>
                             <td style="border-bottom:1px solid black; border-left:1px solid black;">{{$detail->memo}}</td>
-                            <td class="customer_job" style="@if($layout->customer_job != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
+                            <td class="customer_job" style="@if($layout->customer_job_project != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
                             <td class="class" style="@if($layout->class != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->class}}</td>
                             <td class="name" style="@if($layout->name != 1) display:none; @endif border-bottom:1px solid black; border-left:1px solid black;">{{$detail->customer_job_project_name}}</td>
                             <td style="text-align:right;border-bottom:1px solid black; border-left:1px solid black;text-align:right;">{!! number_formatting($detail->debit) !!}</td>
