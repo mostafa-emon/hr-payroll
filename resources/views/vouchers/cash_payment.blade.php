@@ -123,14 +123,4 @@
       @endif
     </div>
   </div>
-
-  <script>
-    function confirmDelete(id){
-      var result = confirm("Are you confirm to delete?");
-      if (result) {
-          window.location = 'printer/delete/'+id
-      }
-    }
-  </script>
-
 @endsection

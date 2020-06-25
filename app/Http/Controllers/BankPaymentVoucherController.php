@@ -12,7 +12,7 @@ use App\Currency;
 use DateTime;
 use App\Company;
 
-class CashPaymentVoucherController extends Controller
+class BankPaymentVoucherController extends Controller
 {
     public function __construct()
     {
@@ -57,7 +57,7 @@ class CashPaymentVoucherController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"SELECT * FROM Account WHERE AccountSubType = 'CashOnHand'",
+            CURLOPT_POSTFIELDS =>"SELECT * FROM Account",
             CURLOPT_HTTPHEADER => array(
                 "User-Agent: Token ".$token,
                 "Accept: application/json",
@@ -75,8 +75,15 @@ class CashPaymentVoucherController extends Controller
             $resultCount = $accounts['QueryResponse']['maxResults'] - 1;
             if($resultCount > -1){
                 for($i = 0; $i <= $resultCount; $i++) {
-                    $CashOnHandID[] = $accounts['QueryResponse']['Account'][$i]['Id'];
-                    $whereInIDs = $whereInIDs.",'".$accounts['QueryResponse']['Account'][$i]['Id']."'";
+                    if($accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "Checking"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "MoneyMarket"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "RentsHeldInTrust"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "Savings"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "TrustAccounts"
+                    ){
+                        $CashOnHandID[] = $accounts['QueryResponse']['Account'][$i]['Id'];
+                        $whereInIDs = $whereInIDs.",'".$accounts['QueryResponse']['Account'][$i]['Id']."'";
+                    }
                 }
             }
             $whereInIDs = ltrim($whereInIDs,',');
@@ -246,7 +253,7 @@ class CashPaymentVoucherController extends Controller
                     }
                 }
             }
-            return view('vouchers.cash_payment',compact('data','from_date','to_date','type','payee_name','amount','memo'));
+            return view('vouchers.bank_payment',compact('data','from_date','to_date','type','payee_name','amount','memo'));
         }
         
         else{
@@ -257,13 +264,13 @@ class CashPaymentVoucherController extends Controller
             $from_date = date('Y-m-d');
             $to_date = date('Y-m-d');
             $data = [];
-            return view('vouchers.cash_payment',compact('data','from_date','to_date','type','payee_name','amount','memo'));
+            return view('vouchers.bank_payment',compact('data','from_date','to_date','type','payee_name','amount','memo'));
         }
     }
 
     public function preview($print_status,$api_type,$id){
-        $voucher_type = "Cash-Payment-Voucher";
-        $data = $this->cash_payment_voucher_print($api_type,$id);
+        $voucher_type = "Bank-Payment-Voucher";
+        $data = $this->bank_payment_voucher_print($api_type,$id);
         $voucher_formats = VoucherFormat::select('id','title','default')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
         $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
@@ -271,7 +278,7 @@ class CashPaymentVoucherController extends Controller
         return view('vouchers.print_preview',compact('print_status','settings','currencies','data','voucher_type','api_type','voucher_formats','defaults'));
     }
 
-    public function cash_payment_voucher_print($api_type,$id){
+    public function bank_payment_voucher_print($api_type,$id){
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
         $data = [];
@@ -302,18 +309,18 @@ class CashPaymentVoucherController extends Controller
             $results = json_decode($response, true);
 
             if($settings->voucher_number == "auto"){
-                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Payment-Voucher')->orderBy('created_at','desc')->first();
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Bank-Payment-Voucher')->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                    $data['voucher_no'] = $settings->bank_payment_voucher_start_from;
                 }else{
-                    if($settings->cash_payment_voucher_prefix == $latest_voucher->prefix && $settings->cash_payment_voucher_suffix == $latest_voucher->suffix){
+                    if($settings->bank_payment_voucher_prefix == $latest_voucher->prefix && $settings->bank_payment_voucher_suffix == $latest_voucher->suffix){
                         $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                     }else{
-                        $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                        $data['voucher_no'] = $settings->bank_payment_voucher_start_from;
                     }
                 }
-                $data['prefix'] = $settings->cash_payment_voucher_prefix;
-                $data['suffix'] = $settings->cash_payment_voucher_suffix;
+                $data['prefix'] = $settings->bank_payment_voucher_prefix;
+                $data['suffix'] = $settings->bank_payment_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
                 $data['prefix'] = "";
@@ -463,18 +470,18 @@ class CashPaymentVoucherController extends Controller
             $results = json_decode($response, true);
 
             if($settings->voucher_number == "auto"){
-                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Payment-Voucher')->orderBy('created_at','desc')->first();
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Bank-Payment-Voucher')->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                    $data['voucher_no'] = $settings->bank_payment_voucher_start_from;
                 }else{
-                    if($settings->cash_payment_voucher_prefix == $latest_voucher->prefix && $settings->cash_payment_voucher_suffix == $latest_voucher->suffix){
+                    if($settings->bank_payment_voucher_prefix == $latest_voucher->prefix && $settings->bank_payment_voucher_suffix == $latest_voucher->suffix){
                         $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                     }else{
-                        $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                        $data['voucher_no'] = $settings->bank_payment_voucher_start_from;
                     }
                 }
-                $data['prefix'] = $settings->cash_payment_voucher_prefix;
-                $data['suffix'] = $settings->cash_payment_voucher_suffix;
+                $data['prefix'] = $settings->bank_payment_voucher_prefix;
+                $data['suffix'] = $settings->bank_payment_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
                 $data['prefix'] = "";

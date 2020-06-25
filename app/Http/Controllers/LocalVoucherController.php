@@ -85,7 +85,7 @@ class LocalVoucherController extends Controller
 
     public function print($voucher_type,$format_id,$voucher_id){
         if($format_id == "default") {
-            $layout = VoucherFormat::where('title','Default')->where('company_id',NULL)->first();
+            $layout = VoucherFormat::where('title','Default')->where('company_id',NULL)->where('type',$voucher_type)->first();
         }else{
             $layout = VoucherFormat::where('id',$format_id)->first();
         }

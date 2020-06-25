@@ -76,14 +76,14 @@
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force">
                     <label class="form-control-label">Cheque No:</label>
-                    <input class="form-control" type="text" name="cheque_no" placeholder="Enter Cheque Number" @if($data['cheque_no'] != "") value="{{$data['cheque_no']}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || "Cash-Receipt-Voucher") readonly @endif>
+                    <input class="form-control" type="text" name="cheque_no" placeholder="Enter Cheque Number" @if($data['cheque_no'] != "") value="{{$data['cheque_no']}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || $voucher_type == "Cash-Receipt-Voucher") readonly @endif>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                     <label class="form-control-label">Cheque Date:</label>
-                    <input class="form-control" type="text" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || "Cash-Receipt-Voucher") readonly @else id="dtpick1" @endif>
+                    <input class="form-control" type="text" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || $voucher_type == "Cash-Receipt-Voucher") readonly @else id="dtpick1" @endif>
                 </div>
             </div>
 

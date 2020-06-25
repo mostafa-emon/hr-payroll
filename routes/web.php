@@ -171,7 +171,10 @@ Route::post('/signatory/update/{signatory_id}', 'SignatoryController@update');
 
 Route::get('/tr-cash-payment-voucher', 'CashPaymentVoucherController@index');
 Route::post('/tr-cash-payment-voucher', 'CashPaymentVoucherController@index');
-Route::get('/tr-bank-payment-voucher', 'VoucherController@bank_payment');
+
+Route::get('/tr-bank-payment-voucher', 'BankPaymentVoucherController@index');
+Route::post('/tr-bank-payment-voucher', 'BankPaymentVoucherController@index');
+
 Route::get('/tr-cash-receipt-voucher', 'VoucherController@cash_receipt');
 Route::get('/tr-bank-receipt-voucher', 'VoucherController@bank_receipt');
 
@@ -184,6 +187,7 @@ Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
 Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
 
 Route::get('/cpv-voucher-preview/{print_status}/{api_type}/{id}', 'CashPaymentVoucherController@preview');
+Route::get('/bpv-voucher-preview/{print_status}/{api_type}/{id}', 'BankPaymentVoucherController@preview');
 
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 
