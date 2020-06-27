@@ -12,6 +12,7 @@ use App\Setting;
 use App\Voucher;
 use App\Company;
 use Auth;
+use Mail;
 
 class MRController extends Controller
 {
@@ -32,5 +33,29 @@ class MRController extends Controller
 
     public function create_cheque(){
         return view('vouchers.create_cheque');
+    }
+
+    public function sendmail(){
+        $data["email"]  = 'mostafaemon.info@gmail.com';
+        $data["client_name"] = 'Mostafa Mamun Emon';
+        $data["subject"] = 'This is a test subject';
+
+        try{
+            Mail::send('mails.mail', $data, function($message)use($data) {
+                $message->to($data["email"], $data["client_name"])->subject($data["subject"]);
+            });
+        }catch(JWTException $exception){
+            $this->serverstatuscode = "0";
+            $this->serverstatusdes = $exception->getMessage();
+        }
+        if (Mail::failures()) {
+             $this->statusdesc  =   "Error sending mail";
+             $this->statuscode  =   "0";
+
+        }else{
+
+           $this->statusdesc  =   "Message sent Succesfully";
+           $this->statuscode  =   "1";
+        }
     }
 }

@@ -200,3 +200,5 @@ Route::get('/create-mr', 'MRController@create_mr');
 Route::get('/create-cheque', 'MRController@create_cheque');
 
 Route::post('/voucher/add', 'LocalVoucherController@add_voucher');
+
+Route::get('/send-mail', 'MRController@sendmail');
