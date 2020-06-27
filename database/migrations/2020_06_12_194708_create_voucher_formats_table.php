@@ -270,7 +270,7 @@ class CreateVoucherFormatsTable extends Migration
         $voucher_format->account_code           = 1;
         $voucher_format->customer_job_project   = 0;
         $voucher_format->class                  = 1;
-        $voucher_format->name                   = 0;
+        $voucher_format->name                   = 1;
         $voucher_format->table_top              = 43;
         $voucher_format->table_left             = 5;
         $voucher_format->signatory_top          = 130;

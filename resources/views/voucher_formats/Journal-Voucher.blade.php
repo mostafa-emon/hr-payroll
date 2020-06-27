@@ -185,14 +185,14 @@
                       <th class="account_code" style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Account Code & Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black; text-align:center;">Memo</th>
                       <th class="customer_job" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Customer:Job/Project</th>
+                      <th class="name" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
                       <th class="class" style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Class</th>
-                      <th class="name" style="display:none;border-top:1px solid black; border-left:1px solid black;text-align:center;">Name</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;text-align:center;">Debit</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-right:1px solid black;text-align:center;">Credit</th>
                     </thead>
 
                     <tfoot>
-                      <th id="table_total" colspan="3" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
+                      <th id="table_total" colspan="4" style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;">Total</th>
                       <th style="border-top:1px solid black; border-left:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                       <th style="border-top:1px solid black; border-left:1px solid black; border-right:1px solid black;border-bottom: 1px solid black;text-align:center;"></th>
                     </tfoot>
@@ -233,7 +233,7 @@
   </form>
 
   <script>
-    var colspan = "3";
+    var colspan = "4";
 
     function hideShowElement(value) {
       if(value == "payee_name") {
