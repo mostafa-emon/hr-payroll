@@ -121,8 +121,8 @@ class JournalVoucherController extends Controller
     }
 
     public function preview($print_status,$api_type,$id){
-        $voucher_type = "Contra-Voucher";
-        $data = $this->contra_voucher_print($api_type,$id);
+        $voucher_type = "Journal-Voucher";
+        $data = $this->journal_voucher_print($api_type,$id);
         $voucher_formats = VoucherFormat::select('id','title','default')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
         $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
@@ -130,7 +130,7 @@ class JournalVoucherController extends Controller
         return view('vouchers.print_preview',compact('print_status','settings','currencies','data','voucher_type','api_type','voucher_formats','defaults'));
     }
 
-    public function contra_voucher_print($api_type,$id){
+    public function journal_voucher_print($api_type,$id){
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
         $data = [];
@@ -138,7 +138,7 @@ class JournalVoucherController extends Controller
         
         $curl = curl_init();
         curl_setopt_array($curl, array(
-        CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/transfer/".$id."?minorversion=14",
+        CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/journalentry/".$id."?minorversion=14",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
@@ -159,19 +159,20 @@ class JournalVoucherController extends Controller
         curl_close($curl);
 
         $results = json_decode($response, true);
+        
         if($settings->voucher_number == "auto"){
-            $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Contra-Voucher')->orderBy('created_at','desc')->first();
+            $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Journal-Voucher')->orderBy('created_at','desc')->first();
             if($latest_voucher == ""){
-                $data['voucher_no'] = $settings->contra_voucher_start_from;
+                $data['voucher_no'] = $settings->journal_voucher_start_from;
             }else{
-                if($settings->contra_voucher_prefix == $latest_voucher->prefix && $settings->contra_voucher_suffix == $latest_voucher->suffix){
+                if($settings->journal_voucher_prefix == $latest_voucher->prefix && $settings->journal_voucher_suffix == $latest_voucher->suffix){
                     $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                 }else{
-                    $data['voucher_no'] = $settings->contra_voucher_start_from;
+                    $data['voucher_no'] = $settings->journal_voucher_start_from;
                 }
             }
-            $data['prefix'] = $settings->contra_voucher_prefix;
-            $data['suffix'] = $settings->contra_voucher_suffix;
+            $data['prefix'] = $settings->journal_voucher_prefix;
+            $data['suffix'] = $settings->journal_voucher_suffix;
         }else{
             $data['voucher_no'] = "";
             $data['prefix'] = "";
@@ -179,12 +180,18 @@ class JournalVoucherController extends Controller
         }
         $data['id'] = $results['JournalEntry']['Id'];
         $data['voucher_date'] = $results['JournalEntry']['TxnDate'];
-        $data['reference_no'] = "";
+        if(isset($results['JournalEntry']['DocNumber'])){
+            $data['reference_no'] = $results['JournalEntry']['DocNumber'];
+        }else{
+            $data['reference_no'] = "";
+        }
+        
         $data['payee_name'] = "";
         $data['received_from'] = "";
         $data['cheque_no'] = "";
         $data['cheque_date'] = "";
         $data['location'] = "";
+
         if(isset($results['JournalEntry']['PrivateNote'])){
             $data['memo'] = $results['JournalEntry']['PrivateNote'];
         }else{
@@ -192,29 +199,45 @@ class JournalVoucherController extends Controller
         }
         $data['PaidFrom'] = "";
         $data['transactions'] = [];
+        
+        $count_debits = count($results['JournalEntry']['Line']) - 1;
+        if($count_debits > -1){
+            for($i = 0; $i <= $count_debits; $i++) {
+                if(isset($results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['AccountRef']['name'])){
+                    $data['transactions'][$i]['account_code_name'] = $results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['AccountRef']['name'];
+                }
+                else{
+                    $data['transactions'][$i]['account_code_name'] = "";
+                }
+                if(isset($results['JournalEntry']['Line'][$i]['Description'])){
+                    $data['transactions'][$i]['memo'] = $results['JournalEntry']['Line'][$i]['Description'];
+                }else{
+                    $data['transactions'][$i]['memo'] = "";
+                }
+                if(isset($results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['Entity']['EntityRef']['name'])){
+                    $data['transactions'][$i]['customer_job_project_name'] = $results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['Entity']['EntityRef']['name'];
+                }else{
+                    $data['transactions'][$i]['customer_job_project_name'] = "";
+                }
+                if(isset($results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['ClassRef']['name'])){
+                    $data['transactions'][$i]['class'] = $results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['ClassRef']['name'];
+                }else{
+                    $data['transactions'][$i]['class'] = "";
+                }
+                if($results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['PostingType'] == "Debit"){
+                    $data['transactions'][$i]['debit'] = $results['JournalEntry']['Line'][$i]['Amount'];
+                    $data['transactions'][$i]['credit'] = "";
+                }else if($results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['PostingType'] == "Credit"){
+                    $data['transactions'][$i]['debit'] = "";
+                    $data['transactions'][$i]['credit'] = $results['JournalEntry']['Line'][$i]['Amount'];
+                }
 
-        $data['transactions'][0]['account_code_name'] = $results['JournalEntry']['ToAccountRef']['name'];
-        if(isset($results['JournalEntry']['PrivateNote'])){
-            $data['transactions'][0]['memo'] = $results['JournalEntry']['PrivateNote'];
-        }else{
-            $data['transactions'][0]['memo'] = "";
+                if(isset($results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['DepartmentRef']['name'])){
+                    $data['location'] = $data['location'].','.$results['JournalEntry']['Line'][$i]['JournalEntryLineDetail']['DepartmentRef']['name'];
+                }
+            }
+            $data['location'] = trim($data['location'],",");
         }
-        $data['transactions'][0]['customer_job_project_name'] = "";
-        $data['transactions'][0]['class'] = "";
-        $data['transactions'][0]['debit'] = $results['JournalEntry']['Amount'];
-        $data['transactions'][0]['credit'] = "";
-
-        $data['transactions'][1]['account_code_name'] = $results['JournalEntry']['FromAccountRef']['name'];
-        if(isset($results['JournalEntry']['PrivateNote'])){
-            $data['transactions'][1]['memo'] = $results['JournalEntry']['PrivateNote'];
-        }else{
-            $data['transactions'][1]['memo'] = "";
-        }
-        $data['transactions'][1]['customer_job_project_name'] = "";
-        $data['transactions'][1]['class'] = "";
-        $data['transactions'][1]['debit'] = "";
-        $data['transactions'][1]['credit'] = $results['JournalEntry']['Amount'];
-
         return $data; 
     }
 }

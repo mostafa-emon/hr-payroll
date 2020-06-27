@@ -78,7 +78,7 @@
                 <td>{{$dt['Memo']}}</td>
                 <td style="text-align:right;">{!! number_formatting($dt['TotalAmt']) !!}</td>
                 <td style="text-align:right;">
-                  @php $is_printed = is_voucher_printed('Contra-Voucher','',$dt['Id']); @endphp
+                  @php $is_printed = is_voucher_printed('Journal-Voucher','',$dt['Id']); @endphp
                   @if($is_printed > 0)
                     <span class="badge badge-success">Printed</span>
                   @endif
@@ -87,7 +87,7 @@
                   @php
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
-                  <a href="{{url('contra-voucher-preview/'.$printStatus.'/'.'na'.'/'.$dt['Id'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
+                  <a href="{{url('journal-voucher-preview/'.$printStatus.'/'.'na'.'/'.$dt['Id'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
                 </td>
               </tr>
               @endforeach

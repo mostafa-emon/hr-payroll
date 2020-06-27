@@ -101,6 +101,13 @@ function is_voucher_printed($voucher_type,$api_type,$id){
                 ->where('status',1)
                 ->count();
     }
+
+    if($voucher_type == "Journal-Voucher"){
+        $count = Voucher::where('type','Journal-Voucher')
+                ->where('document_id',$id)
+                ->where('status',1)
+                ->count();
+    }
     return $count;
 }
 

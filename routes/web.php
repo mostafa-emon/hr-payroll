@@ -192,6 +192,7 @@ Route::post('/tr-journal-voucher', 'JournalVoucherController@index');
 Route::get('/cpv-voucher-preview/{print_status}/{api_type}/{id}', 'CashPaymentVoucherController@preview');
 Route::get('/bpv-voucher-preview/{print_status}/{api_type}/{id}', 'BankPaymentVoucherController@preview');
 Route::get('/contra-voucher-preview/{print_status}/{api_type}/{id}', 'ContraVoucherController@preview');
+Route::get('/journal-voucher-preview/{print_status}/{api_type}/{id}', 'JournalVoucherController@preview');
 
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 
