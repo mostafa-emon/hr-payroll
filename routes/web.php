@@ -183,11 +183,15 @@ Route::get('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
 Route::post('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
 Route::get('/make-void/{voucher_id}', 'LocalVoucherController@make_void');
 
-Route::get('/tr-contra-voucher', 'VoucherController@contra_voucher');
-Route::get('/tr-journal-voucher', 'VoucherController@journal_voucher');
+Route::get('/tr-contra-voucher', 'ContraVoucherController@index');
+Route::post('/tr-contra-voucher', 'ContraVoucherController@index');
+
+Route::get('/tr-journal-voucher', 'JournalVoucherController@index');
+Route::post('/tr-journal-voucher', 'JournalVoucherController@index');
 
 Route::get('/cpv-voucher-preview/{print_status}/{api_type}/{id}', 'CashPaymentVoucherController@preview');
 Route::get('/bpv-voucher-preview/{print_status}/{api_type}/{id}', 'BankPaymentVoucherController@preview');
+Route::get('/contra-voucher-preview/{print_status}/{api_type}/{id}', 'ContraVoucherController@preview');
 
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 

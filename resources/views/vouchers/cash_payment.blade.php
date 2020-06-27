@@ -5,7 +5,7 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('voucher-cash-payment') }}">Cash Payment Voucher</a>
+      <a class="breadcrumb-item" href="{{ url('tr-cash-payment-voucher') }}">Cash Payment Voucher</a>
     </nav>
   </div>
 

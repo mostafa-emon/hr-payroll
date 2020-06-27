@@ -42,6 +42,7 @@
         <td>{{ $voucher->prefix }}{{ $voucher->voucher_no }}{{ $voucher->suffix }} </td>
         <td> 
           @if($voucher->api_type == "bill_payment") Pay Bills
+          @elseif($voucher->api_type == "na") 
           @else {{ ucfirst($voucher->api_type) }}
           @endif
         </td>

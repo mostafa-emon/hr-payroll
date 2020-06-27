@@ -118,6 +118,8 @@ class QuickBookController extends Controller
         $quick_book = QuickBook::where('company_id',$company->id)->first();
         $quick_book->token          = $refreshedAccessTokenObj->getAccessToken();
         $quick_book->token_validity = $refreshedAccessTokenObj->getAccessTokenExpiresAt();
+        $quick_book->refresh_token  = $refreshedAccessTokenObj->getRefreshToken();
+        $quick_book->refresh_token_validity = $refreshedAccessTokenObj->getRefreshTokenExpiresAt();
         $quick_book->save();
 
         return redirect('/');

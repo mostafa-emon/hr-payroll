@@ -39,8 +39,13 @@
           @if( $voucher->type == "Journal-Voucher") JV @endif
         </td>
         <td>{{date('d-M-Y',strtotime($voucher->voucher_date)) }}</td>
-        <td>{{ $voucher->voucher_no }}</td>
-        <td>{{ ucfirst($voucher->api_type) }}</td>
+        <td>{{ $voucher->prefix }}{{ $voucher->voucher_no }}{{ $voucher->suffix }} </td>
+        <td>
+          @if($voucher->api_type == "bill_payment") Pay Bills
+          @elseif($voucher->api_type == "na") 
+          @else {{ ucfirst($voucher->api_type) }}
+          @endif
+        </td>
         <td style="text-align: center"> {{ $voucher->reference_no }}</td>
         <td>{{ $voucher->payee_name }}</td>
         <td>{{ $voucher->paid_from }}</td>

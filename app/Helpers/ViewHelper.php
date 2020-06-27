@@ -94,6 +94,13 @@ function is_voucher_printed($voucher_type,$api_type,$id){
                     ->count();
         }
     }
+
+    if($voucher_type == "Contra-Voucher"){
+        $count = Voucher::where('type','Contra-Voucher')
+                ->where('document_id',$id)
+                ->where('status',1)
+                ->count();
+    }
     return $count;
 }
 

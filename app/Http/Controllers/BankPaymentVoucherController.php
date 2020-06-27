@@ -29,7 +29,7 @@ class BankPaymentVoucherController extends Controller
             $interval = $datetime1->diff($datetime2);
             $days = $interval->format('%a');
             if($days > 31) {
-                return redirect('tr-cash-payment-voucher')->with('message','Date range should not greater than one month!');
+                return redirect('tr-bank-payment-voucher')->with('message','Date range should not greater than one month!');
             }
 
             $type = $request->trx_type;
