@@ -33,7 +33,15 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          @else
+          <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           @endif
+
         @endif
 
         <div class="form-layout form-layout-2">
@@ -51,49 +59,49 @@
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Host: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="host_name" placeholder="Host Name" value="@if(old('host_name') != ""){{old('host_name')}}@else @isset($emails){{$emails->host_name}}@endisset @endif" required>
+                <input class="form-control" type="text" name="host_name" placeholder="Host Name" value="@if(old('host_name') != ""){{old('host_name')}}@elseif(isset($emails)){{$emails->host_name}}@endif" required>
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Port: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="port_name" placeholder="Port Name" value="@isset($emails){{$emails->port_name}}@endisset" required>
+                <input class="form-control" type="text" name="port_name" placeholder="Port Name" value="@if(old('port_name') != ""){{old('port_name')}}@elseif(isset($emails)){{$emails->port_name}}@endif" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">User Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="user_name" placeholder="User Name" value="@isset($emails){{$emails->user_name}}@endisset" required>
+                <input class="form-control" type="text" name="user_name" placeholder="User Name" value="@if(old('user_name') != ""){{old('user_name')}}@elseif(isset($emails)){{$emails->user_name}}@endif" required>
               </div>
             </div>
             
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Password: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="@isset($emails){{$emails->password}}@endisset" required>
+                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="@if(old('password') != ""){{old('password')}}@elseif(isset($emails)){{$emails->password}}@endif" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Encryption: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="encryption" placeholder="tsl/ssl" value="@isset($emails){{$emails->encryption}}@endisset">
+                <input class="form-control" type="text" name="encryption" placeholder="tsl/ssl" value="@if(old('encryption') != ""){{old('encryption')}}@elseif(isset($emails)){{$emails->encryption}}@endif">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">From Address: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="from_address" placeholder="From Address" value="@isset($emails){{$emails->from_address}}@endisset" required>
+                <input class="form-control" type="text" name="from_address" placeholder="From Address" value="@if(old('from_address') != ""){{old('from_address')}}@elseif(isset($emails)){{$emails->from_address}}@endif" required>
               </div>
             </div>
             
             <div class="col-md-6">
               <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">From Name: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="from_name" placeholder="From Name" value="@isset($emails){{$emails->from_name}}@endisset" required>
+                <input class="form-control" type="text" name="from_name" placeholder="From Name" value="@if(old('from_name') != ""){{old('from_name')}}@elseif(isset($emails)){{$emails->from_name}}@endif" required>
               </div>
             </div>
 
@@ -132,7 +140,7 @@
                   
                   <div class="pd-t-10">
                     <label class="ckbox pointer">
-                      <input type="checkbox" name="send_as_attachment" value="1" @if(old('send_as_attachment')) selected @endif><span>Send as attachment</span>
+                      <input type="checkbox" name="send_as_attachment" value="1" @if(old('send_as_attachment') == 1) checked @endif><span>Send as attachment</span>
                     </label>
                   </div>
                 </div>
@@ -148,7 +156,7 @@
         </div>
       </div>
     </div>
-    <input type="hidden" name="job"/>
+    <input type="hidden" id="job" name="job"/>
   </form>
   
   <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>

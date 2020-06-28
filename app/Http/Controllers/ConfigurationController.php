@@ -275,7 +275,7 @@ class ConfigurationController extends Controller
                 $email->from_name                             = $request->from_name;
                 $email->save();
             }
-            return redirect('mail-setup')->with('message','Updated successfully!');
+            return redirect('mail-setup')->with('message','Email settings updated!');
         }
         
         else {
@@ -315,7 +315,7 @@ class ConfigurationController extends Controller
                     $status     =   "1";
                 }catch(Swift_SwiftException $Ste){
                     $this->serverstatuscode = "0";
-                    $this->serverstatusdes = $exception->getMessage();
+                    $this->serverstatusdes = $Ste->getMessage();
 
                     $error      =   $Ste->getMessage();
                     $message    =   "Error sending mail!";
