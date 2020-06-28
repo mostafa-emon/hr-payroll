@@ -12,7 +12,10 @@ use App\Setting;
 use App\Voucher;
 use App\Company;
 use Auth;
-use Mail;
+use App\Mail\SendMR;
+use Illuminate\Support\Facades\Mail;
+use PDF;
+use Config;
 
 class MRController extends Controller
 {
@@ -36,13 +39,30 @@ class MRController extends Controller
     }
 
     public function sendmail(){
-        $data["email"]  = 'mostafaemon.info@gmail.com';
-        $data["client_name"] = 'Mostafa Mamun Emon';
-        $data["subject"] = 'This is a test subject';
+        
+        /*
+        Config::set('mail.driver', 'smtp');
+        Config::set('mail.host', 'smtp.gmail.com');
+        Config::set('mail.port', '587');
+        Config::set('mail.username', 'mostafa.shopinvento@gmail.com');
+        Config::set('mail.password', 'A1c3E5g7');
+        Config::set('mail.encryption', 'tls');
+
+        Config::set('mail.from.address', 'mostafa.shopinvento@gmail.com');
+        Config::set('mail.from.name', 'ShopMamun');
+        */
+        
+        $data["email"] ='mostafaemon.info@gmail.com';
+        $data["client_name"]='Mostafa Emon';
+        $data["subject"]='This is test email';
+
+        $pdf = PDF::loadView('email.mr', $data);
 
         try{
-            Mail::send('mails.mail', $data, function($message)use($data) {
-                $message->to($data["email"], $data["client_name"])->subject($data["subject"]);
+            Mail::send('email.mr', $data, function($message)use($data,$pdf) {
+            $message->to($data["email"], $data["client_name"])
+                ->subject($data["subject"])
+                ->attachData($pdf->output(), "invoice.pdf");
             });
         }catch(JWTException $exception){
             $this->serverstatuscode = "0";
@@ -57,5 +77,6 @@ class MRController extends Controller
            $this->statusdesc  =   "Message sent Succesfully";
            $this->statuscode  =   "1";
         }
+        return response()->json(compact('this'));
     }
 }
