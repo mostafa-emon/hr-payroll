@@ -99,7 +99,7 @@
           <li class="nav-item"><a href="{{ url('audits') }}" class="nav-link {{ (request()->is('audits*')) ? 'active' : '' }}">Audit Trail</a></li>
         </ul>
 
-        <a href="#" class="br-menu-link {{ (request()->is('settings')) || (request()->is('printer*')) ? 'active show-sub' : '' }}">
+        <a href="#" class="br-menu-link {{ (request()->is('settings')) || (request()->is('printer*')) || (request()->is('mail-setup')) ? 'active show-sub' : '' }}">
           <div class="br-menu-item">
             <i class="menu-item-icon fa fa-tools tx-14"></i>
             <span class="menu-item-label">Configuration</span>
@@ -108,6 +108,7 @@
         </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="{{url('printer')}}" class="nav-link {{ (request()->is('printer*')) ? 'active' : '' }}">Printer</a></li>
+          <li class="nav-item"><a href="{{url('mail-setup')}}" class="nav-link {{ (request()->is('mail-setup')) ? 'active' : '' }}">Email</a></li>
           <li class="nav-item"><a href="{{url('settings')}}" class="nav-link {{ (request()->is('settings')) ? 'active' : '' }}">Settings</a></li>
         </ul>
         @endif

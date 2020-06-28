@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\Setting;
+use App\Email;
 use App\Printer;
 use DB;
 use Auth;
@@ -211,5 +212,40 @@ class ConfigurationController extends Controller
         }
         $printers = Printer::where('id',$printer_id)->first();
         return view('printers.update', ['printers' => $printers]);
+    }
+
+    public function mail_setup(){
+        $emails = Email::where('company_id', Auth::user()->company_id)->first();
+        return view('settings.mail', ['emails' => $emails]);
+    }
+
+    public function mail_setup_update(Request $request){
+        $count = Email::where('company_id',Auth::user()->company_id)->count();
+
+        if($count == 0) {
+            $email = new Email;
+            $email->company_id                            = Auth::user()->company_id;
+            $email->mail_driver                           = $request->mail_driver;
+            $email->host_name                             = $request->host_name;
+            $email->port_name                             = $request->port_name;
+            $email->user_name                             = $request->user_name;
+            $email->password                              = $request->password;
+            $email->encryption                            = $request->encryption;
+            $email->from_address                          = $request->from_address;
+            $email->from_name                             = $request->from_name;
+            $email->save();
+        }else{
+            $email = Email::where('company_id', Auth::user()->company_id)->first();
+            $email->mail_driver                           = $request->mail_driver;
+            $email->host_name                             = $request->host_name;
+            $email->port_name                             = $request->port_name;
+            $email->user_name                             = $request->user_name;
+            $email->password                              = $request->password;
+            $email->encryption                            = $request->encryption;
+            $email->from_address                          = $request->from_address;
+            $email->from_name                             = $request->from_name;
+            $email->save();
+        }
+        return redirect('mail-setup')->with('message','Updated successfully!');
     }
 }
