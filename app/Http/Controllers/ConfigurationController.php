@@ -10,6 +10,10 @@ use App\Printer;
 use DB;
 use Auth;
 use App\Helpers\ViewHelper;
+use App\Mail\SendMR;
+use Illuminate\Support\Facades\Mail;
+use PDF;
+use Config;
 
 class ConfigurationController extends Controller
 {
@@ -216,36 +220,125 @@ class ConfigurationController extends Controller
 
     public function mail_setup(){
         $emails = Email::where('company_id', Auth::user()->company_id)->first();
-        return view('settings.mail', ['emails' => $emails]);
+        if($emails != "") {
+            return view('settings.mail', ['emails' => $emails]);
+        }else{
+            return view('settings.mail');
+        }
+        
     }
 
     public function mail_setup_update(Request $request){
-        $count = Email::where('company_id',Auth::user()->company_id)->count();
 
-        if($count == 0) {
-            $email = new Email;
-            $email->company_id                            = Auth::user()->company_id;
-            $email->mail_driver                           = $request->mail_driver;
-            $email->host_name                             = $request->host_name;
-            $email->port_name                             = $request->port_name;
-            $email->user_name                             = $request->user_name;
-            $email->password                              = $request->password;
-            $email->encryption                            = $request->encryption;
-            $email->from_address                          = $request->from_address;
-            $email->from_name                             = $request->from_name;
-            $email->save();
-        }else{
-            $email = Email::where('company_id', Auth::user()->company_id)->first();
-            $email->mail_driver                           = $request->mail_driver;
-            $email->host_name                             = $request->host_name;
-            $email->port_name                             = $request->port_name;
-            $email->user_name                             = $request->user_name;
-            $email->password                              = $request->password;
-            $email->encryption                            = $request->encryption;
-            $email->from_address                          = $request->from_address;
-            $email->from_name                             = $request->from_name;
-            $email->save();
+        if($request->job == "savesettings") {
+            $count = Email::where('company_id',Auth::user()->company_id)->count();
+
+            if($count == 0) {
+                $email = new Email;
+                $email->company_id                            = Auth::user()->company_id;
+                $email->mail_driver                           = $request->mail_driver;
+                $email->host_name                             = $request->host_name;
+                $email->port_name                             = $request->port_name;
+                $email->user_name                             = $request->user_name;
+                $email->password                              = $request->password;
+                if($request->encryption == ""){
+                    if($request->port_name == "465") {
+                        $email->encryption                    = "ssl";
+                    }else {
+                        $email->encryption                    = "tls";
+                    }
+                }else {
+                    $email->encryption                        = $request->encryption;
+                }
+                $email->from_address                          = $request->from_address;
+                $email->from_name                             = $request->from_name;
+                $email->save();
+            }else{
+                $email = Email::where('company_id', Auth::user()->company_id)->first();
+                $email->mail_driver                           = $request->mail_driver;
+                $email->host_name                             = $request->host_name;
+                $email->port_name                             = $request->port_name;
+                $email->user_name                             = $request->user_name;
+                $email->password                              = $request->password;
+                if($request->encryption == ""){
+                    if($request->port_name == "465") {
+                        $email->encryption                    = "ssl";
+                    }else {
+                        $email->encryption                    = "tls";
+                    }
+                }else {
+                    $email->encryption                        = $request->encryption;
+                }
+                $email->from_address                          = $request->from_address;
+                $email->from_name                             = $request->from_name;
+                $email->save();
+            }
+            return redirect('mail-setup')->with('message','Updated successfully!');
         }
-        return redirect('mail-setup')->with('message','Updated successfully!');
+        
+        else {
+            Config::set('mail.driver', $request->mail_driver);
+            Config::set('mail.host', $request->host_name);
+            Config::set('mail.port', $request->port_name);
+            Config::set('mail.username', $request->user_name);
+            Config::set('mail.password', $request->password);
+
+            if($request->port_name == "465") {
+                $encryption                    = "ssl";
+            }else {
+                $encryption                    = "tls";
+            }
+
+            Config::set('mail.encryption', $encryption);
+
+            Config::set('mail.from.address', $request->from_address);
+            Config::set('mail.from.name', $request->from_name);
+            
+            $data["email"] = $request->email_to;
+            $data["client_name"] = '';
+            $data["subject"] = $request->email_subject;
+            $data["body"] = $request->editor1;
+
+            if($request->send_as_attachment == 1) {
+                $pdf = PDF::loadView('email.mr',compact('data'));
+                try{
+                    Mail::send('email.mr', compact('data'), function($message)use($data,$pdf) {
+                    $message->to($data["email"], $data["client_name"])
+                        ->subject($data["subject"])
+                        ->attachData($pdf->output(), "attachment.pdf");
+                    });
+                }catch(JWTException $exception){
+                    $this->serverstatuscode = "0";
+                    $this->serverstatusdes = $exception->getMessage();
+                }
+                if (Mail::failures()) {
+                    $this->statusdesc  =   "Error sending mail";
+                    $this->statuscode  =   "0";
+                }else{
+                    $this->statusdesc  =   "Message sent Succesfully";
+                    $this->statuscode  =   "1";
+                }
+                return response()->json(compact('this'));
+            }else {
+                try{
+                    Mail::send('email.mr', compact('data'), function($message)use($data) {
+                    $message->to($data["email"], $data["client_name"])
+                        ->subject($data["subject"]);
+                    });
+                }catch(JWTException $exception){
+                    $this->serverstatuscode = "0";
+                    $this->serverstatusdes = $exception->getMessage();
+                }
+                if (Mail::failures()) {
+                    $this->statusdesc  =   "Error sending mail";
+                    $this->statuscode  =   "0";
+                }else{
+                    $this->statusdesc  =   "Message sent Succesfully";
+                    $this->statuscode  =   "1";
+                }
+                return response()->json(compact('this'));
+            }
+        }
+        
     }
 }

@@ -13,7 +13,7 @@
     <h4 class="tx-gray-800 mg-b-5">Email</h4>
   </div>
 
-  <form action="{{ url('mail-setup/update') }}" method="POST" enctype="multipart/form-data">
+  <form action="{{ url('mail-setup/update') }}" id="myform" method="POST" enctype="multipart/form-data">
     {{ csrf_field() }}
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -29,96 +29,133 @@
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
 
-            <div class="col-md-4">
+            <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group">
-                <label class="form-control-label">Mail Driver: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="mail_driver" placeholder="Mail Driver Name" value="{{$emails->mail_driver}}" required>
+                <label class="form-control-label mg-b-0-force">Mail Driver: <span class="tx-danger">*</span></label>
+                <select name="mail_driver" class="form-control mg-l--4" required>
+                  <option>smtp</option>
+                </select>
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Host: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="host_name" placeholder="Host Name" value="{{$emails->host_name}}" required>
+                <input class="form-control" type="text" name="host_name" placeholder="Host Name" value="@isset($emails){{$emails->host_name}}@endisset" required>
               </div>
             </div>
 
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Port: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="port_name" placeholder="Port Name" value="{{$emails->port_name}}" required>
+                <input class="form-control" type="text" name="port_name" placeholder="Port Name" value="@isset($emails){{$emails->port_name}}@endisset" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">User Name:</label>
-                <input class="form-control" type="text" name="user_name" placeholder="User Name" value="{{$emails->user_name}}">
+                <label class="form-control-label">User Name: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="user_name" placeholder="User Name" value="@isset($emails){{$emails->user_name}}@endisset" required>
               </div>
             </div>
             
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Password:</label>
-                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="{{$emails->password}}">
+                <label class="form-control-label">Password: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="@isset($emails){{$emails->password}}@endisset" required>
               </div>
             </div>
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Encryption::</label>
-                <input class="form-control" type="text" name="encryption" placeholder="tsl/ssl" value="{{$emails->encryption}}">
+                <label class="form-control-label">Encryption: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="encryption" placeholder="tsl/ssl" value="@isset($emails){{$emails->encryption}}@endisset">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
-                <label class="form-control-label">From Address:</label>
-                <input class="form-control" type="text" name="from_address" placeholder="From Address" value="{{$emails->from_address}}">
+                <label class="form-control-label">From Address: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="from_address" placeholder="From Address" value="@isset($emails){{$emails->from_address}}@endisset" required>
               </div>
             </div>
             
             <div class="col-md-6">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">From Name:</label>
-                <input class="form-control" type="text" name="from_name" placeholder="From Name" value="{{$emails->from_name}}">
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Email To:</label>
-                <input class="form-control" type="text" name="address" placeholder="Email To">
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Subject:</label>
-                <input class="form-control" type="text" name="address" placeholder="Subject">
-              </div>
-            </div>
-
-            <div class="col-md-12">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Message:</label>
-                <textarea class="form-control" type="text" name="address" rows="5" placeholder="Start Typing......."></textarea>
-                <input type="file" class="btn btn-light pointer"/>
+                <label class="form-control-label">From Name: <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="from_name" placeholder="From Name" value="@isset($emails){{$emails->from_name}}@endisset" required>
               </div>
             </div>
 
           </div>
 
-          <div class="form-layout-footer bd pd-20 bd-t-0">
-            <input value="Send" class="btn btn-info pointer"/>
-            <input type="submit" value="Save As Draft" class="btn btn-info pointer"/>
+          <div class="row pd-t-10 pd-b-20 text-right">
+            <div class="col-md-6 text-left">
+              <a href="javascript:void(0)" onclick="saveSettings()" class="btn btn-info pointer">Save Settings</a>
+            </div>
+            <div class="col-md-6">
+              <a href="javascript:void(0)" onclick="showSendDetails()" class="btn btn-info pointer">Send Test Email</a>
+            </div>
+          </div>
+
+          <div class="form-layout form-layout-2" id="sendDetails" style="display:none">
+            <div class="row no-gutters">
+  
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="form-control-label">Email To:</label>
+                  <input class="form-control" type="text" name="email_to" placeholder="Email To">
+                </div>
+              </div>
+  
+              <div class="col-md-6">
+                <div class="form-group mg-md-l--1">
+                  <label class="form-control-label">Subject:</label>
+                  <input class="form-control" type="text" name="email_subject" placeholder="Subject">
+                </div>
+              </div>
+  
+              <div class="col-md-12">
+                <div class="form-group bd-t-0-force">
+                  <label class="form-control-label">Message:</label>
+                  <textarea class="form-control" type="text" id="editor1"  name="editor1" rows="5" placeholder="Start Typing......."></textarea>
+                  
+                  <div class="pd-t-10">
+                    <label class="ckbox pointer">
+                      <input type="checkbox" name="send_as_attachment" value="1"><span>Send as attachment</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+
+          <div class="form-layout-footer bd pd-20 bd-t-0 text-right">
+            <a href="javascript:void(0)" onclick="sendMail()" class="btn btn-success btn-sm pointer">Send</a>
           </div>
 
 
         </div>
       </div>
     </div>
+    <input type="hidden" name="job"/>
   </form>
   
+  <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+  <script>
+    CKEDITOR.replace( 'editor1' );
+    function showSendDetails(){
+      $('#sendDetails').show();
+    }
 
+    function saveSettings() {
+      $('#job').val('savesettings');
+      $('#myform').submit();
+    }
+
+    function sendMail() {
+      $('#job').val('sendmail');
+      $('#myform').submit();
+    }
+  </script>
 @endsection
