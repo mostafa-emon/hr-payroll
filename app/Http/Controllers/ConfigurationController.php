@@ -14,6 +14,8 @@ use App\Mail\SendMR;
 use Illuminate\Support\Facades\Mail;
 use PDF;
 use Config;
+use Redirect;
+use Swift_SwiftException;
 
 class ConfigurationController extends Controller
 {
@@ -307,36 +309,38 @@ class ConfigurationController extends Controller
                         ->subject($data["subject"])
                         ->attachData($pdf->output(), "attachment.pdf");
                     });
-                }catch(JWTException $exception){
+
+                    $error      =   "";
+                    $message    =   "Message sent Succesfully!";
+                    $status     =   "1";
+                }catch(Swift_SwiftException $Ste){
                     $this->serverstatuscode = "0";
                     $this->serverstatusdes = $exception->getMessage();
+
+                    $error      =   $Ste->getMessage();
+                    $message    =   "Error sending mail!";
+                    $status     =   "0";
                 }
-                if (Mail::failures()) {
-                    $this->statusdesc  =   "Error sending mail";
-                    $this->statuscode  =   "0";
-                }else{
-                    $this->statusdesc  =   "Message sent Succesfully";
-                    $this->statuscode  =   "1";
-                }
-                return response()->json(compact('this'));
+                return Redirect::back()->with('message',$message)->with('error',$error)->withInput();
             }else {
                 try{
                     Mail::send('email.mr', compact('data'), function($message)use($data) {
                     $message->to($data["email"], $data["client_name"])
                         ->subject($data["subject"]);
                     });
-                }catch(JWTException $exception){
+
+                    $error      =   "";
+                    $message    =   "Message sent Succesfully!";
+                    $status     =   "1";
+                }catch(Swift_SwiftException $Ste){
                     $this->serverstatuscode = "0";
-                    $this->serverstatusdes = $exception->getMessage();
+                    $this->serverstatusdes = $Ste->getMessage();
+
+                    $error      =   $Ste->getMessage();
+                    $message    =   "Error sending mail!";
+                    $status     =   "0";
                 }
-                if (Mail::failures()) {
-                    $this->statusdesc  =   "Error sending mail";
-                    $this->statuscode  =   "0";
-                }else{
-                    $this->statusdesc  =   "Message sent Succesfully";
-                    $this->statuscode  =   "1";
-                }
-                return response()->json(compact('this'));
+                return Redirect::back()->with('message',$message)->with('error',$error)->withInput();
             }
         }
         

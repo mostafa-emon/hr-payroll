@@ -19,13 +19,23 @@
       <div class="br-section-wrapper">
 
         @if(session()->has('message'))
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          {{ session()->get('message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+          @if(session()->get('message') == "Message sent Succesfully!")
+          <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            {{ session()->get('message') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          @elseif(session()->get('message') == "Error sending mail!")
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session()->get('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          @endif
         @endif
+
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
 
@@ -41,7 +51,7 @@
             <div class="col-md-4 mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">Host: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="host_name" placeholder="Host Name" value="@isset($emails){{$emails->host_name}}@endisset" required>
+                <input class="form-control" type="text" name="host_name" placeholder="Host Name" value="@if(old('host_name') != ""){{old('host_name')}}@else @isset($emails){{$emails->host_name}}@endisset @endif" required>
               </div>
             </div>
 
@@ -98,31 +108,31 @@
             </div>
           </div>
 
-          <div class="form-layout form-layout-2" id="sendDetails" style="display:none">
+          <div class="form-layout form-layout-2" id="sendDetails" style="@if(old('email_to') == "") display:none @endif">
             <div class="row no-gutters">
   
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="form-control-label">Email To:</label>
-                  <input class="form-control" type="text" name="email_to" placeholder="Email To">
+                  <input class="form-control" type="text" name="email_to" placeholder="Email To" value="{{ old('email_to') }}">
                 </div>
               </div>
   
               <div class="col-md-6">
                 <div class="form-group mg-md-l--1">
                   <label class="form-control-label">Subject:</label>
-                  <input class="form-control" type="text" name="email_subject" placeholder="Subject">
+                  <input class="form-control" type="text" name="email_subject" placeholder="Subject" value="{{ old('email_subject') }}">
                 </div>
               </div>
   
               <div class="col-md-12">
                 <div class="form-group bd-t-0-force">
                   <label class="form-control-label">Message:</label>
-                  <textarea class="form-control" type="text" id="editor1"  name="editor1" rows="5" placeholder="Start Typing......."></textarea>
+                  <textarea class="form-control" type="text" id="editor1" name="editor1" rows="5" placeholder="Start Typing.......">{{ old('editor1') }}</textarea>
                   
                   <div class="pd-t-10">
                     <label class="ckbox pointer">
-                      <input type="checkbox" name="send_as_attachment" value="1"><span>Send as attachment</span>
+                      <input type="checkbox" name="send_as_attachment" value="1" @if(old('send_as_attachment')) selected @endif><span>Send as attachment</span>
                     </label>
                   </div>
                 </div>
