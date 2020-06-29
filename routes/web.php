@@ -89,6 +89,26 @@ Route::get('/currency/delete/{currency_id}', 'ConfigurationController@delete_cur
 Route::get('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
 Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_currency');
 
+Route::get('/payment-method', 'ConfigurationController@index_payment_method');
+Route::get('/payment-method/add', 'ConfigurationController@add_payment_method');
+Route::post('/payment-method/add', 'ConfigurationController@add_payment_method');
+Route::get('/payment-method/delete/{paymentmethod_id}', 'ConfigurationController@delete_payment_method');
+Route::get('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
+Route::post('/payment-method/update/{paymentmethod_id}', 'ConfigurationController@update_payment_method');
+
+Route::get('/printer', 'ConfigurationController@index_printer');
+Route::get('/printer/add', 'ConfigurationController@add_printer');
+Route::post('/printer/add', 'ConfigurationController@add_printer');
+Route::get('/printer/delete/{printer_id}', 'ConfigurationController@delete_printer');
+Route::get('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
+Route::post('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
+
+Route::get('/settings', 'ConfigurationController@index');
+Route::post('/settings/update', 'ConfigurationController@update');
+
+Route::get('/mail-setup', 'ConfigurationController@mail_setup');
+Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
+
 Route::get('/mr', 'MRController@index');
 Route::get('/mr/add', 'MRController@add');
 Route::post('/mr/add', 'MRController@add');
@@ -146,16 +166,6 @@ Route::get('/roles/delete/{role_id}', 'RolesController@delete');
 Route::get('/roles/update/{role_id}', 'RolesController@update');
 Route::post('/roles/update/{role_id}', 'RolesController@update');
 
-Route::get('/settings', 'ConfigurationController@index');
-Route::post('/settings/update', 'ConfigurationController@update');
-
-Route::get('/printer', 'ConfigurationController@index_printer');
-Route::get('/printer/add', 'ConfigurationController@add_printer');
-Route::post('/printer/add', 'ConfigurationController@add_printer');
-Route::get('/printer/delete/{printer_id}', 'ConfigurationController@delete_printer');
-Route::get('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
-Route::post('/printer/update/{printer_id}', 'ConfigurationController@update_printer');
-
 Route::get('/404', 'HomeController@pageNotFound');
 Route::get('/logout', 'HomeController@logout');
 
@@ -207,6 +217,3 @@ Route::post('/create-cheque', 'ChequeTransactionController@index');
 Route::post('/voucher/add', 'LocalVoucherController@add_voucher');
 
 Route::get('/send-mail', 'MRController@sendmail');
-
-Route::get('/mail-setup', 'ConfigurationController@mail_setup');
-Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
