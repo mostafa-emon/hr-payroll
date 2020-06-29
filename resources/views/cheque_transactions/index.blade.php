@@ -129,10 +129,13 @@
 
   <script>
     function void_cheque(value){
-      var split = value.split(',');
-      var apitype = split[0];
-      var document_id = split[1];
-      window.location = '/void-cheque/'+apitype+'/'+document_id
+      var result = confirm("Are you confirm to delete?");
+      if (result) {
+        var split = value.split(',');
+        var apitype = split[0];
+        var document_id = split[1];
+        window.location = '/void-cheque/'+apitype+'/'+document_id
+      }
     }
   </script>
 @endsection

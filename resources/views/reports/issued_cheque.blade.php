@@ -66,7 +66,7 @@
                 <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
             </div>
 
-            <div class="col-md-2" style="margin-top:10px">
+            <div class="col-md-2" style="margin-top:27px">
                 <input type="submit" class="btn btn-primary pointer" value="Search"/>
             </div>
         
