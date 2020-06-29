@@ -129,7 +129,7 @@
 
   <script>
     function void_cheque(value){
-      var result = confirm("Are you confirm to delete?");
+      var result = confirm("Are you confirm to void?");
       if (result) {
         var split = value.split(',');
         var apitype = split[0];
