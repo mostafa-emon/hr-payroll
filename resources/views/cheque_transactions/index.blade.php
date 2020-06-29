@@ -5,18 +5,13 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('cheque-transactions') }}">Cheque</a>
+      <a class="breadcrumb-item" href="{{ url('create_cheque') }}">Cheque</a>
     </nav>
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
       <h4 class="tx-gray-800 mg-b-5">Cheque</h4>
-    </div>
-    <div style="float:right">
-      @if(roles() != "" && in_array(40, json_decode(roles(),false)))
-      <a href="{{ url('cheque-transactions/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Cheque</a>
-      @endif
     </div>
   </div>
 
@@ -30,156 +25,102 @@
           </button>
         </div>
       @endif
+
+      <form action="{{ url('create-cheque') }}" method="POST">
+        {{ csrf_field() }}
+      <div class="row mg-b-30 b">
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Type</label>
+          <select class="form-control" name="trx_type">
+              <option value="all" @if($type == 'all') selected @endif>All</option>
+              <option value="expense" @if($type == 'expense') selected @endif>Expense</option>
+              <option value="cheque" @if($type == 'cheque') selected @endif>Cheque</option>
+              <option value="pay_bills" @if($type == 'pay_bills') selected @endif>Pay Bills</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">From Date</label>
+          <input type="text" id="dtpick1" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">To Date</label>
+          <input type="text" id="dtpick2" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Payee Name</label>
+          <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Amount</label>
+          <input type="text" name="amount" value="{{$amount}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Memo</label>
+          <input type="text" name="memo" value="{{$memo}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2" style="margin-top:28px">
+          <input type="submit" class="btn btn-primary pointer" value="Search"/>
+        </div>
+        
+      </div>
+      </form>
+
+      @if(count($data) != 0)
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th class="text-center">Sl</th>
-              <th style="text-align: center">Cheque Date</th>
-              <th>Bank</th>
-              <th>Account No.</th>
-              <th>Book No.</th>
-              <th>Cheque No.</th>
-              <th>Payee</th>
-              <th>Amount</th>
-              <th class="text-center">Status</th>
-              @if(roles() != "" && (in_array(41, json_decode(roles(),false)) || in_array(42, json_decode(roles(),false)) || in_array(43, json_decode(roles(),false)) || in_array(44, json_decode(roles(),false))))
-              <th class="text-center">Action</th>
-              @endif
+              <th style="width:5%" class="text-center">Sl</th>
+              <th style="width:10%">Trx Date</th>
+              <th style="width:10%">Trx Type</th>
+              <th style="width:10%">QB Ref No.</th>
+              <th style="width:10%">Payee Name</th>
+              <th style="width:10%">Paid From</th>
+              <th style="width:15%">Memo</th>
+              <th style="text-align:center; width:10%">Total Amount</th>
+              <th style="width:10%;text-align:right;">Status</th>
+              <th style="width:10%;text-align:right;">Action</th>
             </tr>
           </thead>
           <tbody>
-            @foreach($cheque_transactions as $cheque_transaction)
+              @foreach($data as $dt)
               <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
-                <td style="text-align: center">{{ date('d-m-Y',strtotime($cheque_transaction->date)) }}</td>
-                <td>{{ $cheque_transaction->bank_name }}</td>
-                <td>{{ $cheque_transaction->ac_number }}</td>
-                <td>{{ $cheque_transaction->book_no }}</td>
-                <td>{{ $cheque_transaction->cheque_no }}</td>
-                <td>{{ $cheque_transaction->cheque_name }}</td>
-                <td>{{ $cheque_transaction->amount }}</td>
-                <td class="text-center">
-                  @if($cheque_transaction->status == 0)
-                    @if($setting->approval_for_cheque == 1)
-                      <span class="badge badge-warning">Pending</span>
-                    @else
-                      <span class="badge badge-success">Issued</span>
-                    @endif
-                  @endif
-                  @if($cheque_transaction->status == 1)
-                    <span class="badge badge-success">Approved</span>
-                  @endif
-                  @if($cheque_transaction->status == 2)
-                    <span class="badge badge-danger">Rejected</span>
-                  @endif
-                  @if($cheque_transaction->status == 3)
-                    <span class="badge badge-danger">Void</span>
+                <td style="width:5%">{{$loop->iteration}}</td>
+                <td style="width:10%">{{ date('d-M-Y',strtotime($dt['TxnDate']))}}</td>
+                <td style="width:10%">{{$dt['TxnType']}}</td>
+                <td style="width:10%">{{$dt['DocNumber']}}</td>
+                <td style="width:10%">{{$dt['PayeeName']}}</td>
+                <td style="width:10%">{{$dt['PaidFrom']}}</td>
+                <td style="width:15%">{{$dt['Memo']}}</td>
+                <td style="text-align:right; width:10%">{!! number_formatting($dt['TotalAmt']) !!}</td>
+                <td style="width:10%;text-align:right;">
+                  @php $is_printed = is_voucher_printed('Cheque-Printing',$dt['TxnType'],$dt['Id']); @endphp
+                  @if($is_printed > 0)
+                    <span class="badge badge-success">Printed</span>
                   @endif
                 </td>
-                <td class="text-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                    <button type="button" class="btn btn-info btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="sr-only"></span>
-                    </button>
-                    <div class="dropdown-menu">
-                      @if($setting->approval_for_cheque == 1 && $cheque_transaction->status == 0)
-                        @if(roles() != "" && in_array(44, json_decode(roles(),false)))
-                          <a class="dropdown-item pointer" href="{{url('cheque/draft/'.$cheque_transaction->id)}}">Print as Draft</a>
-                        @endif
+                <td style="width:10%;text-align:right;">
+                  @php
+                    if($dt['TxnType'] == 'Pay Bills') {$apiType = 'bill_payment';}
+                    else if($dt['TxnType'] == 'Check') {$apiType = 'cheque';}
+                    else if($dt['TxnType'] == 'Expense') {$apiType = 'expense';}
 
-                        @if(roles() != "" && in_array(41, json_decode(roles(),false)))
-                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$cheque_transaction->id}})">Approve</a>
-                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$cheque_transaction->id}})">Approve & Print</a>
-                        @endif
-
-                        @if(roles() != "" && in_array(42, json_decode(roles(),false)))
-                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectCheque({{$cheque_transaction->id}})">Reject</a>
-                        @endif
-                      @endif
-                      
-                      @if($setting->approval_for_cheque == 0 &&  $cheque_transaction->status == 0)
-                        @if(roles() != "" && in_array(44, json_decode(roles(),false)))
-                          <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
-                        @endif
-                      @endif
-
-                      @if($cheque_transaction->status != 0)
-                        @if(roles() != "" && in_array(44, json_decode(roles(),false)))
-                          <a class="dropdown-item pointer" href="{{url('cheque/print/'.$cheque_transaction->id)}}">Print</a>
-                        @endif
-                      @endif
-
-                      @if(($setting->approval_for_cheque == 0 || $cheque_transaction->status == 1) && $cheque_transaction->status != 3)
-                        @if(roles() != "" && in_array(43, json_decode(roles(),false)))
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidCheque({{$cheque_transaction->id}})">Void</a>
-                        @endif
-                      @endif
-                    </div>
-                  </div>
+                    if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
+                  @endphp
+                  <a href="{{url('cheque-preview/na/'.$printStatus.'/'.$apiType.'/'.$dt['Id'].'/'.$dt['PayeeName'].'/'.$dt['TxnDate'].'/'.$dt['TotalAmt'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
                 </td>
               </tr>
-            @endforeach
+              @endforeach
           </tbody>
         </table>
       </div>
+      @endif
     </div>
   </div>
-
-  <script>
-    function approve(id){
-      var result = confirm("Are you confirm to approve?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/approve-cheque/'+id,
-            success:function(data) {
-              location.reload();
-            }
-        });
-      }
-    }
-
-    function approveandprint(id){
-      var result = confirm("Are you confirm to approve?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/approve-cheque/'+id,
-            success:function(data) {
-              window.location = "/cheque/print/"+id
-            }
-        });
-      }
-    }
-    
-    function rejectCheque(id){
-      var result = confirm("Are you confirm to reject?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/reject-cheque/'+id,
-            success:function(data) {
-              location.reload();
-            }
-        });
-      }
-    }
-
-    function voidCheque(id){
-      var result = confirm("Are you confirm to void?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/void-cheque/'+id,
-            success:function(data) {
-              location.reload();
-            }
-        });
-      }
-    }
-  </script>
-
 @endsection

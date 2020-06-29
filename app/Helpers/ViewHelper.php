@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Company;
 use App\Voucher;
 use App\Setting;
+use App\ChequeTransaction;
 
 function roles(){
     $user_roles = Role::where('id',Auth::user()->roles)->first();
@@ -89,6 +90,25 @@ function is_voucher_printed($voucher_type,$api_type,$id){
         }else if($api_type == "Pay Bills"){
             $count = Voucher::where('type','Bank-Payment-Voucher')
                     ->where('api_type','bill_payment')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }
+    }
+
+    if($voucher_type == "Cheque-Printing"){
+        if($api_type == "Expense"){
+            $count = ChequeTransaction::where('api_type','expense')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }else if($api_type == "Check"){
+            $count = ChequeTransaction::where('api_type','cheque')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }else if($api_type == "Pay Bills"){
+            $count = ChequeTransaction::where('api_type','bill_payment')
                     ->where('document_id',$id)
                     ->where('status',1)
                     ->count();

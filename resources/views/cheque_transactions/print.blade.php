@@ -42,14 +42,14 @@
   <script>
     var printConf   = '{{$layout->printer_setup}}'.split("_");
     var mywindow = window.open('', 'PRINT');
-    mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg); background-image: url("{{ asset("img/".$status.".png")}}"); background-repeat: no-repeat center center fixed; background-size: cover;}</style>');
+    mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg);</style>');
     mywindow.document.write(document.getElementById('printArea').innerHTML);
 
     setTimeout(function () {
         mywindow.focus();
         mywindow.print();
         mywindow.close();
-        window.location = "/cheque-transactions"
+        window.location = "/create-cheque"
     }, 1000);
 
   </script>

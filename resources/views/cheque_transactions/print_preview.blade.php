@@ -19,7 +19,7 @@
     </nav>
   </div>
   
-  <form action="{{ url('cheque-transactions/add') }}" method="POST">
+  <form action="{{ url('save-cheque') }}" method="POST">
     {{ csrf_field() }}
   <div class="br-pagebody">
       <div class="row">
@@ -43,26 +43,8 @@
 
         <div class="col-md-3 mg-t-10">
           <div class="card bd-0 shadow-base pd-30">
-            {{--
-            @if($layout !="")
-            <div class="row pd-b-20">
-              <div class="col-md-6">
-                <select class="form-control" id="printer">
-                  @foreach($printers as $printer)
-                    <option value="{{$printer->top}}_{{$printer->left}}_{{$printer->rotate}}">{{$printer->print_name}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="col-md-6">
-                <div class="pd-b-10">
-                  <a class="btn btn-info btn-block pointer text-white" onclick="PrintElem()">Print Preview</a>
-                </div>
-              </div>
-            </div>
-            @endif
-            --}}
             
-            @if($bank_id != null && $bank_id != "" && $layout == "")
+            @if($bank_id != 'na' && $layout == "")
             <div class="alert alert-primary pd-10 mg-b-10" role="alert">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -96,32 +78,26 @@
             </div>
 
             <div class="pd-t-10">
-              <select id="cheques" id="cheque_no" name="cheque_no" class="form-control" required>
+              <select id="cheques" id="cheque_no" name="cheque_no" onchange="setInfo()" class="form-control" required>
                 <option selected disabled>Select Cheque</option>
               </select>
             </div>
-
-            <div class="pd-t-10">
-              <select class="form-control" name="cheque_name" onchange="setChequeName(this.value)" required>
-                <option disabled selected value="">Select Supplier</option>
-                @foreach($suppliers as $supplier)
-                  <option value="{{$supplier->cheque_name}}">{{$supplier->name}}</option>
-                @endforeach
-              </select>
-            </div>
             
-            <div class="pd-t-10">
+            <div class="pd-t-10" id="cheque_date_div" style="display:none">
               <input type="text" id="chooseDate" class="form-control" name="date_field" onchange="setChequeDate(this.value)" placeholder="date" required autocomplete="off"/>
             </div>
 
-            <div class="pd-t-10">
-              <input type="text" class="form-control" name="inputAmount" oninput="setChequeAmount(this.value)" placeholder="amount" required/>
-              <input type="hidden" id="realAmount" name="amount" required/>
+            <div class="pd-t-10" id="amount_div" style="display:none">
+              <input type="text" class="form-control" id="realAmount" name="inputAmount" oninput="setChequeAmount(this.value)" placeholder="amount" readonly required/>
               <input type="hidden" id="amount_in_word_line_1_input" name="amount_in_word_line_1_input"/>
               <input type="hidden" id="amount_in_word_line_2_input" name="amount_in_word_line_2_input"/>
             </div>
 
-            <div class="pd-t-15">
+            <div class="pd-t-10" id="payee_name_div" style="display:none">
+              <input type="text" name="payee_name" class="form-control" placeholder="payee name" value="{{$payee_name}}" readonly/>
+            </div>
+
+            <div class="pd-t-15" id="ac_pay_div" style="display:none">
               <label class="ckbox pointer">
                 <input type="checkbox" id="ac_pay_checkbox" onclick="hideShowElement('ac_pay')" name="ac_payee_only" value="1" checked><span>A/C Payee Only</span>
               </label>
@@ -130,6 +106,9 @@
             <input type="hidden" id="currency_full_name" value="BDT"/>
             <input type="hidden" id="currency_fraction_name" value="Paisa"/>
 
+            <input type="hidden" name="document_id" value="{{$document_id}}"/>
+            <input type="hidden" name="api_type" value="{{$api_type}}"/>
+            <input type="hidden" name="layout_id" value="{{$layout->id}}"/>
             <div class="pd-t-15">
               <input type="submit" value="Create Cheque" class="pd-15 btn btn-success btn-block pointer"/>
             </div>
@@ -143,7 +122,7 @@
   
   <script>
     function bank_onchage(bank_id) {
-      window.location = '/cheque-transactions/add/'+bank_id;
+      window.location = '/cheque-preview/'+bank_id+'/{{$print_status}}/{{$api_type}}/{{$document_id}}/{{$payee_name}}/{{$txn_date}}/{{$amount}}';
     }
 
     @if($layout != "")
@@ -154,25 +133,6 @@
         $('#acpay').hide();
       }
     }
-
-    /*
-    function PrintElem(){
-        var printer     = $('#printer').val();
-        var printConf   = printer.split("_");
-        
-        var mywindow = window.open('', 'PRINT');
-        mywindow.document.write('<style>#containment-wrapper{margin-left:'+printConf[1]+';margin-top:'+printConf[0]+'; transform: rotate('+printConf[2]+'deg)}</style>');
-        mywindow.document.write(document.getElementById('printArea').innerHTML);
-
-        setTimeout(function () {
-            mywindow.focus();
-            mywindow.print();
-            mywindow.close();
-        }, 500);
-
-        return true;
-    }
-    */
 
     function get_cheque_books(account_id) {
       $.ajax({
@@ -197,10 +157,15 @@
 
       var date_formatting = '{{$layout->date_format}}'
       if(date_formatting == "DDMMYYYY") {
+        var txn_date = '{{date('d-m-Y',strtotime($txn_date))}}';
         $( "#chooseDate" ).datepicker({ dateFormat: 'dd-mm-yy' });
       }else if(date_formatting == "MMDDYYYY") {
+        var txn_date = '{{date('m-d-Y',strtotime($txn_date))}}';
         $( "#chooseDate" ).datepicker();
       }
+
+      $('#chooseDate').val(txn_date);
+      setChequeAmount('{{$amount}}');
     }
 
     function get_cheques(book_id) {
@@ -222,6 +187,14 @@
     function setChequeDate(date) {
       var formatted = date.replace(/[^0-9 ]/g, "")
       $('#date').text(formatted);
+    }
+
+    function setInfo(){
+      $('#cheque_date_div').val();
+      $('#payee_name_div').show();
+      $('#cheque_date_div').show();
+      $('#amount_div').show();
+      $('#ac_pay_div').show();
     }
 
     function setChequeAmount(value) {

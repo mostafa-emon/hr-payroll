@@ -78,9 +78,6 @@ Route::post('/cheque-layouts/update/{cheque_layouts_id}', 'ChequeLayoutControlle
 Route::get('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
 Route::post('/cheque-layouts/duplicate/{cheque_layouts_id}', 'ChequeLayoutController@duplicate');
 
-Route::get('/cheque-transactions', 'ChequeTransactionController@index');
-Route::post('/cheque-transactions/add', 'ChequeTransactionController@add');
-Route::get('/cheque-transactions/add/{bank_id?}', 'ChequeTransactionController@add');
 Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');
 Route::get('/get-account-currency/{account_id}', 'ChequeTransactionController@get_currency_by_account');
 Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
@@ -193,11 +190,19 @@ Route::get('/cpv-voucher-preview/{print_status}/{api_type}/{id}', 'CashPaymentVo
 Route::get('/bpv-voucher-preview/{print_status}/{api_type}/{id}', 'BankPaymentVoucherController@preview');
 Route::get('/contra-voucher-preview/{print_status}/{api_type}/{id}', 'ContraVoucherController@preview');
 Route::get('/journal-voucher-preview/{print_status}/{api_type}/{id}', 'JournalVoucherController@preview');
+Route::get('/cheque-preview/{bank_id}/{print_status}/{api_type}/{id}/{payee_name}/{txn_date}/{amount}', 'ChequeTransactionController@add');
+
+Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');
+Route::get('/get-account-currency/{account_id}', 'ChequeTransactionController@get_currency_by_account');
+Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
+Route::post('/save-cheque', 'ChequeTransactionController@save_cheque');
 
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 
 Route::get('/create-mr', 'MRController@create_mr');
-Route::get('/create-cheque', 'MRController@create_cheque');
+
+Route::get('/create-cheque', 'ChequeTransactionController@index');
+Route::post('/create-cheque', 'ChequeTransactionController@index');
 
 Route::post('/voucher/add', 'LocalVoucherController@add_voucher');
 
