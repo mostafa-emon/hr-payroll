@@ -142,7 +142,6 @@ class ReportController extends Controller
         $accounts       = "";
         $cheque_book    = "All";
         $cheque_books   = "";
-        $supplier_name  = "All";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
@@ -162,10 +161,6 @@ class ReportController extends Controller
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',$request->account_id)->get();
         }
-        if($request->supplier != "" && $request->supplier != "All"){
-            $cheques = $cheques->where('cheque_name',$request->supplier);
-            $supplier_name = $request->supplier;
-        }
         if($request->from_date != "" && $request->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
@@ -173,7 +168,7 @@ class ReportController extends Controller
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status','!=',3)->get();
+        $cheques = $cheques->where('status','!=',0)->get();
 
         $total = 0; 
         foreach($cheques as $cheque) {
@@ -181,7 +176,6 @@ class ReportController extends Controller
         }
 
         $banks     = Bank::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
-        $suppliers = Supplier::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.issued_cheque', [
@@ -191,8 +185,6 @@ class ReportController extends Controller
             'bank_name'         => $bank_name, 
             'ac_number'         => $ac_number, 
             'cheque_book'       => $cheque_book, 
-            'suppliers'         => $suppliers,
-            'supplier_name'     => $supplier_name,
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'accounts'          => $accounts,
@@ -213,7 +205,6 @@ class ReportController extends Controller
         $accounts       = "";
         $cheque_book    = "All";
         $cheque_books   = "";
-        $supplier_name  = "All";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
@@ -233,10 +224,6 @@ class ReportController extends Controller
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',$request->account_id)->get();
         }
-        if($request->supplier != "" && $request->supplier != "All"){
-            $cheques = $cheques->where('cheque_name',$request->supplier);
-            $supplier_name = $request->supplier;
-        }
         if($request->from_date != "" && $request->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
@@ -244,7 +231,7 @@ class ReportController extends Controller
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status',3)->get();
+        $cheques = $cheques->where('status',0)->get();
 
         $total = 0; 
         foreach($cheques as $cheque) {
@@ -252,7 +239,6 @@ class ReportController extends Controller
         }
 
         $banks     = Bank::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
-        $suppliers = Supplier::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.void_cheque', [
@@ -261,9 +247,7 @@ class ReportController extends Controller
             'banks'             => $banks, 
             'bank_name'         => $bank_name, 
             'ac_number'         => $ac_number, 
-            'cheque_book'       => $cheque_book, 
-            'suppliers'         => $suppliers,
-            'supplier_name'     => $supplier_name,
+            'cheque_book'       => $cheque_book,
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'accounts'          => $accounts,

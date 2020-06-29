@@ -114,6 +114,9 @@
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
                   <a href="{{url('cheque-preview/na/'.$printStatus.'/'.$apiType.'/'.$dt['Id'].'/'.$dt['PayeeName'].'/'.$dt['TxnDate'].'/'.$dt['TotalAmt'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
+                  @if($is_printed > 0)
+                  <a onclick="void_cheque('{{$apiType}},{{$dt['Id']}}')" href="javascript:void(0)" class="btn btn-danger btn-sm pointer" style="color:white">Void</a>
+                  @endif
                 </td>
               </tr>
               @endforeach
@@ -123,4 +126,13 @@
       @endif
     </div>
   </div>
+
+  <script>
+    function void_cheque(value){
+      var split = value.split(',');
+      var apitype = split[0];
+      var document_id = split[1];
+      window.location = '/void-cheque/'+apitype+'/'+document_id
+    }
+  </script>
 @endsection

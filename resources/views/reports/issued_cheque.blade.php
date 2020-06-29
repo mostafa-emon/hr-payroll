@@ -54,16 +54,6 @@
                   @endforeach
                 @endif
               </select>
-          </div>
-
-            <div class="col-md-2">
-                <label class="tx-black tx-13">Supplier</label>
-                <select class="form-control" name="supplier">
-                <option value="All" @if($supplier_name == "all") selected @endif>All</option>
-                @foreach($suppliers as $sup)
-                    <option value="{{$sup->cheque_name}}" @if($supplier_name == $sup->cheque_name) selected @endif>{{$sup->name}}</option>
-                @endforeach
-                </select>
             </div>
 
             <div class="col-md-2">
@@ -126,11 +116,11 @@
       croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
       croreFormat = croreFormat + '.' + decimalPart
       document.getElementById("grandTotal").innerHTML = croreFormat;
-      document.getElementById("excelButton").href="/export-issued-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&supplier={{$supplier_name}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+croreFormat; 
+      document.getElementById("excelButton").href="/export-issued-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+croreFormat; 
     }else{
       var millionFormat = '{{$total}}'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       document.getElementById("grandTotal").innerHTML = millionFormat;
-      document.getElementById("excelButton").href="/export-issued-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&supplier={{$supplier_name}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+millionFormat; 
+      document.getElementById("excelButton").href="/export-issued-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+millionFormat; 
     }
 
     function printElem(){

@@ -144,11 +144,7 @@ Route::get('/export-void-mr', 'ReportController@export_void_mr');
 Route::get('/export-issued-cheque', 'ReportController@export_issued_cheque');
 Route::get('/export-void-cheque', 'ReportController@export_void_cheque');
 
-Route::get('/approve-cheque/{cheque_id}', 'ChequeTransactionController@approve');
-Route::get('/reject-cheque/{cheque_id}', 'ChequeTransactionController@reject');
-Route::get('/void-cheque/{cheque_id}', 'ChequeTransactionController@void');
-Route::get('/cheque/print/{id}', 'ChequeTransactionController@print');
-Route::get('/cheque/draft/{id}', 'ChequeTransactionController@draft');
+Route::get('/void-cheque/{api_type}/{document_id}', 'ChequeTransactionController@void');
 
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');

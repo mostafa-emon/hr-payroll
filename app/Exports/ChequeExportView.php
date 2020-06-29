@@ -53,7 +53,7 @@ class ChequeExportView implements FromView
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status','!=',3)->where('company_id',Auth::user()->company_id)->get();
+        $cheques = $cheques->where('status','!=',0)->where('company_id',Auth::user()->company_id)->get();
 
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
 

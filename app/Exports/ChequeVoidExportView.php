@@ -26,7 +26,6 @@ class ChequeVoidExportView implements FromView
         $accounts       = "";
         $cheque_book    = "All";
         $cheque_books   = "";
-        $supplier_name  = "All";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
@@ -42,10 +41,6 @@ class ChequeVoidExportView implements FromView
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',request()->account_id)->get();
         }
-        if(request()->supplier != "" && request()->supplier != "All"){
-            $cheques = $cheques->where('cheque_name',request()->supplier);
-            $supplier_name = request()->supplier;
-        }
         if(request()->from_date != "" && request()->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime(request()->from_date)), date('Y-m-d',strtotime(request()->to_date)).' 23:59']);
             $from_date  = request()->from_date;
@@ -53,7 +48,7 @@ class ChequeVoidExportView implements FromView
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status',3)->where('company_id',Auth::user()->company_id)->get();
+        $cheques = $cheques->where('status',0)->where('company_id',Auth::user()->company_id)->get();
 
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
 
@@ -63,7 +58,6 @@ class ChequeVoidExportView implements FromView
             'bank_name'         => $bank_name, 
             'ac_number'         => $ac_number, 
             'cheque_book'       => $cheque_book, 
-            'supplier_name'     => $supplier_name,
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'company'           => $company,

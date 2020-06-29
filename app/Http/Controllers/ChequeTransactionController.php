@@ -336,6 +336,14 @@ class ChequeTransactionController extends Controller
         return view('cheque_transactions.print',['transaction' => $cheque_transaction, 'layout' => $layout]);
     }
 
+    public function void($api_type,$document_id){
+        ChequeTransaction::where('api_type' , $api_type)
+        ->where('document_id',$document_id)
+        ->update(['status' => 0]);
+
+        return redirect('create-cheque');
+    }
+
     public function get_cheque_book_by_account($account_id){
         $books = ChequeBook::where('account_id',$account_id)->get();
         foreach($books as $book){
