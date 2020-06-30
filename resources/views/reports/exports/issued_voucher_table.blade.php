@@ -53,7 +53,7 @@
         <td>{{ $voucher->received_from }}</td>
         <td>{{ $voucher->deposit_to }}</td>
         <td>{{ $voucher->memo }} </td>
-        <td style="text-align: right">{!! number_formatting($voucher->total_credit) !!} </td>
+        <td style="text-align: right">{!! number_formatting($voucher->total_credit) !!}</td>
       </tr>
       @endforeach
 

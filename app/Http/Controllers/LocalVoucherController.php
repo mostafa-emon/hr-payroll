@@ -40,6 +40,7 @@ class LocalVoucherController extends Controller
         $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
         $voucher->payee_name    = $request->payee_name;
         $voucher->received_from = $request->received_from;
+        $voucher->deposit_to    = $request->deposit_to;
         $voucher->cheque_no     = $request->cheque_no;
         $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
         $voucher->location      = $request->location;

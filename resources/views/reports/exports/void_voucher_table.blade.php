@@ -53,13 +53,13 @@
         <td>{{ $voucher->received_from }}</td>
         <td>{{ $voucher->deposit_to }}</td>
         <td>{{ $voucher->memo }}</td>
-        <td style="text-align: right">{{ $voucher->total_credit }}</td>
+        <td style="text-align: right">{!! number_formatting($voucher->total_credit) !!}</td>
       </tr>
       @endforeach
 
       <tr>
         <th colspan="11" style="text-align:right">Total</th>
-        <th style="text-align:right" id="grandTotal">{{$total}}</th>
+        <th style="text-align:right" id="grandTotal">{!! number_formatting($total) !!}</th>
       </tr>
     </tbody>
   </table>
