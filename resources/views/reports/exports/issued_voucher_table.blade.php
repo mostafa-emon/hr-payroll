@@ -2,13 +2,13 @@
     <thead>
         
       <tr>
-        <td colspan="11" class="no-border" style="text-align: center; font-size:17px; font-weight:bold;">{{ $company->name}}</td>
+        <td colspan="12" class="no-border" style="text-align: center; font-size:17px; font-weight:bold;">{{ $company->name}}</td>
       </tr>
       <tr>
-        <td colspan="11" class="no-border" style="text-align: center;font-size:15px; font-weight:bold;">Issued Vouchers</td>
+        <td colspan="12" class="no-border" style="text-align: center;font-size:15px; font-weight:bold;">Issued Vouchers</td>
       </tr>
       <tr>
-        <td colspan="11" class="no-border" style="text-align: center;font-size:13px; font-weight:bold;">From {{ date('d-M-Y',strtotime($from_date)) }} to {{ date('d-M-Y',strtotime($to_date)) }}</td>
+        <td colspan="12" class="no-border" style="text-align: center;font-size:13px; font-weight:bold;">From {{ date('d-M-Y',strtotime($from_date)) }} to {{ date('d-M-Y',strtotime($to_date)) }}</td>
       </tr>
       <tr>
         <th style="text-align: center">Sl</th>
@@ -19,6 +19,7 @@
         <th style="text-align: center">QB REF NO.</th>
         <th style="text-align: center">Payee Name</th>
         <th style="text-align: center">Paid From</th>
+        <th style="text-align: center">Received From</th>
         <th style="text-align: center">Deposit To</th>
         <th style="text-align: center">Memo</th>
         <th style="text-align: center">Total Amount</th>
@@ -43,12 +44,13 @@
         <td> 
           @if($voucher->api_type == "bill_payment") Pay Bills
           @elseif($voucher->api_type == "na") 
-          @else {{ ucfirst($voucher->api_type) }}
+          @else {{ ucwords(str_replace("_", " ", $voucher->api_type)) }}
           @endif
         </td>
         <td style="text-align: center"> {{ $voucher->reference_no }} </td>
         <td>{{ $voucher->payee_name }}</td>
         <td>{{ $voucher->paid_from }}</td>
+        <td>{{ $voucher->received_from }}</td>
         <td>{{ $voucher->deposit_to }}</td>
         <td>{{ $voucher->memo }} </td>
         <td style="text-align: right">{!! number_formatting($voucher->total_credit) !!} </td>
@@ -56,7 +58,7 @@
       @endforeach
 
       <tr>
-        <th colspan="10" style="text-align:right">Total</th>
+        <th colspan="11" style="text-align:right">Total</th>
         <th style="text-align:right" id="grandTotal">{!! number_formatting($total) !!}</th>
       </tr>
     </tbody>

@@ -40,6 +40,7 @@
               <th>TRX Date</th>
               <th>QB REF NO.</th>
               <th>Payee Name</th>
+              <th>Received From</th>
               <th>Memo</th>
               <th>Total Amount</th>
               <th class="text-center">Status</th>
@@ -53,6 +54,7 @@
                 <td>{{ $voucher->voucher_date }}</td>
                 <td>{{ $voucher->reference_no }}</td>
                 <td>{{ $voucher->payee_name }}</td>
+                <td>{{ $voucher->received_from }}</td>
                 <td>{{ $voucher->memo }}</td>
                 <td>{!! number_formatting($voucher->total_credit) !!}</td>
                 <td class="text-center">
