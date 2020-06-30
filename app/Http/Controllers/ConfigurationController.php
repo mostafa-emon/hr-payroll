@@ -146,6 +146,9 @@ class ConfigurationController extends Controller
             $setting->cash_receipt_voucher_prefix           = $request->cash_receipt_voucher_prefix;
             $setting->cash_receipt_voucher_suffix           = $request->cash_receipt_voucher_suffix;
             $setting->cash_receipt_voucher_start_from       = $request->cash_receipt_voucher_start_from;
+            if($request->cash_receipt_voucher_sales_receipt == 1) {
+                $setting->cash_receipt_voucher_sales_receipt       = 1;
+            }else { $setting->cash_receipt_voucher_sales_receipt   = 0; }
             
             $setting->bank_receipt_voucher_prefix           = $request->bank_receipt_voucher_prefix;
             $setting->bank_receipt_voucher_suffix           = $request->bank_receipt_voucher_suffix;
@@ -187,6 +190,9 @@ class ConfigurationController extends Controller
             $setting->cash_receipt_voucher_prefix           = $request->cash_receipt_voucher_prefix;
             $setting->cash_receipt_voucher_suffix           = $request->cash_receipt_voucher_suffix;
             $setting->cash_receipt_voucher_start_from       = $request->cash_receipt_voucher_start_from;
+            if($request->cash_receipt_voucher_sales_receipt == 1) {
+                $setting->cash_receipt_voucher_sales_receipt       = 1;
+            }else { $setting->cash_receipt_voucher_sales_receipt   = 0; }
             
             $setting->bank_receipt_voucher_prefix           = $request->bank_receipt_voucher_prefix;
             $setting->bank_receipt_voucher_suffix           = $request->bank_receipt_voucher_suffix;

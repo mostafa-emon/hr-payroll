@@ -84,7 +84,7 @@
 
                 <div class="col-sm-2 mg-sm-t-0" style="margin-top:28px">
                   <div style="float:left; font-size:16px; margin-top:-2px;"> Sales Receipt </div>
-                  <input type="checkbox" style="width: 18px; height: 18px;float:right;" name="cash_receipt_voucher_start_from" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
+                  <input type="checkbox" style="width: 18px; height: 18px;float:right;" name="cash_receipt_voucher_sales_receipt" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
                 </div>
 
 
