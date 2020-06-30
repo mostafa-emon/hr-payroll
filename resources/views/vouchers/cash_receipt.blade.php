@@ -35,7 +35,9 @@
               <option value="all" @if($type == 'all') selected @endif>All</option>
               <option value="bank_deposit" @if($type == 'bank_deposit') selected @endif>Bank Deposit</option>
               <option value="receive_payment" @if($type == 'receive_payment') selected @endif>Receive Payment</option>
+              @if($settings->cash_receipt_voucher_sales_receipt == 1)
               <option value="sales_receipt" @if($type == 'sales_receipt') selected @endif>Sales Receipt</option>
+              @endif
           </select>
         </div>
 
@@ -100,7 +102,7 @@
                 <td style="width:15%">{{$dt['Memo']}}</td>
                 <td style="text-align:right; width:10%">{!! number_formatting($dt['TotalAmt']) !!}</td>
                 <td style="width:10%;text-align:right;">
-                  @php $is_printed = is_voucher_printed('Cash-Payment-Voucher',$dt['TxnType'],$dt['Id']); @endphp
+                  @php $is_printed = is_voucher_printed('Cash-Receipt-Voucher',$dt['TxnType'],$dt['Id']); @endphp
                   @if($is_printed > 0)
                     <span class="badge badge-success">Printed</span>
                   @endif
