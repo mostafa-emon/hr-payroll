@@ -137,8 +137,16 @@
               @endphp
               <tr>
                 <td>
+                  @if($voucher_type == "Cash-Receipt-Voucher" && $api_type == "receive_payment" && $row['debit'] == "")
+                  <select name="account_code_name[]" style="padding:3px;border:1px solid #CECECE;border-radius:3px;">
+                    @foreach($receivable_accounts as $account)
+                      <option value="{{$account['Name'] }}">{{$account['Name'] }}</option>
+                    @endforeach
+                  </select>
+                  @else
                   {{$row['account_code_name']}}
                   <input type="hidden" name="account_code_name[]" value="{{$row['account_code_name']}}"/>
+                  @endif
                 </td>
                 <td>
                   <input type="text" class="form-control" style="padding:5px;" name="memoDetails[]" value="{{$row['memo']}}"/>
@@ -188,7 +196,7 @@
             </div>
 
             <div class="col-md-3">
-              <div class="form-group">
+              <div class="form-group mg-md-l--1">
                 <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
                   <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)" required>
                     @foreach($currencies as $currency)

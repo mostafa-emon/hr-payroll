@@ -167,8 +167,8 @@ class CashReceiptVoucherController extends Controller
                     }
                 }
 
-                // GET DATA FROM BILL PAYMENT
-                if($type == 'pay_bills') {
+                if($type == 'all' || $type == 'receive_payment') {;
+
                     $curl = curl_init();
                     curl_setopt_array($curl, array(
                     CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",
@@ -179,7 +179,7 @@ class CashReceiptVoucherController extends Controller
                     CURLOPT_FOLLOWLOCATION => true,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS =>"SELECT * FROM BillPayment WHERE BankAccountRef IN ($whereInIDs) AND TxnDate >= '$from_date' AND TxnDate <= '$to_date'",
+                    CURLOPT_POSTFIELDS =>"SELECT * FROM payment WHERE TxnDate >= '$from_date' AND TxnDate <= '$to_date'",
                     CURLOPT_HTTPHEADER => array(
                         "User-Agent: Token ".$token,
                         "Accept: application/json",
@@ -193,53 +193,79 @@ class CashReceiptVoucherController extends Controller
                     curl_close($curl);
 
                     $results = json_decode($response, true);
-                    if(isset($results['QueryResponse']['maxResults'])) {
+
+                    if(isset($results['QueryResponse']['maxResults'])){
                         $resultCount = $results['QueryResponse']['maxResults'] - 1;
                         if($resultCount > -1){
                             for($i = 0; $i <= $resultCount; $i++) {
-                                if(isset($results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['value'])) {
-                                    if(in_array($results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['value'], $CashOnHandID)){
-                                        //Filters
-                                        if($received_from != "") {
-                                            if(!isset($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])) {
-                                                continue;
-                                            }
-                                            if(strpos(strtolower($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name']), strtolower($received_from)) === FALSE){
-                                                continue;
-                                            }
+                                if(in_array($results['QueryResponse']['Payment'][$i]['DepositToAccountRef']['value'], $CashOnHandID)){
+                                    //Filters
+                                    if($received_from != "") {
+                                        if(!isset($results['QueryResponse']['Payment'][$i]['CustomerRef']['name'])) {
+                                            continue;
                                         }
-                                        if($amount != "" && $results['QueryResponse']['BillPayment'][$i]['TotalAmt'] != $amount) { continue; }
-                                        if($memo != "") { 
-                                            if(!isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])) {
-                                                continue;
-                                            }
-                                            if(strpos(strtolower($results['QueryResponse']['BillPayment'][$i]['PrivateNote']), strtolower($memo)) === FALSE){
-                                                continue;
-                                            }
+                                        if(strpos(strtolower($results['QueryResponse']['Payment'][$i]['CustomerRef']['name']), strtolower($received_from)) === FALSE){
+                                            continue;
                                         }
-
-                                        $index = $index + 1;
-                                        $data[$index]['Id'] = $results['QueryResponse']['BillPayment'][$i]['Id'];
-                                        $data[$index]['TxnDate'] = $results['QueryResponse']['BillPayment'][$i]['TxnDate'];
-                                        $data[$index]['TxnType'] = 'Pay Bills';
-                                        if(isset($results['QueryResponse']['BillPayment'][$i]['DocNumber'])){
-                                            $data[$index]['DocNumber'] = $results['QueryResponse']['BillPayment'][$i]['DocNumber'];
-                                        }else{
-                                            $data[$index]['DocNumber'] = "";
-                                        }
-                                        if(isset($results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'])){
-                                            $data[$index]['PayeeName'] = $results['QueryResponse']['BillPayment'][$i]['VendorRef']['name'];
-                                        }else{
-                                            $data[$index]['PayeeName'] = "";
-                                        }
-                                        $data[$index]['PaidFrom'] = $results['QueryResponse']['BillPayment'][$i]['CheckPayment']['BankAccountRef']['name'];
-                                        if(isset($results['QueryResponse']['BillPayment'][$i]['PrivateNote'])){
-                                            $data[$index]['Memo'] = $results['QueryResponse']['BillPayment'][$i]['PrivateNote'];
-                                        }else{
-                                            $data[$index]['Memo'] = "";
-                                        }
-                                        $data[$index]['TotalAmt'] = $results['QueryResponse']['BillPayment'][$i]['TotalAmt'];
                                     }
+                                    if($amount != "" && $results['QueryResponse']['Payment'][$i]['TotalAmt'] != $amount) { continue; }
+                                    if($memo != "") { 
+                                        if(!isset($results['QueryResponse']['Payment'][$i]['PrivateNote'])) {
+                                            continue;
+                                        }
+                                        if(strpos(strtolower($results['QueryResponse']['Payment'][$i]['PrivateNote']), strtolower($memo)) === FALSE){
+                                            continue;
+                                        }
+                                    }
+
+                                    $index = $index + 1;
+                                    
+                                    $data[$index]['Id'] = $results['QueryResponse']['Payment'][$i]['Id'];
+                                    $data[$index]['TxnDate'] = $results['QueryResponse']['Payment'][$i]['TxnDate'];
+                                    $data[$index]['TxnType'] = "Receive Payment";
+                                    if(isset($results['QueryResponse']['Payment'][$i]['PaymentRefNum'])){
+                                        $data[$index]['DocNumber'] = $results['QueryResponse']['Payment'][$i]['PaymentRefNum'];
+                                    }else{
+                                        $data[$index]['DocNumber'] = "";
+                                    }
+
+                                    if(isset($results['QueryResponse']['Payment'][$i]['CustomerRef']['name'])){
+                                        $data[$index]['ReceivedFrom'] = $results['QueryResponse']['Payment'][$i]['CustomerRef']['name'];
+                                    }else{
+                                        $data[$index]['ReceivedFrom'] = "";
+                                    }
+
+                                    $curl = curl_init();
+                                    curl_setopt_array($curl, array(
+                                    CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/account/".$results['QueryResponse']['Payment'][$i]['DepositToAccountRef']['value']."?minorversion=14",
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => "",
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => "GET",
+                                    CURLOPT_HTTPHEADER => array(
+                                        "User-Agent: Token ".$token,
+                                        "Accept: application/json",
+                                        "Content-Type: application/text",
+                                        "Authorization: Bearer ".$token,
+                                        "Cookie: qboeuid=dd7e3fce.5a8116cd35a6f"
+                                    ),
+                                    ));
+
+                                    $response = curl_exec($curl);
+                                    curl_close($curl);
+
+                                    $account = json_decode($response, true);
+                                    $data[$index]['DepositTo'] = $account['Account']['AcctNum'].' '.$account['Account']['Name'];
+
+                                    if(isset($results['QueryResponse']['Payment'][$i]['PrivateNote'])){
+                                        $data[$index]['Memo'] = $results['QueryResponse']['Payment'][$i]['PrivateNote'];
+                                    }else{
+                                        $data[$index]['Memo'] = "";
+                                    }
+                                    $data[$index]['TotalAmt'] = $results['QueryResponse']['Payment'][$i]['TotalAmt'];
                                 }
                             }
                         }
@@ -264,11 +290,53 @@ class CashReceiptVoucherController extends Controller
     public function preview($print_status,$api_type,$id){
         $voucher_type = "Cash-Receipt-Voucher";
         $data = $this->cash_receipt_voucher_print($api_type,$id);
+        
+        $company = Company::where('id',Auth::user()->company_id)->first();
+        $token = getToken();
+
+        if($api_type == "receive_payment") {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS =>"SELECT * FROM Account WHERE AccountSubType = 'AccountsReceivable' ORDERBY Id",
+            CURLOPT_HTTPHEADER => array(
+                "User-Agent: Token ".$token,
+                "Accept: application/json",
+                "Content-Type: application/text",
+                "Authorization: Bearer ".$token,
+                "Cookie: qboeuid=dd7e3fce.5a8116cd35a6f"
+            ),
+            ));
+
+            $response = curl_exec($curl);
+            curl_close($curl);
+
+            $accounts = json_decode($response, true);
+
+            $receivable_accounts = [];
+            $resultCount = $accounts['QueryResponse']['maxResults'] - 1;
+            if($resultCount > -1){
+                for($i = 0; $i <= $resultCount; $i++) {
+                    $receivable_accounts[$i]['Id'] = $accounts['QueryResponse']['Account'][$i]['Id'];
+                    $receivable_accounts[$i]['Name'] = $accounts['QueryResponse']['Account'][$i]['FullyQualifiedName'];
+                }
+            }
+
+        }else{
+            $receivable_accounts = [];
+        }
         $voucher_formats = VoucherFormat::select('id','title','default')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
         $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
         $defaults = Currency::where('company_id',Auth::user()->company_id)->where('default',1)->first();
-        return view('vouchers.print_preview',compact('print_status','settings','currencies','data','voucher_type','api_type','voucher_formats','defaults'));
+        return view('vouchers.print_preview',compact('receivable_accounts','print_status','settings','currencies','data','voucher_type','api_type','voucher_formats','defaults'));
     }
 
     public function cash_receipt_voucher_print($api_type,$id){
@@ -390,11 +458,10 @@ class CashReceiptVoucherController extends Controller
             return $data; 
         }
         
-
-        if($api_type == 'bill_payment') {
+        else if($api_type == 'receive_payment') {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/billpayment/".$id."?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/payment/".$id."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -405,9 +472,8 @@ class CashReceiptVoucherController extends Controller
             CURLOPT_HTTPHEADER => array(
                 "User-Agent: Token ".$token,
                 "Accept: application/json",
-                "Content-Type: application/text",
                 "Authorization: Bearer ".$token,
-                "Cookie: qboeuid=dd7e3fce.5a8116cd35a6f"
+                "Cookie: qboeuid=273f06cf.5a8393ed07b56"
             ),
             ));
 
@@ -415,52 +481,38 @@ class CashReceiptVoucherController extends Controller
             curl_close($curl);
 
             $results = json_decode($response, true);
-
+            
             if($settings->voucher_number == "auto"){
-                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Payment-Voucher')->orderBy('created_at','desc')->first();
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Receipt-Voucher')->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                    $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
                 }else{
-                    if($settings->cash_payment_voucher_prefix == $latest_voucher->prefix && $settings->cash_payment_voucher_suffix == $latest_voucher->suffix){
+                    if($settings->cash_receipt_voucher_prefix == $latest_voucher->prefix && $settings->cash_receipt_voucher_suffix == $latest_voucher->suffix){
                         $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                     }else{
-                        $data['voucher_no'] = $settings->cash_payment_voucher_start_from;
+                        $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
                     }
                 }
-                $data['prefix'] = $settings->cash_payment_voucher_prefix;
-                $data['suffix'] = $settings->cash_payment_voucher_suffix;
+                $data['prefix'] = $settings->cash_receipt_voucher_prefix;
+                $data['suffix'] = $settings->cash_receipt_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
                 $data['prefix'] = "";
                 $data['suffix'] = "";
             }
-            $data['id'] = $results['BillPayment']['Id'];
-            $data['voucher_date'] = $results['BillPayment']['TxnDate'];
-            if(isset($results['BillPayment']['DocNumber'])){
-                $data['reference_no'] = $results['BillPayment']['DocNumber'];
-            }else{
-                $data['reference_no'] = "";
+            $data['id'] = $results['Payment']['Id'];
+            $data['voucher_date'] = $results['Payment']['TxnDate'];
+            $data['reference_no'] = "";
+            
+            if(isset($results['Payment']['CustomerRef']['name'])) {
+                $data['received_from'] = $results['Payment']['CustomerRef']['name'];
+            }else {
+                $data['received_from'] = "";
             }
-            if(isset($results['BillPayment']['VendorRef']['name'])){
-                $data['payee_name'] = $results['BillPayment']['VendorRef']['name'];
-            }else{
-                $data['payee_name'] = "";
-            }
-            $data['received_from'] = "";
-            $data['cheque_no'] = "";
-            $data['cheque_date'] = "";
-            $data['location'] = "";
-            if(isset($results['BillPayment']['PrivateNote'])){
-                $data['memo'] = $results['BillPayment']['PrivateNote'];
-            }else{
-                $data['memo'] = "";
-            }
-            $data['PaidFrom'] = $results['BillPayment']['CheckPayment']['BankAccountRef']['name'];
-
-            $bill_id = $results['BillPayment']['Line'][0]['LinkedTxn'][0]['TxnId'];
+            
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/bill/".$bill_id."?minorversion=14",
+            CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/account/".$results['Payment']['DepositToAccountRef']['value']."?minorversion=14",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -480,25 +532,44 @@ class CashReceiptVoucherController extends Controller
             $response = curl_exec($curl);
             curl_close($curl);
 
-            $bills = json_decode($response, true);
+            $account = json_decode($response, true);
+            
+            $data['deposit_to'] = $account['Account']['AcctNum'].' '.$account['Account']['Name'];
 
+            $data['cheque_no'] = "";
+            $data['cheque_date'] = "";
+
+            $data['location'] = "";
+            if(isset($results['Payment']['PrivateNote'])){
+                $data['memo'] = $results['Payment']['PrivateNote'];
+            }else{
+                $data['memo'] = "";
+            }
             $data['transactions'] = [];
-
-            $data['transactions'][0]['account_code_name'] = $bills['Bill']['APAccountRef']['name'];
-            $data['transactions'][0]['memo'] = $results['BillPayment']['VendorRef']['name'];
+            
+            $data['transactions'][0]['account_code_name'] = $data['deposit_to'];
+            if(isset($results['Payment']['PrivateNote'])){
+                $data['transactions'][0]['memo'] = $results['Payment']['PrivateNote'];
+            }else{
+                $data['transactions'][0]['memo'] = "";
+            }
             $data['transactions'][0]['customer_job_project_name'] = "";
             $data['transactions'][0]['class'] = "";
-            $data['transactions'][0]['debit'] = $results['BillPayment']['TotalAmt'];
+            $data['transactions'][0]['debit'] = $results['Payment']['TotalAmt'];
             $data['transactions'][0]['credit'] = "";
 
-            $data['transactions'][1]['account_code_name'] = $results['BillPayment']['CheckPayment']['BankAccountRef']['name'];
-            $data['transactions'][1]['memo'] = "";
+            $data['transactions'][1]['account_code_name'] = "";
+            if(isset($results['Payment']['PrivateNote'])){
+                $data['transactions'][1]['memo'] = $results['Payment']['PrivateNote'];
+            }else{
+                $data['transactions'][1]['memo'] = "";
+            }
             $data['transactions'][1]['customer_job_project_name'] = "";
             $data['transactions'][1]['class'] = "";
             $data['transactions'][1]['debit'] = "";
-            $data['transactions'][1]['credit'] = $results['BillPayment']['TotalAmt'];
+            $data['transactions'][1]['credit'] = $results['Payment']['TotalAmt'];
             
-            return $data;
+            return $data; 
         }
     }
 }

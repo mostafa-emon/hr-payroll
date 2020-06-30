@@ -108,7 +108,7 @@
                 <td style="width:10%;text-align:right;">
                   @php
                     if($dt['TxnType'] == 'Bank Deposit') {$apiType = 'bank_deposit';}
-                    else if($dt['TxnType'] == 'Receive Payment') {$apiType = 'received_payment';}
+                    else if($dt['TxnType'] == 'Receive Payment') {$apiType = 'receive_payment';}
                     else if($dt['TxnType'] == 'Sales Receipt') {$apiType = 'sales_receipt';}
 
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
