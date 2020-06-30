@@ -31,7 +31,9 @@
     <input type="hidden" name="print_status" value="{{$print_status}}"/>
     <input type="hidden" name="prefix" value="{{$data['prefix']}}"/>
     <input type="hidden" name="suffix" value="{{$data['suffix']}}"/>
-    <input type="hidden" name="paid_from" value="{{$data['PaidFrom']}}"/>
+    @if($voucher_type != "Cash-Receipt-Voucher" && $voucher_type != "Bank-Receipt-Voucher")
+      <input type="hidden" name="paid_from" value="{{$data['PaidFrom']}}"/>
+    @endif
 
     <div class="br-pagebody">
       <div class="br-section-wrapper">
@@ -59,19 +61,30 @@
               </div>
             </div>
 
+            @if($voucher_type != "Cash-Receipt-Voucher" && $voucher_type != "Bank-Receipt-Voucher")
             <div class="col-md-6">
               <div class="form-group bd-t-0-force">
                 <label class="form-control-label">Payee Name:</label>
                 <input class="form-control" type="text" name="payee_name" placeholder="Enter Payee Name" @if($data['payee_name'] != "") value="{{$data['payee_name']}}" @endif readonly>
               </div>
             </div>
+            @endif
 
             <div class="col-md-6">
-              <div class="form-group bd-t-0-force mg-md-l--1">
+              <div class="form-group bd-t-0-force @if($voucher_type != "Cash-Receipt-Voucher" && $voucher_type != "Bank-Receipt-Voucher")mg-md-l--1 @endif">
                 <label class="form-control-label">Received From:</label>
                 <input class="form-control" type="text" name="received_from" placeholder="Enter Received From" @if($data['received_from'] != "") value="{{$data['received_from']}}" @endif readonly>
               </div>
             </div>
+
+            @if($voucher_type == "Cash-Receipt-Voucher" || $voucher_type == "Bank-Receipt-Voucher")
+            <div class="col-md-6">
+              <div class="form-group bd-t-0-force mg-md-l--1">
+                <label class="form-control-label">Deposit To:</label>
+                <input class="form-control" type="text" name="deposit_to" placeholder="Enter Deposit To" @if($data['deposit_to'] != "") value="{{$data['deposit_to']}}" @endif readonly>
+              </div>
+            </div>
+            @endif
 
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force">

@@ -178,7 +178,9 @@ Route::post('/tr-cash-payment-voucher', 'CashPaymentVoucherController@index');
 Route::get('/tr-bank-payment-voucher', 'BankPaymentVoucherController@index');
 Route::post('/tr-bank-payment-voucher', 'BankPaymentVoucherController@index');
 
-Route::get('/tr-cash-receipt-voucher', 'VoucherController@cash_receipt');
+Route::get('/tr-cash-receipt-voucher', 'CashReceiptVoucherController@index');
+Route::post('/tr-cash-receipt-voucher', 'CashReceiptVoucherController@index');
+
 Route::get('/tr-bank-receipt-voucher', 'VoucherController@bank_receipt');
 
 Route::get('/tr-void-voucher', 'LocalVoucherController@void_voucher');
@@ -196,6 +198,7 @@ Route::get('/cpv-voucher-preview/{print_status}/{api_type}/{id}', 'CashPaymentVo
 Route::get('/bpv-voucher-preview/{print_status}/{api_type}/{id}', 'BankPaymentVoucherController@preview');
 Route::get('/contra-voucher-preview/{print_status}/{api_type}/{id}', 'ContraVoucherController@preview');
 Route::get('/journal-voucher-preview/{print_status}/{api_type}/{id}', 'JournalVoucherController@preview');
+Route::get('/crv-voucher-preview/{print_status}/{api_type}/{id}', 'CashReceiptVoucherController@preview');
 Route::get('/cheque-preview/{bank_id}/{print_status}/{api_type}/{id}/{payee_name}/{txn_date}/{amount}', 'ChequeTransactionController@add');
 
 Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');
