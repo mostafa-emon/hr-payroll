@@ -31,6 +31,7 @@ class CreateSettingsTable extends Migration
             $table->string('cash_receipt_voucher_prefix',10)->nullable();
             $table->string('cash_receipt_voucher_suffix',10)->nullable();
             $table->string('cash_receipt_voucher_start_from',10)->nullable();
+            $table->integer('cash_receipt_voucher_sales_receipt')->default(0);
 
             $table->string('bank_receipt_voucher_prefix',10)->nullable();
             $table->string('bank_receipt_voucher_suffix',10)->nullable();
