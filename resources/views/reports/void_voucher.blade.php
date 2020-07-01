@@ -28,7 +28,7 @@
         <div class="row mg-b-30 b">
           <div class="col-md-2">
             <label class="tx-black tx-13">Voucher Type</label>
-            <select class="form-control" name="voucher_type">
+            <select class="form-control" name="voucher_type" onchange="hideShow(this.value)">
               <option value="" selected>All</option>
               <option value="Cash-Payment-Voucher" @if($voucher_type == "Cash-Payment-Voucher") selected @endif>Cash Payment Voucher</option>
               <option value="Bank-Payment-Voucher" @if($voucher_type == "Bank-Payment-Voucher") selected @endif>Bank Payment Voucher</option>
@@ -49,12 +49,12 @@
             <input type="text" id="dtpick2" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
           </div>
 
-          <div class="col-md-2">
+          <div @if( $voucher_type == "Cash-Receipt-Voucher" || $voucher_type == "Bank-Receipt-Voucher") style="display:none" @endif id="payee_name" class="col-md-2">
             <label class="tx-black tx-13">Payee Name</label>
             <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
           </div>
 
-          <div style="display:none" id="received_from" class="col-md-2">
+          <div @if($voucher_type == "Cash-Payment-Voucher" || $voucher_type == "Bank-Payment-Voucher" || $voucher_type == "Contra-Voucher" || $voucher_type == "Journal-Voucher" || $voucher_type =="") style="display:none" @endif id="received_from" class="col-md-2">
             <label class="tx-black tx-13">Received From</label>
             <input type="text" name="received_from" value="{{$received_from}}" class="form-control"/>
           </div>
@@ -110,6 +110,16 @@
 
           //window.location = "/mr"
       }, 1000);
+    }
+
+    function hideShow(value) {
+      if(value == "Cash-Receipt-Voucher" || value == "Bank-Receipt-Voucher"){
+        $('#received_from').show();
+        $('#payee_name').hide();
+      }else{
+        $('#received_from').hide();
+        $('#payee_name').show();
+      }
     }
   </script>
 

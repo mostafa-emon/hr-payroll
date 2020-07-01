@@ -106,6 +106,7 @@ class LocalVoucherController extends Controller
 
     public function add_void_voucher(Request $request){
         $vouchers = [];
+        $voucher_type = "";
         $amount = "";
         $from_date = "";
         $to_date = "";
@@ -113,6 +114,7 @@ class LocalVoucherController extends Controller
         $received_from = "";
         $memo = "";
         if($request->voucher_type != ""){
+            $voucher_type = $request->voucher_type;
             $vouchers = Voucher::where('type',$request->voucher_type);
 
             if($request->from_date != "" && $request->to_date != ""){
@@ -143,7 +145,7 @@ class LocalVoucherController extends Controller
             $vouchers = $vouchers->where('status',1)->get();
         }
         
-        return view('void_vouchers.add', compact('vouchers','amount','from_date','to_date','payee_name','memo','received_from'));
+        return view('void_vouchers.add', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','memo','received_from'));
     }
 
     public function make_void($voucher_id)

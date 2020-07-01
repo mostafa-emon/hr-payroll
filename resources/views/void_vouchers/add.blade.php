@@ -23,12 +23,13 @@
         <div class="col-md-2">
           <label class="tx-black tx-13">Voucher Type</label>
           <select class="form-control" name="voucher_type" onchange="hideShow(this.value)">
-            <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
-            <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
-            <option id="crv" value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
-            <option id="brv" value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
-            <option value="Contra-Voucher">Contra Voucher</option>
-            <option value="Journal-Voucher">Journal Voucher</option>
+            <option value="" selected disabled>Select</option>
+            <option value="Cash-Payment-Voucher" @if($voucher_type == "Cash-Payment-Voucher") selected @endif>Cash Payment Voucher</option>
+            <option value="Bank-Payment-Voucher" @if($voucher_type == "Bank-Payment-Voucher") selected @endif>Bank Payment Voucher</option>
+            <option value="Cash-Receipt-Voucher" @if($voucher_type == "Cash-Receipt-Voucher") selected @endif>Cash Receipt Voucher</option>
+            <option value="Bank-Receipt-Voucher" @if($voucher_type == "Bank-Receipt-Voucher") selected @endif>Bank Receipt Voucher</option>
+            <option value="Contra-Voucher" @if($voucher_type == "Contra-Voucher") selected @endif>Contra Voucher</option>
+            <option value="Journal-Voucher" @if($voucher_type == "Journal-Voucher") selected @endif>Journal Voucher</option>
           </select>
         </div>
 
@@ -42,12 +43,12 @@
           <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
         </div>
 
-        <div id="payee_name" class="col-md-2">
+        <div @if( $voucher_type == "Cash-Receipt-Voucher" || $voucher_type == "Bank-Receipt-Voucher") style="display:none" @endif id="payee_name" class="col-md-2">
           <label class="tx-black tx-13">Payee Name</label>
           <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
         </div>
 
-        <div style="display:none" id="received_from" class="col-md-2">
+        <div @if($voucher_type == "Cash-Payment-Voucher" || $voucher_type == "Bank-Payment-Voucher" || $voucher_type == "Contra-Voucher" || $voucher_type == "Journal-Voucher" || $voucher_type =="") style="display:none" @endif id="received_from" class="col-md-2">
           <label class="tx-black tx-13">Received From</label>
           <input type="text" name="received_from" value="{{$received_from}}" class="form-control"/>
         </div>
@@ -125,6 +126,7 @@
         $('#payee_name').show();
       }
     }
+    
   </script>
 
 @endsection
