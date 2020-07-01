@@ -12,7 +12,7 @@ use App\Currency;
 use DateTime;
 use App\Company;
 
-class CashReceiptVoucherController extends Controller
+class BankReceiptVoucherController extends Controller
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class CashReceiptVoucherController extends Controller
             $interval = $datetime1->diff($datetime2);
             $days = $interval->format('%a');
             if($days > 31) {
-                return redirect('tr-cash-receipt-voucher')->with('message','Date range should not greater than one month!');
+                return redirect('tr-bank-receipt-voucher')->with('message','Date range should not greater than one month!');
             }
 
             $type = $request->trx_type;
@@ -46,7 +46,7 @@ class CashReceiptVoucherController extends Controller
             $CashOnHandID = [];
             $whereInIDs = "";
 
-            // GET CASH_ON_HAND ACCOUNTS
+            // GET BANK ACCOUNTS
             $curl = curl_init();
             curl_setopt_array($curl, array(
             CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",
@@ -57,7 +57,7 @@ class CashReceiptVoucherController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS =>"SELECT * FROM Account WHERE AccountSubType = 'CashOnHand'",
+            CURLOPT_POSTFIELDS =>"SELECT * FROM Account",
             CURLOPT_HTTPHEADER => array(
                 "User-Agent: Token ".$token,
                 "Accept: application/json",
@@ -75,13 +75,21 @@ class CashReceiptVoucherController extends Controller
             $resultCount = $accounts['QueryResponse']['maxResults'] - 1;
             if($resultCount > -1){
                 for($i = 0; $i <= $resultCount; $i++) {
-                    $CashOnHandID[] = $accounts['QueryResponse']['Account'][$i]['Id'];
-                    $whereInIDs = $whereInIDs.",'".$accounts['QueryResponse']['Account'][$i]['Id']."'";
+                    if($accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "Checking"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "MoneyMarket"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "RentsHeldInTrust"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "Savings"
+                     || $accounts['QueryResponse']['Account'][$i]['AccountSubType'] == "TrustAccounts"
+                    ){
+                        $CashOnHandID[] = $accounts['QueryResponse']['Account'][$i]['Id'];
+                        $whereInIDs = $whereInIDs.",'".$accounts['QueryResponse']['Account'][$i]['Id']."'";
+                    }
                 }
             }
             $whereInIDs = ltrim($whereInIDs,',');
-
+            
             if(count($CashOnHandID) != 0) {
+                
                 // GET DATA FROM PURCHASE
                 $settings = Setting::where('company_id',Auth::user()->company_id)->first();
 
@@ -110,6 +118,7 @@ class CashReceiptVoucherController extends Controller
                     curl_close($curl);
 
                     $results = json_decode($response, true);
+                    
                     if(isset($results['QueryResponse']['maxResults'])){
                         $resultCount = $results['QueryResponse']['maxResults'] - 1;
                         if($resultCount > -1){
@@ -273,6 +282,7 @@ class CashReceiptVoucherController extends Controller
                                     }else  {
                                         $data[$index]['DepositTo'] = $account['Account']['Name'];
                                     }
+                                    
                                     if(isset($results['QueryResponse']['Payment'][$i]['PrivateNote'])){
                                         $data[$index]['Memo'] = $results['QueryResponse']['Payment'][$i]['PrivateNote'];
                                     }else{
@@ -368,7 +378,7 @@ class CashReceiptVoucherController extends Controller
                 }
             }
             
-            return view('vouchers.cash_receipt',compact('settings','data','from_date','to_date','type','received_from','amount','memo'));
+            return view('vouchers.bank_receipt',compact('settings','data','from_date','to_date','type','received_from','amount','memo'));
         }
         
         else{
@@ -380,13 +390,13 @@ class CashReceiptVoucherController extends Controller
             $to_date = date('Y-m-d');
             $data = [];
             $settings = Setting::where('company_id',Auth::user()->company_id)->first();
-            return view('vouchers.cash_receipt',compact('settings','data','from_date','to_date','type','received_from','amount','memo'));
+            return view('vouchers.bank_receipt',compact('settings','data','from_date','to_date','type','received_from','amount','memo'));
         }
     }
 
     public function preview($print_status,$api_type,$id){
-        $voucher_type = "Cash-Receipt-Voucher";
-        $data = $this->cash_receipt_voucher_print($api_type,$id);
+        $voucher_type = "Bank-Receipt-Voucher";
+        $data = $this->bank_receipt_voucher_print($api_type,$id);
         
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
@@ -436,7 +446,7 @@ class CashReceiptVoucherController extends Controller
         return view('vouchers.print_preview',compact('receivable_accounts','print_status','settings','currencies','data','voucher_type','api_type','voucher_formats','defaults'));
     }
 
-    public function cash_receipt_voucher_print($api_type,$id){
+    public function bank_receipt_voucher_print($api_type,$id){
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
         $data = [];
@@ -467,18 +477,18 @@ class CashReceiptVoucherController extends Controller
             $results = json_decode($response, true);
 
             if($settings->voucher_number == "auto"){
-                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Receipt-Voucher')->orderBy('created_at','desc')->first();
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Bank-Receipt-Voucher')->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
+                    $data['voucher_no'] = $settings->bank_receipt_voucher_start_from;
                 }else{
-                    if($settings->cash_receipt_voucher_prefix == $latest_voucher->prefix && $settings->cash_receipt_voucher_suffix == $latest_voucher->suffix){
+                    if($settings->bank_receipt_voucher_prefix == $latest_voucher->prefix && $settings->bank_receipt_voucher_suffix == $latest_voucher->suffix){
                         $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                     }else{
-                        $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
+                        $data['voucher_no'] = $settings->bank_receipt_voucher_start_from;
                     }
                 }
-                $data['prefix'] = $settings->cash_receipt_voucher_prefix;
-                $data['suffix'] = $settings->cash_receipt_voucher_suffix;
+                $data['prefix'] = $settings->bank_receipt_voucher_prefix;
+                $data['suffix'] = $settings->bank_receipt_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
                 $data['prefix'] = "";
@@ -580,18 +590,18 @@ class CashReceiptVoucherController extends Controller
             $results = json_decode($response, true);
             
             if($settings->voucher_number == "auto"){
-                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Receipt-Voucher')->orderBy('created_at','desc')->first();
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Bank-Receipt-Voucher')->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
+                    $data['voucher_no'] = $settings->bank_receipt_voucher_start_from;
                 }else{
-                    if($settings->cash_receipt_voucher_prefix == $latest_voucher->prefix && $settings->cash_receipt_voucher_suffix == $latest_voucher->suffix){
+                    if($settings->bank_receipt_voucher_prefix == $latest_voucher->prefix && $settings->bank_receipt_voucher_suffix == $latest_voucher->suffix){
                         $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                     }else{
-                        $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
+                        $data['voucher_no'] = $settings->bank_receipt_voucher_start_from;
                     }
                 }
-                $data['prefix'] = $settings->cash_receipt_voucher_prefix;
-                $data['suffix'] = $settings->cash_receipt_voucher_suffix;
+                $data['prefix'] = $settings->bank_receipt_voucher_prefix;
+                $data['suffix'] = $settings->bank_receipt_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
                 $data['prefix'] = "";
@@ -702,18 +712,18 @@ class CashReceiptVoucherController extends Controller
             $results = json_decode($response, true);
             
             if($settings->voucher_number == "auto"){
-                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Cash-Receipt-Voucher')->orderBy('created_at','desc')->first();
+                $latest_voucher = Voucher::where('company_id',Auth::User()->company_id)->where('type','Bank-Receipt-Voucher')->orderBy('created_at','desc')->first();
                 if($latest_voucher == ""){
-                    $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
+                    $data['voucher_no'] = $settings->bank_receipt_voucher_start_from;
                 }else{
-                    if($settings->cash_receipt_voucher_prefix == $latest_voucher->prefix && $settings->cash_receipt_voucher_suffix == $latest_voucher->suffix){
+                    if($settings->bank_receipt_voucher_prefix == $latest_voucher->prefix && $settings->bank_receipt_voucher_suffix == $latest_voucher->suffix){
                         $data['voucher_no'] = $latest_voucher->voucher_no + 1;
                     }else{
-                        $data['voucher_no'] = $settings->cash_receipt_voucher_start_from;
+                        $data['voucher_no'] = $settings->bank_receipt_voucher_start_from;
                     }
                 }
-                $data['prefix'] = $settings->cash_receipt_voucher_prefix;
-                $data['suffix'] = $settings->cash_receipt_voucher_suffix;
+                $data['prefix'] = $settings->bank_receipt_voucher_prefix;
+                $data['suffix'] = $settings->bank_receipt_voucher_suffix;
             }else{
                 $data['voucher_no'] = "";
                 $data['prefix'] = "";
