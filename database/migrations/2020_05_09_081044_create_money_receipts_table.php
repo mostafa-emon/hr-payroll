@@ -23,6 +23,11 @@ class CreateMoneyReceiptsTable extends Migration
             $table->string('amount',30);
             $table->string('mr_prefix',30)->nullable();
             $table->string('mr_suffix',30)->nullable();
+
+            
+            $table->string('api_type',30)->nullable();
+            $table->string('document_id',30)->nullable();
+
             $table->string('currency',30);
             $table->text('amount_in_word')->nullable();
             $table->string('payment_method',30)->nullable();

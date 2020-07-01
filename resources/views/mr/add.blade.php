@@ -100,6 +100,8 @@
           </div>
 
           <div class="form-layout-footer bd pd-20 bd-t-0">
+            <input type="hidden" name="api_type" value="{{$api_type}}"/>
+            <input type="hidden" name="document_id" value="{{$document_id}}"/>
             <input type="hidden" name="customer_address" value="{{$data['customer_address']}}"/>
             <input type="submit" value="Submit" class="btn btn-info pointer"/>
           </div>

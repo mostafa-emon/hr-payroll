@@ -9,6 +9,7 @@ use App\Company;
 use App\Voucher;
 use App\Setting;
 use App\ChequeTransaction;
+use App\MoneyReceipt;
 
 function roles(){
     $user_roles = Role::where('id',Auth::user()->roles)->first();
@@ -167,6 +168,25 @@ function is_voucher_printed($voucher_type,$api_type,$id){
         }else if($api_type == "Sales Receipt"){
             $count = Voucher::where('type','Bank-Receipt-Voucher')
                     ->where('api_type','sales_receipt')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }
+    }
+
+    if($voucher_type == "Money-Receipt"){
+        if($api_type == "Bank Deposit"){
+            $count = MoneyReceipt::where('api_type','bank_deposit')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }else if($api_type == "Receive Payment"){
+            $count = MoneyReceipt::where('api_type','receive_payment')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }else if($api_type == "Sales Receipt"){
+            $count = MoneyReceipt::where('api_type','sales_receipt')
                     ->where('document_id',$id)
                     ->where('status',1)
                     ->count();

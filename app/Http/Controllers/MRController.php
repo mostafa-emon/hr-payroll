@@ -452,7 +452,8 @@ class MRController extends Controller
         $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
         $defaults = Currency::where('company_id',Auth::user()->company_id)->where('default',1)->first();
         $payment_methods = PaymentMethod::where('company_id',Auth::user()->company_id)->get();
-        return view('mr.add',compact('receivable_accounts','print_status','settings','currencies','data','voucher_type','api_type','defaults','payment_methods'));
+        $document_id = $id;
+        return view('mr.add',compact('receivable_accounts','print_status','settings','currencies','data','voucher_type','api_type','document_id','defaults','payment_methods'));
     }
 
     public function money_receipt_print($api_type,$id){
@@ -955,7 +956,7 @@ class MRController extends Controller
             if(!isset($last_invoice->invoice_no)){
                 $invoice_no = $setting->mr_start_from;
             } else{
-                if($last_invoice->mr_prefix == $setting->mr_prefix && $last_invoice->mr_prefix == $setting->mr_suffix) {
+                if($last_invoice->mr_prefix == $setting->mr_prefix && $last_invoice->mr_suffix == $setting->mr_suffix) {
                     $invoice_no = $last_invoice->invoice_no + 1;
                 }else{
                     $invoice_no = $setting->mr_start_from;
@@ -979,10 +980,11 @@ class MRController extends Controller
         $mr->cheque_date            = date('Y-m-d',strtotime($request->cheque_date));
         $mr->bank_name              = $request->bank_name;
         $mr->purpose                = $request->purpose;
-
         $mr->mr_prefix              = $setting->mr_prefix;
         $mr->mr_suffix              = $setting->mr_suffix;
-
+        $mr->api_type               = $request->api_type;
+        $mr->document_id            = $request->document_id;
+        $mr->status                 = 1;
         $mr->company_id             = Auth::user()->company_id;
         $mr->save();
 
