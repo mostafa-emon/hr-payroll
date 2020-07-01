@@ -25,8 +25,8 @@
           <select class="form-control" name="voucher_type">
             <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
             <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
-            <option value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
-            <option value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
+            <option id="crv" value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
+            <option id="brv" value="Bank-Receipt-Voucher">Bank Receipt Voucher</option>
             <option value="Contra-Voucher">Contra Voucher</option>
             <option value="Journal-Voucher">Journal Voucher</option>
           </select>
@@ -42,12 +42,12 @@
           <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
         </div>
 
-        <div class="col-md-2">
+        <div id="payee_name" class="col-md-2">
           <label class="tx-black tx-13">Payee Name</label>
           <input type="text" name="payee_name" value="{{$payee_name}}" class="form-control"/>
         </div>
 
-        <div class="col-md-2">
+        <div style="display:none" id="received_from" class="col-md-2">
           <label class="tx-black tx-13">Received From</label>
           <input type="text" name="received_from" value="{{$received_from}}" class="form-control"/>
         </div>
@@ -115,6 +115,15 @@
           window.location = 'printer/delete/'+id
       }
     }
+
+    $(function(HideShowElement){
+
+      $('Cash-Receipt-Voucher').is(':selected') {
+        $('#payee_name').hide();
+        $('#received_from').show();
+      }
+
+    });
   </script>
 
 @endsection

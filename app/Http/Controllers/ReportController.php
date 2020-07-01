@@ -272,6 +272,7 @@ class ReportController extends Controller
         if($request->to_date != "") {$to_date = date('Y-m-d',strtotime($request->to_date));}
 
         $payee_name = "";
+        $received_from = "";
         $memo = "";
         $vouchers = Voucher::whereBetween('voucher_date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
 
@@ -282,6 +283,11 @@ class ReportController extends Controller
         if($request->payee_name != ""){
             $payee_name = $request->payee_name;
             $vouchers = $vouchers->where('payee_name','LIKE', '%'.$request->payee_name.'%');
+        }
+
+        if($request->received_from != ""){
+            $received_from = $request->received_from;
+            $vouchers = $vouchers->where('received_from','LIKE', '%'.$request->received_from.'%');
         }
 
         if($request->amount != ""){
@@ -298,7 +304,7 @@ class ReportController extends Controller
         
         $setting        = Setting::where('company_id', Auth::user()->company_id)->first();
         $company        = Company::where('id', Auth::user()->company_id)->first();
-        return view('reports.issued_voucher', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','memo','setting','company'));
+        return view('reports.issued_voucher', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','received_from','memo','setting','company'));
     }
 
     public function export_issued_voucher(){
@@ -316,6 +322,7 @@ class ReportController extends Controller
         if($request->to_date != "") {$to_date = date('Y-m-d',strtotime($request->to_date));}
 
         $payee_name = "";
+        $received_from = "";
         $memo = "";
 
         $vouchers = Voucher::whereBetween('voucher_date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
@@ -327,6 +334,11 @@ class ReportController extends Controller
         if($request->payee_name != ""){
             $payee_name = $request->payee_name;
             $vouchers = $vouchers->where('payee_name','LIKE', '%'.$request->payee_name.'%');
+        }
+
+        if($request->received_from != ""){
+            $received_from = $request->received_from;
+            $vouchers = $vouchers->where('received_from','LIKE', '%'.$request->received_from.'%');
         }
 
         if($request->amount != ""){
@@ -343,7 +355,7 @@ class ReportController extends Controller
         
         $setting        = Setting::where('company_id', Auth::user()->company_id)->first();
         $company        = Company::where('id', Auth::user()->company_id)->first();
-        return view('reports.void_voucher', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','memo','setting','company'));
+        return view('reports.void_voucher', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','received_from','memo','setting','company'));
     }
 
     public function export_void_voucher(){
