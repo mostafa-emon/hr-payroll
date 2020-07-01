@@ -15,7 +15,7 @@
     </div>
     <div style="float:right">
       @if(roles() != "" && in_array(14, json_decode(roles(),false)))
-        <a href="{{ url('payment-method/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i>Add Method</a>
+        <a href="{{ url('payment-method/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Method</a>
       @endif
     </div>
   </div>

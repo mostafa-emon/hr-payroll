@@ -21,37 +21,46 @@
         <div class="form-layout form-layout-2">
           <div class="row no-gutters">
 
-            <div class="col-md-3">
+            <div class="col-md-6">
               <div class="form-group">
-                <label class="form-control-label mg-b-0-force">Site Office: <span class="tx-danger">*</span></label>
-                <select name="site_office" class="form-control mg-l--4">
-                    <option value="" disabled selected>Select Site Office</option>
-                    @foreach($site_offices as $site_office)
-                        <option value="{{ $site_office->name }}_{{ $site_office->mr_prefix }}_{{ $site_office->mr_suffix }}_{{ $site_office->mr_start_from }}">{{ $site_office->name }}</option>
-                    @endforeach
-                </select>
+                <label class="form-control-label">Purpose:</label>
+                <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose">
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group mg-md-l--1">
+                <label class="form-control-label mg-b-0-force">Payment Method: <span class="tx-danger">*</span></label>
+                    <select name="payment_method" class="form-control mg-l--4" onchange="setAmount();datePickerAction()">
+                        <option value="">-- select method --</option>
+                        @foreach($payment_methods as $payment_method)
+                            <option value="{{ $payment_method->method_name }}">{{ $payment_method->method_name }}</option>
+                        @endforeach
+                    </select> 
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group mg-md-l--1">
+                <label class="form-control-label">MR Number:  @if($settings->mr_number == "auto") (N/A) @endif</label>
+                <input class="form-control" type="text" name="invoice_no" placeholder="Enter Invoice No." @if($settings->mr_number == "auto") readonly @else required @endif>
+              </div>
+            </div>
+
+            <div class="col-md-6 mg-t--1 mg-md-t-0">
+              <div class="form-group bd-t-0-force">
+                <label class="form-control-label">Customer:  <span class="tx-danger">*</span></label>
+                <input class="form-control" type="text" name="customer_name" value="{{ $data['received_from'] }}" readonly>
               </div>
             </div>
 
             <div class="col-md-3 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1">
-                <label class="form-control-label mg-b-0-force">Customer: <span class="tx-danger">*</span></label>
-                <select name="customer_name" class="form-control mg-l--4" onchange="datePickerAction()">
-                    <option value="" disabled selected>Select Customer</option>
-                    @foreach($customers as $customer)
-                        <option value="{{ $customer->name }}">{{ $customer->name }}</option>
-                    @endforeach
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-3 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1">
+              <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label mg-b-0-force">Currency: <span class="tx-danger">*</span></label>
                   <select name="currency" class="form-control mg-l--4" onchange="setCurrency(this.value)">
                       <option value="" disabled selected>Select Currency</option>
-                      @foreach($currency as $currency)
-                          <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}">{{ $currency->full_name }}</option>
+                      @foreach($currencies as $currency)
+                          <option value="{{ $currency->full_name }}_{{ $currency->fraction_name }}" @if($currency->full_name == $defaults->full_name) selected @endif>{{ $currency->full_name }}</option>
                       @endforeach
                   </select> 
                   <input type="hidden" id="currency_full_name" value="BDT"/>
@@ -60,11 +69,10 @@
             </div>
 
             <div class="col-md-3 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1">
+              <div class="form-group bd-t-0-force mg-md-l--1">
                 <label class="form-control-label">Amount: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="amountInput" oninput="setChequeAmount(this.value)" placeholder="Enter Amount">
-                <input class="form-control" type="hidden" id="realAmount" name="amount">
-                <input type="hidden" id="amount_in_words" name="amount_in_words"/>
+                <input class="form-control" type="text" id="realAmount" name="amount" readonly>
+                <input type="hidden" id="amount_in_words" name="amount_in_words" readonly/>
               </div>
             </div>
 
@@ -89,34 +97,12 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Purpose:</label>
-                <input class="form-control" type="text" name="purpose" placeholder="Enter Purpose">
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label mg-b-0-force">Payment Method: <span class="tx-danger">*</span></label>
-                    <select name="payment_method" class="form-control mg-l--4">
-                        @foreach($payment_methods as $payment_method)
-                            <option value="{{ $payment_method->method_name }}">{{ $payment_method->method_name }}</option>
-                        @endforeach
-                    </select> 
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">MR Number:  @if($setting->mr_number == "auto") (N/A) @endif</label>
-                <input class="form-control" type="text" name="invoice_no" placeholder="Enter Invoice No." @if($setting->mr_number == "auto") readonly @else required @endif>
-              </div>
-            </div>
-
           </div>
 
           <div class="form-layout-footer bd pd-20 bd-t-0">
+            <input type="hidden" name="api_type" value="{{$api_type}}"/>
+            <input type="hidden" name="document_id" value="{{$document_id}}"/>
+            <input type="hidden" name="customer_address" value="{{$data['customer_address']}}"/>
             <input type="submit" value="Submit" class="btn btn-info pointer"/>
           </div>
 
@@ -126,23 +112,21 @@
   </form>
 
   <script>
-      function datePickerAction() {
-        $( "#cheque_date" ).datepicker({ dateFormat: 'dd-mm-yy' });
-      } 
 
-      function setChequeAmount(value) {
+    var value = "{{$data['TotalAmt']}}"
+
+    function setAmount() {
       if(value != ''){ 
-
         var removeUnwanted = value.replace(/[^0-9.]/g, "")
 
         var makeDecimal  = (Math.round(removeUnwanted * 100) / 100).toFixed(2);
         var splitDecimal = makeDecimal.split(".");
         var mainPart     = splitDecimal[0];
         var decimalPart  = splitDecimal[1];
-        
+
         var amount = mainPart
 
-        var amount_in_word_format = '{{ $setting->amount_in_word_format }}';
+        var amount_in_word_format = '{{ $settings->amount_in_word_format }}';
         if(amount_in_word_format == 'crore_lakh_thousand' || amount_in_word_format == 'crore_lac_thousand') {
           
           var words = new Array();
@@ -189,7 +173,7 @@
                   lastThree = ',' + lastThree;
               croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
               croreFormat = croreFormat + '.' + decimalPart
-              $('#amount').text(croreFormat);
+              
               $('#realAmount').val(croreFormat);
               // COMMA SEPARATE END
 
@@ -245,7 +229,7 @@
 
             //COMMA SEPARATE START
             var millionFormat = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            $('#amount').text(millionFormat);
+            
             $('#realAmount').val(millionFormat);
             //COMMA SEPARATE END
 
@@ -382,6 +366,10 @@
         $('#amount_in_words').val('');
       }
     }
+
+    function datePickerAction() {
+      $( "#cheque_date" ).datepicker({ dateFormat: 'dd-mm-yy' });
+    } 
 
     function setCurrency(value){
       var currency = value.split("_");

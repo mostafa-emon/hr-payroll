@@ -17,12 +17,17 @@ class CreateMoneyReceiptsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->string('site_office_name',100);
-            $table->string('site_office_prefix',10)->nullable();
-            $table->string('site_office_suffix',10)->nullable();
             $table->string('invoice_no',10);
             $table->string('customer_name',100);
+            $table->text('customer_address')->nullable();
             $table->string('amount',30);
+            $table->string('mr_prefix',30)->nullable();
+            $table->string('mr_suffix',30)->nullable();
+
+            
+            $table->string('api_type',30)->nullable();
+            $table->string('document_id',30)->nullable();
+
             $table->string('currency',30);
             $table->text('amount_in_word')->nullable();
             $table->string('payment_method',30)->nullable();

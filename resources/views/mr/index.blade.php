@@ -5,18 +5,13 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('mr') }}">MR</a>
+      <a class="breadcrumb-item" href="{{ url('create-mr') }}">Money Receipt</a>
     </nav>
   </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <div style="float:left">
       <h4 class="tx-gray-800 mg-b-5">Money Receipt</h4>
-    </div>
-    <div style="float:right">
-      @if(roles() != "" && in_array(35, json_decode(roles(),false)))
-        <a href="{{ url('mr/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add MR</a>
-      @endif
     </div>
   </div>
 
@@ -30,152 +25,104 @@
           </button>
         </div>
       @endif
+
+      <form action="{{ url('create-mr') }}" method="POST">
+        {{ csrf_field() }}
+      <div class="row mg-b-30 b">
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Type</label>
+          <select class="form-control" name="trx_type">
+              <option value="all" @if($type == 'all') selected @endif>All</option>
+              <option value="bank_deposit" @if($type == 'bank_deposit') selected @endif>Bank Deposit</option>
+              <option value="receive_payment" @if($type == 'receive_payment') selected @endif>Receive Payment</option>
+              @if($settings->cash_receipt_voucher_sales_receipt == 1)
+              <option value="sales_receipt" @if($type == 'sales_receipt') selected @endif>Sales Receipt</option>
+              @endif
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">From Date</label>
+          <input type="text" id="dtpick1" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">To Date</label>
+          <input type="text" id="dtpick2" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Received From</label>
+          <input type="text" name="received_from" value="{{$received_from}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Amount</label>
+          <input type="text" name="amount" value="{{$amount}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
+          <label class="tx-black tx-13">Memo</label>
+          <input type="text" name="memo" value="{{$memo}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2" style="margin-top:28px">
+          <input type="submit" class="btn btn-primary pointer" value="Search"/>
+        </div>
+        
+      </div>
+      </form>
+
+      @if(count($data) != 0)
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-striped mg-b-0">
           <thead>
             <tr>
-              <th>Sl</th>
-              <th class="text-center">Date</th>
-              <th>Invoice No</th>
-              <th>Site Office</th>
-              <th>Customer</th>
-              <th>Amount</th>
-              <th class="text-center">Payment Method</th>
-              <th class="text-center">Status</th>
-              <th class="text-center">Action</th>
+              <th style="width:5%" class="text-center">Sl</th>
+              <th style="width:10%">Trx Date</th>
+              <th style="width:10%">Trx Type</th>
+              <th style="width:10%">QB Ref No.</th>
+              <th style="width:10%">Received From</th>
+              <th style="width:10%">Deposit To</th>
+              <th style="width:15%">Memo</th>
+              <th style="text-align:center; width:10%">Total Amount</th>
+              <th style="width:10%;text-align:right;">Status</th>
+              <th style="width:10%;text-align:right;">Action</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($money_receipts as $mr)
-            <tr>
-              <td>{{$loop->iteration}}</td>
-              <td style="text-align: center">{{ date('d-m-Y', strtotime($mr->created_at))}}</td>
-              <td>{{$mr->site_office_prefix}}{{$mr->invoice_no}}{{$mr->site_office_suffix}}</td>
-              <td>{{$mr->site_office_name}}</td>
-              <td>{{$mr->customer_name}}</td>
-              <td>{{$mr->amount}}</td>
-              <td class="text-center">{{$mr->payment_method}}</td>
-              <td class="text-center">
-                  @if($mr->status == 0)
-                    @if($setting->approval_for_mr == 1)
-                      <span class="badge badge-warning">Pending</span>
-                    @else
-                      <span class="badge badge-success">Issued</span>
-                    @endif
+              @foreach($data as $dt)
+              <tr>
+                <td style="width:5%">{{$loop->iteration}}</td>
+                <td style="width:10%">{{ date('d-M-Y',strtotime($dt['TxnDate']))}}</td>
+                <td style="width:10%">{{$dt['TxnType']}}</td>
+                <td style="width:10%">{{$dt['DocNumber']}}</td>
+                <td style="width:10%">{{$dt['ReceivedFrom']}}</td>
+                <td style="width:10%">{{$dt['DepositTo']}}</td>
+                <td style="width:15%">{{$dt['Memo']}}</td>
+                <td style="text-align:right; width:10%">{!! number_formatting($dt['TotalAmt']) !!}</td>
+                <td style="width:10%;text-align:right;">
+                  @php $is_printed = is_voucher_printed('Money-Receipt',$dt['TxnType'],$dt['Id']); @endphp
+                  @if($is_printed > 0)
+                    <span class="badge badge-success">Printed</span>
                   @endif
-                  @if($mr->status == 1)
-                    <span class="badge badge-success">Approved</span>
-                  @endif
-                  @if($mr->status == 2)
-                    <span class="badge badge-danger">Rejected</span>
-                  @endif
-                  @if($mr->status == 3)
-                    <span class="badge badge-danger">Void</span>
-                  @endif
-              </td>
-              <td class="text-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-info btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
-                  <button type="button" class="btn btn-info btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only"></span>
-                  </button>
-                  <div class="dropdown-menu">
-                    @if($setting->approval_for_mr == 1 && $mr->status == 0)
-                      @if(roles() != "" && in_array(39, json_decode(roles(),false)))
-                        <a class="dropdown-item pointer" href="{{url('mr/draft/'.$mr->id)}}">Print as Draft</a>
-                      @endif
+                </td>
+                <td style="width:10%;text-align:right;">
+                  @php
+                    if($dt['TxnType'] == 'Bank Deposit') {$apiType = 'bank_deposit';}
+                    else if($dt['TxnType'] == 'Receive Payment') {$apiType = 'receive_payment';}
+                    else if($dt['TxnType'] == 'Sales Receipt') {$apiType = 'sales_receipt';}
 
-                      @if(roles() != "" && in_array(36, json_decode(roles(),false)))
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approve({{$mr->id}})">Approve</a>
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="approveandprint({{$mr->id}})">Approve & Print</a>
-                      @endif
-
-                      @if(roles() != "" && in_array(37, json_decode(roles(),false)))
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="rejectMR({{$mr->id}})">Reject</a>
-                      @endif
-                    @endif
-
-                    @if($setting->approval_for_mr == 0 &&  $mr->status == 0)
-                      @if(roles() != "" && in_array(39, json_decode(roles(),false)))
-                        <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
-                      @endif
-                    @endif
-
-                    @if($mr->status != 0)
-                      @if(roles() != "" && in_array(39, json_decode(roles(),false)))
-                        <a class="dropdown-item pointer" href="{{url('mr/print/'.$mr->id)}}">Print</a>
-                      @endif
-                    @endif
-
-                    @if(($setting->approval_for_mr == 0 || $mr->status == 1) && $mr->status != 3)
-                      @if(roles() != "" && in_array(38, json_decode(roles(),false)))
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item pointer" href="javascript:void(0)" onclick="voidMR({{$mr->id}})">Void</a>
-                      @endif
-                    @endif
-                  </div>
-                </div>
-              </td>
-            </tr>
-            @endforeach
+                    if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
+                  @endphp
+                  <a href="{{url('money-receipt-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
+                </td>
+              </tr>
+              @endforeach
           </tbody>
         </table>
-      </div><br>
-      {{ $money_receipts -> links() }}
+      </div>
+      @endif
     </div>
   </div>
-
-  <script>
-    function approve(id){
-      var result = confirm("Are you confirm to approve?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/approve-mr/'+id,
-            success:function(data) {
-              location.reload();
-            }
-        });
-      }
-    }
-
-    function approveandprint(id){
-      var result = confirm("Are you confirm to approve?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/approve-mr/'+id,
-            success:function(data) {
-              window.location = "/mr/print/"+id
-            }
-        });
-      }
-    }
-    
-    function rejectMR(id){
-      var result = confirm("Are you confirm to reject?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/reject-mr/'+id,
-            success:function(data) {
-              location.reload();
-            }
-        });
-      }
-    }
-
-    function voidMR(id){
-      var result = confirm("Are you confirm to void?");
-      if (result) {
-        $.ajax({
-            type: 'GET',
-            url: '/void-mr/'+id,
-            success:function(data) {
-              location.reload();
-            }
-        });
-      }
-    }
-  </script>
 @endsection
