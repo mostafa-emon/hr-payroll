@@ -137,7 +137,7 @@
               @endphp
               <tr>
                 <td>
-                  @if($voucher_type == "Cash-Receipt-Voucher" && $api_type == "receive_payment" && $row['debit'] == "")
+                  @if(($voucher_type == "Cash-Receipt-Voucher" || $voucher_type == "Bank-Receipt-Voucher") && $api_type == "receive_payment" && $row['debit'] == "")
                   <select name="account_code_name[]" style="padding:3px;border:1px solid #CECECE;border-radius:3px;">
                     @foreach($receivable_accounts as $account)
                       <option value="{{$account['Name'] }}">{{$account['Name'] }}</option>

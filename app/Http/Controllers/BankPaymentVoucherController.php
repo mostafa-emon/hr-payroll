@@ -46,7 +46,7 @@ class BankPaymentVoucherController extends Controller
             $CashOnHandID = [];
             $whereInIDs = "";
 
-            // GET CASH_ON_HAND ACCOUNTS
+            // GET BANK ACCOUNTS
             $curl = curl_init();
             curl_setopt_array($curl, array(
             CURLOPT_URL => $company->qb_environment."/v3/company/".$company->qb_company_id."/query?minorversion=14",

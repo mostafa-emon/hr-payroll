@@ -150,6 +150,28 @@ function is_voucher_printed($voucher_type,$api_type,$id){
                     ->count();
         }
     }
+
+    if($voucher_type == "Bank-Receipt-Voucher"){
+        if($api_type == "Bank Deposit"){
+            $count = Voucher::where('type','Bank-Receipt-Voucher')
+                    ->where('api_type','bank_deposit')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }else if($api_type == "Receive Payment"){
+            $count = Voucher::where('type','Bank-Receipt-Voucher')
+                    ->where('api_type','receive_payment')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }else if($api_type == "Sales Receipt"){
+            $count = Voucher::where('type','Bank-Receipt-Voucher')
+                    ->where('api_type','sales_receipt')
+                    ->where('document_id',$id)
+                    ->where('status',1)
+                    ->count();
+        }
+    }
     return $count;
 }
 
