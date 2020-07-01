@@ -22,7 +22,7 @@
       <div class="row mg-b-30 b">
         <div class="col-md-2">
           <label class="tx-black tx-13">Voucher Type</label>
-          <select class="form-control" name="voucher_type">
+          <select class="form-control" name="voucher_type" onchange="hideShow(this.value)">
             <option value="Cash-Payment-Voucher">Cash Payment Voucher</option>
             <option value="Bank-Payment-Voucher">Bank Payment Voucher</option>
             <option id="crv" value="Cash-Receipt-Voucher">Cash Receipt Voucher</option>
@@ -116,14 +116,15 @@
       }
     }
 
-    $(function(HideShowElement){
-
-      $('Cash-Receipt-Voucher').is(':selected') {
-        $('#payee_name').hide();
+    function hideShow(value) {
+      if(value == "Cash-Receipt-Voucher" || value == "Bank-Receipt-Voucher"){
         $('#received_from').show();
+        $('#payee_name').hide();
+      }else{
+        $('#received_from').hide();
+        $('#payee_name').show();
       }
-
-    });
+    }
   </script>
 
 @endsection
