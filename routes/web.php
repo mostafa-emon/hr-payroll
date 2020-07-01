@@ -202,6 +202,7 @@ Route::get('/journal-voucher-preview/{print_status}/{api_type}/{id}', 'JournalVo
 Route::get('/crv-voucher-preview/{print_status}/{api_type}/{id}', 'CashReceiptVoucherController@preview');
 Route::get('/brv-voucher-preview/{print_status}/{api_type}/{id}', 'BankReceiptVoucherController@preview');
 Route::get('/cheque-preview/{bank_id}/{print_status}/{api_type}/{id}/{payee_name}/{txn_date}/{amount}', 'ChequeTransactionController@add');
+Route::get('/money-receipt-preview/{print_status}/{api_type}/{id}', 'MRController@preview');
 
 Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');
 Route::get('/get-account-currency/{account_id}', 'ChequeTransactionController@get_currency_by_account');
@@ -210,7 +211,8 @@ Route::post('/save-cheque', 'ChequeTransactionController@save_cheque');
 
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 
-Route::get('/create-mr', 'MRController@create_mr');
+Route::get('/create-mr', 'MRController@index');
+Route::post('/create-mr', 'MRController@index');
 
 Route::get('/create-cheque', 'ChequeTransactionController@index');
 Route::post('/create-cheque', 'ChequeTransactionController@index');

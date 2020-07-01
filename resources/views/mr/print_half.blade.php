@@ -14,9 +14,9 @@
         <div id="containment-wrapper" style="font-family: Arial; padding:30px">
             <div style="float: left;width:45%;margin-top:-15px;">
               <h1 style="font-size: 20px; font-weight: bold;">{{$company->name}}</h1>
-              <div style="margin-top:-10px">{{$site_office->address}}</div>
-              <div>Phone: {{$site_office->phone}}</div>
-              <div>Email: {{$site_office->email}}</div>
+              <div style="margin-top:-10px">{{$company->address}}</div>
+              <div>Phone: {{$company->phone}}</div>
+              <div>Email: {{$company->email}}</div>
             </div>
         
             <div style="float: right; height:58px;">
@@ -30,7 +30,7 @@
         
               <div style="border: 1px solid; padding-bottom: 10px; padding-top: 10px; padding-left: 10px; padding-right: 5px;height:70px" >
                 <div>{{$transaction->customer_name}}</div>
-                <div>{{$customer->address}}</div>
+                <div>{{$transaction->customer_name_address}}</div>
               </div>
             </div>
             
@@ -38,7 +38,7 @@
             <div style="float: right; padding-bottom: 10px;">
               <div>
                 <div style="font-weight: bold; padding-right: 160px;">Money Receipt No</div>
-                <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ $transaction->site_office_prefix }}{{ $transaction->invoice_no }}{{ $transaction->site_office_suffix }}</div>
+                <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ $transaction->mr_prefix }}{{ $transaction->invoice_no }}{{ $setting->mr_suffix }}</div>
               </div><br>
               <div>
                 <div style="font-weight: bold; padding-right: 160px;">Money Receipt Date</div>
