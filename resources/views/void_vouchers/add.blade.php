@@ -48,6 +48,11 @@
         </div>
 
         <div class="col-md-2">
+          <label class="tx-black tx-13">Received From</label>
+          <input type="text" name="received_from" value="{{$received_from}}" class="form-control"/>
+        </div>
+
+        <div class="col-md-2">
           <label class="tx-black tx-13">Amount</label>
           <input type="text" name="amount" value="{{$amount}}" class="form-control"/>
         </div>
