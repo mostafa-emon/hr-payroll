@@ -434,7 +434,7 @@
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">1</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
                 <td style="border-bottom: 1px solid #ced4da;">Email</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="email_add_sent" @if($roles->access != "" && in_array(87, json_decode($roles->access,false)))checked="checked"@endif/></td>
@@ -447,7 +447,7 @@
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
                 <td style="border-bottom: 1px solid #ced4da;">Settings</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>

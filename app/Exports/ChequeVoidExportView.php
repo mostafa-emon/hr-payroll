@@ -28,6 +28,8 @@ class ChequeVoidExportView implements FromView
         $cheque_books   = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $formatted_amount = "";
+        $amount = "";
 
         $cheques = ChequeTransaction::orderBy('created_at','desc');
         if(request()->bank_id != "" && request()->bank_id != "All"){
@@ -41,6 +43,12 @@ class ChequeVoidExportView implements FromView
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',request()->account_id)->get();
         }
+
+        if(request()->formatted_amount != ""){
+            $formatted_amount = request()->formatted_amount;
+            $cheques = $cheques->where('amount',request()->formatted_amount);
+        }
+
         if(request()->from_date != "" && request()->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime(request()->from_date)), date('Y-m-d',strtotime(request()->to_date)).' 23:59']);
             $from_date  = request()->from_date;
@@ -61,6 +69,8 @@ class ChequeVoidExportView implements FromView
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'company'           => $company,
+            'amount'            => $amount,
+            'formatted_amount'  => $formatted_amount,
             'total'             => request()->total
         ]);
     }

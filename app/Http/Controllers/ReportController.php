@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MoneyReceipt;
 use App\Setting;
-use App\SiteOffice;
-use App\Customer;
 use App\ChequeTransaction;
 use App\Bank;
 use App\BankAccount;
@@ -34,19 +32,27 @@ class ReportController extends Controller
     public function issued_mr(Request $request) {
         $company     = Company::where('id', Auth::user()->company_id)->first();
         $site_office = "All";
-        $customer    = "All";
+        $customer    = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $amount = "";
+        $formatted_amount = "";
 
         $money_receipts = MoneyReceipt::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->site_office != "" && $request->site_office != "All"){
             $money_receipts = $money_receipts->where('site_office_name',$request->site_office);
             $site_office = $request->site_office;
         }
-        if($request->customer != "" && $request->customer != "All"){
-            $money_receipts = $money_receipts->where('customer_name',$request->customer);
+        if($request->customer != ""){
+            $money_receipts = $money_receipts->where('customer_name','LIKE', '%'.$request->customer.'%');
             $customer = $request->customer;
         }
+
+        if($request->formatted_amount != ""){
+            $formatted_amount = $request->formatted_amount;
+            $money_receipts = $money_receipts->where('amount',$request->formatted_amount);
+        }
+        
         if($request->from_date != "" && $request->to_date != ""){
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
@@ -61,21 +67,19 @@ class ReportController extends Controller
             $total = $total + (float) filter_var( $money_receipt->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        $site_offices = SiteOffice::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
-        $customers = Customer::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.issued_mr', [
             'money_receipts'    => $money_receipts, 
-            'setting'           => $setting, 
-            'site_offices'      => $site_offices, 
-            'site_office'       => $site_office, 
-            'customers'         => $customers, 
+            'setting'           => $setting,
+            'site_office'       => $site_office,
             'customer'          => $customer, 
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'company'           => $company,
-            'total'             => $total
+            'total'             => $total,
+            'amount'            => $amount,
+            'formatted_amount'  => $formatted_amount
         ]);
     }
 
@@ -86,19 +90,27 @@ class ReportController extends Controller
     public function void_mr(Request $request) {
         $company     = Company::where('id', Auth::user()->company_id)->first();
         $site_office = "All";
-        $customer    = "All";
+        $customer    = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $amount = "";
+        $formatted_amount = "";
 
         $money_receipts = MoneyReceipt::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->site_office != "" && $request->site_office != "All"){
             $money_receipts = $money_receipts->where('site_office_name',$request->site_office);
             $site_office = $request->site_office;
         }
-        if($request->customer != "" && $request->customer != "All"){
-            $money_receipts = $money_receipts->where('customer_name',$request->customer);
+        if($request->customer != ""){
+            $money_receipts = $money_receipts->where('customer_name','LIKE', '%'.$request->customer.'%');
             $customer = $request->customer;
         }
+
+        if($request->formatted_amount != ""){
+            $formatted_amount = $request->formatted_amount;
+            $money_receipts = $money_receipts->where('amount',$request->formatted_amount);
+        }
+
         if($request->from_date != "" && $request->to_date != ""){
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
@@ -106,28 +118,26 @@ class ReportController extends Controller
         }else{
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $money_receipts = $money_receipts->where('status','3')->get();
+        $money_receipts = $money_receipts->where('status',0)->get();
 
         $total = 0; 
         foreach($money_receipts as $money_receipt) {
             $total = $total + (float) filter_var( $money_receipt->amount, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION );
         }
 
-        $site_offices = SiteOffice::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
-        $customers = Customer::where('company_id', Auth::user()->company_id)->orderBy('name','asc')->get();
         $setting = Setting::where('company_id', Auth::user()->company_id)->first();
 
         return view('reports.void_mr', [
             'money_receipts'    => $money_receipts, 
             'setting'           => $setting, 
-            'site_offices'      => $site_offices, 
-            'site_office'       => $site_office, 
-            'customers'         => $customers, 
+            'site_office'       => $site_office,
             'customer'          => $customer, 
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'company'           => $company,
-            'total'             => $total
+            'total'             => $total,
+            'amount'            => $amount,
+            'formatted_amount'  => $formatted_amount
         ]);
     }
 

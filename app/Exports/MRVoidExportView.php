@@ -18,16 +18,11 @@ class MRVoidExportView implements FromView
     public function view(): View
     {
         $company     = Company::where('id',Auth::user()->company_id)->first();
-        $site_office = "All";
         $customer    = "All";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
 
         $money_receipts = MoneyReceipt::orderBy('created_at','desc');
-        if(request()->site_office != "" && request()->site_office != "All"){
-            $money_receipts = $money_receipts->where('site_office_name',request()->site_office);
-            $site_office = request()->site_office;
-        }
         if(request()->customer != "" && request()->customer != "All"){
             $money_receipts = $money_receipts->where('customer_name',request()->customer);
             $customer = request()->customer;
@@ -39,14 +34,13 @@ class MRVoidExportView implements FromView
         }else{
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $money_receipts = $money_receipts->where('status','3')->where('company_id',Auth::user()->company_id)->get();
+        $money_receipts = $money_receipts->where('status',0)->where('company_id',Auth::user()->company_id)->get();
 
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
 
         return view('reports.exports.void_mr_table', [
             'money_receipts'    => $money_receipts, 
-            'setting'           => $setting, 
-            'site_office'       => $site_office, 
+            'setting'           => $setting,
             'customer'          => $customer, 
             'from_date'         => $from_date,
             'to_date'           => $to_date,
