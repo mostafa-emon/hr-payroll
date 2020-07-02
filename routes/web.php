@@ -117,7 +117,8 @@ Route::get('/approve-mr/{mr_id}', 'MRController@approve');
 Route::get('/reject-mr/{mr_id}', 'MRController@reject');
 Route::get('/void-mr/{api_type}/{document_id}', 'MRController@void');
 Route::get('/mr-reprint/{api_type}/{document_id}', 'MRController@reprint');
-Route::get('/money-receipt-email/{api_type}/{document_id}', 'MRController@email');
+Route::get('/money-receipt-email/{api_type}/{document_id}', 'MRController@sendEmail');
+Route::post('/money-receipt-email', 'MRController@email');
 Route::get('/mr/print/{id}', 'MRController@print');
 Route::get('/mr/draft/{id}', 'MRController@draft');
 

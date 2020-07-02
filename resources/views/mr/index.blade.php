@@ -124,10 +124,10 @@
                       @if($is_printed > 0)
                         <a class="dropdown-item pointer" href="{{url('mr-reprint/'.$apiType.'/'.$dt['Id'])}}">Re Print</a>
                         <a class="dropdown-item pointer" onclick="void_mr('{{$apiType}},{{$dt['Id']}}')" href="javascript:void(0)">Void</a>
+                        <a class="dropdown-item pointer" target="_blank" href="{{url('money-receipt-email/'.$apiType.'/'.$dt['Id'])}}">Email</a>
                       @else
                         <a class="dropdown-item pointer" href="{{url('money-receipt-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}">Print</a>
                       @endif
-                      <a class="dropdown-item pointer" href="{{url('money-receipt-email/'.$apiType.'/'.$dt['Id'])}}">Print</a>
                     </div>
                   </div>
                 </td>
@@ -139,8 +139,9 @@
       @endif
     </div>
   </div>
-
+  <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
   <script>
+    CKEDITOR.replace( 'editor1' );
     function void_mr(value){
       var result = confirm("Are you confirm to void?");
       if (result) {

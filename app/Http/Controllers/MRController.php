@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\MoneyReceipt;
-use App\SiteOffice;
 use App\Customer;
 use App\Currency;
 use App\PaymentMethod;
@@ -18,6 +17,7 @@ use PDF;
 use Config;
 use App\QuickBook;
 use DateTime;
+use App\Email;
 
 class MRController extends Controller
 {
@@ -1015,29 +1015,21 @@ class MRController extends Controller
         }
     }
 
-    public function email($api_type,$document_id){
+    public function email(Request $request){
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
         $company = Company::where('id',Auth::user()->company_id)->first();
-        $mr = MoneyReceipt::where('api_type',$api_type)->where('document_id',$document_id)->where('status',1)->first();
+        $mr = MoneyReceipt::where('api_type',$request->api_type)->where('document_id',$request->document_id)->where('status',1)->first();
         $email_setup = Email::where('company_id',Auth::user()->company_id)->first();
         
         if($email_setup == "") {
-            return redirect('create-mr')->with('message','Please complete your mail setup first!');
-        }
-        else {
-            Config::set('mail.driver', $email->mail_driver);
-            Config::set('mail.host', $email->host_name);
-            Config::set('mail.port', $email->port_name);
-            Config::set('mail.username', $email->user_name);
-            Config::set('mail.password', $email->password);
-            Config::set('mail.encryption', $email->encryption);
-            Config::set('mail.from.address', $email->from_address);
-            Config::set('mail.from.name', $email->from_name);
-            
-            $data["email"] = 'mostafaemon.info@gmail.com';
-            $data["client_name"] = '';
-            $data["subject"] = 'Money Receipt';
+            return redirect('mail-setup')->with('message','Please complete your mail setup first!');
         }
         
+        // Write your code here...
+    }
+
+    public function sendEmail($api_type,$document_id){
+        $email = Email::where('company_id',Auth::user()->company_id)->first();
+        return view('mr.send_email',compact('api_type','document_id','email'));   
     }
 }
