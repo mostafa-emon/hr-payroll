@@ -113,7 +113,20 @@
 
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
-                  <a href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                    <button type="button" class="btn btn-primary btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @if($is_printed > 0)
+                        <a class="dropdown-item pointer" href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}">Re Print</a>
+                        <a class="dropdown-item pointer" href="{{url ('make-void/Cash-Payment-Voucher/'.$apiType.'/'.$dt['Id']) }}">Void</a>
+                      @else
+                        <a class="dropdown-item pointer" href="{{url('cpv-voucher-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}">Print</a>
+                      @endif
+                    </div>
+                  </div>
                 </td>
               </tr>
               @endforeach

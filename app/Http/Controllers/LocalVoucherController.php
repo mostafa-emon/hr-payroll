@@ -26,33 +26,55 @@ class LocalVoucherController extends Controller
                         ->where('company_id',Auth::user()->company_id)
                         ->where('status',1)
                         ->first();
-            Voucher::where('id',$voucher->id)->delete();
+
+            $voucher->document_id   = $request->document_id;
+            $voucher->type          = $request->type;
+            $voucher->api_type      = $request->api_type;
+            $voucher->company_id    = Auth::user()->company_id;
+            $voucher->voucher_no    = $request->voucher_no;
+            $voucher->prefix        = $request->prefix;
+            $voucher->suffix        = $request->suffix;
+            $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
+            $voucher->payee_name    = $request->payee_name;
+            $voucher->received_from = $request->received_from;
+            $voucher->deposit_to    = $request->deposit_to;
+            $voucher->cheque_no     = $request->cheque_no;
+            $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
+            $voucher->location      = $request->location;
+            $voucher->reference_no  = $request->reference_no;
+            $voucher->paid_from     = $request->paid_from;
+            $voucher->total_debit   = $request->total_debit;
+            $voucher->total_credit  = $request->total_credit;
+            $voucher->amount_in_word= $request->amount_in_word;
+            $voucher->memo          = $request->memo;
+            $voucher->save();
+
             VoucherDetail::where('voucher_id',$voucher->id)->delete();
+        }else {
+            $voucher                = new Voucher();
+            $voucher->document_id   = $request->document_id;
+            $voucher->type          = $request->type;
+            $voucher->api_type      = $request->api_type;
+            $voucher->company_id    = Auth::user()->company_id;
+            $voucher->voucher_no    = $request->voucher_no;
+            $voucher->prefix        = $request->prefix;
+            $voucher->suffix        = $request->suffix;
+            $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
+            $voucher->payee_name    = $request->payee_name;
+            $voucher->received_from = $request->received_from;
+            $voucher->deposit_to    = $request->deposit_to;
+            $voucher->cheque_no     = $request->cheque_no;
+            $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
+            $voucher->location      = $request->location;
+            $voucher->reference_no  = $request->reference_no;
+            $voucher->paid_from     = $request->paid_from;
+            $voucher->total_debit   = $request->total_debit;
+            $voucher->total_credit  = $request->total_credit;
+            $voucher->amount_in_word= $request->amount_in_word;
+            $voucher->memo          = $request->memo;
+            $voucher->save();
         }
-        $voucher = new Voucher();
-        $voucher->document_id   = $request->document_id;
-        $voucher->type          = $request->type;
-        $voucher->api_type      = $request->api_type;
-        $voucher->company_id    = Auth::user()->company_id;
-        $voucher->voucher_no    = $request->voucher_no;
-        $voucher->prefix        = $request->prefix;
-        $voucher->suffix        = $request->suffix;
-        $voucher->voucher_date  = date('Y-m-d',strtotime($request->voucher_date));
-        $voucher->payee_name    = $request->payee_name;
-        $voucher->received_from = $request->received_from;
-        $voucher->deposit_to    = $request->deposit_to;
-        $voucher->cheque_no     = $request->cheque_no;
-        $voucher->cheque_date   = date('Y-m-d',strtotime($request->cheque_date));
-        $voucher->location      = $request->location;
-        $voucher->reference_no  = $request->reference_no;
-        $voucher->paid_from     = $request->paid_from;
-
-        $voucher->total_debit   = $request->total_debit;
-        $voucher->total_credit  = $request->total_credit;
-        $voucher->amount_in_word= $request->amount_in_word;
-        $voucher->memo          = $request->memo;
-
-        $voucher->save();
+        
 
         $details = [];
         $details_count = count($request->account_code_name) - 1;
@@ -104,53 +126,22 @@ class LocalVoucherController extends Controller
         return view('void_vouchers.index', ['vouchers' => $voucher]);
     }
 
-    public function add_void_voucher(Request $request){
-        $vouchers = [];
-        $voucher_type = "";
-        $amount = "";
-        $from_date = "";
-        $to_date = "";
-        $payee_name = "";
-        $received_from = "";
-        $memo = "";
-        if($request->voucher_type != ""){
-            $voucher_type = $request->voucher_type;
-            $vouchers = Voucher::where('type',$request->voucher_type);
-
-            if($request->from_date != "" && $request->to_date != ""){
-                $from_date = $request->from_date;
-                $to_date = $request->to_date;
-                $vouchers = $vouchers->whereBetween('voucher_date', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
-            }
-
-            if($request->payee_name != ""){
-                $payee_name = $request->payee_name;
-                $vouchers = $vouchers->where('payee_name','LIKE', '%'.$request->payee_name.'%');
-            }
-
-            if($request->received_from != ""){
-                $received_from = $request->received_from;
-                $vouchers = $vouchers->where('received_from','LIKE', '%'.$request->received_from.'%');
-            }
-
-            if($request->amount != ""){
-                $amount = $request->amount;
-                $vouchers = $vouchers->where('total_credit',$request->amount);
-            }
-
-            if($request->memo != ""){
-                $memo = $request->memo;
-                $vouchers = $vouchers->where('memo','LIKE', '%'.$request->memo.'%');
-            }
-            $vouchers = $vouchers->where('status',1)->get();
+    public function make_void($voucher_type,$api_type,$document_id)
+    {
+        Voucher::where('type',$voucher_type)->where('api_type',$api_type)->where('document_id',$document_id)->update(['status' => 0]);
+        if($voucher_type == "Cash-Payment-Voucher"){
+            return redirect('tr-cash-payment-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Bank-Payment-Voucher"){
+            return redirect('tr-bank-payment-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Cash-Receipt-Voucher"){
+            return redirect('tr-cash-receipt-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Bank-Receipt-Voucher"){
+            return redirect('tr-bank-receipt-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Journal-Voucher"){
+            return redirect('tr-journal-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Contra-Voucher"){
+            return redirect('tr-contra-voucher')->with('message', 'Successfully Void!');
         }
         
-        return view('void_vouchers.add', compact('vouchers','voucher_type','amount','from_date','to_date','payee_name','memo','received_from'));
-    }
-
-    public function make_void($voucher_id)
-    {
-        Voucher::where('id',$voucher_id)->update(['status' => 0]);
-        return redirect('tr-void-voucher')->with('message', 'Void Added Successfully!');
     }
 }

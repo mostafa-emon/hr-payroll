@@ -27,7 +27,11 @@
     {{ csrf_field() }}
     <input type="hidden" name="type" value="{{$voucher_type}}"/>
     <input type="hidden" name="api_type" value="{{$api_type}}"/>
+    @if($print_status == "printed")
+    <input type="hidden" name="document_id" value="{{$data['document_id']}}"/>
+    @else
     <input type="hidden" name="document_id" value="{{$data['id']}}"/>
+    @endif
     <input type="hidden" name="print_status" value="{{$print_status}}"/>
     <input type="hidden" name="prefix" value="{{$data['prefix']}}"/>
     <input type="hidden" name="suffix" value="{{$data['suffix']}}"/>
@@ -96,7 +100,7 @@
             <div class="col-md-4">
                 <div class="form-group bd-t-0-force mg-md-l--1">
                     <label class="form-control-label">Cheque Date:</label>
-                    <input class="form-control" type="text" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || $voucher_type == "Cash-Receipt-Voucher") readonly @else id="dtpick1" @endif>
+                    <input class="form-control" type="text" name="cheque_date" placeholder="Enter Cheque Date" autocomplete="off" @if($data['cheque_date'] != "" && $data['cheque_date'] != "1970-01-01") value="{{ date('d-m-Y',strtotime($data['cheque_date']))}}" @endif @if($voucher_type == "Cash-Payment-Voucher" || $voucher_type == "Cash-Receipt-Voucher") readonly @else id="dtpick1" @endif>
                 </div>
             </div>
 

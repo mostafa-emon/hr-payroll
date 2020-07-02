@@ -8,6 +8,7 @@ use App\Setting;
 use Auth;
 use App\VoucherFormat;
 use App\Voucher;
+use App\VoucherDetail;
 use App\Currency;
 use DateTime;
 use App\Company;
@@ -263,7 +264,14 @@ class CashPaymentVoucherController extends Controller
 
     public function preview($print_status,$api_type,$id){
         $voucher_type = "Cash-Payment-Voucher";
-        $data = $this->cash_payment_voucher_print($api_type,$id);
+        if($print_status == 'printed') {
+            $data = Voucher::where('type','Cash-Payment-Voucher')->where('api_type',$api_type)->where('document_id',$id)->first();
+            $data['transactions'] = VoucherDetail::where('voucher_id',$data->id)->get();
+        }
+        else {
+            $data = $this->cash_payment_voucher_print($api_type,$id);
+        }
+        
         $voucher_formats = VoucherFormat::select('id','title','default')->where('company_id',Auth::user()->company_id)->where('type',$voucher_type)->get();
         $settings = Setting::where('company_id',Auth::user()->company_id)->first();
         $currencies = Currency::where('company_id',Auth::user()->company_id)->get();
