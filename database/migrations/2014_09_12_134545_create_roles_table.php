@@ -18,7 +18,7 @@ class CreateRolesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('role_name',100);
-            $table->string('access');
+            $table->text('access');
             $table->timestamps();
         });
 
@@ -31,7 +31,7 @@ class CreateRolesTable extends Migration
         $role->save(); 
 
         $access = [];
-        for($i=1; $i<=53; $i++){
+        for($i=1; $i<=88; $i++){
             $access[] = $i;
         }
         $role = new Role();
