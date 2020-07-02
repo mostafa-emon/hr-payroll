@@ -13,11 +13,6 @@
     <div style="float:left">
       <h4 class="tx-gray-800 mg-b-5">Void Voucher</h4>
     </div>
-    <div style="float:right">
-      @if(roles() != "" && in_array(29, json_decode(roles(),false)))
-        <a href="{{ url('tr-void-voucher-add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add New</a>
-      @endif
-    </div>
   </div>
 
 

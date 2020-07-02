@@ -11,6 +11,7 @@ use App\Voucher;
 use App\Currency;
 use DateTime;
 use App\Company;
+use App\VoucherDetail;
 
 class BankReceiptVoucherController extends Controller
 {
@@ -396,7 +397,13 @@ class BankReceiptVoucherController extends Controller
 
     public function preview($print_status,$api_type,$id){
         $voucher_type = "Bank-Receipt-Voucher";
-        $data = $this->bank_receipt_voucher_print($api_type,$id);
+        if($print_status == 'printed') {
+            $data = Voucher::where('type','Bank-Receipt-Voucher')->where('api_type',$api_type)->where('document_id',$id)->first();
+            $data['transactions'] = VoucherDetail::where('voucher_id',$data->id)->get();
+        }
+        else {
+            $data = $this->bank_receipt_voucher_print($api_type,$id);
+        }
         
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
