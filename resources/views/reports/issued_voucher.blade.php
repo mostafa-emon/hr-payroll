@@ -18,10 +18,12 @@
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
 
+      @if(roles() != "" && in_array(77, json_decode(roles(),false)))
       <div class="text-right mg-b-15">
         <a class="btn btn-info btn-sm pointer" href="{{url('export-issued-voucher?voucher_type='.$voucher_type.'&from_date='.$from_date.'&to_date='.$to_date.'&payee_name='.$payee_name.'&amount='.$amount.'&memo='.$memo)}}">Excel</a>
         <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
       </div>
+      @endif
       
       <form action="{{ url('issued-voucher') }}" method="POST">
           {{ csrf_field() }}

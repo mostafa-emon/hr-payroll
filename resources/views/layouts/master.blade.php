@@ -97,7 +97,9 @@
           <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link {{ (request()->is('void-mr*')) ? 'active' : '' }}">Void MR</a></li>
           <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link {{ (request()->is('issued-cheque*')) ? 'active' : '' }}">Issued Cheque</a></li>
           <li class="nav-item"><a href="{{ url('void-cheque') }}" class="nav-link {{ (request()->is('void-cheque*')) ? 'active' : '' }}">Void Cheque</a></li>
+          @if(roles() != "" && in_array(83, json_decode(roles(),false)))
           <li class="nav-item"><a href="{{ url('audits') }}" class="nav-link {{ (request()->is('audits*')) ? 'active' : '' }}">Audit Trail</a></li>
+          @endif
         </ul>
 
         <a href="#" class="br-menu-link {{ (request()->is('settings')) || (request()->is('printer*')) || (request()->is('mail-setup')) ? 'active show-sub' : '' }}">

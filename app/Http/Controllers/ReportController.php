@@ -401,6 +401,9 @@ class ReportController extends Controller
     }
 
     public function audits(Request $request){
+        if(roles() != "" && !in_array(83, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $from_date = date('d-m-Y', strtotime('-7 days'));
         $to_date = date('d-m-Y');
 

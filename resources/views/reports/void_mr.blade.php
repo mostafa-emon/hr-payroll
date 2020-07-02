@@ -66,10 +66,12 @@
       </div>
       </form>
 
+      @if(roles() != "" && in_array(80, json_decode(roles(),false)))
       <div class="text-right mg-b-15">
         <a class="btn btn-info btn-sm pointer" id="excelButton" href="">Excel</a>
         <a class="btn btn-success btn-sm pointer" onclick="printElem()" href="javascript:void(0)">Print</a>
       </div>
+      @endif
 
       <style>
         table {
