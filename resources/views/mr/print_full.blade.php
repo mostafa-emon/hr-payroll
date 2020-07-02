@@ -247,7 +247,7 @@
         mywindow.print();
         mywindow.close();
 
-        window.location = "/mr"
+        window.location = "/create-mr"
     }, 1000);
 
 </script>

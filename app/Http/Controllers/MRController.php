@@ -1034,4 +1034,23 @@ class MRController extends Controller
         }
         return response()->json(compact('this'));
     }
+
+    public function void($api_type,$document_id){
+        MoneyReceipt::where('api_type' , $api_type)
+        ->where('document_id',$document_id)
+        ->update(['status' => 0]);
+
+        return redirect('create-mr')->with('message','Successfully Void!');
+    }
+
+    public function reprint($api_type,$document_id){
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
+        $company = Company::where('id',Auth::user()->company_id)->first();
+        $mr = MoneyReceipt::where('api_type',$api_type)->where('document_id',$document_id)->where('status',1)->first();
+        if($setting->mr_size == "full_page"){
+            return view('mr.print_full', ['transaction'=>$mr, 'company' => $company, 'setting' => $setting, 'status' => 'approved']);
+        }else{
+            return view('mr.print_half', ['transaction'=>$mr, 'company' => $company, 'setting' => $setting, 'status' => 'approved']);
+        }
+    }
 }

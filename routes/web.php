@@ -115,7 +115,8 @@ Route::post('/mr/add', 'MRController@add');
 Route::get('/mr/print/{id}', 'MRController@print');
 Route::get('/approve-mr/{mr_id}', 'MRController@approve');
 Route::get('/reject-mr/{mr_id}', 'MRController@reject');
-Route::get('/void-mr/{mr_id}', 'MRController@void');
+Route::get('/void-mr/{api_type}/{document_id}', 'MRController@void');
+Route::get('/mr-reprint/{api_type}/{document_id}', 'MRController@reprint');
 Route::get('/mr/print/{id}', 'MRController@print');
 Route::get('/mr/draft/{id}', 'MRController@draft');
 
@@ -208,6 +209,7 @@ Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionControl
 Route::get('/get-account-currency/{account_id}', 'ChequeTransactionController@get_currency_by_account');
 Route::get('/get-cheques-by-book/{book_id}', 'ChequeTransactionController@get_cheques_by_book');
 Route::post('/save-cheque', 'ChequeTransactionController@save_cheque');
+Route::get('/cheque-reprint/{api_type}/{cheque_id}', 'ChequeTransactionController@reprint');
 
 Route::get('/voucher-print/{voucher_type}/{format_id}/{voucher_id}', 'LocalVoucherController@print');
 

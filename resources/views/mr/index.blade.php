@@ -115,7 +115,20 @@
 
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
-                  <a href="{{url('money-receipt-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}" class="btn btn-primary btn-sm pointer" style="color:white">Print</a>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                    <button type="button" class="btn btn-primary btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="sr-only"></span>
+                    </button>
+                    <div class="dropdown-menu">
+                      @if($is_printed > 0)
+                        <a class="dropdown-item pointer" href="{{url('mr-reprint/'.$apiType.'/'.$dt['Id'])}}">Re Print</a>
+                        <a class="dropdown-item pointer" onclick="void_mr('{{$apiType}},{{$dt['Id']}}')" href="javascript:void(0)">Void</a>
+                      @else
+                        <a class="dropdown-item pointer" href="{{url('money-receipt-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}">Print</a>
+                      @endif
+                    </div>
+                  </div>
                 </td>
               </tr>
               @endforeach
@@ -125,4 +138,16 @@
       @endif
     </div>
   </div>
+
+  <script>
+    function void_mr(value){
+      var result = confirm("Are you confirm to void?");
+      if (result) {
+        var split = value.split(',');
+        var apitype = split[0];
+        var document_id = split[1];
+        window.location = '/void-mr/'+apitype+'/'+document_id
+      }
+    }
+  </script>
 @endsection

@@ -30,7 +30,7 @@
         
               <div style="border: 1px solid; padding-bottom: 10px; padding-top: 10px; padding-left: 10px; padding-right: 5px;height:70px" >
                 <div>{{$transaction->customer_name}}</div>
-                <div>{{$transaction->customer_name_address}}</div>
+                <div>{{$transaction->customer_address}}</div>
               </div>
             </div>
             
@@ -156,7 +156,7 @@
         mywindow.print();
         mywindow.close();
 
-        window.location = "/mr"
+        window.location = "/create-mr"
     }, 1000);
 
 </script>

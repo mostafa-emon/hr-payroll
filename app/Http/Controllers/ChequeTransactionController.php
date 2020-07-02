@@ -341,7 +341,7 @@ class ChequeTransactionController extends Controller
         ->where('document_id',$document_id)
         ->update(['status' => 0]);
 
-        return redirect('create-cheque');
+        return redirect('create-cheque')->with('message','Successfully Void!');
     }
 
     public function get_cheque_book_by_account($account_id){
@@ -362,5 +362,12 @@ class ChequeTransactionController extends Controller
         $account = BankAccount::where('id',$account_id)->first();
         $currency = Currency::where('id',$account->currency_id)->first();
         echo json_encode($currency);
+    }
+
+    public function reprint($api_type,$document_id){
+        $cheque_transaction = ChequeTransaction::where('document_id',$document_id)->where('status',1)->first();
+        $bank_id = Bank::where('name',$cheque_transaction->bank_name)->where('company_id',Auth::user()->company_id)->value('id');
+        $layout = ChequeLayout::where('bank_id',$bank_id)->first();
+        return view('cheque_transactions.print',['transaction' => $cheque_transaction, 'layout' => $layout]);
     }
 }
