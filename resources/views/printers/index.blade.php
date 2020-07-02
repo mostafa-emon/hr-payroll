@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Printers</h4>
     </div>
     <div style="float:right">
-      @if(roles() != "" && in_array(50, json_decode(roles(),false)))
+      @if(roles() != "" && in_array(84, json_decode(roles(),false)))
         <a href="{{ url('printer/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Printer</a>
       @endif
     </div>
@@ -39,11 +39,11 @@
               <th class="text-center wd-15p">Top</th>
               <th class="text-center wd-15p">Left</th>
               <th class="text-center wd-15p">Rotate</th>
-              @if(roles() != "" && in_array(51, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(85, json_decode(roles(),false)))
               <th class="text-center wd-15p">Update</th>
               @endif
 
-              @if(roles() != "" && in_array(52, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(86, json_decode(roles(),false)))
               <th class="text-center wd-15p">Delete</th>
               @endif
             </tr>
@@ -56,12 +56,12 @@
                 <td class="text-center">{{ $printer->top }}</td>
                 <td class="text-center">{{ $printer->left }}</td>
                 <td class="text-center">{{ $printer->rotate }}</td>
-                @if(roles() != "" && in_array(51, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(85, json_decode(roles(),false)))
                   <td class="text-center">
                     <a class="btn btn-info btn-sm" href="{{url ('printer/update/'.$printer->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                 @endif
-                @if(roles() != "" && in_array(52, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(86, json_decode(roles(),false)))
                   <td class="text-center">
                     <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$printer->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   </td>

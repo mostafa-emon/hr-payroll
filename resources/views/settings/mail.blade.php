@@ -107,6 +107,7 @@
 
           </div>
 
+          @if(roles() != "" && in_array(87, json_decode(roles(),false)))
           <div class="row pd-t-10 pd-b-20 text-right">
             <div class="col-md-6 text-left">
               <a href="javascript:void(0)" onclick="saveSettings()" class="btn btn-info pointer">Save Settings</a>
@@ -115,6 +116,7 @@
               <a href="javascript:void(0)" onclick="showSendDetails()" class="btn btn-info pointer">Send Test Email</a>
             </div>
           </div>
+          @endif
 
           <div class="form-layout form-layout-2" id="sendDetails" style="@if(old('email_to') == "") display:none @endif">
             <div class="row no-gutters">

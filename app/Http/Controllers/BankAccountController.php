@@ -27,7 +27,7 @@ class BankAccountController extends Controller
     }
     
     public function add(Request $request){
-        if(roles() != "" && !in_array(20, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(17, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->ac_number !=""){
@@ -46,7 +46,7 @@ class BankAccountController extends Controller
     }
 
     public function delete($bank_account_id){
-        if(roles() != "" && !in_array(22, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(19, json_decode(roles(),false))){
             return redirect('404');
         }
         $bank_account = BankAccount::find($bank_account_id);
@@ -55,7 +55,7 @@ class BankAccountController extends Controller
     }
 
     public function update($bank_account_id, Request $request){
-        if(roles() != "" && !in_array(21, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(18, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->ac_number !=""){

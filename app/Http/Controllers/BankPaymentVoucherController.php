@@ -287,6 +287,9 @@ class BankPaymentVoucherController extends Controller
     }
 
     public function bank_payment_voucher_print($api_type,$id){
+        if(roles() != "" && !in_array(51, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
         $data = [];

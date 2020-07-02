@@ -21,7 +21,7 @@ class BankController extends Controller
     }
     
     public function add(Request $request){
-        if(roles() != "" && !in_array(17, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(14, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->name !=""){
@@ -39,7 +39,7 @@ class BankController extends Controller
     }
 
     public function delete($bank_id){
-        if(roles() != "" && !in_array(19, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(16, json_decode(roles(),false))){
             return redirect('404');
         }
         $bank = Bank::find($bank_id);
@@ -48,7 +48,7 @@ class BankController extends Controller
     }
 
     public function update($bank_id, Request $request){
-        if(roles() != "" && !in_array(18, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(15, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->name !=""){

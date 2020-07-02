@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Bank Accounts</h4>
     </div>
     <div style="float:right">
-      @if(roles() != "" && in_array(20, json_decode(roles(),false)))
+      @if(roles() != "" && in_array(17, json_decode(roles(),false)))
         <a href="{{ url('bank-account/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Account</a>
       @endif
     </div>
@@ -39,11 +39,11 @@
               <th>A/C Number</th>
               <th>A/C Type</th>
               <th>Currency</th>
-              @if(roles() != "" && in_array(21, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(18, json_decode(roles(),false)))
               <th>Update</th>
               @endif
 
-              @if(roles() != "" && in_array(22, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(19, json_decode(roles(),false)))
               <th>Delete</th>
               @endif
             </tr>
@@ -56,12 +56,12 @@
                 <td>{{ $bank_account->ac_number }}</td>
                 <td>{{ $bank_account->ac_type }}</td>
                 <td>{{ $bank_account->currency_name }} ({{ $bank_account->currency_frname }})</td>
-                @if(roles() != "" && in_array(21, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(18, json_decode(roles(),false)))
                   <td>
                     <a class="btn btn-info btn-sm" href="{{url ('bank-account/update/'.$bank_account->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                 @endif
-                @if(roles() != "" && in_array(22, json_decode(roles(),false)))                  
+                @if(roles() != "" && in_array(19, json_decode(roles(),false)))                  
                   <td>
                     <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$bank_account->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   </td>

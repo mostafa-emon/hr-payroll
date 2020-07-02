@@ -31,7 +31,7 @@ class ConfigurationController extends Controller
     }
     
     public function add_currency(Request $request){
-        if(roles() != "" && !in_array(11, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(8, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->full_name !=""){
@@ -52,7 +52,7 @@ class ConfigurationController extends Controller
     }
 
     public function delete_currency($currency_id){
-        if(roles() != "" && !in_array(13, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(10, json_decode(roles(),false))){
             return redirect('404');
         }
         $currency = Currency::find($currency_id);
@@ -61,7 +61,7 @@ class ConfigurationController extends Controller
     }
 
     public function update_currency($currency_id, Request $request){
-        if(roles() != "" && !in_array(12, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(9, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->full_name !=""){
@@ -85,7 +85,7 @@ class ConfigurationController extends Controller
     }
     
     public function add_payment_method(Request $request){
-        if(roles() != "" && !in_array(14, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(11, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->method_name !=""){
@@ -99,7 +99,7 @@ class ConfigurationController extends Controller
     }
 
     public function delete_payment_method($payment_method_id){
-        if(roles() != "" && !in_array(16, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(13, json_decode(roles(),false))){
             return redirect('404');
         }
         $payment_method = PaymentMethod::find($payment_method_id);
@@ -108,7 +108,7 @@ class ConfigurationController extends Controller
     }
 
     public function update_payment_method($payment_method_id, Request $request){
-        if(roles() != "" && !in_array(15, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(12, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->method_name !=""){
@@ -127,6 +127,9 @@ class ConfigurationController extends Controller
     }
 
     public function update(Request $request){
+        if(roles() != "" && !in_array(88, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $count = Setting::where('company_id',Auth::user()->company_id)->count();
 
         if($count == 0) {
@@ -227,7 +230,7 @@ class ConfigurationController extends Controller
     }
     
     public function add_printer(Request $request){
-        if(roles() != "" && !in_array(50, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(84, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->print_name !=""){
@@ -244,7 +247,7 @@ class ConfigurationController extends Controller
     }
 
     public function delete_printer($printer_id){
-        if(roles() != "" && !in_array(52, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(86, json_decode(roles(),false))){
             return redirect('404');
         }
         $printer = Printer::find($printer_id);
@@ -253,7 +256,7 @@ class ConfigurationController extends Controller
     }
 
     public function update_printer($printer_id, Request $request){
-        if(roles() != "" && !in_array(51, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(85, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->print_name !=""){
@@ -281,6 +284,10 @@ class ConfigurationController extends Controller
 
     public function mail_setup_update(Request $request){
 
+        if(roles() != "" && !in_array(87, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        
         if($request->job == "savesettings") {
             $count = Email::where('company_id',Auth::user()->company_id)->count();
 

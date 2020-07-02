@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Banks</h4>
     </div>
     <div style="float:right">
-      @if(roles() != "" && in_array(17, json_decode(roles(),false)))
+      @if(roles() != "" && in_array(14, json_decode(roles(),false)))
         <a href="{{ url('bank/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Bank</a>
       @endif
     </div>
@@ -40,11 +40,11 @@
               <th>Phone</th>
               <th>Email</th>
               <th>Contact Person</th>
-              @if(roles() != "" && in_array(18, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(15, json_decode(roles(),false)))
               <th>Update</th>
               @endif
 
-              @if(roles() != "" && in_array(19, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(16, json_decode(roles(),false)))
               <th>Delete</th>
               @endif
             </tr>
@@ -58,12 +58,12 @@
                 <td>{{ $bank->phone }}</td>
                 <td>{{ $bank->email }}</td>
                 <td>{{ $bank->contact_person }}</td>
-                @if(roles() != "" && in_array(18, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(15, json_decode(roles(),false)))
                   <td>
                   <a class="btn btn-info btn-sm" href="{{url ('bank/update/'.$bank->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td>
                 @endif
-                @if(roles() != "" && in_array(19, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(16, json_decode(roles(),false)))
                   <td>
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$bank->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   </td>
