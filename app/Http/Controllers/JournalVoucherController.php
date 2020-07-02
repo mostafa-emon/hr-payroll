@@ -122,6 +122,9 @@ class JournalVoucherController extends Controller
     }
 
     public function preview($print_status,$api_type,$id){
+        if(roles() != "" && !in_array(76, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $voucher_type = "Journal-Voucher";
         if($print_status == 'printed') {
             $data = Voucher::where('type','Journal-Voucher')->where('api_type',$api_type)->where('document_id',$id)->first();

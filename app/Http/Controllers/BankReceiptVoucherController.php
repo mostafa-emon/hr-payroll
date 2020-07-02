@@ -396,6 +396,11 @@ class BankReceiptVoucherController extends Controller
     }
 
     public function preview($print_status,$api_type,$id){
+        
+        if(roles() != "" && !in_array(61, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $voucher_type = "Bank-Receipt-Voucher";
         if($print_status == 'printed') {
             $data = Voucher::where('type','Bank-Receipt-Voucher')->where('api_type',$api_type)->where('document_id',$id)->first();

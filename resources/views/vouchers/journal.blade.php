@@ -67,7 +67,9 @@
               <th style="width:20%">Memo</th>
               <th style="text-align:center; width:10%">Total Amount</th>
               <th style="width:10%;text-align:right;">Status</th>
-              <th style="width:5%;text-align:right;">Action</th>
+              @if(roles() != "" && (in_array(75, json_decode(roles(),false)) || in_array(76, json_decode(roles(),false)) ))
+              <th style="width:10%;text-align:right;">Action</th>
+              @endif
             </tr>
           </thead>
           <tbody>
@@ -87,6 +89,7 @@
                   @php
                     if($is_printed > 0) {$printStatus = 'printed';} else{$printStatus = 'new';}
                   @endphp
+                  @if(roles() != "" && (in_array(75, json_decode(roles(),false)) || in_array(76, json_decode(roles(),false)) ))
                   <div class="btn-group">
                     <button type="button" class="btn btn-primary btn-sm pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                     <button type="button" class="btn btn-primary btn-sm pointer dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -94,13 +97,20 @@
                     </button>
                     <div class="dropdown-menu">
                       @if($is_printed > 0)
-                        <a class="dropdown-item pointer" href="{{url('journal-voucher-preview/'.$printStatus.'/na/'.$dt['Id'])}}">Re Print</a>
-                        <a class="dropdown-item pointer" href="{{url ('make-void/Journal-Voucher/na/'.$dt['Id']) }}">Void</a>
+                        @if(roles() != "" && in_array(76, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="{{url('journal-voucher-preview/'.$printStatus.'/na/'.$dt['Id'])}}">Re Print</a>
+                        @endif
+                        @if(roles() != "" && in_array(75, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="{{url ('make-void/Journal-Voucher/na/'.$dt['Id']) }}">Void</a>
+                        @endif
                       @else
-                        <a class="dropdown-item pointer" href="{{url('journal-voucher-preview/'.$printStatus.'/na/'.$dt['Id'])}}">Print</a>
+                        @if(roles() != "" && in_array(76, json_decode(roles(),false)))
+                          <a class="dropdown-item pointer" href="{{url('journal-voucher-preview/'.$printStatus.'/na/'.$dt['Id'])}}">Print</a>
+                        @endif
                       @endif
                     </div>
                   </div>
+                  @endif
                 </td>
               </tr>
               @endforeach
