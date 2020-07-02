@@ -74,11 +74,11 @@
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
-                <td style="border-bottom: 1px solid #ced4da;">Site Office</td>
+                <td style="border-bottom: 1px solid #ced4da;">Signatory</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="site_office_add"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="site_office_update"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="site_office_delete"/></td>
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="signatory_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="signatory_update"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="signatory_delete"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -87,24 +87,11 @@
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
-                <td style="border-bottom: 1px solid #ced4da;">Customer</td>
+                <td style="border-bottom: 1px solid #ced4da;">Voucher Formats</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="customer_add"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="customer_update"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="customer_delete"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-              </tr>
-
-              <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
-                <td style="border-bottom: 1px solid #ced4da;">Supplier</td>
-
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="supplier_add"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="supplier_update"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="supplier_delete"/></td>
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="voucher_format_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="voucher_format_update"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="voucher_format_delete"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -178,7 +165,7 @@
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">10</td>
-                <td style="border-bottom: 1px solid #ced4da;">Cheque Layout</td>
+                <td style="border-bottom: 1px solid #ced4da;">Cheque Formats</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_layout_add"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_layout_update"/></td>
@@ -188,22 +175,9 @@
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
               </tr>
-              
+
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">11</td>
-                <td style="border-bottom: 1px solid #ced4da;">Users</td>
-
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="user_add"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="user_update"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="user_delete"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-              </tr>
-              
-              <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">12</td>
                 <td style="border-bottom: 1px solid #ced4da;">Roles</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="roles_add"/></td>
@@ -214,41 +188,174 @@
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
               </tr>
+              
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">12</td>
+                <td style="border-bottom: 1px solid #ced4da;">Users</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="user_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="user_update"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="user_delete"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+              </tr>
 
               <tr>
                 <th colspan="9" style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da;">Transactions</td>
               </tr>
+
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">1</td>
-                <td style="border-bottom: 1px solid #ced4da;">Money Receipt</td>
+                <td style="border-bottom: 1px solid #ced4da;">Create Cheque</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="mr_add"/></td>
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_add"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="mr_approve"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="mr_reject"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="mr_void"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="mr_print"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_print"/></td>
               </tr>
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
-                <td style="border-bottom: 1px solid #ced4da;">Cheque</td>
+                <td style="border-bottom: 1px solid #ced4da;">Create MR</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_add"/></td>
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_add"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_approve"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_reject"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_void"/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="cheque_print"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_print"/></td>
+              </tr>
+              {{-- hello--}}
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
+                <td style="border-bottom: 1px solid #ced4da;">Cash Payment Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_print"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
+                <td style="border-bottom: 1px solid #ced4da;">Bank Payment Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_print"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">5</td>
+                <td style="border-bottom: 1px solid #ced4da;">Cash Receipt Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_print"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">6</td>
+                <td style="border-bottom: 1px solid #ced4da;">Bank Receipt Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_print"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">7</td>
+                <td style="border-bottom: 1px solid #ced4da;">Void Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_print"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">8</td>
+                <td style="border-bottom: 1px solid #ced4da;">Contra Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_print"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">9</td>
+                <td style="border-bottom: 1px solid #ced4da;">Cash Payment Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_add"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_approve"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_reject"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_void"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_print"/></td>
               </tr>
 
               <tr>
                 <th colspan="9" style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da;">Reports</td>
               </tr>
+
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">1</td>
+                <td style="border-bottom: 1px solid #ced4da;">Issued Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="issued_voucher"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
+                <td style="border-bottom: 1px solid #ced4da;">Void Voucher</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="void_voucher"/></td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
                 <td style="border-bottom: 1px solid #ced4da;">Issued MR</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -261,7 +368,7 @@
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
                 <td style="border-bottom: 1px solid #ced4da;">Void MR</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -274,7 +381,7 @@
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">5</td>
                 <td style="border-bottom: 1px solid #ced4da;">Issued Cheque</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -287,7 +394,7 @@
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">6</td>
                 <td style="border-bottom: 1px solid #ced4da;">Void Cheque</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -300,7 +407,7 @@
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">5</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">7</td>
                 <td style="border-bottom: 1px solid #ced4da;">Audit Trail</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
@@ -315,6 +422,7 @@
               <tr>
                 <th colspan="9" style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da;">Configuration</td>
               </tr>
+
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">1</td>
                 <td style="border-bottom: 1px solid #ced4da;">Printer</td>
@@ -322,6 +430,19 @@
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="printer_add"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="printer_update"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="printer_delete"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+              </tr>
+
+              <tr>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">1</td>
+                <td style="border-bottom: 1px solid #ced4da;">Email</td>
+
+                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="email_add_sent"/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
