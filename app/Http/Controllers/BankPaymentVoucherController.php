@@ -270,6 +270,9 @@ class BankPaymentVoucherController extends Controller
     }
 
     public function preview($print_status,$api_type,$id){
+        if(roles() != "" && !in_array(51, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $voucher_type = "Bank-Payment-Voucher";
         if($print_status == 'printed') {
             $data = Voucher::where('type','Bank-Payment-Voucher')->where('api_type',$api_type)->where('document_id',$id)->first();
@@ -287,9 +290,6 @@ class BankPaymentVoucherController extends Controller
     }
 
     public function bank_payment_voucher_print($api_type,$id){
-        if(roles() != "" && !in_array(51, json_decode(roles(),false))){
-            return redirect('404');
-        }
         $company = Company::where('id',Auth::user()->company_id)->first();
         $token = getToken();
         $data = [];

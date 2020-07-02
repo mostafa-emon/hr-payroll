@@ -313,7 +313,7 @@
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">9</td>
-                <td style="border-bottom: 1px solid #ced4da;">Cash Payment Voucher</td>
+                <td style="border-bottom: 1px solid #ced4da;">Journal Voucher</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_add"/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>

@@ -228,7 +228,6 @@
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_void" @if($roles->access != "" && in_array(40, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_print" @if($roles->access != "" && in_array(41, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
-              {{-- hello--}}
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
@@ -310,7 +309,7 @@
 
               <tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">9</td>
-                <td style="border-bottom: 1px solid #ced4da;">Cash Payment Voucher</td>
+                <td style="border-bottom: 1px solid #ced4da;">Journal Voucher</td>
 
                 <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_add" @if($roles->access != "" && in_array(72, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>

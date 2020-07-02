@@ -386,6 +386,9 @@ class CashReceiptVoucherController extends Controller
     }
 
     public function preview($print_status,$api_type,$id){
+        if(roles() != "" && !in_array(56, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $voucher_type = "Cash-Receipt-Voucher";
         if($print_status == 'printed') {
             $data = Voucher::where('type','Cash-Receipt-Voucher')->where('api_type',$api_type)->where('document_id',$id)->first();
