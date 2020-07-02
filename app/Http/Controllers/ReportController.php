@@ -144,8 +144,12 @@ class ReportController extends Controller
         $cheque_books   = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $cheque_name = "";
+        $amount = "";
+        $formatted_amount = "";
 
         $cheques = ChequeTransaction::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
+
         if($request->bank_id != "" && $request->bank_id != "All"){
             $bank_name = Bank::where('id',$request->bank_id)->value('name');
             $cheques = $cheques->where('bank_name',$bank_name);
@@ -161,6 +165,17 @@ class ReportController extends Controller
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',$request->account_id)->get();
         }
+
+        if($request->cheque_name != ""){
+            $cheque_name = $request->cheque_name;
+            $cheques = $cheques->where('cheque_name','LIKE', '%'.$request->cheque_name.'%');
+        }
+
+        if($request->formatted_amount != ""){
+            $formatted_amount = $request->formatted_amount;
+            $cheques = $cheques->where('amount',$request->formatted_amount);
+        }
+
         if($request->from_date != "" && $request->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
@@ -168,7 +183,7 @@ class ReportController extends Controller
         }else{
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59']);
         }
-        $cheques = $cheques->where('status','!=',0)->get();
+        $cheques = $cheques->where('status',1)->get();
 
         $total = 0; 
         foreach($cheques as $cheque) {
@@ -190,7 +205,10 @@ class ReportController extends Controller
             'accounts'          => $accounts,
             'cheque_books'      => $cheque_books,
             'company'           => $company,
-            'total'             => $total
+            'total'             => $total,
+            'amount'            => $amount,
+            'cheque_name'       => $cheque_name,
+            'formatted_amount'  => $formatted_amount
         ]);
     }
 
@@ -207,6 +225,10 @@ class ReportController extends Controller
         $cheque_books   = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $cheque_name = "";
+        $amount = "";
+        $formatted_amount = "";
+
 
         $cheques = ChequeTransaction::where('company_id', Auth::user()->company_id)->orderBy('created_at','desc');
         if($request->bank_id != "" && $request->bank_id != "All"){
@@ -224,6 +246,18 @@ class ReportController extends Controller
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',$request->account_id)->get();
         }
+
+        if($request->cheque_name != ""){
+            $cheque_name = $request->cheque_name;
+            $cheques = $cheques->where('cheque_name','LIKE', '%'.$request->cheque_name.'%');
+        }
+
+        if($request->formatted_amount != ""){
+            $formatted_amount = $request->formatted_amount;
+            $cheques = $cheques->where('amount',$request->formatted_amount);
+        }
+
+
         if($request->from_date != "" && $request->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime($request->from_date)), date('Y-m-d',strtotime($request->to_date)).' 23:59']);
             $from_date  = $request->from_date;
@@ -253,7 +287,11 @@ class ReportController extends Controller
             'accounts'          => $accounts,
             'cheque_books'      => $cheque_books,
             'company'           => $company,
-            'total'             => $total
+            'total'             => $total,
+            'amount'            => $amount,
+            'cheque_name'        => $cheque_name,
+            'formatted_amount'  => $formatted_amount
+
         ]);
     }
 

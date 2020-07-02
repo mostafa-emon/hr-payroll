@@ -72,6 +72,8 @@
           </div>
         </a>
         <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="{{ url('create-cheque') }}" class="nav-link  {{ (request()->is('create-cheque*')) ? 'active' : '' }}">Create Cheque</a></li>
+          <li class="nav-item"><a href="{{ url('create-mr') }}" class="nav-link  {{ (request()->is('create-mr*')) ? 'active' : '' }}">Create MR</a></li>
           <li class="nav-item"><a href="{{ url('tr-cash-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-payment-voucher*')) || (request()->is('cpv-voucher-preview*')) ? 'active' : '' }}">Cash Payment Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-bank-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-bank-payment-voucher*')) ? 'active' : '' }}">Bank Payment Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-cash-receipt-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-receipt-voucher*')) ? 'active' : '' }}">Cash Receipt Voucher</a></li>
@@ -79,8 +81,6 @@
           <li class="nav-item"><a href="{{ url('tr-void-voucher') }}" class="nav-link  {{ (request()->is('tr-void-voucher*')) ? 'active' : '' }}">Void Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-contra-voucher') }}" class="nav-link  {{ (request()->is('tr-contra-voucher*')) ? 'active' : '' }}">Contra Voucher</a></li>
           <li class="nav-item"><a href="{{ url('tr-journal-voucher') }}" class="nav-link  {{ (request()->is('tr-journal-voucher*')) ? 'active' : '' }}">Journal Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('create-mr') }}" class="nav-link  {{ (request()->is('create-mr*')) ? 'active' : '' }}">Create MR</a></li>
-          <li class="nav-item"><a href="{{ url('create-cheque') }}" class="nav-link  {{ (request()->is('create-cheque*')) ? 'active' : '' }}">Create Cheque</a></li>
         </ul>
 
         <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) || (request()->is('audits*')) ? 'active show-sub' : '' }}">
