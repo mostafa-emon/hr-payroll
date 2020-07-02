@@ -29,7 +29,7 @@ class ChequeBookController extends Controller
     }
 
     public function add(Request $request){
-        if(roles() != "" && !in_array(23, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(20, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->bank_id !=""){
@@ -60,7 +60,7 @@ class ChequeBookController extends Controller
     }
 
     public function update($cheque_book_id,Request $request){
-        if(roles() != "" && !in_array(24, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(21, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->bank_id !=""){
@@ -92,7 +92,7 @@ class ChequeBookController extends Controller
     }
 
     public function delete($cheque_book_id){
-        if(roles() != "" && !in_array(25, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(22, json_decode(roles(),false))){
             return redirect('404');
         }
         $cheque_book = ChequeBook::find($cheque_book_id);

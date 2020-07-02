@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Signatory</h4>
     </div>
     <div style="float:right">
-      @if(roles() != "" && in_array(11, json_decode(roles(),false)))
+      @if(roles() != "" && in_array(2, json_decode(roles(),false)))
       <a href="{{ url('signatory/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Signatory</a>
       @endif
     </div>
@@ -38,11 +38,11 @@
               <th class="wd-10p">Name</th>
               <th class="wd-50p text-center">Applied To</th>
 
-              @if(roles() != "" && in_array(12, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(3, json_decode(roles(),false)))
               <th class="wd-15p text-center">Update</th>
               @endif
 
-              @if(roles() != "" && in_array(13, json_decode(roles(),false)))
+              @if(roles() != "" && in_array(4, json_decode(roles(),false)))
               <th class="wd-15p text-center">Delete</th>
               @endif
             </tr>
@@ -61,12 +61,12 @@
                   @if($signatory->journal_voucher == 1) <span class="badge badge-secondary">Journal Voucher</span> @endif
                 </td>
 
-                @if(roles() != "" && in_array(12, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(3, json_decode(roles(),false)))
                   <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{url ('signatory/update/'.$signatory->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   </td class="text-center">
                 @endif
-                @if(roles() != "" && in_array(13, json_decode(roles(),false)))
+                @if(roles() != "" && in_array(4, json_decode(roles(),false)))
                   <td class="text-center">
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$signatory->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   </td>

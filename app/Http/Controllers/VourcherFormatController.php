@@ -21,7 +21,7 @@ class VourcherFormatController extends Controller
     }
 
     public function add($type = null, Request $request){
-        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(5, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->title !=""){
@@ -121,12 +121,18 @@ class VourcherFormatController extends Controller
     }
 
     public function delete($format_id){
+        if(roles() != "" && !in_array(7, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $voucher_format = VoucherFormat::find($format_id);
         $voucher_format->delete();
         return redirect('voucher-formats')->with('message', 'Voucher Deleted Successfully!');
     }
 
     public function update($format_id, Request $request){
+        if(roles() != "" && !in_array(6, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->title !=""){
             $voucher_format = VoucherFormat::where('id',$format_id)->first();
             $voucher_format->company_id             = Auth::user()->company_id;

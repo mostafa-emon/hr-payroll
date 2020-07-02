@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Voucher Formats</h4>
     </div>
     <div style="float:right">
-      @if(roles() != "" && in_array(26, json_decode(roles(),false)))
+      @if(roles() != "" && in_array(5, json_decode(roles(),false)))
         <a href="{{ url('voucher-formats/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Format</a>
       @endif
     </div>
@@ -38,8 +38,10 @@
               <th class="wd-20p">Title</th>
               <th class="wd-35p text-center">Type</th>
               <th class="wd-20p text-center">Default</th>
-              @if(roles() != "" && (in_array(26, json_decode(roles(),false))  || in_array(27, json_decode(roles(),false))  || in_array(28, json_decode(roles(),false))))
+              @if(roles() != "" && in_array(6, json_decode(roles(),false)))
               <th class="wd-20p text-center">Update</th>
+              @endif
+              @if(roles() != "" && in_array(7, json_decode(roles(),false)))
               <th class="wd-20p text-center">Delete</th>
               @endif
             </tr>
@@ -55,12 +57,16 @@
                     <span class="badge badge-success">Default</span>
                   @endif
                 </td>
+                @if(roles() != "" && in_array(6, json_decode(roles(),false)))
                 <td class="text-center">
                   <a class="btn btn-info btn-sm" href="{{url('voucher-formats/update/'.$voucher_format->id)}}"><i class="fa fa-edit"></i> Update </a>
                 </td>
+                @endif
+                @if(roles() != "" && in_array(7, json_decode(roles(),false)))
                 <td class="text-center">
                   <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$voucher_format->id}})"><i class= "fa fa-minus-circle"></i> Delete </a>
                 </td>
+                @endif
               </tr>
             @endforeach
           </tbody>
