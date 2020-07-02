@@ -106,54 +106,42 @@
             </div>
 
           </div>
-
-          @if(roles() != "" && in_array(87, json_decode(roles(),false)))
-          <div class="row pd-t-10 pd-b-20 text-right">
-            <div class="col-md-6 text-left">
-              <a href="javascript:void(0)" onclick="saveSettings()" class="btn btn-info pointer">Save Settings</a>
-            </div>
-            <div class="col-md-6">
-              <a href="javascript:void(0)" onclick="showSendDetails()" class="btn btn-info pointer">Send Test Email</a>
-            </div>
-          </div>
-          @endif
-
-          <div class="form-layout form-layout-2" id="sendDetails" style="@if(old('email_to') == "") display:none @endif">
+          <br>
+          <div class="form-layout form-layout-2" id="sendDetails">
             <div class="row no-gutters">
   
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-control-label">Email To:</label>
-                  <input class="form-control" type="text" name="email_to" placeholder="Email To" value="{{ old('email_to') }}">
+                  <label class="form-control-label">Send Test Mail To:</label>
+                  <input class="form-control" type="text" name="email_to" placeholder="test mail to" value="{{ old('email_to') }}">
                 </div>
               </div>
   
               <div class="col-md-6">
                 <div class="form-group mg-md-l--1">
                   <label class="form-control-label">Subject:</label>
-                  <input class="form-control" type="text" name="email_subject" placeholder="Subject" value="{{ old('email_subject') }}">
+                  <input class="form-control" type="text" name="email_subject" placeholder="Subject" value="@if(old('email_subject') != ""){{old('email_subject')}}@elseif(isset($emails)){{$emails->subject}}@endif">
                 </div>
               </div>
   
               <div class="col-md-12">
                 <div class="form-group bd-t-0-force">
-                  <label class="form-control-label">Message:</label>
-                  <textarea class="form-control" type="text" id="editor1" name="editor1" rows="5" placeholder="Start Typing.......">{{ old('editor1') }}</textarea>
-                  
-                  <div class="pd-t-10">
-                    <label class="ckbox pointer">
-                      <input type="checkbox" name="send_as_attachment" value="1" @if(old('send_as_attachment') == 1) checked @endif><span>Send as attachment</span>
-                    </label>
-                  </div>
+                  <label class="form-control-label">Body:</label>
+                  <textarea class="form-control" type="text" id="editor1" name="editor1" rows="5" placeholder="Start Typing.......">@if(old('editor1') != ""){{old('editor1')}}@elseif(isset($emails)){{$emails->body}}@endif</textarea>
+                  <input type="hidden" name="send_as_attachment" value="0">
                 </div>
               </div>
   
             </div>
-
-          <div class="form-layout-footer bd pd-20 bd-t-0 text-right">
-            <a href="javascript:void(0)" onclick="sendMail()" class="btn btn-success btn-sm pointer">Send</a>
-          </div>
-
+            <br>
+            <div class="row">
+              <div class="col-md-6">
+                <a href="javascript:void(0)" onclick="saveSettings()" class="btn btn-info btn-sm pointer">Save Settings</a>
+              </div>
+              <div class="col-md-6 text-right">
+                <a href="javascript:void(0)" onclick="sendMail()" class="btn btn-info btn-sm pointer">Send Test Email</a>
+              </div>
+            </div>
 
         </div>
       </div>

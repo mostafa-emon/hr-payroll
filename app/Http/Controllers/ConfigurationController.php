@@ -310,6 +310,8 @@ class ConfigurationController extends Controller
                 }
                 $email->from_address                          = $request->from_address;
                 $email->from_name                             = $request->from_name;
+                $email->subject                               = $request->email_subject;
+                $email->body                                  = $request->editor1;
                 $email->save();
             }else{
                 $email = Email::where('company_id', Auth::user()->company_id)->first();
@@ -329,6 +331,8 @@ class ConfigurationController extends Controller
                 }
                 $email->from_address                          = $request->from_address;
                 $email->from_name                             = $request->from_name;
+                $email->subject                               = $request->email_subject;
+                $email->body                                  = $request->editor1;
                 $email->save();
             }
             return redirect('mail-setup')->with('message','Email settings updated!');
@@ -360,7 +364,7 @@ class ConfigurationController extends Controller
             if($request->send_as_attachment == 1) {
                 $pdf = PDF::loadView('email.mr',compact('data'));
                 try{
-                    Mail::send('email.mr', compact('data'), function($message)use($data,$pdf) {
+                    Mail::send('email.body', compact('data'), function($message)use($data,$pdf) {
                     $message->to($data["email"], $data["client_name"])
                         ->subject($data["subject"])
                         ->attachData($pdf->output(), "attachment.pdf");
@@ -380,7 +384,7 @@ class ConfigurationController extends Controller
                 return Redirect::back()->with('message',$message)->with('error',$error)->withInput();
             }else {
                 try{
-                    Mail::send('email.mr', compact('data'), function($message)use($data) {
+                    Mail::send('email.body', compact('data'), function($message)use($data) {
                     $message->to($data["email"], $data["client_name"])
                         ->subject($data["subject"]);
                     });

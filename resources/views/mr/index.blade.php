@@ -127,6 +127,7 @@
                       @else
                         <a class="dropdown-item pointer" href="{{url('money-receipt-preview/'.$printStatus.'/'.$apiType.'/'.$dt['Id'])}}">Print</a>
                       @endif
+                      <a class="dropdown-item pointer" href="{{url('money-receipt-email/'.$apiType.'/'.$dt['Id'])}}">Print</a>
                     </div>
                   </div>
                 </td>

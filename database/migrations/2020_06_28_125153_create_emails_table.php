@@ -25,6 +25,8 @@ class CreateEmailsTable extends Migration
             $table->string('encryption');
             $table->string('from_address');
             $table->string('from_name');
+            $table->string('subject')->nullable();
+            $table->text('body')->nullable();
             $table->timestamps();
         });
     }

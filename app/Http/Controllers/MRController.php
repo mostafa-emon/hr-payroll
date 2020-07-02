@@ -996,45 +996,6 @@ class MRController extends Controller
         }
     }
 
-    public function sendmail(){
-        Config::set('mail.driver', 'smtp');
-        Config::set('mail.host', 'smtp.gmail.com');
-        Config::set('mail.port', '587');
-        Config::set('mail.username', 'mostafa.shopinvento@gmail.com');
-        Config::set('mail.password', 'A1c3E5g7');
-        Config::set('mail.encryption', 'tls');
-
-        Config::set('mail.from.address', 'mostafa.shopinvento@gmail.com');
-        Config::set('mail.from.name', 'ShopMamun');
-        
-        $data["email"] ='mostafaemon.info@gmail.com';
-        $data["client_name"]='Mostafa Emon';
-        $data["subject"]='This is test email';
-
-        $pdf = PDF::loadView('email.mr', $data);
-
-        try{
-            Mail::send('email.mr', $data, function($message)use($data,$pdf) {
-            $message->to($data["email"], $data["client_name"])
-                ->subject($data["subject"])
-                ->attachData($pdf->output(), "invoice.pdf");
-            });
-        }catch(JWTException $exception){
-            $this->serverstatuscode = "0";
-            $this->serverstatusdes = $exception->getMessage();
-        }
-        if (Mail::failures()) {
-             $this->statusdesc  =   "Error sending mail";
-             $this->statuscode  =   "0";
-
-        }else{
-
-           $this->statusdesc  =   "Message sent Succesfully";
-           $this->statuscode  =   "1";
-        }
-        return response()->json(compact('this'));
-    }
-
     public function void($api_type,$document_id){
         MoneyReceipt::where('api_type' , $api_type)
         ->where('document_id',$document_id)
@@ -1052,5 +1013,31 @@ class MRController extends Controller
         }else{
             return view('mr.print_half', ['transaction'=>$mr, 'company' => $company, 'setting' => $setting, 'status' => 'approved']);
         }
+    }
+
+    public function email($api_type,$document_id){
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
+        $company = Company::where('id',Auth::user()->company_id)->first();
+        $mr = MoneyReceipt::where('api_type',$api_type)->where('document_id',$document_id)->where('status',1)->first();
+        $email_setup = Email::where('company_id',Auth::user()->company_id)->first();
+        
+        if($email_setup == "") {
+            return redirect('create-mr')->with('message','Please complete your mail setup first!');
+        }
+        else {
+            Config::set('mail.driver', $email->mail_driver);
+            Config::set('mail.host', $email->host_name);
+            Config::set('mail.port', $email->port_name);
+            Config::set('mail.username', $email->user_name);
+            Config::set('mail.password', $email->password);
+            Config::set('mail.encryption', $email->encryption);
+            Config::set('mail.from.address', $email->from_address);
+            Config::set('mail.from.name', $email->from_name);
+            
+            $data["email"] = 'mostafaemon.info@gmail.com';
+            $data["client_name"] = '';
+            $data["subject"] = 'Money Receipt';
+        }
+        
     }
 }
