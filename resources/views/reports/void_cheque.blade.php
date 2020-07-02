@@ -129,11 +129,11 @@
       croreFormat = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
       croreFormat = croreFormat + '.' + decimalPart
       document.getElementById("grandTotal").innerHTML = croreFormat;
-      document.getElementById("excelButton").href="/export-void-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+croreFormat; 
+      document.getElementById("excelButton").href="/export-void-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&cheque_name={{$cheque_name}}&formatted_amount={{$formatted_amount}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+croreFormat; 
     }else{
       var millionFormat = '{{$total}}'.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       document.getElementById("grandTotal").innerHTML = millionFormat;
-      document.getElementById("excelButton").href="/export-void-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+millionFormat; 
+      document.getElementById("excelButton").href="/export-void-cheque?bank_id={{$bank_name}}&account_id={{$ac_number}}&book_no={{$cheque_book}}&cheque_name={{$cheque_name}}&formatted_amount={{$formatted_amount}}&from_date={{$from_date}}&to_date={{$to_date}}&total="+millionFormat; 
     }
 
     function printElem(){

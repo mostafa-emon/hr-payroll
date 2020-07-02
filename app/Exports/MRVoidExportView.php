@@ -18,15 +18,22 @@ class MRVoidExportView implements FromView
     public function view(): View
     {
         $company     = Company::where('id',Auth::user()->company_id)->first();
-        $customer    = "All";
+        $customer    = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $formatted_amount = "";
 
         $money_receipts = MoneyReceipt::orderBy('created_at','desc');
-        if(request()->customer != "" && request()->customer != "All"){
-            $money_receipts = $money_receipts->where('customer_name',request()->customer);
+        if(request()->customer != ""){
+            $money_receipts = $money_receipts->where('customer_name','LIKE', '%'.request()->customer.'%');
             $customer = request()->customer;
         }
+
+        if(request()->formatted_amount != ""){
+            $formatted_amount = request()->formatted_amount;
+            $money_receipts = $money_receipts->where('amount',request()->formatted_amount);
+        }
+
         if(request()->from_date != "" && request()->to_date != ""){
             $money_receipts = $money_receipts->whereBetween('created_at', [date('Y-m-d',strtotime(request()->from_date)), date('Y-m-d',strtotime(request()->to_date)).' 23:59']);
             $from_date  = request()->from_date;
@@ -45,6 +52,7 @@ class MRVoidExportView implements FromView
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'company'           => $company,
+            'formatted_amount'  => $formatted_amount,
             'total'             => request()->total
         ]);
     }

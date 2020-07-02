@@ -28,18 +28,16 @@ class ChequeExportView implements FromView
         $cheque_books   = "";
         $from_date = date('01-m-Y');
         $to_date   = date('d-m-Y');
+        $cheque_name    = "";
+        $formatted_amount ="";
 
         $cheques = ChequeTransaction::orderBy('created_at','desc');
         if(request()->bank_id != "" && request()->bank_id != "All"){
             $cheques = $cheques->where('bank_name',request()->bank_id);
         }
-        $cheque_name    = "";
+
         if(request()->account_id != "" && request()->account_id != "All"){
             $cheques   = $cheques->where('ac_number',request()->account_id);
-        }
-        if(request()->cheque_name != "" && request()->cheque_name != "All"){
-            $cheque_name = request()->cheque_name;
-            $cheques = $cheques->where('cheque_name',request()->cheque_name);
         }
 
         if(request()->book_no != "" && request()->book_no != "All"){
@@ -47,6 +45,16 @@ class ChequeExportView implements FromView
             $cheques   = $cheques->where('book_no',$cheque_book);
             $cheque_books = ChequeBook::where('account_id',request()->account_id)->get();
         }
+        if(request()->cheque_name != ""){
+            $cheque_name = request()->cheque_name;
+            $cheques = $cheques->where('cheque_name','LIKE', '%'.request()->cheque_name.'%');
+        }
+
+        if(request()->formatted_amount != ""){
+            $formatted_amount = request()->formatted_amount;
+            $cheques = $cheques->where('amount',request()->formatted_amount);
+        }
+    
         if(request()->from_date != "" && request()->to_date != ""){
             $cheques = $cheques->whereBetween('date', [date('Y-m-d',strtotime(request()->from_date)), date('Y-m-d',strtotime(request()->to_date)).' 23:59']);
             $from_date  = request()->from_date;
@@ -68,6 +76,7 @@ class ChequeExportView implements FromView
             'from_date'         => $from_date,
             'to_date'           => $to_date,
             'company'           => $company,
+            'formatted_amount'  => $formatted_amount,
             'total'             => request()->total
         ]);
     }
