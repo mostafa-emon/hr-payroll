@@ -21,7 +21,7 @@ class RolesController extends Controller
     }
     
     public function add(Request $request){
-        if(roles() != "" && !in_array(32, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(29, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->role_name !=""){
@@ -45,7 +45,7 @@ class RolesController extends Controller
     }
     
     public function delete($role_id){
-        if(roles() != "" && !in_array(34, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(31, json_decode(roles(),false))){
             return redirect('404');
         }
         $role = Role::find($role_id);
@@ -54,7 +54,7 @@ class RolesController extends Controller
     }
 
     public function update($role_id, Request $request){
-        if(roles() != "" && !in_array(33, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(30, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->role_name !=""){

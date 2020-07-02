@@ -19,6 +19,9 @@ class SignatoryController extends Controller
     }
 
     public function add(Request $request){
+        if(roles() != "" && !in_array(2, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $signatory = new Signatory();
             $signatory->company_id              = Auth::user()->company_id;
@@ -59,12 +62,18 @@ class SignatoryController extends Controller
     }
 
     public function delete($signatory_id){
+        if(roles() != "" && !in_array(4, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $signatory = Signatory::find($signatory_id);
         $signatory->delete();
         return redirect('signatory')->with('message', 'Signatory deleted successfully!');
     }
 
     public function update($signatory_id, Request $request){
+        if(roles() != "" && !in_array(3, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->name !=""){
             $signatory = Signatory::where('id', $signatory_id)->first();
             $signatory->company_id       = Auth::user()->company_id;

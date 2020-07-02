@@ -26,7 +26,7 @@ class ChequeLayoutController extends Controller
         return view('cheque_layouts.index', ['cheque_layouts'=>$cheque_layout]);
     }
     public function add(Request $request){
-        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(23, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->height !=""){
@@ -94,7 +94,7 @@ class ChequeLayoutController extends Controller
     }
 
     public function delete($cheque_layout_id){
-        if(roles() != "" && !in_array(28, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(25, json_decode(roles(),false))){
             return redirect('404');
         }
         $cheque_layout = ChequeLayout::find($cheque_layout_id);
@@ -103,7 +103,7 @@ class ChequeLayoutController extends Controller
     }
 
     public function update($cheque_layout_id, Request $request){
-        if(roles() != "" && !in_array(27, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(24, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->height !=""){
@@ -171,7 +171,7 @@ class ChequeLayoutController extends Controller
     }
 
     public function duplicate($cheque_layout_id, Request $request){
-        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(24, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->height !=""){

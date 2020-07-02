@@ -14,7 +14,7 @@
       <h4 class="tx-gray-800 mg-b-5">Cheque Formats</h4>
     </div>
     <div style="float:right">
-      @if(roles() != "" && in_array(26, json_decode(roles(),false)))
+      @if(roles() != "" && in_array(23, json_decode(roles(),false)))
         <a href="{{ url('cheque-layouts/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Layout</a>
       @endif
     </div>
@@ -38,7 +38,7 @@
               <th class="wd-40p">Bank</th>
               <th class="wd-15p text-center">Height</th>
               <th class="wd-15p text-center">Width</th>
-              @if(roles() != "" && (in_array(26, json_decode(roles(),false))  || in_array(27, json_decode(roles(),false))  || in_array(28, json_decode(roles(),false))))
+              @if(roles() != "" && (in_array(24, json_decode(roles(),false))  || in_array(25, json_decode(roles(),false)) ))
               <th class="wd-25p text-center">Action</th>
               @endif
             </tr>
@@ -51,13 +51,13 @@
                 <td class="text-center">{{ $cheque_layout->height }}</td>
                 <td class="text-center">{{ $cheque_layout->width }}</td>
                 <td class="text-center">
-                  @if(roles() != "" && in_array(26, json_decode(roles(),false)))
+                  @if(roles() != "" && in_array(24, json_decode(roles(),false)))
                     <a class="btn btn-info btn-sm" href="{{url ('cheque-layouts/duplicate/'.$cheque_layout->id) }}"><i class= "fa fa-copy"></i> Duplicate </a>
                   @endif
-                  @if(roles() != "" && in_array(27, json_decode(roles(),false)))
+                  @if(roles() != "" && in_array(24, json_decode(roles(),false)))
                     <a class="btn btn-warning btn-sm" href="{{url ('cheque-layouts/update/'.$cheque_layout->id) }}"><i class= "fa fa-edit"></i> Update </a>
                   @endif
-                  @if(roles() != "" && in_array(28, json_decode(roles(),false)))
+                  @if(roles() != "" && in_array(25, json_decode(roles(),false)))
                     <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$cheque_layout->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
                   @endif
                 </td>
