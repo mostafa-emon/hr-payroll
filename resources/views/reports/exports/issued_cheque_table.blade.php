@@ -12,11 +12,11 @@
         <tr>
             <th style="text-align: center">Sl</th>
             <th style="text-align: center">Date</th>
-            <th>Bank</th>
-            <th>Account</th>
-            <th>Book No.</th>
-            <th>Cheque No.</th>
-            <th>Payee</th>
+            <th style="text-align: center">Bank</th>
+            <th style="text-align: center">Account</th>
+            <th style="text-align: center">Book No.</th>
+            <th style="text-align: center">Cheque No.</th>
+            <th style="text-align: center">Payee</th>
             <th style="text-align: center">Amount</th>
         </tr>
     </thead>

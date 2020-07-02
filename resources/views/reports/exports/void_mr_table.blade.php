@@ -13,10 +13,10 @@
       <tr>
         <th style="text-align: center">Sl</th>
         <th style="text-align: center">Date</th>
-        <th style="text-align: left">Invoice No</th>
-        <th style="text-align: left">Site Office</th>
-        <th style="text-align: left">Customer</th>
-        <th style="text-align: left">Pay Method</th>
+        <th style="text-align: center">Invoice No</th>
+        <th style="text-align: center">Site Office</th>
+        <th style="text-align: center">Customer</th>
+        <th style="text-align: center">Pay Method</th>
         <th style="text-align: center">Amount</th>
       </tr>
     </thead>
