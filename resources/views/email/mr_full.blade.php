@@ -192,7 +192,7 @@
             <div style="float: left; padding-left: 76px;">{{$transaction->purpose}}
             </div>
             <br>
-            <div style="float: left; padding-left: 128px; margin-top: -13px;">_____________________________________________________________________________
+            <div style="float: left; padding-left: 128px; margin-top: -13px;">____________________________________________________________________________
             </div>
         </div>
         <br>
