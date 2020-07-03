@@ -119,6 +119,10 @@
                         @if($audit->event == "created") Create User @endif
                         @if($audit->event == "updated") Update User @endif
                         @if($audit->event == "deleted") Delete User @endif
+                    @elseif($audit->auditable_type == "App\VoucherFormat")
+                        @if($audit->event == "created") Create Voucher Format @endif
+                        @if($audit->event == "updated") Update Voucher Format @endif
+                        @if($audit->event == "deleted") Delete Voucher Format @endif
                         @if($audit->event == "Logged In") Logged In @endif
                     @endif
                 </td>
@@ -283,6 +287,7 @@
                             foreach($old_value as $key => $value){
                                 if($key == "full_name") {$old = $old."Full Name: ".$value.', ';}
                                 else if($key == "fraction_name") {$old = $old."Fraction Name: ".$value.', ';}
+                                else if($key == "default") {$old = $old."Default: ".$value.', ';}
                             }
                             echo rtrim($old, ', ');
                         }
@@ -370,16 +375,47 @@
                             $old = "";
                             if($audit->event == "updated") {
                                 $old = "User updated ";
-                            }else if($audit->event == "updated") {
-                                $old = "User deleted the ";
-                            }
-                            $old_value = json_decode($audit->old_values);
+                                $old_value = json_decode($audit->old_values);
                             
-                            foreach($old_value as $key => $value){
-                                if($key == "name") { $old = $old.$value.' '; }
+                                foreach($old_value as $key => $value){
+                                    if($key == "name") { $old = $old.$value.' '; }
+                                }
+                                $old = $old."signatory";
+                                echo rtrim($old, ', ');
+                            }else if($audit->event == "deleted") {
+                                $old = "User deleted ";
+                                $old_value = json_decode($audit->old_values);
+                            
+                                foreach($old_value as $key => $value){
+                                    if($key == "name") { $old = $old.$value.' '; }
+                                }
+                                $old = $old."signatory";
+                                echo rtrim($old, ', ');
                             }
-                            $old = $old."signatory";
-                            echo rtrim($old, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\VoucherFormat"){
+                            $old = "";
+                            if($audit->event == "updated") {
+                                $old_value = json_decode($audit->old_values);
+                            
+                                foreach($old_value as $key => $value){
+                                    if($key == "title") { $old = $old.$value.' '; }
+                                }
+                                $old = $old."voucher format";
+                                echo rtrim($old, ', ');
+                                $old = "User updated ";
+                            }else if($audit->event == "deleted") {
+                                $old = "User deleted ";
+                                $old_value = json_decode($audit->old_values);
+                            
+                                foreach($old_value as $key => $value){
+                                    if($key == "title") { $old = $old.$value.' '; }
+                                }
+                                $old = $old."voucher format";
+                                echo rtrim($old, ', ');
+                            }
+                            
                         }
                     @endphp
                 </td>
@@ -544,6 +580,7 @@
                             foreach($new_value as $key => $value){
                                 if($key == "full_name") {$new = $new."Full Name: ".$value.', ';}
                                 else if($key == "fraction_name") {$new = $new."Fraction Name: ".$value.', ';}
+                                else if($key == "default") {$new = $new."Default: ".$value.', ';}
                             }
                             echo rtrim($new, ', ');
                         }
@@ -626,20 +663,34 @@
                             }
                             echo rtrim($new, ', ');
                         }
-
+                        
                         if($audit->auditable_type == "App\Signatory"){
-                            $new_value = json_decode($audit->new_values);
                             $new = "";
-                            if($audit->event == "updated") {
-                                $new = "User updated ";
-                            }else if($audit->event == "updated") {
-                                $new = "User deleted the ";
+                            if($audit->event == "created") {
+                                $new = "User created ";
+                            
+                                $new_value = json_decode($audit->new_values);
+                                
+                                foreach($new_value as $key => $value){
+                                    if($key == "name") { $new = $new.$value.' '; }
+                                }
+                                $new = $new."signatory";
+                                echo rtrim($new, ', ');
                             }
-                            foreach($new_value as $key => $value){
-                                if($key == "name") { $new = $new.$value.' '; }
+                        }
+
+                        if($audit->auditable_type == "App\VoucherFormat"){
+                            $new = "";
+                            if($audit->event == "created") {
+                                $new = "User created ";
+                                $new_value = json_decode($audit->new_values);
+                            
+                                foreach($new_value as $key => $value){
+                                    if($key == "title") { $new = $new.$value.' '; }
+                                }
+                                $new = $new."voucher format";
+                                echo rtrim($new, ', ');
                             }
-                            $new = $new."signatory";
-                            echo rtrim($new, ', ');
                         }
                     @endphp
                 </td>
