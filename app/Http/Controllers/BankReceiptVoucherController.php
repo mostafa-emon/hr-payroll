@@ -152,7 +152,7 @@ class BankReceiptVoucherController extends Controller
                                     $data[$index]['DocNumber'] = "";
 
                                     $line_count = count($results['QueryResponse']['Deposit'][$i]['Line']);
-                                    if($line_count > 0){
+                                    if($line_count > 1){
                                         if(isset($results['QueryResponse']['Deposit'][$i]['Line'][0]['DepositLineDetail']['Entity']['name'])){
                                             $data[$index]['ReceivedFrom'] = $results['QueryResponse']['Deposit'][$i]['Line'][0]['DepositLineDetail']['Entity']['name'].' & more';
                                         }else{
@@ -169,11 +169,15 @@ class BankReceiptVoucherController extends Controller
                                     $line_count_des = $line_count - 1;
                                     if($line_count_des > -1){
                                         for($j = 0; $j <= $line_count_des; $j++) {
-                                            $data[$index]['DocNumber'] = $data[$index]['DocNumber'].','.$results['QueryResponse']['Deposit'][$i]['Line'][$j]['DepositLineDetail']['CheckNum'];
+                                            if(isset($results['QueryResponse']['Deposit'][$i]['Line'][$j]['DepositLineDetail']['CheckNum'])) {
+                                                $data[$index]['DocNumber'] = $data[$index]['DocNumber'].','.$results['QueryResponse']['Deposit'][$i]['Line'][$j]['DepositLineDetail']['CheckNum'];
+                                            }
                                         }
                                     }
-                                    $data[$index]['DocNumber'] = ltrim($data[$index]['DocNumber'],',');
-
+                                    if($data[$index]['DocNumber'] != "") {
+                                        $data[$index]['DocNumber'] = ltrim($data[$index]['DocNumber'],',');
+                                    }
+                                    
                                     $data[$index]['DepositTo'] = $results['QueryResponse']['Deposit'][$i]['DepositToAccountRef']['name'];
                                     if(isset($results['QueryResponse']['Deposit'][$i]['PrivateNote'])){
                                         $data[$index]['Memo'] = $results['QueryResponse']['Deposit'][$i]['PrivateNote'];
@@ -511,7 +515,7 @@ class BankReceiptVoucherController extends Controller
             $data['reference_no'] = "";
             
             $line_count = count($results['Deposit']['Line']);
-            if($line_count > 0){
+            if($line_count > 1){
                 if(isset($results['Deposit']['Line'][0]['DepositLineDetail']['Entity']['name'])){
                     $data['received_from'] = $results['Deposit']['Line'][0]['DepositLineDetail']['Entity']['name'].' & more';
                 }else{
