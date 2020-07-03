@@ -408,6 +408,9 @@ class MRController extends Controller
     }
 
     public function preview($print_status,$api_type,$id){
+        if(roles() != "" && !in_array(41, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $voucher_type = "Bank-Receipt-Voucher";
         $data = $this->money_receipt_print($api_type,$id);
         
@@ -1014,6 +1017,9 @@ class MRController extends Controller
     }
 
     public function reprint($api_type,$document_id){
+        if(roles() != "" && !in_array(41, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
         $company = Company::where('id',Auth::user()->company_id)->first();
         $mr = MoneyReceipt::where('api_type',$api_type)->where('document_id',$document_id)->where('status',1)->first();
@@ -1072,6 +1078,9 @@ class MRController extends Controller
     }
 
     public function sendEmail($api_type,$document_id){
+        if(roles() != "" && !in_array(41, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $email = Email::where('company_id',Auth::user()->company_id)->first();
         return view('mr.send_email',compact('api_type','document_id','email'));   
     }
