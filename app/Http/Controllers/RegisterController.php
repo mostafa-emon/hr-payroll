@@ -8,6 +8,7 @@ use App\User;
 use App\Subscription;
 use App\Setting;
 use App\Signatory;
+use App\PaymentMethod;
 use App\Currency;
 use Hash;
 
@@ -76,6 +77,49 @@ class RegisterController extends Controller
             $currency->fraction_name            = "Paisa";
             $currency->default                  = 1;
             $currency->save();
+
+            $signatory = new Signatory();
+            $signatory->company_id              = $company->id;
+            $signatory->name                    = 'Prepared By';
+            $signatory->cash_payment_voucher    = 1;
+            $signatory->bank_payment_voucher    = 1;
+            $signatory->cash_receipt_voucher    = 1;
+            $signatory->bank_receipt_voucher    = 1;
+            $signatory->contra_voucher          = 1;
+            $signatory->journal_voucher         = 1;
+            $signatory->save();
+
+            $signatory = new Signatory();
+            $signatory->company_id              = $company->id;
+            $signatory->name                    = 'Approved By';
+            $signatory->cash_payment_voucher    = 1;
+            $signatory->bank_payment_voucher    = 1;
+            $signatory->cash_receipt_voucher    = 1;
+            $signatory->bank_receipt_voucher    = 1;
+            $signatory->contra_voucher          = 1;
+            $signatory->journal_voucher         = 1;
+            $signatory->save();
+
+            $signatory = new Signatory();
+            $signatory->company_id              = $company->id;
+            $signatory->name                    = 'Checked By';
+            $signatory->cash_payment_voucher    = 1;
+            $signatory->bank_payment_voucher    = 1;
+            $signatory->cash_receipt_voucher    = 1;
+            $signatory->bank_receipt_voucher    = 1;
+            $signatory->contra_voucher          = 1;
+            $signatory->journal_voucher         = 1;
+            $signatory->save();
+
+            $method = new PaymentMethod();
+            $method->company_id              = $company->id;
+            $method->method_name            = 'Cash';
+            $method->save();
+
+            $method = new PaymentMethod();
+            $method->company_id              = $company->id;
+            $method->method_name            = 'Cheque';
+            $method->save();
 
             return redirect('subscription')->with('message', 'Registration successful');
         }
