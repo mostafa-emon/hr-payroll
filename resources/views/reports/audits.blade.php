@@ -111,6 +111,10 @@
                         @if($audit->event == "created") Create Role @endif
                         @if($audit->event == "updated") Update Role @endif
                         @if($audit->event == "deleted") Delete Role @endif
+                    @elseif($audit->auditable_type == "App\Signatory")
+                        @if($audit->event == "created") Create Signatory @endif
+                        @if($audit->event == "updated") Update Signatory @endif
+                        @if($audit->event == "deleted") Delete Signatory @endif
                     @elseif($audit->auditable_type == "App\User")
                         @if($audit->event == "created") Create User @endif
                         @if($audit->event == "updated") Update User @endif
@@ -361,6 +365,22 @@
                             }
                             echo rtrim($old, ', ');
                         }
+
+                        if($audit->auditable_type == "App\Signatory"){
+                            $old = "";
+                            if($audit->event == "updated") {
+                                $old = "User updated ";
+                            }else if($audit->event == "updated") {
+                                $old = "User deleted the ";
+                            }
+                            $old_value = json_decode($audit->old_values);
+                            
+                            foreach($old_value as $key => $value){
+                                if($key == "name") { $old = $old.$value.' '; }
+                            }
+                            $old = $old."signatory";
+                            echo rtrim($old, ', ');
+                        }
                     @endphp
                 </td>
                 <td>
@@ -604,6 +624,21 @@
                                 else if($key == "designation") { $new = $new."Designation: ".$value.', '; }
                                 else if($key == "email") { $new = $new."Email: ".$value.', '; }
                             }
+                            echo rtrim($new, ', ');
+                        }
+
+                        if($audit->auditable_type == "App\Signatory"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            if($audit->event == "updated") {
+                                $new = "User updated ";
+                            }else if($audit->event == "updated") {
+                                $new = "User deleted the ";
+                            }
+                            foreach($new_value as $key => $value){
+                                if($key == "name") { $new = $new.$value.' '; }
+                            }
+                            $new = $new."signatory";
                             echo rtrim($new, ', ');
                         }
                     @endphp

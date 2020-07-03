@@ -503,7 +503,7 @@ class CashReceiptVoucherController extends Controller
             $data['reference_no'] = "";
             
             $line_count = count($results['Deposit']['Line']);
-            if($line_count > 0){
+            if($line_count > 1){
                 if(isset($results['Deposit']['Line'][0]['DepositLineDetail']['Entity']['name'])){
                     $data['received_from'] = $results['Deposit']['Line'][0]['DepositLineDetail']['Entity']['name'].' & more';
                 }else{
