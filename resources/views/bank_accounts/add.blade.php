@@ -55,7 +55,7 @@
             <div class="col-md-6  mg-t--1 mg-md-t-0">
               <div class="form-group mg-md-l--1 bd-t-0-force">
                 <label class="form-control-label mg-b-0-force">Currency Name: <span class="tx-danger">*</span></label>
-                <select name="currency_id" class="form-control  mg-l--4" required>
+                <select name="currency_id" class="form-control mg-l--4" required>
                   <option selected disabled>Select Currency</option>
                       @foreach($currencies as $currency)
                           <option value="{{ $currency->id }}">{{ $currency->full_name }} ({{ $currency->fraction_name }})</option>

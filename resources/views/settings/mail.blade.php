@@ -86,20 +86,16 @@
 
             <div class="col-md-4">
               <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Encryption: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="encryption" placeholder="tsl/ssl" value="@if(old('encryption') != ""){{old('encryption')}}@elseif(isset($emails)){{$emails->encryption}}@endif">
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">From Address: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="from_address" placeholder="From Address" value="@if(old('from_address') != ""){{old('from_address')}}@elseif(isset($emails)){{$emails->from_address}}@endif" required>
+                <label class="form-control-label mg-b-0-force">Encryption: <span class="tx-danger">*</span></label>
+                <select class="form-control mg-l--4" name="encryption">
+                  <option value="tls" @if(old('encryption') != "" && old('encryption') == "tls") selected @elseif(isset($emails) && $emails->encryption == "tls") selected @endif>tls</option>
+                  <option value="ssl" @if(old('encryption') != "" && old('encryption') == "ssl") selected @elseif(isset($emails) && $emails->encryption == "ssl") selected @endif>ssl</option>
+                </select>
               </div>
             </div>
             
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force mg-md-l--1">
+            <div class="col-md-12">
+              <div class="form-group bd-t-0-force">
                 <label class="form-control-label">From Name: <span class="tx-danger">*</span></label>
                 <input class="form-control" type="text" name="from_name" placeholder="From Name" value="@if(old('from_name') != ""){{old('from_name')}}@elseif(isset($emails)){{$emails->from_name}}@endif" required>
               </div>

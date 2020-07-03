@@ -308,7 +308,7 @@ class ConfigurationController extends Controller
                 }else {
                     $email->encryption                        = $request->encryption;
                 }
-                $email->from_address                          = $request->from_address;
+                $email->from_address                          = $request->user_name;
                 $email->from_name                             = $request->from_name;
                 $email->subject                               = $request->email_subject;
                 $email->body                                  = $request->editor1;
@@ -329,7 +329,7 @@ class ConfigurationController extends Controller
                 }else {
                     $email->encryption                        = $request->encryption;
                 }
-                $email->from_address                          = $request->from_address;
+                $email->from_address                          = $request->user_name;
                 $email->from_name                             = $request->from_name;
                 $email->subject                               = $request->email_subject;
                 $email->body                                  = $request->editor1;
@@ -353,7 +353,7 @@ class ConfigurationController extends Controller
 
             Config::set('mail.encryption', $encryption);
 
-            Config::set('mail.from.address', $request->from_address);
+            Config::set('mail.from.address', $request->user_name);
             Config::set('mail.from.name', $request->from_name);
             
             $data["email"] = $request->email_to;

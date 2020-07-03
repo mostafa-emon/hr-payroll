@@ -76,6 +76,7 @@ class ChequeBookController extends Controller
             Cheque::where('cheque_book_id',$cheque_book_id)->delete();
             for($i = $cheque_book->starting_number;$i<=$cheque_book->ending_number;$i++) {
                 $cheque = new Cheque;
+                $cheque->company_id     = Auth::user()->company_id;
                 $cheque->cheque_book_id = $cheque_book->id;
                 $cheque->cheque_no      = $i;
                 $cheque->status         = 0;
