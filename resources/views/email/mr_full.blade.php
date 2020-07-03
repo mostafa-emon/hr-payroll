@@ -1,10 +1,10 @@
 <style>
     @page { margin: 0px;}
-    body { margin: 0px; size: A4; font-family: Arial;}
+    body { margin: 0px; size: A4; font-family: Arial !important;}
 </style>
 
 <div id="printArea">
-    <div id="containment-wrapper" style="font-family: Arial; padding:30px">
+    <div id="containment-wrapper" style="font-family: Arial !important; padding:30px">
         <div style="float: left;width:45%;">
             <h1 style="font-size: 20px; font-weight: bold;">{{$company->name}}</h1>
             <div style="margin-top:-10px">{{$company->address}}</div>
@@ -13,10 +13,10 @@
         </div>
     
         <div style="float: right; height:58px;margin-top: 15px;">
-            <img src="https://i.imgur.com/krDtxi6.png" height="100"/>
+            <img src="{{config('app.money_receipt_logo_url')}}/{{$company->logo}}" height="100"/>
         </div>
     
-        <div style="text-align: center; font-size: 27px; font-weight: bold; margin-top: 160px;margin-bottom:50px;padding-bottom:5px;">Money Receipt</div>
+        <div style="text-align: center; font-size: 27px; font-weight: bold; margin-top: 160px;margin-bottom:50px;padding-bottom:5px;font-family:Arial;">Money Receipt</div>
     
         <div style="float:left; width: 45%;">
             <div style="font-weight: bold; font-size: 19px;margin-top:-20px;">Received From</div>
@@ -28,19 +28,23 @@
         </div>
     
         <div style="float: right;">
-            <div>
-            	<div style="font-weight: bold; padding-right: 160px;">Money Receipt No</div>
-            	<div style="border: 1px solid; height: 22px; width: 150px; margin-top: -29px; text-align: center; padding-top: 4px;margin-left: 150px">hi</div>
-            	</div><br>
-            <div>
-            	<div style="font-weight: bold; padding-right: 160px;">Money Receipt Date</div>
-            	<div style="border: 1px solid; height: 22px; width: 150px; margin-top: -29px; text-align: center; padding-top: 4px;margin-left: 150px">hello
-            	</div>
-            </div><br>
-            	<div>
-            	<div style="font-weight: bold; padding-right: 160px;">Payment Method</div>
-            	<div style="border: 1px solid; height: 22px; width: 150px; margin-top: -29px; text-align: center; padding-top: 4px;margin-left: 150px">Bkash
-            	</div>
+            <div style="margin-top: -25px">
+                <div style="font-weight: bold; padding-right: 160px;">
+                    <div style="margin-top:30px">Money Receipt No</div>
+                </div>
+            	<div style="border: 1px solid; height: 22px; width: 150px; text-align: center; padding-top: 4px;margin-left: 150px;margin-top: -24px">{{ $setting->mr_prefix }}{{ $transaction->invoice_no }}{{ $setting->mr_suffix }}</div>
+            </div>
+            <div style="margin-top: -15px">
+                <div style="font-weight: bold; padding-right: 160px;">
+                    <div style="margin-top:30px">Money Receipt Date</div>
+                </div>
+            	<div style="border: 1px solid; height: 22px; width: 150px; text-align: center; padding-top: 4px;margin-left: 150px;margin-top: -24px">{{ date('d-m-Y',strtotime($transaction->created_at))}}</div>
+            </div>
+            <div style="margin-top: -15px">
+                <div style="font-weight: bold; padding-right: 160px;">
+                    <div style="margin-top:28px">Payment Method</div>
+                </div>
+            	<div style="border: 1px solid; height: 22px; width: 150px; text-align: center; padding-top: 4px;margin-left: 150px;margin-top: -24px">{{$transaction->payment_method}}</div>
             </div>
         </div>
         
@@ -64,6 +68,33 @@
                 <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">@if($transaction->cheque_date != "1970-01-01"){{date('d-m-Y',strtotime($transaction->cheque_date))}}@endif</td>
                 <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">{{$transaction->bank_name}}</td>
                 <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;text-align:right;padding-right:5px;">{{$transaction->amount}}</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;"></td>
+                    <td style="text-align: center; border: 1px solid black;padding-top:5px;padding-bottom:5px;font-size:14px;">&nbsp;</td>
                 </tr>
 
                 <tr>

@@ -148,6 +148,7 @@ return [
 
     'env' => env('APP_ENV', 'production'),
     'qb_auth_redirect_url' => env('QB_AUTH_REDIRECT_URL'),
+    'money_receipt_logo_url' => env('MONEY_RECEIPT_LOGO_URL'),
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
