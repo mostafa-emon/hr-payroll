@@ -276,7 +276,7 @@ class ChequeTransactionController extends Controller
     }
 
     public function add($bank_id,$print_status,$api_type,$document_id,$payee_name,$txn_date,$amount,Request $request){
-        if(roles() != "" && !in_array(40, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(36, json_decode(roles(),false))){
             return redirect('404');
         }
         $setting   = Setting::where('company_id',Auth::user()->company_id)->first();
@@ -365,6 +365,9 @@ class ChequeTransactionController extends Controller
     }
 
     public function reprint($api_type,$document_id){
+        if(roles() != "" && !in_array(36, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $cheque_transaction = ChequeTransaction::where('document_id',$document_id)->where('status',1)->first();
         $bank_id = Bank::where('name',$cheque_transaction->bank_name)->where('company_id',Auth::user()->company_id)->value('id');
         $layout = ChequeLayout::where('bank_id',$bank_id)->first();
