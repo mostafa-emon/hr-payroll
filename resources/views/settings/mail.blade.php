@@ -134,6 +134,7 @@
   
             </div>
             <br>
+            @if(roles() != "" && in_array(87, json_decode(roles(),false)))
             <div class="row">
               <div class="col-md-6">
                 <a href="javascript:void(0)" onclick="saveSettings()" class="btn btn-info btn-sm pointer">Save Settings</a>
@@ -142,7 +143,7 @@
                 <a href="javascript:void(0)" onclick="sendMail()" class="btn btn-info btn-sm pointer">Send Test Email</a>
               </div>
             </div>
-
+            @endif
         </div>
       </div>
     </div>
