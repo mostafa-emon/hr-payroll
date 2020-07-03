@@ -143,7 +143,7 @@ class CashReceiptVoucherController extends Controller
                                     $data[$index]['DocNumber'] = "";
 
                                     $line_count = count($results['QueryResponse']['Deposit'][$i]['Line']);
-                                    if($line_count > 0){
+                                    if($line_count > 1){
                                         if(isset($results['QueryResponse']['Deposit'][$i]['Line'][0]['DepositLineDetail']['Entity']['name'])){
                                             $data[$index]['ReceivedFrom'] = $results['QueryResponse']['Deposit'][$i]['Line'][0]['DepositLineDetail']['Entity']['name'].' & more';
                                         }else{
