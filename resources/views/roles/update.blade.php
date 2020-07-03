@@ -207,11 +207,11 @@
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">1</td>
                 <td style="border-bottom: 1px solid #ced4da;">Create Cheque</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_add" @if($roles->access != "" && in_array(32, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_approve" @if($roles->access != "" && in_array(33, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_reject" @if($roles->access != "" && in_array(34, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_void" @if($roles->access != "" && in_array(35, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_cheque_print" @if($roles->access != "" && in_array(36, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
@@ -220,11 +220,11 @@
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
                 <td style="border-bottom: 1px solid #ced4da;">Create MR</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_add" @if($roles->access != "" && in_array(37, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_approve" @if($roles->access != "" && in_array(38, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_reject" @if($roles->access != "" && in_array(39, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_void" @if($roles->access != "" && in_array(40, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="create_mr_print" @if($roles->access != "" && in_array(41, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
@@ -233,11 +233,11 @@
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
                 <td style="border-bottom: 1px solid #ced4da;">Cash Payment Voucher</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_add" @if($roles->access != "" && in_array(42, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_approve" @if($roles->access != "" && in_array(43, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_reject" @if($roles->access != "" && in_array(44, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_void" @if($roles->access != "" && in_array(45, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_payment_voucher_print" @if($roles->access != "" && in_array(46, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
@@ -246,11 +246,11 @@
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
                 <td style="border-bottom: 1px solid #ced4da;">Bank Payment Voucher</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_add" @if($roles->access != "" && in_array(47, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_approve" @if($roles->access != "" && in_array(48, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_reject" @if($roles->access != "" && in_array(49, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_void" @if($roles->access != "" && in_array(50, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_payment_voucher_print" @if($roles->access != "" && in_array(51, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
@@ -259,11 +259,11 @@
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">5</td>
                 <td style="border-bottom: 1px solid #ced4da;">Cash Receipt Voucher</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_add" @if($roles->access != "" && in_array(52, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_approve" @if($roles->access != "" && in_array(53, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_reject" @if($roles->access != "" && in_array(54, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_void" @if($roles->access != "" && in_array(55, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_cash_receipt_voucher_print" @if($roles->access != "" && in_array(56, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
@@ -272,16 +272,16 @@
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">6</td>
                 <td style="border-bottom: 1px solid #ced4da;">Bank Receipt Voucher</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_add" @if($roles->access != "" && in_array(57, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_approve" @if($roles->access != "" && in_array(58, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_reject" @if($roles->access != "" && in_array(59, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_void" @if($roles->access != "" && in_array(60, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_bank_receipt_voucher_print" @if($roles->access != "" && in_array(61, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
 
-              <tr>
+              {{--<tr>
                 <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">7</td>
                 <td style="border-bottom: 1px solid #ced4da;">Void Voucher</td>
 
@@ -292,30 +292,30 @@
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_reject" @if($roles->access != "" && in_array(64, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_void" @if($roles->access != "" && in_array(65, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_void_voucher_print" @if($roles->access != "" && in_array(66, json_decode($roles->access,false)))checked="checked"@endif/></td>
-              </tr>
+              </tr>--}}
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">8</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">7</td>
                 <td style="border-bottom: 1px solid #ced4da;">Contra Voucher</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_add" @if($roles->access != "" && in_array(67, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_approve" @if($roles->access != "" && in_array(68, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_reject" @if($roles->access != "" && in_array(69, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_void" @if($roles->access != "" && in_array(70, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_contra_voucher_print" @if($roles->access != "" && in_array(71, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
 
               <tr>
-                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">9</td>
+                <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">8</td>
                 <td style="border-bottom: 1px solid #ced4da;">Journal Voucher</td>
 
-                <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_add" @if($roles->access != "" && in_array(72, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_approve" @if($roles->access != "" && in_array(73, json_decode($roles->access,false)))checked="checked"@endif/></td>
-                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_reject" @if($roles->access != "" && in_array(74, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
+                <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">N/A</td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_void" @if($roles->access != "" && in_array(75, json_decode($roles->access,false)))checked="checked"@endif/></td>
                 <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center"><input type="checkbox" class="checkbox" value="1" name="tr_journal_voucher_print" @if($roles->access != "" && in_array(76, json_decode($roles->access,false)))checked="checked"@endif/></td>
               </tr>
