@@ -50,7 +50,7 @@
   
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="form-control-label">Send Test Mail To:</label>
+                  <label class="form-control-label">Email To:</label>
                   <input class="form-control" type="text" name="email_to" placeholder="test mail to" value="{{ old('email_to') }}">
                 </div>
               </div>

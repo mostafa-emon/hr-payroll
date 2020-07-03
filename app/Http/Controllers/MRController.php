@@ -18,6 +18,7 @@ use Config;
 use App\QuickBook;
 use DateTime;
 use App\Email;
+use Redirect;
 
 class MRController extends Controller
 {
@@ -1018,14 +1019,48 @@ class MRController extends Controller
     public function email(Request $request){
         $setting = Setting::where('company_id',Auth::user()->company_id)->first();
         $company = Company::where('id',Auth::user()->company_id)->first();
-        $mr = MoneyReceipt::where('api_type',$request->api_type)->where('document_id',$request->document_id)->where('status',1)->first();
+        $transaction = MoneyReceipt::where('api_type',$request->api_type)->where('document_id',$request->document_id)->where('status',1)->first();
         $email_setup = Email::where('company_id',Auth::user()->company_id)->first();
         
         if($email_setup == "") {
             return redirect('mail-setup')->with('message','Please complete your mail setup first!');
         }
         
-        // Write your code here...
+        Config::set('mail.driver', $email_setup->mail_driver);
+        Config::set('mail.host', $email_setup->host_name);
+        Config::set('mail.port', $email_setup->port_name);
+        Config::set('mail.username', $email_setup->user_name);
+        Config::set('mail.password', $email_setup->password);
+        Config::set('mail.encryption', $email_setup->encryption);
+        Config::set('mail.from.address', $email_setup->from_address);
+        Config::set('mail.from.name', $email_setup->from_name);
+
+        $data["email"] = $request->email_to;
+        $data["client_name"] = '';
+        $data["subject"] = $request->email_subject;
+        $data["body"] = $request->editor1;
+
+        $pdf = PDF::loadView('email.mr_full',compact('company','transaction','setting'));
+        
+        try{
+            Mail::send('email.body', compact('data'), function($message)use($data,$pdf) {
+            $message->to($data["email"], $data["client_name"])
+                ->subject($data["subject"])
+                ->attachData($pdf->output(), "MoneyReceipt.pdf");
+            });
+
+            $error      =   "";
+            $message    =   "Message sent Succesfully!";
+            $status     =   "1";
+        }catch(Swift_SwiftException $Ste){
+            $this->serverstatuscode = "0";
+            $this->serverstatusdes = $Ste->getMessage();
+
+            $error      =   $Ste->getMessage();
+            $message    =   "Error sending mail!";
+            $status     =   "0";
+        }
+        return Redirect::back()->with('message',$message)->with('error',$error)->withInput();
     }
 
     public function sendEmail($api_type,$document_id){
