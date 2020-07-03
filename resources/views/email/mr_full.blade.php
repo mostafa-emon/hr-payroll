@@ -181,7 +181,7 @@
             <div style="float: left;">Amount in Word</div>
             <div style="float: right; width:81%;">{{$transaction->amount_in_word}}</div>
             <br>
-            <div style="float: left; padding-left: 129px; margin-top: -13px;">___________________________________________________________________
+            <div style="float: left; padding-left: 129px; margin-top: -13px;">____________________________________________________________________________
             </div>
         </div>
         <br>
@@ -192,7 +192,7 @@
             <div style="float: left; padding-left: 76px;">{{$transaction->purpose}}
             </div>
             <br>
-            <div style="float: left; padding-left: 128px; margin-top: -13px;">___________________________________________________________________
+            <div style="float: left; padding-left: 128px; margin-top: -13px;">_____________________________________________________________________________
             </div>
         </div>
         <br>
