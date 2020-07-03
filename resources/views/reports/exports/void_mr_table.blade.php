@@ -13,7 +13,7 @@
       <tr>
         <th style="text-align: center">Sl</th>
         <th style="text-align: center">Date</th>
-        <th style="text-align: center">Invoice No</th>
+        <th style="text-align: center">MR Number</th>
         <th style="text-align: center">Customer</th>
         <th style="text-align: center">Pay Method</th>
         <th style="text-align: center">Amount</th>
