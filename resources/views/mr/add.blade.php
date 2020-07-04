@@ -43,7 +43,7 @@
             <div class="col-md-3">
               <div class="form-group mg-md-l--1">
                 <label class="form-control-label">MR Number:  @if($settings->mr_number == "auto") (N/A) @endif</label>
-                <input class="form-control" type="text" name="invoice_no" placeholder="Enter Invoice No." @if($settings->mr_number == "auto") readonly @else required @endif>
+                <input class="form-control" type="text" name="invoice_no" placeholder="MR Number" @if($settings->mr_number == "auto") readonly @else required @endif>
               </div>
             </div>
 

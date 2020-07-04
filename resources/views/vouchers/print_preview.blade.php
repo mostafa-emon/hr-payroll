@@ -47,7 +47,8 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="form-control-label">Voucher No: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="voucher_no" placeholder="Enter Voucher No" @if($data['voucher_no'] != "") value="{{$data['voucher_no']}}" readonly @endif required/>
+                <input class="form-control" type="hidden" name="voucher_no" placeholder="Enter Voucher No" @if($data['voucher_no'] != "") value="{{$data['voucher_no']}}" readonly @endif required/>
+                <input class="form-control" type="text" placeholder="Enter Voucher No" @if($data['voucher_no'] != "") value="{{$data['prefix']}}{{$data['voucher_no']}}{{$data['suffix']}}" readonly @endif required/>
               </div>
             </div>
 

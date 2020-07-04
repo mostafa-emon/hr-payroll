@@ -101,14 +101,18 @@
             </div>
 
             <div class="row">
-              <div class="col-sm-2 mg-sm-t-0" style="margin-top:28px; margin-bottom:7px;">
-                <div style="float:left; font-size:16px; margin-top:-2px;"> Sales Receipt </div>
-                <input type="checkbox" style="width: 18px; height: 18px;float:right;" name="cash_receipt_voucher_sales_receipt" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
+              <div class="col-sm-12 mg-sm-t-0" style="margin-top:28px; margin-bottom:7px;">
+                <div>
+                  <input type="checkbox" style="width: 18px; height: 18px;float:left;" name="cash_receipt_voucher_sales_receipt" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
+                </div>
+                <div style="margin-left:240px; font-size:16px; margin-top:-2px;">
+                  <div> Create Receipt Voucher from Sales Receipt? </div>
+                </div>
               </div>
             </div>
 
             <div class="row">
-                <label class="mg-t-20 col-sm-3 form-control-label">CONV Format:</label>
+                <label class="mg-t-20 col-sm-3 form-control-label">CONTRA Format:</label>
                 <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
                   <input type="text" placeholder="Prefix" class="form-control" name="contra_voucher_prefix" value="{{$settings->contra_voucher_prefix}}"/>
                 </div>

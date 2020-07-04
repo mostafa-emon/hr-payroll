@@ -8,6 +8,7 @@ use App\User;
 use App\Subscription;
 use App\Setting;
 use App\Signatory;
+use App\Printer;
 use App\Role;
 use App\PaymentMethod;
 use App\Currency;
@@ -124,14 +125,32 @@ class RegisterController extends Controller
 
             $access = [];
             for($i=1; $i<=88; $i++){
-                if($i=50) {continue;}
                 $access[] = $i;
+            }
+            $role = new Role();
+            $role->company_id               = $company->id;
+            $role->role_name                = "Admin";
+            $role->access                   = json_encode($access);
+            $role->save();
+
+            $access = [];
+            for($a=1; $a<=83; $a++){
+                if($a==1) {continue;} elseif($a==5) {continue;} elseif($a==6) {continue;} elseif($a==7) {continue;} elseif($a==23) {continue;} elseif($a==24) {continue;} elseif($a==25) {continue;} elseif($a==29) {continue;} elseif($a==30) {continue;} elseif($a==31) {continue;}
+                $access[] = $a;
             }
             $role = new Role();
             $role->company_id               = $company->id;
             $role->role_name                = "User";
             $role->access                   = json_encode($access);
             $role->save();
+
+            $printer = new Printer();
+            $printer->company_id            = $company->id;
+            $printer->print_name            = "Default";
+            $printer->top                   = 400;
+            $printer->left                  = 50;
+            $printer->rotate                = 90;
+            $printer->save();
 
             return redirect('subscription')->with('message', 'Registration successful');
         }

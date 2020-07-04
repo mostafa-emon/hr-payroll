@@ -41,7 +41,7 @@
               </div><br>
               <div>
                 <div style="font-weight: bold; padding-right: 160px;">Money Receipt Date</div>
-                <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ date('d-m-Y',strtotime($transaction->created_at))}}
+                <div style="float: right; border: 1px solid; height: 22px; width: 47%; margin-top: -24px; text-align: center; padding-top: 4px;">{{ date('d-M-Y',strtotime($transaction->created_at))}}
                 </div>
               </div><br>
               <div>
