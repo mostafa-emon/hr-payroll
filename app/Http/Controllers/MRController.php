@@ -1009,9 +1009,12 @@ class MRController extends Controller
     }
 
     public function void($api_type,$document_id){
-        MoneyReceipt::where('api_type' , $api_type)
+        $mr = MoneyReceipt::where('api_type' , $api_type)
         ->where('document_id',$document_id)
-        ->update(['status' => 0]);
+        ->first();
+
+        $mr->status = 0;
+        $mr->save();
 
         return redirect('create-mr')->with('message','Successfully Void!');
     }
