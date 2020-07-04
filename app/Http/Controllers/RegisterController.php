@@ -8,6 +8,7 @@ use App\User;
 use App\Subscription;
 use App\Setting;
 use App\Signatory;
+use App\Role;
 use App\PaymentMethod;
 use App\Currency;
 use Hash;
@@ -67,8 +68,8 @@ class RegisterController extends Controller
             $setting->mr_number                 = 'auto';
             $setting->mr_size                   = 'full_page';
             $setting->amount_in_word_format     = 'crore_lakh_thousand';
-            $setting->approval_for_mr           = 1;
-            $setting->approval_for_cheque       = 1;
+            $setting->approval_for_mr           = 0;
+            $setting->approval_for_cheque       = 0;
             $setting->save();
 
             $currency = new Currency();
@@ -113,13 +114,24 @@ class RegisterController extends Controller
 
             $method = new PaymentMethod();
             $method->company_id              = $company->id;
-            $method->method_name            = 'Cash';
+            $method->method_name             = 'Cash';
             $method->save();
 
             $method = new PaymentMethod();
             $method->company_id              = $company->id;
-            $method->method_name            = 'Cheque';
+            $method->method_name             = 'Cheque';
             $method->save();
+
+            $access = [];
+            for($i=1; $i<=88; $i++){
+                if($i=50) {continue;}
+                $access[] = $i;
+            }
+            $role = new Role();
+            $role->company_id               = $company->id;
+            $role->role_name                = "User";
+            $role->access                   = json_encode($access);
+            $role->save();
 
             return redirect('subscription')->with('message', 'Registration successful');
         }

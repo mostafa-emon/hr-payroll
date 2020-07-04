@@ -70,23 +70,17 @@
 
             <div class="row">
                 <label class="mg-t-20 col-sm-3 form-control-label">CRV Format:</label>
-                <div class="col-sm-2 mg-sm-t-0" style="margin-top:20px">
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
                   <input type="text" placeholder="Prefix" class="form-control" name="cash_receipt_voucher_prefix" value="{{$settings->cash_receipt_voucher_prefix}}"/>
                 </div>
 
-                <div class="col-sm-2 mg-sm-t-0" style="margin-top:20px">
+                <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
                   <input type="text" placeholder="Suffix" class="form-control" name="cash_receipt_voucher_suffix" value="{{$settings->cash_receipt_voucher_suffix}}"/>
                 </div>
 
                 <div class="col-sm-3 mg-sm-t-0" style="margin-top:20px">
                   <input type="text" placeholder="Start From" class="form-control" name="cash_receipt_voucher_start_from" value="{{$settings->cash_receipt_voucher_start_from}}"/>
                 </div>
-
-                <div class="col-sm-2 mg-sm-t-0" style="margin-top:28px">
-                  <div style="float:left; font-size:16px; margin-top:-2px;"> Sales Receipt </div>
-                  <input type="checkbox" style="width: 18px; height: 18px;float:right;" name="cash_receipt_voucher_sales_receipt" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
-                </div>
-
 
             </div>
 
@@ -104,6 +98,13 @@
                   <input type="text" placeholder="Start From" class="form-control" name="bank_receipt_voucher_start_from" value="{{$settings->bank_receipt_voucher_start_from}}"/>
                 </div>
 
+            </div>
+
+            <div class="row">
+              <div class="col-sm-2 mg-sm-t-0" style="margin-top:28px; margin-bottom:7px;">
+                <div style="float:left; font-size:16px; margin-top:-2px;"> Sales Receipt </div>
+                <input type="checkbox" style="width: 18px; height: 18px;float:right;" name="cash_receipt_voucher_sales_receipt" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
+              </div>
             </div>
 
             <div class="row">
