@@ -285,14 +285,14 @@ class ChequeTransactionController extends Controller
         $printers   = Printer::where('company_id',Auth::user()->company_id)->orderby('id','desc')->get();
         $banks      = Bank::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $accounts   = [];
-        $layout     = "";
+        $cheque_layouts = ChequeLayout::all();
         
         if($bank_id != "" && $bank_id != null) {
             $accounts = BankAccount::where('bank_id',$bank_id)->get();
             $layout = ChequeLayout::where('bank_id',$bank_id)->first();
         }
 
-        return view('cheque_transactions.print_preview', ['banks' => $banks, 'printers' => $printers, 'bank_id' => $bank_id, 'accounts' => $accounts, 'layout' => $layout, 'setting' => $setting, 'print_status' => $print_status, 'api_type' => $api_type, 'document_id' => $document_id, 'payee_name' => $payee_name, 'txn_date' => $txn_date, 'amount' => $amount]);
+        return view('cheque_transactions.print_preview', ['cheque_layouts'=> $cheque_layouts,'banks' => $banks, 'printers' => $printers, 'bank_id' => $bank_id, 'accounts' => $accounts, 'layout' => $layout, 'setting' => $setting, 'print_status' => $print_status, 'api_type' => $api_type, 'document_id' => $document_id, 'payee_name' => $payee_name, 'txn_date' => $txn_date, 'amount' => $amount]);
     }
 
     public function save_cheque(Request $request) {
