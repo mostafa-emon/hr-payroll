@@ -119,11 +119,18 @@
                         @if($audit->event == "created") Create User @endif
                         @if($audit->event == "updated") Update User @endif
                         @if($audit->event == "deleted") Delete User @endif
+                    @elseif($audit->auditable_type == "App\User")
+                        @if($audit->event == "created") Create User @endif
+                        @if($audit->event == "updated") Update User @endif
+                        @if($audit->event == "deleted") Delete User @endif
+                        @if($audit->event == "Logged In") Logged In @endif
                     @elseif($audit->auditable_type == "App\VoucherFormat")
                         @if($audit->event == "created") Create Voucher Format @endif
                         @if($audit->event == "updated") Update Voucher Format @endif
                         @if($audit->event == "deleted") Delete Voucher Format @endif
-                        @if($audit->event == "Logged In") Logged In @endif
+                    @elseif($audit->auditable_type == "App\Email")
+                        @if($audit->event == "created") Create Email Setup @endif
+                        @if($audit->event == "updated") Update Email Setup @endif
                     @endif
                 </td>
                 <td>
@@ -414,8 +421,21 @@
                                 }
                                 $old = $old."voucher format";
                                 echo rtrim($old, ', ');
+                            }   
+                        }
+
+                        if($audit->auditable_type == "App\Email"){
+                            $old_value = json_decode($audit->old_values);
+                            $old = "";
+                            foreach($old_value as $key => $value){
+                                if($key == "mail_driver") { $old = $old."Driver: ".$value.', '; }
+                                else if($key == "host_name") { $old = $old."Host: ".$value.', '; }
+                                else if($key == "port_name") { $old = $old."Port: ".$value.', '; }
+                                else if($key == "user_name") { $old = $old."User: ".$value.', '; }
+                                else if($key == "from_name") { $old = $old."From: ".$value.', '; }
+                                else if($key == "subject") { $old = $old."Subject: ".$value.', '; }
                             }
-                            
+                            echo rtrim($old, ', ');
                         }
                     @endphp
                 </td>
@@ -691,6 +711,20 @@
                                 $new = $new."voucher format";
                                 echo rtrim($new, ', ');
                             }
+                        }
+
+                        if($audit->auditable_type == "App\Email"){
+                            $new_value = json_decode($audit->new_values);
+                            $new = "";
+                            foreach($new_value as $key => $value){
+                                if($key == "mail_driver") { $new = $new."Driver: ".$value.', '; }
+                                else if($key == "host_name") { $new = $new."Host: ".$value.', '; }
+                                else if($key == "port_name") { $new = $new."Port: ".$value.', '; }
+                                else if($key == "user_name") { $new = $new."User: ".$value.', '; }
+                                else if($key == "from_name") { $new = $new."From: ".$value.', '; }
+                                else if($key == "subject") { $new = $new."Subject: ".$value.', '; }
+                            }
+                            echo rtrim($new, ', ');
                         }
                     @endphp
                 </td>

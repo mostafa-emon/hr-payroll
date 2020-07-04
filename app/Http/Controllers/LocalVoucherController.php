@@ -128,7 +128,10 @@ class LocalVoucherController extends Controller
 
     public function make_void($voucher_type,$api_type,$document_id)
     {
-        Voucher::where('type',$voucher_type)->where('api_type',$api_type)->where('document_id',$document_id)->update(['status' => 0]);
+        $voucher = Voucher::where('type',$voucher_type)->where('api_type',$api_type)->where('document_id',$document_id)->first();
+        $voucher->status = 0;
+        $voucher->save();
+
         if($voucher_type == "Cash-Payment-Voucher"){
             return redirect('tr-cash-payment-voucher')->with('message', 'Successfully Void!');
         }else if($voucher_type == "Bank-Payment-Voucher"){
@@ -142,6 +145,23 @@ class LocalVoucherController extends Controller
         }else if($voucher_type == "Contra-Voucher"){
             return redirect('tr-contra-voucher')->with('message', 'Successfully Void!');
         }
-        
+
+        $old_values = [
+            'message' => 'User void a '.$voucher_type.'. Voucher No: '.$voucher->voucher_no
+        ]; $new_values = [];
+        $audit = new Audit();
+        $audit->user_type = "App\User";
+        $audit->auditable_id = 11;
+        $audit->auditable_type = "App\Transaction";
+        $audit->event = "Make Void";
+        $audit->url = request()->fullUrl();
+        $audit->ip_address = request()->getClientIp();
+        $audit->user_agent = request()->userAgent();
+        $audit->created_at = Carbon::now();
+        $audit->updated_at = Carbon::now();
+        $audit->user_id = Auth::user()->id;
+        $audit->old_values = json_encode($old_values);
+        $audit->new_values = json_encode($new_values);
+        $audit->save();
     }
 }
