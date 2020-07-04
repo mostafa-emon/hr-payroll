@@ -130,7 +130,7 @@ class LocalVoucherController extends Controller
 
     public function make_void($voucher_type,$api_type,$document_id)
     {
-        $voucher = Voucher::where('type',$voucher_type)->where('api_type',$api_type)->where('document_id',$document_id)->first();
+        $voucher = Voucher::where('type',$voucher_type)->where('api_type',$api_type)->where('document_id',$document_id)->where('status',1)->first();
         $voucher->status = 0;
         $voucher->save();
 

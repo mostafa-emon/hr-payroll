@@ -340,7 +340,7 @@ class ChequeTransactionController extends Controller
 
     public function void($api_type,$document_id){
         $cheque = ChequeTransaction::where('api_type' , $api_type)
-        ->where('document_id',$document_id)
+        ->where('document_id',$document_id)->where('status',1)
         ->first();
 
         $cheque->status = 0;
