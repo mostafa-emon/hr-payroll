@@ -285,7 +285,7 @@ class ChequeTransactionController extends Controller
         $printers   = Printer::where('company_id',Auth::user()->company_id)->orderby('id','desc')->get();
         $banks      = Bank::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $accounts   = [];
-        $cheque_layouts = ChequeLayout::all();
+        $cheque_layouts = ChequeLayout::where('company_id',Auth::user()->company_id)->get();
         
         if($bank_id != "" && $bank_id != null) {
             $accounts = BankAccount::where('bank_id',$bank_id)->get();
@@ -327,6 +327,7 @@ class ChequeTransactionController extends Controller
         $cheque_transaction->document_id    = $request->document_id;
         $cheque_transaction->api_type       = $request->api_type;
         $cheque_transaction->status         = 1;
+        $cheque_transaction->layout_id      = $request->cheque_layout_id;
         $cheque_transaction->save();
 
         $cheque = Cheque::where('cheque_no',$request->cheque_no)->where('company_id',Auth::user()->company_id)->first();
@@ -393,7 +394,7 @@ class ChequeTransactionController extends Controller
         }
         $cheque_transaction = ChequeTransaction::where('document_id',$document_id)->where('status',1)->first();
         $bank_id = Bank::where('name',$cheque_transaction->bank_name)->where('company_id',Auth::user()->company_id)->value('id');
-        $layout = ChequeLayout::where('bank_id',$bank_id)->first();
+        $layout = ChequeLayout::where('id',$cheque_transaction->layout_id)->first();
         return view('cheque_transactions.print',['transaction' => $cheque_transaction, 'layout' => $layout]);
     }
 }

@@ -89,7 +89,7 @@ class ChequeLayoutController extends Controller
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout added successfully!');
         }
-        $printers   = Printer::where('company_id', Auth::user()->company_id)->orderby('id','desc')->get();
+        $printers   = Printer::where('company_id', Auth::user()->company_id)->orderby('id','asc')->get();
         $banks      = Bank::where('company_id', Auth::user()->company_id)->orderby('name','asc')->get();
         return view('cheque_layouts.add', ['banks' => $banks, 'printers' => $printers]);
     }
@@ -166,7 +166,7 @@ class ChequeLayoutController extends Controller
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout updated successfully!');
         }
-        $printers   = Printer::where('company_id', Auth::user()->company_id)->orderby('id','desc')->get();
+        $printers   = Printer::where('company_id', Auth::user()->company_id)->orderby('id','asc')->get();
         $layout = ChequeLayout::where('id',$cheque_layout_id)->first();
         $banks  = Bank::where('company_id', Auth::user()->company_id)->orderby('name','asc')->get();
         return view('cheque_layouts.update', ['banks' => $banks, 'layout' => $layout, 'printers' => $printers]);
@@ -236,7 +236,7 @@ class ChequeLayoutController extends Controller
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout duplicated successfully!');
         }
-        $printers   = Printer::where('company_id', Auth::user()->company_id)->orderby('id','desc')->get();
+        $printers   = Printer::where('company_id', Auth::user()->company_id)->orderby('id','asc')->get();
         $layout = ChequeLayout::where('id',$cheque_layout_id)->first();
         $banks  = Bank::where('company_id', Auth::user()->company_id)->orderby('name','asc')->get();
         return view('cheque_layouts.duplicate', ['banks' => $banks, 'layout' => $layout, 'printers' => $printers]);

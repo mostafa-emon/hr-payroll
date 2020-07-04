@@ -28,7 +28,7 @@ class CreateChequeTransactionsTable extends Migration
             $table->string('amount_in_word_line_2')->nullable();
             $table->boolean('ac_payee_only')->default(0);
             $table->integer('status')->default(0);
-            
+            $table->integer('layout_id')->nullable();
             $table->string('api_type')->nullable();
             $table->integer('document_id')->nullable();
             $table->timestamps();
