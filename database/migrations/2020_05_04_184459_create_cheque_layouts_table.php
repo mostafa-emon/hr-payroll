@@ -50,6 +50,7 @@ class CreateChequeLayoutsTable extends Migration
             $table->integer('ac_payee_only_top')->nullable();
             $table->integer('ac_payee_only_left')->nullable();
             $table->string('printer_setup')->nullable();
+            $table->string('layout_name');
             $table->timestamps();
         });
     }

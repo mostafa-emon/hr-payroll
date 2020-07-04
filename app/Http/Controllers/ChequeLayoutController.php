@@ -84,6 +84,7 @@ class ChequeLayoutController extends Controller
             $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
 
             $cheque_layout->printer_setup                   = $request->printer_setup;
+            $cheque_layout->layout_name                     = $request->layout_name;
             $cheque_layout->save();
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout added successfully!');
@@ -160,6 +161,7 @@ class ChequeLayoutController extends Controller
             $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
             
             $cheque_layout->printer_setup                   = $request->printer_setup;
+            $cheque_layout->layout_name                     = $request->layout_name;
             $cheque_layout->save();
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout updated successfully!');
@@ -229,6 +231,7 @@ class ChequeLayoutController extends Controller
             $cheque_layout->ac_payee_only_left              = $request->ac_payee_only_left;
             
             $cheque_layout->printer_setup                   = $request->printer_setup;
+            $cheque_layout->layout_name                     = $request->layout_name;
             $cheque_layout->save();
 
             return redirect('cheque-layouts')->with('message', 'Cheque Layout duplicated successfully!');

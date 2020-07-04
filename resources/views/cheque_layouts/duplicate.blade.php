@@ -197,6 +197,10 @@
             </div>
 
             <div class="pd-t-15">
+              <input type="text" name="layout_name" value="{{$layout->layout_name}}" placeholder="Layout Name" class="form-control" required/>
+            </div>
+
+            <div class="pd-t-15">
               <input type="submit" value="Duplicate Layout" class="pd-15 btn btn-success btn-block pointer"/>
             </div>
 

@@ -197,6 +197,10 @@
             </div>
 
             <div class="pd-t-15">
+              <input type="text" name="layout_name" placeholder="Layout Name" class="form-control" required/>
+            </div>
+
+            <div class="pd-t-15">
               <input type="submit" value="Save Layout" class="pd-15 btn btn-success btn-block pointer"/>
             </div>
 
