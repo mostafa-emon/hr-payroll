@@ -8,7 +8,9 @@ use App\VoucherDetail;
 use App\VoucherFormat;
 use App\Company;
 use App\Setting;
+use App\Audit;
 use Auth;
+use Carbon\Carbon;
 use Validator;
 
 class LocalVoucherController extends Controller
@@ -132,8 +134,34 @@ class LocalVoucherController extends Controller
         $voucher->status = 0;
         $voucher->save();
 
+        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
+        if($voucher_type == "Cash-Payment-Voucher") {
+            $prefix = $setting->cash_payment_voucher_prefix;
+            $suffix = $setting->cash_payment_voucher_suffix;
+        }
+        else if($voucher_type == "Bank-Payment-Voucher") {
+            $prefix = $setting->bank_payment_voucher_prefix;
+            $suffix = $setting->bank_payment_voucher_suffix;
+        }
+        else if($voucher_type == "Cash-Receipt-Voucher") {
+            $prefix = $setting->cash_receipt_voucher_prefix;
+            $suffix = $setting->cash_receipt_voucher_suffix;
+        }
+        else if($voucher_type == "Bank-Receipt-Voucher") {
+            $prefix = $setting->bank_receipt_voucher_prefix;
+            $suffix = $setting->bank_receipt_voucher_suffix;
+        }
+        else if($voucher_type == "Contra-Voucher") {
+            $prefix = $setting->contra_voucher_prefix;
+            $suffix = $setting->contra_voucher_suffix;
+        }
+        else if($voucher_type == "Journal-Voucher") {
+            $prefix = $setting->journal_voucher_prefix;
+            $suffix = $setting->journal_voucher_suffix;
+        }
+
         $old_values = [
-            'message' => 'User void a '.$voucher_type.'. Voucher No: '.$voucher->voucher_no
+            'message' => 'User void a '.$voucher_type.'. Voucher No: '.$prefix.'-'.$voucher->voucher_no.'-'.$suffix
         ]; $new_values = [];
         $audit = new Audit();
         $audit->user_type = "App\User";

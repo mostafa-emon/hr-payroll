@@ -18,6 +18,8 @@ use App\ChequeLayout;
 use App\ChequeBook;
 use App\Cheque;
 use App\ChequeTransaction;
+use Carbon\Carbon;
+use App\Audit;
 
 class ChequeTransactionController extends Controller
 {
@@ -337,9 +339,30 @@ class ChequeTransactionController extends Controller
     }
 
     public function void($api_type,$document_id){
-        ChequeTransaction::where('api_type' , $api_type)
+        $cheque = ChequeTransaction::where('api_type' , $api_type)
         ->where('document_id',$document_id)
-        ->update(['status' => 0]);
+        ->first();
+
+        $cheque->status = 0;
+        $cheque->save();
+
+        $old_values = [
+            'message' => 'User void a cheque. Cheque no- '.$cheque->cheque_no
+        ]; $new_values = [];
+        $audit = new Audit();
+        $audit->user_type = "App\User";
+        $audit->auditable_id = 11;
+        $audit->auditable_type = "App\ChequeVoid";
+        $audit->event = "Make Void";
+        $audit->url = request()->fullUrl();
+        $audit->ip_address = request()->getClientIp();
+        $audit->user_agent = request()->userAgent();
+        $audit->created_at = Carbon::now();
+        $audit->updated_at = Carbon::now();
+        $audit->user_id = Auth::user()->id;
+        $audit->old_values = json_encode($old_values);
+        $audit->new_values = json_encode($new_values);
+        $audit->save();
 
         return redirect('create-cheque')->with('message','Successfully Void!');
     }
