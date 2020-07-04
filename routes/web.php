@@ -204,7 +204,7 @@ Route::get('/contra-voucher-preview/{print_status}/{api_type}/{id}', 'ContraVouc
 Route::get('/journal-voucher-preview/{print_status}/{api_type}/{id}', 'JournalVoucherController@preview');
 Route::get('/crv-voucher-preview/{print_status}/{api_type}/{id}', 'CashReceiptVoucherController@preview');
 Route::get('/brv-voucher-preview/{print_status}/{api_type}/{id}', 'BankReceiptVoucherController@preview');
-Route::get('/cheque-preview/{bank_id}/{print_status}/{api_type}/{id}/{payee_name}/{txn_date}/{amount}', 'ChequeTransactionController@add');
+Route::get('/cheque-preview/{bank_id}/{layout_id}/{print_status}/{api_type}/{id}/{payee_name}/{txn_date}/{amount}', 'ChequeTransactionController@add');
 Route::get('/money-receipt-preview/{print_status}/{api_type}/{id}', 'MRController@preview');
 
 Route::get('/get-cheque-book-by-account/{account_id}', 'ChequeTransactionController@get_cheque_book_by_account');

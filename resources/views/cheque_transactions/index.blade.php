@@ -131,7 +131,7 @@
                         @endif
                       @else
                         @if(roles() != "" && in_array(36, json_decode(roles(),false)))
-                          <a class="dropdown-item pointer" href="{{url('cheque-preview/na/'.$printStatus.'/'.$apiType.'/'.$dt['Id'].'/'.$dt['PayeeName'].'/'.$dt['TxnDate'].'/'.$dt['TotalAmt'])}}">Print</a>
+                          <a class="dropdown-item pointer" href="{{url('cheque-preview/na/na/'.$printStatus.'/'.$apiType.'/'.$dt['Id'].'/'.$dt['PayeeName'].'/'.$dt['TxnDate'].'/'.$dt['TotalAmt'])}}">Print</a>
                         @endif
                       @endif
                     </div>

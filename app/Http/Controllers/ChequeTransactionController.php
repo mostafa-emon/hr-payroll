@@ -277,7 +277,7 @@ class ChequeTransactionController extends Controller
         }
     }
 
-    public function add($bank_id,$print_status,$api_type,$document_id,$payee_name,$txn_date,$amount,Request $request){
+    public function add($bank_id,$layout_id,$print_status,$api_type,$document_id,$payee_name,$txn_date,$amount,Request $request){
         if(roles() != "" && !in_array(36, json_decode(roles(),false))){
             return redirect('404');
         }
@@ -289,7 +289,7 @@ class ChequeTransactionController extends Controller
         
         if($bank_id != "" && $bank_id != null) {
             $accounts = BankAccount::where('bank_id',$bank_id)->get();
-            $layout = ChequeLayout::where('bank_id',$bank_id)->first();
+            $layout = ChequeLayout::where('id',$layout_id)->first();
         }
 
         return view('cheque_transactions.print_preview', ['cheque_layouts'=> $cheque_layouts,'banks' => $banks, 'printers' => $printers, 'bank_id' => $bank_id, 'accounts' => $accounts, 'layout' => $layout, 'setting' => $setting, 'print_status' => $print_status, 'api_type' => $api_type, 'document_id' => $document_id, 'payee_name' => $payee_name, 'txn_date' => $txn_date, 'amount' => $amount]);

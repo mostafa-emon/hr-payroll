@@ -53,13 +53,13 @@
             </div>
             @endif
             <div>
-              <select class="form-control" name="cheque_layout_id" required>
+              <select class="form-control" id="cheque_layout_id" name="cheque_layout_id" required>
                 <option disabled selected value="">Select Layout</option>
                 @foreach($cheque_layouts as $cheque_layout)
                 <option value="{{$cheque_layout->id}}">{{ $cheque_layout->layout_name }}</option>
                 @endforeach
               </select>
-
+              <br>
               <select class="form-control" name="bank_name" onchange="bank_onchage(this.value)" required>
                 <option disabled selected value="">Select Bank</option>
                 @foreach($banks as $bank)
@@ -129,7 +129,8 @@
   
   <script>
     function bank_onchage(bank_id) {
-      window.location = '/cheque-preview/'+bank_id+'/{{$print_status}}/{{$api_type}}/{{$document_id}}/{{$payee_name}}/{{$txn_date}}/{{$amount}}';
+      var cheque_layout_id = $('#cheque_layout_id').val();
+      window.location = '/cheque-preview/'+bank_id+'/'+cheque_layout_id+'/{{$print_status}}/{{$api_type}}/{{$document_id}}/{{$payee_name}}/{{$txn_date}}/{{$amount}}';
     }
 
     @if($layout != "")
