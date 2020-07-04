@@ -132,20 +132,6 @@ class LocalVoucherController extends Controller
         $voucher->status = 0;
         $voucher->save();
 
-        if($voucher_type == "Cash-Payment-Voucher"){
-            return redirect('tr-cash-payment-voucher')->with('message', 'Successfully Void!');
-        }else if($voucher_type == "Bank-Payment-Voucher"){
-            return redirect('tr-bank-payment-voucher')->with('message', 'Successfully Void!');
-        }else if($voucher_type == "Cash-Receipt-Voucher"){
-            return redirect('tr-cash-receipt-voucher')->with('message', 'Successfully Void!');
-        }else if($voucher_type == "Bank-Receipt-Voucher"){
-            return redirect('tr-bank-receipt-voucher')->with('message', 'Successfully Void!');
-        }else if($voucher_type == "Journal-Voucher"){
-            return redirect('tr-journal-voucher')->with('message', 'Successfully Void!');
-        }else if($voucher_type == "Contra-Voucher"){
-            return redirect('tr-contra-voucher')->with('message', 'Successfully Void!');
-        }
-
         $old_values = [
             'message' => 'User void a '.$voucher_type.'. Voucher No: '.$voucher->voucher_no
         ]; $new_values = [];
@@ -163,5 +149,19 @@ class LocalVoucherController extends Controller
         $audit->old_values = json_encode($old_values);
         $audit->new_values = json_encode($new_values);
         $audit->save();
+        
+        if($voucher_type == "Cash-Payment-Voucher"){
+            return redirect('tr-cash-payment-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Bank-Payment-Voucher"){
+            return redirect('tr-bank-payment-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Cash-Receipt-Voucher"){
+            return redirect('tr-cash-receipt-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Bank-Receipt-Voucher"){
+            return redirect('tr-bank-receipt-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Journal-Voucher"){
+            return redirect('tr-journal-voucher')->with('message', 'Successfully Void!');
+        }else if($voucher_type == "Contra-Voucher"){
+            return redirect('tr-contra-voucher')->with('message', 'Successfully Void!');
+        }
     }
 }
