@@ -180,26 +180,100 @@
                             $old_value = json_decode($audit->old_values);
                             $old = "";
                             foreach($old_value as $key => $value){
-                                if($key == "mr_number") {
+                                if($key == "voucher_number") {
+                                    if($value == "auto") { $old = $old."Voucher Number: Automatic, "; }
+                                    else { $old = $old."Voucher Number: Manual, "; }
+                                }
+
+                                else if($key == "cash_payment_voucher_prefix") {
+                                    $old = $old."CPV Prefix: ".$value.', ';
+                                }
+                                else if($key == "cash_payment_voucher_suffix") {
+                                    $old = $old."CPV Suffix: ".$value.', ';
+                                }
+                                else if($key == "cash_payment_voucher_start_from") {
+                                    $old = $old."CPV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "bank_payment_voucher_prefix") {
+                                    $old = $old."BPV Prefix: ".$value.', ';
+                                }
+                                else if($key == "bank_payment_voucher_suffix") {
+                                    $old = $old."BPV Suffix: ".$value.', ';
+                                }
+                                else if($key == "bank_payment_voucher_start_from") {
+                                    $old = $old."BPV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "cash_receipt_voucher_prefix") {
+                                    $old = $old."CRV Prefix: ".$value.', ';
+                                }
+                                else if($key == "cash_receipt_voucher_suffix") {
+                                    $old = $old."CRV Suffix: ".$value.', ';
+                                }
+                                else if($key == "cash_receipt_voucher_start_from") {
+                                    $old = $old."CRV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "bank_receipt_voucher_prefix") {
+                                    $old = $old."BRV Prefix: ".$value.', ';
+                                }
+                                else if($key == "bank_receipt_voucher_suffix") {
+                                    $old = $old."BRV Suffix: ".$value.', ';
+                                }
+                                else if($key == "bank_receipt_voucher_start_from") {
+                                    $old = $old."BRV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "contra_voucher_prefix") {
+                                    $old = $old."CONTRA Voucher Prefix: ".$value.', ';
+                                }
+                                else if($key == "contra_voucher_suffix") {
+                                    $old = $old."CONTRA Voucher Suffix: ".$value.', ';
+                                }
+                                else if($key == "contra_voucher_start_from") {
+                                    $old = $old."CONTRA Voucher Start From: ".$value.', ';
+                                }
+
+                                else if($key == "journal_voucher_prefix") {
+                                    $old = $old."Journal Voucher Prefix: ".$value.', ';
+                                }
+                                else if($key == "journal_voucher_suffix") {
+                                    $old = $old."Journal Voucher Suffix: ".$value.', ';
+                                }
+                                else if($key == "journal_voucher_start_from") {
+                                    $old = $old."Journal Voucher Start From: ".$value.', ';
+                                }
+
+                                else if($key == "cash_receipt_voucher_sales_receipt") {
+                                    if($value == "1") { $old = $old."Sales Receipt: Allow, "; }
+                                    else { $old = $old."Sales Receipt: Disallow, "; }
+                                }
+                                else if($key == "voucher_size") {
+                                    if($value == "full_page") { $old = $old."Voucher Size: Full Page, "; }
+                                    else { $old = $old."Voucher Size: Half Page, "; }
+                                }
+                                else if($key == "mr_number") {
                                     if($value == "auto") { $old = $old."MR Number: Automatic, "; }
                                     else { $old = $old."MR Number: Manual, "; }
                                 }
                                 else if($key == "mr_size") {
-                                    if($value == "full_size") { $old = $old."MR Size: Full Page, "; }
+                                    if($value == "full_page") { $old = $old."MR Size: Full Page, "; }
                                     else { $old = $old."MR Size: Half Page, "; }
+                                }
+                                else if($key == "mr_prefix") {
+                                    $old = $old."MR Prefix: ".$value.', ';
+                                }
+                                else if($key == "mr_suffix") {
+                                    $old = $old."MR Suffix: ".$value.', ';
+                                }
+                                else if($key == "mr_start_from") {
+                                    $old = $old."MR Start From: ".$value.', ';
                                 }
                                 else if($key == "amount_in_word_format") {
                                     if($value == "crore_lakh_thousand") { $old = $old."Amount in Word Fomrat: Crore Lakh Thousand, "; }
                                     else if($value == "crore_lac_thousand") { $old = $old."Amount in Word Fomrat: Crore Lac Thousand, "; }
                                     else if($value == "billion_million_thousand") { $old = $old."Amount in Word Fomrat: Billion Million Thousand, "; }
-                                }
-                                else if($key == "approval_for_mr") {
-                                    if($value == 1) { $old = $old."Approval for MR: Yes, "; }
-                                    else { $old = $old."Approval for MR: No, "; }
-                                }
-                                else if($key == "approval_for_cheque") {
-                                    if($value == 1) { $old = $old."Approval for Cheque: Yes, "; }
-                                    else { $old = $old."Approval for Cheque: No, "; }
                                 }
                             }
                             echo rtrim($old, ', ');
@@ -470,26 +544,100 @@
                             $new_value = json_decode($audit->new_values);
                             $new = "";
                             foreach($new_value as $key => $value){
-                                if($key == "mr_number") {
+                                if($key == "voucher_number") {
+                                    if($value == "auto") { $new = $new."Voucher Number: Automatic, "; }
+                                    else { $new = $new."Voucher Number: Manual, "; }
+                                }
+
+                                else if($key == "cash_payment_voucher_prefix") {
+                                    $new = $new."CPV Prefix: ".$value.', ';
+                                }
+                                else if($key == "cash_payment_voucher_suffix") {
+                                    $new = $new."CPV Suffix: ".$value.', ';
+                                }
+                                else if($key == "cash_payment_voucher_start_from") {
+                                    $new = $new."CPV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "bank_payment_voucher_prefix") {
+                                    $new = $new."BPV Prefix: ".$value.', ';
+                                }
+                                else if($key == "bank_payment_voucher_suffix") {
+                                    $new = $new."BPV Suffix: ".$value.', ';
+                                }
+                                else if($key == "bank_payment_voucher_start_from") {
+                                    $new = $new."BPV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "cash_receipt_voucher_prefix") {
+                                    $new = $new."CRV Prefix: ".$value.', ';
+                                }
+                                else if($key == "cash_receipt_voucher_suffix") {
+                                    $new = $new."CRV Suffix: ".$value.', ';
+                                }
+                                else if($key == "cash_receipt_voucher_start_from") {
+                                    $new = $new."CRV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "bank_receipt_voucher_prefix") {
+                                    $new = $new."BRV Prefix: ".$value.', ';
+                                }
+                                else if($key == "bank_receipt_voucher_suffix") {
+                                    $new = $new."BRV Suffix: ".$value.', ';
+                                }
+                                else if($key == "bank_receipt_voucher_start_from") {
+                                    $new = $new."BRV Start From: ".$value.', ';
+                                }
+
+                                else if($key == "contra_voucher_prefix") {
+                                    $new = $new."CONTRA Voucher Prefix: ".$value.', ';
+                                }
+                                else if($key == "contra_voucher_suffix") {
+                                    $new = $new."CONTRA Voucher Suffix: ".$value.', ';
+                                }
+                                else if($key == "contra_voucher_start_from") {
+                                    $new = $new."CONTRA Voucher Start From: ".$value.', ';
+                                }
+
+                                else if($key == "journal_voucher_prefix") {
+                                    $new = $new."Journal Voucher Prefix: ".$value.', ';
+                                }
+                                else if($key == "journal_voucher_suffix") {
+                                    $new = $new."Journal Voucher Suffix: ".$value.', ';
+                                }
+                                else if($key == "journal_voucher_start_from") {
+                                    $new = $new."Journal Voucher Start From: ".$value.', ';
+                                }
+
+                                else if($key == "cash_receipt_voucher_sales_receipt") {
+                                    if($value == "1") { $new = $new."Sales Receipt: Allow, "; }
+                                    else { $new = $new."Sales Receipt: Disallow, "; }
+                                }
+                                else if($key == "voucher_size") {
+                                    if($value == "full_page") { $new = $new."Voucher Size: Full Page, "; }
+                                    else { $new = $new."Voucher Size: Half Page, "; }
+                                }
+                                else if($key == "mr_number") {
                                     if($value == "auto") { $new = $new."MR Number: Automatic, "; }
                                     else { $new = $new."MR Number: Manual, "; }
                                 }
                                 else if($key == "mr_size") {
-                                    if($value == "full_size") { $new = $new."MR Size: Full Page, "; }
+                                    if($value == "full_page") { $new = $new."MR Size: Full Page, "; }
                                     else { $new = $new."MR Size: Half Page, "; }
+                                }
+                                else if($key == "mr_prefix") {
+                                    $new = $new."MR Prefix: ".$value.', ';
+                                }
+                                else if($key == "mr_suffix") {
+                                    $new = $new."MR Suffix: ".$value.', ';
+                                }
+                                else if($key == "mr_start_from") {
+                                    $new = $new."MR Start From: ".$value.', ';
                                 }
                                 else if($key == "amount_in_word_format") {
                                     if($value == "crore_lakh_thousand") { $new = $new."Amount in Word Fomrat: Crore Lakh Thousand, "; }
                                     else if($value == "crore_lac_thousand") { $new = $new."Amount in Word Fomrat: Crore Lac Thousand, "; }
                                     else if($value == "billion_million_thousand") { $new = $new."Amount in Word Fomrat: Billion Million Thousand, "; }
-                                }
-                                else if($key == "approval_for_mr") {
-                                    if($value == 1) { $new = $new."Approval for MR: Yes, "; }
-                                    else { $new = $new."Approval for MR: No, "; }
-                                }
-                                else if($key == "approval_for_cheque") {
-                                    if($value == 1) { $new = $new."Approval for Cheque: Yes, "; }
-                                    else { $new = $new."Approval for Cheque: No, "; }
                                 }
                             }
                             echo rtrim($new, ', ');

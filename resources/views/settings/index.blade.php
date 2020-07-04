@@ -101,14 +101,14 @@
             </div>
 
             <div class="row">
-              <div class="col-sm-12 mg-sm-t-0" style="margin-top:28px; margin-bottom:7px;">
+              <div class="col-md-3" style="margin-top:25px; margin-bottom:7px;font-size:16px"></div>
+              <div class="col-sm-9 mg-sm-t-0" style="margin-top:28px; margin-bottom:7px;">
                 <div>
                   <input type="checkbox" style="width: 18px; height: 18px;float:left;" name="cash_receipt_voucher_sales_receipt" value="1" @if($settings->cash_receipt_voucher_sales_receipt == 1) checked @endif/>
-                </div>
-                <div style="margin-left:240px; font-size:16px; margin-top:-2px;">
-                  <div> Create Receipt Voucher from Sales Receipt? </div>
+                  <span style="font-size:16px;padding-left:10px;margin-top:-3px">Create Receipt Voucher from Sales Receipt?</span>
                 </div>
               </div>
+              
             </div>
 
             <div class="row">
@@ -200,7 +200,7 @@
                 </div>
             </div>
 
-            <div class="row mg-t-20">
+            <div class="row mg-t-20" style="display: none">
                 <label class="col-sm-3 form-control-label">Approval for MR:</label>
                 <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="approval_for_mr">
@@ -210,7 +210,7 @@
                 </div>
             </div>
 
-            <div class="row mg-t-20">
+            <div class="row mg-t-20" style="display: none">
                 <label class="col-sm-3 form-control-label">Approval for Cheque:</label>
                 <div class="col-sm-9 mg-t-10 mg-sm-t-0">
                     <select class="form-control" name="approval_for_cheque">
