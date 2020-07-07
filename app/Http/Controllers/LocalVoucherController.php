@@ -123,9 +123,22 @@ class LocalVoucherController extends Controller
         return view('local_vouchers.print',compact('settings','company','layout','voucher','voucher_details'));
     }
 
-    public function void_voucher(){
-        $voucher = Voucher::where('status',0)->where('company_id',Auth::user()->company_id)->get();
-        return view('void_vouchers.index', ['vouchers' => $voucher]);
+    public function void_voucher(Request $request){
+        $from_date = date('01-m-Y');
+        $to_date   = date('d-m-Y');
+        $voucher = [];
+
+        if($request->from_date != "" && $request->to_date != "") {
+            $from_date = $request->from_date;
+            $to_date = $request->to_date;
+        }
+
+        $voucher = Voucher::where('status',0)
+        ->whereBetween('created_at', [date('Y-m-d',strtotime($from_date)), date('Y-m-d',strtotime($to_date)).' 23:59'])
+        ->where('company_id',Auth::user()->company_id)
+        ->get();
+        
+        return view('void_vouchers.index', ['vouchers' => $voucher, 'from_date' => $from_date, 'to_date' => $to_date]);
     }
 
     public function make_void($voucher_type,$api_type,$document_id)

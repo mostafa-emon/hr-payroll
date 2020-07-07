@@ -5,7 +5,7 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('void-voucher') }}">Void Voucher</a>
+      <a class="breadcrumb-item" href="{{ url('tr-void-voucher') }}">Void Voucher</a>
     </nav>
   </div>
 
@@ -18,6 +18,25 @@
 
   <div class="br-pagebody pd-t-15">
     <div class="br-section-wrapper">
+
+      <form action="{{ url('tr-void-voucher') }}" method="POST">
+        {{ csrf_field() }}
+      <div class="row mg-b-30 b">
+        <div class="col-md-2">
+          <label class="tx-black tx-13">From Date</label>
+          <input type="text" id="dtpick1" name="from_date" value="{{$from_date}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2">
+            <label class="tx-black tx-13">To Date</label>
+            <input type="text" id="dtpick2" name="to_date" value="{{$to_date}}" class="form-control" autocomplete="off"/>
+        </div>
+
+        <div class="col-md-2" style="margin-top:27px">
+          <input type="submit" class="btn btn-primary pointer" value="Search"/>
+        </div>
+      </div>
+
       @if(session()->has('message'))
         <div class="alert alert-primary alert-dismissible fade show" role="alert">
           {{ session()->get('message') }}

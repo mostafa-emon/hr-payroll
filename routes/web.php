@@ -188,8 +188,7 @@ Route::get('/tr-bank-receipt-voucher', 'BankReceiptVoucherController@index');
 Route::post('/tr-bank-receipt-voucher', 'BankReceiptVoucherController@index');
 
 Route::get('/tr-void-voucher', 'LocalVoucherController@void_voucher');
-Route::get('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
-Route::post('/tr-void-voucher-add', 'LocalVoucherController@add_void_voucher');
+Route::post('/tr-void-voucher', 'LocalVoucherController@void_voucher');
 Route::get('/make-void/{voucher_type}/{api_type}/{voucher_id}', 'LocalVoucherController@make_void');
 
 Route::get('/tr-contra-voucher', 'ContraVoucherController@index');
