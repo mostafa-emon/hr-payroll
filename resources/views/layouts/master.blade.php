@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv="X-UA-Compatible" content="IE=9" />
 
-		<title> @if(!isset(app()->view->getSections()['title'])) Axis QB Voucher @else {{ app()->view->getSections()['title'] }} @endif </title>
+		<title> @if(!isset(app()->view->getSections()['title'])) AXIS HR & PAYROLL @else {{ app()->view->getSections()['title'] }} @endif </title>
 
 		<link rel="icon" href="{{asset('assets/img/favicon.png')}}" type="image/x-icon"/>
 
@@ -82,7 +82,6 @@
 						@else
 
                         <li class="slide
-                            {{ (!request()->is('events')) && (request()->is('events*')) ? 'is-expanded' : '' }}
                             {{ (!request()->is('membership-type')) && ((request()->is('membership-type*')) || (request()->is('membership-display-features*'))) ? 'is-expanded' : '' }}
                             {{ (!request()->is('exhibitors')) && (request()->is('exhibitors*')) ? 'is-expanded' : '' }}
                             {{ (!request()->is('visitors')) && (request()->is('visitors*')) ? 'is-expanded' : '' }}
@@ -94,10 +93,11 @@
                             </a>
                             
                             <ul class="slide-menu">
-									<li class="{{ (request()->is('roles*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('roles*')) ? 'active' : '' }}" href="{{url('roles')}}">Roles</a>
-									</li>
-									<li><a class="slide-item" href="{{url('users')}}">Users</a></li>
+								<li><a class="slide-item" href="{{url('company')}}">Company Setup</a></li>
+								{{--<li class="{{ (request()->is('roles*')) ? 'active' : '' }}">
+									<a class="slide-item {{ (request()->is('roles*')) ? 'active' : '' }}" href="{{url('roles')}}">Roles</a>
+								</li>--}}
+								<li><a class="slide-item" href="{{url('users')}}">Users</a></li>
                             </ul>
                         </li>
 						@endif
