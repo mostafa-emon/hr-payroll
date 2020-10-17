@@ -1,65 +1,68 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>AXIS HR & PAYROLL</title>
+        <link rel="icon" href="{{asset('assets/img/favicon.png')}}">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+        <!-- vendor css -->
+        <link href="{{asset('signin_page/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+        <link href="{{asset('signin_page/Ionicons/css/ionicons.css')}}" rel="stylesheet">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+        <!-- Bracket CSS -->
+        <link rel="stylesheet" href="{{asset('signin_page/css/bracket.css')}}">
+    </head>
 
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+    <body>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+        <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+                <div class="signin-logo mg-b-40 tx-center tx-28 tx-bold tx-inverse">
+                    <img src="{{asset('assets/img/logo.png')}}" height="55"/>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+                
+                @error('password')
+                    <div class="alert alert-danger" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        New Password & Confirm Password Unmatched!
+                    </div>
+                @enderror
+
+                <form action="{{ route('password.update') }}" method="POST">
+                    @csrf
+
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    
+                    <div class="form-group">
+                        <input id="email" type="email" placeholder="Enter Email" class="form-control @error('email') is-invalid @enderror" name="email"  value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input placeholder="New Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                    </div>
+
+                    <div class="form-group">
+                        <input id="password-confirm" placeholder="Confirm New Password" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <a href="{{ url('login') }}" style="margin-top: 15px;" class="tx-info tx-12 d-block mg-t-10"> Back to Login? </a>
+                    </div>
+
+                    <button type="submit" class="btn btn-info btn-block pointer">Reset Password</button>
+                </form>
+
+                <div class="mg-t-35 tx-center tx-10 tx-uppercase tx-semibold tx-spacing-1">AXIS HR & PAYROLL</a></div>
+            </div><!-- login-wrapper -->
+        </div><!-- d-flex -->
+
+            <script src="{{asset('signin_page/jquery/jquery.js')}}"></script>
+            <script src="{{asset('signin_page/popper.js/popper.js')}}"></script>
+            <script src="{{asset('signin_page/bootstrap/bootstrap.js')}}"></script>
+
+    </body>
+
+</html>

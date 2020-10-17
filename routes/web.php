@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
 Route::get('/login', [ 'as' => 'login', 'uses' => 'LoginController@setLoginView']);
 Route::post('auth/login', 'LoginController@getLogin');
 
@@ -223,3 +225,5 @@ Route::post('/create-cheque', 'ChequeTransactionController@index');
 Route::post('/voucher/add', 'LocalVoucherController@add_voucher');
 
 Route::get('/send-mail', 'MRController@sendmail');
+
+Route::get('leftmenu-color/{color}', 'HomeController@leftmenu_color');

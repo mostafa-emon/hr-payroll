@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('roles')->nullable();
             $table->boolean('status')->default(true);
+            $table->string('leftmenu_color')->default('leftmenu-dark');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -47,4 +47,15 @@ class HomeController extends Controller
         Auth::logout();
         return redirect('login');
     }
+
+    public function leftmenu_color($color) {
+        $user = User::where('id',Auth::user()->id)->first();
+        if($color == "light") { $user->leftmenu_color = ""; }
+        else if($color == "blue") { $user->leftmenu_color = "leftmenu-color"; }
+        else if($color == "dark") { $user->leftmenu_color = "leftmenu-dark"; }
+        else if($color == "gradient") { $user->leftmenu_color = "leftmenu-gradient"; }
+        $user->save();
+        
+        return back();
+    }
 }

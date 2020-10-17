@@ -2,86 +2,127 @@
 
 @section('content')
 
-  <div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('user/profile/'.Auth::user()->id) }}">Profile</a>
-    </nav>
-  </div>
-
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Update Profile</h4>
-  </div>
-
-  <form action="{{ url('user/profile/'.Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
-    {{ csrf_field() }}
-    <div class="br-pagebody">
-      <div class="br-section-wrapper">
-        <div class="form-layout form-layout-2">
-          <div class="row no-gutters">
-
-            <div class="col-md-12">
-              <div class="form-group">
-                  <div class="mg-b-10">
-                      @if($users->avatar != "")
-                          <img class="pointer" id="avatar" src="{{ asset('storage/'.$users->avatar)}}" width="120" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
-                      @else
-                          <img class="pointer" id="avatar" src="{{ asset('img/user.png') }}" width="120" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
-                      @endif
-                  </div>
-                  <a onclick="document.getElementById('imgInp').click()" class="pointer wd-120 btn btn-secondary btn-sm text-white">Choose</a>
-                  <input class="collapse" type="file" name="avatar" id="imgInp" onchange="preview_image(event)" />
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-              <input class="form-control" type="text" name="name" placeholder="Enter Name" value="{{$users->name}}">
-              </div>
-            </div>
-
-            <div class="col-md-6 mg-t--1 mg-md-t-0">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Designation:</label>
-                <input class="form-control" type="text" name="designation" placeholder="Enter Desination" value="{{$users->designation}}">
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$users->email}}">
-              </div>
-            </div>
-
-            <div class="col-md-6 mg-t--1 mg-md-t-0">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Password:</label>
-                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="" autocomplete="off">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-layout-footer bd pd-20 bd-t-0">
-            <input type="submit" value="Update" class="btn btn-info pointer"/>
-          </div>
-
+    <div class="row mb-2">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('user/profile/'.Auth::user()->id)}}" style="color:#6c757d;">Profile</a></li>
+        </ol>
         </div>
-      </div>
     </div>
-  </form>
 
-  <script>
-    function preview_image(event) {
-      var reader = new FileReader();
-      reader.onload = function()
-      {
-        var output = document.getElementById('avatar');
-        output.src = reader.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  </script>
-  
+    <!-- row -->
+    <div class="row row-sm">
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+
+                    @if(session()->has('message_with_error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session()->get('message_with_error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+                    
+                <form class="form-horizontal" action="{{ url('user/profile/'.Auth::user()->id) }}" method="POST" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="pl-0">
+                                <div class="main-profile-overview">
+                                    <div class="main-img-user profile-user">
+                                        @if($users->avatar != "")
+                                            <img class="pointer" id="avatar" src="{{ asset('storage/'.$users->avatar)}}" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
+                                            {{--<img class="pointer" id="avatar" src="{{ Config::get('app.admin_url').$users->avatar}}" alt="avatar" onclick="document.getElementById('imgInp').click()"/>--}}
+                                        @else
+                                            <img class="pointer" id="avatar" src="{{ asset('assets/img/users.png') }}"alt="avatar" onclick="document.getElementById('imgInp').click()"/>
+                                        @endif
+                                        <a class="fas fa-camera profile-edit" style="cursor: pointer;" class="pointer" id="avatar" alt="avatar" onclick="document.getElementById('imgInp').click()"></a>
+                                        <input class="collapse" type="file" name="avatar" id="imgInp" onchange="preview_image(event)" />
+                                    </div>
+                                    <div class="d-flex justify-content-between mg-b-20">
+                                        <div>
+                                            <h5 class="main-profile-name">{{$users->name}}</h5>
+                                            <p class="main-profile-name-text">{{$users->designation}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Name</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" style="margin-top:-10px;" name="name" class="form-control" placeholder="Enter Name" value="{{$users->name}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Designation</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" style="margin-top:-10px;" name="designation" class="form-control" placeholder="Designation" value="{{$users->designation}}">
+                                    </div>
+                                </div>
+                                {{--<div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Phone Number</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" style="margin-top:-10px;" name="phone" class="form-control" placeholder="Phone Number" value="{{$users->phone}}">
+                                    </div>
+                                </div>--}}
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Email Address</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" style="margin-top:-10px;" name="email" class="form-control" placeholder="Email Address" value="{{$users->email}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Password</label>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input type="text" style="margin-top:-10px;"  name="password" class="form-control" placeholder="Password" autocomplete="off">
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Update Profile</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function()
+        {
+            var output = document.getElementById('avatar');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
 @endsection

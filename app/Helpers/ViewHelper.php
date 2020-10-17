@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
-use App\Role;
 use QuickBooksOnline\API\DataService\DataService;
+use App\Role;
+use App\User;
 use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
@@ -10,6 +11,10 @@ use App\Voucher;
 use App\Setting;
 use App\ChequeTransaction;
 use App\MoneyReceipt;
+
+function leftmenu_color() {
+    return User::where('id',Auth::user()->id)->value('leftmenu_color');
+}
 
 function roles(){
     $user_roles = Role::where('id',Auth::user()->roles)->first();

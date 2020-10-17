@@ -5,15 +5,15 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Axis QB Voucher</title>
-        <link rel="icon" href="{{asset('img/favicon.png')}}">
+        <title>AXIS HR & PAYROLL</title>
+        <link rel="icon" href="{{asset('assets/img/favicon.png')}}">
 
         <!-- vendor css -->
-        <link href="{{asset('lib/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
-        <link href="{{asset('lib/Ionicons/css/ionicons.css')}}" rel="stylesheet">
+        <link href="{{asset('signin_page/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+        <link href="{{asset('signin_page/Ionicons/css/ionicons.css')}}" rel="stylesheet">
 
         <!-- Bracket CSS -->
-        <link rel="stylesheet" href="{{asset('css/bracket.css')}}">
+        <link rel="stylesheet" href="{{asset('signin_page/css/bracket.css')}}">
     </head>
 
     <body>
@@ -22,7 +22,7 @@
 
             <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
                 <div class="signin-logo mg-b-40 tx-center tx-28 tx-bold tx-inverse">
-                    <img src="{{asset('img/logo.png')}}" height="55"/>
+                    <img src="{{asset('assets/img/logo.png')}}" height="55"/>
                 </div>
                 
                 @error('email')
@@ -59,6 +59,7 @@
                     
                     <div class="form-group">
                         <input id="password" type="password" placeholder="Enter your password" class="form-control" name="password" value="{{ old('password') }}" required autocomplete="current-password">
+                        <a href="{{ route('password.request') }}" style="margin-top: 15px;" class="tx-info tx-12 d-block mg-t-10">Forgot password?</a>
                     </div>
 
                     <button type="submit" class="btn btn-info btn-block pointer">Sign In</button>
@@ -68,13 +69,13 @@
                     @endif
                 </form>
 
-                <div class="mg-t-30 tx-center tx-13 tx-uppercase tx-semibold tx-spacing-1">AXIS HR & PAYROLL</a></div>
+                <div class="mg-t-35 tx-center tx-10 tx-uppercase tx-semibold tx-spacing-1">AXIS HR & PAYROLL</a></div>
             </div><!-- login-wrapper -->
         </div><!-- d-flex -->
 
-            <script src="{{asset('lib/jquery/jquery.js')}}"></script>
-            <script src="{{asset('lib/popper.js/popper.js')}}"></script>
-            <script src="{{asset('lib/bootstrap/bootstrap.js')}}"></script>
+            <script src="{{asset('signin_page/jquery/jquery.js')}}"></script>
+            <script src="{{asset('signin_page/popper.js/popper.js')}}"></script>
+            <script src="{{asset('signin_page/bootstrap/bootstrap.js')}}"></script>
 
     </body>
 
