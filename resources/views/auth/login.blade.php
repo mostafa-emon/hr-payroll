@@ -68,7 +68,7 @@
                     @endif
                 </form>
 
-                <div class="mg-t-30 tx-center tx-13 tx-uppercase tx-semibold tx-spacing-1">AXIS QB VOUCHER</a></div>
+                <div class="mg-t-30 tx-center tx-13 tx-uppercase tx-semibold tx-spacing-1">AXIS HR & PAYROLL</a></div>
             </div><!-- login-wrapper -->
         </div><!-- d-flex -->
 

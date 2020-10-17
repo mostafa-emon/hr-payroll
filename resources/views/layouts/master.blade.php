@@ -43,77 +43,7 @@
         @endif
 
         @if(roles() != "" && !in_array(100, json_decode(roles(),false)))
-        <a href="#" class="br-menu-link {{ (request()->is('company*')) || (request()->is('voucher-formats*')) || (request()->is('signatory*')) || (request()->is('site-office*')) || (request()->is('customer*')) || (request()->is('supplier*')) || (request()->is('cheque-layouts*')) || (request()->is('bank*')) || (request()->is('cheque-books*')) || (request()->is('currency*')) || (request()->is('payment-method*')) || (request()->is('role*')) || (request()->is('user*')) ? 'active show-sub' : '' }}">
-          <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-settings tx-24"></i>
-            <span class="menu-item-label">Master Setup</span>
-            <i class="menu-item-arrow fas fa-angle-down"></i>
-          </div>
-        </a>
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ url('company') }}" class="nav-link {{ (request()->is('company')) ? 'active' : '' }}">Company Setup</a></li>
-          <li class="nav-item"><a href="{{url('signatory')}}" class="nav-link {{ (request()->is('signatory*')) ? 'active' : '' }}">Signatory</a></li>
-          <li class="nav-item"><a href="{{ url('voucher-formats') }}" class="nav-link {{ (request()->is('voucher-formats*')) ? 'active' : '' }}">Voucher Formats</a></li>
-          <li class="nav-item"><a href="{{url('currency')}}" class="nav-link {{ (request()->is('currency*')) ? 'active' : '' }}">Currency</a></li>
-          <li class="nav-item"><a href="{{url('payment-method')}}" class="nav-link {{ (request()->is('payment-method*')) ? 'active' : '' }}">Payment Method</a></li>
-          <li class="nav-item"><a href="{{url('bank')}}" class="nav-link {{ (request()->is('bank')) || (request()->is('bank/add')) || (request()->is('bank/update*')) ? 'active' : '' }}">Bank</a></li>
-          <li class="nav-item"><a href="{{url('bank-account')}}" class="nav-link {{ (request()->is('bank-account*')) ? 'active' : '' }}">Bank Accounts</a></li>
-          <li class="nav-item"><a href="{{url('cheque-books')}}" class="nav-link {{ (request()->is('cheque-books*')) ? 'active' : '' }}">Cheque Books</a></li>
-          <li class="nav-item"><a href="{{ url('cheque-layouts') }}" class="nav-link {{ (request()->is('cheque-layouts*')) ? 'active' : '' }}">Cheque Formats</a></li>
-          <li class="nav-item"><a href="{{url('roles')}}" class="nav-link {{ (request()->is('roles*')) ? 'active' : '' }}">Roles</a></li>
-          <li class="nav-item"><a href="{{url('user')}}" class="nav-link {{ (request()->is('user*')) ? 'active' : '' }}">Users</a></li>
-        </ul>
-
-        <a href="#" class="br-menu-link {{ (request()->is('tr*')) || (request()->is('create*')) || (request()->is('cpv-voucher-preview*')) ? 'active show-sub' : '' }}">
-          <div class="br-menu-item">
-            <i class="menu-item-icon fa fa-file-alt tx-19 pd-l-2"></i>
-            <span class="menu-item-label">Transaction</span>
-            <i class="menu-item-arrow fas fa-angle-down"></i>
-          </div>
-        </a>
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ url('create-cheque') }}" class="nav-link  {{ (request()->is('create-cheque*')) ? 'active' : '' }}">Create Cheque</a></li>
-          <li class="nav-item"><a href="{{ url('create-mr') }}" class="nav-link  {{ (request()->is('create-mr*')) ? 'active' : '' }}">Create MR</a></li>
-          <li class="nav-item"><a href="{{ url('tr-cash-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-payment-voucher*')) || (request()->is('cpv-voucher-preview*')) ? 'active' : '' }}">Cash Payment Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('tr-bank-payment-voucher') }}" class="nav-link  {{ (request()->is('tr-bank-payment-voucher*')) ? 'active' : '' }}">Bank Payment Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('tr-cash-receipt-voucher') }}" class="nav-link  {{ (request()->is('tr-cash-receipt-voucher*')) ? 'active' : '' }}">Cash Receipt Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('tr-bank-receipt-voucher') }}" class="nav-link  {{ (request()->is('tr-bank-receipt-voucher*')) ? 'active' : '' }}">Bank Receipt Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('tr-void-voucher') }}" class="nav-link  {{ (request()->is('tr-void-voucher*')) ? 'active' : '' }}">Void Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('tr-contra-voucher') }}" class="nav-link  {{ (request()->is('tr-contra-voucher*')) ? 'active' : '' }}">Contra Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('tr-journal-voucher') }}" class="nav-link  {{ (request()->is('tr-journal-voucher*')) ? 'active' : '' }}">Journal Voucher</a></li>
-        </ul>
-
-        <a href="#" class="br-menu-link  {{ (request()->is('issued-*')) || (request()->is('void-*')) || (request()->is('audits*')) ? 'active show-sub' : '' }}">
-          <div class="br-menu-item">
-            <i class="menu-item-icon fa fa-chart-bar tx-19"></i>
-            <span class="menu-item-label">Reports</span>
-            <i class="menu-item-arrow fas fa-angle-down"></i>
-          </div>
-        </a>
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{ url('issued-voucher') }}" class="nav-link {{ (request()->is('issued-voucher*')) ? 'active' : '' }}">Issued Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('void-voucher') }}" class="nav-link {{ (request()->is('void-voucher*')) ? 'active' : '' }}">Void Voucher</a></li>
-          <li class="nav-item"><a href="{{ url('issued-mr') }}" class="nav-link {{ (request()->is('issued-mr*')) ? 'active' : '' }}">Issued MR</a></li>
-          <li class="nav-item"><a href="{{ url('void-mr') }}" class="nav-link {{ (request()->is('void-mr*')) ? 'active' : '' }}">Void MR</a></li>
-          <li class="nav-item"><a href="{{ url('issued-cheque') }}" class="nav-link {{ (request()->is('issued-cheque*')) ? 'active' : '' }}">Issued Cheque</a></li>
-          <li class="nav-item"><a href="{{ url('void-cheque') }}" class="nav-link {{ (request()->is('void-cheque*')) ? 'active' : '' }}">Void Cheque</a></li>
-          @if(roles() != "" && in_array(83, json_decode(roles(),false)))
-          <li class="nav-item"><a href="{{ url('audits') }}" class="nav-link {{ (request()->is('audits*')) ? 'active' : '' }}">Audit Trail</a></li>
-          @endif
-        </ul>
-
-        <a href="#" class="br-menu-link {{ (request()->is('settings')) || (request()->is('printer*')) || (request()->is('mail-setup')) ? 'active show-sub' : '' }}">
-          <div class="br-menu-item">
-            <i class="menu-item-icon fa fa-tools tx-14"></i>
-            <span class="menu-item-label">Configuration</span>
-            <i class="menu-item-arrow fas fa-angle-down"></i>
-          </div>
-        </a>
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="{{url('printer')}}" class="nav-link {{ (request()->is('printer*')) ? 'active' : '' }}">Printer</a></li>
-          <li class="nav-item"><a href="{{url('mail-setup')}}" class="nav-link {{ (request()->is('mail-setup')) ? 'active' : '' }}">Email</a></li>
-          <li class="nav-item"><a href="{{url('settings')}}" class="nav-link {{ (request()->is('settings')) ? 'active' : '' }}">Settings</a></li>
-        </ul>
+        
         @endif
 
       </div>
