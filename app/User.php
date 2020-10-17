@@ -5,17 +5,9 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable
 {
-    use \OwenIt\Auditing\Auditable;
-    protected $auditInclude = [
-        'name',
-        'designation',
-        'email',
-    ];
-
     use Notifiable;
 
     /**

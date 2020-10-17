@@ -27,11 +27,6 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('subscription_id');
             $table->foreign('subscription_id')->references('id')->on('subscriptions');
 
-            $table->string('qb_client_id')->nullable();
-            $table->string('qb_client_secret')->nullable();
-            $table->string('qb_company_id')->nullable();
-            $table->string('qb_environment')->nullable();
-
             $table->timestamps();
         });
     }

@@ -119,38 +119,6 @@
                 <input type="text" id="dtpick2" name="subscription_end_date" class="form-control datepicker" autocomplete="off" required/>
               </div>
             </div>
-
-            <div class="col-md-4">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">QB ClientID: <span class="tx-danger">*</span></label>
-                <input type="text" name="qb_client_id" placeholder="QB Client ID" class="form-control" required>
-              </div>
-            </div>
-
-            <div class="col-md-4">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">QB ClientSecret: <span class="tx-danger">*</span></label>
-                <input type="text" name="qb_client_secret" placeholder="QB Client Secret ID" class="form-control" required>
-              </div>
-            </div>
-
-            <div class="col-md-2">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">QB CompanyID: <span class="tx-danger">*</span></label>
-                <input type="text" name="qb_company_id" placeholder="QB Company ID" class="form-control" required>
-              </div>
-            </div>
-
-            <div class="col-md-2 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1 bd-t-0-force">
-                <label class="form-control-label mg-b-0-force">Environment: <span class="tx-danger">*</span></label>
-                <select name="qb_environment" class="form-control  mg-l--4" required>
-                  <option value="production">Production</option>
-                  <option value="development">Development</option>
-                </select>
-              </div>
-            </div>
-
           </div>
 
           {{--@if(roles() != "" && in_array(1, json_decode(roles(),false)))--}}
