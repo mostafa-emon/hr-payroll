@@ -22,6 +22,7 @@
               </div>
               <div class="card-body pd-t-0">
                 <form class="form-horizontal" action="{{url('company-register')}}" method="POST" enctype="multipart/form-data">
+                  {{ csrf_field() }}
                   <div>
                       @if(isset($info) && $info->logo != "")
                           <img class="pointer" style="margin-bottom:10px" id="logo" src="{{ asset('storage/'.$info->logo) }}" width="80" alt="logo" onclick="document.getElementById('imgInp').click()"/>
