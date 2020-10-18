@@ -19,6 +19,7 @@
 		<link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
 		<link href="{{asset('assets/css/skin-modes.css')}}" rel="stylesheet" />
 		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
+		<link href="{{asset('lib/datatables/jquery.dataTables.css')}}" rel="stylesheet">
 
 	</head>
 
@@ -485,8 +486,10 @@
 		<script src="{{asset('assets/plugins/side-menu/sidemenu.js')}}"></script>
 		<script src="{{asset('assets/js/index.js')}}"></script>
 		<script src="{{asset('assets/js/custom.js')}}"></script>
+		<script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
 		
 		<script>
+			$('#datatable').DataTable();
             $(".form-layout .form-control").on("focusin", function () {
             $(this).closest(".form-group").addClass("form-group-active");
             });

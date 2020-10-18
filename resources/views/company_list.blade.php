@@ -40,7 +40,7 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                        <table class="table table-striped table-bordered mg-b-0 text-md-nowrap" id="datatable">
                             <thead>
                                 <tr>
                                     <th class="text-center wd-5p">Sl</th>
