@@ -54,14 +54,24 @@
                             <tbody>
                                 @php $sl = 0; @endphp
                                 @foreach($companies as $company)
-                                @php $sl = $sl+2; @endphp
+                                @php 
+                                    $sl = $sl+2;
+                                    $modules = "";
+                                    if($company->attendance == 1) {$modules = $modules."Attendance, ";}
+                                    if($company->leave == 1) {$modules = $modules."Leave, ";}
+                                    if($company->payroll == 1) {$modules = $modules."Payroll, ";}
+                                    $modules = rtrim($modules, ', ');
+                                @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{ $loop->iteration }}</td>
                                     <td style="vertical-align: middle">{{ $company->name }}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                    Amount: <b>{{ $company->amount }}</b><br>
-                                    Start Date: <b>{{ date('d M Y',strtotime($company->subscription_start_date)) }}</b><br>
-                                    End Date: <b>{{ date('d M Y',strtotime($company->subscription_end_date)) }}</b>
+                                    <td style="vertical-align: middle">
+                                        Amount: <b>{{ $company->amount }}</b><br>
+                                        From: <b>{{ date('d M Y',strtotime($company->subscription_start_date)) }} - {{ date('d M Y',strtotime($company->subscription_end_date)) }}</b><br><br>
+                                        Modules: <b>{{ $modules }}</b><br>
+                                        Employee Limit: <b>{{ $company->employee_limit }}</b><br>
+                                        Document Upload: <b>@if($company->document_upload == 1) Yes @else No @endif</b><br>
+                                        Quickbooks: <b>@if($company->quickbooks == 1) Yes @else No @endif</b>
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
                                     <form action="{{url ('company-renew/'.$company->id) }}" method="POST">
