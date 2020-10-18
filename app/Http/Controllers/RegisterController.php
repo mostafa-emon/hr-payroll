@@ -33,6 +33,18 @@ class RegisterController extends Controller
             $company->vat_reg_no                = $request->vat_reg_no;
             $company->status                    = 1;
             $company->subscription_id           = $subscription->id;
+            
+            if($request->attendance == 1) { $company->attendance = 1; }else { $company->attendance = 0; }
+            if($request->leave == 1) { $company->leave = 1; }else { $company->leave = 0; }
+            if($request->payroll == 1) { $company->payroll = 1; }else { $company->payroll = 0; }
+            if($request->document_upload == 1) { $company->document_upload = 1; }else { $company->document_upload = 0; }
+            if($request->quickbooks == 1) { $company->quickbooks = 1; }else { $company->quickbooks = 0; }
+            
+            $company->employee_limit         = $reqeust->employee_limit;
+            $company->qb_client_id           = $reqeust->qb_client_id;
+            $company->qb_client_secret       = $reqeust->qb_client_secret;
+            $company->qb_company_id          = $reqeust->qb_company_id;
+            $company->qb_environment         = $reqeust->qb_environment;
 
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');

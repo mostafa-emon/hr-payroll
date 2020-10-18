@@ -52531,4 +52531,8 @@ a.text-dark:hover, a.text-dark:focus {
 .display-block {
   display:block;
 }
+
+.pointer {
+  cursor:pointer;
+}
 /*# sourceMappingURL=style.css.map */

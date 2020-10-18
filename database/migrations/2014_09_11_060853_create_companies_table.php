@@ -24,6 +24,19 @@ class CreateCompaniesTable extends Migration
             $table->string('logo',150)->nullable();
             $table->boolean('status')->default(false);
             
+            
+            $table->boolean('attendance')->default(true);
+            $table->boolean('leave')->default(true);
+            $table->boolean('payroll')->default(true);
+            $table->boolean('document_upload')->default(true);
+            $table->boolean('quickbooks')->default(false);
+            
+            $table->integer('employee_limit')->nullable();
+            $table->string('qb_client_id')->nullable();
+            $table->string('qb_client_secret')->nullable();
+            $table->string('qb_company_id')->nullable();
+            $table->string('qb_environment')->nullable();
+
             $table->unsignedBigInteger('subscription_id');
             $table->foreign('subscription_id')->references('id')->on('subscriptions');
 
