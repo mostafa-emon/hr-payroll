@@ -30,6 +30,7 @@ Route::post('/company-register', 'RegisterController@register');
 
 Route::get('/subscription', 'CompanyController@company_list');
 Route::get('/subscription/update/{company_id}', 'CompanyController@subscriptionUpdate');
+Route::post('/subscription/update/{company_id}', 'CompanyController@subscriptionUpdate');
 Route::get('/subscription/delete/{company_id}', 'CompanyController@subscriptionDelete');
 
 Route::post('/company-email-reset/{company_id}', 'CompanyController@emailReset');

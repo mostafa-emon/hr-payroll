@@ -132,4 +132,71 @@ class CompanyController extends Controller
 
         return redirect('subscription')->with('message', 'Subscription deleted Successfully!');
     }
+
+    public function subscriptionUpdate($company_id,Request $request) {
+        $company_info       = Company::where('id',$company_id)->first();
+        $subcription_info   = Subscription::where('id',$company_info->subscription_id)->first();
+        $role               = Role::where('company_id',$company_id)->where('role_name','Admin')->first();
+        $login_info         = User::where('company_id',$company_id)->where('roles',$role->id)->first();
+        $currency           = Currency::orderby('currency_name','asc')->get();
+
+        if($request->name !=""){
+            $subscription = Subscription::where('id',$subcription_info->id)->first();
+            $subscription->amount                    = $request->subscription_amount;
+            $subscription->subscription_start_date   = date('Y-m-d',strtotime($request->subscription_start_date));
+            $subscription->subscription_end_date     = date('Y-m-d',strtotime($request->subscription_end_date));
+            $subscription->save();
+
+            $company = Company::where('id',$company_id)->first();
+            $company->name                      = $request->name;
+            $company->phone                     = $request->phone;
+            $company->fax                       = $request->fax;
+            $company->email                     = $request->email;
+            $company->address_line_1            = $request->address_line_1;
+            $company->address_line_2            = $request->address_line_2;
+            $company->bin                       = $request->bin;
+            $company->tin                       = $request->tin;
+            $company->ein                       = $request->ein;
+            $company->vat_reg_no                = $request->vat_reg_no;
+            $company->website                   = $request->website;
+            $company->currency_id               = $request->currency_id;
+            $company->leave_year_from           = $request->leave_year_from;
+            $company->leave_year_to             = $request->leave_year_to;
+            $company->status                    = 1;
+            $company->subscription_id           = $subscription->id;
+            
+            if($request->attendance == 1) { $company->attendance = 1; }else { $company->attendance = 0; }
+            if($request->leave == 1) { $company->leave = 1; }else { $company->leave = 0; }
+            if($request->payroll == 1) { $company->payroll = 1; }else { $company->payroll = 0; }
+            if($request->document_upload == 1) { $company->document_upload = 1; }else { $company->document_upload = 0; }
+            if($request->quickbooks == 1) { $company->quickbooks = 1; }else { $company->quickbooks = 0; }
+            
+            $company->employee_limit         = $request->employee_limit;
+            $company->qb_client_id           = $request->qb_client_id;
+            $company->qb_client_secret       = $request->qb_client_secret;
+            $company->qb_company_id          = $request->qb_company_id;
+            $company->qb_environment         = $request->qb_environment;
+
+            if ($request->hasFile('logo')) {
+                if($company->logo != ""){
+                    Storage::delete($company->logo);
+                }
+                $company->logo  = $request->file('logo')->store('logo');
+            }
+            $company->save();
+
+            $user = User::where('id',$login_info->id)->first();
+            $user->company_id                   = $company->id;
+            $user->name                         = $request->name;
+            $user->designation                  = "Admin";
+            $user->email                        = $request->login_email;
+            if($request->password != ""){
+                $user->password                     = Hash::make($request->login_password);
+            }
+            $user->save();
+            
+            return redirect('subscription')->with('message', 'Subscription Updated Successfully');
+        }
+        return view('subscription_update',compact('currency','company_info','subcription_info','login_info'));
+    }
 }
