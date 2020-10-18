@@ -16,12 +16,23 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name',100);
-            $table->text('address',100)->nullable();
             $table->string('phone',100)->nullable();
+            $table->string('fax',100)->nullable();
             $table->string('email',100)->nullable();
-            $table->string('tin',30)->nullable();
-            $table->string('vat_reg_no',50)->nullable();
+            $table->text('address_line_1')->nullable();
+            $table->text('address_line_2')->nullable();
+            $table->string('bin',100)->nullable();
+            $table->string('tin',100)->nullable();
+            $table->string('ein',100)->nullable();
+            $table->string('vat_reg_no',100)->nullable();
             $table->string('logo',150)->nullable();
+            $table->string('website',100)->nullable();
+
+            $table->unsignedBigInteger('currency_id');
+            $table->foreign('currency_id')->references('id')->on('currencies');
+
+            $table->string('leave_year_from',30)->nullable();
+            $table->string('leave_year_to',30)->nullable();
             $table->boolean('status')->default(false);
             
             

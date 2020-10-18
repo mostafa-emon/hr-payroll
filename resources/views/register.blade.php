@@ -21,7 +21,7 @@
                 <h4 class="card-title mb-1">Company Info</h4>
               </div>
               <div class="card-body pd-t-0">
-                <form class="form-horizontal">
+                <form class="form-horizontal" action="{{url('company-register')}}" method="POST" enctype="multipart/form-data">
                   <div>
                       @if(isset($info) && $info->logo != "")
                           <img class="pointer" style="margin-bottom:10px" id="logo" src="{{ asset('storage/'.$info->logo) }}" width="80" alt="logo" onclick="document.getElementById('imgInp').click()"/>
@@ -33,28 +33,93 @@
                   <input class="collapse" type="file" name="logo" id="imgInp" onchange="preview_image(event)" />
 
                   <div class="row row-xs">
-                    <div class="col-md-4 pd-t-10">
+                    <div class="col-md-3 pd-t-10">
                       <input id="name" type="text" name="name" placeholder="Company Name" class="form-control" required>
                     </div>
 
-                    <div class="col-md-4 pd-t-10">
-                      <input id="email" type="text" name="email" placeholder="Email Address" class="form-control">
+                    <div class="col-md-3 pd-t-10">
+                      <input id="phone" type="text" name="phone" placeholder="Phone" class="form-control">
                     </div>
 
-                    <div class="col-md-4 pd-t-10">
-                      <input id="phone" type="text" name="phone" placeholder="Phone Number" class="form-control">
+                    <div class="col-md-3 pd-t-10">
+                      <input id="fax" type="text" name="fax" placeholder="Fax" class="form-control">
                     </div>
 
-                    <div class="col-md-4 pd-t-10">
-                      <input id="address" type="text" name="address" placeholder="Address" class="form-control">
+                    <div class="col-md-3 pd-t-10">
+                      <input id="email" type="text" name="email" placeholder="Email" class="form-control">
                     </div>
 
-                    <div class="col-md-4 pd-t-10">
-                      <input id="tin" type="text" name="tin" placeholder="Tin Number" class="form-control">
+                    <div class="col-md-6 pd-t-10">
+                      <input id="address_line_1" type="text" name="address_line_1" placeholder="Address Line 1" class="form-control">
                     </div>
 
-                    <div class="col-md-4 pd-t-10">
+                    <div class="col-md-6 pd-t-10">
+                      <input id="address_line_2" type="text" name="address_line_2" placeholder="Address Line 2" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <input id="bin" type="text" name="bin" placeholder="BIN Number" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <input id="tin" type="text" name="tin" placeholder="TIN Number" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <input id="ein" type="text" name="ein" placeholder="EIN Number" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
                       <input id="vat_reg_no" type="text" name="vat_reg_no" placeholder="VAT Registration Number" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <input id="website" type="text" name="website" placeholder="Website" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <select name="currency_id" class="form-control" required>
+                        <option value="" label>Currency</option>
+                        @foreach($currency as $cur)
+                          <option value="{{$cur->id}}">{{$cur->currency_name}}</option>
+                        @endforeach
+                      </select>
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <select name="leave_year_from" class="form-control">
+                        <option value="" label>Leave year from</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-3 pd-t-10">
+                      <select name="leave_year_to" class="form-control">
+                        <option value="" label>Leave year to</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                      </select>
                     </div>
 
                   </div>

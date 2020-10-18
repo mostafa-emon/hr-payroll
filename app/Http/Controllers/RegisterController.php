@@ -7,6 +7,7 @@ use App\Company;
 use App\User;
 use App\Subscription;
 use App\Role;
+use App\Currency;
 use Hash;
 
 class RegisterController extends Controller
@@ -26,11 +27,19 @@ class RegisterController extends Controller
 
             $company = new Company();
             $company->name                      = $request->name;
-            $company->address                   = $request->address;
             $company->phone                     = $request->phone;
+            $company->fax                       = $request->fax;
             $company->email                     = $request->email;
+            $company->address_line_1            = $request->address_line_1;
+            $company->address_line_2            = $request->address_line_2;
+            $company->bin                       = $request->bin;
             $company->tin                       = $request->tin;
+            $company->ein                       = $request->ein;
             $company->vat_reg_no                = $request->vat_reg_no;
+            $company->website                   = $request->website;
+            $company->currency_id               = $request->currency_id;
+            $company->leave_year_from           = $request->leave_year_from;
+            $company->leave_year_to             = $request->leave_year_to;
             $company->status                    = 1;
             $company->subscription_id           = $subscription->id;
             
@@ -40,11 +49,11 @@ class RegisterController extends Controller
             if($request->document_upload == 1) { $company->document_upload = 1; }else { $company->document_upload = 0; }
             if($request->quickbooks == 1) { $company->quickbooks = 1; }else { $company->quickbooks = 0; }
             
-            $company->employee_limit         = $reqeust->employee_limit;
-            $company->qb_client_id           = $reqeust->qb_client_id;
-            $company->qb_client_secret       = $reqeust->qb_client_secret;
-            $company->qb_company_id          = $reqeust->qb_company_id;
-            $company->qb_environment         = $reqeust->qb_environment;
+            $company->employee_limit         = $request->employee_limit;
+            $company->qb_client_id           = $request->qb_client_id;
+            $company->qb_client_secret       = $request->qb_client_secret;
+            $company->qb_company_id          = $request->qb_company_id;
+            $company->qb_environment         = $request->qb_environment;
 
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');
@@ -83,6 +92,7 @@ class RegisterController extends Controller
 
             return redirect('subscription')->with('message', 'Registration successful');
         }
-        return view('register');
+        $currency = Currency::orderby('currency_name','asc')->get();
+        return view('register',compact('currency'));
     }
 }
