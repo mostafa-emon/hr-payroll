@@ -185,19 +185,19 @@
                       <label class="ckbox pointer"><input id="quickbooks" name="quickbooks" value="1" type="checkbox" @if($company_info->quickbooks == 1) checked @endif onclick="hideShowQB()"><span>Quickbooks</span></label>
                     </div>
 
-                    <div class="col-md-4 pd-t-15 collapse qb-inputs">
+                    <div class="col-md-4 pd-t-15 @if($company_info->quickbooks != 1)collapse @endif qb-inputs">
                       <input type="text" name="qb_client_id" placeholder="QB Client ID" class="form-control" value="{{$company_info->qb_client_id}}">
                     </div>
 
-                    <div class="col-md-4 pd-t-15 collapse qb-inputs">
+                    <div class="col-md-4 pd-t-15 @if($company_info->quickbooks != 1)collapse @endif qb-inputs">
                       <input type="text" name="qb_client_secret" placeholder="QB Client Secret ID" class="form-control" value="{{$company_info->qb_client_secret}}">
                     </div>
 
-                    <div class="col-md-2 pd-t-15 collapse qb-inputs">
+                    <div class="col-md-2 pd-t-15 @if($company_info->quickbooks != 1)collapse @endif qb-inputs">
                       <input type="text" name="qb_company_id" placeholder="QB Company ID" class="form-control" value="{{$company_info->qb_company_id}}">
                     </div>
                     
-                    <div class="col-md-2 pd-t-15 collapse qb-inputs">
+                    <div class="col-md-2 pd-t-15 @if($company_info->quickbooks != 1)collapse @endif qb-inputs">
                       <select name="qb_environment" class="form-control  mg-l--4" required>
                         <option value="production" @if($company_info->qb_environment == "production") selected @endif>Production</option>
                         <option value="development" @if($company_info->qb_environment == "development") selected @endif>Development</option>
