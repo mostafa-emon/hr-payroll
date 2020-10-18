@@ -8,6 +8,7 @@ use App\Subscription;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\User;
+use App\Currency;
 use Hash;
 
 class CompanyController extends Controller
@@ -19,7 +20,8 @@ class CompanyController extends Controller
     
     public function index() {
         $info = Company::where('id',Auth::user()->company_id)->first();
-        return view('company.index', ['info' => $info]);
+        $currency = Currency::orderby('currency_name','asc')->get();
+        return view('company.index',compact('currency','info'));
     }
 
     public function update(Request $request){
@@ -30,12 +32,20 @@ class CompanyController extends Controller
                 return redirect('404');
             }
             $company = new Company;
-            $company->name      = $request->name;
-            $company->phone     = $request->phone;
-            $company->email     = $request->email;
-            $company->address   = $request->address;
-            $company->tin       = $request->tin;
-            $company->vat_reg_no= $request->vat_reg_no;
+            $company->name                      = $request->name;
+            $company->phone                     = $request->phone;
+            $company->fax                       = $request->fax;
+            $company->email                     = $request->email;
+            $company->address_line_1            = $request->address_line_1;
+            $company->address_line_2            = $request->address_line_2;
+            $company->bin                       = $request->bin;
+            $company->tin                       = $request->tin;
+            $company->ein                       = $request->ein;
+            $company->vat_reg_no                = $request->vat_reg_no;
+            $company->website                   = $request->website;
+            $company->currency_id               = $request->currency_id;
+            $company->leave_year_from           = $request->leave_year_from;
+            $company->leave_year_to             = $request->leave_year_to;
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');
             }
@@ -45,12 +55,20 @@ class CompanyController extends Controller
                 return redirect('404');
             }
             $company = Company::where('id',Auth::user()->company_id)->first();
-            $company->name      = $request->name;
-            $company->phone     = $request->phone;
-            $company->email     = $request->email;
-            $company->address   = $request->address;
-            $company->tin       = $request->tin;
-            $company->vat_reg_no= $request->vat_reg_no;
+            $company->name                      = $request->name;
+            $company->phone                     = $request->phone;
+            $company->fax                       = $request->fax;
+            $company->email                     = $request->email;
+            $company->address_line_1            = $request->address_line_1;
+            $company->address_line_2            = $request->address_line_2;
+            $company->bin                       = $request->bin;
+            $company->tin                       = $request->tin;
+            $company->ein                       = $request->ein;
+            $company->vat_reg_no                = $request->vat_reg_no;
+            $company->website                   = $request->website;
+            $company->currency_id               = $request->currency_id;
+            $company->leave_year_from           = $request->leave_year_from;
+            $company->leave_year_to             = $request->leave_year_to;
             if ($request->hasFile('logo')) {
                 if($company->logo != ""){
                     Storage::delete($company->logo);
