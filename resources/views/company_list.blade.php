@@ -64,7 +64,14 @@
                                 @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{ $loop->iteration }}</td>
-                                    <td style="vertical-align: middle">{{ $company->name }}</td>
+                                    <td style="vertical-align: middle">
+                                        {{ $company->name }}<br>
+                                        @if($company->status == 1)
+                                            <span class="badge badge-success">Active</span>
+                                        @else
+                                            <span class="badge badge-danger">Inactive</span>
+                                        @endif
+                                    </td>
                                     <td style="vertical-align: middle">
                                         Amount: <b>{{ $company->amount }}</b><br>
                                         From: <b>{{ date('d M Y',strtotime($company->subscription_start_date)) }} - {{ date('d M Y',strtotime($company->subscription_end_date)) }}</b><br><br>
@@ -104,11 +111,23 @@
 
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
+                                        {{--
                                     @if($company->status == 0)
                                         <a class="btn btn-success btn-sm" href="{{url('company-active/'.$company->id)}}" style="width:80px"> Activate </a>
                                     @else
                                         <a class="btn btn-danger btn-sm" href="{{url('company-inactive/'.$company->id)}}" style="width:80px"> Deactivate </a>
                                     @endif
+                                    --}}
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            @if($company->status == 0)
+                                                <a href="{{url('company-active/'.$company->id)}}" class="dropdown-item">Activate</a>
+                                            @else
+                                                <a href="{{url('company-inactive/'.$company->id)}}" class="dropdown-item">Deactivate</a>
+                                            @endif
+                                            <a href="{{url('subscription/update/'.$company->id)}}" class="dropdown-item">Update</a>
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$company->id}})">Delete</a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
