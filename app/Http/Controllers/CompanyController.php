@@ -136,8 +136,7 @@ class CompanyController extends Controller
     public function subscriptionUpdate($company_id,Request $request) {
         $company_info       = Company::where('id',$company_id)->first();
         $subcription_info   = Subscription::where('id',$company_info->subscription_id)->first();
-        $role               = Role::where('company_id',$company_id)->where('role_name','Admin')->first();
-        $login_info         = User::where('company_id',$company_id)->where('roles',$role->id)->first();
+        $login_info         = User::where('company_id',$company_id)->where('roles',2)->first();
         $currency           = Currency::orderby('currency_name','asc')->get();
 
         if($request->name !=""){
