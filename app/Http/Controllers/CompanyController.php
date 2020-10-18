@@ -122,4 +122,8 @@ class CompanyController extends Controller
         $user->save();
         return redirect('subscription')->with('message', 'Password reset Successful!');
     }
+
+    public function subscriptionDelete($company_id) {
+        
+    }
 }

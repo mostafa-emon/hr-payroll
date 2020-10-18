@@ -144,7 +144,7 @@
         function confirmDelete(id){
         var result = confirm("Are you confirm to delete?");
         if (result) {
-            window.location = 'company/delete/'+id
+            window.location = 'subscription/delete/'+id
         }
         }
     </script>
