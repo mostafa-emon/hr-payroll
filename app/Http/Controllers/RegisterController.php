@@ -89,7 +89,7 @@ class RegisterController extends Controller
             $role->role_name                = "User";
             $role->access                   = json_encode($access);
             $role->save();
-
+            
             return redirect('subscription')->with('message', 'Registration successful');
         }
         $currency = Currency::orderby('currency_name','asc')->get();

@@ -8,6 +8,7 @@ use App\Subscription;
 use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\User;
+use App\Role;
 use App\Currency;
 use Hash;
 
@@ -124,6 +125,11 @@ class CompanyController extends Controller
     }
 
     public function subscriptionDelete($company_id) {
-        
+        $company = Company::where('id',$company_id)->first();
+        Company::where('id',$company_id)->delete();
+        Role::where('company_id',$company_id)->delete();
+        User::where('company_id',$company_id)->delete();
+
+        return redirect('subscription')->with('message', 'Subscription deleted Successfully!');
     }
 }
