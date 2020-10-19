@@ -73,3 +73,16 @@ Route::get('/404', 'HomeController@pageNotFound');
 Route::get('/logout', 'HomeController@logout');
 
 Route::get('leftmenu-color/{color}', 'HomeController@leftmenu_color');
+
+//Master Setup
+Route::get('/departments', 'MasterSetupController@department_index');
+Route::post('/departments/add', 'MasterSetupController@department_add');
+Route::get('/departments/get/{id}', 'MasterSetupController@department_get');
+Route::post('/departments/update/{id}', 'MasterSetupController@department_update');
+Route::get('/departments/delete/{id}', 'MasterSetupController@department_delete');
+
+Route::get('/designations', 'MasterSetupController@designation_index');
+Route::post('/designations/add', 'MasterSetupController@designation_add');
+Route::get('/designations/get/{id}', 'MasterSetupController@designation_get');
+Route::post('/designations/update/{id}', 'MasterSetupController@designation_update');
+Route::get('/designations/delete/{id}', 'MasterSetupController@designation_delete');

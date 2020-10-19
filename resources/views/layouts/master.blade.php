@@ -96,6 +96,8 @@
                             
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('company')}}">Company</a></li>
+								<li><a class="slide-item" href="{{url('departments')}}">Departments</a></li>
+								<li><a class="slide-item" href="{{url('designations')}}">Designations</a></li>
                             </ul>
                         </li>
 						@endif
