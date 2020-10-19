@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Designation;
 use App\Department;
+use App\project;
+use App\Branch;
 use Auth;
 
 class MasterSetupController extends Controller
@@ -78,5 +80,77 @@ class MasterSetupController extends Controller
         $designation = Designation::find($id);
         $designation->delete();
         return redirect('designations')->with('message','Designation Deleted Successfully!');
+    }
+
+
+    public function project_index() {
+        $projects = Project::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
+        return view('master_setup.projects',compact('projects'));
+    }
+
+    public function project_add(Request $request) {
+        $project = new Project;
+        $project->company_id    = Auth::user()->company_id;
+        $project->name          = $request->name;
+        $project->project_id    = $request->project_id;
+        $project->address       = $request->address;
+        $project->save();
+        return redirect('projects')->with('message','Project Added Successfully!');
+    }
+
+    public function project_get($id) {
+        $project = Project::where('id',$id)->first();
+        echo $project;
+    }
+
+    public function project_update(Request $request,$id) {
+        $project = Project::where('id',$id)->first();
+        $project->name          = $request->name;
+        $project->project_id    = $request->project_id;
+        $project->address       = $request->address;
+        $project->save();
+        return redirect('projects')->with('message','Project Updated Successfully!');
+    }
+
+    public function project_delete($id) {
+        $project = Project::find($id);
+        $project->delete();
+        return redirect('projects')->with('message','Project Deleted Successfully!');
+    }
+
+
+    public function branch_index() {
+        $branches = Branch::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
+        return view('master_setup.branches',compact('branches'));
+    }
+
+    public function branch_add(Request $request) {
+        $branch = new Branch;
+        $branch->company_id = Auth::user()->company_id;
+        $branch->name       = $request->name;
+        $branch->branch_id  = $request->branch_id;
+        $branch->address    = $request->address;
+        $branch->save();
+        return redirect('branches')->with('message','Branch Added Successfully!');
+    }
+
+    public function branch_get($id) {
+        $branch = Branch::where('id',$id)->first();
+        echo $branch;
+    }
+
+    public function branch_update(Request $request,$id) {
+        $branch = Branch::where('id',$id)->first();
+        $branch->name       = $request->name;
+        $branch->branch_id  = $request->branch_id;
+        $branch->address    = $request->address;
+        $branch->save();
+        return redirect('branches')->with('message','Branch Updated Successfully!');
+    }
+
+    public function branch_delete($id) {
+        $branch = Branch::find($id);
+        $branch->delete();
+        return redirect('branches')->with('message','Branch Deleted Successfully!');
     }
 }

@@ -43,10 +43,10 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="text-center" style="vertical-align:middle;width:10%;">Serial</th>
-                                    <th style="vertical-align:middle;width:60%;">Name</th>
-                                    <th class="text-center" style="vertical-align:middle;width:15%;">ID</th>
-                                    <th class="text-center" style="vertical-align:middle;width:15%;">Action</th>
+                                    <th class="text-center" style="width:10%;">SL</th>
+                                    <th style="width:60%;">Name</th>
+                                    <th class="text-center" style="width:15%;">ID</th>
+                                    <th class="text-center" style="width:15%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

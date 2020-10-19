@@ -86,3 +86,15 @@ Route::post('/designations/add', 'MasterSetupController@designation_add');
 Route::get('/designations/get/{id}', 'MasterSetupController@designation_get');
 Route::post('/designations/update/{id}', 'MasterSetupController@designation_update');
 Route::get('/designations/delete/{id}', 'MasterSetupController@designation_delete');
+
+Route::get('/projects', 'MasterSetupController@project_index');
+Route::post('/projects/add', 'MasterSetupController@project_add');
+Route::get('/projects/get/{id}', 'MasterSetupController@project_get');
+Route::post('/projects/update/{id}', 'MasterSetupController@project_update');
+Route::get('/projects/delete/{id}', 'MasterSetupController@project_delete');
+
+Route::get('/branches', 'MasterSetupController@branch_index');
+Route::post('/branches/add', 'MasterSetupController@branch_add');
+Route::get('/branches/get/{id}', 'MasterSetupController@branch_get');
+Route::post('/branches/update/{id}', 'MasterSetupController@branch_update');
+Route::get('/branches/delete/{id}', 'MasterSetupController@branch_delete');
