@@ -98,3 +98,15 @@ Route::post('/branches/add', 'MasterSetupController@branch_add');
 Route::get('/branches/get/{id}', 'MasterSetupController@branch_get');
 Route::post('/branches/update/{id}', 'MasterSetupController@branch_update');
 Route::get('/branches/delete/{id}', 'MasterSetupController@branch_delete');
+
+Route::get('/currencies', 'MasterSetupController@currency_index');
+Route::post('/currencies/add', 'MasterSetupController@currency_add');
+Route::get('/currencies/get/{id}', 'MasterSetupController@currency_get');
+Route::post('/currencies/update/{id}', 'MasterSetupController@currency_update');
+Route::get('/currencies/delete/{id}', 'MasterSetupController@currency_delete');
+
+Route::get('/bank-accounts', 'MasterSetupController@bank_account_index');
+Route::post('/bank-accounts/add', 'MasterSetupController@bank_account_add');
+Route::get('/bank-accounts/get/{id}', 'MasterSetupController@bank_account_get');
+Route::post('/bank-accounts/update/{id}', 'MasterSetupController@bank_account_update');
+Route::get('/bank-accounts/delete/{id}', 'MasterSetupController@bank_account_delete');

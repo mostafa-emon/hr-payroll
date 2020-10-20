@@ -1,0 +1,149 @@
+@extends('layouts.master')
+
+@section('content')
+
+        <div class="row mb-2">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/currencies')}}" style="color:#6c757d;">Currencies</a></li>
+            </ol>
+            </div>
+        </div>
+
+    <div class="row row-sm">
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card">
+
+                <div class="card-header">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+                    
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top:5px">
+                            <h4 class="card-title mg-b-0">Currencies</h4>
+                        </div>
+                        <div class="col-md-6 text-right"> 
+                            <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width:5%;">SL</th>
+                                    <th style="width:50%;">Name</th>
+                                    <th class="text-center" style="width:15%;">Full Unit Name</th>
+                                    <th class="text-center" style="width:15%;">Sub Unit Name</th>
+                                    <th class="text-center" style="width:15%;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($currencies as $currency)
+                                <tr>
+                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td style="vertical-align: middle">{{$currency->currency_name}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$currency->full_unit_name}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$currency->sub_unit_name}}</td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$currency->id}})">Update</a>
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$currency->id}})">Delete</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $currencies->links() }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="modal-form" action="{{ url('currencies/add') }}" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modal1label"><i class=""></i> Currency </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group row pd-r-15 pd-l-10">
+                        <label for="currency_name" class="col-form-label col-md-4">Currency Name:</label>
+                        <input type="text" class="form-control col-md-8 pa" id="currency_name" name="currency_name" placeholder="Enter Name"/>
+                    </div>
+
+                    <div class="form-group row pd-r-15 pd-l-10">
+                        <label for="full_unit_name" class="col-form-label col-md-4">Full Unit Name:</label>
+                        <input type="text" class="form-control col-md-8 pa" id="full_unit_name" name="full_unit_name" placeholder="Full Unit Name"/>
+                    </div>
+
+                    <div class="form-group row pd-r-15 pd-l-10">
+                        <label for="sub_unit_name" class="col-form-label col-md-4">Sub Unit Name:</label>
+                        <input type="text" class="form-control col-md-8 pa" id="sub_unit_name" name="sub_unit_name" placeholder="Short Unit Name"/>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Submit"/>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function update(id) {
+            $.ajax({
+                type:'GET',
+                url:'/currencies/get/'+id,
+                success:function(data) {
+                var response = JSON.parse(data);
+                $("#modal-button").click();
+                $("#currency_name").val(response.currency_name);
+                $("#full_unit_name").val(response.full_unit_name);
+                $("#sub_unit_name").val(response.sub_unit_name);
+                $('#modal-form').prop('action', '/currencies/update/'+id);
+                }
+            });
+        }
+
+        function reloadForm() {
+            $('#currency_name').val('');
+            $('#full_unit_name').val('');
+            $('#sub_unit_name').val('');
+            $('#modal-form').prop('action', '/currencies/add');
+        }
+
+        function confirmDelete(id) {
+            var r = confirm("Are you confirm to delete?");
+            if (r == true) {
+            window.location = "/currencies/delete/"+id;
+            }
+        }
+
+    </script>
+
+@endsection

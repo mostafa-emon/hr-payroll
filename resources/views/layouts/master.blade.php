@@ -98,6 +98,7 @@
 								<li><a class="slide-item" href="{{url('designations')}}">Designation</a></li>
 								<li><a class="slide-item" href="{{url('projects')}}">Project</a></li>
 								<li><a class="slide-item" href="{{url('branches')}}">Branch</a></li>
+								<li><a class="slide-item" href="{{url('currencies')}}">Currency</a></li>
                             </ul>
 						</li>
                         <li class="slide
