@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\BankAccount;
 use App\Designation;
 use App\Department;
 use App\Currency;
@@ -206,38 +207,42 @@ class MasterSetupController extends Controller
         return redirect('currencies')->with('message','Currency Deleted Successfully!');
     }
 
-    /*public function bank_account_index() {
-        $projects = Project::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
-        return view('master_setup.projects',compact('projects'));
+    public function bank_account_index() {
+        $banks = BankAccount::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
+        return view('master_setup.bank_accounts',compact('banks'));
     }
 
     public function bank_account_add(Request $request) {
-        $project = new Project;
-        $project->company_id    = Auth::user()->company_id;
-        $project->name          = $request->name;
-        $project->project_id    = $request->project_id;
-        $project->address       = $request->address;
-        $project->save();
-        return redirect('projects')->with('message','Project Added Successfully!');
+        $bank = new BankAccount;
+        $bank->company_id   = Auth::user()->company_id;
+        $bank->name         = $request->name;
+        $bank->account_no   = $request->account_no;
+        $bank->account_type = $request->account_type;
+        $bank->save();
+        return redirect('bank-accounts')->with('message','Bank Account Added Successfully!');
     }
 
     public function bank_account_get($id) {
-        $project = Project::where('id',$id)->first();
-        echo $project;
+        $bank = BankAccount::where('id',$id)->first();
+        echo $bank;
     }
 
     public function bank_account_update(Request $request,$id) {
-        $project = Project::where('id',$id)->first();
-        $project->name          = $request->name;
-        $project->project_id    = $request->project_id;
-        $project->address       = $request->address;
-        $project->save();
-        return redirect('projects')->with('message','Project Updated Successfully!');
+        $bank = BankAccount::where('id',$id)->first();
+        $bank->name         = $request->name;
+        $bank->account_no   = $request->account_no;
+        $bank->account_type = $request->account_type;
+        $bank->save();
+        return redirect('bank-accounts')->with('message','Bank Account Updated Successfully!');
     }
 
     public function bank_account_delete($id) {
-        $project = Project::find($id);
-        $project->delete();
-        return redirect('projects')->with('message','Project Deleted Successfully!');
-    }*/
+        $bank = BankAccount::find($id);
+        if($bank->company_id == Auth::user()->company_id){
+            $bank->delete();
+            return redirect('bank-accounts')->with('message','Bank Account Deleted Successfully!');
+        }else{
+            return redirect('bank-accounts')->with('message','Do not try to be too smart!');
+        }
+    }
 }

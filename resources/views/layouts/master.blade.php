@@ -99,6 +99,7 @@
 								<li><a class="slide-item" href="{{url('projects')}}">Project</a></li>
 								<li><a class="slide-item" href="{{url('branches')}}">Branch</a></li>
 								<li><a class="slide-item" href="{{url('currencies')}}">Currency</a></li>
+								<li><a class="slide-item" href="{{url('bank-accounts')}}">Bank Account</a></li>
                             </ul>
 						</li>
                         <li class="slide
