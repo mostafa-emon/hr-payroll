@@ -150,7 +150,11 @@ class MasterSetupController extends Controller
 
     public function branch_delete($id) {
         $branch = Branch::find($id);
-        $branch->delete();
-        return redirect('branches')->with('message','Branch Deleted Successfully!');
+        if($branch->company_id == Auth::user()->company_id){
+            $branch->delete();
+            return redirect('branches')->with('message','Branch Deleted Successfully!');
+        }else{
+            return redirect('branches')->with('message','Do not try to be too smart!');
+        }
     }
 }
