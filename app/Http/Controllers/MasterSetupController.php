@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\BankAccount;
+use App\DeviceSetup;
 use App\Designation;
 use App\Department;
 use App\Currency;
@@ -243,6 +244,51 @@ class MasterSetupController extends Controller
             return redirect('bank-accounts')->with('message','Bank Account Deleted Successfully!');
         }else{
             return redirect('bank-accounts')->with('message','Do not try to be too smart!');
+        }
+    }
+
+    public function device_index() {
+        $devices = DeviceSetup::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
+        return view('master_setup.device_setup',compact('devices'));
+    }
+
+    public function device_add(Request $request) {
+        $device = new DeviceSetup;
+        $device->company_id = Auth::user()->company_id;
+        $device->name       = $request->name;
+        $device->floor      = $request->floor;
+        $device->ip_address = $request->ip_address;
+        $device->serial_no  = $request->serial_no;
+        $device->port       = $request->port;
+        $device->brand      = $request->brand;
+        $device->save();
+        return redirect('device-setup')->with('message','Device Added Successfully!');
+    }
+
+    public function device_get($id) {
+        $device = DeviceSetup::where('id',$id)->first();
+        echo $device;
+    }
+
+    public function device_update(Request $request,$id) {
+        $device = DeviceSetup::where('id',$id)->first();
+        $device->name       = $request->name;
+        $device->floor      = $request->floor;
+        $device->ip_address = $request->ip_address;
+        $device->serial_no  = $request->serial_no;
+        $device->port       = $request->port;
+        $device->brand      = $request->brand;
+        $device->save();
+        return redirect('device-setup')->with('message','Device Updated Successfully!');
+    }
+
+    public function device_delete($id) {
+        $device = DeviceSetup::find($id);
+        if($device->company_id == Auth::user()->company_id){
+            $device->delete();
+            return redirect('device-setup')->with('message','Device Deleted Successfully!');
+        }else{
+            return redirect('device-setup')->with('message','Do not try to be too smart!');
         }
     }
 }

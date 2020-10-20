@@ -91,7 +91,7 @@
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="currency_name" class="col-form-label col-md-4">Currency Name:</label>
-                        <input type="text" class="form-control col-md-8 pa" id="currency_name" name="currency_name" placeholder="Enter Name"/>
+                        <input type="text" class="form-control col-md-8 pa" id="currency_name" name="currency_name" placeholder="Enter Name" required/>
                     </div>
 
                     <div class="form-group row pd-r-15 pd-l-10">

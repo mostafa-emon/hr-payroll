@@ -110,3 +110,9 @@ Route::post('/bank-accounts/add', 'MasterSetupController@bank_account_add');
 Route::get('/bank-accounts/get/{id}', 'MasterSetupController@bank_account_get');
 Route::post('/bank-accounts/update/{id}', 'MasterSetupController@bank_account_update');
 Route::get('/bank-accounts/delete/{id}', 'MasterSetupController@bank_account_delete');
+
+Route::get('/device-setup', 'MasterSetupController@device_index');
+Route::post('/device-setup/add', 'MasterSetupController@device_add');
+Route::get('/device-setup/get/{id}', 'MasterSetupController@device_get');
+Route::post('/device-setup/update/{id}', 'MasterSetupController@device_update');
+Route::get('/device-setup/delete/{id}', 'MasterSetupController@device_delete');
