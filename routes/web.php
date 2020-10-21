@@ -126,3 +126,18 @@ Route::post('/leave-type/add', 'LeaveController@leave_type_add');
 Route::get('/leave-type/get/{id}', 'LeaveController@leave_type_get');
 Route::post('/leave-type/update/{id}', 'LeaveController@leave_type_update');
 Route::get('/leave-type/delete/{id}', 'LeaveController@leave_type_delete');
+
+// Attendance Setup
+Route::get('/shift', 'ShiftController@index');
+Route::post('/shift/add', 'ShiftController@add');
+Route::get('/shift/get/{id}', 'ShiftController@get');
+Route::post('/shift/update/{id}', 'ShiftController@update');
+Route::get('/shift/delete/{id}', 'ShiftController@delete');
+
+Route::get('/govt-holiday', 'HolidayController@index');
+Route::post('/govt-holiday/add', 'HolidayController@add');
+Route::get('/govt-holiday/get/{id}', 'HolidayController@get');
+Route::post('/govt-holiday/update/{id}', 'HolidayController@update');
+Route::get('/govt-holiday/delete/{id}', 'HolidayController@delete');
+
+
