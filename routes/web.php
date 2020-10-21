@@ -99,9 +99,6 @@ Route::get('/branches/get/{id}', 'MasterSetupController@branch_get');
 Route::post('/branches/update/{id}', 'MasterSetupController@branch_update');
 Route::get('/branches/delete/{id}', 'MasterSetupController@branch_delete');
 
-// Employee Setup
-Route::get('employee', 'EmployeeController@index');
-
 Route::get('/currencies', 'MasterSetupController@currency_index');
 Route::post('/currencies/add', 'MasterSetupController@currency_add');
 Route::get('/currencies/get/{id}', 'MasterSetupController@currency_get');
@@ -119,3 +116,13 @@ Route::post('/device-setup/add', 'MasterSetupController@device_add');
 Route::get('/device-setup/get/{id}', 'MasterSetupController@device_get');
 Route::post('/device-setup/update/{id}', 'MasterSetupController@device_update');
 Route::get('/device-setup/delete/{id}', 'MasterSetupController@device_delete');
+
+// Employee Setup
+Route::get('employee', 'EmployeeController@index');
+
+// Leave Setup
+Route::get('/leave-type', 'LeaveController@leave_type_index');
+Route::post('/leave-type/add', 'LeaveController@leave_type_add');
+Route::get('/leave-type/get/{id}', 'LeaveController@leave_type_get');
+Route::post('/leave-type/update/{id}', 'LeaveController@leave_type_update');
+Route::get('/leave-type/delete/{id}', 'LeaveController@leave_type_delete');
