@@ -98,3 +98,6 @@ Route::post('/branches/add', 'MasterSetupController@branch_add');
 Route::get('/branches/get/{id}', 'MasterSetupController@branch_get');
 Route::post('/branches/update/{id}', 'MasterSetupController@branch_update');
 Route::get('/branches/delete/{id}', 'MasterSetupController@branch_delete');
+
+// Employee Setup
+Route::get('employee', 'EmployeeController@index');
