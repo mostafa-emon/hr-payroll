@@ -91,7 +91,7 @@
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="name" class="col-form-label col-md-3">Name:</label>
-                        <input type="text" class="form-control col-md-9 pa" id="name" name="name" placeholder="Enter Name"/>
+                        <input type="text" class="form-control col-md-9 pa" id="name" name="name" placeholder="Enter Name" required/>
                     </div>
 
                     <div class="form-group row pd-r-15 pd-l-10">
