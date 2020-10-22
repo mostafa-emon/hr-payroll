@@ -77,50 +77,7 @@
         </div>
 
     </div>
-
-    <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <form id="modal-form" action="{{ url('govt-holiday/add') }}" method="POST" enctype="multipart/form-data">
-            {{ csrf_field() }}
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="modal1label"><i class=""></i> Govt Holiday </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form-group row pd-r-15 pd-l-10">
-                        <label for="name" class="col-form-label col-md-3">Name:</label>
-                        <input type="text" class="form-control col-md-9 pa" id="name" name="name" placeholder="Enter Name" required/>
-                    </div>
-
-                    <div class="form-group row pd-r-15 pd-l-10">
-                        <label for="holiday_id" class="col-form-label col-md-3">ID:</label>
-                        <input type="text" class="form-control col-md-9 pa" id="holiday_id" name="holiday_id" placeholder="Enter ID"/>
-                    </div>
-
-                    <div class="form-group row pd-r-15 pd-l-10">
-                        <label for="holiday_id" class="col-form-label col-md-3">Start Date:</label>
-                        <input type="text" class="form-control col-md-9 pa dtpicker" id="holiday_id" name="holiday_id" placeholder="Enter ID"/>
-                    </div>
-
-                    <div class="form-group row pd-r-15 pd-l-10">
-                        <label for="holiday_id" class="col-form-label col-md-3">End Date:</label>
-                        <input type="text" class="form-control col-md-9 pa dtpicker" id="holiday_id" name="holiday_id" placeholder="Enter ID"/>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Submit"/>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-
+    
     <script>
         function update(id) {
             $.ajax({
