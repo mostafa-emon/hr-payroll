@@ -2,84 +2,99 @@
 
 @section('content')
 
-  <div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('user') }}">User</a>
-    </nav>
-  </div>
-
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <div style="float:left">
-      <h4 class="tx-gray-800 mg-b-5">Users</h4>
-    </div>
-    <div style="float:right">
-      @if(roles() != "" && in_array(26, json_decode(roles(),false)))
-        <a href="{{ url('user/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add User</a>
-      @endif
-    </div>
-  </div>
-
-  <div class="br-pagebody pd-t-15">
-    <div class="br-section-wrapper">
-      @if(session()->has('message'))
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          {{ session()->get('message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="row mb-2">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/user')}}" style="color:#6c757d;">User</a></li>
+            </ol>
+            </div>
         </div>
-      @endif
-      <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table table-striped mg-b-0">
-          <thead>
-            <tr>
-              <th>Sl</th>
-              <th>Name</th>
-              <th>Designation</th>
-              <th>Email</th>
-              @if(roles() != "" && in_array(27, json_decode(roles(),false)))
-              <th>Update</th>
-              @endif
 
-              @if(roles() != "" && in_array(28, json_decode(roles(),false)))
-              <th>Delete</th>
-              @endif
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($users as $user)
-              <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->designation }}</td>
-                <td>{{ $user->email }}</td>
-                @if(roles() != "" && in_array(27, json_decode(roles(),false)))
-                  <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('user/update/'.$user->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
-                @endif
-                @if(roles() != "" && in_array(28, json_decode(roles(),false)))
-                  <td>
-                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$user->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                  </td>
-                  @endif
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div><br>
-      {{ $users -> links() }}
+    <div class="row row-sm">
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card">
+
+                <div class="card-header">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+                    
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top:5px">
+                            <h4 class="card-title mg-b-0">User</h4>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            @if(roles() != "" && in_array(26, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('user/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width:10%;">Sl</th>
+                                    <th style="width:35%;">Name</th>
+                                    <th style="width:40%;">Email</th>
+                                    @if(roles() != "" && (in_array(27, json_decode(roles(),false)) || in_array(28, json_decode(roles(),false))))
+                                        <th class="text-center" style="width:15%;">Action</th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($users as $user)
+                                <tr>
+                                    <td class="text-center" style="vertical-align: middle">{{ $loop->iteration }}</td>
+                                    <td style="vertical-align: middle">{{ $user->name }}</td>
+                                    <td style="vertical-align: middle">{{ $user->email }}</td>
+
+                                    @if(roles() != "" && (in_array(27, json_decode(roles(),false)) || in_array(28, json_decode(roles(),false))))
+                                    <td class="text-center" style="vertical-align: middle">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                        @if(roles() != "" && in_array(27, json_decode(roles(),false)))
+                                            <a class="dropdown-item" href="{{url ('user/update/'.$user->id) }}">Update</a>
+                                        @endif
+                                        @if(roles() != "" && in_array(28, json_decode(roles(),false)))
+                                            <a class="dropdown-item" href="javascript:void(0)" onclick="confirmDelete({{$user->id}})">Delete</a>
+                                        @endif
+                                        </div>
+                                    </td>
+                                    @endif
+
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{ $users->links() }}
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
+    
+    <script>
 
-  <script>
-    function confirmDelete(id){
-      var result = confirm("Are you confirm to delete?");
-      if (result) {
-          window.location = 'user/delete/'+id
-      }
-    }
-  </script>
+        function confirmDelete(id){
+        var result = confirm("Are you confirm to delete?");
+        if (result) {
+            window.location = 'user/delete/'+id
+        }
+        }
+
+    </script>
 
 @endsection
