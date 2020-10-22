@@ -17,4 +17,11 @@ class EmployeeController extends Controller
         $employees = Employee::where('company_id',Auth::user()->company_id)->paginate(10);
         return view('employee.index',compact('employees'));
     }
+
+    public function add(Request $request){
+        if($request->name != "") {
+
+        }
+        return view('employee.add');
+    }
 }

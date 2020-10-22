@@ -16,6 +16,10 @@ function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
 }
 
+function document_upload_facility($company_id) {
+    return Company::where('id',$company_id)->first()->document_upload;
+}
+
 function roles(){
     $user_roles = Role::where('id',Auth::user()->roles)->first();
     if($user_roles == null){$roles = "";} else {$roles = $user_roles->access;}
@@ -54,150 +58,6 @@ function getToken(){
     }else{
         return $auth_details->token;
     }
-}
-
-function is_voucher_printed($voucher_type,$api_type,$id){
-    $count = 0;
-    if($voucher_type == "Cash-Payment-Voucher"){
-        if($api_type == "Expense"){
-            $count = Voucher::where('type','Cash-Payment-Voucher')
-                    ->where('api_type','expense')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Check"){
-            $count = Voucher::where('type','Cash-Payment-Voucher')
-                    ->where('api_type','cheque')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Pay Bills"){
-            $count = Voucher::where('type','Cash-Payment-Voucher')
-                    ->where('api_type','bill_payment')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }
-    }
-
-    if($voucher_type == "Bank-Payment-Voucher"){
-        if($api_type == "Expense"){
-            $count = Voucher::where('type','Bank-Payment-Voucher')
-                    ->where('api_type','expense')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Check"){
-            $count = Voucher::where('type','Bank-Payment-Voucher')
-                    ->where('api_type','cheque')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Pay Bills"){
-            $count = Voucher::where('type','Bank-Payment-Voucher')
-                    ->where('api_type','bill_payment')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }
-    }
-
-    if($voucher_type == "Cheque-Printing"){
-        if($api_type == "Expense"){
-            $count = ChequeTransaction::where('api_type','expense')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Check"){
-            $count = ChequeTransaction::where('api_type','cheque')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Pay Bills"){
-            $count = ChequeTransaction::where('api_type','bill_payment')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }
-    }
-
-    if($voucher_type == "Contra-Voucher"){
-        $count = Voucher::where('type','Contra-Voucher')
-                ->where('document_id',$id)
-                ->where('status',1)
-                ->count();
-    }
-
-    if($voucher_type == "Journal-Voucher"){
-        $count = Voucher::where('type','Journal-Voucher')
-                ->where('document_id',$id)
-                ->where('status',1)
-                ->count();
-    }
-
-    if($voucher_type == "Cash-Receipt-Voucher"){
-        if($api_type == "Bank Deposit"){
-            $count = Voucher::where('type','Cash-Receipt-Voucher')
-                    ->where('api_type','bank_deposit')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Receive Payment"){
-            $count = Voucher::where('type','Cash-Receipt-Voucher')
-                    ->where('api_type','receive_payment')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Sales Receipt"){
-            $count = Voucher::where('type','Cash-Receipt-Voucher')
-                    ->where('api_type','sales_receipt')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }
-    }
-
-    if($voucher_type == "Bank-Receipt-Voucher"){
-        if($api_type == "Bank Deposit"){
-            $count = Voucher::where('type','Bank-Receipt-Voucher')
-                    ->where('api_type','bank_deposit')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Receive Payment"){
-            $count = Voucher::where('type','Bank-Receipt-Voucher')
-                    ->where('api_type','receive_payment')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Sales Receipt"){
-            $count = Voucher::where('type','Bank-Receipt-Voucher')
-                    ->where('api_type','sales_receipt')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }
-    }
-
-    if($voucher_type == "Money-Receipt"){
-        if($api_type == "Bank Deposit"){
-            $count = MoneyReceipt::where('api_type','bank_deposit')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Receive Payment"){
-            $count = MoneyReceipt::where('api_type','receive_payment')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }else if($api_type == "Sales Receipt"){
-            $count = MoneyReceipt::where('api_type','sales_receipt')
-                    ->where('document_id',$id)
-                    ->where('status',1)
-                    ->count();
-        }
-    }
-    return $count;
 }
 
 function number_formatting($amount){

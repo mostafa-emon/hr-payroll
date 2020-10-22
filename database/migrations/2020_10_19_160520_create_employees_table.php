@@ -21,7 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('employee_id')->nullable();
             $table->string('fathers_name')->nullable();
             $table->string('mothers_name')->nullable();
-            $table->string('spouce_name')->nullable();
+            $table->string('spouse_name')->nullable();
             $table->text('present_address')->nullable();
             $table->text('permanent_address')->nullable();
             $table->string('date_of_birth')->nullable();
@@ -36,7 +36,7 @@ class CreateEmployeesTable extends Migration
             $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('emergency_contact_person')->nullable();
-            $table->string('emergency_phone_person')->nullable();
+            $table->string('emergency_phone_number')->nullable();
             $table->string('email_address')->nullable();
             $table->string('employee_photo')->nullable();
             $table->string('employee_cv')->nullable();
