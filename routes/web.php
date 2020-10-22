@@ -135,8 +135,9 @@ Route::post('/shift/update/{id}', 'ShiftController@update');
 Route::get('/shift/delete/{id}', 'ShiftController@delete');
 
 Route::get('/govt-holiday', 'HolidayController@index');
+Route::get('/govt-holiday/add', 'HolidayController@add');
 Route::post('/govt-holiday/add', 'HolidayController@add');
-Route::get('/govt-holiday/get/{id}', 'HolidayController@get');
+Route::get('/govt-holiday/update/{id}', 'HolidayController@update');
 Route::post('/govt-holiday/update/{id}', 'HolidayController@update');
 Route::get('/govt-holiday/delete/{id}', 'HolidayController@delete');
 

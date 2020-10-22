@@ -19,7 +19,6 @@ class CreateGovtHolidaysTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('name',100);
             $table->integer('holiday_id')->nullable();
-            $table->string('holiday_short_name',50)->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->timestamps();
