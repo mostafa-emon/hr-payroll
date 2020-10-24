@@ -15,38 +15,47 @@ class HolidayController extends Controller
     
     public function index() {
         $holidays = GovtHoliday::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
-        return view('attendance_setup.govt_holiday',compact('holidays'));
+        return view('attendance_setup.govt_holiday.index',compact('holidays'));
     }
 
-    /*public function add(Request $request) {
-        $designation = new GovtHoliday;
-        $designation->company_id     = Auth::user()->company_id;
-        $designation->name           = $request->name;
-        $designation->designation_id = $request->designation_id;
-        $designation->save();
-        return redirect('designations')->with('message','Designation Added Successfully!');
-    }
-
-    public function get($id) {
-        $designation = GovtHoliday::where('id',$id)->first();
-        echo $designation;
+    public function add(Request $request) {
+        if($request->name != "") {
+            $holiday = new GovtHoliday;
+            $holiday->company_id    = Auth::user()->company_id;
+            $holiday->name          = $request->name;
+            $holiday->holiday_id    = $request->holiday_id;
+            $holiday->start_date    = date('Y-m-d',strtotime($request->start_date));
+            $holiday->end_date      = date('Y-m-d',strtotime($request->end_date));
+            $holiday->save();
+            return redirect('govt-holiday')->with('message','Govt Holiday Added Successfully!');
+        }
+        return view('attendance_setup.govt_holiday.add');
     }
 
     public function update(Request $request,$id) {
-        $designation = GovtHoliday::where('id',$id)->first();
-        $designation->name           = $request->name;
-        $designation->designation_id = $request->designation_id;
-        $designation->save();
-        return redirect('designations')->with('message','Designation Updated Successfully!');
+        $holiday = GovtHoliday::where('id',$id)->first();
+        if($holiday->company_id == Auth::user()->company_id) {
+            if($request->name != "") {
+                $holiday->name          = $request->name;
+                $holiday->holiday_id    = $request->holiday_id;
+                $holiday->start_date    = date('Y-m-d',strtotime($request->start_date));
+                $holiday->end_date      = date('Y-m-d',strtotime($request->end_date));
+                $holiday->save();
+                return redirect('govt-holiday')->with('message','Govt Holiday Updated Successfully!');
+            }
+            return view('attendance_setup.govt_holiday.update',compact('holiday'));
+        }else{
+            return redirect('govt-holiday')->with('message','Do not try to be too smart!');
+        }
     }
 
     public function delete($id) {
-        $designation = GovtHoliday::find($id);
-        if($designation->company_id == Auth::user()->company_id){
-            $designation->delete();
-            return redirect('designations')->with('message','Designation Deleted Successfully!');
+        $holiday = GovtHoliday::find($id);
+        if($holiday->company_id == Auth::user()->company_id){
+            $holiday->delete();
+            return redirect('govt-holiday')->with('message','Govt Holiday Deleted Successfully!');
         }else{
-            return redirect('designations')->with('message','Do not try to be too smart!');
+            return redirect('govt-holiday')->with('message','Do not try to be too smart!');
         }
-    }*/
+    }
 }

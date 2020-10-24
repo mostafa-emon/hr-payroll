@@ -2,90 +2,102 @@
 
 @section('content')
 
-  <div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('/user') }}">User</a>
-      <span class="breadcrumb-item active">Update</span>
-    </nav>
-  </div>
-
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Update User</h4>
-  </div>
-
-  <form action="{{ url('user/update/'.$users->id) }}" method="POST" enctype="multipart/form-data">
-    {{ csrf_field() }}
-    <div class="br-pagebody">
-      <div class="br-section-wrapper">
-        <div class="form-layout form-layout-2">
-          <div class="row no-gutters">
-
-            <div class="col-md-12">
-              <div class="form-group">
-                  <div class="mg-b-10">
-                      @if($users->avatar != "")
-                          <img class="pointer" id="avatar" src="{{ asset('storage/'.$users->avatar)}}" width="120" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
-                      @else
-                          <img class="pointer" id="avatar" src="{{ asset('img/user.png') }}" width="120" alt="avatar" onclick="document.getElementById('imgInp').click()"/>
-                      @endif
-                  </div>
-                  <a onclick="document.getElementById('imgInp').click()" class="pointer wd-120 btn btn-secondary btn-sm text-white">Choose</a>
-                  <input class="collapse" type="file" name="avatar" id="imgInp" onchange="preview_image(event)" />
-              </div>
+        <div class="row mb-2">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{url('/user')}}" style="color:#6c757d; font-weight: bold">User</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/user/update/'.$users->id)}}" style="color:#6c757d;">Update</a></li>
+            </ol>
             </div>
-            
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="form-control-label">Name: <span class="tx-danger">*</span></label>
-              <input class="form-control" type="text" name="name" placeholder="Enter Name" value="{{$users->name}}">
-              </div>
-            </div>
-
-            <div class="col-md-6 mg-t--1 mg-md-t-0">
-              <div class="form-group mg-md-l--1">
-                <label class="form-control-label">Designation:</label>
-                <input class="form-control" type="text" name="designation" placeholder="Enter Desination" value="{{$users->designation}}">
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label">Email address: <span class="tx-danger">*</span></label>
-                <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$users->email}}">
-              </div>
-            </div>
-
-            <div class="col-md-6 mg-t--1 mg-md-t-0">
-              <div class="form-group bd-t-0-force mg-md-l--1">
-                <label class="form-control-label">Password:</label>
-                <input class="form-control" type="text" name="password" placeholder="Enter Password" value="" autocomplete="off">
-              </div>
-            </div>
-
-            <div class="col-md-12 mg-t--1 mg-md-t-0">
-              <div class="form-group bd-t-0-force">
-                <label class="form-control-label mg-b-0-force">Roles: <span class="tx-danger">*</span></label>
-                <select name="roles" class="form-control mg-l--4" required>
-                  <option selected disabled>Select Role</option>
-                      @foreach($roles as $role)
-                          <option value="{{ $role->id }}" @if($users->roles == $role->id) selected @endif>{{ $role->role_name }}</option>
-                      @endforeach
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-layout-footer bd pd-20 bd-t-0">
-            <input type="submit" value="Update" class="btn btn-info pointer"/>
-          </div>
-
         </div>
-      </div>
-    </div>
-  </form>
 
-  <script>
+    <div class="row row-sm">
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    @if(session()->has('message'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top:5px">
+                            <h4 class="card-title mg-b-0">Add User</h4>
+                        </div>
+                        <div class="col-md-6 text-right"></div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-body">
+                                    <form method="POST" action="{{url('user/update/'.$users->id)}}" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+
+                                        <div class="form-group row">
+                                            <div class="col-md-6">
+                                                <div>
+                                                    @if($users->avatar != "")
+                                                        <img id="avatar" src="{{ asset('storage/'.$users->avatar)}}" style="cursor: pointer;" width="85" height="85" alt="avatar" onclick="document.getElementById('imgInp').click()" style="cursor:pointer;padding-left:10px"/>
+                                                    @else
+                                                        <img id="avatar" src="{{ asset('assets/img/users.png') }}" style="cursor: pointer;" width="85" height="85" alt="avatar" onclick="document.getElementById('imgInp').click()" style="cursor:pointer;padding-left:10px"/>
+                                                    @endif
+                                                </div>
+                                                <input class="collapse" type="file" name="avatar" id="imgInp" onchange="preview_image(event)"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="pd-30 pd-sm-40 bg-gray-200">
+                                            <div class="row row-xs">
+                                                <div class="col-md-6 mg-t-10">
+                                                    <input class="form-control" type="text" name="name" placeholder="Enter Name" value="{{$users->name}}" required>
+                                                </div>
+                                                <div class="col-md-6 mg-t-10">
+                                                    <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$users->email}}" required>
+                                                </div>
+                                                <div class="col-md-6 mg-t-10">
+                                                    <input class="form-control" type="password" name="password" placeholder="Enter Password" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-md-6 mg-t-10">
+                                                   <input class="form-control" type="password" name="confirm_password" placeholder="Re-Type Password" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-md-12 mg-t-10">
+                                                    <select id="roles" name="roles" class="form-control select2-no-search pa" required>
+                                                        <option label="Select Role"></option>
+                                                        <option value="CEO" @if($users->roles == "CEO") selected @endif>CEO</option>
+                                                        <option value="CTO" @if($users->roles == "CTO") selected @endif>CTO</option>
+                                                        <option value="Junior Engineer" @if($users->roles == "Junior Engineer") selected @endif>Junior Engineer</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row pd-t-10">
+                                            <div class="col-md-12 text-center">
+                                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
+                                            </div>
+                                        </div>
+                                    </form>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
     function preview_image(event) {
       var reader = new FileReader();
       reader.onload = function()

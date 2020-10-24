@@ -30,6 +30,9 @@ class UserController extends Controller
             return redirect('404');
         }
         if($request->name !=""){
+            if($request->password != $request->confirm_password){
+                return redirect('user/add')->with('message', 'Password Mismatched!');
+            }
             $user = new User();
             $user->company_id       = Auth::user()->company_id;
             $user->name             = $request->name;
@@ -52,15 +55,32 @@ class UserController extends Controller
             return redirect('404');
         }
         $user = User::find($user_id);
-        $user->delete();
-        return redirect('user')->with('message', 'User deleted successfully!');
+        if($user->company_id == Auth::user()->company_id){
+            $user->delete();
+            return redirect('user')->with('message','User Deleted Successfully!');
+        }else{
+            return redirect('user')->with('message','Do not try to be too smart!');
+        }
     }
 
     public function update($user_id, Request $request){
         if(roles() != "" && !in_array(27, json_decode(roles(),false))){
             return redirect('404');
         }
+
+        $users = User::where('id',$user_id)->first();
+        if($users->company_id != Auth::user()->company_id) {
+            return redirect('user')->with('message','Do not try to be too smart!');
+        }
+
         if($request->name !=""){
+
+            if($request->password != null && $request->confirm_password != null){
+                if($request->password != $request->confirm_password){
+                    return back()->with('message', 'Password Mismatched!');
+                }
+            }
+
             $user = User::where('id',$user_id)->first();
             $user->name             = $request->name;
             $user->designation      = $request->designation;
@@ -78,7 +98,6 @@ class UserController extends Controller
             $user->save();
             return redirect('user')->with('message', 'User updated successfully!');
         }
-        $users = User::where('id',$user_id)->first();
         $roles = Role::orderBy('role_name','asc')->where('id','>',2)->get();
         return view('users.update', ['users' => $users, 'roles' => $roles]);
     }
