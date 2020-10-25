@@ -7,7 +7,7 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url('/partners')}}" style="color:#6c757d; font-weight: bold">Homepage Scroll</a></li>
+                <li class="breadcrumb-item"><a href="{{url('/payroll-banks')}}" style="color:#6c757d; font-weight: bold">Banks</a></li>
                 <li class="breadcrumb-item active"><a href="{{url('/payroll-banks/branch/'.$bank->id)}}" style="color:#6c757d;">Branches</a></li>
             </ol>
             </div>

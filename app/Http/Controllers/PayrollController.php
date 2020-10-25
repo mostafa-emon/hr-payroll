@@ -51,9 +51,13 @@ class PayrollController extends Controller
 
     // Branch
     public function branch_index($id) {
-        $branches   = PayrollBranch::where('bank_id',$id)->orderBy('branch_name','asc')->get();
-        $bank       = PayrollBank::where('id',$id)->first();
-        return view('payroll_setup.banks.branches',compact('branches','bank'));
+        $bank           = PayrollBank::where('id',$id)->first();
+        if($bank->company_id == Auth::user()->company_id){
+            $branches   = PayrollBranch::where('bank_id',$id)->orderBy('branch_name','asc')->get();
+            return view('payroll_setup.banks.branches',compact('branches','bank'));
+        }else{
+            return redirect('payroll-banks')->with('message','Do not try to be too smart!');
+        }
     }
 
     public function branch_add(Request $request) {
