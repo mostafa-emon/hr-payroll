@@ -148,4 +148,10 @@ Route::get('/attendance-policy/update/{id}', 'AttendanceController@update');
 Route::post('/attendance-policy/update/{id}', 'AttendanceController@update');
 Route::get('/attendance-policy/delete/{id}', 'AttendanceController@delete');
 
-
+// Payroll Setup
+Route::get('/salary-components', 'SalaryController@component_index');
+Route::get('/salary-components/add', 'SalaryController@component_add');
+Route::post('/salary-components/add', 'SalaryController@component_add');
+Route::get('/salary-components/update/{id}', 'SalaryController@component_update');
+Route::post('/salary-components/update/{id}', 'SalaryController@component_update');
+Route::get('/salary-components/delete/{id}', 'SalaryController@component_delete');
