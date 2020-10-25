@@ -41,33 +41,46 @@
 
                 <div class="card">
                     <div class="card-body">
+                        <form action="{{url('employee/add')}}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
                         <div id="wizard3" class="wizard clearfix vertical">
                             <div class="steps clearfix">
                                 <ul role="tablist">
-                                    <li id="londonTab" class="current tablinks">
-                                        <a onclick="openTab('London')">
+                                    <li id="PersonalTab" class="current tablinks">
+                                        <a onclick="openTab('Personal')">
                                             <span class="current-info audible">current step: </span>
                                             <span class="number">1</span> 
                                             <span class="title">Personal Information</span>
                                         </a>
                                     </li>
-                                    <li id="parisTab" class="tablinks">
-                                        <a onclick="openTab('Paris')">
+                                    <li id="EmploymentTab" class="tablinks">
+                                        <a onclick="openTab('Employment')">
                                             <span class="number">2</span> 
-                                            <span class="title">Billing Information</span>
+                                            <span class="title">Employment Information</span>
                                         </a>
                                     </li>
-                                    <li id="tokyoTab" class="tablinks">
-                                        <a onclick="openTab('Tokyo')">
+                                    <li id="PayrollTab" class="tablinks">
+                                        <a onclick="openTab('Payroll')">
                                             <span class="number">3</span> 
-                                            <span class="title">Payment Details</span>
+                                            <span class="title">Payroll Information</span>
+                                        </a>
+                                    </li>
+                                    <li id="LeaveTab" class="tablinks">
+                                        <a onclick="openTab('Leave')">
+                                            <span class="number">3</span> 
+                                            <span class="title">Leave Information</span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
+                            
                             <div class="content clearfix">
-                                <section id="London" class="body tabcontent" style="display:block">
+                                <section id="Personal" class="body tabcontent" style="display:block">
                                     <h3 class="title">Personal Information</h3>
+                                    <div>
+                                        <img class="pointer" style="margin-bottom:10px" id="avatar" src="{{ asset('assets/img/users.png') }}" width="80" alt="employee" onclick="document.getElementById('imgInp').click()"/>
+                                        <input class="collapse" type="file" name="avatar" id="imgInp" onchange="preview_image(event)" />
+                                    </div>
                                     <div class="row row-xs">
                                         <div class="col-md-3 pd-t-10">
                                           <input type="text" name="employee_id" placeholder="Employee ID" class="form-control">
@@ -198,30 +211,160 @@
                                         </div>
                                     </div>
                                 </section>
-                                <section id="Paris" class="body tabcontent">
-                                    <h3 class="title">Billing Information</h3>
-                                    <div class="table-responsive mg-t-20">
-                                        <table class="table table-bordered">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Cart Subtotal</td>
-                                                    <td class="text-right">$792.00</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                <section id="Employment" class="body tabcontent">
+                                    <h3 class="title">Employment Information</h3>
+                                    <div class="row row-xs">
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="department_id">
+                                                <option value="" label>department</option>
+                                                @foreach($departments as $department)
+                                                    <option value="{{$department->id}}">{{$department->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="designation_id">
+                                                <option value="" label>designation</option>
+                                                @foreach($designations as $designation)
+                                                    <option value="{{$designation->id}}">{{$designation->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="project_id">
+                                                <option value="" label>project</option>
+                                                @foreach($projects as $project)
+                                                    <option value="{{$project->id}}">{{$project->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="branch_id">
+                                                <option value="" label>branch</option>
+                                                @foreach($branches as $branch)
+                                                    <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="current_status">
+                                                <option value="" label>status</option>
+                                                <option value="Active">Active</option>
+                                                <option value="Inactive">Inactive</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <input type="text" name="date_of_joining" placeholder="Date of Joining" class="form-control dtpicker" autocomplete="off"/>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation" class="form-control dtpicker" autocomplete="off"/>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="duty_type">
+                                                <option value="" label>duty type</option>
+                                                <option value="Roster">Roster</option>
+                                                <option value="Non-Roster">Non-Roster</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <input type="text" name="date_of_resign" placeholder="Date of Resign" class="form-control dtpicker" autocomplete="off"/>
+                                        </div>
+
+                                        <div class="col-md-9 pd-t-10">
+                                            <input type="text" name="reason_for_resign" placeholder="Reason for Resign" class="form-control"/>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="terminated">
+                                                <option value="" label>terminated</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <input type="text" name="date_of_termination" placeholder="Date of Termination" class="form-control dtpicker" autocomplete="off"/>
+                                        </div>
+
+                                        <div class="col-md-6 pd-t-10">
+                                            <input type="text" name="reason_for_termination" placeholder="Reason for Termination" class="form-control"/>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="salary_payment_method">
+                                                <option value="" label>salary payment method</option>
+                                                <option value="Bank">Bank</option>
+                                                <option value="Cash">Cash</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <input type="text" name="bank_name" placeholder="Bank Name" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <input type="text" name="bank_account_no" placeholder="Bank Account No" class="form-control">
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="pay_slip_send_method">
+                                                <option value="" label>pay slip send method</option>
+                                                <option value="Email">Email</option>
+                                                <option value="Print">Print</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="weekend_1">
+                                                <option value="" label>weekend one</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select class="form-control" name="weekend_2">
+                                                <option value="" label>weekend two</option>
+                                                <option value="Saturday">Saturday</option>
+                                                <option value="Sunday">Sunday</option>
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                            </select>
+                                        </div>
+                                        
                                     </div>
                                 </section>
-                                <section id="Tokyo" class="body tabcontent">
-                                    <h3 class="title">Payment Details</h3>
-                                    <div class="form-group">
-                                        <label class="form-label">CardHolder Name</label>
-                                        <input type="text" class="form-control" id="name12" placeholder="First Name">
+                                <section id="Payroll" class="body tabcontent">
+                                    <h3 class="title">Payroll Information</h3>
+                                </section>
+                                <section id="Leave" class="body tabcontent">
+                                    <h3 class="title">Leave Information</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="submit" value="Submit" class="btn btn-primary"/>
+                                        </div>
                                     </div>
                                 </section>
                             </div>
                             <div class="actions clearfix"></div>
                         </div>
-                        
+                        </form>
                     </div>
                 </div>
                 
@@ -231,18 +374,32 @@
     </div>
 
     <script>
+        function preview_image(event) {
+            var reader = new FileReader();
+            reader.onload = function()
+            {
+              var output = document.getElementById('avatar');
+              output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
         function openTab(eventName) {
-            if(eventName == "London") {
-                $('#londonTab').addClass('current'); $('#parisTab').removeClass('current'); $('#tokyoTab').removeClass('current'); 
-                $('#London').show(); $('#Paris').hide(); $('#Tokyo').hide();
+            if(eventName == "Personal") {
+                $('#PersonalTab').addClass('current'); $('#EmploymentTab').removeClass('current'); $('#PayrollTab').removeClass('current'); $('#LeaveTab').removeClass('current'); 
+                $('#Personal').show(); $('#Employment').hide(); $('#Payroll').hide(); $('#Leave').hide();
             }
-            else if(eventName == "Paris") {
-                $('#parisTab').addClass('current'); $('#londonTab').removeClass('current'); $('#tokyoTab').removeClass('current'); 
-                $('#Paris').show(); $('#London').hide(); $('#Tokyo').hide();
+            else if(eventName == "Employment") {
+                $('#PersonalTab').removeClass('current'); $('#EmploymentTab').addClass('current'); $('#PayrollTab').removeClass('current'); $('#LeaveTab').removeClass('current'); 
+                $('#Personal').hide(); $('#Employment').show(); $('#Payroll').hide(); $('#Leave').hide();
             }
-            else if(eventName == "Tokyo") {
-                $('#tokyoTab').addClass('current'); $('#londonTab').removeClass('current'); $('#parisTab').removeClass('current'); 
-                $('#Tokyo').show(); $('#London').hide(); $('#Paris').hide();
+            else if(eventName == "Payroll") {
+                $('#PersonalTab').removeClass('current'); $('#EmploymentTab').removeClass('current'); $('#PayrollTab').addClass('current'); $('#LeaveTab').removeClass('current'); 
+                $('#Personal').hide(); $('#Employment').hide(); $('#Payroll').show(); $('#Leave').hide();
+            }
+            else if(eventName == "Leave") {
+                $('#PersonalTab').removeClass('current'); $('#EmploymentTab').removeClass('current'); $('#PayrollTab').removeClass('current'); $('#LeaveTab').addClass('current'); 
+                $('#Personal').hide(); $('#Employment').hide(); $('#Payroll').hide(); $('#Leave').show();
             }
         }
     </script>

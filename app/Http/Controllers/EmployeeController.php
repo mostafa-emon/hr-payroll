@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Employee;
+use App\Department;
+use App\Designation;
+use App\Project;
+use App\Branch;
 use Auth;
 
 class EmployeeController extends Controller
@@ -22,6 +26,11 @@ class EmployeeController extends Controller
         if($request->name != "") {
 
         }
-        return view('employee.add');
+        $departments = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $designations = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $projects = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $branches = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+
+        return view('employee.add',compact('departments','designations','projects','branches'));
     }
 }
