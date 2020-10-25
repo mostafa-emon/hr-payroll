@@ -307,7 +307,19 @@
                                         </div>
 
                                         <div class="col-md-3 pd-t-10">
-                                            <input type="text" name="bank_name" placeholder="Bank Name" class="form-control">
+                                            {{--<input type="text" name="bank_name" placeholder="Bank Name" class="form-control">--}}
+                                            <select id="bank_name" name="bank_name" onchange="getBranch(this.value)" class="form-control select2-no-search" required>
+                                                <option label="Choose Bank"></option>
+                                                @foreach($banks as $bank)
+                                                    <option value="{{$bank->id}}">{{$bank->bank_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3 pd-t-10">
+                                            <select id="branch" name="branch_id" class="form-control select2-no-search" required>
+                                                <option label="Choose Branch"></option>
+                                            </select>
                                         </div>
 
                                         <div class="col-md-3 pd-t-10">
@@ -374,6 +386,18 @@
     </div>
 
     <script>
+        function getBranch(value) {
+            $.ajax({
+                type: 'GET',
+                url: '/get-payroll-branch/'+value,
+                success:function(data) {
+                    $('#branch').html('');
+                    $('#branch').append('<option value="" selected>Choose Branch</option>');
+                    $('#branch').append(data);
+                }
+            });
+        }
+
         function preview_image(event) {
             var reader = new FileReader();
             reader.onload = function()

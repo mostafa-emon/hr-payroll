@@ -85,4 +85,15 @@ class PayrollController extends Controller
         $branch->delete();
         return back()->with('message','Branch Deleted Successfully!');
     }
+
+    public function get_branch($bank_id) {
+        $branches = PayrollBranch::where('bank_id',$bank_id)->get();
+        if(count($branches) > 0) {
+            foreach($branches as $branch) {
+                echo "<option value=".$branch->id.">".$branch->branch_name."</option>";
+            }
+        }else {
+            echo "";
+        }
+    }
 }
