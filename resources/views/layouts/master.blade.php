@@ -526,7 +526,7 @@
 			<!-- Footer opened -->
 			<div class="main-footer ht-40">
 				<div class="container-fluid pd-t-0-f ht-100p">
-					<span>Copyright © {{date('Y')}} <a href="#">&copy; {{ date('Y') }}. Axis QB & Voucher</a>. All rights reserved.</span>
+					<span>Copyright © {{date('Y')}} <a href="javascript:void(0)">&copy;. Axis HR & Payroll</a>. All rights reserved.</span>
 				</div>
 			</div>
 			<!-- Footer closed -->

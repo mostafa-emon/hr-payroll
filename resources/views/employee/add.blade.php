@@ -67,7 +67,7 @@
                                     </li>
                                     <li id="LeaveTab" class="tablinks">
                                         <a onclick="openTab('Leave')">
-                                            <span class="number">3</span> 
+                                            <span class="number">4</span> 
                                             <span class="title">Leave Information</span>
                                         </a>
                                     </li>

@@ -17,6 +17,12 @@ class CreatePayrollInfosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->boolean('company_pf_on_salary_statement')->default(0);
+            $table->double('festival_bonus_per_festival')->default(0);
+            $table->double('gratuity_amount')->default(0);
+            $table->double('investment_amount')->default(0);
+            $table->boolean('ot_allowed')->default(0);
+            $table->double('hourly_ot_rate')->default(0);
             $table->timestamps();
         });
     }
