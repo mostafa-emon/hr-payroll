@@ -169,3 +169,6 @@ Route::get('/payroll-banks/branch/get/{id}', 'PayrollController@branch_get');
 Route::post('/payroll-banks/branch/update/{id}', 'PayrollController@branch_update');
 Route::get('/payroll-banks/branch/delete/{id}', 'PayrollController@branch_delete');
 Route::get('/get-payroll-branch/{id}', 'PayrollController@get_branch');
+
+Route::get('/salary-transfer-letter-format', 'SalaryTransferLetter@format');
+Route::post('/salary-transfer-letter-format', 'SalaryTransferLetter@format');

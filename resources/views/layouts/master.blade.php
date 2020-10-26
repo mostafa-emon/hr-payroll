@@ -162,7 +162,9 @@
 									<a class="slide-item {{ (request()->is('salary-components*')) ? 'active' : '' }}" href="{{url('salary-components')}}">Salary Component</a>
 								</li>
 
-								{{--<li><a class="slide-item" href="{{url('shift')}}">Salary Transfer Letter Format</a></li>--}}
+								<li class="{{ (request()->is('salary-transfer-letter-format*')) ? 'active' : '' }}">
+									<a class="slide-item" href="{{url('salary-transfer-letter-format')}}">Salary Transfer Letter Format</a>
+								</li>
 								
 								<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Banks</a>
