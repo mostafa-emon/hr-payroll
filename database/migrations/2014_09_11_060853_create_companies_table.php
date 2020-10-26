@@ -28,9 +28,6 @@ class CreateCompaniesTable extends Migration
             $table->string('logo',150)->nullable();
             $table->string('website',100)->nullable();
 
-            $table->unsignedBigInteger('currency_id');
-            $table->foreign('currency_id')->references('id')->on('currencies');
-
             $table->string('leave_year_from',30)->nullable();
             $table->string('leave_year_to',30)->nullable();
             $table->boolean('status')->default(false);

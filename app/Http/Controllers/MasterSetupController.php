@@ -175,15 +175,22 @@ class MasterSetupController extends Controller
 
 
     public function currency_index() {
-        $currencies = Currency::orderBy('id','asc')->paginate(10);
+        $currencies = Currency::orderBy('id','asc')->where('company_id',Auth::user()->company_id)->paginate(10);
         return view('master_setup.currencies',compact('currencies'));
     }
 
     public function currency_add(Request $request) {
         $currency = new Currency;
+        $currency->company_id       = Auth::user()->company_id;
         $currency->currency_name    = $request->currency_name;
         $currency->full_unit_name   = $request->full_unit_name;
         $currency->sub_unit_name    = $request->sub_unit_name;
+
+        if($request->default == 1) {
+            Currency::where('company_id',Auth::user()->company_id)->update(['default'=>0]);
+            $currency->default      = 1;
+        }
+        
         $currency->save();
         return redirect('currencies')->with('message','Currency Added Successfully!');
     }
@@ -195,9 +202,14 @@ class MasterSetupController extends Controller
 
     public function currency_update(Request $request,$id) {
         $currency = Currency::where('id',$id)->first();
+        $currency->company_id       = Auth::user()->company_id;
         $currency->currency_name    = $request->currency_name;
         $currency->full_unit_name   = $request->full_unit_name;
         $currency->sub_unit_name    = $request->sub_unit_name;
+        if($request->default == 1) {
+            Currency::where('company_id',Auth::user()->company_id)->update(['default'=>0]);
+            $currency->default      = 1;
+        }
         $currency->save();
         return redirect('currencies')->with('message','Currency Updated Successfully!');
     }

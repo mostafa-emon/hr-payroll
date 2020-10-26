@@ -37,7 +37,6 @@ class RegisterController extends Controller
             $company->ein                       = $request->ein;
             $company->vat_reg_no                = $request->vat_reg_no;
             $company->website                   = $request->website;
-            $company->currency_id               = $request->currency_id;
             $company->leave_year_from           = $request->leave_year_from;
             $company->leave_year_to             = $request->leave_year_to;
             $company->status                    = 1;
@@ -60,6 +59,7 @@ class RegisterController extends Controller
             }
             $company->save();
 
+            //Users
             $user = new User();
             $user->company_id                   = $company->id;
             $user->name                         = $request->name;
@@ -69,6 +69,7 @@ class RegisterController extends Controller
             $user->roles                        = 2;
             $user->save();
 
+            //Roles
             $access = [];
             for($i=1; $i<=88; $i++){
                 $access[] = $i;
@@ -90,6 +91,23 @@ class RegisterController extends Controller
             $role->access                   = json_encode($access);
             $role->save();
             
+            //Currency
+            $currency = new Currency();
+            $currency->company_id           = $company->id;
+            $currency->currency_name        = "Bangladeshi Taka";
+            $currency->full_unit_name       = "Taka";
+            $currency->sub_unit_name        = "Paisa";
+            $currency->default              = 1;
+            $currency->save();
+
+            $currency = new Currency();
+            $currency->company_id           = $company->id;
+            $currency->currency_name        = "US Dollar";
+            $currency->full_unit_name       = "USD";
+            $currency->sub_unit_name        = "Cent";
+            $currency->default              = 0;
+            $currency->save();
+
             return redirect('subscription')->with('message', 'Registration successful');
         }
         $currency = Currency::orderby('currency_name','asc')->get();

@@ -15,26 +15,14 @@ class CreateCurrenciesTable extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('currency_name')->nullable();
-            $table->string('short_name')->nullable();
             $table->string('full_unit_name')->nullable();
             $table->string('sub_unit_name')->nullable();
+            $table->integer('default')->default(0);
             $table->timestamps();
         });
-
-        $currency = new Currency();
-        $currency->currency_name        = "Bangladeshi Taka";
-        $currency->short_name           = "BDT";
-        $currency->full_unit_name       = "Taka";
-        $currency->sub_unit_name        = "Paisa";
-        $currency->save();
-
-        $currency = new Currency();
-        $currency->currency_name        = "US Dollar";
-        $currency->short_name           = "USD";
-        $currency->full_unit_name       = "USD";
-        $currency->sub_unit_name        = "Cent";
-        $currency->save();
     }
 
     /**

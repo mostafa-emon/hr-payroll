@@ -44,9 +44,10 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
-                                    <th style="width:50%;">Name</th>
+                                    <th style="width:40%;">Name</th>
                                     <th class="text-center" style="width:15%;">Full Unit Name</th>
                                     <th class="text-center" style="width:15%;">Sub Unit Name</th>
+                                    <th class="text-center" style="width:10%;">Default</th>
                                     <th class="text-center" style="width:15%;">Action</th>
                                 </tr>
                             </thead>
@@ -57,6 +58,11 @@
                                     <td style="vertical-align: middle">{{$currency->currency_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$currency->full_unit_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$currency->sub_unit_name}}</td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @if($currency->default == 1)
+                                        <span class="badge badge-info">Default</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
@@ -104,6 +110,14 @@
                         <input type="text" class="form-control col-md-8 pa" id="sub_unit_name" name="sub_unit_name" placeholder="Short Unit Name"/>
                     </div>
 
+                    <div class="form-group row pd-r-15 pd-l-10">
+                        <label for="sub_unit_name" class="col-form-label col-md-4">Default:</label>
+                        <select name="default" id="default" class="form-control col-md-8">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -120,12 +134,13 @@
                 type:'GET',
                 url:'/currencies/get/'+id,
                 success:function(data) {
-                var response = JSON.parse(data);
-                $("#modal-button").click();
-                $("#currency_name").val(response.currency_name);
-                $("#full_unit_name").val(response.full_unit_name);
-                $("#sub_unit_name").val(response.sub_unit_name);
-                $('#modal-form').prop('action', '/currencies/update/'+id);
+                    var response = JSON.parse(data);
+                    $("#modal-button").click();
+                    $("#currency_name").val(response.currency_name);
+                    $("#full_unit_name").val(response.full_unit_name);
+                    $("#sub_unit_name").val(response.sub_unit_name);
+                    if(response.default == 1) {$('#default').val(1);}else{$('#default').val(0);}
+                    $('#modal-form').prop('action', '/currencies/update/'+id);
                 }
             });
         }

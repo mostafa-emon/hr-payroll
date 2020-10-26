@@ -79,15 +79,6 @@
                     </div>
 
                     <div class="col-md-3 pd-t-10">
-                      <select name="currency_id" class="form-control" required>
-                        <option value="" label>Currency</option>
-                        @foreach($currency as $cur)
-                          <option value="{{$cur->id}}">{{$cur->currency_name}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-
-                    <div class="col-md-3 pd-t-10">
                       <select name="leave_year_from" class="form-control">
                         <option value="" label>Leave year from</option>
                         <option value="1">January</option>
