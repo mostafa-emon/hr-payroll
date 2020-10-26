@@ -157,3 +157,15 @@ Route::post('/salary-components/add', 'SalaryController@component_add');
 Route::get('/salary-components/update/{id}', 'SalaryController@component_update');
 Route::post('/salary-components/update/{id}', 'SalaryController@component_update');
 Route::get('/salary-components/delete/{id}', 'SalaryController@component_delete');
+
+Route::get('/payroll-banks', 'PayrollController@bank_index');
+Route::post('/payroll-banks/add', 'PayrollController@bank_add');
+Route::get('/payroll-banks/get/{id}', 'PayrollController@bank_get');
+Route::post('/payroll-banks/update/{id}', 'PayrollController@bank_update');
+Route::get('/payroll-banks/delete/{id}', 'PayrollController@bank_delete');
+Route::get('/payroll-banks/branch/{type_id}', 'PayrollController@branch_index');
+Route::post('/payroll-banks/branch/add', 'PayrollController@branch_add');
+Route::get('/payroll-banks/branch/get/{id}', 'PayrollController@branch_get');
+Route::post('/payroll-banks/branch/update/{id}', 'PayrollController@branch_update');
+Route::get('/payroll-banks/branch/delete/{id}', 'PayrollController@branch_delete');
+Route::get('/get-payroll-branch/{id}', 'PayrollController@get_branch');
