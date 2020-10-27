@@ -162,7 +162,9 @@
 									<a class="slide-item {{ (request()->is('salary-components*')) ? 'active' : '' }}" href="{{url('salary-components')}}">Salary Component</a>
 								</li>
 
-								{{--<li><a class="slide-item" href="{{url('shift')}}">Salary Transfer Letter Format</a></li>--}}
+								<li class="{{ (request()->is('salary-transfer-letter-format*')) ? 'active' : '' }}">
+									<a class="slide-item" href="{{url('salary-transfer-letter-format')}}">Salary Transfer Letter Format</a>
+								</li>
 								
 								<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Banks</a>
@@ -526,7 +528,7 @@
 			<!-- Footer opened -->
 			<div class="main-footer ht-40">
 				<div class="container-fluid pd-t-0-f ht-100p">
-					<span>Copyright © {{date('Y')}} <a href="#">&copy; {{ date('Y') }}. Axis QB & Voucher</a>. All rights reserved.</span>
+					<span>Copyright © {{date('Y')}} <a href="javascript:void(0)">&copy;. Axis HR & Payroll</a>. All rights reserved.</span>
 				</div>
 			</div>
 			<!-- Footer closed -->

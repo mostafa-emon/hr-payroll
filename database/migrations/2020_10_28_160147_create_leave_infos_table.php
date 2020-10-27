@@ -17,6 +17,13 @@ class CreateLeaveInfosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->unsignedBigInteger('leave_type_id');
+            $table->foreign('leave_type_id')->references('id')->on('leave_types')->onDelete('cascade');
+            $table->integer('yearly_allotment')->default(0);
+            $table->string('opening_balance_date');
+            $table->integer('opening_balance')->default(0);
+            $table->boolean('carry_forward')->default(0);
+            $table->integer('max_carry_forward')->default(0);
             $table->timestamps();
         });
     }
