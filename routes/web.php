@@ -121,6 +121,7 @@ Route::get('/device-setup/delete/{id}', 'MasterSetupController@device_delete');
 Route::get('employee', 'EmployeeController@index');
 Route::get('employee/add', 'EmployeeController@add');
 Route::post('employee/add', 'EmployeeController@add');
+Route::post('employee/add-employment-info', 'EmployeeController@employment_info');
 
 // Leave Setup
 Route::get('/leave-type', 'LeaveController@leave_type_index');
