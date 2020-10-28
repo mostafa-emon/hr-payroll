@@ -51,7 +51,7 @@
                                                     <input class="form-control" name="component_name" placeholder="Enter Name" value="{{$salary->component_name}}" type="text" required>
                                                 </div>
 
-                                                <div @if($salary->component_type == "Deduction") style="display:none;" @endif id="for_earnings" class="col-md-6 mg-t-10">
+                                                <div @if($salary->component_type == "Deduction") style="display:none;" @endif id="for_earnings" class="@if($company->quickbooks != 1)col-md-12 @else col-md-6 @endif mg-t-10">
                                                     <label for="reference_1" class="col-form-label">Reference:</label>
                                                     <select id="reference_1" name="reference_1" class="form-control select2-no-search pa">
                                                         <option label="Choose One"></option>
@@ -63,7 +63,7 @@
                                                     </select>
                                                 </div>
 
-                                                <div @if($salary->component_type == "Earnings") style="display:none;" @endif id="for_deduction" class="col-md-6 mg-t-10">
+                                                <div @if($salary->component_type == "Earnings") style="display:none;" @endif id="for_deduction" class="@if($company->quickbooks != 1)col-md-12 @else col-md-6 @endif mg-t-10">
                                                     <label for="reference_2" class="col-form-label">Reference:</label>
                                                     <select id="reference_2" name="reference_2" class="form-control select2-no-search pa">
                                                         <option label="Choose One"></option>
@@ -72,14 +72,16 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="col-md-6 mg-t-10">
-                                                    <label for="quickbooks_ledger" class="col-form-label">QuickBooks Ledger:</label>
-                                                    <select id="quickbooks_ledger" name="quickbooks_ledger" class="form-control select2-no-search pa" required>
-                                                        <option label="Choose One"></option>
-                                                        <option value="General Earnings" @if($salary->quickbooks_ledger == "General Earnings") selected @endif>General Earnings</option>
-                                                        <option value="General Deduction" @if($salary->quickbooks_ledger == "General Deduction") selected @endif>General Deduction</option>
-                                                    </select>
-                                                </div>
+                                                @if($company->quickbooks == 1)
+                                                    <div class="col-md-6 mg-t-10">
+                                                        <label for="quickbooks_ledger" class="col-form-label">QuickBooks Ledger:</label>
+                                                        <select id="quickbooks_ledger" name="quickbooks_ledger" class="form-control select2-no-search pa" required>
+                                                            <option label="Choose One"></option>
+                                                            <option value="General Earnings" @if($salary->quickbooks_ledger == "General Earnings") selected @endif>General Earnings</option>
+                                                            <option value="General Deduction" @if($salary->quickbooks_ledger == "General Deduction") selected @endif>General Deduction</option>
+                                                        </select>
+                                                    </div>
+                                                @endif
 
                                             </div>
                                         </div>

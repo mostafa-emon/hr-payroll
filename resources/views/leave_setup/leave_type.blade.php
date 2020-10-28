@@ -142,7 +142,7 @@
             $('#leave_name').val('');
             $('#leave_id').val('');
             $('#leave_short_name').val('');
-            $('#el_deviding_factor').val('');
+            $('#el_deviding_factor').val('21');
             $('#modal-form').prop('action', '/leave-type/add');
         }
 

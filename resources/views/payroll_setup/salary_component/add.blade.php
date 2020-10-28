@@ -51,35 +51,40 @@
                                                     <input class="form-control" name="component_name" placeholder="Enter Name" type="text" required>
                                                 </div>
 
-                                                <div id="for_earnings" class="col-md-6 mg-t-10">
-                                                    <label for="reference_1" class="col-form-label">Reference:</label>
-                                                    <select id="reference_1" name="reference_1" class="form-control select2-no-search pa">
+                                                <div class="@if($company->quickbooks != 1)col-md-12 @else col-md-6 @endif mg-t-10">
+                                                    <label for="reference" class="col-form-label">Reference:</label>
+                                                    <select id="reference_show_hide" class="form-control select2-no-search pa">
                                                         <option label="Choose One"></option>
-                                                        <option value="Basic Salary">Basic Salary</option>
-                                                        <option value="House Rent">House Rent</option>
-                                                        <option value="PF Company Portion">PF Company Portion</option>
-                                                        <option value="Gratuity">Gratuity</option>
-                                                        <option value="General Earnings">General Earnings</option>
                                                     </select>
+                                                    <div style="display:none;" id="for_earnings">
+                                                        <select id="reference_1" name="reference_1" class="form-control select2-no-search pa">
+                                                            <option label="Choose One"></option>
+                                                            <option value="Basic Salary">Basic Salary</option>
+                                                            <option value="House Rent">House Rent</option>
+                                                            <option value="PF Company Portion">PF Company Portion</option>
+                                                            <option value="Gratuity">Gratuity</option>
+                                                            <option value="General Earnings">General Earnings</option>
+                                                        </select>
+                                                    </div>
+                                                    <div style="display:none;" id="for_deduction">
+                                                        <select id="reference_2" name="reference_2" class="form-control select2-no-search pa">
+                                                            <option label="Choose One"></option>
+                                                            <option value="PF Employee Portion">PF Employee Portion</option>
+                                                            <option value="General Deduction">General Deduction</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
 
-                                                <div style="display:none;" id="for_deduction" class="col-md-6 mg-t-10">
-                                                    <label for="reference_2" class="col-form-label">Reference:</label>
-                                                    <select id="reference_2" name="reference_2" class="form-control select2-no-search pa">
-                                                        <option label="Choose One"></option>
-                                                        <option value="PF Employee Portion">PF Employee Portion</option>
-                                                        <option value="General Deduction">General Deduction</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md-6 mg-t-10">
-                                                    <label for="quickbooks_ledger" class="col-form-label">QuickBooks Ledger:</label>
-                                                    <select id="quickbooks_ledger" name="quickbooks_ledger" class="form-control select2-no-search pa" required>
-                                                        <option label="Choose One"></option>
-                                                        <option value="General Earnings">General Earnings</option>
-                                                        <option value="General Deduction">General Deduction</option>
-                                                    </select>
-                                                </div>
+                                                @if($company->quickbooks == 1)
+                                                    <div class="col-md-6 mg-t-10">
+                                                        <label for="quickbooks_ledger" class="col-form-label">QuickBooks Ledger:</label>
+                                                        <select id="quickbooks_ledger" name="quickbooks_ledger" class="form-control select2-no-search pa">
+                                                            <option label="Choose One"></option>
+                                                            <option value="General Earnings">General Earnings</option>
+                                                            <option value="General Deduction">General Deduction</option>
+                                                        </select>
+                                                    </div>
+                                                @endif
 
                                             </div>
                                         </div>
@@ -106,9 +111,11 @@
             if(value == "Deduction") {
                 $('#for_deduction').show();
                 $('#for_earnings').hide();
+                $('#reference_show_hide').hide();
             }else{
                 $('#for_earnings').show();
                 $('#for_deduction').hide();
+                $('#reference_show_hide').hide();
             }
         }
     </script>

@@ -43,9 +43,13 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="text-center" style="width:10%;">SL</th>
-                                    <th style="width:40%;">Name</th>
-                                    <th style="width:35%;">Component Type</th>
+                                    <th class="text-center" style="@if($company->quickbooks != 1)width:10%;@else width:5%;@endif">SL</th>
+                                    <th style="@if($company->quickbooks != 1)width:20%;@else width:15%;@endif">Component Type</th>
+                                    <th style="@if($company->quickbooks != 1)width:30%;@else width:25%;@endif">Component Name</th>
+                                    <th style="@if($company->quickbooks != 1)width:25%;@else width:20%;@endif">Reference</th>
+                                    @if($company->quickbooks == 1)
+                                        <th style="width:20%;">Quickbooks Ledger</th>
+                                    @endif
                                     <th class="text-center" style="width:15%;">Action</th>
                                 </tr>
                             </thead>
@@ -53,8 +57,12 @@
                                 @foreach($salaries as $salary)
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{$salary->component_name}}</td>
                                     <td style="vertical-align: middle">{{$salary->component_type}}</td>
+                                    <td style="vertical-align: middle">{{$salary->component_name}}</td>
+                                    <td style="vertical-align: middle">{{$salary->component_reference}}</td>
+                                    @if($company->quickbooks == 1)
+                                        <td style="vertical-align: middle">{{$salary->quickbooks_ledger}}</td>
+                                    @endif
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SalaryComponent;
+use App\Company;
 use Auth;
 
 class SalaryController extends Controller
@@ -15,7 +16,8 @@ class SalaryController extends Controller
 
     public function component_index() {
         $salaries = SalaryComponent::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
-        return view('payroll_setup.salary_component.index',compact('salaries'));
+        $company  = Company::where('id',Auth::user()->company_id)->first();
+        return view('payroll_setup.salary_component.index',compact('salaries','company'));
     }
 
     public function component_add(Request $request) {
@@ -33,11 +35,13 @@ class SalaryController extends Controller
             $salary->save();
             return redirect('salary-components')->with('message','Salary Component Added Successfully!');
         }
-        return view('payroll_setup.salary_component.add');
+        $company  = Company::where('id',Auth::user()->company_id)->first();
+        return view('payroll_setup.salary_component.add',compact('company'));
     }
 
     public function component_update(Request $request,$id) {
-        $salary = SalaryComponent::where('id',$id)->first();
+        $company    = Company::where('id',Auth::user()->company_id)->first();
+        $salary     = SalaryComponent::where('id',$id)->first();
         if($salary->company_id == Auth::user()->company_id) {
             if($request->component_name !=""){
                 $salary = SalaryComponent::where('id',$id)->first();
@@ -50,9 +54,9 @@ class SalaryController extends Controller
                 }
                 $salary->quickbooks_ledger          = $request->quickbooks_ledger;
                 $salary->save();
-                return redirect('salary-components')->with('message','Salary Component Added Successfully!');
+                return redirect('salary-components')->with('message','Salary Component Updated Successfully!');
             }
-            return view('payroll_setup.salary_component.update',compact('salary'));
+            return view('payroll_setup.salary_component.update',compact('salary','company'));
         }else{
             return redirect('salary-components')->with('message','Do not try to be too smart!');
         }

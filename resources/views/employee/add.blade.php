@@ -89,7 +89,7 @@
                                             </div>
                         
                                             <div class="col-md-9 pd-t-10">
-                                                <input type="text" name="name" placeholder="Employee Name" class="form-control">
+                                                <input type="text" name="name" placeholder="Employee Name*" class="form-control" required>
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
@@ -175,7 +175,7 @@
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="phone_1" placeholder="Phone Number 1" class="form-control">
+                                                <input type="text" name="phone_1" placeholder="Phone Number 1*" class="form-control" required>
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
@@ -223,8 +223,8 @@
                                         <h3 class="title">Employment Information</h3>
                                         <div class="row row-xs">
                                             <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="department_id">
-                                                    <option value="" label>department</option>
+                                                <select class="form-control" name="department_id" required>
+                                                    <option value="" label>department*</option>
                                                     @foreach($departments as $department)
                                                         <option value="{{$department->id}}">{{$department->name}}</option>
                                                     @endforeach
@@ -232,8 +232,8 @@
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="designation_id">
-                                                    <option value="" label>designation</option>
+                                                <select class="form-control" name="designation_id" required>
+                                                    <option value="" label>designation*</option>
                                                     @foreach($designations as $designation)
                                                         <option value="{{$designation->id}}">{{$designation->name}}</option>
                                                     @endforeach
@@ -259,8 +259,8 @@
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="current_status">
-                                                    <option value="" label>status</option>
+                                                <select class="form-control" name="current_status" required>
+                                                    <option value="" label>status*</option>
                                                     <option value="Active">Active</option>
                                                     <option value="Inactive">Inactive</option>
                                                 </select>
@@ -275,8 +275,8 @@
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="duty_type">
-                                                    <option value="" label>duty type</option>
+                                                <select class="form-control" name="duty_type" required>
+                                                    <option value="" label>duty type*</option>
                                                     <option value="Roster">Roster</option>
                                                     <option value="Non-Roster">Non-Roster</option>
                                                 </select>
@@ -308,8 +308,8 @@
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="salary_payment_method">
-                                                    <option value="" label>salary payment method</option>
+                                                <select class="form-control" name="salary_payment_method" required>
+                                                    <option value="" label>salary payment method*</option>
                                                     <option value="Bank">Bank</option>
                                                     <option value="Cash">Cash</option>
                                                 </select>
@@ -336,8 +336,8 @@
                                             </div>
 
                                             <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="pay_slip_send_method">
-                                                    <option value="" label>pay slip send method</option>
+                                                <select class="form-control" name="pay_slip_send_method" required>
+                                                    <option value="" label>pay slip send method*</option>
                                                     <option value="Email">Email</option>
                                                     <option value="Print">Print</option>
                                                 </select>
