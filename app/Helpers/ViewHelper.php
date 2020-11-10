@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Auth;
 use QuickBooksOnline\API\DataService\DataService;
 use App\Role;
 use App\User;
+use App\Employee;
+use App\EmploymentInfo;
+use App\Department;
+use App\Designation;
 use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
@@ -11,9 +15,41 @@ use App\Voucher;
 use App\Setting;
 use App\ChequeTransaction;
 use App\MoneyReceipt;
+use App\LeaveType;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
+}
+
+function leave_type_name($leave_id){
+    return LeaveType::where('id',$leave_id)->value('leave_name');
+}
+
+function get_employee_info($employee_id) {
+    $employee = Employee::where('id',$employee_id)->first();
+    if($employee != "") {
+        return $employee;
+    }else{
+        return "";
+    }
+}
+
+function employee_department($employee_id) {
+    $info = EmploymentInfo::where('employee_id',$employee_id)->first();
+    if($info != "") {
+        return Department::where('id',$info->department_id)->first()->name;
+    }else{
+        return "";
+    }
+}
+
+function employee_designation($employee_id) {
+    $info = EmploymentInfo::where('employee_id',$employee_id)->first();
+    if($info != "") {
+        return Designation::where('id',$info->designation_id)->first()->name;
+    }else{
+        return "";
+    }
 }
 
 function document_upload_facility($company_id) {
@@ -111,5 +147,4 @@ function number_formatting($amount){
     }else {
         return "";
     }
-    
 }  

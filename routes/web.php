@@ -173,3 +173,18 @@ Route::get('/get-payroll-branch/{id}', 'PayrollController@get_branch');
 
 Route::get('/salary-transfer-letter-format', 'SalaryTransferLetter@format');
 Route::post('/salary-transfer-letter-format', 'SalaryTransferLetter@format');
+
+//Leave
+Route::get('/leave-request', 'LeaveController@leave_request_index');
+Route::get('/leave-request/add', 'LeaveController@leave_request_add');
+Route::post('/leave-request/add', 'LeaveController@leave_request_add');
+Route::get('/leave-request/update/{request_type}/{id}', 'LeaveController@leave_request_update');
+Route::post('/leave-request/update/{request_type}/{id}', 'LeaveController@leave_request_update');
+Route::get('/leave-request/delete/{id}', 'LeaveController@leave_request_delete');
+
+Route::get('/verify-leave-request', 'LeaveController@verify_leave_request');
+Route::get('/leave-request/verify/{id}', 'LeaveController@leave_request_verify');
+Route::get('/leave-request/reject/{id}', 'LeaveController@leave_request_reject');
+Route::get('/leave-request/approve/{id}', 'LeaveController@leave_request_approve');
+
+Route::get('/approve-leave-request', 'LeaveController@approve_leave_request');
