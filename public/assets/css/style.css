@@ -22293,6 +22293,7 @@ table.dataTable tfoot th, table.dataTable tfoot td {
         .wizard > .steps > ul li .current-info {
           display: none; }
         .wizard > .steps > ul li .title {
+          display:none;
           margin-left: 5px;
           white-space: nowrap;
           transition: all 0.2s ease-in-out; }

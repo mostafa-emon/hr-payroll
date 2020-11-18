@@ -41,355 +41,39 @@
 
                 <div class="card">
                     <div class="card-body">
-                        {{--<form action="{{url('employee/add')}}" method="POST" enctype="multipart/form-data">
-                            {{ csrf_field() }}--}}
-                        <div id="wizard3" class="wizard clearfix vertical">
+                        <div id="wizard1" role="application" class="wizard clearfix">
                             <div class="steps clearfix">
-                                <ul role="tablist">
-                                    <li id="PersonalTab" class="current tablinks">
-                                        <a onclick="openTab('Personal')">
-                                            <span class="current-info audible">current step: </span>
-                                            <span class="number">1</span> 
-                                            <span class="title">Personal Information</span>
-                                        </a>
-                                    </li>
-                                    <li id="EmploymentTab" class="tablinks">
-                                        <a onclick="openTab('Employment')">
-                                            <span class="number">2</span> 
-                                            <span class="title">Employment Information</span>
-                                        </a>
-                                    </li>
-                                    <li id="PayrollTab" class="tablinks">
-                                        <a onclick="openTab('Payroll')">
-                                            <span class="number">3</span> 
-                                            <span class="title">Payroll Information</span>
-                                        </a>
-                                    </li>
-                                    <li id="LeaveTab" class="tablinks">
-                                        <a onclick="openTab('Leave')">
-                                            <span class="number">4</span> 
-                                            <span class="title">Leave Information</span>
-                                        </a>
-                                    </li>
-                                </ul>
+                               <ul role="tablist">
+                                  <li role="tab" class="" aria-disabled="false" aria-selected="true">
+                                     <a href="javascript:void(0)">
+                                        <span class="number">1</span> 
+                                        <span class="title">Personal Information</span>
+                                     </a>
+                                  </li>
+                                  <li role="tab" class="" aria-disabled="true">
+                                     <a href="javascript:void(0)">
+                                        <span class="number">2</span> 
+                                        <span class="title">Employement Information</span>
+                                     </a>
+                                  </li>
+                                  <li role="tab" class="" aria-disabled="true">
+                                     <a href="javascript:void(0)">
+                                        <span class="number">3</span> 
+                                        <span class="title">Payroll Information</span>
+                                     </a>
+                                  </li>
+                                  <li role="tab" class="current" aria-disabled="true">
+                                    <a href="javascript:void(0)">
+                                        <span class="number">4</span> 
+                                        <span class="title">Leave Information</span>
+                                    </a>
+                                 </li>
+                               </ul>
                             </div>
-                            
                             <div class="content clearfix">
-                                <section id="Personal" class="body tabcontent" style="display:block">
-                                    <form action="{{url('employee/add')}}" method="POST" enctype="multipart/form-data">
-                                        {{ csrf_field() }}
-                                        <h3 class="title">Personal Information</h3>
-                                        <div>
-                                            <img class="pointer" style="margin-bottom:10px" id="avatar" src="{{ asset('assets/img/users.png') }}" width="80" alt="employee" onclick="document.getElementById('imgInp').click()"/>
-                                            <input class="collapse" type="file" name="employee_photo" id="imgInp" onchange="preview_image(event)" />
-                                        </div>
-                                        <div class="row row-xs">
-                                            <div class="col-md-3 pd-t-10">
-                                            <input type="text" name="employee_id" placeholder="Employee ID" class="form-control">
-                                            </div>
-                        
-                                            <div class="col-md-9 pd-t-10">
-                                                <input type="text" name="name" placeholder="Employee Name*" class="form-control" required>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="fathers_name" placeholder="Father Name" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="mothers_name" placeholder="Mother Name" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="marital_status">
-                                                    <option value="Unmarried">Unmarried</option>
-                                                    <option value="Married">Married</option>
-                                                    <option value="Divorced">Divorced</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="spouse_name" placeholder="Spouse Name" class="form-control">
-                                            </div>
-                        
-                                            <div class="col-md-6 pd-t-10">
-                                            <input type="text" name="present_address" placeholder="Present Address" class="form-control">
-                                            </div>
-                        
-                                            <div class="col-md-6 pd-t-10">
-                                                <input type="text" name="permanent_address" placeholder="Permanent Address" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="date_of_birth" placeholder="Date of Birth" class="form-control dtpicker" autocomplete="off"/>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="gender">
-                                                    <option value="" label>gender</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
-                                                    <option value="Others">Others</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="religion">
-                                                    <option value="" label>religion</option>
-                                                    <option value="Islam">Islam</option>
-                                                    <option value="Christianity">Christianity</option>
-                                                    <option value="Hinduism">Hinduism</option>
-                                                    <option value="Buddhism">Buddhism</option>
-                                                    <option value="Others">Others</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="blood_group">
-                                                    <option value="" label>blood group</option>
-                                                    <option value="A+">A+</option>
-                                                    <option value="A-">A-</option>
-                                                    <option value="B+">B+</option>
-                                                    <option value="B-">B-</option>
-                                                    <option value="O+">O+</option>
-                                                    <option value="O-">O-</option>
-                                                    <option value="AB+">AB+</option>
-                                                    <option value="AB-">AB-</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="nationality" placeholder="Nationality" value="Bangladeshi" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="nid_number" placeholder="NID Number" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="passport_number" placeholder="Passport Number" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="tin_no" placeholder="TIN Number" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="phone_1" placeholder="Phone Number 1*" class="form-control" required>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="phone_2" placeholder="Phone Number 2" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="emergency_contact_person" placeholder="Emergency Contact Person" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="emergency_phone_number" placeholder="Emergency Phone Number" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="email" name="email_address" placeholder="Email Address" class="form-control">
-                                            </div>
-
-                                            @if(document_upload_facility(Auth::user()->company_id) == 1)
-                                            <div class="col-md-3 pd-t-20 text-right">
-                                                Upload CV
-                                            </div>
-                                            <div class="col-md-6 pd-t-10">
-                                                <input class="form-control" name="employee_cv" type="file">
-                                            </div>
-                                            @else
-                                            <div class="col-md-9"></div>
-                                            @endif
-
-                                            <div class="col-md-6 pd-t-10">
-                                                <textarea class="form-control" name="reference_1" style="height:100px" placeholder="Reference 1"></textarea>
-                                            </div>
-                                            <div class="col-md-6 pd-t-10">
-                                                <textarea class="form-control" name="reference_2" style="height:100px" placeholder="Reference 2"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 pd-t-10">
-                                            <input type="submit" value="Submit" class="btn btn-primary"/>
-                                        </div>
-                                    </form>
-                                </section>
-                                <section id="Employment" class="body tabcontent">
-                                    <form action="{{url('employee/add-employment-info')}}" method="POST">
-                                        {{ csrf_field() }}
-                                        <h3 class="title">Employment Information</h3>
-                                        <div class="row row-xs">
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="department_id" required>
-                                                    <option value="" label>department*</option>
-                                                    @foreach($departments as $department)
-                                                        <option value="{{$department->id}}">{{$department->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="designation_id" required>
-                                                    <option value="" label>designation*</option>
-                                                    @foreach($designations as $designation)
-                                                        <option value="{{$designation->id}}">{{$designation->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="project_id">
-                                                    <option value="" label>project</option>
-                                                    @foreach($projects as $project)
-                                                        <option value="{{$project->id}}">{{$project->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="branch_id">
-                                                    <option value="" label>branch</option>
-                                                    @foreach($branches as $branch)
-                                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="current_status" required>
-                                                    <option value="" label>status*</option>
-                                                    <option value="Active">Active</option>
-                                                    <option value="Inactive">Inactive</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="date_of_joining" placeholder="Date of Joining" class="form-control dtpicker" autocomplete="off"/>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation" class="form-control dtpicker" autocomplete="off"/>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="duty_type" required>
-                                                    <option value="" label>duty type*</option>
-                                                    <option value="Roster">Roster</option>
-                                                    <option value="Non-Roster">Non-Roster</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="date_of_resign" placeholder="Date of Resign" class="form-control dtpicker" autocomplete="off"/>
-                                            </div>
-
-                                            <div class="col-md-9 pd-t-10">
-                                                <input type="text" name="reason_for_resign" placeholder="Reason for Resign" class="form-control"/>
-                                                <input type="hidden" name="employee_id" placeholder="Employee ID" class="form-control" value="@if(isset($employee)){{$employee->id}}@endif">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="terminated">
-                                                    <option value="" label>terminated</option>
-                                                    <option value="Yes">Yes</option>
-                                                    <option value="No">No</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="date_of_termination" placeholder="Date of Termination" class="form-control dtpicker" autocomplete="off"/>
-                                            </div>
-
-                                            <div class="col-md-6 pd-t-10">
-                                                <input type="text" name="reason_for_termination" placeholder="Reason for Termination" class="form-control"/>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="salary_payment_method" required>
-                                                    <option value="" label>salary payment method*</option>
-                                                    <option value="Bank">Bank</option>
-                                                    <option value="Cash">Cash</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                {{--<input type="text" name="bank_name" placeholder="Bank Name" class="form-control">--}}
-                                                <select id="bank_name" name="bank_name" onchange="getBranch(this.value)" class="form-control select2-no-search">
-                                                    <option label="Choose Bank"></option>
-                                                    @foreach($banks as $bank)
-                                                        <option value="{{$bank->id}}">{{$bank->bank_name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select id="branch" name="branch_id" class="form-control select2-no-search">
-                                                    <option label="Choose Branch"></option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <input type="text" name="bank_account_no" placeholder="Bank Account No" class="form-control">
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="pay_slip_send_method" required>
-                                                    <option value="" label>pay slip send method*</option>
-                                                    <option value="Email">Email</option>
-                                                    <option value="Print">Print</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="weekend_1">
-                                                    <option value="" label>weekend one</option>
-                                                    <option value="Saturday">Saturday</option>
-                                                    <option value="Sunday">Sunday</option>
-                                                    <option value="Monday">Monday</option>
-                                                    <option value="Tuesday">Tuesday</option>
-                                                    <option value="Wednesday">Wednesday</option>
-                                                    <option value="Thursday">Thursday</option>
-                                                    <option value="Friday">Friday</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-md-3 pd-t-10">
-                                                <select class="form-control" name="weekend_2">
-                                                    <option value="" label>weekend two</option>
-                                                    <option value="Saturday">Saturday</option>
-                                                    <option value="Sunday">Sunday</option>
-                                                    <option value="Monday">Monday</option>
-                                                    <option value="Tuesday">Tuesday</option>
-                                                    <option value="Wednesday">Wednesday</option>
-                                                    <option value="Thursday">Thursday</option>
-                                                    <option value="Friday">Friday</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-12 pd-t-10">
-                                                <input type="submit" value="Submit" class="btn btn-primary"/>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </section>
-
-                                <section id="Payroll" class="body tabcontent">
-                                    <h3 class="title">Payroll Information</h3>
-                                </section>
-                                <section id="Leave" class="body tabcontent">
-                                    <h3 class="title">Leave Information</h3>
-                                    <div class="row">
-                                        {{--<div class="col-md-12">
-                                            <input type="submit" value="Submit" class="btn btn-primary"/>
-                                        </div>--}}
-                                    </div>
-                                </section>
+                               @include('employee.personal_information')
                             </div>
-                            <div class="actions clearfix"></div>
-                        </div>
-                        {{--</form>--}}
+                         </div>
                     </div>
                 </div>
                 
