@@ -33,7 +33,7 @@
                             <h4 class="card-title mg-b-0">Employees</h4>
                         </div>
                         <div class="col-md-6 text-right"> 
-                            <a href="{{url('employee/add')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            <a href="{{url('employee/add/personal')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
                         </div>
                     </div>
                 </div>

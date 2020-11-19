@@ -119,9 +119,9 @@ Route::get('/device-setup/delete/{id}', 'MasterSetupController@device_delete');
 
 // Employee
 Route::get('employee', 'EmployeeController@index');
-Route::get('employee/add', 'EmployeeController@add');
-Route::post('employee/add', 'EmployeeController@add');
-Route::post('employee/add-employment-info', 'EmployeeController@employment_info');
+Route::get('employee/add/{page}/{employee_id?}', 'EmployeeController@add');
+Route::post('employee/add-personal-info', 'EmployeeController@add_personal_info');
+Route::post('employee/add-employment-info', 'EmployeeController@add_employment_info');
 
 // Leave Setup
 Route::get('/leave-type', 'LeaveController@leave_type_index');

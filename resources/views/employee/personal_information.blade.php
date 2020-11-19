@@ -1,5 +1,5 @@
 <section id="Personal" class="body tabcontent" style="display:block">
-    <form action="{{url('employee/add')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{url('employee/add-personal-info')}}" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div>
             <img class="pointer" style="margin-bottom:10px" id="avatar" src="{{ asset('assets/img/users.png') }}" width="80" alt="employee" onclick="document.getElementById('imgInp').click()"/>

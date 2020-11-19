@@ -25,54 +25,56 @@ class EmployeeController extends Controller
         return view('employee.index',compact('employees'));
     }
 
-    public function add(Request $request){
+    public function add($page, $employee_id = "", Request $request){
         $departments = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $designations = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $projects = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $branches = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $banks    = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
 
-        if($request->name != "") {
-            $employee = new Employee;
-            $employee->company_id    = Auth::user()->company_id;
-            $employee->name                     = $request->name;
-            $employee->employee_id              = $request->employee_id;
-            $employee->fathers_name             = $request->fathers_name;
-            $employee->mothers_name             = $request->mothers_name;
-            $employee->spouse_name              = $request->spouse_name;
-            $employee->present_address          = $request->present_address;
-            $employee->permanent_address        = $request->permanent_address;
-            $employee->date_of_birth            = $request->date_of_birth;
-            $employee->gender                   = $request->gender;
-            $employee->marital_status           = $request->marital_status;
-            $employee->religion                 = $request->religion;
-            $employee->blood_group              = $request->blood_group;
-            $employee->nationality              = $request->nationality;
-            $employee->nid_number               = $request->nid_number;
-            $employee->passport_number          = $request->passport_number;
-            $employee->tin_no                   = $request->tin_no;
-            $employee->phone_1                  = $request->phone_1;
-            $employee->phone_2                  = $request->phone_2;
-            $employee->emergency_contact_person = $request->emergency_contact_person;
-            $employee->emergency_phone_number   = $request->emergency_phone_number;
-            $employee->email_address            = $request->email_address;
-            $employee->reference_1              = $request->reference_1;
-            $employee->reference_2              = $request->reference_2;
-
-            if($request->hasFile('employee_photo')){  
-                $employee->employee_photo       = $request->file('employee_photo')->store('employees');
-            }
-            if($request->hasFile('employee_cv')){  
-                $employee->employee_cv          = $request->file('employee_cv')->store('employees');
-            }
-
-            $employee->save();
-            return view('employee.add',compact('departments','designations','projects','branches','banks','employee'));
-        }
-        return view('employee.add',compact('departments','designations','projects','branches','banks'));
+        return view('employee.add',compact('page','employee_id','departments','designations','projects','branches','banks'));
     }
 
-    public function employment_info(Request $request){
+    public function add_personal_info(Request $request){
+        $employee = new Employee;
+        $employee->company_id    = Auth::user()->company_id;
+        $employee->name                     = $request->name;
+        $employee->employee_id              = $request->employee_id;
+        $employee->fathers_name             = $request->fathers_name;
+        $employee->mothers_name             = $request->mothers_name;
+        $employee->spouse_name              = $request->spouse_name;
+        $employee->present_address          = $request->present_address;
+        $employee->permanent_address        = $request->permanent_address;
+        $employee->date_of_birth            = $request->date_of_birth;
+        $employee->gender                   = $request->gender;
+        $employee->marital_status           = $request->marital_status;
+        $employee->religion                 = $request->religion;
+        $employee->blood_group              = $request->blood_group;
+        $employee->nationality              = $request->nationality;
+        $employee->nid_number               = $request->nid_number;
+        $employee->passport_number          = $request->passport_number;
+        $employee->tin_no                   = $request->tin_no;
+        $employee->phone_1                  = $request->phone_1;
+        $employee->phone_2                  = $request->phone_2;
+        $employee->emergency_contact_person = $request->emergency_contact_person;
+        $employee->emergency_phone_number   = $request->emergency_phone_number;
+        $employee->email_address            = $request->email_address;
+        $employee->reference_1              = $request->reference_1;
+        $employee->reference_2              = $request->reference_2;
+
+        if($request->hasFile('employee_photo')){  
+            $employee->employee_photo       = $request->file('employee_photo')->store('employees');
+        }
+        if($request->hasFile('employee_cv')){  
+            $employee->employee_cv          = $request->file('employee_cv')->store('employees');
+        }
+
+        $employee->save();
+
+        return redirect('employee/add/employment/'.$employee->id)->with('message', 'Personal Information Saved Successfully!');
+    }
+
+    public function add_employment_info(Request $request){
         if($request->employee_id != "") {
             $employee = new EmploymentInfo;
             $employee->employee_id              = $request->employee_id;
@@ -96,7 +98,7 @@ class EmployeeController extends Controller
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;
             $employee->save();
-            return redirect('employee')->with('message', 'Employee Added Successfully!');
+            return redirect('employee/add/payroll/'.$request->employee_id)->with('message', 'Employment Information Saved Successfully!');
         }
     }
 }

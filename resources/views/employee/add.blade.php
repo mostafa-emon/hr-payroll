@@ -44,25 +44,25 @@
                         <div id="wizard1" role="application" class="wizard clearfix">
                             <div class="steps clearfix">
                                <ul role="tablist">
-                                  <li role="tab" class="" aria-disabled="false" aria-selected="true">
+                                  <li role="tab" class="@if($page == "personal") current @endif" aria-disabled="false" aria-selected="true">
                                      <a href="javascript:void(0)">
                                         <span class="number">1</span> 
                                         <span class="title">Personal Information</span>
                                      </a>
                                   </li>
-                                  <li role="tab" class="" aria-disabled="true">
+                                  <li role="tab" class="@if($page == "employment") current @endif" aria-disabled="true">
                                      <a href="javascript:void(0)">
                                         <span class="number">2</span> 
                                         <span class="title">Employement Information</span>
                                      </a>
                                   </li>
-                                  <li role="tab" class="" aria-disabled="true">
+                                  <li role="tab" class="@if($page == "payroll") current @endif" aria-disabled="true">
                                      <a href="javascript:void(0)">
                                         <span class="number">3</span> 
                                         <span class="title">Payroll Information</span>
                                      </a>
                                   </li>
-                                  <li role="tab" class="current" aria-disabled="true">
+                                  <li role="tab" class="@if($page == "leave") current @endif" aria-disabled="true">
                                     <a href="javascript:void(0)">
                                         <span class="number">4</span> 
                                         <span class="title">Leave Information</span>
@@ -71,7 +71,15 @@
                                </ul>
                             </div>
                             <div class="content clearfix">
-                               @include('employee.personal_information')
+                                @if($page == "personal")
+                                    @include('employee.personal_information')
+                                @elseif($page == "employment")
+                                    @include('employee.employment_information')
+                                @elseif($page == "payroll")
+                                    @include('employee.payroll_information')
+                                @elseif($page == "leave")
+                                    @include('employee.leave_information')
+                                @endif
                             </div>
                          </div>
                     </div>
