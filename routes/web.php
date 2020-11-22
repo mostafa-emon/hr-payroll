@@ -122,6 +122,7 @@ Route::get('employee', 'EmployeeController@index');
 Route::get('employee/add/{page}/{employee_id?}', 'EmployeeController@add');
 Route::post('employee/add-personal-info', 'EmployeeController@add_personal_info');
 Route::post('employee/add-employment-info', 'EmployeeController@add_employment_info');
+Route::post('employee/add-payroll-info', 'EmployeeController@add_payroll_info');
 
 // Leave Setup
 Route::get('/leave-type', 'LeaveController@leave_type_index');

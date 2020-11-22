@@ -57,6 +57,9 @@
                                                         <option label="Choose One"></option>
                                                         <option value="Basic Salary" @if($salary->component_reference == "Basic Salary") selected @endif>Basic Salary</option>
                                                         <option value="House Rent" @if($salary->component_reference == "House Rent") selected @endif>House Rent</option>
+                                                        <option value="Convenience" @if($salary->component_reference == "Convenience") selected @endif>Convenience</option>
+                                                        <option value="Medical" @if($salary->component_reference == "Medical") selected @endif>Medical</option>
+                                                        <option value="Festival Bonus" @if($salary->component_reference == "Festival Bonus") selected @endif>Festival Bonus</option>
                                                         <option value="PF Company Portion" @if($salary->component_reference == "PF Company Portion") selected @endif>PF Company Portion</option>
                                                         <option value="Gratuity" @if($salary->component_reference == "Gratuity") selected @endif>Gratuity</option>
                                                         <option value="General Earnings" @if($salary->component_reference == "General Earnings") selected @endif>General Earnings</option>
@@ -67,7 +70,8 @@
                                                     <label for="reference_2" class="col-form-label">Reference:</label>
                                                     <select id="reference_2" name="reference_2" class="form-control select2-no-search pa">
                                                         <option label="Choose One"></option>
-                                                        <option value="PF Employee Portion" @if($salary->component_reference == "PF Employee Portion") selected @endif>PF Employee Portion</option>
+                                                        <option value="Income Tax" @if($salary->component_reference == "Income Tax") selected @endif>Income Tax</option>
+                                                        <option value="PF Employee Portion"  @if($salary->component_reference == "PF Employee Portion") selected @endif>PF Employee Portion</option>
                                                         <option value="General Deduction" @if($salary->component_reference == "General Deduction") selected @endif>General Deduction</option>
                                                     </select>
                                                 </div>

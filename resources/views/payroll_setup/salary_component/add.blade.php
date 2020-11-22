@@ -61,6 +61,9 @@
                                                             <option label="Choose One"></option>
                                                             <option value="Basic Salary">Basic Salary</option>
                                                             <option value="House Rent">House Rent</option>
+                                                            <option value="Convenience">Convenience</option>
+                                                            <option value="Medical">Medical</option>
+                                                            <option value="Festival Bonus">Festival Bonus</option>
                                                             <option value="PF Company Portion">PF Company Portion</option>
                                                             <option value="Gratuity">Gratuity</option>
                                                             <option value="General Earnings">General Earnings</option>
@@ -69,6 +72,7 @@
                                                     <div style="display:none;" id="for_deduction">
                                                         <select id="reference_2" name="reference_2" class="form-control select2-no-search pa">
                                                             <option label="Choose One"></option>
+                                                            <option value="Income Tax">Income Tax</option>
                                                             <option value="PF Employee Portion">PF Employee Portion</option>
                                                             <option value="General Deduction">General Deduction</option>
                                                         </select>

@@ -10,6 +10,8 @@ use App\Designation;
 use App\Project;
 use App\Branch;
 use App\PayrollBank;
+use App\SalaryComponent;
+use App\EmployeeEarningDeduction;
 use Auth;
 use Redirect;
 
@@ -31,8 +33,10 @@ class EmployeeController extends Controller
         $projects = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $branches = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $banks    = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
-
-        return view('employee.add',compact('page','employee_id','departments','designations','projects','branches','banks'));
+        $earning_components = SalaryComponent::where('component_type','Earnings')->orderby('component_name','asc')->get();
+        $deduction_components = SalaryComponent::where('component_type','Deduction')->orderby('component_name','asc')->get();
+        
+        return view('employee.add',compact('page','employee_id','departments','designations','projects','branches','banks','earning_components','deduction_components'));
     }
 
     public function add_personal_info(Request $request){
@@ -99,6 +103,21 @@ class EmployeeController extends Controller
             $employee->weekend_2                = $request->weekend_2;
             $employee->save();
             return redirect('employee/add/payroll/'.$request->employee_id)->with('message', 'Employment Information Saved Successfully!');
+        }
+    }
+
+    public function add_payroll_info(Request $request){
+        $earnings_row_count = count($request->salary_component_id);
+        for($i = 0; $i < $earnings_row_count; $i++) {
+            $earning = new EmployeeEarningDeduction();
+            $earning->employee_id           = $request->employee_id;
+            $earning->salary_component_id   = $request->salary_component_id[$i];
+            $earning->earning_or_deduction  = 'earnings';
+            $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
+            $earning->percentage_amount     = $request->percentage_amount[$i];
+            $earning->of_component_id       = $request->of_component_id[$i];
+            $earning->final_amount          = $request->final_amount[$i];
+            $earning->save();
         }
     }
 }

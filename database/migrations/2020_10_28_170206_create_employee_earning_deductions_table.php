@@ -20,11 +20,10 @@ class CreateEmployeeEarningDeductionsTable extends Migration
             $table->unsignedBigInteger('salary_component_id');
             $table->string('earning_or_deduction');
             $table->foreign('salary_component_id')->references('id')->on('salary_components')->onDelete('cascade');
-            $table->string('fixed_of_percentage');
-            $table->double('fixed_amount')->default(0); 
-            $table->double('percentage_amount')->default(0); 
+            $table->string('fixed_or_percentage');
+            $table->string('percentage_amount')->nullable();
             $table->string('of_component_id')->nullable(); 
-            $table->double('final_amount')->default(0); 
+            $table->string('final_amount')->nullable(); 
             $table->timestamps();
         });
     }
