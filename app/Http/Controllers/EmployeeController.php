@@ -12,6 +12,7 @@ use App\Branch;
 use App\PayrollBank;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
+use App\PayrollInfo;
 use Auth;
 use Redirect;
 
@@ -114,10 +115,43 @@ class EmployeeController extends Controller
             $earning->salary_component_id   = $request->salary_component_id[$i];
             $earning->earning_or_deduction  = 'earnings';
             $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
-            $earning->percentage_amount     = $request->percentage_amount[$i];
-            $earning->of_component_id       = $request->of_component_id[$i];
-            $earning->final_amount          = $request->final_amount[$i];
+
+            if($request->fixed_or_percentage[$i] != 'fixed'){
+                $earning->percentage_amount     = $request->percentage_amount[$i];
+                $earning->of_component_id       = $request->of_component_id[$i];
+            }else{
+                $earning->final_amount          = $request->final_amount[$i];
+            }
+
             $earning->save();
         }
+
+        $deductions_row_count = count($request->ded_salary_component_id);
+        for($i = 0; $i < $deductions_row_count; $i++) {
+            $deduction = new EmployeeEarningDeduction();
+            $deduction->employee_id           = $request->employee_id;
+            $deduction->salary_component_id   = $request->ded_salary_component_id[$i];
+            $deduction->earning_or_deduction  = 'deductions';
+            $deduction->fixed_or_percentage   = $request->ded_fixed_or_percentage[$i];
+
+            if($request->ded_fixed_or_percentage[$i] != 'fixed'){
+                $deduction->percentage_amount     = $request->ded_percentage_amount[$i];
+                $deduction->of_component_id       = $request->ded_of_component_id[$i];
+            }else{
+                $deduction->final_amount          = $request->ded_final_amount[$i];
+            }
+
+            $deduction->save();
+        }
+
+        $info = new PayrollInfo();
+        $info->employee_id                      = $request->employee_id;
+        $info->company_pf_on_salary_statement   = $request->company_pf_on_salary_statement;
+        $info->festival_bonus_per_festival      = $request->festival_bonus_per_festival;
+        $info->gratuity_amount                  = $request->gratuity_amount;
+        $info->investment_amount                = $request->investment_amount;
+        $info->ot_allowed                       = $request->ot_allowed;
+        $info->hourly_ot_rate                   = $request->hourly_ot_rate;
+        $info->save();
     }
 }

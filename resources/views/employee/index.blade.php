@@ -43,28 +43,34 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="text-center">SL</th>
-                                    <th class="text-center">Photo</th>
-                                    <th class="text-center">Employee ID</th>
-                                    <th>Name</th>
-                                    <th>Departement</th>
-                                    <th>Designation</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Action</th>
+                                    <th style="vertical-align: middle" class="text-center">SL</th>
+                                    <th style="vertical-align: middle" class="text-center">Photo</th>
+                                    <th style="vertical-align: middle" class="text-center">ID</th>
+                                    <th style="vertical-align: middle">Name</th>
+                                    <th style="vertical-align: middle">Departement</th>
+                                    <th style="vertical-align: middle">Designation</th>
+                                    <th style="vertical-align: middle">Phone</th>
+                                    <th style="vertical-align: middle">Email</th>
+                                    <th style="vertical-align: middle">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($employees as $employee)
                                 <tr>
-                                    <td class="text-center">{{$loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{$employee->employee_photo}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{$loop->iteration}}</td>
+                                    <td style="vertical-align: middle">
+                                        @if($employee->employee_photo != "")
+                                            <img src="{{ asset('storage/'.$employee->employee_photo) }}" style="border-radius:50%;" width="45" height="45"/>
+                                        @else
+                                        <img src="{{ asset('assets/img/users.png') }}" style="border-radius:50%;" width="45" height="45"/>
+                                        @endif
+                                    </td>
                                     <td style="vertical-align: middle">{{$employee->employee_id}}</td>
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
-                                    <td style="vertical-align: middle"></td>
-                                    <td style="vertical-align: middle"></td>
+                                    <td style="vertical-align: middle">{{employee_department($employee->id)}}</td>
+                                    <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td style="vertical-align: middle">{{$employee->phone_1}}</td>
-                                    <td style="vertical-align: middle">{{$employee->email}}</td>
+                                    <td style="vertical-align: middle">{{$employee->email_address}}</td>
                                     <td style="vertical-align: middle">Action</td>
                                 </tr>
                                 @endforeach
