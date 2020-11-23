@@ -13,6 +13,8 @@ use App\PayrollBank;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
 use App\PayrollInfo;
+use App\LeaveType;
+use App\LeaveInfo;
 use Auth;
 use Redirect;
 
@@ -29,15 +31,16 @@ class EmployeeController extends Controller
     }
 
     public function add($page, $employee_id = "", Request $request){
-        $departments = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $designations = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $projects = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $branches = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $banks    = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
-        $earning_components = SalaryComponent::where('component_type','Earnings')->orderby('component_name','asc')->get();
-        $deduction_components = SalaryComponent::where('component_type','Deduction')->orderby('component_name','asc')->get();
-        
-        return view('employee.add',compact('page','employee_id','departments','designations','projects','branches','banks','earning_components','deduction_components'));
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $designations           = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
+        $earning_components     = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderby('component_name','asc')->get();
+        $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
+        $leave_types            = LeaveType::where('company_id',Auth::user()->company_id)->orderby('leave_name','asc')->get();
+        return view('employee.add',compact('page','employee_id','departments','designations',
+        'projects','branches','banks','earning_components','deduction_components','leave_types'));
     }
 
     public function add_personal_info(Request $request){
@@ -153,5 +156,22 @@ class EmployeeController extends Controller
         $info->ot_allowed                       = $request->ot_allowed;
         $info->hourly_ot_rate                   = $request->hourly_ot_rate;
         $info->save();
+        return redirect('employee/add/leave/'.$request->employee_id)->with('message', 'Payroll Information Saved Successfully!');
+    }
+
+    public function add_leave_info(Request $request){
+        $leaves_row_count = count($request->leave_type_id);
+        for($i = 0; $i < $leaves_row_count; $i++) {
+            $leave = new LeaveInfo();
+            $leave->employee_id             = $request->employee_id;
+            $leave->leave_type_id           = $request->leave_type_id[$i];
+            $leave->yearly_allotment        = $request->yearly_allotment[$i];
+            $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
+            $leave->opening_balance         = $request->opening_balance[$i];
+            $leave->carry_forward           = $request->carry_forward[$i];
+            $leave->max_carry_forward       = $request->max_carry_forward[$i];
+            $leave->save();
+        }
+        return redirect('employee')->with('message', 'Employee Added Successfully!');
     }
 }
