@@ -124,6 +124,11 @@ Route::post('employee/add-personal-info', 'EmployeeController@add_personal_info'
 Route::post('employee/add-employment-info', 'EmployeeController@add_employment_info');
 Route::post('employee/add-payroll-info', 'EmployeeController@add_payroll_info');
 Route::post('employee/add-leave-info', 'EmployeeController@add_leave_info');
+Route::get('/employee/delete/{id}', 'EmployeeController@delete');
+
+Route::get('employee/update/{page}/{employee_id}', 'EmployeeController@update');
+Route::post('employee/update-personal-info/{employee_id}', 'EmployeeController@update_personal_info');
+Route::post('employee/update-employment-info/{info_id?}', 'EmployeeController@update_employment_info');
 
 // Leave Setup
 Route::get('/leave-type', 'LeaveController@leave_type_index');

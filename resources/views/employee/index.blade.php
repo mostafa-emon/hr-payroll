@@ -51,7 +51,7 @@
                                     <th style="vertical-align: middle">Designation</th>
                                     <th style="vertical-align: middle">Phone</th>
                                     <th style="vertical-align: middle">Email</th>
-                                    <th style="vertical-align: middle">Action</th>
+                                    <th style="vertical-align: middle" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,7 +71,13 @@
                                     <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td style="vertical-align: middle">{{$employee->phone_1}}</td>
                                     <td style="vertical-align: middle">{{$employee->email_address}}</td>
-                                    <td style="vertical-align: middle">Action</td>
+                                    <td style="vertical-align: middle" class="text-center">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            <a href="{{url('employee/update/personal/'.$employee->id)}}" class="dropdown-item">Update</a>
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$employee->id}})">Delete</a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -88,7 +94,7 @@
         function confirmDelete(id) {
             var r = confirm("Are you confirm to delete?");
             if (r == true) {
-            window.location = "/branches/delete/"+id;
+            window.location = "/employee/delete/"+id;
             }
         }
 
