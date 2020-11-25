@@ -105,10 +105,10 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <select id="branch" name="branch_id" class="form-control select2-no-search">
+                <select id="branch" name="bank_branch_id" class="form-control select2-no-search">
                     <option label="Choose Branch"></option>
-                    @foreach($branches as $branch)
-                        <option value="{{$branch->id}}" @if($employment_info != "" && $branch->id == $employment_info->branch_id) selected @endif>{{$branch->name}}</option>
+                    @foreach($bank_branches as $branch)
+                        <option value="{{$branch->id}}" @if($employment_info != "" && $branch->id == $employment_info->bank_branch_id) selected @endif>{{$branch->branch_name}}</option>
                     @endforeach
                 </select>
             </div>

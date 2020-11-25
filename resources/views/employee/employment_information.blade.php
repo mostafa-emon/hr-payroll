@@ -106,7 +106,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <select id="branch" name="branch_id" class="form-control select2-no-search">
+                <select id="branch" name="bank_branch_id" class="form-control select2-no-search">
                     <option label="Choose Branch"></option>
                 </select>
             </div>

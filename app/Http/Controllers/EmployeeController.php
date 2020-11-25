@@ -15,6 +15,7 @@ use App\EmployeeEarningDeduction;
 use App\PayrollInfo;
 use App\LeaveType;
 use App\LeaveInfo;
+use App\PayrollBranch;
 use Auth;
 use Redirect;
 use Storage;
@@ -103,6 +104,7 @@ class EmployeeController extends Controller
             $employee->salary_payment_method    = $request->salary_payment_method;
             $employee->bank_account_no          = $request->bank_account_no;
             $employee->bank_name                = $request->bank_name;
+            $employee->bank_branch_id           = $request->bank_branch_id;
             $employee->pay_slip_send_method     = $request->pay_slip_send_method;
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;
@@ -194,6 +196,11 @@ class EmployeeController extends Controller
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
+        if($employment_info != "" && $employment_info->bank_name != "") {
+            $bank_branches      = PayrollBranch::where('bank_id',$employment_info->bank_name)->orderby('branch_name','asc')->get();
+        }else{
+            $bank_branches      = [];
+        }
         $earning_components     = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderby('component_name','asc')->get();
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
         $leave_types            = LeaveType::where('company_id',Auth::user()->company_id)->orderby('leave_name','asc')->get();
@@ -208,7 +215,7 @@ class EmployeeController extends Controller
 
         if($employment_info == "") { $info_id = ""; } else { $info_id = $employment_info->id; }
         return view('employee.update.update',compact('page','employee_id','departments','designations','info_id',
-        'projects','branches','banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves'));
+        'projects','branches','banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves','bank_branches'));
     }
 
     public function update_personal_info($employee_id,Request $request){
@@ -279,6 +286,7 @@ class EmployeeController extends Controller
             $employee->salary_payment_method    = $request->salary_payment_method;
             $employee->bank_account_no          = $request->bank_account_no;
             $employee->bank_name                = $request->bank_name;
+            $employee->bank_branch_id           = $request->bank_branch_id;
             $employee->pay_slip_send_method     = $request->pay_slip_send_method;
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;

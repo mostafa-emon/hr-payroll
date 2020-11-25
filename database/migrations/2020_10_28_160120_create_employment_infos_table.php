@@ -33,6 +33,7 @@ class CreateEmploymentInfosTable extends Migration
             $table->string('salary_payment_method')->nullable();
             $table->string('bank_account_no')->nullable();
             $table->string('bank_name')->nullable();
+            $table->string('bank_branch_id')->nullable();
             $table->string('pay_slip_send_method')->nullable();
             $table->string('weekend_1')->nullable();
             $table->string('weekend_2')->nullable();
