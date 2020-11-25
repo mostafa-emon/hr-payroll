@@ -198,9 +198,17 @@ class EmployeeController extends Controller
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
         $leave_types            = LeaveType::where('company_id',Auth::user()->company_id)->orderby('leave_name','asc')->get();
 
+        //Payroll Info
+        $earnings               = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
+        $deductions             = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','deductions')->get();
+        $payroll_info           = PayrollInfo::where('employee_id',$employee_id)->first();
+
+        //Leave Info
+        $leaves                 = LeaveInfo::where('employee_id',$employee_id)->get();
+
         if($employment_info == "") { $info_id = ""; } else { $info_id = $employment_info->id; }
         return view('employee.update.update',compact('page','employee_id','departments','designations','info_id',
-        'projects','branches','banks','earning_components','deduction_components','leave_types','employee','employment_info'));
+        'projects','branches','banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves'));
     }
 
     public function update_personal_info($employee_id,Request $request){
@@ -275,7 +283,89 @@ class EmployeeController extends Controller
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;
             $employee->save();
-            return redirect('employee/update/payroll/'.$request->employee_id)->with('message', 'Employment Information Saved Successfully!');
+            return redirect('employee/update/payroll/'.$request->employee_id)->with('message', 'Employment Information Updated Successfully!');
+        }
+    }
+
+    public function update_payroll_info($employee_id = "",Request $request){
+        if($request->employee_id != "") {
+            $preDataCount = EmployeeEarningDeduction::where('employee_id',$employee_id)->count();
+            if($preDataCount != 0 && $preDataCount != "") {
+                EmployeeEarningDeduction::where('employee_id',$employee_id)->delete();
+            }
+
+            $earnings_row_count = count($request->salary_component_id);
+            for($i = 0; $i < $earnings_row_count; $i++) {
+                $earning = new EmployeeEarningDeduction();
+                $earning->employee_id           = $request->employee_id;
+                $earning->salary_component_id   = $request->salary_component_id[$i];
+                $earning->earning_or_deduction  = 'earnings';
+                $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
+
+                if($request->fixed_or_percentage[$i] != 'fixed'){
+                    $earning->percentage_amount     = $request->percentage_amount[$i];
+                    $earning->of_component_id       = $request->of_component_id[$i];
+                }else{
+                    $earning->final_amount          = $request->final_amount[$i];
+                }
+                $earning->save();
+            }
+            
+            $deductions_row_count = count($request->ded_salary_component_id);
+            for($i = 0; $i < $deductions_row_count; $i++) {
+                $deduction = new EmployeeEarningDeduction();
+                $deduction->employee_id           = $request->employee_id;
+                $deduction->salary_component_id   = $request->ded_salary_component_id[$i];
+                $deduction->earning_or_deduction  = 'deductions';
+                $deduction->fixed_or_percentage   = $request->ded_fixed_or_percentage[$i];
+    
+                if($request->ded_fixed_or_percentage[$i] != 'fixed'){
+                    $deduction->percentage_amount     = $request->ded_percentage_amount[$i];
+                    $deduction->of_component_id       = $request->ded_of_component_id[$i];
+                }else{
+                    $deduction->final_amount          = $request->ded_final_amount[$i];
+                }
+    
+                $deduction->save();
+            }
+
+            $count_payroll_info = PayrollInfo::where('employee_id',$employee_id)->count();
+            if($count_payroll_info == 0){
+                $info = new PayrollInfo;
+            }else{
+                $info = PayrollInfo::where('employee_id',$employee_id)->first();
+            }
+            $info->employee_id                      = $request->employee_id;
+            $info->company_pf_on_salary_statement   = $request->company_pf_on_salary_statement;
+            $info->festival_bonus_per_festival      = $request->festival_bonus_per_festival;
+            $info->gratuity_amount                  = $request->gratuity_amount;
+            $info->investment_amount                = $request->investment_amount;
+            $info->ot_allowed                       = $request->ot_allowed;
+            $info->hourly_ot_rate                   = $request->hourly_ot_rate;
+            $info->save();
+            return redirect('employee/update/leave/'.$request->employee_id)->with('message', 'Payroll Information Updated Successfully!');
+        }
+    }
+
+    public function update_leave_info($employee_id = "",Request $request){
+        if($request->employee_id != "") {
+            $preDataCount = LeaveInfo::where('employee_id',$employee_id)->count();
+            if($preDataCount != 0 && $preDataCount != "") {
+                LeaveInfo::where('employee_id',$employee_id)->delete();
+            }
+            $leaves_row_count = count($request->leave_type_id);
+            for($i = 0; $i < $leaves_row_count; $i++) {
+                $leave = new LeaveInfo();
+                $leave->employee_id             = $request->employee_id;
+                $leave->leave_type_id           = $request->leave_type_id[$i];
+                $leave->yearly_allotment        = $request->yearly_allotment[$i];
+                $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
+                $leave->opening_balance         = $request->opening_balance[$i];
+                $leave->carry_forward           = $request->carry_forward[$i];
+                $leave->max_carry_forward       = $request->max_carry_forward[$i];
+                $leave->save();
+            }
+            return redirect('employee')->with('message', 'Employee Updated Successfully!');
         }
     }
 }
