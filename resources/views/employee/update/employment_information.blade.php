@@ -47,11 +47,11 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="text" name="date_of_joining" placeholder="Date of Joining" @if($employment_info !="" && $employment_info->date_of_joining != "" && $employment_info->date_of_joining != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_joining))}}" @endif class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_joining" placeholder="Date of Joining*" @if($employment_info !="" && $employment_info->date_of_joining != "" && $employment_info->date_of_joining != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_joining))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation" @if($employment_info !="" && $employment_info->date_of_confirmation != "" && $employment_info->date_of_confirmation != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_confirmation))}}" @endif class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation*" @if($employment_info !="" && $employment_info->date_of_confirmation != "" && $employment_info->date_of_confirmation != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_confirmation))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">

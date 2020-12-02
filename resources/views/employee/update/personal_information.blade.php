@@ -117,7 +117,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="email" name="email_address" placeholder="Email Address" value="{{$employee->email_address}}" class="form-control">
+                <input type="email" name="email_address" placeholder="Email Address*" value="{{$employee->email_address}}" class="form-control" required>
             </div>
 
             @if(document_upload_facility(Auth::user()->company_id) == 1)

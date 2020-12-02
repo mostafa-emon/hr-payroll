@@ -47,11 +47,11 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="text" name="date_of_joining" placeholder="Date of Joining" class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_joining" placeholder="Date of Joining*" class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation" class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation*" class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
