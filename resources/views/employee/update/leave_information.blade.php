@@ -92,6 +92,16 @@
     @endif
 </div>
 
+<div class="row">
+    <div class="col-md-4 mg-t-15 remove-space">
+        <select class="form-control" name="leave_count_from">
+            <option value="" label>Leave Count From</option>
+            <option value="joining_date" @if($employee->leave_count_from == "joining_date") selected @endif>Joining Date</option>
+            <option value="date_of_confirmation" @if($employee->leave_count_from == "date_of_confirmation") selected @endif>Date Of Confirmation</option>
+        </select>
+    </div>
+</div>
+
 <div class="row pd-t-30">
     <input type="submit" value="Update" class="btn btn-primary"/>
 </div>

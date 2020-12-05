@@ -24,6 +24,7 @@ class LeaveController extends Controller
         $type = new LeaveType;
         $type->company_id         = Auth::user()->company_id;
         $type->leave_name         = $request->leave_name;
+        $type->reference          = $request->reference;
         $type->leave_id           = $request->leave_id;
         $type->leave_short_name   = $request->leave_short_name;
         if($request->el_deviding_factor != null){
@@ -43,6 +44,7 @@ class LeaveController extends Controller
     public function leave_type_update(Request $request,$id) {
         $type = LeaveType::where('id',$id)->first();
         $type->leave_name         = $request->leave_name;
+        $type->reference          = $request->reference;
         $type->leave_id           = $request->leave_id;
         $type->leave_short_name   = $request->leave_short_name;
         if($request->el_deviding_factor != null){

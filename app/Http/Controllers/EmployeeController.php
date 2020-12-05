@@ -116,15 +116,22 @@ class EmployeeController extends Controller
             $user = new User;
             $user->company_id                   = Auth::user()->company_id;
             $user->name                         = $personal_info->name;
-            $user->designation                  = $employee->designation_id;
+
+            $designation_info                   = Designation::where('id',$employee->designation_id)->first();
+            if($designation_info != ""){
+                $user->designation              = $designation_info->name;
+            }
+
             $user->email                        = $personal_info->email_address;
             $user->password                     = Hash::make($personal_info->phone_1);
             $user->avatar                       = $personal_info->employee_photo;
+
             if($employee->current_status == "Active") {
                 $user->status                   = 1;
             }else{
                 $user->status                   = 0;
             }
+            
             $user->save();
 
             return redirect('employee/add/payroll/'.$request->employee_id)->with('message', 'Employment Information Saved Successfully!');
@@ -193,6 +200,10 @@ class EmployeeController extends Controller
             $leave->max_carry_forward       = $request->max_carry_forward[$i];
             $leave->save();
         }
+        $personal_info = Employee::where('id',$request->employee_id)->first();
+        $personal_info->leave_count_from = $request->leave_count_from;
+        $personal_info->save();
+
         return redirect('employee')->with('message', 'Employee Added Successfully!');
     }
 
@@ -391,6 +402,11 @@ class EmployeeController extends Controller
                 $leave->max_carry_forward       = $request->max_carry_forward[$i];
                 $leave->save();
             }
+
+            $personal_info = Employee::where('id',$employee_id)->first();
+            $personal_info->leave_count_from = $request->leave_count_from;
+            $personal_info->save();
+
             return redirect('employee')->with('message', 'Employee Updated Successfully!');
         }
     }

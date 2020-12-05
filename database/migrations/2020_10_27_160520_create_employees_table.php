@@ -42,6 +42,7 @@ class CreateEmployeesTable extends Migration
             $table->string('employee_cv')->nullable();
             $table->text('reference_1')->nullable();
             $table->text('reference_2')->nullable();
+            $table->string('leave_count_from')->nullable();
             $table->timestamps();
         });
     }

@@ -97,6 +97,15 @@
                     </div>
 
                     <div class="form-group row pd-r-15 pd-l-10">
+                        <label for="leave_name" class="col-form-label col-md-4">Reference:</label>
+                        <select id="reference" name="reference" class="form-control select2-no-search col-md-8 pa" required>
+                            <option label="Select Reference"></option>
+                            <option value="general_leave">General Leave</option>
+                            <option value="paid_leave">Paid Leave</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group row pd-r-15 pd-l-10">
                         <label for="leave_id" class="col-form-label col-md-4">ID :</label>
                         <input type="text" class="form-control col-md-8 pa" id="leave_id" name="leave_id" placeholder="Enter ID"/>
                     </div>
@@ -133,6 +142,8 @@
                 $("#leave_id").val(response.leave_id);
                 $("#leave_short_name").val(response.leave_short_name);
                 $("#el_deviding_factor").val(response.el_deviding_factor);
+                $("#reference").val(response.reference)
+                .find("option[value=" + response.reference +"]").attr('selected', true);
                 $('#modal-form').prop('action', '/leave-type/update/'+id);
                 }
             });
@@ -143,6 +154,7 @@
             $('#leave_id').val('');
             $('#leave_short_name').val('');
             $('#el_deviding_factor').val('21');
+            $('#reference').val('');
             $('#modal-form').prop('action', '/leave-type/add');
         }
 

@@ -18,6 +18,7 @@ class CreateLeaveTypesTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('leave_name',100);
+            $table->string('reference',50)->nullable();
             $table->integer('leave_id')->nullable();
             $table->string('leave_short_name',50)->nullable();
             $table->string('el_deviding_factor',10)->nullable();
