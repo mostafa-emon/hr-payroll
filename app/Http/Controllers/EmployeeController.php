@@ -16,7 +16,9 @@ use App\PayrollInfo;
 use App\LeaveType;
 use App\LeaveInfo;
 use App\PayrollBranch;
+use App\User;
 use Auth;
+use Hash;
 use Redirect;
 use Storage;
 
@@ -109,6 +111,22 @@ class EmployeeController extends Controller
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;
             $employee->save();
+
+            $personal_info = Employee::where('id',$request->employee_id)->first();
+            $user = new User;
+            $user->company_id                   = Auth::user()->company_id;
+            $user->name                         = $personal_info->name;
+            $user->designation                  = $employee->designation_id;
+            $user->email                        = $personal_info->email_address;
+            $user->password                     = Hash::make($personal_info->phone_1);
+            $user->avatar                       = $personal_info->employee_photo;
+            if($employee->current_status == "Active") {
+                $user->status                   = 1;
+            }else{
+                $user->status                   = 0;
+            }
+            $user->save();
+
             return redirect('employee/add/payroll/'.$request->employee_id)->with('message', 'Employment Information Saved Successfully!');
         }
     }
