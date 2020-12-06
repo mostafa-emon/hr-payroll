@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\LeaveType;
 use App\LeaveRequest;
+use App\Employee;
+use App\EmploymentInfo;
 use Auth;
 use Redirect;
+use Carbon;
 
 class LeaveController extends Controller
 {
@@ -67,15 +70,27 @@ class LeaveController extends Controller
     }
 
     public function leave_request_index() {
-        $leaves = LeaveRequest::/*where('employee_id',Auth::user()->id)->*/orderBy('id','desc')->paginate(10);
+        $leaves = LeaveRequest::where('employee_id',Auth::user()->employee_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.leave.create_request.index',compact('leaves'));
     }
 
     public function leave_request_add(Request $request) {
         if($request->start_date != "") {
+            
+            $employee = Employee::where('id',Auth::user()->employee_id)->first();
+            if($employee != ""){
+                if($employee->leave_count_from == 'date_of_confirmation') {
+                    $current_date   = Carbon\Carbon::now()->format('Y-m-d');
+                    $date_of_confirmation = EmploymentInfo::where('employee_id',Auth::user()->employee_id)->first()->date_of_confirmation;
+                    if($date_of_confirmation !="" && $current_date < $date_of_confirmation) {
+                        return redirect('leave-request/add')->with('error_message','Your Confirmation Date is '.$date_of_confirmation.'!');
+                    }
+                }
+            }
+
             $leave = new LeaveRequest;
             $leave->company_id    = Auth::user()->company_id;
-            $leave->employee_id   = Auth::user()->id;
+            $leave->employee_id   = Auth::user()->employee_id;
             $leave->leave_type_id = $request->leave_type_id;
             $leave->start_date    = date('Y-m-d',strtotime($request->start_date));
             $leave->end_date      = date('Y-m-d',strtotime($request->end_date));

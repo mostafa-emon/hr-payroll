@@ -115,6 +115,7 @@ class EmployeeController extends Controller
             $personal_info = Employee::where('id',$request->employee_id)->first();
             $user = new User;
             $user->company_id                   = Auth::user()->company_id;
+            $user->employee_id                  = $request->employee_id;
             $user->name                         = $personal_info->name;
 
             $designation_info                   = Designation::where('id',$employee->designation_id)->first();

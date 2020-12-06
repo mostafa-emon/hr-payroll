@@ -19,6 +19,16 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
+
+                    @if(session()->has('error_message'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session()->get('error_message') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                    
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Create Leave Request</h4>
