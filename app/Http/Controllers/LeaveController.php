@@ -80,10 +80,11 @@ class LeaveController extends Controller
             $employee = Employee::where('id',Auth::user()->employee_id)->first();
             if($employee != ""){
                 if($employee->leave_count_from == 'date_of_confirmation') {
-                    $current_date   = Carbon\Carbon::now()->format('Y-m-d');
-                    $date_of_confirmation = EmploymentInfo::where('employee_id',Auth::user()->employee_id)->first()->date_of_confirmation;
+                    $current_date           = Carbon\Carbon::now()->format('Y-m-d');
+                    $date_of_confirmation   = EmploymentInfo::where('employee_id',Auth::user()->employee_id)->first()->date_of_confirmation;
                     if($date_of_confirmation !="" && $current_date < $date_of_confirmation) {
-                        return redirect('leave-request/add')->with('error_message','Your Confirmation Date is '.$date_of_confirmation.'!');
+                        $confirmation_date  = date('d-m-Y',strtotime($date_of_confirmation));
+                        return redirect('leave-request/add')->with('error_message','You can not take leave before your job Confirmation date '.$confirmation_date.'!');
                     }
                 }
             }
