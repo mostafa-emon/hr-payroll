@@ -8,8 +8,8 @@ use App\LeaveRequest;
 use App\Employee;
 use App\EmploymentInfo;
 use Auth;
-use Redirect;
 use Carbon;
+use Redirect;
 
 class LeaveController extends Controller
 {
