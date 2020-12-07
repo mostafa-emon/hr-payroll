@@ -48,7 +48,7 @@
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-4 mg-t-10">
-                                                    <select name="leave_type_id" class="form-control select2-no-search pa">
+                                                    <select name="leave_type_id" class="form-control select2-no-search pa" required>
                                                         <option label="Leave Type"></option>
                                                         @foreach($types as $type)
                                                             <option value="{{$type->id}}">{{$type->leave_name}}</option>
@@ -56,7 +56,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input id="start_date" class="form-control dtpicker" name="start_date" placeholder="Start date" type="text" autocomplete="off">
+                                                    <input id="start_date" class="form-control dtpicker" name="start_date" placeholder="Start date" type="text" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
                                                     <input id="end_date" class="form-control dtpicker" name="end_date" placeholder="End date" type="text" autocomplete="off">

@@ -7,6 +7,7 @@ use App\LeaveType;
 use App\LeaveRequest;
 use App\Employee;
 use App\EmploymentInfo;
+use App\LeaveInfo;
 use Auth;
 use Carbon;
 use Redirect;
@@ -79,12 +80,56 @@ class LeaveController extends Controller
             
             $employee = Employee::where('id',Auth::user()->employee_id)->first();
             if($employee != ""){
+                
                 if($employee->leave_count_from == 'date_of_confirmation') {
                     $current_date           = Carbon\Carbon::now()->format('Y-m-d');
-                    $date_of_confirmation   = EmploymentInfo::where('employee_id',Auth::user()->employee_id)->first()->date_of_confirmation;
-                    if($date_of_confirmation !="" && $current_date < $date_of_confirmation) {
-                        $confirmation_date  = date('d-m-Y',strtotime($date_of_confirmation));
+                    $date_of_confirmation   = EmploymentInfo::where('employee_id',Auth::user()->employee_id)->first();
+                    if($date_of_confirmation !="" && $current_date < $date_of_confirmation->date_of_confirmation) {
+                        $confirmation_date  = date('d-m-Y',strtotime($date_of_confirmation->date_of_confirmation));
                         return redirect('leave-request/add')->with('error_message','You can not take leave before your job Confirmation date '.$confirmation_date.'!');
+                    }
+                }
+                
+                $curYear = date('Y');
+                $from = $curYear.'-01-01';
+                $to = $curYear.'-12-31';
+
+                $leave_info     = LeaveInfo::where('employee_id',Auth::user()->employee_id)->where('leave_type_id',$request->leave_type_id)->first();
+                $leave_requests = LeaveRequest::where('employee_id',Auth::user()->employee_id)->whereBetween('start_date', [$from, $to])->whereBetween('end_date', [$from, $to])->where('leave_type_id',$request->leave_type_id)->where('status','!=','Rejected')->get();
+
+                if($leave_requests !=""){
+                    $before_leave = 0;
+                    foreach($leave_requests as $leave_request) {
+                        $before_leave = $before_leave + $leave_request->leave_days;
+                    }
+                }
+                $total_leave = $before_leave + $request->leave_days;
+
+                if($leave_info !=""){
+                    $allotment_year = date('Y', strtotime($leave_info->opening_balance_date));
+                    if($allotment_year == $curYear){
+                        if($leave_info->opening_balance < $total_leave) {
+
+                            if($leave_requests != "") {
+                                if($leave_info->opening_balance > $before_leave) {
+                                    $remaining_leave = $leave_info->opening_balance - $before_leave;
+                                    return redirect('leave-request/add')->with('error_message','You can not take leave more than '.$remaining_leave.' days!');
+                                }else{
+                                    return redirect('leave-request/add')->with('error_message','You can not take any leave this year!');
+                                }
+                            }
+                        }
+                    }
+
+                    if($leave_info->yearly_allotment < $total_leave){
+                        if($leave_requests != "") {
+                            if($leave_info->yearly_allotment > $before_leave) {
+                                $remaining_leave = $leave_info->yearly_allotment - $before_leave;
+                                return redirect('leave-request/add')->with('error_message','You can not take leave more than '.$remaining_leave.' days!');
+                            }else{
+                                return redirect('leave-request/add')->with('error_message','You can not take any leave this year!');
+                            }
+                        }
                     }
                 }
             }
@@ -97,6 +142,7 @@ class LeaveController extends Controller
             $leave->end_date      = date('Y-m-d',strtotime($request->end_date));
             $leave->leave_days    = $request->leave_days;
             $leave->remark        = $request->remark;
+            $leave->status        = "Pending";
             if($request->hasFile('attach_file')){  
                 $leave->attach_file       = $request->file('attach_file')->store('leave_request');
             }
@@ -137,7 +183,7 @@ class LeaveController extends Controller
     }
 
     public function verify_leave_request() {
-        $leaves = LeaveRequest::where('company_id',Auth::user()->company_id)->where('status',null)->orderBy('id','asc')->paginate(10);
+        $leaves = LeaveRequest::where('company_id',Auth::user()->company_id)->where('status','Pending')->orderBy('id','asc')->paginate(10);
         return view('transactions.leave.verify_request',compact('leaves'));
     }
 
