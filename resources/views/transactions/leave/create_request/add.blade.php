@@ -59,10 +59,10 @@
                                                     <input id="start_date" class="form-control dtpicker" name="start_date" placeholder="Start date" type="text" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input id="end_date" class="form-control dtpicker" name="end_date" placeholder="End date" type="text" autocomplete="off">
+                                                    <input id="end_date" class="form-control dtpicker" name="end_date" placeholder="End date" type="text" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input id="leave_days" class="form-control" placeholder="Number of Days" name="leave_days" type="text">
+                                                    <input id="leave_days" class="form-control" placeholder="Number of Days" name="leave_days" type="text" required>
                                                 </div>
                                                 <div class="col-md-8 mg-t-10">
                                                     <input id="leave_days" class="form-control" placeholder="Remark" name="remark" type="text">
