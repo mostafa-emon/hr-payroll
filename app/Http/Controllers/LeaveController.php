@@ -81,8 +81,8 @@ class LeaveController extends Controller
             $employee = Employee::where('id',Auth::user()->employee_id)->first();
             if($employee != ""){
                 
+                $current_date           = Carbon\Carbon::now()->format('Y-m-d');
                 if($employee->leave_count_from == 'date_of_confirmation') {
-                    $current_date           = Carbon\Carbon::now()->format('Y-m-d');
                     $date_of_confirmation   = EmploymentInfo::where('employee_id',Auth::user()->employee_id)->first();
                     if($date_of_confirmation !="" && $current_date < $date_of_confirmation->date_of_confirmation) {
                         $confirmation_date  = date('d-m-Y',strtotime($date_of_confirmation->date_of_confirmation));
@@ -130,6 +130,17 @@ class LeaveController extends Controller
                                 return redirect('leave-request/add')->with('error_message','You can not take any leave this year!');
                             }
                         }
+                    }
+                }
+
+                $leave_type = LeaveType::where('id',$request->leave_type_id)->first();
+                if($leave_type->reference == 'paid_leave') {
+                    $total_date = $leave_type->el_deviding_factor * $request->leave_days;
+                    $last_date = Carbon\Carbon::now()->subDays($total_date)->format('Y-m-d');
+
+                    $request_leaves = LeaveRequest::where('employee_id',Auth::user()->employee_id)->whereBetween('start_date', [$last_date, $current_date])->where('leave_type_id',$request->leave_type_id)->where('status','!=','Rejected')->get();
+                    if(count($request_leaves) > 0){
+                        return redirect('leave-request/add')->with('error_message','You can not take leave for el devading factor!');
                     }
                 }
             }
