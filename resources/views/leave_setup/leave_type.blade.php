@@ -45,10 +45,11 @@
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
                                     <th style="width:25%;">Name</th>
-                                    <th class="text-center" style="width:15%;">ID</th>
-                                    <th class="text-center" style="width:20%;">Short Name</th>
-                                    <th class="text-center" style="width:20%;">EL Deviding Factor</th>
-                                    <th class="text-center" style="width:15%;">Action</th>
+                                    <th class="text-center" style="width:10%;">ID</th>
+                                    <th class="text-center" style="width:15%;">Short Name</th>
+                                    <th class="text-center" style="width:20%;">Reference</th>
+                                    <th class="text-center" style="width:15%;">EL Deviding Factor</th>
+                                    <th class="text-center" style="width:10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,7 +59,16 @@
                                     <td style="vertical-align: middle">{{$type->leave_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$type->leave_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$type->leave_short_name}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$type->el_deviding_factor}} Days</td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @if($type->reference == 'general_leave') General Leave
+                                        @else Paid Leave
+                                        @endif
+                                    </td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        @if($type->reference == 'general_leave') N\A
+                                        @else {{$type->el_deviding_factor}} Days
+                                        @endif
+                                    </td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
