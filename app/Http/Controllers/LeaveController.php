@@ -140,7 +140,7 @@ class LeaveController extends Controller
 
                     $request_leaves = LeaveRequest::where('employee_id',Auth::user()->employee_id)->whereBetween('start_date', [$last_date, $current_date])->where('leave_type_id',$request->leave_type_id)->where('status','!=','Rejected')->get();
                     if(count($request_leaves) > 0){
-                        return redirect('leave-request/add')->with('error_message','You can not take leave for el devading factor!');
+                        return redirect('leave-request/add')->with('error_message','You can take 1 earn leave after '.$leave_type->el_deviding_factor.' days!');
                     }
                 }
             }
