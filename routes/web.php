@@ -200,7 +200,11 @@ Route::get('/approve-leave-request', 'LeaveController@approve_leave_request');
 
 Route::get('/leave-balance-transfer', 'LeaveController@leave_balance_transfer');
 Route::post('/leave-balance-transfer', 'LeaveController@leave_balance_transfer');
-//Route::get('/transfer-leave-balance/{id}', 'LeaveController@transfer_leave_balance');
 Route::post('/transfer-leave-balance/{id}', 'LeaveController@transfer_leave_balance');
+
+// Attendance
+Route::get('/create-roster', 'AttendanceController@roster_create');
+Route::post('/create-roster', 'AttendanceController@roster_create');
+Route::post('/store-roster', 'AttendanceController@roster_store');
 
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');

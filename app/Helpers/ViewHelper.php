@@ -220,3 +220,7 @@ function number_formatting($amount){
         return "";
     }
 }  
+
+function get_auto_increment_employee_id($employee_id) {
+    return Employee::where('employee_id',$employee_id)->first()->id;
+}
