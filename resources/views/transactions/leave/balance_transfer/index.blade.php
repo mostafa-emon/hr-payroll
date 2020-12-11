@@ -40,7 +40,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" required>
-                                        <option label="Choose Department"></option>
+                                        <option label="Department"></option>
                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}" @if($department_id == $department->id) selected @endif>{{$department->name}}</option>
                                         @endforeach
@@ -71,7 +71,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="applicable_for" placeholder="Applicable For" value="@if($applicable_for != "") {{$applicable_for}} @else {{date('Y')}}@endif" required>
+                                <input type="text" class="form-control" name="applicable_for" placeholder="Applicable For" value="@if($applicable_for != ""){{$applicable_for}}@else{{date('Y')}}@endif" required>
                             </div>
                             <div class="col-md-2">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
@@ -86,11 +86,16 @@
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
 								<div class="card-body">
-                                    <form method="POST" action="{{url('leave-request/add')}}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{url('transfer-leave-balance/'.$employee->id)}}">
                                         {{ csrf_field() }}
 
                                             <div>
                                                 <div class="row pd-t-10">
+                                                    <div class="col-form-label col-md-2 remove-space" style="font-weight:bold;">Applicable For:</div>
+                                                    <div class="col-md-4 remove-space">
+                                                        <input type="text" class="form-control" placeholder="Applicable For" value={{date($applicable_for)}}>
+                                                    </div>
+                                                    <div class="col-form-label col-md-2 remove-space" style="font-weight:bold;">Applicable Year:</div>
                                                     <div class="col-md-4 remove-space">
                                                         <input type="text" class="form-control" name="applicable_year" placeholder="Applicable Year" value={{date($applicable_for + 1)}}>
                                                     </div>
@@ -98,7 +103,8 @@
                                                 @foreach($leave_infos as $leave_info)
                                                 <div class="row pd-t-10">
                                                     <div class="col-md-4 remove-space">
-                                                        <select class="form-control" name="leave_type_id[]" disabled>
+                                                        <div class="col-form-label" style="font-weight:bold;">Leave Type:</div>
+                                                        <select class="form-control" name="leave_type_id[]" readonly>
                                                             <option value="" label>Leave Type</option>
                                                             @foreach($leave_types as $leave_type)
                                                                 <option value="{{$leave_type->id}}" @if($leave_type->id == $leave_info->leave_type_id) selected @endif>{{$leave_type->leave_name}}</option>
@@ -107,11 +113,13 @@
                                                     </div>
                                                 
                                                     <div class="col-md-4 remove-space">
-                                                        <input type="text" class="form-control" name="balance_left[]" placeholder="Balance Left" value={{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}>
+                                                        <div class="col-form-label" style="font-weight:bold;">Balance Left:</div>
+                                                        <input type="text" class="form-control" placeholder="Balance Left" value="{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}" readonly>
                                                     </div>
                                     
                                                     <div class="col-md-4 remove-space">
-                                                        <input type="text" class="form-control" name="max_carry_forward[]" placeholder="Max C.F" value="{{$leave_info->max_carry_forward}}">
+                                                        <div class="col-form-label" style="font-weight:bold;">Transfer Amount:</div>
+                                                        <input type="number" min="0" class="form-control" name="transfer_amount[]" placeholder="Transfer Amount" max="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif" value="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif">
                                                     </div>
                                                 </div>
                                                 @endforeach

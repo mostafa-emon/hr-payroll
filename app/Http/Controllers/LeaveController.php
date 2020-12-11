@@ -8,6 +8,7 @@ use App\LeaveRequest;
 use App\Employee;
 use App\EmploymentInfo;
 use App\LeaveInfo;
+use App\LeaveBalance;
 use App\Department;
 use App\Project;
 use App\Branch;
@@ -287,4 +288,19 @@ class LeaveController extends Controller
         $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         return view('transactions.leave.balance_transfer.transfer',compact('leave_infos','leave_types','employee'));
     }*/
+
+    public function transfer_leave_balance($employee_id,Request $request){
+        if($request->applicable_year !=""){
+            $leaves_row_count = count($request->transfer_amount);
+            for($i = 0; $i < $leaves_row_count; $i++) {
+                $leave = new LeaveBalance();
+                $leave->employee_id     = $employee_id;
+                $leave->leave_type_id   = $request->leave_type_id[$i];
+                $leave->transfer_amount = $request->transfer_amount[$i];
+                $leave->applicable_year = $request->applicable_year;
+                $leave->save();
+            }
+            return redirect('leave-balance-transfer')->with('message', 'Leave Balance Transferred Successfully!');
+        }
+    }
 }
