@@ -125,16 +125,39 @@ class LeaveController extends Controller
                         }
                     }
 
-                    if($leave_info->yearly_allotment < $total_leave){
-                        if($leave_requests != "") {
-                            if($leave_info->yearly_allotment > $before_leave) {
-                                $remaining_leave = $leave_info->yearly_allotment - $before_leave;
-                                return redirect('leave-request/add')->with('error_message','You can not take leave more than '.$remaining_leave.' days!');
-                            }else{
-                                return redirect('leave-request/add')->with('error_message','You can not take any leave this year!');
+                    $leave_balances = LeaveBalance::where('employee_id',Auth::user()->employee_id)->where('leave_type_id',$request->leave_type_id)->where('applicable_year',$curYear)->get();
+                    if($leave_balances !=""){
+                        $balance = 0;
+                        foreach($leave_balances as $leave_balance){
+                            $balance = $balance + $leave_balance->transfer_amount;
+                        }
+                    }
+
+                    if(count($leave_balances) == 0){
+                        if($leave_info->yearly_allotment < $total_leave){
+                            if($leave_requests != "") {
+                                if($leave_info->yearly_allotment > $before_leave) {
+                                    $remaining_leave = $leave_info->yearly_allotment - $before_leave;
+                                    return redirect('leave-request/add')->with('error_message','You can not take leave more than '.$remaining_leave.' days!');
+                                }else{
+                                    return redirect('leave-request/add')->with('error_message','You can not take any leave this year!');
+                                }
+                            }
+                        }
+                    }else{
+                        $grand_total_leave = $balance + $leave_info->yearly_allotment;
+                        if($grand_total_leave < $total_leave){
+                            if($leave_requests != "") {
+                                if($grand_total_leave > $before_leave) {
+                                    $remaining_leave = $grand_total_leave - $before_leave;
+                                    return redirect('leave-request/add')->with('error_message','You can not take leave more than '.$remaining_leave.' days!');
+                                }else{
+                                    return redirect('leave-request/add')->with('error_message','You can not take any leave this year!');
+                                }
                             }
                         }
                     }
+
                 }
 
                 $leave_type = LeaveType::where('id',$request->leave_type_id)->first();
@@ -291,6 +314,10 @@ class LeaveController extends Controller
 
     public function transfer_leave_balance($employee_id,Request $request){
         if($request->applicable_year !=""){
+            $leave_balance = LeaveBalance::where('employee_id',$employee_id)->where('applicable_year',$request->applicable_year)->get();
+            if(count($leave_balance) > 0){
+                return redirect('leave-balance-transfer')->with('error_message', 'You Have Already Transferred This Employee Balance!');
+            }
             $leaves_row_count = count($request->transfer_amount);
             for($i = 0; $i < $leaves_row_count; $i++) {
                 $leave = new LeaveBalance();
