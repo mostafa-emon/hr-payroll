@@ -8,6 +8,9 @@ use App\LeaveRequest;
 use App\Employee;
 use App\EmploymentInfo;
 use App\LeaveInfo;
+use App\Department;
+use App\Project;
+use App\Branch;
 use Auth;
 use Carbon;
 use Redirect;
@@ -223,4 +226,65 @@ class LeaveController extends Controller
         $leaves = LeaveRequest::where('company_id',Auth::user()->company_id)->where('status','Verified')->orderBy('id','asc')->paginate(10);
         return view('transactions.leave.approve_request',compact('leaves'));
     }
+
+
+
+
+    // Balance Transfer
+    public function leave_balance_transfer(Request $request){
+
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id');
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id      = '';
+        $project_id         = '';
+        $branch_id          = '';
+        $employee_id        = '';
+        $applicable_for     = '';
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos    = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id           = $request->branch_id;
+        }
+
+        if($request->employee_id != ""){
+            $employment_infos    = $employment_infos->where('employees.employee_id',$request->employee_id);
+            $employee_id           = $request->employee_id;
+        }
+
+        if($request->employee_id != "" || $request->department_id != "") {
+            $employment_infos   = $employment_infos->get();
+            $employee           = Employee::where('employee_id',$request->employee_id)->first();
+            $leave_infos        = LeaveInfo::where('employee_id',$employee->id)->where('carry_forward',1)->get();
+            $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+            $applicable_for     = $request->applicable_for;
+        }else{
+            $employment_infos   = [];
+            $leave_infos        = [];
+        }
+
+        return view('transactions.leave.balance_transfer.index',
+        compact('departments','projects','branches','department_id','branch_id','applicable_for',
+        'project_id','employment_infos','employee_id','leave_infos','leave_types','employee'));
+    }
+
+    /*public function transfer_leave_balance($employment_id){
+        $employment_info    = EmploymentInfo::where('id',$employment_id)->first();
+        $employee           = Employee::where('id',$employment_info->employee_id)->first();
+        $leave_infos        = LeaveInfo::where('employee_id',$employee->id)->where('carry_forward',1)->get();
+        $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        return view('transactions.leave.balance_transfer.transfer',compact('leave_infos','leave_types','employee'));
+    }*/
 }

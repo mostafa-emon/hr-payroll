@@ -411,4 +411,30 @@ class EmployeeController extends Controller
             return redirect('employee')->with('message', 'Employee Updated Successfully!');
         }
     }
+
+    public function search_employee($department_id,$project_id="",$branch_id="") {
+        $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
+                    ->join('employees','employees.id','employment_infos.employee_id')
+                    ->where('employees.company_id',Auth::user()->company_id);
+        if($department_id != ""){
+            $employees    = $employees->where('department_id',$department_id);
+        }
+
+        if($project_id != ""){
+            $employees   = $employees->where('project_id',$project_id);
+        }
+
+        if($branch_id != ""){
+            $employees   = $employees->where('branch_id',$branch_id);
+        }
+        $employees = $employees->get();
+
+        if(count($employees) > 0) {
+            foreach($employees as $employee) {
+                echo "<option value=".$employee->employee_id.">".$employee->employee_id."</option>";
+            }
+        }else {
+            echo "";
+        }
+    }
 }

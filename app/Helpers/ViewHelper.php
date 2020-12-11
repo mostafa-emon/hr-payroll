@@ -16,6 +16,8 @@ use App\Setting;
 use App\ChequeTransaction;
 use App\MoneyReceipt;
 use App\LeaveType;
+use App\LeaveInfo;
+use App\LeaveRequest;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -23,6 +25,57 @@ function leftmenu_color() {
 
 function leave_type_name($leave_id){
     return LeaveType::where('id',$leave_id)->value('leave_name');
+}
+
+function employee_name($employee_id){
+    return Employee::where('employee_id',$employee_id)->value('name');
+}
+
+function department_name($department_id){
+    return Department::where('id',$department_id)->value('name');
+}
+
+function designation_name($designation_id){
+    return Designation::where('id',$designation_id)->value('name');
+}
+
+function leave_balance_left($leave_info_id,$employee_id,$applicable_for){
+    $leave_info     = LeaveInfo::where('id',$leave_info_id)->first();
+    $employee       = Employee::where('id',$employee_id)->first();
+
+    $curYear = $applicable_for;
+    $from = $curYear.'-01-01';
+    $to = $curYear.'-12-31';
+
+    $leave_requests = LeaveRequest::where('employee_id',$employee->id)->whereBetween('start_date', [$from, $to])->whereBetween('end_date', [$from, $to])->where('leave_type_id',$leave_info->leave_type_id)->where('status','!=','Rejected')->get();
+
+    if($leave_requests !=""){
+        $before_leave = 0;
+        foreach($leave_requests as $leave_request) {
+            $before_leave = $before_leave + $leave_request->leave_days;
+        }
+    }
+    //$total_leave = $before_leave + $request->leave_days;
+
+    if($leave_info !=""){
+        $allotment_year = date('Y', strtotime($leave_info->opening_balance_date));
+        if($allotment_year == $curYear){
+
+            if($leave_requests != "") {
+                $remaining_leave = $leave_info->opening_balance - $before_leave;
+                return $remaining_leave;
+            }
+
+        }else{
+            if($leave_requests != "") {
+                $remaining_leave = $leave_info->yearly_allotment - $before_leave;
+                return $remaining_leave;
+            }
+        }
+    }
+
+
+
 }
 
 function get_employee_info($employee_id) {
