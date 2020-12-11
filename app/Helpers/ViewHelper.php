@@ -18,6 +18,7 @@ use App\MoneyReceipt;
 use App\LeaveType;
 use App\LeaveInfo;
 use App\LeaveRequest;
+use App\LeaveBalance;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -55,7 +56,6 @@ function leave_balance_left($leave_info_id,$employee_id,$applicable_for){
             $before_leave = $before_leave + $leave_request->leave_days;
         }
     }
-    //$total_leave = $before_leave + $request->leave_days;
 
     if($leave_info !=""){
         $allotment_year = date('Y', strtotime($leave_info->opening_balance_date));
@@ -67,9 +67,28 @@ function leave_balance_left($leave_info_id,$employee_id,$applicable_for){
             }
 
         }else{
-            if($leave_requests != "") {
-                $remaining_leave = $leave_info->yearly_allotment - $before_leave;
-                return $remaining_leave;
+
+            $leave_balances = LeaveBalance::where('employee_id',$employee->id)->where('leave_type_id',$leave_info->leave_type_id)->where('applicable_year',$curYear)->get();
+            if($leave_balances !=""){
+                $balance = 0;
+                foreach($leave_balances as $leave_balance){
+                    $balance = $balance + $leave_balance->transfer_amount;
+                }
+            }
+
+            if(count($leave_balances) == 0){
+
+                if($leave_requests != "") {
+                    $remaining_leave = $leave_info->yearly_allotment - $before_leave;
+                    return $remaining_leave;
+                }
+
+            }else{
+                if($leave_requests != "") {
+                    $total_leave     = $leave_info->yearly_allotment + $balance;
+                    $remaining_leave = $total_leave - $before_leave;
+                    return $remaining_leave;
+                }
             }
         }
     }
