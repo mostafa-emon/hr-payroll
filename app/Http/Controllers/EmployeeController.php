@@ -48,8 +48,13 @@ class EmployeeController extends Controller
     }
 
     public function add_personal_info(Request $request){
+        $find_employee = Employee::where('company_id',Auth::user()->company_id)->where('employee_id',$request->employee_id)->first();
+        if($find_employee != "") {
+            return redirect('employee/add/personal')->with('error_message', 'This Employee ID is already Used!');
+        }
+
         $employee = new Employee;
-        $employee->company_id    = Auth::user()->company_id;
+        $employee->company_id               = Auth::user()->company_id;
         $employee->name                     = $request->name;
         $employee->employee_id              = $request->employee_id;
         $employee->fathers_name             = $request->fathers_name;
@@ -249,6 +254,11 @@ class EmployeeController extends Controller
     }
 
     public function update_personal_info($employee_id,Request $request){
+        $find_employee = Employee::where('id','!=',$employee_id)->where('employee_id',$request->employee_id)->first();
+        if($find_employee != "") {
+            return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Employee ID is already Used!');
+        }
+
         $employee = Employee::where('id',$employee_id)->first();
         $employee->name                     = $request->name;
         $employee->employee_id              = $request->employee_id;

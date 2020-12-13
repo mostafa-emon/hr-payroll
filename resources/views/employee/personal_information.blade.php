@@ -7,7 +7,7 @@
         </div>
         <div class="row row-xs">
             <div class="col-md-3 pd-t-10">
-            <input type="text" name="employee_id" placeholder="Employee ID" class="form-control">
+            <input type="text" name="employee_id" placeholder="Employee ID*" class="form-control" required>
             </div>
 
             <div class="col-md-9 pd-t-10">
