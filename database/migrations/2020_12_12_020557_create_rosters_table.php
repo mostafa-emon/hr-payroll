@@ -15,11 +15,15 @@ class CreateRostersTable extends Migration
     {
         Schema::create('rosters', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->date('date');
-            $table->string('shift_id')->nullable();
-            $table->integer('day_off');
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->string('roster_name')->nullable();
+            $table->integer('department_id');
+            $table->string('project_id')->nullable();
+            $table->string('branch_id')->nullable();
+            $table->string('employee_id');
+            $table->date('from_date');
+            $table->date('to_date');
             $table->timestamps();
         });
     }

@@ -4,10 +4,13 @@ use Illuminate\Support\Facades\Auth;
 use QuickBooksOnline\API\DataService\DataService;
 use App\Role;
 use App\User;
+use App\ShiftType;
 use App\Employee;
 use App\EmploymentInfo;
 use App\Department;
 use App\Designation;
+use App\Project;
+use App\Branch;
 use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
@@ -36,8 +39,24 @@ function department_name($department_id){
     return Department::where('id',$department_id)->value('name');
 }
 
+function employee_name_by_increment_id($employee_id) {
+    return Employee::where('id',$employee_id)->value('name');
+}
+
+function shift_name($shift_id) {
+    return ShiftType::where('id',$shift_id)->value('name');
+}
+
 function designation_name($designation_id){
     return Designation::where('id',$designation_id)->value('name');
+}
+
+function project_name($project_id){
+    return Project::where('id',$project_id)->value('name');
+}
+
+function branch_name($branch_id){
+    return Branch::where('id',$branch_id)->value('name');
 }
 
 function leave_balance_left($leave_info_id,$employee_id,$applicable_for){
