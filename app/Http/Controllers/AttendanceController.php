@@ -14,6 +14,7 @@ use App\Roster;
 use App\RosterEmployee;
 use Auth;
 use DateTime;
+use Carbon;
 
 class AttendanceController extends Controller
 {
@@ -203,5 +204,21 @@ class AttendanceController extends Controller
     public function roster_employee_list($roster_id){
         $roster_employees = RosterEmployee::where('roster_id',$roster_id)->paginate(10);
         return view('transactions.attendance.roster.employee_list',compact('roster_employees'));
+    }
+
+    public function roster_delete($roster_id){
+        $roster = Roster::find($roster_id);
+        if($roster->company_id == Auth::user()->company_id){
+            $roster->delete();
+            $current_date = Carbon\Carbon::now()->format('Y-m-d');
+            $preDataCount = RosterEmployee::where('roster_id',$roster_id)->where('date','>',$current_date)->count();
+            if($preDataCount != 0 && $preDataCount != "") {
+                RosterEmployee::where('roster_id',$roster_id)->where('date','>',$current_date)->delete();
+            }
+
+            return redirect('roster')->with('message','Roster Deleted Successfully!');
+        }else{
+            return redirect('roster')->with('message','Do not try to be too smart!');
+        }
     }
 }
