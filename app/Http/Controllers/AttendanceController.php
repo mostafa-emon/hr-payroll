@@ -15,6 +15,7 @@ use App\RosterEmployee;
 use Auth;
 use DateTime;
 use Carbon;
+use DB;
 
 class AttendanceController extends Controller
 {
@@ -202,7 +203,7 @@ class AttendanceController extends Controller
     }
 
     public function roster_employee_list($roster_id){
-        $roster_employees = RosterEmployee::where('roster_id',$roster_id)->paginate(10);
+        $roster_employees = RosterEmployee::where('roster_id',$roster_id)->groupBy('employee_id')->select('employee_id', DB::raw('count(*) as total'))->paginate(10);
         return view('transactions.attendance.roster.employee_list',compact('roster_employees'));
     }
 

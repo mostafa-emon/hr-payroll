@@ -43,23 +43,15 @@
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th class="text-center">SL</th>
-                                    <th>Employee Name</th>
-                                    <th>Date</th>
-                                    <th>Shift Name</th>
-                                    <th class="text-center">Day Off</th>
+                                    <th class="text-center" style="width:15%;">SL</th>
+                                    <th style="width:85%;">Employee Name</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($roster_employees as $employee)
                                     <tr>
-                                        <td style="vertical-align: middle" class="text-center">{{$loop->iteration}}</td>
-                                        <td style="vertical-align: middle">{{employee_name_by_increment_id($employee->employee_id)}}</td>
-                                        <td style="vertical-align: middle">{{$employee->date}}</td>
-                                        <td style="vertical-align: middle">{{shift_name($employee->shift_id)}}</td>
-                                        <td style="vertical-align: middle" class="text-center">
-                                            @if($employee->day_off == 1) Yes @else No @endif
-                                        </td>
+                                        <td style="vertical-align: middle;" class="text-center">{{$loop->iteration}}</td>
+                                        <td style="vertical-align: middle;">{{employee_name_by_increment_id($employee->employee_id)}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
