@@ -92,7 +92,7 @@ class AttendanceController extends Controller
     }
 
     public function roster_create(Request $request) {
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id');
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -183,7 +183,7 @@ class AttendanceController extends Controller
     public function roster_duplicate($roster_id,Request $request) {
         $roster             = Roster::where('id',$roster_id)->first();
 
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->get();
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->get();
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -221,5 +221,99 @@ class AttendanceController extends Controller
         }else{
             return redirect('roster')->with('message','Do not try to be too smart!');
         }
+    }
+
+    public function roster_search(Request $request) {
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $shifts             = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $rosters            = Roster::where('company_id',Auth::user()->company_id)->orderBy('id','asc');
+
+        $department_id      = '';
+        $project_id         = '';
+        $branch_id          = '';
+        $employee_id        = [];
+        $from_date          = '';
+        $to_date            = '';
+        $roster_name        = '';
+        $roster_id          = '';
+        $roster_employees   = '';
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+            $rosters            = $rosters->where('project_id',$request->project_id);
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+            $rosters            = $rosters->where('branch_id',$request->branch_id);
+        }
+
+        if($request->from_date != "") {
+            $from_date          = $request->from_date;
+            $changed_from_date  = date('Y-m-d',strtotime($request->from_date));
+            $rosters            = $rosters->where('from_date',$changed_from_date);
+        }
+
+        if($request->to_date != "") {
+            $to_date            = $request->to_date;
+            $changed_to_date    = date('Y-m-d',strtotime($request->to_date));
+            $rosters            = $rosters->where('to_date',$changed_to_date);
+        }
+
+        if($request->roster_name != "") {
+            $roster_name        = $request->roster_name;
+            $rosters            = $rosters->where('roster_name',$request->roster_name);
+        }
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+            $rosters            = $rosters->where('department_id',$request->department_id);
+            $rosters            = $rosters->get();
+        }
+
+        if($request->employee_id != "") {
+            $employee_id        = $request->employee_id;
+            foreach($rosters as $roster) {
+                $roster_increment_id = $roster->id;
+                foreach(json_decode($roster->employee_id) as $key => $value) {
+                    if(strpos($value, $request->employee_id) !== false) {
+                        $increment_employee_id = get_auto_increment_employee_id($request->employee_id);
+                        $roster_employees = RosterEmployee::/*where('roster_id',$roster_increment_id)->*/where('employee_id',$increment_employee_id)->whereBetween('date', [$changed_from_date, $changed_to_date])->get();
+                    }
+                }
+            }
+        }
+
+        $employment_infos = $employment_infos->get();
+
+        return view('transactions.attendance.roster.search.index',
+        compact('departments','projects','branches','department_id','branch_id','roster_name','roster_employees',
+        'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster_id'));
+    }
+
+
+    public function roster_employee_delete($roster_employee_id){
+        $roster = RosterEmployee::find($roster_employee_id);
+        $roster->delete();
+        return redirect('roster-search')->with('message','Roster Employee Deleted Successfully!');
+    }
+
+    public function roster_employee_update(Request $request,$id) {
+        $shifts     = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $r_employee = RosterEmployee::where('id',$id)->first();
+        if($request->date != "") {
+            $r_employee->shift_id       = $request->shift_id;
+            $r_employee->day_off        = $request->day_off;
+            $r_employee->date           = date('Y-m-d',strtotime($request->date));
+            $r_employee->save();
+            return redirect('roster-search')->with('message','Roster Employee Updated Successfully!');
+        }
+        return view('transactions.attendance.roster.search.update',compact('shifts','r_employee'));
     }
 }

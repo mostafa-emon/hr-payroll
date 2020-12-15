@@ -210,5 +210,11 @@ Route::post('/store-roster', 'AttendanceController@roster_store');
 Route::get('/roster-duplicate/{id}', 'AttendanceController@roster_duplicate');
 Route::get('/roster/delete/{id}', 'AttendanceController@roster_delete');
 Route::get('/roster/employee-list/{id}', 'AttendanceController@roster_employee_list');
+Route::get('/roster-search', 'AttendanceController@roster_search');
+Route::post('/roster-search', 'AttendanceController@roster_search');
+Route::get('/roster-employee/delete/{id}', 'AttendanceController@roster_employee_delete');
+
+Route::get('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
+Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
 
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');

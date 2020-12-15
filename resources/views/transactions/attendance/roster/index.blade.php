@@ -32,7 +32,8 @@
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Roster</h4>
                         </div>
-                        <div class="col-md-6 text-right"> 
+                        <div class="col-md-6 text-right">
+                            <a href="{{url('roster-search')}}" style="font-size: 15px;" class="btn btn-info btn-sm">Search</a>
                             <a href="{{url('create-roster')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
                         </div>
                     </div>
