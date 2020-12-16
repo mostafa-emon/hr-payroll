@@ -52,10 +52,7 @@
                     <form action="{{ url('roster-search') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-3">
-                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Name" value="{{$roster_name}}"/>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" required>
                                         <option label="Department"></option>
                                         @foreach($departments as $department)
@@ -63,7 +60,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <select name="project_id" id="project_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Choose Project"></option>
                                         @foreach($projects as $project)
@@ -71,7 +68,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <select name="branch_id" id="branch_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Choose Branch"></option>
                                         @foreach($branches as $branch)
@@ -79,10 +76,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <select name="employee_id" id="employee_id" class="form-control select2-no-search" required>
                                     <option label="Choose Employee"></option>
                                     @foreach($employment_infos as $employment_info)
@@ -90,12 +84,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="from date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif" required/>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="to date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif" required/>
                             </div>
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="col-md-3 text-left">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
                             </div>

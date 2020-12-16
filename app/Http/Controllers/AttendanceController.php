@@ -174,6 +174,7 @@ class AttendanceController extends Controller
 
             for($i = 0; $i <= $interval; $i++) {
                 $add_roster = new RosterEmployee();
+                $add_roster->company_id     = Auth::user()->company_id;
                 $add_roster->roster_id      = $request->roster_id;
                 $add_roster->employee_id    = get_auto_increment_employee_id($row);
                 $add_roster->date           = date('Y-m-d',strtotime($request['date_'.$i]));
@@ -210,7 +211,7 @@ class AttendanceController extends Controller
     }
 
     public function roster_employee_list($roster_id){
-        $roster_employees = RosterEmployee::where('roster_id',$roster_id)->groupBy('employee_id')->select('employee_id', DB::raw('count(*) as total'))->paginate(10);
+        $roster_employees = RosterEmployee::where('company_id',Auth::user()->company_id)->where('roster_id',$roster_id)->groupBy('employee_id')->select('employee_id', DB::raw('count(*) as total'))->paginate(10);
         return view('transactions.attendance.roster.employee_list',compact('roster_employees'));
     }
 
@@ -236,7 +237,6 @@ class AttendanceController extends Controller
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $shifts             = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $rosters            = Roster::where('company_id',Auth::user()->company_id)->orderBy('id','asc');
 
         $department_id      = '';
         $project_id         = '';
@@ -251,13 +251,11 @@ class AttendanceController extends Controller
         if($request->project_id != ""){
             $employment_infos   = $employment_infos->where('project_id',$request->project_id);
             $project_id         = $request->project_id;
-            $rosters            = $rosters->where('project_id',$request->project_id);
         }
 
         if($request->branch_id != ""){
             $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
             $branch_id          = $request->branch_id;
-            $rosters            = $rosters->where('branch_id',$request->branch_id);
         }
 
         if($request->from_date != "" && $request->to_date != "") {
@@ -265,31 +263,17 @@ class AttendanceController extends Controller
             $to_date            = $request->to_date;
             $changed_from_date  = date('Y-m-d',strtotime($request->from_date));
             $changed_to_date    = date('Y-m-d',strtotime($request->to_date));
-            $rosters            = $rosters->whereBetween('from_date', [$changed_from_date, $changed_to_date])->whereBetween('to_date', [$changed_from_date, $changed_to_date]);
-        }
-
-        if($request->roster_name != "") {
-            $roster_name        = $request->roster_name;
-            $rosters            = $rosters->where('roster_name',$request->roster_name);
         }
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-            $rosters            = $rosters->where('department_id',$request->department_id);
-            $rosters            = $rosters->get();
         }
 
         if($request->employee_id != "") {
-            $employee_id        = $request->employee_id;
-            foreach($rosters as $roster) {
-                foreach(json_decode($roster->employee_id) as $key => $value) {
-                    if(strpos($value, $request->employee_id) !== false) {
-                        $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
-                        $roster_employees       = RosterEmployee::/*where('roster_id',$roster->id)->*/where('employee_id',$increment_employee_id)->whereBetween('date', [$changed_from_date, $changed_to_date])->get();
-                    }
-                }
-            }
+            $employee_id            = $request->employee_id;
+            $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
+            $roster_employees   = RosterEmployee::where('company_id',Auth::user()->company_id)->where('employee_id',$increment_employee_id)->whereBetween('date', [$changed_from_date, $changed_to_date])->get();
         }
 
         $employment_infos = $employment_infos->get();
@@ -303,7 +287,7 @@ class AttendanceController extends Controller
     public function roster_employee_delete($roster_employee_id){
         $roster = RosterEmployee::find($roster_employee_id);
         $roster->delete();
-        return redirect('roster-search')->with('message','Roster Employee Deleted Successfully!');
+        return redirect('roster-search')->with('message','Roster Deleted Successfully!');
     }
 
     public function roster_employee_update(Request $request,$id) {
@@ -314,7 +298,7 @@ class AttendanceController extends Controller
             $r_employee->day_off        = $request->day_off;
             $r_employee->date           = date('Y-m-d',strtotime($request->date));
             $r_employee->save();
-            return redirect('roster-search')->with('message','Roster Employee Updated Successfully!');
+            return redirect('roster-search')->with('message','Roster Updated Successfully!');
         }
         return view('transactions.attendance.roster.search.update',compact('shifts','r_employee'));
     }

@@ -21,7 +21,7 @@ class CreateRostersTable extends Migration
             $table->integer('department_id');
             $table->string('project_id')->nullable();
             $table->string('branch_id')->nullable();
-            $table->string('employee_id');
+            $table->text('employee_id');
             $table->date('from_date');
             $table->date('to_date');
             $table->timestamps();

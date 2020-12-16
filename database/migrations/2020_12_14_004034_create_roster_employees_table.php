@@ -15,6 +15,8 @@ class CreateRosterEmployeesTable extends Migration
     {
         Schema::create('roster_employees', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->integer('roster_id');
             $table->integer('employee_id');
             $table->date('date');
