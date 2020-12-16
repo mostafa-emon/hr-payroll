@@ -273,7 +273,8 @@ class AttendanceController extends Controller
         if($request->employee_id != "") {
             $employee_id            = $request->employee_id;
             $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
-            $roster_employees   = RosterEmployee::where('company_id',Auth::user()->company_id)->where('employee_id',$increment_employee_id)->whereBetween('date', [$changed_from_date, $changed_to_date])->get();
+            $roster_employees   = RosterEmployee::where('company_id',Auth::user()->company_id)->where('employee_id',$increment_employee_id)
+                                ->whereBetween('date', [$changed_from_date, $changed_to_date])->orderBy('date','asc')->get();
         }
 
         $employment_infos = $employment_infos->get();
@@ -298,6 +299,7 @@ class AttendanceController extends Controller
             $r_employee->day_off        = $request->day_off;
             $r_employee->date           = date('Y-m-d',strtotime($request->date));
             $r_employee->save();
+
             return redirect('roster-search')->with('message','Roster Updated Successfully!');
         }
         return view('transactions.attendance.roster.search.update',compact('shifts','r_employee'));
