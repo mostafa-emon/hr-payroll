@@ -96,11 +96,9 @@
                             <div class="col-md-3">
                                 <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="to date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif" required/>
                             </div>
-                            @if($department_id == "")
-                                <div class="col-md-3 text-left">
-                                    <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
-                                </div>
-                            @endif
+                            <div class="col-md-3 text-left">
+                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
+                            </div>
                         </div>
                     </form>
 

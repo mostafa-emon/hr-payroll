@@ -160,6 +160,13 @@ class AttendanceController extends Controller
 
     public function roster_store(Request $request){
         foreach(explode(',',$request->store_employee_id) as $row) {
+            $all_employees = RosterEmployee::where('employee_id',get_auto_increment_employee_id($row))->whereBetween('date', [date('Y-m-d',strtotime($request->store_from_date)), date('Y-m-d',strtotime($request->store_to_date))])->count();
+            if($all_employees > 0 && $all_employees !='') {
+                $all_employees = RosterEmployee::where('employee_id',get_auto_increment_employee_id($row))->whereBetween('date', [date('Y-m-d',strtotime($request->store_from_date)), date('Y-m-d',strtotime($request->store_to_date))])->delete();
+            }
+        }
+
+        foreach(explode(',',$request->store_employee_id) as $row) {
             $formatted_from_date = new DateTime($request->store_from_date);
             $formatted_to_date   = new DateTime($request->store_to_date);
             $interval = $formatted_to_date->diff($formatted_from_date);
@@ -253,16 +260,12 @@ class AttendanceController extends Controller
             $rosters            = $rosters->where('branch_id',$request->branch_id);
         }
 
-        if($request->from_date != "") {
+        if($request->from_date != "" && $request->to_date != "") {
             $from_date          = $request->from_date;
-            $changed_from_date  = date('Y-m-d',strtotime($request->from_date));
-            $rosters            = $rosters->where('from_date',$changed_from_date);
-        }
-
-        if($request->to_date != "") {
             $to_date            = $request->to_date;
+            $changed_from_date  = date('Y-m-d',strtotime($request->from_date));
             $changed_to_date    = date('Y-m-d',strtotime($request->to_date));
-            $rosters            = $rosters->where('to_date',$changed_to_date);
+            $rosters            = $rosters->whereBetween('from_date', [$changed_from_date, $changed_to_date])->whereBetween('to_date', [$changed_from_date, $changed_to_date]);
         }
 
         if($request->roster_name != "") {
@@ -280,11 +283,10 @@ class AttendanceController extends Controller
         if($request->employee_id != "") {
             $employee_id        = $request->employee_id;
             foreach($rosters as $roster) {
-                $roster_increment_id = $roster->id;
                 foreach(json_decode($roster->employee_id) as $key => $value) {
                     if(strpos($value, $request->employee_id) !== false) {
-                        $increment_employee_id = get_auto_increment_employee_id($request->employee_id);
-                        $roster_employees = RosterEmployee::/*where('roster_id',$roster_increment_id)->*/where('employee_id',$increment_employee_id)->whereBetween('date', [$changed_from_date, $changed_to_date])->get();
+                        $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
+                        $roster_employees       = RosterEmployee::/*where('roster_id',$roster->id)->*/where('employee_id',$increment_employee_id)->whereBetween('date', [$changed_from_date, $changed_to_date])->get();
                     }
                 }
             }
