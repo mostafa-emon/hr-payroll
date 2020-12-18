@@ -12,6 +12,8 @@ use App\Branch;
 use App\ShiftType;
 use App\Roster;
 use App\RosterEmployee;
+use App\EarningAdjustment;
+use App\SalaryComponent;
 use Auth;
 use DateTime;
 use Carbon;
@@ -303,5 +305,19 @@ class AttendanceController extends Controller
             return redirect('roster-search')->with('message','Roster Updated Successfully!');
         }
         return view('transactions.attendance.roster.search.update',compact('shifts','r_employee'));
+    }
+
+    public function earnings_adjustment_index() {
+        $earnings = EarningAdjustment::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
+        return view('transactions.payroll.earnings_adjustment.index',compact('earnings'));
+    }
+
+    public function earnings_adjustment_create() {
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderBy('id','asc')->get();
+        return view('transactions.payroll.earnings_adjustment.create',compact('departments','projects','branches','salary_components'));
     }
 }

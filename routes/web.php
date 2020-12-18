@@ -213,8 +213,13 @@ Route::get('/roster/employee-list/{id}', 'AttendanceController@roster_employee_l
 Route::get('/roster-search', 'AttendanceController@roster_search');
 Route::post('/roster-search', 'AttendanceController@roster_search');
 Route::get('/roster-employee/delete/{id}', 'AttendanceController@roster_employee_delete');
-
 Route::get('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
 Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
 
+//Payroll
+Route::get('/earnings-adjustment', 'AttendanceController@earnings_adjustment_index');
+Route::get('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
+Route::post('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
+
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
+Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');

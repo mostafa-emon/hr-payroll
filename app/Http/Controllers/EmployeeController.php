@@ -447,4 +447,51 @@ class EmployeeController extends Controller
             echo "";
         }
     }
+
+    public function search_employee_increment_id($department_id,$project_id="",$branch_id="",$component_id="") {
+
+        //$earnings    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->get();
+        $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
+                    ->join('employees','employees.id','employment_infos.employee_id')
+                    ->where('employees.company_id',Auth::user()->company_id);
+                    
+        if($department_id != "" && $department_id != 0){
+            $employees    = $employees->where('department_id',$department_id);
+        }
+
+        if($project_id != "" && $project_id != 0){
+            $employees   = $employees->where('project_id',$project_id);
+        }
+
+        if($branch_id != "" && $branch_id != 0){
+            $employees   = $employees->where('branch_id',$branch_id);
+        }
+
+        if($component_id != "" && $component_id != 0){
+            $is_exists    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->where('salary_component_id',$component_id)->get();
+            $earning_employee = [];
+            foreach($is_exists as $earning) {
+                $earning_employee[] = $earning->employee_id;
+            }
+            $employees = $employees->whereIn('employees.id',$earning_employee);
+        }
+
+        $employees = $employees->get();
+
+        if(count($employees) > 0) {
+            foreach($employees as $employee) {
+                echo "<option value=".$employee->id.">".$employee->name."</option>";
+                /*if($component_id != "" && $component_id != 0){
+                    $is_exists    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->where('salary_component_id',$component_id)->count();
+                    if($is_exists > 0){
+                        echo "<option value=".$employee->id.">".$employee->name."</option>";
+                    }
+                }else{
+                    echo "<option value=".$employee->id.">".$employee->name."</option>";
+                }*/
+            }
+        }else {
+            echo "";
+        }
+    }
 }
