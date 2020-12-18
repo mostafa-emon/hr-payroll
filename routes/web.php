@@ -219,7 +219,7 @@ Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employe
 //Payroll
 Route::get('/earnings-adjustment', 'AttendanceController@earnings_adjustment_index');
 Route::get('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
-Route::post('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
+Route::post('/earnings-adjustment/create-post', 'AttendanceController@earnings_adjustment_create_post');
 
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');

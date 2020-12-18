@@ -18,6 +18,7 @@ use Auth;
 use DateTime;
 use Carbon;
 use DB;
+use Carbon\CarbonPeriod;
 
 class AttendanceController extends Controller
 {
@@ -313,11 +314,34 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_create() {
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderBy('id','asc')->get();
         return view('transactions.payroll.earnings_adjustment.create',compact('departments','projects','branches','salary_components'));
+    }
+
+    public function earnings_adjustment_create_post(Request $request) {
+        $formatted_from_date    = date('Y-m-d',strtotime($request->from_date));
+        $formatted_to_date      = date('Y-m-d',strtotime($request->to_date));
+        $period                 = CarbonPeriod::create($formatted_from_date, '1 month', $formatted_to_date);
+
+        foreach($request->employee_id as $employee_id) {
+            foreach ($period as $dt) {
+                $earning = new EarningAdjustment();
+                $earning->company_id            = Auth::user()->company_id;
+                $earning->employee_id           = $employee_id;
+                $earning->salary_component_id   = $request->component_id;
+                $earning->month                 = $dt->format("F");
+                $earning->year                  = $dt->format("Y");
+                $earning->note                  = $request->note;
+                $earning->reference_no          = $request->reference_no;
+                if($request->hasFile('attach_file')){
+                    $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
+                }
+                $earning->save();
+            }
+        }
+        return redirect('earnings-adjustment')->with('message','Earning Adjustment Created Successfully!');
     }
 }

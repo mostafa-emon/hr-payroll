@@ -32,7 +32,7 @@
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
 								<div class="card-body">
-                                    <form method="POST" action="{{url('earnings-adjustment/create')}}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{url('earnings-adjustment/create-post')}}" enctype="multipart/form-data">
                                         {{ csrf_field() }}
 
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
@@ -62,7 +62,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
-                                                    <select name="component_id" id="component_id" class="form-control select2-no-search" onchange="get_employee()">
+                                                    <select name="component_id" id="component_id" class="form-control select2-no-search" onchange="get_employee()" required>
                                                         <option label="Choose Component"></option>
                                                         @foreach($salary_components as $component)
                                                             <option value="{{$component->id}}">{{$component->component_name}}</option>
@@ -74,29 +74,29 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date"/>
+                                                    <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" required>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date"/>
+                                                    <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" required>
                                                 </div>
 
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-12 mg-t-10">
-                                                            <textarea type="text" name="to_date" rows="4" class="form-control" placeholder="Note..."></textarea>
+                                                            <textarea type="text" name="note" rows="4" class="form-control" placeholder="Note..."></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <div class="col-md-6 mg-t-10">
-                                                            <input type="text" name="amount" class="form-control" placeholder="Amount"/>
+                                                            <input type="text" name="amount" class="form-control" placeholder="Amount" required/>
                                                         </div>
                                                         <div class="col-md-6 mg-t-10">
                                                             <input type="text" name="reference_no" class="form-control" placeholder="Reference No"/>
                                                         </div>
                                                         <div class="col-md-12 pd-t-20">
-                                                            <input class="form-control" name="employee_cv" type="file">
+                                                            <input class="form-control" name="attach_file" type="file">
                                                         </div>
                                                     </div>
                                                 </div>
