@@ -73,9 +73,9 @@
                             </div>
                             <div class="col-md-2">
                                 <select id="employee_id" name="employee_id" class="form-control select2-no-search" required>
-                                    <option label="Employee ID"></option>
+                                    <option label="Employee Name"></option>
                                     @foreach($employment_infos as $employment_info)
-                                        <option value="{{$employment_info->employee_id}}" @if($employee_id == $employment_info->employee_id) selected @endif>{{$employment_info->employee_id}}</option>
+                                        <option value="{{$employment_info->employee_id}}" @if($employee_id == $employment_info->employee_id) selected @endif>{{$employment_info->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -167,7 +167,7 @@
                 success:function(data) {
                     console.log(data)
                     $('#employee_id').html('');
-                    $('#employee_id').append('<option value="" selected>Employee ID</option>');
+                    $('#employee_id').append('<option value="" selected>Employee Name</option>');
                     $('#employee_id').append(data);
                 }
             });

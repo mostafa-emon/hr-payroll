@@ -304,14 +304,6 @@ class LeaveController extends Controller
         'project_id','employment_infos','employee_id','leave_infos','leave_types','employee'));
     }
 
-    /*public function transfer_leave_balance($employment_id){
-        $employment_info    = EmploymentInfo::where('id',$employment_id)->first();
-        $employee           = Employee::where('id',$employment_info->employee_id)->first();
-        $leave_infos        = LeaveInfo::where('employee_id',$employee->id)->where('carry_forward',1)->get();
-        $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        return view('transactions.leave.balance_transfer.transfer',compact('leave_infos','leave_types','employee'));
-    }*/
-
     public function transfer_leave_balance($employee_id,Request $request){
         if($request->applicable_year !=""){
             $leave_balance = LeaveBalance::where('employee_id',$employee_id)->where('applicable_year',$request->applicable_year)->get();
