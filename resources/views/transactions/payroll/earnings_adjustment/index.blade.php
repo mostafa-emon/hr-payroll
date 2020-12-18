@@ -44,10 +44,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
-                                    <th style="width:25%;">Employee Name</th>
+                                    <th style="width:20%;">Employee Name</th>
                                     <th class="text-center" style="width:15%;">Amount</th>
-                                    <th class="text-center" style="width:20%;">Month</th>
-                                    <th class="text-center" style="width:20%;">Year</th>
+                                    <th class="text-center" style="width:15%;">Month</th>
+                                    <th class="text-center" style="width:15%;">Year</th>
+                                    <th class="text-center" style="width:15%;">Status</th>
                                     <th class="text-center" style="width:15%;">Action</th>
                                 </tr>
                             </thead>
@@ -55,10 +56,15 @@
                                 @foreach($earnings as $earning)
                                 <tr>
                                     <td style="vertical-align: middle" class="text-center">{{$loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{$earning->name}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{$earning->holiday_id}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{$earning->holiday_id}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{$earning->holiday_id}}</td>
+                                    <td style="vertical-align: middle">{{employee_name_by_increment_id($earning->employee_id)}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{$earning->amount}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{$earning->month}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{$earning->year}}</td>
+                                    <td style="vertical-align: middle" class="text-center">
+                                        @if($earning->status == "1") Active
+                                        @else Inactive
+                                        @endif
+                                    </td>
                                     <td style="vertical-align: middle" class="text-center">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
@@ -71,7 +77,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $earnings->links() }}
+                    <div class="mg-t-15">
+                        {{ $earnings->links() }}
+                    </div>
                 </div>
             </div>
         </div>

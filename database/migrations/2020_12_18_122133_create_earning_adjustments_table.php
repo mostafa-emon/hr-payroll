@@ -21,11 +21,13 @@ class CreateEarningAdjustmentsTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->unsignedBigInteger('salary_component_id');
             $table->foreign('salary_component_id')->references('id')->on('salary_components')->onDelete('cascade');
+            $table->string('amount',100);
             $table->string('month',100);
             $table->string('year',100);
             $table->text('note')->nullable();
             $table->string('attach_file')->nullable();
             $table->string('reference_no',100)->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

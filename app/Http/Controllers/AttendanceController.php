@@ -334,8 +334,10 @@ class AttendanceController extends Controller
                 $earning->salary_component_id   = $request->component_id;
                 $earning->month                 = $dt->format("F");
                 $earning->year                  = $dt->format("Y");
+                $earning->amount                = $request->amount;
                 $earning->note                  = $request->note;
                 $earning->reference_no          = $request->reference_no;
+                $earning->status                = $request->status;
                 if($request->hasFile('attach_file')){
                     $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
                 }

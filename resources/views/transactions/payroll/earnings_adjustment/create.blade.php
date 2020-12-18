@@ -80,20 +80,27 @@
                                                     <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" required>
                                                 </div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="row">
                                                         <div class="col-md-12 mg-t-10">
                                                             <textarea type="text" name="note" rows="4" class="form-control" placeholder="Note..."></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-8">
                                                     <div class="row">
-                                                        <div class="col-md-6 mg-t-10">
+                                                        <div class="col-md-4 mg-t-10">
                                                             <input type="text" name="amount" class="form-control" placeholder="Amount" required/>
                                                         </div>
-                                                        <div class="col-md-6 mg-t-10">
+                                                        <div class="col-md-4 mg-t-10">
                                                             <input type="text" name="reference_no" class="form-control" placeholder="Reference No"/>
+                                                        </div>
+                                                        <div class="col-md-4 mg-t-10">
+                                                            <select name="status" class="form-control select2-no-search">
+                                                                <option label="Status"></option>
+                                                                <option Value="1">Active</option>
+                                                                <option Value="0">Inactive</option>
+                                                            </select>
                                                         </div>
                                                         <div class="col-md-12 pd-t-20">
                                                             <input class="form-control" name="attach_file" type="file">
