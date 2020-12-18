@@ -15,7 +15,7 @@
                 <select class="form-control" name="designation_id" required>
                     <option value="" label>designation*</option>
                     @foreach($designations as $designation)
-                        <option value="{{$designation->id}}" @if($employment_info != "" && $department->id == $employment_info->designation_id) selected @endif>{{$designation->name}}</option>
+                        <option value="{{$designation->id}}" @if($employment_info != "" && $designation->id == $employment_info->designation_id) selected @endif>{{$designation->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -24,7 +24,7 @@
                 <select class="form-control" name="project_id">
                     <option value="" label>project</option>
                     @foreach($projects as $project)
-                        <option value="{{$project->id}}" @if($employment_info != "" && $department->id == $employment_info->project_id) selected @endif>{{$project->name}}</option>
+                        <option value="{{$project->id}}" @if($employment_info != "" && $project->id == $employment_info->project_id) selected @endif>{{$project->name}}</option>
                     @endforeach
                 </select>
             </div>

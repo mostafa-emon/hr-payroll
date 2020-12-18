@@ -174,8 +174,8 @@
             var branch_id = $('#branch_id').val();
 
             var url = '/search-employee/'+department_id;
-            if(project_id != "") { url = url +'/'+ project_id;}
-            if(branch_id != "") { url = url +'/'+ branch_id;}
+            if(project_id != "") { url = url +'/'+ project_id;} else { url = url + '/0';}
+            if(branch_id != "") { url = url +'/'+ branch_id;} else { url = url + '/0';}
 
             $.ajax({
                 type:'GET',
