@@ -337,6 +337,7 @@ class AttendanceController extends Controller
                 $earning->amount                = $request->amount;
                 $earning->note                  = $request->note;
                 $earning->reference_no          = $request->reference_no;
+                $earning->type                  = $request->type;
                 $earning->status                = $request->status;
                 if($request->hasFile('attach_file')){
                     $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');

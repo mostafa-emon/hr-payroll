@@ -73,11 +73,18 @@
                                                     <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required>
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-3 mg-t-10">
                                                     <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" required>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-3 mg-t-10">
                                                     <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" required>
+                                                </div>
+                                                <div class="col-md-2 mg-t-10">
+                                                    <select name="type" class="form-control select2-no-search" required>
+                                                        <option label="Type"></option>
+                                                        <option Value="Addition" selected>Addition</option>
+                                                        <option Value="Deduction">Deduction</option>
+                                                    </select>
                                                 </div>
 
                                                 <div class="col-md-4">
@@ -98,7 +105,7 @@
                                                         <div class="col-md-4 mg-t-10">
                                                             <select name="status" class="form-control select2-no-search">
                                                                 <option label="Status"></option>
-                                                                <option Value="1">Active</option>
+                                                                <option Value="1" selected>Active</option>
                                                                 <option Value="0">Inactive</option>
                                                             </select>
                                                         </div>

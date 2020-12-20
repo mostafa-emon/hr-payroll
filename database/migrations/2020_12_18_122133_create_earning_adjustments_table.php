@@ -27,6 +27,7 @@ class CreateEarningAdjustmentsTable extends Migration
             $table->text('note')->nullable();
             $table->string('attach_file')->nullable();
             $table->string('reference_no',100)->nullable();
+            $table->string('type',50);
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
