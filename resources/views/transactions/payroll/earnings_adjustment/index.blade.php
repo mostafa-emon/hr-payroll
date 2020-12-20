@@ -68,7 +68,13 @@
                                     <td style="vertical-align: middle" class="text-center">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                            <a href="{{'govt-holiday/update/'.$earning->id}}" class="dropdown-item">Update</a>
+                                            <a href="{{'earnings-adjustment/update/'.$earning->id}}" class="dropdown-item">View</a>
+                                            <a href="{{'earnings-adjustment/update/'.$earning->id}}" class="dropdown-item">Edit</a>
+                                            @if($earning->status == "1")
+                                                <a href="{{'earnings-adjustment/inactive/'.$earning->id}}" class="dropdown-item">Inactive</a>
+                                            @else
+                                                <a href="{{'earnings-adjustment/active/'.$earning->id}}" class="dropdown-item">Active</a>
+                                            @endif
                                             <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$earning->id}})">Delete</a>
                                         </div>
                                     </td>

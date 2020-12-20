@@ -349,6 +349,20 @@ class AttendanceController extends Controller
         return redirect('earnings-adjustment')->with('message','Earning Adjustment Created Successfully!');
     }
 
+    public function earnings_adjustment_status($status,$earning_id) {
+        if($status == "active") {
+            $earning = EarningAdjustment::where('id',$earning_id)->first();
+            $earning->status = "1";
+            $earning->save();
+            return redirect('earnings-adjustment')->with('message','Earning Adjustment Activated Successfully!');
+        }else{
+            $earning = EarningAdjustment::where('id',$earning_id)->first();
+            $earning->status = "0";
+            $earning->save();
+            return redirect('earnings-adjustment')->with('message','Earning Adjustment Inactivated Successfully!');
+        }
+    }
+
     //Deduction
     public function deductions_adjustment_index() {
         $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
@@ -388,5 +402,19 @@ class AttendanceController extends Controller
             }
         }
         return redirect('deductions-adjustment')->with('message','Deduction Adjustment Created Successfully!');
+    }
+
+    public function deductions_adjustment_status($status,$deduction_id) {
+        if($status == "active") {
+            $deduction = DeductionAdjustment::where('id',$deduction_id)->first();
+            $deduction->status = "1";
+            $deduction->save();
+            return redirect('deductions-adjustment')->with('message','Deduction Adjustment Activated Successfully!');
+        }else{
+            $deduction = DeductionAdjustment::where('id',$deduction_id)->first();
+            $deduction->status = "0";
+            $deduction->save();
+            return redirect('deductions-adjustment')->with('message','Deduction Adjustment Inactivated Successfully!');
+        }
     }
 }
