@@ -13,6 +13,7 @@ use App\ShiftType;
 use App\Roster;
 use App\RosterEmployee;
 use App\EarningAdjustment;
+use App\DeductionAdjustment;
 use App\SalaryComponent;
 use Auth;
 use DateTime;
@@ -309,7 +310,7 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_index() {
-        $earnings = EarningAdjustment::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
+        $earnings = EarningAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
         return view('transactions.payroll.earnings_adjustment.index',compact('earnings'));
     }
 
@@ -346,5 +347,46 @@ class AttendanceController extends Controller
             }
         }
         return redirect('earnings-adjustment')->with('message','Earning Adjustment Created Successfully!');
+    }
+
+    //Deduction
+    public function deductions_adjustment_index() {
+        $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
+        return view('transactions.payroll.deductions_adjustment.index',compact('deductions'));
+    }
+
+    public function deductions_adjustment_create() {
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderBy('id','asc')->get();
+        return view('transactions.payroll.deductions_adjustment.create',compact('departments','projects','branches','salary_components'));
+    }
+
+    public function deductions_adjustment_create_post(Request $request) {
+        $formatted_from_date    = date('Y-m-d',strtotime($request->from_date));
+        $formatted_to_date      = date('Y-m-d',strtotime($request->to_date));
+        $period                 = CarbonPeriod::create($formatted_from_date, '1 month', $formatted_to_date);
+
+        foreach($request->employee_id as $employee_id) {
+            foreach ($period as $dt) {
+                $deduction = new DeductionAdjustment();
+                $deduction->company_id            = Auth::user()->company_id;
+                $deduction->employee_id           = $employee_id;
+                $deduction->salary_component_id   = $request->component_id;
+                $deduction->month                 = $dt->format("F");
+                $deduction->year                  = $dt->format("Y");
+                $deduction->amount                = $request->amount;
+                $deduction->note                  = $request->note;
+                $deduction->reference_no          = $request->reference_no;
+                $deduction->type                  = $request->type;
+                $deduction->status                = $request->status;
+                if($request->hasFile('attach_file')){
+                    $deduction->attach_file   = $request->file('attach_file')->store('deduction_adjustment');
+                }
+                $deduction->save();
+            }
+        }
+        return redirect('deductions-adjustment')->with('message','Deduction Adjustment Created Successfully!');
     }
 }

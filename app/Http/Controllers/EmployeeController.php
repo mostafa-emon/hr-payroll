@@ -468,7 +468,7 @@ class EmployeeController extends Controller
         }
 
         if($component_id != "" && $component_id != 0){
-            $is_exists    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->where('salary_component_id',$component_id)->get();
+            $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$component_id)->get();
             $earning_employee = [];
             foreach($is_exists as $earning) {
                 $earning_employee[] = $earning->employee_id;
@@ -481,14 +481,6 @@ class EmployeeController extends Controller
         if(count($employees) > 0) {
             foreach($employees as $employee) {
                 echo "<option value=".$employee->id.">".$employee->name."</option>";
-                /*if($component_id != "" && $component_id != 0){
-                    $is_exists    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->where('salary_component_id',$component_id)->count();
-                    if($is_exists > 0){
-                        echo "<option value=".$employee->id.">".$employee->name."</option>";
-                    }
-                }else{
-                    echo "<option value=".$employee->id.">".$employee->name."</option>";
-                }*/
             }
         }else {
             echo "";
