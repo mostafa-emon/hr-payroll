@@ -221,11 +221,13 @@ Route::get('/earnings-adjustment', 'AttendanceController@earnings_adjustment_ind
 Route::get('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
 Route::post('/earnings-adjustment/create-post', 'AttendanceController@earnings_adjustment_create_post');
 Route::get('/earnings-adjustment/{status}/{id}', 'AttendanceController@earnings_adjustment_status');
+Route::get('/earning-adjustment/delete/{id}', 'AttendanceController@earnings_adjustment_delete');
 
 Route::get('/deductions-adjustment', 'AttendanceController@deductions_adjustment_index');
 Route::get('/deductions-adjustment/create', 'AttendanceController@deductions_adjustment_create');
 Route::post('/deductions-adjustment/create-post', 'AttendanceController@deductions_adjustment_create_post');
 Route::get('/deductions-adjustment/{status}/{id}', 'AttendanceController@deductions_adjustment_status');
+Route::get('/deduction-adjustment/delete/{id}', 'AttendanceController@deductions_adjustment_delete');
 
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');

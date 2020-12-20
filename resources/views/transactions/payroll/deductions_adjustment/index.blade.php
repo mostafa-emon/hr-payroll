@@ -97,7 +97,7 @@
         function confirmDelete(id) {
             var r = confirm("Are you confirm to delete?");
             if (r == true) {
-            window.location = "/deductions-adjustment/delete/"+id;
+            window.location = "/deduction-adjustment/delete/"+id;
             }
         }
 

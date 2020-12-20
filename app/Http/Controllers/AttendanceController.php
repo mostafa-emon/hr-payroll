@@ -363,6 +363,12 @@ class AttendanceController extends Controller
         }
     }
 
+    public function earnings_adjustment_delete($earning_id){
+        $earning = EarningAdjustment::find($earning_id);
+        $earning->delete();
+        return redirect('earnings-adjustment')->with('message','Earning Adjustment Deleted Successfully!');
+    }
+
     //Deduction
     public function deductions_adjustment_index() {
         $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
@@ -402,6 +408,12 @@ class AttendanceController extends Controller
             }
         }
         return redirect('deductions-adjustment')->with('message','Deduction Adjustment Created Successfully!');
+    }
+
+    public function deductions_adjustment_delete($deduction_id) {
+        $deduction = DeductionAdjustment::find($deduction_id);
+        $deduction->delete();
+        return redirect('deductions-adjustment')->with('message','Deduction Adjustment Deleted Successfully!');
     }
 
     public function deductions_adjustment_status($status,$deduction_id) {
