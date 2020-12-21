@@ -369,6 +369,23 @@ class AttendanceController extends Controller
         return redirect('earnings-adjustment')->with('message','Earning Adjustment Deleted Successfully!');
     }
 
+    public function earnings_adjustment_update($earning_id){
+        $earning = EarningAdjustment::where('id',$earning_id)->first();
+        return view('transactions.payroll.earnings_adjustment.update',compact('earning'));
+    }
+
+    public function earnings_adjustment_view($earning_id){
+        $earning    = EarningAdjustment::where('id',$earning_id)->first();
+        $print      = '';
+        return view('transactions.payroll.earnings_adjustment.view',compact('earning','print'));
+    }
+
+    public function earnings_adjustment_print($earning_id){
+        $earning    = EarningAdjustment::where('id',$earning_id)->first();
+        $print      = "Print";
+        return view('transactions.payroll.earnings_adjustment.view',compact('earning','print'));
+    }
+
     //Deduction
     public function deductions_adjustment_index() {
         $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
@@ -428,5 +445,17 @@ class AttendanceController extends Controller
             $deduction->save();
             return redirect('deductions-adjustment')->with('message','Deduction Adjustment Inactivated Successfully!');
         }
+    }
+
+    public function deductions_adjustment_view($deduction_id){
+        $deduction  = DeductionAdjustment::where('id',$deduction_id)->first();
+        $print      = '';
+        return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
+    }
+
+    public function deductions_adjustment_print($deduction_id){
+        $deduction  = DeductionAdjustment::where('id',$deduction_id)->first();
+        $print      = "Print";
+        return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
     }
 }

@@ -243,3 +243,7 @@ function number_formatting($amount){
 function get_auto_increment_employee_id($employee_id) {
     return Employee::where('employee_id',$employee_id)->first()->id;
 }
+
+function get_company_name($company_id) {
+    return Company::where('id',$company_id)->value('name');
+}
