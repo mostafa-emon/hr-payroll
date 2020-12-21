@@ -232,7 +232,8 @@ Route::get('/deductions-adjustment/create', 'AttendanceController@deductions_adj
 Route::post('/deductions-adjustment/create-post', 'AttendanceController@deductions_adjustment_create_post');
 Route::get('/deductions-adjustment/{status}/{id}', 'AttendanceController@deductions_adjustment_status');
 Route::get('/deduction-adjustment/delete/{id}', 'AttendanceController@deductions_adjustment_delete');
-Route::get('/deduction-adjustment/update/{id}', 'AttendanceController@deductions_adjustment_update');
+Route::get('/deductions-adjustment-update/{id}', 'AttendanceController@deductions_adjustment_update');
+Route::post('/deductions-adjustment-update/{id}', 'AttendanceController@deductions_adjustment_update');
 Route::get('/deductions-adjustment-view/{id}', 'AttendanceController@deductions_adjustment_view');
 Route::get('/deductions-adjustment-print/{id}', 'AttendanceController@deductions_adjustment_print');
 

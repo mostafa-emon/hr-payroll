@@ -70,7 +70,7 @@
                                         <div class="dropdown-menu">
                                             <a href="{{'deductions-adjustment-view/'.$deduction->id}}" class="dropdown-item">View</a>
                                             <a href="{{'deductions-adjustment-print/'.$deduction->id}}" class="dropdown-item">Print</a>
-                                            <a href="{{'deductions-adjustment/update/'.$deduction->id}}" class="dropdown-item">Edit</a>
+                                            <a href="{{'deductions-adjustment-update/'.$deduction->id}}" class="dropdown-item">Edit</a>
                                             @if($deduction->status == "1")
                                                 <a href="{{'deductions-adjustment/inactive/'.$deduction->id}}" class="dropdown-item">Inactive</a>
                                             @else

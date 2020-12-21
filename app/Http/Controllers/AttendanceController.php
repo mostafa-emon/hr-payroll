@@ -467,4 +467,18 @@ class AttendanceController extends Controller
         $print      = "Print";
         return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
     }
+
+    public function deductions_adjustment_update(Request $request,$deduction_id){
+        $deduction = DeductionAdjustment::where('id',$deduction_id)->first();
+        if($request->amount) {
+            $deduction->month     = $request->month;
+            $deduction->year      = $request->year;
+            $deduction->amount    = $request->amount;
+            $deduction->type      = $request->type;
+            $deduction->status    = $request->status;
+            $deduction->save();
+            return redirect('deductions-adjustment')->with('message','Deduction Adjustment Updated Successfully!');
+        }
+        return view('transactions.payroll.deductions_adjustment.update',compact('deduction'));
+    }
 }
