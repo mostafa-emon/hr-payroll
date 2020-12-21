@@ -223,6 +223,7 @@ Route::post('/earnings-adjustment/create-post', 'AttendanceController@earnings_a
 Route::get('/earnings-adjustment/{status}/{id}', 'AttendanceController@earnings_adjustment_status');
 Route::get('/earning-adjustment/delete/{id}', 'AttendanceController@earnings_adjustment_delete');
 Route::get('/earnings-adjustment-update/{id}', 'AttendanceController@earnings_adjustment_update');
+Route::post('/earnings-adjustment-update/{id}', 'AttendanceController@earnings_adjustment_update');
 Route::get('/earnings-adjustment-view/{id}', 'AttendanceController@earnings_adjustment_view');
 Route::get('/earnings-adjustment-print/{id}', 'AttendanceController@earnings_adjustment_print');
 

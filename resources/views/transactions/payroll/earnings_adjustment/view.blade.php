@@ -71,10 +71,12 @@
                         </div>
 
                     </div>
+                    @if($print == "")
                     <div style="margin-top:25px;font-size:16px;">
                         <div style="font-weight:bold;">Attachment:</div>
                         <a href="{{asset('storage/'.$earning->attach_file)}}" target="_blank">Show File</a>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

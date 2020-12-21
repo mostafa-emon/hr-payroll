@@ -369,8 +369,17 @@ class AttendanceController extends Controller
         return redirect('earnings-adjustment')->with('message','Earning Adjustment Deleted Successfully!');
     }
 
-    public function earnings_adjustment_update($earning_id){
+    public function earnings_adjustment_update(Request $request,$earning_id){
         $earning = EarningAdjustment::where('id',$earning_id)->first();
+        if($request->amount) {
+            $earning->month     = $request->month;
+            $earning->year      = $request->year;
+            $earning->amount    = $request->amount;
+            $earning->type      = $request->type;
+            $earning->status    = $request->status;
+            $earning->save();
+            return redirect('earnings-adjustment')->with('message','Earning Adjustment Updated Successfully!');
+        }
         return view('transactions.payroll.earnings_adjustment.update',compact('earning'));
     }
 
