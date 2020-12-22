@@ -310,7 +310,7 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_index() {
-        $earnings = EarningAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
+        $earnings = EarningAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
         return view('transactions.payroll.earnings_adjustment.index',compact('earnings'));
     }
 
@@ -397,7 +397,7 @@ class AttendanceController extends Controller
 
     //Deduction
     public function deductions_adjustment_index() {
-        $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('id','asc')->paginate(10);
+        $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
         return view('transactions.payroll.deductions_adjustment.index',compact('deductions'));
     }
 

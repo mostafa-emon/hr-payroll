@@ -46,10 +46,11 @@
                                     <th class="text-center" style="width:5%;">SL</th>
                                     <th style="width:20%;">Employee Name</th>
                                     <th class="text-center" style="width:15%;">Amount</th>
+                                    <th class="text-center" style="width:15%;">Amount Type</th>
                                     <th class="text-center" style="width:15%;">Month</th>
-                                    <th class="text-center" style="width:15%;">Year</th>
-                                    <th class="text-center" style="width:15%;">Status</th>
-                                    <th class="text-center" style="width:15%;">Action</th>
+                                    <th class="text-center" style="width:10%;">Year</th>
+                                    <th class="text-center" style="width:10%;">Status</th>
+                                    <th class="text-center" style="width:10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,11 +59,20 @@
                                     <td style="vertical-align: middle" class="text-center">{{$loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{employee_name_by_increment_id($deduction->employee_id)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->amount}}</td>
+                                    <td style="vertical-align: middle" class="text-center">
+                                        @if($deduction->type == "Addition")
+                                            <span class="badge badge-success">Addition</span>
+                                        @else
+                                            <span class="badge badge-danger">Deduction</span>
+                                        @endif
+                                    </td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->month}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->year}}</td>
                                     <td style="vertical-align: middle" class="text-center">
-                                        @if($deduction->status == "1") Active
-                                        @else Inactive
+                                        @if($deduction->status == "1")
+                                            <span class="badge badge-info">Active</span>
+                                        @else
+                                            <span class="badge badge-warning">Inactive</span>
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle" class="text-center">
