@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\GeneralSetting;
 use App\SmsSetting;
+use App\Email;
+use PDF;
 use Auth;
+use Redirect;
+use Config;
+use Swift_SwiftException;
+use Illuminate\Support\Facades\Mail;
 
 class ConfigurationController extends Controller
 {
@@ -305,5 +311,136 @@ class ConfigurationController extends Controller
         }
         $sms_setup = SmsSetting::where('id',$setup_id)->first();
         return view('configurations.sms_balance.update',compact('sms_setup'));
+    }
+
+    //Mail Setup
+
+    public function mail_setup(){
+        $emails = Email::where('company_id', Auth::user()->company_id)->first();
+        if($emails != "") {
+            return view('configurations.email.mail_setup', ['emails' => $emails]);
+        }else{
+            return view('configurations.email.mail_setup');
+        }
+    }
+
+    public function mail_setup_update(Request $request){
+        
+        if($request->job == "savesettings") {
+            $count = Email::where('company_id',Auth::user()->company_id)->count();
+
+            if($count == 0) {
+                $email = new Email;
+                $email->company_id                            = Auth::user()->company_id;
+                $email->mail_driver                           = $request->mail_driver;
+                $email->host_name                             = $request->host_name;
+                $email->port_name                             = $request->port_name;
+                $email->user_name                             = $request->user_name;
+                $email->password                              = $request->password;
+                if($request->encryption == ""){
+                    if($request->port_name == "465") {
+                        $email->encryption                    = "ssl";
+                    }else {
+                        $email->encryption                    = "tls";
+                    }
+                }else {
+                    $email->encryption                        = $request->encryption;
+                }
+                $email->from_address                          = $request->user_name;
+                $email->from_name                             = $request->from_name;
+                $email->subject                               = $request->email_subject;
+                $email->body                                  = $request->editor1;
+                $email->save();
+            }else{
+                $email = Email::where('company_id', Auth::user()->company_id)->first();
+                $email->mail_driver                           = $request->mail_driver;
+                $email->host_name                             = $request->host_name;
+                $email->port_name                             = $request->port_name;
+                $email->user_name                             = $request->user_name;
+                $email->password                              = $request->password;
+                if($request->encryption == ""){
+                    if($request->port_name == "465") {
+                        $email->encryption                    = "ssl";
+                    }else {
+                        $email->encryption                    = "tls";
+                    }
+                }else {
+                    $email->encryption                        = $request->encryption;
+                }
+                $email->from_address                          = $request->user_name;
+                $email->from_name                             = $request->from_name;
+                $email->subject                               = $request->email_subject;
+                $email->body                                  = $request->editor1;
+                $email->save();
+            }
+            return redirect('smtp-settings')->with('message','Email settings updated!');
+        }
+        
+        else {
+            Config::set('mail.driver', $request->mail_driver);
+            Config::set('mail.host', $request->host_name);
+            Config::set('mail.port', $request->port_name);
+            Config::set('mail.username', $request->user_name);
+            Config::set('mail.password', $request->password);
+
+            if($request->port_name == "465") {
+                $encryption                    = "ssl";
+            }else {
+                $encryption                    = "tls";
+            }
+
+            Config::set('mail.encryption', $encryption);
+
+            Config::set('mail.from.address', $request->user_name);
+            Config::set('mail.from.name', $request->from_name);
+            
+            $data["email"] = $request->email_to;
+            $data["client_name"] = '';
+            $data["subject"] = $request->email_subject;
+            $data["body"] = $request->editor1;
+
+            if($request->send_as_attachment == 1) {
+                $pdf = PDF::loadView('configurations.email.mail_body',compact('data'));
+                try{
+                    Mail::send('configurations.email.mail_body', compact('data'), function($message)use($data,$pdf) {
+                    $message->to($data["email"], $data["client_name"])
+                        ->subject($data["subject"])
+                        ->attachData($pdf->output(), "attachment.pdf");
+                    });
+
+                    $error      =   "";
+                    $message    =   "Message sent Succesfully!";
+                    $status     =   "1";
+                }catch(Swift_SwiftException $Ste){
+                    $this->serverstatuscode = "0";
+                    $this->serverstatusdes = $Ste->getMessage();
+
+                    $error      =   $Ste->getMessage();
+                    $message    =   "Error sending mail!";
+                    $status     =   "0";
+                }
+                return Redirect::back()->with('message',$message)->with('error',$error)->withInput();
+            }else {
+                try{
+                    Mail::send('configurations.email.mail_body', compact('data'), function($message)use($data) {
+                    $message->to($data["email"], $data["client_name"])
+                        ->subject($data["subject"]);
+                    });
+
+                    $error      =   "";
+                    $message    =   "Message sent Succesfully!";
+                    $status     =   "1";
+                }catch(Swift_SwiftException $Ste){
+                    $this->serverstatuscode = "0";
+                    $this->serverstatusdes = $Ste->getMessage();
+
+                    $error      =   $Ste->getMessage();
+                    $message    =   "Error sending mail!";
+                    $status     =   "0";
+                }
+                return Redirect::back()->with('message',$message)->with('error',$error)->withInput();
+            }
+        }
+        
     }
 }

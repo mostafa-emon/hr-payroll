@@ -50,9 +50,6 @@ Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_cu
 Route::get('/settings', 'ConfigurationController@index');
 Route::post('/settings/update', 'ConfigurationController@update');
 
-Route::get('/mail-setup', 'ConfigurationController@mail_setup');
-Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
-
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');
 Route::post('/user/add', 'UserController@add');
@@ -250,6 +247,9 @@ Route::post('/sms-settings-submit', 'ConfigurationController@sms_settings_submit
 Route::get('/sms-balance', 'ConfigurationController@sms_balance');
 Route::get('/sms-balance/update/{setup_id}', 'ConfigurationController@sms_balance_update');
 Route::post('/sms-balance/update/{setup_id}', 'ConfigurationController@sms_balance_update');
+
+Route::get('/smtp-settings', 'ConfigurationController@mail_setup');
+Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 
 //Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
