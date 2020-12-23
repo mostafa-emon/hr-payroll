@@ -237,5 +237,9 @@ Route::post('/deductions-adjustment-update/{id}', 'AttendanceController@deductio
 Route::get('/deductions-adjustment-view/{id}', 'AttendanceController@deductions_adjustment_view');
 Route::get('/deductions-adjustment-print/{id}', 'AttendanceController@deductions_adjustment_print');
 
+//Configuration
+Route::get('/general-settings', 'ConfigurationController@general_setting');
+Route::post('/general-settings/update', 'ConfigurationController@general_setting_update');
+
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');
