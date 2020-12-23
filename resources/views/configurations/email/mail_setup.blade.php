@@ -123,8 +123,8 @@
                                 <div class="form-group">
                                     <label for="name" class="col-form-label" style="font-size:15px;color:#3b5998;">Send As Attachment:</label>
                                     <select class="form-control" name="send_as_attachment">
-                                        <option value="1" @if(old('send_as_attachment') != "" && old('send_as_attachment') == "1") selected @endif>Yes</option>
                                         <option value="0" @if(old('send_as_attachment') != "" && old('send_as_attachment') == "0") selected @endif>No</option>
+                                        <option value="1" @if(old('send_as_attachment') != "" && old('send_as_attachment') == "1") selected @endif>Yes</option>
                                     </select>
                                 </div>
                             </div>
