@@ -241,5 +241,16 @@ Route::get('/deductions-adjustment-print/{id}', 'AttendanceController@deductions
 Route::get('/general-settings', 'ConfigurationController@general_setting');
 Route::post('/general-settings/update', 'ConfigurationController@general_setting_update');
 
+Route::get('/sms-settings', 'ConfigurationController@sms_index');
+Route::get('/sms-settings/add', 'ConfigurationController@sms_settings_add');
+Route::get('/sms-settings/delete/{id}', 'ConfigurationController@sms_settings_delete');
+Route::get('/sms-settings/update/{id}', 'ConfigurationController@sms_settings_update');
+Route::post('/sms-settings-submit', 'ConfigurationController@sms_settings_submit');
+
+Route::get('/sms-balance', 'ConfigurationController@sms_balance');
+Route::get('/sms-balance/update/{setup_id}', 'ConfigurationController@sms_balance_update');
+Route::post('/sms-balance/update/{setup_id}', 'ConfigurationController@sms_balance_update');
+
+//Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');
