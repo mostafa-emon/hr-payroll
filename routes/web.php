@@ -248,6 +248,17 @@ Route::get('/sms-balance', 'ConfigurationController@sms_balance');
 Route::get('/sms-balance/update/{setup_id}', 'ConfigurationController@sms_balance_update');
 Route::post('/sms-balance/update/{setup_id}', 'ConfigurationController@sms_balance_update');
 
+//SMS Campaign
+Route::get('/create-campaign', 'PayrollController@create_campaign');
+Route::post('/create-campaign-post', 'PayrollController@create_campaign_post');
+Route::get('campaign-receivers/{campaign_id}', 'PayrollController@campaign_receivers');
+Route::post('campaign-update', 'PayrollController@campaign_update');
+Route::get('campaign-duplicate/{campaign_id}', 'PayrollController@campaign_duplicate');
+Route::get('campaign/delete/{id}', 'PayrollController@delete_campaign');
+Route::get('send-sms/{campaign_id}/{api_id}', 'PayrollController@send_sms');
+Route::get('ajax-send-sms/{sl}/{send_per_sms}/{campaign_id}/{api_id}', 'PayrollController@ajax_send_sms');
+
+
 Route::get('/smtp-settings', 'ConfigurationController@mail_setup');
 Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 

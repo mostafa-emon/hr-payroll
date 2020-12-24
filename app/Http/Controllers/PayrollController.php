@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PayrollBank;
 use App\PayrollBranch;
+use App\SmsSetting;
+use App\Department;
+use App\Project;
+use App\Branch;
+use App\SmsCampaign;
+use App\EmploymentInfo;
+use App\CampaignReceiver;
 use Auth;
 
 class PayrollController extends Controller
@@ -94,6 +101,283 @@ class PayrollController extends Controller
             }
         }else {
             echo "";
+        }
+    }
+
+
+    //SMS Campaign
+    public function create_campaign(){
+        $apis           = SmsSetting::where('company_id', Auth::user()->company_id)->get();
+        $departments    = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects       = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches       = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $campaigns      = SmsCampaign::where('company_id',Auth::user()->company_id)->orderby('created_at','desc')->paginate(10);
+        return view('transactions.payroll.sms_notifications.create_campaign',compact('departments','campaigns','projects','branches','apis'));
+    }
+
+    public function create_campaign_post(Request $request){
+        $campaign = new SmsCampaign();
+        $campaign->company_id           = Auth::user()->company_id;
+        $campaign->sms_body             = $request->sms_body;
+        if (strlen($request->sms_body) != strlen(utf8_decode($request->sms_body))){
+            $campaign->language         = "Other Language";
+        }else {
+            $campaign->language         = "English";
+        }
+        $campaign->body_length          = $request->body_length;
+        if($request->department_id != "") {
+            $campaign->department_id    = json_encode($request->department_id);
+        }
+        if($request->project_id != "") {
+            $campaign->project_id       = json_encode($request->project_id);
+        }
+        if($request->branch_id != "") {
+            $campaign->branch_id        = json_encode($request->branch_id);
+        }
+        $campaign->save();
+
+        $receivers                      = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+
+        if($request->department_id != ""){
+            $receivers                  = $receivers->whereIn('department_id',$request->department_id);
+        }
+        if($request->project_id != ""){
+            $receivers                  = $receivers->whereIn('project_id',$request->project_id);
+        }
+        if($request->branch_id != ""){
+            $receivers                  = $receivers->whereIn('branch_id',$request->branch_id);
+        }
+
+        $receivers = $receivers->get();
+
+        foreach($receivers as $receiver) {
+            if($receiver->phone_1 != "") {
+                $phone = '+880'.substr($receiver->phone_1,-10);
+                $is_exists = CampaignReceiver::where('campaign_id',$campaign->id)->where('phone',$phone)->count();
+                if($is_exists == 0) {
+                    $campaign_receiver = new CampaignReceiver();
+                    $campaign_receiver->campaign_id     = $campaign->id;
+                    $campaign_receiver->receiver_id     = $receiver->id;
+                    $campaign_receiver->receiver_name   = $receiver->name;
+                    $campaign_receiver->phone           = $phone;
+                    $campaign_receiver->save();
+                }
+            }
+            if($receiver->phone_2 != "") {
+                $phone = '+880'.substr($receiver->phone_2,-10);
+                $is_exists = CampaignReceiver::where('campaign_id',$campaign->id)->where('phone',$phone)->count();
+                if($is_exists == 0) {
+                    $campaign_receiver = new CampaignReceiver();
+                    $campaign_receiver->campaign_id     = $campaign->id;
+                    $campaign_receiver->receiver_id     = $receiver->id;
+                    $campaign_receiver->receiver_name   = $receiver->name;
+                    $campaign_receiver->phone           = $phone;
+                    $campaign_receiver->save();
+                }
+            }
+        }
+        
+        return redirect('create-campaign')->with('message','Campaign added successfully!');
+    }
+
+    public function campaign_receivers($campaign_id){
+        $receivers = CampaignReceiver::where('campaign_id',$campaign_id)->paginate(10);
+        return view('transactions.payroll.sms_notifications.campaign_receivers',compact('receivers'));
+    }
+
+    public function campaign_update(Request $request){
+        $campaign = SmsCampaign::where('id',$request->campaign_id_update)->first();
+        $campaign->sms_body         = $request->updated_body;
+        $campaign->body_length      = $request->updated_body_count;
+        if (strlen($request->updated_body) != strlen(utf8_decode($request->updated_body))){
+            $campaign->language  = "Other Language";
+        }else {
+            $campaign->language  = "English";
+        }
+        $campaign->save();
+
+        return redirect('create-campaign')->with('message','Campaign updated successfully!');
+    }
+
+    public function campaign_duplicate($campaign_id){
+        $request = SmsCampaign::where('id',$campaign_id)->first();
+        $campaign = new SmsCampaign();
+        $campaign->company_id           = Auth::user()->company_id;
+        $campaign->sms_body             = $request->sms_body;
+        $campaign->body_length          = $request->body_length;
+        $campaign->department_id        = $request->department_id;
+        $campaign->project_id           = $request->project_id;
+        $campaign->branch_id            = $request->branch_id;
+        $campaign->language             = $request->language;
+        $campaign->save();
+
+        $receivers = CampaignReceiver::where('campaign_id',$campaign_id)->get();
+        foreach($receivers as $pre_receiver) {
+            $receiver = new CampaignReceiver();
+            $receiver->campaign_id      = $campaign->id;
+            $receiver->receiver_id      = $pre_receiver->receiver_id;
+            $receiver->receiver_name    = $pre_receiver->receiver_name;
+            $receiver->phone            = $pre_receiver->phone;
+            $receiver->status           = 0;
+            $receiver->save();
+        }
+
+        return redirect('create-campaign')->with('message','Campaign copied successfully!');
+    }
+
+    public function delete_campaign($campaign_id) {
+        $campaign = SmsCampaign::find($campaign_id);
+        $campaign->delete();
+        return redirect('create-campaign')->with('message','Campaign Deleted Successfully!');
+    }
+
+    public function send_sms($campaign_id,$api_id) {
+        $sms_setting = SmsSetting::where('id',$api_id)->first();
+        $campaign    = SmsCampaign::where('id',$campaign_id)->first();
+        $receivers   = CampaignReceiver::where('campaign_id',$campaign_id)->get();
+        $received    = CampaignReceiver::where('campaign_id',$campaign_id)->where('status',1)->count();
+        return view('transactions.payroll.sms_notifications.send-sms',compact('campaign_id','api_id','sms_setting','campaign','receivers','received'));
+    }
+
+    function ajax_send_sms($sl,$send_per_sms,$campaign_id,$api_id) {
+        $sms_settings   = SmsSetting::where('id',$api_id)->first();
+        $receiver       = CampaignReceiver::orderby('receiver_id','asc')->where('campaign_id',$campaign_id)->where('status',0)->first();
+        $campaign       = SmsCampaign::where('id',$receiver->campaign_id)->first();
+        $parameter      = "";
+        
+        if($sms_settings->sms_balance >= $send_per_sms) {
+            $receiver->status = 1;
+            $receiver->save();
+
+            $sms_settings->sms_balance = $sms_settings->sms_balance - $send_per_sms;
+            $sms_settings->save();
+
+            if($sms_settings->parameter_1_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_1") {
+                    $parameter = $parameter.$sms_settings->parameter_1_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_1") {
+                        $parameter = $parameter.$sms_settings->parameter_1_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.$sms_settings->parameter_1_key.'='.$sms_settings->parameter_1_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_2_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_2") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_2_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_2") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_2_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_2_key.'='.$sms_settings->parameter_2_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_3_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_3") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_3_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_3") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_3_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_3_key.'='.$sms_settings->parameter_3_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_4_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_4") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_4_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_4") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_4_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_4_key.'='.$sms_settings->parameter_4_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_5_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_5") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_5_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_5") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_5_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_5_key.'='.$sms_settings->parameter_5_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_6_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_6") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_6_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_6") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_6_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_6_key.'='.$sms_settings->parameter_6_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_7_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_7") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_7_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_7") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_7_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_7_key.'='.$sms_settings->parameter_7_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_8_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_8") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_8_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_8") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_8_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_8_key.'='.$sms_settings->parameter_8_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_9_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_9") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_9_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_9") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_9_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_9_key.'='.$sms_settings->parameter_9_value;
+                    }
+                }
+            }
+            if($sms_settings->parameter_10_key != "") {
+                if($sms_settings->sms_body_parameter_name == "parameter_10") {
+                    $parameter = $parameter.'&'.$sms_settings->parameter_10_key.'='.urlencode($campaign->sms_body);
+                }else{
+                    if($sms_settings->send_to_parameter_name == "parameter_10") {
+                        $parameter = $parameter.'&'.$sms_settings->parameter_10_key.'=+'.'+880'.substr($receiver->phone, -10);
+                    }else{
+                        $parameter = $parameter.'&'.$sms_settings->parameter_10_key.'='.$sms_settings->parameter_10_value;
+                    }
+                }
+            }
+    
+            if(substr($sms_settings->sms_api_url, -1) == "?") {
+                $api_url = $sms_settings->sms_api_url;
+            }else {
+                $api_url = $sms_settings->sms_api_url.'?';
+            }
+    
+            $url = $api_url.$parameter;
+            
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $curl_exec = curl_exec($curl);
+            curl_close($curl);
+
+            echo "<tr><td style='text-align:center'>".$sl."</td><td colspan='2'>".$receiver->receiver_name."</td><td colspan='2'>".$receiver->phone."</td><td style='color:green'><i class='fa fa-check-circle'></i> Request Sent</td></tr>";
         }
     }
 }

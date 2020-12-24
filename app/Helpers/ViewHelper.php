@@ -22,6 +22,7 @@ use App\LeaveType;
 use App\LeaveInfo;
 use App\LeaveRequest;
 use App\LeaveBalance;
+use App\CampaignReceiver;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -246,4 +247,13 @@ function get_auto_increment_employee_id($employee_id) {
 
 function get_company_name($company_id) {
     return Company::where('id',$company_id)->value('name');
+}
+
+function campaign_total_receiver_and_sent($campaign_id) {
+    $total_number = CampaignReceiver::where('campaign_id',$campaign_id);
+    if($total_number != ""){
+        $total_receiver = $total_number->count();
+        $total_sent     = $total_number->where('status',1)->count();
+        return $total_receiver."_".$total_sent;
+    }
 }
