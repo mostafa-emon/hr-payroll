@@ -13,6 +13,7 @@ use App\SmsCampaign;
 use App\EmploymentInfo;
 use App\CampaignReceiver;
 use App\CompanyPf;
+use App\Currency;
 use Auth;
 
 class PayrollController extends Controller
@@ -383,7 +384,56 @@ class PayrollController extends Controller
     }
 
     public function company_pf_index() {
-        $company_pfs = CompanyPf::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
+        $company_pfs    = CompanyPf::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.company_pf.index',compact('company_pfs'));
+    }
+
+    public function company_pf_create(Request $request) {
+        $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id          = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $month                  = '';
+        $year                   = '';
+        $currency_id            = '';
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->currency_id != ""){
+            $currency_id        = $request->currency_id;
+        }
+
+        if($request->month != ""){
+            $month              = $request->month;
+        }
+
+        if($request->year != ""){
+            $year               = $request->year;
+        }
+
+        if($request->month != "") {
+            $employment_infos = $employment_infos->get();
+        }
+
+        return view('transactions.payroll.company_pf.add',compact('departments','projects','branches',
+        'currencies','department_id','project_id','branch_id','month','year','currency_id','employment_infos'));
     }
 }

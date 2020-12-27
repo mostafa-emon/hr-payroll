@@ -263,6 +263,7 @@ Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 
 Route::get('/company-pf', 'PayrollController@company_pf_index');
 Route::get('/company-pf-create', 'PayrollController@company_pf_create');
+Route::post('/company-pf-create', 'PayrollController@company_pf_create');
 
 //Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');

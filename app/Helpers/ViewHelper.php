@@ -23,6 +23,8 @@ use App\LeaveInfo;
 use App\LeaveRequest;
 use App\LeaveBalance;
 use App\CampaignReceiver;
+use App\SalaryComponent;
+use App\EmployeeEarningDeduction;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -257,3 +259,22 @@ function campaign_total_receiver_and_sent($campaign_id) {
         return $total_receiver."_".$total_sent;
     }
 }
+
+/*function get_pf_amount($employee_id) {
+    $salary_component = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_reference','PF Company Portion')->first();
+    $employee = Employee::where('employee_id',$employee_id)->first();
+    if($employee != "") {
+        $payroll_info = EmployeeEarningDeduction::where('employee_id',$employee->id)->where('salary_component_id',$salary_component->id)->first();
+        if($payroll_info != ''){
+            if($payroll_info->fixed_or_percentage == 'fixed') {
+                return $payroll_info->final_amount;
+            }else{
+                return "";
+            }
+        }else{
+            return "";
+        }
+    }else{
+        return "";
+    }
+}*/
