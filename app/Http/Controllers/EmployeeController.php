@@ -115,6 +115,7 @@ class EmployeeController extends Controller
             $employee->pay_slip_send_method     = $request->pay_slip_send_method;
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;
+            $employee->id_in_biometric_machine  = $request->id_in_biometric_machine;
             $employee->save();
 
             $personal_info = Employee::where('id',$request->employee_id)->first();
@@ -330,6 +331,7 @@ class EmployeeController extends Controller
             $employee->pay_slip_send_method     = $request->pay_slip_send_method;
             $employee->weekend_1                = $request->weekend_1;
             $employee->weekend_2                = $request->weekend_2;
+            $employee->id_in_biometric_machine  = $request->id_in_biometric_machine;
             $employee->save();
             return redirect('employee/update/payroll/'.$request->employee_id)->with('message', 'Employment Information Updated Successfully!');
         }

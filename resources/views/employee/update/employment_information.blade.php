@@ -151,6 +151,10 @@
                 </select>
             </div>
 
+            <div class="col-md-3 pd-t-10">
+                <input type="text" name="id_in_biometric_machine" placeholder="ID in Biometric Machine" @if($employment_info !="" && $employment_info->id_in_biometric_machine != "") value="{{$employment_info->id_in_biometric_machine}}" @endif class="form-control">
+            </div>
+
             <div class="col-md-3 pd-t-10"></div>
 
         </div>
