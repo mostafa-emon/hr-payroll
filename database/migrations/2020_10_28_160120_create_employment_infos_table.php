@@ -37,6 +37,7 @@ class CreateEmploymentInfosTable extends Migration
             $table->string('pay_slip_send_method')->nullable();
             $table->string('weekend_1')->nullable();
             $table->string('weekend_2')->nullable();
+            $table->string('id_in_biometric_machine')->nullable();
             $table->timestamps();
         });
     }

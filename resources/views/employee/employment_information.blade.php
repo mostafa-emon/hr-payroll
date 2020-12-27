@@ -148,6 +148,11 @@
                     <option value="Friday">Friday</option>
                 </select>
             </div>
+
+            <div class="col-md-3 pd-t-10">
+                <input type="text" name="id_in_biometric_machine" placeholder="ID in Biometric Machine" class="form-control">
+            </div>
+
             <div class="col-md-12 pd-t-10">
                 <input type="submit" value="Submit" class="btn btn-primary"/>
             </div>
