@@ -43,11 +43,11 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap" id="datatable">
                             <thead>
                                 <tr>
-                                    <th class="text-center wd-5p">Sl</th>
+                                    <th class="text-center wd-10p">Company ID</th>
                                     <th class="wd-15p">Company Name</th>
                                     <th class="wd-20p text-center">Subscription</th>
                                     <th class="wd-25p">Renew</th>
-                                    <th class="wd-25p">Reset</th>
+                                    <th class="wd-20p">Reset</th>
                                     <th class="text-center wd-15">Action</th>
                                 </tr>
                             </thead>
@@ -63,7 +63,7 @@
                                     $modules = rtrim($modules, ', ');
                                 @endphp
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{ $loop->iteration }}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{ $company->id + 1000 }}</td>
                                     <td style="vertical-align: middle">
                                         {{ $company->name }}<br>
                                         @if($company->status == 1)

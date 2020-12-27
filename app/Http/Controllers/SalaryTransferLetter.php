@@ -8,6 +8,11 @@ use Auth;
 
 class SalaryTransferLetter extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function format(Request $request){
         $format = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
         if($request->editor1 != "" || $request->editor2 != "") {
