@@ -20,9 +20,9 @@ class CreateAttendancesTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-            $table->date('date')->nullable()->default('');
-            $table->dateTime('in_time')->nullable()->default('');
-            $table->dateTime('out_time')->nullable()->default('');
+            $table->date('date')->nullable();
+            $table->dateTime('in_time')->nullable();
+            $table->dateTime('out_time')->nullable();
             
             $table->integer('late')->default(0); // In minute
             $table->integer('late_over_allowed_time')->default(0);

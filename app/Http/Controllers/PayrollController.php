@@ -12,6 +12,7 @@ use App\Branch;
 use App\SmsCampaign;
 use App\EmploymentInfo;
 use App\CampaignReceiver;
+use App\CompanyPf;
 use Auth;
 
 class PayrollController extends Controller
@@ -379,5 +380,10 @@ class PayrollController extends Controller
 
             echo "<tr><td style='text-align:center'>".$sl."</td><td colspan='2'>".$receiver->receiver_name."</td><td colspan='2'>".$receiver->phone."</td><td style='color:green'><i class='fa fa-check-circle'></i> Request Sent</td></tr>";
         }
+    }
+
+    public function company_pf_index() {
+        $company_pfs = CompanyPf::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
+        return view('transactions.payroll.company_pf.index',compact('company_pfs'));
     }
 }

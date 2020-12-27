@@ -258,9 +258,11 @@ Route::get('campaign/delete/{id}', 'PayrollController@delete_campaign');
 Route::get('send-sms/{campaign_id}/{api_id}', 'PayrollController@send_sms');
 Route::get('ajax-send-sms/{sl}/{send_per_sms}/{campaign_id}/{api_id}', 'PayrollController@ajax_send_sms');
 
-
 Route::get('/smtp-settings', 'ConfigurationController@mail_setup');
 Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
+
+Route::get('/company-pf', 'PayrollController@company_pf_index');
+Route::get('/company-pf-create', 'PayrollController@company_pf_create');
 
 //Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
