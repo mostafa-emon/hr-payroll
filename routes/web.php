@@ -269,6 +269,8 @@ Route::get('/company-pf-pay', 'PayrollController@company_pf_pay_index');
 Route::post('/company-pf-pay', 'PayrollController@company_pf_pay_index');
 Route::get('/company-pf-pay-store/{id}', 'PayrollController@company_pf_pay_store');
 Route::get('/company-pf/delete/{id}', 'PayrollController@company_pf_delete');
+Route::get('/company-pf/update/{id}', 'PayrollController@company_pf_update');
+Route::post('/company-pf/update/{id}', 'PayrollController@company_pf_update');
 
 //Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');

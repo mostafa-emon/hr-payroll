@@ -521,4 +521,19 @@ class PayrollController extends Controller
             return redirect('company-pf')->with('message','Do not try to be too smart!');
         }
     }
+
+    public function company_pf_update(Request $request,$id) {
+        $currencies = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $company_pf = CompanyPf::where('id',$id)->first();
+        if($request->amount != "") {
+            $company_pf->currency_id    = $request->currency_id;
+            $company_pf->month          = $request->month;
+            $company_pf->year           = $request->year;
+            $company_pf->amount         = $request->amount;
+            $company_pf->save();
+
+            return redirect('company-pf')->with('message','Company PF Updated Successfully!');
+        }
+        return view('transactions.payroll.company_pf.update',compact('company_pf','currencies'));
+    }
 }

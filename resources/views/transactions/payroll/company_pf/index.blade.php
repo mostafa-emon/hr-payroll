@@ -68,7 +68,7 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                            <a href="{{'govt-holiday/update/'.$pf->id}}" class="dropdown-item">Update</a>
+                                            <a href="{{'company-pf/update/'.$pf->id}}" class="dropdown-item">Update</a>
                                             <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$pf->id}})">Delete</a>
                                         </div>
                                     </td>
