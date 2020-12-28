@@ -43,7 +43,7 @@
                             <h4 class="card-title mg-b-0">Pay Company PF</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if($employee_id !='')
+                            @if(count($company_pfs) > 0)
                                 <button class="btn btn-success" onclick="printElem()">Print</button>
                             @endif
                         </div>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <br>
-                        @if($employee_id =='')
+                        @if(count($company_pfs) == 0)
                             <div class="row">
                                 <div class="col-md-3 text-left">
                                     <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
@@ -95,53 +95,53 @@
                         @endif
                     </form>
 
-                    @if($employee_id !='')
+                    @if(count($company_pfs) > 0)
                         <br>
                         <div class="table-responsive">
-                            <form method="post" action="{{url('store-company-pf')}}">
-                                {{ csrf_field() }}
-
-                                <div id="printArea">
-                                    <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center" style="width:5%;">SL</th>
-                                                <th style="width:20%;">Employee Name</th>
-                                                <th class="text-center" style="width:15%;">Employee ID</th>
-                                                <th class="text-center" style="width:20%;">Department</th>
-                                                <th class="text-center" style="width:20%;">Designation</th>
-                                                <th class="text-center" style="width:10%;">PF Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php $total_pf_amount = 0; @endphp
-                                            @foreach($company_pfs as $pf)
-                                            @php 
-                                                $employee = get_employee_info($pf->employee_id);
-                                            @endphp
-                                            <tr>
-                                                <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                                <td style="vertical-align: middle">{{$employee->name}}</td>
-                                                <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
-                                                <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
-                                                <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
-                                                <td class="text-center" style="vertical-align: middle">
-                                                    {{$pf->amount}}
-                                                    @php $total_pf_amount = $total_pf_amount + $pf->amount; @endphp
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            <tr>
-                                                <td class="text-center" colspan="5">Total PF Amount</td>
-                                                <td class="text-center" style="vertical-align: middle">{{ $total_pf_amount }}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="pd-t-15 text-center">
-                                    <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
-                                </div>
-                            </form>
+                            <div id="printArea">
+                                <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width:5%;vertical-align: middle;">SL</th>
+                                            <th style="width:18%;vertical-align: middle;">Employee Name</th>
+                                            <th class="text-center" style="width:15%;vertical-align: middle;">Employee ID</th>
+                                            <th class="text-center" style="width:18%;vertical-align: middle;">Department</th>
+                                            <th class="text-center" style="width:18%;vertical-align: middle;">Designation</th>
+                                            <th class="text-center" style="width:10%;vertical-align: middle;">Month</th>
+                                            <th class="text-center" style="width:6%;vertical-align: middle;">Year</th>
+                                            <th class="text-center" style="width:10%;vertical-align: middle;">PF Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $total_pf_amount = 0; @endphp
+                                        @foreach($company_pfs as $pf)
+                                        @php 
+                                            $employee = get_employee_info($pf->employee_id);
+                                        @endphp
+                                        <tr>
+                                            <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                            <td style="vertical-align: middle">{{$employee->name}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{$pf->month}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{$pf->year}}</td>
+                                            <td class="text-center" style="vertical-align: middle">
+                                                {{$pf->amount}}
+                                                @php $total_pf_amount = $total_pf_amount + $pf->amount; @endphp
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td class="text-center" colspan="7">Total PF Amount</td>
+                                            <td class="text-center" style="vertical-align: middle">{{ $total_pf_amount }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pd-t-15 text-center">
+                                <button class="btn btn-primary" onclick="confirmpay({{$increment_employee_id}})">Submit</button>
+                            </div>
                         </div>
                     @endif
 
@@ -186,6 +186,13 @@
 
                 //window.location = "/mr"
             }, 1000);
+        }
+
+        function confirmpay(id) {
+            var r = confirm("Are you confirm to pay?");
+            if (r == true) {
+            window.location = "/company-pf-pay-store/"+id;
+            }
         }
     </script>
 
