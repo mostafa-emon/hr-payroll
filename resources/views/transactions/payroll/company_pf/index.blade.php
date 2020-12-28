@@ -54,12 +54,16 @@
                             </thead>
                             <tbody>
                                 @foreach($company_pfs as $pf)
+                                @php 
+                                    $employee = get_employee_info($pf->employee_id);
+                                @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{$pf->name}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$pf->holiday_id}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($pf->start_date))}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($pf->end_date))}}</td>
+                                    <td style="vertical-align: middle">{{$employee->name}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$pf->amount}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">

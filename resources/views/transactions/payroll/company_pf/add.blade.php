@@ -67,7 +67,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" name="year" class="form-control" placeholder="Year; Ex:2010" value="{{$year}}"/>
+                                <input type="text" name="year" class="form-control" placeholder="Year; Ex:2010" value="{{$year}}" required/>
                             </div>
                             <div class="col-md-4">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search">
@@ -97,7 +97,7 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <select name="currency_id" id="currency_id" class="form-control select2-no-search">
+                                <select name="currency_id" id="currency_id" class="form-control select2-no-search" required>
                                     @foreach($currencies as $currency)
                                         <option value="{{$currency->id}}" @if($currency_id == $currency->id) selected @endif>{{$currency->currency_name}}</option>
                                     @endforeach
@@ -115,12 +115,11 @@
                     @if($month !='')
                         <br>
                         <div class="table-responsive">
-                            <form method="post" action="{{url('store-roster')}}">
+                            <form method="post" action="{{url('store-company-pf')}}">
                                 {{ csrf_field() }}
-                                {{--<input type="hidden" name="roster_id" value="{{}}"/>
-                                <input type="hidden" name="store_from_date" value="{{}}"/>
-                                <input type="hidden" name="store_to_date" value="{{}}"/>
-                                <input type="hidden" name="store_employee_id" value="{{}}"/>--}}
+                                <input type="text" name="store_month" value="{{$month}}"/>
+                                <input type="text" name="store_year" value="{{$year}}"/>
+                                <input type="text" name="store_currency_id" value="{{$currency_id}}"/>
 
                                 <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                     <thead>
@@ -142,7 +141,8 @@
                                             <td class="text-center" style="vertical-align: middle">{{department_name($employee->department_id)}}</td>
                                             <td class="text-center" style="vertical-align: middle">{{designation_name($employee->designation_id)}}</td>
                                             <td style="vertical-align: middle">
-                                                <input type="text" name="pf_amount" class="form-control" placeholder="PF Amount" value="{{get_pf_amount($employee->employee_id)}}">
+                                                <input type="text" name="employee_id[]" class="form-control" value="{{get_auto_increment_employee_id($employee->employee_id)}}">
+                                                <input type="text" name="pf_amount[]" class="form-control" placeholder="PF Amount" value="{{get_pf_amount($employee->employee_id)}}">
                                             </td>
                                         </tr>
                                         @endforeach

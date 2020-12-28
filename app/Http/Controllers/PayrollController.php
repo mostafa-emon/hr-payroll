@@ -384,7 +384,7 @@ class PayrollController extends Controller
     }
 
     public function company_pf_index() {
-        $company_pfs    = CompanyPf::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
+        $company_pfs            = CompanyPf::where('company_id',Auth::user()->company_id)->where('status',0)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.company_pf.index',compact('company_pfs'));
     }
 
@@ -430,10 +430,29 @@ class PayrollController extends Controller
         }
 
         if($request->month != "") {
-            $employment_infos = $employment_infos->get();
+            $employment_infos   = $employment_infos->get();
         }
 
         return view('transactions.payroll.company_pf.add',compact('departments','projects','branches',
         'currencies','department_id','project_id','branch_id','month','year','currency_id','employment_infos'));
+    }
+
+    public function company_pf_store(Request $request){
+        $interval = count($request->pf_amount);
+        for($i = 0; $i < $interval; $i++) {
+            if($request->pf_amount[$i] !=''){
+                $company_pf = new CompanyPf();
+                $company_pf->company_id     = Auth::user()->company_id;
+                $company_pf->employee_id    = $request->employee_id[$i];
+                $company_pf->amount         = $request->pf_amount[$i];
+                $company_pf->currency_id    = $request->store_currency_id;
+                $company_pf->month          = $request->store_month;
+                $company_pf->year           = $request->store_year;
+                $company_pf->type           = 'Company PF';
+                $company_pf->status         = 0;
+                $company_pf->save();
+            }
+        }
+        return redirect('company-pf')->with('message','Roster created successfully!');
     }
 }

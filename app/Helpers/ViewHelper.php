@@ -260,13 +260,13 @@ function campaign_total_receiver_and_sent($campaign_id) {
     }
 }
 
-/*function get_pf_amount($employee_id) {
+function get_pf_amount($employee_id) {
     $salary_component = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_reference','PF Company Portion')->first();
     $employee = Employee::where('employee_id',$employee_id)->first();
     if($employee != "") {
         $payroll_info = EmployeeEarningDeduction::where('employee_id',$employee->id)->where('salary_component_id',$salary_component->id)->first();
         if($payroll_info != ''){
-            if($payroll_info->fixed_or_percentage == 'fixed') {
+            if($payroll_info->final_amount != '') {
                 return $payroll_info->final_amount;
             }else{
                 return "";
@@ -276,5 +276,29 @@ function campaign_total_receiver_and_sent($campaign_id) {
         }
     }else{
         return "";
+    }
+}
+
+/*function calculate_company_pf($employee_id) {
+    $pf_component_id = SalaryComponent::where('component_reference','PF Company Portion')->first();
+    if($pf_component_id == "") {
+        return "";
+    }else{
+        $pf_component_id = $pf_component_id->id;
+        $pf_calculation = EmployeeEarningDeduction::where('salary_component_id',$pf_component_id)->first();
+        if($pf_calculation == "") {
+            return "";
+        }else{
+            if($pf_calculation->fixed_or_percentage == "fixed") {
+                return $pf_calculation->final_amount;
+            }else{
+                $targeted_component = EmployeeEarningDeduction::where('salary_component_id',$pf_calculation->of_component_id)->first();
+                if($targeted_component == "") {
+                    return "";
+                }else{
+                    return round(($pf_calculation->percentage_amount/100)*$targeted_component->final_amount);
+                }
+            }                
+        }
     }
 }*/
