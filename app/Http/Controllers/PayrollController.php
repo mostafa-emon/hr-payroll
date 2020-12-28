@@ -511,4 +511,14 @@ class PayrollController extends Controller
         }
         return redirect('company-pf')->with('message','Company PF paid successfully!');
     }
+
+    public function company_pf_delete($id) {
+        $pf = CompanyPf::find($id);
+        if($pf->company_id == Auth::user()->company_id){
+            $pf->delete();
+            return redirect('company-pf')->with('message','Company PF Deleted Successfully!');
+        }else{
+            return redirect('company-pf')->with('message','Do not try to be too smart!');
+        }
+    }
 }

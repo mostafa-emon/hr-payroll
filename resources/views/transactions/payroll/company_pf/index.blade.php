@@ -89,7 +89,7 @@
         function confirmDelete(id) {
             var r = confirm("Are you confirm to delete?");
             if (r == true) {
-            window.location = "/govt-holiday/delete/"+id;
+            window.location = "/company-pf/delete/"+id;
             }
         }
 
