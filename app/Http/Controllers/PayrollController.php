@@ -455,4 +455,46 @@ class PayrollController extends Controller
         }
         return redirect('company-pf')->with('message','Roster created successfully!');
     }
+
+    public function company_pf_pay_index(Request $request) {
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id      = '';
+        $project_id         = '';
+        $branch_id          = '';
+        $employee_id        = '';
+        $company_pfs        = '';
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->employee_id != "") {
+            $employee_id            = $request->employee_id;
+            $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
+            $company_pfs            = CompanyPf::where('company_id',Auth::user()->company_id)
+                                    ->where('employee_id',$increment_employee_id)
+                                    ->where('type','Company PF')
+                                    ->where('status',0)->get();
+        }
+
+        $employment_infos = $employment_infos->get();
+
+        return view('transactions.payroll.company_pf.pay',compact('departments','projects','branches',
+        'department_id','project_id','branch_id','employee_id','employment_infos','company_pfs'));
+    }
 }

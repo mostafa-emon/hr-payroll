@@ -33,6 +33,7 @@
                             <h4 class="card-title mg-b-0">Company PF</h4>
                         </div>
                         <div class="col-md-6 text-right">
+                            <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('company-pf-pay')}}">Pay PF</a>
                             <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('company-pf-create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
                         </div>
                     </div>
