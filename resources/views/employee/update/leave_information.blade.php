@@ -94,6 +94,7 @@
 
 <div class="row">
     <div class="col-md-4 mg-t-15 remove-space">
+        <label for="leave_count_from" style="font-weight:bold;" class="col-form-label">Leave Count From:</label>
         <select class="form-control" name="leave_count_from">
             <option value="" label>Leave Count From</option>
             <option value="joining_date" @if($employee->leave_count_from == "joining_date") selected @endif>Joining Date</option>

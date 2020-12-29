@@ -100,7 +100,7 @@
 								<li><a class="slide-item" href="{{url('branches')}}">Branch</a></li>
 								<li><a class="slide-item" href="{{url('currencies')}}">Currency</a></li>
 								<li><a class="slide-item" href="{{url('bank-accounts')}}">Bank Account</a></li>
-								<li><a class="slide-item" href="{{url('device-setup')}}">Device Setup</a></li>
+								<li style="display:none;"><a class="slide-item" href="{{url('device-setup')}}">Device Setup</a></li>
                             </ul>
 						</li>
                         <li class="slide
@@ -167,7 +167,7 @@
 								</li>
 								
 								<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Banks</a>
+									<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Payroll Banks</a>
 								</li>
                             </ul>
 						</li>

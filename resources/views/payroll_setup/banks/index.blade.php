@@ -7,7 +7,7 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/payroll-banks')}}" style="color:#6c757d;">Banks</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/payroll-banks')}}" style="color:#6c757d;">Payroll Banks</a></li>
             </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
                       <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Banks</h4>
+                            <h4 class="card-title mg-b-0">Payroll Banks</h4>
                         </div>
                         <div class="col-md-6 text-right">
                             <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Add</button>

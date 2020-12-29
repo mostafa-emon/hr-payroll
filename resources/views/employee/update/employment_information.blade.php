@@ -3,6 +3,7 @@
         {{ csrf_field() }}
         <div class="row row-xs">
             <div class="col-md-3 pd-t-10">
+                <label for="department_id" style="font-weight:bold;" class="col-form-label">Department*:</label>
                 <select class="form-control" name="department_id" required>
                     <option value="" label>department*</option>
                     @foreach($departments as $department)
@@ -12,6 +13,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="designation_id" style="font-weight:bold;" class="col-form-label">Designation*:</label>
                 <select class="form-control" name="designation_id" required>
                     <option value="" label>designation*</option>
                     @foreach($designations as $designation)
@@ -21,6 +23,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="project_id" style="font-weight:bold;" class="col-form-label">Project*:</label>
                 <select class="form-control" name="project_id">
                     <option value="" label>project</option>
                     @foreach($projects as $project)
@@ -30,6 +33,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="branch_id" style="font-weight:bold;" class="col-form-label">Branch*:</label>
                 <select class="form-control" name="branch_id">
                     <option value="" label>branch</option>
                     @foreach($branches as $branch)
@@ -39,6 +43,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="status" style="font-weight:bold;" class="col-form-label">Status*:</label>
                 <select class="form-control" name="current_status" required>
                     <option value="" label>status*</option>
                     <option value="Active" @if($employment_info != "" && $employment_info->current_status == "Active") selected @endif>Active</option>
@@ -47,14 +52,17 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="date_of_joining" style="font-weight:bold;" class="col-form-label">Date of Joining*:</label>
                 <input type="text" name="date_of_joining" placeholder="Date of Joining*" @if($employment_info !="" && $employment_info->date_of_joining != "" && $employment_info->date_of_joining != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_joining))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="date_of_confirmation" style="font-weight:bold;" class="col-form-label">Date of Confirmation*:</label>
                 <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation*" @if($employment_info !="" && $employment_info->date_of_confirmation != "" && $employment_info->date_of_confirmation != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_confirmation))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="duty_type" style="font-weight:bold;" class="col-form-label">Duty Type*:</label>
                 <select class="form-control" name="duty_type" required>
                     <option value="" label>duty type*</option>
                     <option value="Roster" @if($employment_info != "" && $employment_info->duty_type == "Roster") selected @endif>Roster</option>
@@ -63,15 +71,18 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="date_of_resign" style="font-weight:bold;" class="col-form-label">Date of Resign:</label>
                 <input type="text" name="date_of_resign" placeholder="Date of Resign" @if($employment_info !="" && $employment_info->date_of_resign != "" && $employment_info->date_of_resign != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_resign))}}" @endif class="form-control dtpicker" autocomplete="off"/>
             </div>
 
             <div class="col-md-9 pd-t-10">
+                <label for="reason_for_resign" style="font-weight:bold;" class="col-form-label">Reason for Resign:</label>
                 <input type="text" name="reason_for_resign" placeholder="Reason for Resign" @if($employment_info !="" && $employment_info->reason_for_resign != "") value="{{$employment_info->reason_for_resign}}" @endif class="form-control"/>
                 <input type="hidden" name="employee_id" placeholder="Employee ID" class="form-control" value="@if($employee_id != ""){{$employee_id}}@endif">
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="terminated" style="font-weight:bold;" class="col-form-label">Terminated:</label>
                 <select class="form-control" name="terminated">
                     <option value="" label>terminated</option>
                     <option value="Yes" @if($employment_info != "" && $employment_info->terminated == "Yes") selected @endif>Yes</option>
@@ -80,14 +91,17 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="date_of_termination" style="font-weight:bold;" class="col-form-label">Date of Termination:</label>
                 <input type="text" name="date_of_termination" placeholder="Date of Termination" @if($employment_info !="" && $employment_info->date_of_termination != "" && $employment_info->date_of_termination != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_termination))}}" @endif class="form-control dtpicker" autocomplete="off"/>
             </div>
 
             <div class="col-md-6 pd-t-10">
+                <label for="Reason for Termination" style="font-weight:bold;" class="col-form-label">Reason for Termination:</label>
                 <input type="text" name="reason_for_termination" placeholder="Reason for Termination" @if($employment_info !="" && $employment_info->reason_for_termination != "") value="{{$employment_info->reason_for_termination}}" @endif class="form-control"/>
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="salary payment method*" style="font-weight:bold;" class="col-form-label">Salary Payment Method*:</label>
                 <select class="form-control" name="salary_payment_method" required>
                     <option value="" label>salary payment method*</option>
                     <option value="Bank" @if($employment_info != "" && $employment_info->salary_payment_method == "Bank") selected @endif>Bank</option>
@@ -96,6 +110,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="Bank" style="font-weight:bold;" class="col-form-label">Bank:</label>
                 <select id="bank_name" name="bank_name" onchange="getBranch(this.value)" class="form-control select2-no-search">
                     <option label="Choose Bank"></option>
                     @foreach($banks as $bank)
@@ -105,6 +120,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
                 <select id="branch" name="bank_branch_id" class="form-control select2-no-search">
                     <option label="Choose Branch"></option>
                     @foreach($bank_branches as $branch)
@@ -114,10 +130,12 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="bank_account_no" style="font-weight:bold;" class="col-form-label">Bank Account No:</label>
                 <input type="text" name="bank_account_no" placeholder="Bank Account No" @if($employment_info !="" && $employment_info->bank_account_no != "") value="{{$employment_info->bank_account_no}}" @endif class="form-control">
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="pay_slip_send_method" style="font-weight:bold;" class="col-form-label">Pay Slip Send Method*:</label>
                 <select class="form-control" name="pay_slip_send_method" required>
                     <option value="" label>pay slip send method*</option>
                     <option value="Email" @if($employment_info != "" && $employment_info->pay_slip_send_method == "Email") selected @endif>Email</option>
@@ -126,6 +144,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="weekend one" style="font-weight:bold;" class="col-form-label">Weekend One:</label>
                 <select class="form-control" name="weekend_1">
                     <option value="" label>weekend one</option>
                     <option value="Saturday" @if($employment_info != "" && $employment_info->weekend_1 == "Saturday") selected @endif>Saturday</option>
@@ -139,6 +158,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="weekend two" style="font-weight:bold;" class="col-form-label">Weekend Two:</label>
                 <select class="form-control" name="weekend_2">
                     <option value="" label>weekend two</option>
                     <option value="Saturday" @if($employment_info != "" && $employment_info->weekend_2 == "Saturday") selected @endif>Saturday</option>
@@ -152,6 +172,7 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
+                <label for="id_in_biometric_machine" style="font-weight:bold;" class="col-form-label">ID in Biometric Machine:</label>
                 <input type="text" name="id_in_biometric_machine" placeholder="ID in Biometric Machine" @if($employment_info !="" && $employment_info->id_in_biometric_machine != "") value="{{$employment_info->id_in_biometric_machine}}" @endif class="form-control">
             </div>
 

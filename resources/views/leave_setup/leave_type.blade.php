@@ -108,7 +108,7 @@
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="leave_name" class="col-form-label col-md-4">Reference:</label>
-                        <select id="reference" name="reference" class="form-control select2-no-search col-md-8 pa" required>
+                        <select id="reference" name="reference" class="form-control select2-no-search col-md-8 pa" onclick="hideShowElement(this.value)" required>
                             <option label="Select Reference"></option>
                             <option value="general_leave">General Leave</option>
                             <option value="paid_leave">Paid Leave</option>
@@ -125,7 +125,7 @@
                         <input type="text" class="form-control col-md-8 pa" id="leave_short_name" name="leave_short_name" placeholder="Enter Short Name"/>
                     </div>
 
-                    <div class="form-group row pd-r-15 pd-l-10">
+                    <div style="display:none;" id="div_el_deviding_factor" class="form-group row pd-r-15 pd-l-10">
                         <label for="el_deviding_factor" class="col-form-label col-md-4">EL Deviding Factor:</label>
                         <input type="text" class="form-control col-md-8 pa" id="el_deviding_factor" name="el_deviding_factor" placeholder="Days"/>
                     </div>
@@ -154,6 +154,11 @@
                 $("#el_deviding_factor").val(response.el_deviding_factor);
                 $("#reference").val(response.reference)
                 .find("option[value=" + response.reference +"]").attr('selected', true);
+                if(response.reference == "paid_leave"){
+                    $('#div_el_deviding_factor').show();
+                }else{
+                    $('#div_el_deviding_factor').hide();
+                }
                 $('#modal-form').prop('action', '/leave-type/update/'+id);
                 }
             });
@@ -172,6 +177,14 @@
             var r = confirm("Are you confirm to delete?");
             if (r == true) {
             window.location = "/leave-type/delete/"+id;
+            }
+        }
+
+        function hideShowElement(value) {
+            if(value == "paid_leave") {
+                $('#div_el_deviding_factor').show();
+            }else{
+                $('#div_el_deviding_factor').hide();
             }
         }
 
