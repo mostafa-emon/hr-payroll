@@ -10,18 +10,14 @@
                 <input class="collapse" type="file" name="employee_photo" id="imgInp" onchange="preview_image(event)" />
         </div>
         <div class="row row-xs">
-            <div class="col-md-5 pd-t-10">
-                <div class="row row-xs">
-                    <label for="employee_id" style="font-weight:bold;" class="col-form-label col-md-4">Employee ID*:</label>
-                    <input type="text" name="employee_id" placeholder="Employee ID*" value="{{$employee->employee_id}}" class="form-control col-md-8" required>
-                </div>
+            <div class="col-md-3 pd-t-10">
+                <label for="employee_id" style="font-weight:bold;" class="col-form-label">Employee ID*:</label>
+                <input type="text" name="employee_id" placeholder="Employee ID*" value="{{$employee->employee_id}}" class="form-control" required>
             </div>
 
-            <div class="col-md-7 pd-t-10">
-                <div class="row row-xs">
-                    <label for="employee_id" style="font-weight:bold;" class="col-form-label col-md-4">Employee Name*:</label>
-                    <input type="text" name="name" placeholder="Employee Name*" value="{{$employee->name}}" class="form-control col-md-8" required>
-                </div>
+            <div class="col-md-9 pd-t-10">
+                <label for="employee_name" style="font-weight:bold;" class="col-form-label">Employee Name*:</label>
+                <input type="text" name="name" placeholder="Employee Name*" value="{{$employee->name}}" class="form-control" required>
             </div>
 
             <div class="col-md-3 pd-t-10">

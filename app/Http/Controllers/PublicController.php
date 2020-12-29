@@ -33,13 +33,14 @@ class PublicController extends Controller
                 $attendance->date           = date('Y-m-d');
 
                 $is_weekly_holiday = 0;
-                if(date("l") == $employee->weekend_1 || date("l") == $employee->weekend_2) {
-                    $is_weekly_holiday = 1;
-                }
 
                 $is_in_paid_leave = PaidLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->count();
 
                 if($employee->duty_type == "Non-Roster") {
+                    if(date("l") == $employee->weekend_1 || date("l") == $employee->weekend_2) {
+                        $is_weekly_holiday = 1;
+                    }
+
                     if($attendance_policy->start_time != "" && $attendance_policy->end_time != "") {
                         if($attendance_policy->start_time_meridiem == 0) {
                             $start_time_meridiem = "AM";
@@ -62,6 +63,10 @@ class PublicController extends Controller
                 else {
                     $roster = RosterEmployee::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->first();
                     if($roster != "") {
+                        if($roster->day_off == 1) {
+                            $is_weekly_holiday = 1;
+                        }
+                        
                         $shift = ShiftType::where('id',$roster->shift_id)->first();
                         if($shift != "") {
                             if($shift->start_time_meridiem == 0) {
