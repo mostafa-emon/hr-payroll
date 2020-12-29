@@ -18,9 +18,19 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header">
+                    
+                    @if(session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Update Attendance Policy</h4>
+                            <h4 class="card-title mg-b-0">Attendance Policy</h4>
                         </div>
                         <div class="col-md-6 text-right"></div>
                     </div>

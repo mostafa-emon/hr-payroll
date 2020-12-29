@@ -444,7 +444,7 @@ class PayrollController extends Controller
 
                 $count_pf = CompanyPf::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->first();
                 if($count_pf !=""){
-                    
+                    $pf = CompanyPf::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->delete();
                 }
 
                 $company_pf = new CompanyPf();
