@@ -150,12 +150,8 @@ Route::get('/govt-holiday/update/{id}', 'HolidayController@update');
 Route::post('/govt-holiday/update/{id}', 'HolidayController@update');
 Route::get('/govt-holiday/delete/{id}', 'HolidayController@delete');
 
-Route::get('/attendance-policy', 'AttendanceController@index');
-Route::get('/attendance-policy/add', 'AttendanceController@add');
-Route::post('/attendance-policy/add', 'AttendanceController@add');
-Route::get('/attendance-policy/update/{id}', 'AttendanceController@update');
-Route::post('/attendance-policy/update/{id}', 'AttendanceController@update');
-Route::get('/attendance-policy/delete/{id}', 'AttendanceController@delete');
+Route::get('/attendance-policy', 'AttendanceController@attendance_policy');
+Route::post('/attendance-policy', 'AttendanceController@attendance_policy');
 
 // Payroll Setup
 Route::get('/salary-components', 'SalaryController@component_index');
