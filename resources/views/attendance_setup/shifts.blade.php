@@ -44,12 +44,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
-                                    <th style="width:30%;">Name</th>
+                                    <th style="width:25%;">Name</th>
                                     <th class="text-center" style="width:15%;">ID</th>
                                     <th class="text-center" style="width:15%;">Short Name</th>
-                                    <th class="text-center" style="width:10%;">Start Time</th>
-                                    <th class="text-center" style="width:10%;">End Time</th>
-                                    <th class="text-center" style="width:15%;">Action</th>
+                                    <th class="text-center" style="width:15%;">Start Time</th>
+                                    <th class="text-center" style="width:15%;">End Time</th>
+                                    <th class="text-center" style="width:10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>

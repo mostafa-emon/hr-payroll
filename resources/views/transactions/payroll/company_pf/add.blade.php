@@ -117,9 +117,9 @@
                         <div class="table-responsive">
                             <form method="post" action="{{url('store-company-pf')}}">
                                 {{ csrf_field() }}
-                                <input type="text" name="store_month" value="{{$month}}"/>
-                                <input type="text" name="store_year" value="{{$year}}"/>
-                                <input type="text" name="store_currency_id" value="{{$currency_id}}"/>
+                                <input type="hidden" name="store_month" value="{{$month}}"/>
+                                <input type="hidden" name="store_year" value="{{$year}}"/>
+                                <input type="hidden" name="store_currency_id" value="{{$currency_id}}"/>
 
                                 <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                     <thead>
@@ -141,7 +141,7 @@
                                             <td class="text-center" style="vertical-align: middle">{{department_name($employee->department_id)}}</td>
                                             <td class="text-center" style="vertical-align: middle">{{designation_name($employee->designation_id)}}</td>
                                             <td style="vertical-align: middle">
-                                                <input type="text" name="employee_id[]" class="form-control" value="{{get_auto_increment_employee_id($employee->employee_id)}}">
+                                                <input type="hidden" name="employee_id[]" class="form-control" value="{{get_auto_increment_employee_id($employee->employee_id)}}">
                                                 <input type="text" name="pf_amount[]" class="form-control" placeholder="PF Amount" value="{{get_pf_amount($employee->employee_id)}}">
                                             </td>
                                         </tr>
