@@ -441,6 +441,12 @@ class PayrollController extends Controller
         $interval = count($request->pf_amount);
         for($i = 0; $i < $interval; $i++) {
             if($request->pf_amount[$i] !=''){
+
+                $count_pf = CompanyPf::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->first();
+                if($count_pf !=""){
+                    
+                }
+
                 $company_pf = new CompanyPf();
                 $company_pf->company_id     = Auth::user()->company_id;
                 $company_pf->employee_id    = $request->employee_id[$i];
@@ -467,7 +473,7 @@ class PayrollController extends Controller
         $branch_id              = '';
         $employee_id            = '';
         $increment_employee_id  = '';
-        $company_pfs            = '';
+        $company_pfs            = [];
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
