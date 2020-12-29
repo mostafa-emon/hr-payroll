@@ -15,13 +15,14 @@ use App\RosterEmployee;
 class PublicController extends Controller
 {
     public function index($company_id) {
-        $attendance_policy = AttendancePolicy::where('company_id',Auth::user()->company_id)->first();
+        $company_id = $company_id - 1000;
+        $attendance_policy = AttendancePolicy::where('company_id',$company_id)->first();
 
         $count = Attendance::where('company_id',$company_id)->where('date',date('Y-m-d'))->count();
         if($count == 0) {
-            $is_govt_holiday = GovtHolidayDetail::where('company_id',Auth::user()->company_id)->where('date',date('Y-m-d'))->count();
+            $is_govt_holiday = GovtHolidayDetail::where('company_id',$company_id)->where('date',date('Y-m-d'))->count();
 
-            $employees = Employee::where('company_id',Auth::user()->company_id)
+            $employees = Employee::where('company_id',$company_id)
                             ->join('employment_infos','employees.id','employment_infos.employee_id')
                             ->get();
 
@@ -83,10 +84,10 @@ class PublicController extends Controller
                     
                 }
 
-                $attendance->status == "ABSENT";
-                if($is_in_paid_leave > 0) { $attendance->status == "PAID_LEAVE"; }
-                if($is_weekly_holiday > 0) { $attendance->status == "WEEKLY_HOLIDAY"; }
-                if($is_govt_holiday > 0) { $attendance->status == "GOVT_HOLIDAY"; }
+                $attendance->status = "ABSENT";
+                if($is_weekly_holiday > 0) { $attendance->status = "WEEKLY_HOLIDAY"; }
+                if($is_govt_holiday > 0) { $attendance->status = "GOVT_HOLIDAY"; }
+                if($is_in_paid_leave > 0) { $attendance->status = "PAID_LEAVE"; }
                 
                 $attendance->save();
             }
