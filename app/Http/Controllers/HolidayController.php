@@ -41,6 +41,7 @@ class HolidayController extends Controller
                 $next_day = date('Y-m-d', strtotime('+1 day', strtotime($current_day)));
 
                 $holiday_details = new GovtHolidayDetail();
+                $holiday_details->company_id = $holiday->company_id;
                 $holiday_details->holiday_id = $holiday->id;
                 $holiday_details->date = $current_day;
                 $holiday_details->save();
@@ -76,6 +77,7 @@ class HolidayController extends Controller
                     $next_day = date('Y-m-d', strtotime('+1 day', strtotime($current_day)));
 
                     $holiday_details = new GovtHolidayDetail();
+                    $holiday_details->company_id = $holiday->company_id;
                     $holiday_details->holiday_id = $holiday->id;
                     $holiday_details->date = $current_day;
                     $holiday_details->save();

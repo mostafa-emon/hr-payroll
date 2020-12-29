@@ -15,6 +15,8 @@ class CreateGovtHolidayDetailsTable extends Migration
     {
         Schema::create('govt_holiday_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('holiday_id');
             $table->foreign('holiday_id')->references('id')->on('govt_holidays')->onDelete('cascade');
             $table->date('date')->nullable();
