@@ -14,7 +14,7 @@ class ShiftController extends Controller
     }
 
     public function index() {
-        $shifts = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
+        $shifts = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
         return view('attendance_setup.shifts',compact('shifts'));
     }
 
