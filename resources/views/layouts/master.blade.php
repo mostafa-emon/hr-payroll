@@ -659,6 +659,13 @@
 		<script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
 		
 		<script>
+			$("body").on("submit", "form", function() {
+				$(this).submit(function() {
+					return false;
+				});
+				return true;
+			});
+
 			$('#datatable').DataTable();
             $(".form-layout .form-control").on("focusin", function () {
             $(this).closest(".form-group").addClass("form-group-active");
