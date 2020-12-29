@@ -12,9 +12,11 @@ use App\LeaveBalance;
 use App\Department;
 use App\Project;
 use App\Branch;
+use App\PaidLeave;
 use Auth;
 use Carbon;
 use Redirect;
+use DateTime;
 
 class LeaveController extends Controller
 {
@@ -243,6 +245,26 @@ class LeaveController extends Controller
         $leave = LeaveRequest::where('id',$id)->first();
         $leave->status = "Approved";
         $leave->save();
+
+        if(LeaveType::where('id',$leave->leave_type_id)->first()->reference == "paid_leave") {
+            $formatted_from_date = new DateTime($leave->start_date);
+            $formatted_to_date   = new DateTime($leave->end_date);
+            $interval = $formatted_to_date->diff($formatted_from_date);
+            $interval = $interval->format('%a');
+    
+            $current_day = $leave->start_date;
+
+            for($i = 0; $i <= $interval; $i++) {
+                $next_day = date('Y-m-d', strtotime('+1 day', strtotime($current_day)));
+
+                $paid_leave = new PaidLeave();
+                $paid_leave->employee_id    = $leave->employee_id;
+                $paid_leave->date           = $current_day;
+                $paid_leave->save();
+
+                $current_day = $next_day;
+            }
+        }
         return redirect('approve-leave-request')->with('message','Leave Request Approved Successfully!');
     }
 
