@@ -21,7 +21,9 @@ class CreateShiftTypesTable extends Migration
             $table->integer('shift_id')->nullable();
             $table->string('shift_short_name',50)->nullable();
             $table->string('start_time',30)->nullable();
+            $table->boolean('start_time_meridiem');
             $table->string('end_time',30)->nullable();
+            $table->boolean('end_time_meridiem');
             $table->timestamps();
         });
     }
