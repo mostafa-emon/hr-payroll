@@ -20,12 +20,14 @@ class ShiftController extends Controller
 
     public function add(Request $request) {
         $shift = new ShiftType;
-        $shift->company_id        = Auth::user()->company_id;
-        $shift->name              = $request->name;
-        $shift->shift_id          = $request->shift_id;
-        $shift->shift_short_name  = $request->shift_short_name;
-        $shift->start_time        = $request->start_time;
-        $shift->end_time          = $request->end_time;
+        $shift->company_id          = Auth::user()->company_id;
+        $shift->name                = $request->name;
+        $shift->shift_id            = $request->shift_id;
+        $shift->shift_short_name    = $request->shift_short_name;
+        $shift->start_time          = $request->start_time;
+        $shift->start_time_meridiem = $request->start_time_meridiem;
+        $shift->end_time            = $request->end_time;
+        $shift->end_time_meridiem   = $request->end_time_meridiem;
         $shift->save();
         return redirect('shift')->with('message','Shift Added Successfully!');
     }
@@ -37,11 +39,13 @@ class ShiftController extends Controller
 
     public function update(Request $request,$id) {
         $shift = ShiftType::where('id',$id)->first();
-        $shift->name              = $request->name;
-        $shift->shift_id          = $request->shift_id;
-        $shift->shift_short_name  = $request->shift_short_name;
-        $shift->start_time        = $request->start_time;
-        $shift->end_time          = $request->end_time;
+        $shift->name                = $request->name;
+        $shift->shift_id            = $request->shift_id;
+        $shift->shift_short_name    = $request->shift_short_name;
+        $shift->start_time          = $request->start_time;
+        $shift->start_time_meridiem = $request->start_time_meridiem;
+        $shift->end_time            = $request->end_time;
+        $shift->end_time_meridiem   = $request->end_time_meridiem;
         $shift->save();
         return redirect('shift')->with('message','Shift Updated Successfully!');
     }

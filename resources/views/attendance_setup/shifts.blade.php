@@ -59,8 +59,8 @@
                                     <td style="vertical-align: middle">{{$shift->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$shift->shift_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$shift->shift_short_name}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$shift->start_time}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$shift->end_time}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$shift->start_time}} @if($shift->start_time_meridiem == "1") PM @else AM @endif</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$shift->end_time}} @if($shift->end_time_meridiem == "1") PM @else AM @endif</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
@@ -110,12 +110,20 @@
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="start_time" class="col-form-label col-md-3">Start Time :</label>
-                        <input type="text" class="form-control col-md-9 pa" id="start_time" name="start_time" placeholder="HH:MM"/>
+                        <input type="text" class="form-control col-md-5 pa" id="start_time" name="start_time" placeholder="HH:MM"/>
+                        <select id="start_time_meridiem" name="start_time_meridiem" class="form-control select2-no-search col-md-4 pa" required>
+                            <option value="0">AM</option>
+                            <option value="1">PM</option>
+                        </select>
                     </div>
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="end_time" class="col-form-label col-md-3">End Time :</label>
-                        <input type="text" class="form-control col-md-9 pa" id="end_time" name="end_time" placeholder="HH:MM"/>
+                        <input type="text" class="form-control col-md-5 pa" id="end_time" name="end_time" placeholder="HH:MM"/>
+                        <select id="end_time_meridiem" name="end_time_meridiem" class="form-control select2-no-search col-md-4 pa" required>
+                            <option value="0">AM</option>
+                            <option value="1">PM</option>
+                        </select>
                     </div>
 
                 </div>
@@ -141,6 +149,12 @@
                 $("#shift_short_name").val(response.shift_short_name);
                 $("#start_time").val(response.start_time);
                 $("#end_time").val(response.end_time);
+                $("#start_time_meridiem").val(response.start_time_meridiem)
+                .find("option[value=" + response.start_time_meridiem +"]").attr('selected', true);
+
+                $("#end_time_meridiem").val(response.end_time_meridiem)
+                .find("option[value=" + response.end_time_meridiem +"]").attr('selected', true);
+
                 $('#modal-form').prop('action', '/shift/update/'+id);
                 }
             });
@@ -152,6 +166,8 @@
             $('#shift_short_name').val('');
             $('#start_time').val('');
             $('#end_time').val('');
+            $('#start_time_meridiem').val('0');
+            $('#end_time_meridiem').val('1');
             $('#modal-form').prop('action', '/shift/add');
         }
 
