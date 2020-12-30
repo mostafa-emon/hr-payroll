@@ -121,8 +121,8 @@ class PublicController extends Controller
                     
                     // IF LATE
                     if($in_time > $actual_in_time) {
-                        $attendance->late = round(abs($in_time - $actual_in_time) / 60,2);
-                        
+                        $attendance->late = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
+
                         // LATE ALLOWED TIME
                         if($record->allowed_late_policy == 1) {
                             if($attendance->late > $record->allowed_late_time) {
@@ -168,7 +168,7 @@ class PublicController extends Controller
                     $attendance->save();
                 }
 
-                AttendanceRecord::where('id',$record->attendance_record_id)->update(['sync' => 1]);
+                //AttendanceRecord::where('id',$record->attendance_record_id)->update(['sync' => 1]);
             }
             
         }
