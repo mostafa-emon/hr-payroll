@@ -228,7 +228,7 @@ class PublicController extends Controller
                     $attendance->save();
                 }
 
-                //AttendanceRecord::where('id',$record->attendance_record_id)->update(['sync' => 1]);
+                AttendanceRecord::where('id',$record->attendance_record_id)->update(['sync' => 1]);
             }
             
         }
