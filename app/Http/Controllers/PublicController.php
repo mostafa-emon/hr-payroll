@@ -11,6 +11,7 @@ use App\AttendancePolicy;
 use App\PaidLeave;
 use App\ShiftType;
 use App\RosterEmployee;
+use App\AttendanceRecord;
 
 class PublicController extends Controller
 {
@@ -96,6 +97,80 @@ class PublicController extends Controller
                 
                 $attendance->save();
             }
+        }
+        else{
+            $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time','attendances.status as attendance_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendance_policies.mark_overtime as overtime_if_holiday')
+                        ->join('employment_infos','employment_infos.id_in_biometric_machine','attendance_records.employee_id')
+                        ->join('attendances','attendances.employee_id','employment_infos.employee_id')
+                        ->join('attendance_policies','attendances.company_id','attendance_policies.company_id')
+                        ->where('attendance_records.company_id',$company_id)
+                        ->where('sync',0)
+                        ->get();
+            //return response()->json($records);
+            
+            
+            foreach($records as $record) {
+                $attendance = Attendance::where('id',$record->attendance_id)->first();
+                $attendance->status = "PRESENT";
+
+                if($record->record_type == "IN") {
+                    $in_time        = date('H:i:s',strtotime($record->base_time));
+                    $actual_in_time = date('H:i:s',strtotime($record->actual_in_time));
+
+                    $attendance->in_time = $in_time;
+                    
+                    // IF LATE
+                    if($in_time > $actual_in_time) {
+                        $attendance->late = round(abs($in_time - $actual_in_time) / 60,2);
+                        
+                        // LATE ALLOWED TIME
+                        if($record->allowed_late_policy == 1) {
+                            if($attendance->late > $record->allowed_late_time) {
+                                $attendance->late_over_allowed_time = 1;
+                            }
+                        }
+                        else {
+                            $attendance->late_over_allowed_time = 1;
+                        }
+
+                        // DAY ABSENT FOR LATE
+                        if($record->late_absent_policy == 1) {
+                            $late_days_for_count_absent = $record->late_days_for_count_absent;
+
+                            $first_day_of_month = date('Y-m-01',strtotime($record->base_date));
+                            $current_date       = $record->base_date;
+
+                            $data_of_late_days_till_today = Attendance::where('employee_id',$record->employee_id)
+                                                ->whereBetween('date', [$first_day_of_month, $current_date." 23:59:59"])
+                                                ->where('late_over_allowed_time',1)
+                                                ->where('punishment_processed',0)
+                                                ->get();
+                            $late_days_till_today = count($data_of_late_days_till_today);
+
+                            if($late_days_till_today >= ($late_days_for_count_absent - 1)) {
+                                $attendance->status = "ABSENT";
+                                $attendance->day_absent_for_late    = 1;
+                                $attendance->punishment_processed   = 1;
+
+                                foreach($data_of_late_days_till_today as $row) {
+                                    Attendance::where('id',$row->id)->update(['punishment_processed' => 1]);
+                                }
+                            }
+
+                        }
+                    }
+
+                    // WORK IN HOLIDAY
+                    if($record->attendance_status == "GOVT_HOLIDAY" || $record->attendance_status == "WEEKLY_HOLIDAY" || $record->attendance_status == "PAID_LEAVE") {
+                        $attendance->work_in_holiday = 1;
+                    }
+
+                    $attendance->save();
+                }
+
+                AttendanceRecord::where('id',$record->attendance_record_id)->update(['sync' => 1]);
+            }
+            
         }
     } 
 }
