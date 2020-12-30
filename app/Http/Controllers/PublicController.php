@@ -99,14 +99,14 @@ class PublicController extends Controller
             }
         }
         else{
-            $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time','attendances.status as attendance_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendance_policies.mark_overtime as overtime_if_holiday')
+            $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time','attendances.status as attendance_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendance_policies.mark_overtime as overtime_if_holiday','attendances.in_time as today_in_time','attendances.work_in_holiday as is_worked_in_holiday','payroll_infos.ot_allowed','payroll_infos.hourly_ot_rate')
                         ->join('employment_infos','employment_infos.id_in_biometric_machine','attendance_records.employee_id')
+                        ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
                         ->join('attendances','attendances.employee_id','employment_infos.employee_id')
                         ->join('attendance_policies','attendances.company_id','attendance_policies.company_id')
                         ->where('attendance_records.company_id',$company_id)
                         ->where('sync',0)
                         ->get();
-            //return response()->json($records);
             
             
             foreach($records as $record) {
@@ -165,6 +165,66 @@ class PublicController extends Controller
                         $attendance->work_in_holiday = 1;
                     }
 
+                    $attendance->save();
+                }
+
+                if($record->record_type == "OUT") {
+                    $in_time            = date('H:i:s',strtotime($record->today_in_time));
+                    $out_time           = date('H:i:s',strtotime($record->base_time));
+                    $actual_out_time    = date('H:i:s',strtotime($record->actual_out_time));
+
+                    $attendance->out_time = $out_time;
+
+                    // EARLY LEAVE
+                    if($out_time < $actual_out_time) {
+                        $attendance->early_leave = round(abs(strtotime($actual_out_time) - strtotime($out_time)) / 60);
+                    }
+
+                    // TOTAL WORKING HOUR
+                    $attendance->total_working_hour = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+
+                    // NORMAL OVERTIME CALCULATION
+                    if($record->ot_allowed == 1) {
+                        $ot_considering_time = $record->ot_considering_time;
+   
+                        if($out_time > $actual_out_time) {
+                            $today_over_time = round(abs(strtotime($out_time) - strtotime($actual_out_time)) / 60);
+                        }else {
+                            $today_over_time = 0;
+                        }
+
+                        if($today_over_time > $ot_considering_time) {
+                            $is_round_slab_allowed = $record->use_ot_round;
+                            if($is_round_slab_allowed == 1) {
+                                $round_slab_value = $record->ot_round_slab;
+
+                                if($today_over_time > 60) { 
+                                    $extra_time = ($today_over_time % 60);
+                                }else{
+                                    $extra_time = $today_over_time; 
+                                }
+                                
+                                if($extra_time >= $round_slab_value) { 
+                                    $attendance->over_time = ($today_over_time - $extra_time) + 60;
+                                    $attendance->over_time_round_slab = $round_slab_value;
+                                }
+                                else {
+                                    $attendance->over_time = $today_over_time;
+                                }
+                            }
+                            else{
+                                $attendance->over_time = $today_over_time; 
+                            }
+                        }
+
+                        // OVERTIME WORK IN HOLIDAY
+                        if($record->overtime_if_holiday == 1) {
+                            if($attendance->work_in_holiday == 1) {
+                                $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                            }
+                        }
+                    }
+                    
                     $attendance->save();
                 }
 
