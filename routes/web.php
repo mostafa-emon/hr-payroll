@@ -209,6 +209,11 @@ Route::get('/roster-employee/delete/{id}', 'AttendanceController@roster_employee
 Route::get('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
 Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
 
+//Manual Log Entry
+Route::get('/manual-log-entry', 'AttendanceController@manual_log_index');
+Route::get('/manual-log-entry/add', 'AttendanceController@manual_log_add');
+Route::post('/manual-log-entry/add-post', 'AttendanceController@manual_log_add_post');
+
 //Payroll
 Route::get('/earnings-adjustment', 'AttendanceController@earnings_adjustment_index');
 Route::get('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
