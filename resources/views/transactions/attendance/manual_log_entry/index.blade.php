@@ -36,6 +36,18 @@
                             <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('manual-log-entry/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
                         </div>
                     </div>
+                    <hr>
+                    <form action="{{ url('manual-log-entry') }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date('d-m-Y',strtotime($date))}}" required/>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="card-body">

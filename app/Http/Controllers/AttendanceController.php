@@ -453,10 +453,14 @@ class AttendanceController extends Controller
         return view('transactions.payroll.deductions_adjustment.update',compact('deduction'));
     }
 
-    public function manual_log_index() {
-        $todays_date = date('Y-m-d');
-        $attendances = Attendance::where('company_id',Auth::user()->company_id)->where('date',$todays_date)->orderBy('id','asc')->paginate(10);
-        return view('transactions.attendance.manual_log_entry.index',compact('attendances'));
+    public function manual_log_index(Request $request) {
+        if($request->date != ""){
+            $date         = date('Y-m-d',strtotime($request->date));
+        }else {
+            $date = date('Y-m-d');
+        }
+        $attendances = Attendance::where('company_id',Auth::user()->company_id)->where('date',$date)->orderBy('id','asc')->paginate(10);
+        return view('transactions.attendance.manual_log_entry.index',compact('attendances','date'));
     }
 
     public function manual_log_add() {

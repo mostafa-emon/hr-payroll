@@ -211,6 +211,7 @@ Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employe
 
 //Manual Log Entry
 Route::get('/manual-log-entry', 'AttendanceController@manual_log_index');
+Route::post('/manual-log-entry', 'AttendanceController@manual_log_index');
 Route::get('/manual-log-entry/add', 'AttendanceController@manual_log_add');
 Route::post('/manual-log-entry/add-post', 'AttendanceController@manual_log_add_post');
 
