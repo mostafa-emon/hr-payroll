@@ -214,6 +214,8 @@ Route::get('/manual-log-entry', 'AttendanceController@manual_log_index');
 Route::post('/manual-log-entry', 'AttendanceController@manual_log_index');
 Route::get('/manual-log-entry/add', 'AttendanceController@manual_log_add');
 Route::post('/manual-log-entry/add-post', 'AttendanceController@manual_log_add_post');
+Route::get('/manual-log-entry/update/{id}', 'AttendanceController@manual_log_update');
+Route::post('/manual-log-entry/update-post/{id}', 'AttendanceController@manual_log_update_post');
 
 //Payroll
 Route::get('/earnings-adjustment', 'AttendanceController@earnings_adjustment_index');

@@ -480,6 +480,12 @@ class AttendanceController extends Controller
         $payroll_info   = PayrollInfo::where('employee_id',$employee_id)->first();
         
         $attendance = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('date',$formatted_date)->first();
+
+        // WORK IN HOLIDAY
+        if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+            $attendance->work_in_holiday = 1;
+        }
+
         $attendance->status = "PRESENT";
 
         $in_time        = date('H:i:s',strtotime($request->in_time));
@@ -528,12 +534,7 @@ class AttendanceController extends Controller
             }
         }
 
-        // WORK IN HOLIDAY
-        if($attendance->attendance_status == "GOVT_HOLIDAY" || $attendance->attendance_status == "WEEKLY_HOLIDAY" || $attendance->attendance_status == "PAID_LEAVE") {
-            $attendance->work_in_holiday = 1;
-        }
-
-        $attendance->save();
+        //$attendance->save();
         
         $in_time            = date('H:i:s',strtotime($request->in_time));
         $out_time           = date('H:i:s',strtotime($request->out_time));
@@ -594,5 +595,146 @@ class AttendanceController extends Controller
         $attendance->save();
         
         return redirect('manual-log-entry')->with('message','Log Manually Added Successfully!'); 
+    }
+
+    public function manual_log_update($attendance_id) {
+        $attendance = Attendance::where('id',$attendance_id)->first();
+        return view('transactions.attendance.manual_log_entry.update',compact('attendance'));
+    }
+
+    public function manual_log_update_post(Request $request,$attendance_id) {
+        $attendance     = Attendance::where('id',$attendance_id)->first();
+        $employee_id    = $attendance->employee_id;
+        $formatted_date = date('Y-m-d',strtotime($attendance->date));
+
+        $policy         = AttendancePolicy::where('company_id',Auth::user()->company_id)->first();
+        $payroll_info   = PayrollInfo::where('employee_id',$employee_id)->first();
+
+        // WORK IN HOLIDAY
+        if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+            $attendance->work_in_holiday = 1;
+        }else{
+            $attendance->work_in_holiday = 0;
+        }
+        
+        $attendance->status                 = "PRESENT";
+        $attendance->in_time                = 0;
+        $attendance->out_time               = 0;
+        $attendance->late                   = 0;
+        $attendance->late_over_allowed_time = 0;
+        $attendance->punishment_processed   = 0;
+        $attendance->day_absent_for_late    = 0;
+        $attendance->over_time              = 0;
+        $attendance->over_time_round_slab   = 0;
+        $attendance->early_leave            = 0;
+        $attendance->total_working_hour     = 0;
+
+        $in_time        = date('H:i:s',strtotime($request->in_time));
+        $actual_in_time = date('H:i:s',strtotime($attendance->actual_in_time));
+
+        $attendance->in_time = $in_time;
+        
+        // IF LATE
+        if($in_time > $actual_in_time) {
+            $attendance->late = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
+
+            // LATE ALLOWED TIME
+            if($policy->late_policy == 1) {
+                if($attendance->late > $policy->late_mark) {
+                    $attendance->late_over_allowed_time = 1;
+                }
+            }
+            else {
+                $attendance->late_over_allowed_time = 1;
+            }
+
+            // DAY ABSENT FOR LATE
+            if($policy->late_absent_policy == 1) {
+                $late_days_for_count_absent = $policy->marks_absent_for;
+
+                $first_day_of_month = date('Y-m-01',strtotime($formatted_date));
+                $current_date       = $formatted_date;
+
+                $data_of_late_days_till_today = Attendance::where('employee_id',$employee_id)
+                                    ->whereBetween('date', [$first_day_of_month, $current_date." 23:59:59"])
+                                    ->where('late_over_allowed_time',1)
+                                    ->where('punishment_processed',0)
+                                    ->get();
+                $late_days_till_today = count($data_of_late_days_till_today);
+
+                if($late_days_till_today >= ($late_days_for_count_absent - 1)) {
+                    $attendance->status = "ABSENT";
+                    $attendance->day_absent_for_late    = 1;
+                    $attendance->punishment_processed   = 1;
+
+                    foreach($data_of_late_days_till_today as $row) {
+                        Attendance::where('id',$row->id)->update(['punishment_processed' => 1]);
+                    }
+                }
+
+            }
+        }
+
+        //$attendance->save();
+        
+        $in_time            = date('H:i:s',strtotime($request->in_time));
+        $out_time           = date('H:i:s',strtotime($request->out_time));
+        $actual_out_time    = date('H:i:s',strtotime($attendance->actual_out_time));
+
+        $attendance->out_time = $out_time;
+
+        // EARLY LEAVE
+        if($out_time < $actual_out_time) {
+            $attendance->early_leave = round(abs(strtotime($actual_out_time) - strtotime($out_time)) / 60);
+        }
+
+        // TOTAL WORKING HOUR
+        $attendance->total_working_hour = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+
+        // NORMAL OVERTIME CALCULATION
+        if($payroll_info->ot_allowed == 1) {
+            $ot_considering_time = $policy->time_for_ot;
+
+            if($out_time > $actual_out_time) {
+                $today_over_time = round(abs(strtotime($out_time) - strtotime($actual_out_time)) / 60);
+            }else {
+                $today_over_time = 0;
+            }
+
+            if($today_over_time > $ot_considering_time) {
+                $is_round_slab_allowed = $policy->use_ot_round;
+                if($is_round_slab_allowed == 1) {
+                    $round_slab_value = $policy->ot_round;
+
+                    if($today_over_time > 60) { 
+                        $extra_time = ($today_over_time % 60);
+                    }else{
+                        $extra_time = $today_over_time; 
+                    }
+                    
+                    if($extra_time >= $round_slab_value) { 
+                        $attendance->over_time = ($today_over_time - $extra_time) + 60;
+                        $attendance->over_time_round_slab = $round_slab_value;
+                    }
+                    else {
+                        $attendance->over_time = $today_over_time;
+                    }
+                }
+                else{
+                    $attendance->over_time = $today_over_time; 
+                }
+            }
+
+            // OVERTIME WORK IN HOLIDAY
+            if($policy->mark_overtime == 1) {
+                if($attendance->work_in_holiday == 1) {
+                    $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                }
+            }
+        }
+        
+        $attendance->save();
+        
+        return redirect('manual-log-entry')->with('message','Log Manually Updated Successfully!');
     }
 }

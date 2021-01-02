@@ -74,12 +74,14 @@
                                     <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($attendance->date))}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$attendance->in_time}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$attendance->out_time}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
+                                    {{--<td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
                                             <a href="{{'manual-log-entry/update/'.$attendance->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$attendance->id}})">Delete</a>
                                         </div>
+                                    </td>--}}
+                                    <td class="text-center" style="vertical-align:middle">
+                                        <a class="btn btn-success btn-sm" href="{{url ('manual-log-entry/update/'.$attendance->id) }}"> Update </a>
                                     </td>
                                 </tr>
                                 @endforeach
