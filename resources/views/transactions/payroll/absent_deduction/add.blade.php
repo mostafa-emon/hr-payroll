@@ -105,14 +105,14 @@
                                 <input type="text" name="year" class="form-control" placeholder="Year" value="{{$year}}" required/>
                             </div>
                         </div>
-                        {{--@if(count($employee_id) == 0)--}}
+                        @if(count($employee_id) == 0)
                         <br>
                         <div class="row">
                             <div class="col-md-2 text-left">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
                             </div>
                         </div>
-                        {{--@endif--}}
+                        @endif
                     </form>
 
                     @if(count($employee_id) > 0)
