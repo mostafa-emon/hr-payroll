@@ -14,6 +14,7 @@ use App\EmploymentInfo;
 use App\CampaignReceiver;
 use App\CompanyPf;
 use App\Currency;
+use App\AbsentDeduction;
 use Auth;
 
 class PayrollController extends Controller
@@ -541,5 +542,94 @@ class PayrollController extends Controller
             return redirect('company-pf')->with('message','Company PF Updated Successfully!');
         }
         return view('transactions.payroll.company_pf.update',compact('company_pf','currencies'));
+    }
+
+    public function absent_deduction_index() {
+        $deductions = AbsentDeduction::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
+        return view('transactions.payroll.absent_deduction.index',compact('deductions'));
+    }
+
+    public function absent_deduction_create(Request $request) {
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id      = '';
+        $project_id         = '';
+        $branch_id          = '';
+        $employee_id        = [];
+        $month              = '';
+        $year               = '';
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->month != "") {
+            $month              = $request->month;
+        }else{
+            $month              = date('F');
+        }
+
+        if($request->year != "") {
+            $year               = $request->year;
+        }else{
+            $year               = date('Y');
+        }
+
+        if($request->employee_id != "") {
+            $employee_id        = $request->employee_id;
+            $employment_infos   = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
+        }
+
+        $employment_infos       = $employment_infos->get();
+
+        return view('transactions.payroll.absent_deduction.add',compact('departments','projects','branches',
+        'department_id','branch_id','project_id','employment_infos','month','year','employee_id'));
+    }
+
+    public function absent_deduction_store(Request $request){
+        $interval = count($request->deduction);
+        for($i = 0; $i < $interval; $i++) {
+            if($request->deduction[$i] !='0'){
+
+                $count_deduction        = AbsentDeduction::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->first();
+                if($count_deduction !=""){
+                    $delete_deduction   = AbsentDeduction::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->delete();
+                }
+
+                $deduction = new AbsentDeduction();
+                $deduction->company_id          = Auth::user()->company_id;
+                $deduction->employee_id         = $request->employee_id[$i];
+                $deduction->total_absent_days   = $request->total_absent_days[$i];
+                $deduction->deduction           = $request->deduction[$i];
+                $deduction->month               = $request->store_month;
+                $deduction->year                = $request->store_year;
+                $deduction->save();
+            }
+        }
+        return redirect('absent-deduction')->with('message','Absent Deduction Created successfully!');
+    }
+
+    public function absent_deduction_delete($id) {
+        $deduction = AbsentDeduction::find($id);
+        if($deduction->company_id == Auth::user()->company_id){
+            $deduction->delete();
+            return redirect('absent-deduction')->with('message','Absent Deduction Deleted Successfully!');
+        }else{
+            return redirect('absent-deduction')->with('message','Do not try to be too smart!');
+        }
     }
 }

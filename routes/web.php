@@ -238,6 +238,12 @@ Route::post('/deductions-adjustment-update/{id}', 'AttendanceController@deductio
 Route::get('/deductions-adjustment-view/{id}', 'AttendanceController@deductions_adjustment_view');
 Route::get('/deductions-adjustment-print/{id}', 'AttendanceController@deductions_adjustment_print');
 
+Route::get('/absent-deduction', 'PayrollController@absent_deduction_index');
+Route::get('/absent-deduction/create', 'PayrollController@absent_deduction_create');
+Route::post('/absent-deduction/create', 'PayrollController@absent_deduction_create');
+Route::post('/store-absent-deduction', 'PayrollController@absent_deduction_store');
+Route::get('/absent-deduction/delete/{id}', 'PayrollController@absent_deduction_delete');
+
 //Configuration
 Route::get('/general-settings', 'ConfigurationController@general_setting');
 Route::post('/general-settings/update', 'ConfigurationController@general_setting_update');

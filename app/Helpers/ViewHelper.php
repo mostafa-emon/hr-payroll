@@ -25,6 +25,7 @@ use App\LeaveBalance;
 use App\CampaignReceiver;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
+use App\Attendance;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -279,26 +280,30 @@ function get_pf_amount($employee_id) {
     }
 }
 
-/*function calculate_company_pf($employee_id) {
-    $pf_component_id = SalaryComponent::where('component_reference','PF Company Portion')->first();
-    if($pf_component_id == "") {
-        return "";
-    }else{
-        $pf_component_id = $pf_component_id->id;
-        $pf_calculation = EmployeeEarningDeduction::where('salary_component_id',$pf_component_id)->first();
-        if($pf_calculation == "") {
-            return "";
-        }else{
-            if($pf_calculation->fixed_or_percentage == "fixed") {
-                return $pf_calculation->final_amount;
-            }else{
-                $targeted_component = EmployeeEarningDeduction::where('salary_component_id',$pf_calculation->of_component_id)->first();
-                if($targeted_component == "") {
-                    return "";
-                }else{
-                    return round(($pf_calculation->percentage_amount/100)*$targeted_component->final_amount);
-                }
-            }                
-        }
+function total_absent_days($employee_id,$request_month,$request_year) {
+    $month = date('m', strtotime($request_month));
+    $cur_month = $request_year.'-'.$month;
+    $first_day_of_month = $cur_month.'-01';
+    $last_day_of_month  = $cur_month.'-31';
+    //$total_days         = date('t', strtotime($cur_month));
+
+    $count_total_absent_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->whereBetween('date', [$first_day_of_month, $last_day_of_month])->where('status','ABSENT')->count();
+    return $count_total_absent_days;
+}
+
+function per_day_salary($employee_id,$request_month,$request_year) {
+    $month = date('m', strtotime($request_month));
+    $cur_month = $request_year.'-'.$month;
+    $total_days         = date('t', strtotime($cur_month));
+    
+    $total_salary       = 0;
+    $payroll_infos      = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
+
+    foreach($payroll_infos as $payroll_info) {
+        $total_salary   = $total_salary + $payroll_info->final_amount;
     }
-}*/
+
+    $per_day_salary     = round($total_salary / $total_days);
+
+    return $per_day_salary;
+}
