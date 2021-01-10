@@ -26,7 +26,7 @@
                 <select class="form-control" name="marital_status">
                     <option value="Unmarried">Unmarried</option>
                     <option value="Married">Married</option>
-                    <option value="Divorced">Divorced</option>
+                    <option value="Widowed">Widowed</option>
                 </select>
             </div>
 

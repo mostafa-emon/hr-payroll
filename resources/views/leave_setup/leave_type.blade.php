@@ -60,7 +60,7 @@
                                     <td class="text-center" style="vertical-align: middle">{{$type->leave_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$type->leave_short_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">
-                                        @if($type->reference == 'general_leave') General Leave
+                                        @if($type->reference == 'general_leave') Non Paid Leave
                                         @else Paid Leave
                                         @endif
                                     </td>
@@ -110,7 +110,7 @@
                         <label for="leave_name" class="col-form-label col-md-4">Reference:</label>
                         <select id="reference" name="reference" class="form-control select2-no-search col-md-8 pa" onclick="hideShowElement(this.value)" required>
                             <option label="Select Reference"></option>
-                            <option value="general_leave">General Leave</option>
+                            <option value="general_leave">Non Paid Leave</option>
                             <option value="paid_leave">Paid Leave</option>
                         </select>
                     </div>

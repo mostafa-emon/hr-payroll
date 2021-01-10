@@ -180,12 +180,8 @@
 
         </div>
         <div class="row">
-            <div class="col-md-6 pd-t-10">
+            <div class="col-md-12 pd-t-10 text-right">
                 <input type="submit" value="Update & Next" class="btn btn-primary"/>
-            </div>
-
-            <div class="col-md-6 pd-t-10 text-right"> 
-                <a href="{{url('employee/update/payroll/'.$employee_id)}}" style="font-size: 15px;" class="btn btn-primary">Next</a>
             </div>
         </div>
     </form>

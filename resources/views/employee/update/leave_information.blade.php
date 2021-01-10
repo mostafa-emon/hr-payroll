@@ -103,8 +103,10 @@
     </div>
 </div>
 
-<div class="row pd-t-30">
-    <input type="submit" value="Update" class="btn btn-primary"/>
+<div class="row">
+    <div class="col-md-12 pd-t-10 text-right">
+        <input type="submit" value="Update" class="btn btn-primary"/>
+    </div>
 </div>
 
 </form>

@@ -36,6 +36,7 @@
                     <option value="Unmarried" @if($employee->marital_status == "Unmarried") selected @endif>Unmarried</option>
                     <option value="Married" @if($employee->marital_status == "Married") selected @endif>Married</option>
                     <option value="Divorced" @if($employee->marital_status == "Divorced") selected @endif>Divorced</option>
+                    <option value="Widowed" @if($employee->marital_status == "Widowed") selected @endif>Widowed</option>
                 </select>
             </div>
 
@@ -165,12 +166,8 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 pd-t-10">
+            <div class="col-md-12 pd-t-10 text-right">
                 <input type="submit" value="Update & Next" class="btn btn-primary"/>
-            </div>
-
-            <div class="col-md-6 pd-t-10 text-right"> 
-                <a href="{{url('employee/update/employment/'.$employee->id)}}" style="font-size: 15px;" class="btn btn-primary">Next</a>
             </div>
         </div>
 
