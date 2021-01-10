@@ -11,8 +11,8 @@
         </div>
         <div class="row row-xs">
             <div class="col-md-3 pd-t-10">
-                <label for="employee_id" style="font-weight:bold;" class="col-form-label">Employee ID*:</label>
-                <input type="text" name="employee_id" placeholder="Employee ID*" value="{{$employee->employee_id}}" class="form-control" required>
+                <label for="employee_id" style="font-weight:bold;" class="col-form-label">Employee ID:</label>
+                <input type="text" name="employee_id" placeholder="Employee ID*" value="{{$employee->employee_id}}" class="form-control">
             </div>
 
             <div class="col-md-9 pd-t-10">

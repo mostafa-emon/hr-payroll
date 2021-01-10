@@ -90,6 +90,11 @@ class EmployeeController extends Controller
 
         $employee->save();
 
+        if($request->employee_id =='') {
+            $employee->employee_id          = 1000 + $employee->id;
+            $employee->save();
+        }
+
         return redirect('employee/add/employment/'.$employee->id)->with('message', 'Personal Information Saved Successfully!');
     }
 
@@ -315,6 +320,11 @@ class EmployeeController extends Controller
         }
 
         $employee->save();
+
+        if($request->employee_id =='') {
+            $employee->employee_id          = 1000 + $employee->id;
+            $employee->save();
+        }
 
         return redirect('employee/update/employment/'.$employee->id)->with('message', 'Personal Information Updated Successfully!');
     }
