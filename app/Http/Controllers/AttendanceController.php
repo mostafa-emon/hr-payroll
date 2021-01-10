@@ -51,7 +51,6 @@ class AttendanceController extends Controller
             $policy->use_ot_round           = $request->use_ot_round;
             $policy->ot_round               = $request->ot_round;
             $policy->time_for_ot            = $request->time_for_ot;
-            $policy->mark_overtime          = $request->mark_overtime;
             $policy->save();
 
             return redirect('attendance-policy')->with('message','Attendance Policy Updated Successfully!');

@@ -23,6 +23,9 @@ class CreatePayrollInfosTable extends Migration
             $table->double('investment_amount')->default(0);
             $table->boolean('ot_allowed')->default(0);
             $table->double('hourly_ot_rate')->default(0);
+            $table->integer('currency_id');
+            $table->boolean('mark_overtime_if_work_in_holiday')->default(0);
+            $table->boolean('mark_overtime_if_work_in_leave_day')->default(0);
             $table->timestamps();
         });
     }

@@ -16,6 +16,7 @@ use App\PayrollInfo;
 use App\LeaveType;
 use App\LeaveInfo;
 use App\PayrollBranch;
+use App\Currency;
 use App\User;
 use Auth;
 use Hash;
@@ -43,7 +44,8 @@ class EmployeeController extends Controller
         $earning_components     = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderby('component_name','asc')->get();
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
         $leave_types            = LeaveType::where('company_id',Auth::user()->company_id)->orderby('leave_name','asc')->get();
-        return view('employee.add',compact('page','employee_id','departments','designations',
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
+        return view('employee.add',compact('page','employee_id','departments','designations','currencies',
         'projects','branches','banks','earning_components','deduction_components','leave_types'));
     }
 
@@ -193,13 +195,16 @@ class EmployeeController extends Controller
         }
 
         $info = new PayrollInfo();
-        $info->employee_id                      = $request->employee_id;
-        $info->company_pf_on_salary_statement   = $request->company_pf_on_salary_statement;
-        $info->festival_bonus_per_festival      = $request->festival_bonus_per_festival;
-        $info->gratuity_amount                  = $request->gratuity_amount;
-        $info->investment_amount                = $request->investment_amount;
-        $info->ot_allowed                       = $request->ot_allowed;
-        $info->hourly_ot_rate                   = $request->hourly_ot_rate;
+        $info->employee_id                          = $request->employee_id;
+        $info->company_pf_on_salary_statement       = $request->company_pf_on_salary_statement;
+        $info->festival_bonus_per_festival          = $request->festival_bonus_per_festival;
+        $info->gratuity_amount                      = $request->gratuity_amount;
+        $info->investment_amount                    = $request->investment_amount;
+        $info->ot_allowed                           = $request->ot_allowed;
+        $info->hourly_ot_rate                       = $request->hourly_ot_rate;
+        $info->currency_id                          = $request->currency_id;
+        $info->mark_overtime_if_work_in_holiday     = $request->mark_overtime_if_work_in_holiday;
+        $info->mark_overtime_if_work_in_leave_day   = $request->mark_overtime_if_work_in_leave_day;
         $info->save();
         return redirect('employee/add/leave/'.$request->employee_id)->with('message', 'Payroll Information Saved Successfully!');
     }
@@ -254,13 +259,14 @@ class EmployeeController extends Controller
         //Payroll Info
         $earnings               = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
         $deductions             = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','deductions')->get();
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
         $payroll_info           = PayrollInfo::where('employee_id',$employee_id)->first();
 
         //Leave Info
         $leaves                 = LeaveInfo::where('employee_id',$employee_id)->get();
 
         if($employment_info == "") { $info_id = ""; } else { $info_id = $employment_info->id; }
-        return view('employee.update.update',compact('page','employee_id','departments','designations','info_id',
+        return view('employee.update.update',compact('page','employee_id','departments','designations','info_id','currencies',
         'projects','branches','banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves','bank_branches'));
     }
 
@@ -405,13 +411,16 @@ class EmployeeController extends Controller
             }else{
                 $info = PayrollInfo::where('employee_id',$employee_id)->first();
             }
-            $info->employee_id                      = $request->employee_id;
-            $info->company_pf_on_salary_statement   = $request->company_pf_on_salary_statement;
-            $info->festival_bonus_per_festival      = $request->festival_bonus_per_festival;
-            $info->gratuity_amount                  = $request->gratuity_amount;
-            $info->investment_amount                = $request->investment_amount;
-            $info->ot_allowed                       = $request->ot_allowed;
-            $info->hourly_ot_rate                   = $request->hourly_ot_rate;
+            $info->employee_id                          = $request->employee_id;
+            $info->company_pf_on_salary_statement       = $request->company_pf_on_salary_statement;
+            $info->festival_bonus_per_festival          = $request->festival_bonus_per_festival;
+            $info->gratuity_amount                      = $request->gratuity_amount;
+            $info->investment_amount                    = $request->investment_amount;
+            $info->ot_allowed                           = $request->ot_allowed;
+            $info->hourly_ot_rate                       = $request->hourly_ot_rate;
+            $info->currency_id                          = $request->currency_id;
+            $info->mark_overtime_if_work_in_holiday     = $request->mark_overtime_if_work_in_holiday;
+            $info->mark_overtime_if_work_in_leave_day   = $request->mark_overtime_if_work_in_leave_day;
             $info->save();
             return redirect('employee/update/leave/'.$request->employee_id)->with('message', 'Payroll Information Updated Successfully!');
         }

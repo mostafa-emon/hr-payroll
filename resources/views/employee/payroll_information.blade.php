@@ -134,6 +134,32 @@
     <div class="col-md-4 mg-t-10 remove-space">
         <input type="text" class="form-control" name="hourly_ot_rate" placeholder="Hourly OT Rate"/>
     </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
+        <select name="currency_id" class="form-control select2-no-search col-md-12 pa" required>
+            <option value="" label>Currency</option>
+            @foreach($currencies as $currency)
+                <option value="{{$currency->id}}">{{$currency->currency_name}}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
+        <select name="mark_overtime_if_work_in_holiday" class="form-control select2-no-search col-md-12 pa">
+            <option value="" label>Mark OverTime if Work In Holiday</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
+        <select name="mark_overtime_if_work_in_leave_day" class="form-control select2-no-search col-md-12 pa">
+            <option value="" label>Mark OverTime if Work In Leave Day</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
+    </div>
+
 </div>
 
 <div class="row pd-t-30">

@@ -108,13 +108,6 @@
                                                     <label for="name" class="col-form-label">Minimum time need to stay for considering as OT:</label>
                                                     <input class="form-control" name="time_for_ot" placeholder="Minutes" type="text" value="@if($policy !=''){{$policy->time_for_ot}} @endif" required>
                                                 </div>
-                                                <div class="col-md-6 mg-t-10">
-                                                    <label for="name" class="col-form-label">Mark OverTime if Work In Holiday:</label>
-                                                    <select id="account_1type" name="mark_overtime" class="form-control select2-no-search col-md-12 pa" required>
-                                                        <option value="1" @if($policy !='') ( @if($policy->mark_overtime == "1") selected @endif ) @endif>Yes</option>
-                                                        <option value="0" @if($policy !='') ( @if($policy->mark_overtime == "0") selected @endif ) @endif>No</option>
-                                                    </select>
-                                                </div>
 
                                             </div>
                                         </div>

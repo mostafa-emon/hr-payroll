@@ -28,7 +28,6 @@ class CreateAttendancePoliciesTable extends Migration
             $table->string('time_for_ot');
             $table->boolean('use_ot_round')->default(0);
             $table->string('ot_round')->nullable();
-            $table->boolean('mark_overtime')->default(0);
             $table->timestamps();
         });
     }
