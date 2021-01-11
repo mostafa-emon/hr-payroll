@@ -121,7 +121,7 @@
                 Upload CV
             </div>
             <div class="col-md-6 pd-t-10">
-                <input class="form-control" name="employee_cv" type="file">
+                <input class="form-control" name="employee_cv[]" type="file" multiple="multiple">
             </div>
             @else
             <div class="col-md-9"></div>

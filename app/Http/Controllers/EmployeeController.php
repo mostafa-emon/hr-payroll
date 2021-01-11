@@ -84,8 +84,24 @@ class EmployeeController extends Controller
         if($request->hasFile('employee_photo')){  
             $employee->employee_photo       = $request->file('employee_photo')->store('employees');
         }
-        if($request->hasFile('employee_cv')){  
+        /*if($request->hasFile('employee_cv')){  
             $employee->employee_cv          = $request->file('employee_cv')->store('employees');
+        }*/
+
+        if($request->hasFile('employee_cv'))
+        {
+            $cv = [];
+            foreach($request->file('employee_cv') as $file)
+            {
+                //$curTime        = date('Y-m-d H:i');
+                $filename       = $file->getClientOriginalName();
+                //$custom_name    = $curTime . ' ' .$filename;
+                $custom_name    = time() . ' ' .$filename;
+                $file->move('storage/employees/', $custom_name);
+                array_push($cv, $custom_name);
+
+            }
+            $employee->employee_cv = json_encode($cv);
         }
 
         $employee->save();
