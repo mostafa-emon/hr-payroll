@@ -135,7 +135,8 @@
                                     @for($i = 0; $i <= $interval; $i++)
                                         <tr>
                                             <td class="text-center">
-                                                <input type="text" class="form-control" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
+                                                @php $holiday = find_holiday(date('Y-m-d',strtotime($from_date . "+".$i." days"))); @endphp
+                                                <input type="text" class="form-control" style="@if($holiday !="")font-weight:bold;@endif" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
                                             </td>
                                             
                                             <td class="text-center">

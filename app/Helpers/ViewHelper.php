@@ -26,6 +26,7 @@ use App\CampaignReceiver;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
 use App\Attendance;
+use App\GovtHolidayDetail;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -306,4 +307,13 @@ function per_day_salary($employee_id,$request_month,$request_year) {
     $per_day_salary     = round($total_salary / $total_days);
 
     return $per_day_salary;
+}
+
+function find_holiday($date) {
+    $holiday = GovtHolidayDetail::where('company_id',Auth::user()->company_id)->where('date',$date)->first();
+    if($holiday != "") {
+        return $holiday;
+    }else{
+        return "";
+    }
 }
