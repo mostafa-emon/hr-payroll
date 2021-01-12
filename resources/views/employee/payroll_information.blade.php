@@ -146,7 +146,7 @@
 
     <div class="col-md-4 mg-t-10 remove-space">
         <select name="mark_overtime_if_work_in_holiday" class="form-control select2-no-search col-md-12 pa">
-            <option value="" label>OT if Work In Holiday</option>
+            <option value="" label>OT if Work on Holiday</option>
             <option value="1">Yes</option>
             <option value="0">No</option>
         </select>
@@ -154,7 +154,7 @@
 
     <div class="col-md-4 mg-t-10 remove-space">
         <select name="mark_overtime_if_work_in_leave_day" class="form-control select2-no-search col-md-12 pa">
-            <option value="" label>OT if Work In Leave Day</option>
+            <option value="" label>OT if Work on Leave Day</option>
             <option value="1">Yes</option>
             <option value="0">No</option>
         </select>
