@@ -479,12 +479,20 @@ class EmployeeController extends Controller
         }
     }
 
-    /*public function cv_delete($id) {
-        if($id != "") {
-            Storage::delete('employee/'.$id);
+    public function cv_delete($employee_id,$name) {
+        $employee = Employee::where('id',$employee_id)->first();
+        if($name != "") {
+            Storage::delete('employees/'.$name);
+
+            //$array    = json_decode($employee->employee_cv);
+            /*if (($key = array_search($name, $array)) !== false) {
+                unset($array[$key]);
+            }*/
+            //return response()->json($array);
+
         }
-        //return redirect()->back()->with('message', 'CV Deleted Successfully!');
-    }*/
+        return back()->with('message', 'CV Deleted Successfully!');
+    }
 
     public function search_employee($department_id,$project_id="",$branch_id="") {
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')

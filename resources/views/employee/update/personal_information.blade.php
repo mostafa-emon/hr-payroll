@@ -137,6 +137,22 @@
                 <input type="text" name="emergency_phone_number" placeholder="Emergency Phone Number" value="{{$employee->emergency_phone_number}}" class="form-control">
             </div>
 
+            <div class="col-md-3 pd-t-20 text-right"></div>
+
+            @if($employee->employee_cv != "")
+            <div class="col-md-9 pd-t-20 text-right">
+                @foreach(json_decode($employee->employee_cv) as $cv)
+                <div>
+                    <div>
+                        <a href="{{ asset('storage/employees/'.$cv) }}" target="_blank">Attachment-{{$loop->iteration}}</a>&nbsp;
+                        <a href="{{url('employee/cv-delete/'.$employee->id.'/'.$cv)}}" style="font-size: 15px;" class="btn btn-danger btn-sm" >Delete</a>
+                    </div>
+                </div>
+                <br>
+                @endforeach
+            </div>
+            @endif
+
             <div class="col-md-3 pd-t-10">
                 <div class="row">
                     <label for="email" style="font-weight:bold;" class="col-form-label col-md-4">Email*:</label>
@@ -154,21 +170,6 @@
             @else
             <div class="col-md-9"></div>
             @endif
-
-            <div class="col-md-12 pd-t-10">
-                @foreach(json_decode($employee->employee_cv) as $cv)
-                <tr>
-                    <td>{{$loop->iteration}}.</td>
-                    <td>
-                        <a href="{{ asset('storage/employees/'.$cv) }}" target="_blank">{{$cv}} </a>
-                        <div> 
-                            <a href="{{url('employee/cv-delete/'.$cv)}}" style="font-size: 15px;" class="btn btn-danger btn-sm" >Delete</a>
-                        </div>
-                    </td>
-                </tr>
-                <br>
-                @endforeach
-            </div>
 
             <div class="col-md-6 pd-t-10">
                 <label for="reference_1" style="font-weight:bold;" class="col-form-label">Reference 1:</label>
