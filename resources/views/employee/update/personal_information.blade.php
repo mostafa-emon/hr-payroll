@@ -149,11 +149,26 @@
                 Upload CV
             </div>
             <div class="col-md-6 pd-t-10">
-                <input class="form-control" name="employee_cv" type="file">
+                <input class="form-control" name="employee_cv[]" type="file">
             </div>
             @else
             <div class="col-md-9"></div>
             @endif
+
+            <div class="col-md-12 pd-t-10">
+                @foreach(json_decode($employee->employee_cv) as $cv)
+                <tr>
+                    <td>{{$loop->iteration}}.</td>
+                    <td>
+                        <a href="{{ asset('storage/employees/'.$cv) }}" target="_blank">{{$cv}} </a>
+                        <div> 
+                            <a href="{{url('employee/cv-delete/'.$cv)}}" style="font-size: 15px;" class="btn btn-danger btn-sm" >Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                <br>
+                @endforeach
+            </div>
 
             <div class="col-md-6 pd-t-10">
                 <label for="reference_1" style="font-weight:bold;" class="col-form-label">Reference 1:</label>

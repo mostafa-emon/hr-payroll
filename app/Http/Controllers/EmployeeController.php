@@ -93,11 +93,11 @@ class EmployeeController extends Controller
             $cv = [];
             foreach($request->file('employee_cv') as $file)
             {
-                //$curTime        = date('Y-m-d H:i');
+                $curTime        = date('Y-m-d H-i-s');
                 $filename       = $file->getClientOriginalName();
-                //$custom_name    = $curTime . ' ' .$filename;
-                $custom_name    = time() . ' ' .$filename;
-                $file->move('storage/employees/', $custom_name);
+                $custom_name    = $curTime . ' ' .$filename;
+                //$custom_name    = time() . ' ' .$filename;
+                $file->move('storage\employees/', $custom_name);
                 array_push($cv, $custom_name);
 
             }
@@ -478,6 +478,13 @@ class EmployeeController extends Controller
             return redirect('employee')->with('message', 'Employee Updated Successfully!');
         }
     }
+
+    /*public function cv_delete($id) {
+        if($id != "") {
+            Storage::delete('employee/'.$id);
+        }
+        //return redirect()->back()->with('message', 'CV Deleted Successfully!');
+    }*/
 
     public function search_employee($department_id,$project_id="",$branch_id="") {
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
