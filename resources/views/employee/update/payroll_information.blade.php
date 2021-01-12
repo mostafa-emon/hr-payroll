@@ -233,9 +233,9 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Currency:</label>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Salary Currency:</label>
         <select name="currency_id" class="form-control select2-no-search col-md-12 pa" required>
-            <option value="" label>Currency</option>
+            <option value="" label>Salary Currency</option>
             @foreach($currencies as $currency)
                 <option value="{{$currency->id}}" @if($payroll_info !="" && $payroll_info->currency_id == $currency->id) selected @endif>{{$currency->currency_name}}</option>
             @endforeach
@@ -243,18 +243,18 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Mark OverTime if Work In Holiday:</label>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work In Holiday:</label>
         <select name="mark_overtime_if_work_in_holiday" class="form-control select2-no-search col-md-12 pa">
-            <option value="" label>Mark OverTime if Work In Holiday</option>
+            <option value="" label>OT if Work In Holiday</option>
             <option value="1" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_holiday == "1") selected @endif>Yes</option>
             <option value="0" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_holiday == "0") selected @endif>No</option>
         </select>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Mark OverTime if Work In Leave Day:</label>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work In Leave Day:</label>
         <select name="mark_overtime_if_work_in_leave_day" class="form-control select2-no-search col-md-12 pa">
-            <option value="" label>Mark OverTime if Work In Leave Day</option>
+            <option value="" label>OT if Work In Leave Day</option>
             <option value="1" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_leave_day == "1") selected @endif>Yes</option>
             <option value="0" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_leave_day == "0") selected @endif>No</option>
         </select>
