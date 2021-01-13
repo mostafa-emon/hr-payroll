@@ -138,17 +138,17 @@
             </div>
 
             @if($employee->employee_cv != "")
-            <div class="col-md-3 pd-t-20 text-right"></div>
-            <div class="col-md-9 pd-t-20 text-right">
-                @foreach(json_decode($employee->employee_cv) as $cv)
-                <div>
-                    <div>
-                        <a href="{{ asset('storage/employees/'.$cv) }}" target="_blank">Attachment-{{$loop->iteration}}</a>&nbsp;
+            
+            <div class="col-md-12">
+                <div class="row">
+                    @foreach(json_decode($employee->employee_cv) as $cv)
+                    <div class="col-md-1" style="padding-top:20px;padding-bottom:15px;text-align:center">
+                        <a href="{{ asset('storage/employees/'.$cv) }}" target="_blank"><img src="{{asset('assets/img/document.png')}}" height="100" title="document"/></a><br><br>
                         <a href="{{url('employee/cv-delete/'.$employee->id.'/'.$cv)}}" style="font-size: 15px;" class="btn btn-danger btn-sm" >Delete</a>
                     </div>
+                    <br>
+                    @endforeach
                 </div>
-                <br>
-                @endforeach
             </div>
             @endif
 

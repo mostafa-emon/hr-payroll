@@ -98,10 +98,7 @@ class EmployeeController extends Controller
             $cv = [];
             foreach($request->file('employee_cv') as $file)
             {
-                $curTime        = date('Y-m-d H-i-s');
-                $filename       = $file->getClientOriginalName();
-                $custom_name    = $curTime . ' ' .$filename;
-                //$custom_name    = time() . ' ' .$filename;
+                $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
                 $file->move('storage\employees/', $custom_name);
                 array_push($cv, $custom_name);
 
@@ -493,13 +490,18 @@ class EmployeeController extends Controller
         $employee = Employee::where('id',$employee_id)->first();
         if($name != "") {
             Storage::delete('employees/'.$name);
+            $index = array_search($name, json_decode($employee->employee_cv));
+            
+            $cv = [];
+            foreach(json_decode($employee->employee_cv) as $file)
+            {
+                if($file != $name) {
+                    array_push($cv, $file);
+                }
+            }
 
-            //$array    = json_decode($employee->employee_cv);
-            /*if (($key = array_search($name, $array)) !== false) {
-                unset($array[$key]);
-            }*/
-            //return response()->json($array);
-
+            $employee->employee_cv = json_encode($cv);
+            $employee->save();
         }
         return back()->with('message', 'CV Deleted Successfully!');
     }
