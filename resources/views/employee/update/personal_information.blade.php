@@ -148,27 +148,26 @@
                     </div>
                     <br>
                     @endforeach
+                    
                 </div>
             </div>
             @endif
-
-            <div class="col-md-3 pd-t-10">
-                <div class="row">
-                    <label for="email" style="font-weight:bold;" class="col-form-label col-md-4">Email*:</label>
-                    <input type="email" name="email_address" placeholder="Email Address*" value="{{$employee->email_address}}" class="form-control col-md-8" required>
-                </div>
-            </div>
 
             @if(document_upload_facility(Auth::user()->company_id) == 1)
-            <div class="col-md-3 pd-t-20 text-right">
-                Upload CV
+            <div class="col-md-1 pd-t-20 text-left">
+                Upload More
             </div>
-            <div class="col-md-6 pd-t-10">
-                <input class="form-control" name="employee_cv[]" type="file">
+            <div class="col-md-11 pd-t-10">
+                <input class="form-control" name="employee_cv[]" type="file" multiple="multiple">
             </div>
             @else
-            <div class="col-md-9"></div>
+            <div class="col-md-12"></div>
             @endif
+
+            <div class="col-md-12 pd-t-10">
+                <label for="email" style="font-weight:bold;" class="col-form-label">Email*:</label><br>
+                <input type="email" name="email_address" placeholder="Email Address*" value="{{$employee->email_address}}" class="form-control" required>
+            </div>
 
             <div class="col-md-6 pd-t-10">
                 <label for="reference_1" style="font-weight:bold;" class="col-form-label">Reference 1:</label>

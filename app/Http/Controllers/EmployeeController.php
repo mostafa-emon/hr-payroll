@@ -335,11 +335,17 @@ class EmployeeController extends Controller
             }
             $employee->employee_photo       = $request->file('employee_photo')->store('employees');
         }
-        if($request->hasFile('employee_cv')){
-            if($employee->employee_cv != ""){
-                Storage::delete($employee->employee_cv);
+        
+        if($request->hasFile('employee_cv'))
+        {
+            $cv = json_decode($employee->employee_cv);
+            foreach($request->file('employee_cv') as $file)
+            {
+                $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
+                $file->move('storage\employees/', $custom_name);
+                array_push($cv, $custom_name);
             }
-            $employee->employee_cv          = $request->file('employee_cv')->store('employees');
+            $employee->employee_cv = json_encode($cv);
         }
 
         $employee->save();
