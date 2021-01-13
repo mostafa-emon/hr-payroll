@@ -34,7 +34,8 @@ class CreateAttendancesTable extends Migration
             $table->integer('punishment_processed')->default(0);
             $table->integer('day_absent_for_late')->default(0);
 
-            $table->integer('work_in_holiday')->default(0); // In minute
+            $table->integer('work_in_govt_holiday')->default(0); 
+            $table->integer('work_in_leave_day')->default(0); 
             $table->integer('over_time')->default(0); // In minute
             $table->integer('over_time_round_slab')->default(0); // In minute
             $table->integer('early_leave')->default(0); // In minute
