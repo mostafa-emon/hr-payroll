@@ -55,6 +55,11 @@ class EmployeeController extends Controller
             return redirect('employee/add/personal')->with('error_message', 'This Employee ID is already Used!');
         }
 
+        $email_validation = User::where('email',$request->email_address)->first();
+        if($email_validation != "") {
+            return redirect('employee/add/personal')->with('error_message', 'This Email is already Used!');
+        }
+
         $employee = new Employee;
         $employee->company_id               = Auth::user()->company_id;
         $employee->name                     = $request->name;
@@ -295,6 +300,11 @@ class EmployeeController extends Controller
         $find_employee = Employee::where('company_id',Auth::user()->company_id)->where('id','!=',$employee_id)->where('employee_id',$request->employee_id)->first();
         if($find_employee != "") {
             return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Employee ID is already Used!');
+        }
+
+        $email_validation = User::where('employee_id','!=',$employee_id)->where('email',$request->email_address)->first();
+        if($email_validation != "") {
+            return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Email is already Used!');
         }
 
         $employee = Employee::where('id',$employee_id)->first();
