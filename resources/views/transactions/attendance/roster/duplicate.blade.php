@@ -48,7 +48,7 @@
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-3">
-                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Name" value="{{$roster_name}}"/>
+                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Name*" value="{{$roster_name}}" required/>
                             </div>
                             <div class="col-md-3">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()">
