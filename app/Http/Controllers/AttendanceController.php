@@ -648,16 +648,13 @@ class AttendanceController extends Controller
         }
         
         $attendance->status                 = "PRESENT";
-        $attendance->in_time                = 0;
-        $attendance->out_time               = 0;
+        //$attendance->in_time              = 0;
+        
+        /*$attendance->out_time             = 0;
         $attendance->late                   = 0;
-        $attendance->late_over_allowed_time = 0;
-        $attendance->punishment_processed   = 0;
-        $attendance->day_absent_for_late    = 0;
         $attendance->over_time              = 0;
         $attendance->over_time_round_slab   = 0;
-        $attendance->early_leave            = 0;
-        $attendance->total_working_hour     = 0;
+        $attendance->total_working_hour     = 0;*/
 
         $in_time        = date('H:i:s',strtotime($request->in_time));
         $actual_in_time = date('H:i:s',strtotime($attendance->actual_in_time));
@@ -703,9 +700,15 @@ class AttendanceController extends Controller
                 }
 
             }
+        }else{
+            $attendance->late_over_allowed_time = 0;
+            $attendance->status                 = "PRESENT";
+            $attendance->day_absent_for_late    = 0;
+            $attendance->punishment_processed   = 0;
+            $attendance->late                   = 0;
         }
 
-        //$attendance->save();
+        $attendance->save();
         
         $in_time            = date('H:i:s',strtotime($request->in_time));
         $out_time           = date('H:i:s',strtotime($request->out_time));
@@ -716,6 +719,8 @@ class AttendanceController extends Controller
         // EARLY LEAVE
         if($out_time < $actual_out_time) {
             $attendance->early_leave = round(abs(strtotime($actual_out_time) - strtotime($out_time)) / 60);
+        }else{
+            $attendance->early_leave = 0;
         }
 
         // TOTAL WORKING HOUR
@@ -728,7 +733,10 @@ class AttendanceController extends Controller
             if($out_time > $actual_out_time) {
                 $today_over_time = round(abs(strtotime($out_time) - strtotime($actual_out_time)) / 60);
             }else {
-                $today_over_time = 0;
+                $today_over_time                    = 0;
+                
+                $attendance->over_time              = 0;
+                $attendance->over_time_round_slab   = 0;
             }
 
             if($today_over_time > $ot_considering_time) {
@@ -751,7 +759,7 @@ class AttendanceController extends Controller
                     }
                 }
                 else{
-                    $attendance->over_time = $today_over_time; 
+                    $attendance->over_time = $today_over_time;
                 }
             }
 
@@ -773,6 +781,9 @@ class AttendanceController extends Controller
                     $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
                 }
             }
+        }else{
+            $attendance->over_time              = 0;
+            $attendance->over_time_round_slab   = 0;
         }
         
         $attendance->save();
