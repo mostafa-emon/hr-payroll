@@ -63,7 +63,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="gender" style="font-weight:bold;" class="col-form-label">Gender:</label>
                 <select class="form-control" name="gender">
-                    <option value="" label>gender</option>
+                    <option value="" label>Gender</option>
                     <option value="Male" @if($employee->gender == "Male") selected @endif>Male</option>
                     <option value="Female" @if($employee->gender == "Female") selected @endif>Female</option>
                     <option value="Others" @if($employee->gender == "Others") selected @endif>Others</option>
@@ -73,7 +73,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="religion" style="font-weight:bold;" class="col-form-label">Religion:</label>
                 <select class="form-control" name="religion">
-                    <option value="" label>religion</option>
+                    <option value="" label>Religion</option>
                     <option value="Islam" @if($employee->religion == "Islam") selected @endif>Islam</option>
                     <option value="Christianity" @if($employee->religion == "Christianity") selected @endif>Christianity</option>
                     <option value="Hinduism" @if($employee->religion == "Hinduism") selected @endif>Hinduism</option>
@@ -85,7 +85,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="blood_group" style="font-weight:bold;" class="col-form-label">Blood Group:</label>
                 <select class="form-control" name="blood_group">
-                    <option value="" label>blood group</option>
+                    <option value="" label>Blood Group</option>
                     <option value="A+" @if($employee->religion == "A+") selected @endif>A+</option>
                     <option value="A-" @if($employee->religion == "A-") selected @endif>A-</option>
                     <option value="B+" @if($employee->religion == "B+") selected @endif>B+</option>
@@ -137,9 +137,8 @@
                 <input type="text" name="emergency_phone_number" placeholder="Emergency Phone Number" value="{{$employee->emergency_phone_number}}" class="form-control">
             </div>
 
-            <div class="col-md-3 pd-t-20 text-right"></div>
-
             @if($employee->employee_cv != "")
+            <div class="col-md-3 pd-t-20 text-right"></div>
             <div class="col-md-9 pd-t-20 text-right">
                 @foreach(json_decode($employee->employee_cv) as $cv)
                 <div>
