@@ -480,8 +480,16 @@ class AttendanceController extends Controller
         $attendance = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('date',$formatted_date)->first();
 
         // WORK IN HOLIDAY
-        if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+        /*if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
             $attendance->work_in_holiday = 1;
+        }*/
+
+        if($attendance->status == "GOVT_HOLIDAY") {
+            $attendance->work_in_govt_holiday = 1;
+        }
+        
+        if($attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+            $attendance->work_in_leave_day = 1;
         }
 
         $attendance->status = "PRESENT";
@@ -532,7 +540,7 @@ class AttendanceController extends Controller
             }
         }
 
-        //$attendance->save();
+        $attendance->save();
         
         $in_time            = date('H:i:s',strtotime($request->in_time));
         $out_time           = date('H:i:s',strtotime($request->out_time));
@@ -583,8 +591,20 @@ class AttendanceController extends Controller
             }
 
             // OVERTIME WORK IN HOLIDAY
-            if($policy->mark_overtime == 1) {
+            /*if($payroll_info->mark_overtime == 1) {
                 if($attendance->work_in_holiday == 1) {
+                    $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                }
+            }*/
+
+            if($payroll_info->mark_overtime_if_work_in_holiday == 1) {
+                if($attendance->work_in_govt_holiday == 1) {
+                    $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                }
+            }
+
+            if($payroll_info->mark_overtime_if_work_in_leave_day == 1) {
+                if($attendance->work_in_leave_day == 1) {
                     $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
                 }
             }
@@ -609,10 +629,22 @@ class AttendanceController extends Controller
         $payroll_info   = PayrollInfo::where('employee_id',$employee_id)->first();
 
         // WORK IN HOLIDAY
-        if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+        /*if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
             $attendance->work_in_holiday = 1;
         }else{
             $attendance->work_in_holiday = 0;
+        }*/
+
+        if($attendance->status == "GOVT_HOLIDAY") {
+            $attendance->work_in_govt_holiday = 1;
+        }else{
+            $attendance->work_in_govt_holiday = 0;
+        }
+        
+        if($attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+            $attendance->work_in_leave_day = 1;
+        }else{
+            $attendance->work_in_leave_day = 0;
         }
         
         $attendance->status                 = "PRESENT";
@@ -724,8 +756,20 @@ class AttendanceController extends Controller
             }
 
             // OVERTIME WORK IN HOLIDAY
-            if($policy->mark_overtime == 1) {
+            /*if($policy->mark_overtime == 1) {
                 if($attendance->work_in_holiday == 1) {
+                    $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                }
+            }*/
+
+            if($payroll_info->mark_overtime_if_work_in_holiday == 1) {
+                if($attendance->work_in_govt_holiday == 1) {
+                    $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                }
+            }
+
+            if($payroll_info->mark_overtime_if_work_in_leave_day == 1) {
+                if($attendance->work_in_leave_day == 1) {
                     $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
                 }
             }
