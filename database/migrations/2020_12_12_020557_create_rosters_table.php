@@ -18,7 +18,7 @@ class CreateRostersTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->string('roster_name')->nullable();
-            $table->integer('department_id');
+            $table->string('department_id')->nullable();
             $table->string('project_id')->nullable();
             $table->string('branch_id')->nullable();
             $table->text('employee_id');

@@ -53,7 +53,7 @@
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-2">
-                                <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" required>
+                                <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Department"></option>
                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}" @if($department_id == $department->id) selected @endif>{{$department->name}}</option>

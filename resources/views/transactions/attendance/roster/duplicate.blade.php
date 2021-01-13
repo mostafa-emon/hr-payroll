@@ -51,7 +51,7 @@
                                 <input type="text" name="roster_name" class="form-control" placeholder="Roster Name" value="{{$roster_name}}"/>
                             </div>
                             <div class="col-md-3">
-                                <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" required>
+                                <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Department"></option>
                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}" @if($department_id == $department->id) selected @endif>{{$department->name}}</option>
@@ -97,68 +97,6 @@
                         </div>
 
                     </form>
-
-                    {{--@if(count($employee_id) > 0)
-                        @php
-                            $store_employee_id = "";
-                            foreach($employee_id as $row) {
-                                $store_employee_id = $store_employee_id.$row.',';
-                            }
-                        @endphp
-                        <br>
-                        @php 
-                            $formatted_from_date = new DateTime($from_date);
-                            $formatted_to_date   = new DateTime($to_date);
-                            $interval = $formatted_to_date->diff($formatted_from_date);
-                            $interval = $interval->format('%a');
-                        @endphp
-                         <div class="table-responsive">
-                            <form method="post" action="{{url('store-roster')}}">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="roster_from_date" value="{{date('Y-m-d',strtotime($from_date))}}"/>
-                                <input type="hidden" name="roster_to_date" value="{{date('Y-m-d',strtotime($to_date))}}"/>
-                                <input type="hidden" name="roster_employee_id" value="{{rtrim($store_employee_id, ',')}}"/>
-                                <input type="hidden" name="roster_name" value="{{$roster_name}}"/>
-                                <input type="hidden" name="roster_department_id" value="{{$department_id}}"/>
-                                <input type="hidden" name="roster_project_id" value="{{$project_id}}"/>
-                                <input type="hidden" name="roster_branch_id" value="{{$branch_id}}"/>
-
-                                <input type="hidden" name="store_from_date" value="{{date('Y-m-d',strtotime($from_date))}}"/>
-                                <input type="hidden" name="store_to_date" value="{{date('Y-m-d',strtotime($to_date))}}"/>
-                                <input type="hidden" name="store_employee_id" value="{{rtrim($store_employee_id, ',')}}"/>
-
-                                <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
-                                    <tr>
-                                        <th class="text-center" style="width:33%">Date</th>
-                                        <th class="text-center" style="width:33%">Shift</th>
-                                        <th class="text-center" style="width:34%">Day Off</th>
-                                    </tr>
-                                    @for($i = 0; $i <= $interval; $i++)
-                                        <tr>
-                                            <td class="text-center">
-                                                <input type="text" class="form-control" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
-                                            </td>
-                                            
-                                            <td class="text-center">
-                                                <select class="form-control" name="shift_id_{{$i}}">
-                                                    @foreach($shifts as $shift)
-                                                        <option value="{{$shift->id}}">{{$shift->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            
-                                            <td class="text-center">
-                                                <input type="checkbox" style="cursor:pointer; width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="day_off_{{$i}}"/>
-                                            </td>
-                                        </tr>
-                                    @endfor
-                                </table>
-                                <div class="pd-t-15 text-center">
-                                    <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
-                                </div>
-                            </form>
-                        </div>
-                    @endif--}}
 
                 </div>
                 

@@ -84,19 +84,6 @@ class AttendanceController extends Controller
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-
-            $roster = new Roster();
-            $roster->company_id     = Auth::user()->company_id;
-            $roster->roster_name    = $request->roster_name;
-            $roster->department_id  = $request->department_id;
-            $roster->project_id     = $request->project_id;
-            $roster->branch_id      = $request->branch_id;
-            $roster->employee_id    = json_encode($request->employee_id);
-            $roster->from_date      = date('Y-m-d',strtotime($request->from_date));
-            $roster->to_date        = date('Y-m-d',strtotime($request->to_date));
-            $roster->save();
-
-            $roster_id              = $roster->id;
         }
 
         if($request->project_id != ""){
@@ -119,6 +106,18 @@ class AttendanceController extends Controller
 
         if($request->employee_id != "") {
             $employee_id = $request->employee_id;
+            $roster = new Roster();
+            $roster->company_id     = Auth::user()->company_id;
+            $roster->roster_name    = $request->roster_name;
+            $roster->department_id  = $request->department_id;
+            $roster->project_id     = $request->project_id;
+            $roster->branch_id      = $request->branch_id;
+            $roster->employee_id    = json_encode($request->employee_id);
+            $roster->from_date      = date('Y-m-d',strtotime($request->from_date));
+            $roster->to_date        = date('Y-m-d',strtotime($request->to_date));
+            $roster->save();
+
+            $roster_id              = $roster->id;
         }
         
         if($request->roster_name != "") {
