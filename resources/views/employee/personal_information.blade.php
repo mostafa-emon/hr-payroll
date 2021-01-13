@@ -48,7 +48,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="gender">
-                    <option value="" label>gender</option>
+                    <option value="" label>Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Others">Others</option>
@@ -57,7 +57,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="religion">
-                    <option value="" label>religion</option>
+                    <option value="" label>Religion</option>
                     <option value="Islam">Islam</option>
                     <option value="Christianity">Christianity</option>
                     <option value="Hinduism">Hinduism</option>
@@ -68,7 +68,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="blood_group">
-                    <option value="" label>blood group</option>
+                    <option value="" label>Blood Group</option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
                     <option value="B+">B+</option>

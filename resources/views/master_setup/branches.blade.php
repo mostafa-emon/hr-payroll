@@ -53,7 +53,7 @@
                             <tbody>
                                 @foreach($branches as $branch)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($branches->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$branch->name}}</td>
                                     <td style="vertical-align: middle">{{$branch->address}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$branch->branch_id}}</td>
@@ -69,7 +69,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $branches->links() }}
+                    <div class="mg-t-15">
+                        {{ $branches->links() }}
+                    </div>
                 </div>
             </div>
         </div>

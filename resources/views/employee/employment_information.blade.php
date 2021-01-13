@@ -4,7 +4,7 @@
         <div class="row row-xs">
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="department_id" required>
-                    <option value="" label>department*</option>
+                    <option value="" label>Department*</option>
                     @foreach($departments as $department)
                         <option value="{{$department->id}}">{{$department->name}}</option>
                     @endforeach
@@ -13,7 +13,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="designation_id" required>
-                    <option value="" label>designation*</option>
+                    <option value="" label>Designation*</option>
                     @foreach($designations as $designation)
                         <option value="{{$designation->id}}">{{$designation->name}}</option>
                     @endforeach
@@ -22,7 +22,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="project_id">
-                    <option value="" label>project</option>
+                    <option value="" label>Project</option>
                     @foreach($projects as $project)
                         <option value="{{$project->id}}">{{$project->name}}</option>
                     @endforeach
@@ -31,7 +31,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="branch_id">
-                    <option value="" label>branch</option>
+                    <option value="" label>Branch</option>
                     @foreach($branches as $branch)
                         <option value="{{$branch->id}}">{{$branch->name}}</option>
                     @endforeach
@@ -40,7 +40,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="current_status" required>
-                    <option value="" label>status*</option>
+                    <option value="" label>Status*</option>
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                 </select>
@@ -56,7 +56,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="duty_type" required>
-                    <option value="" label>duty type*</option>
+                    <option value="" label>Duty Type*</option>
                     <option value="Roster">Roster</option>
                     <option value="Non-Roster">Non-Roster</option>
                 </select>
@@ -73,7 +73,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="terminated">
-                    <option value="" label>terminated</option>
+                    <option value="" label>Terminated</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
@@ -89,7 +89,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="salary_payment_method" required>
-                    <option value="" label>salary payment method*</option>
+                    <option value="" label>Salary Payment Method*</option>
                     <option value="Bank">Bank</option>
                     <option value="Cash">Cash</option>
                 </select>
@@ -117,7 +117,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="pay_slip_send_method" required>
-                    <option value="" label>pay slip send method*</option>
+                    <option value="" label>Pay Slip Send Method*</option>
                     <option value="Email">Email</option>
                     <option value="Print">Print</option>
                 </select>
@@ -125,7 +125,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="weekend_1">
-                    <option value="" label>weekend one</option>
+                    <option value="" label>Weekend One</option>
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                     <option value="Monday">Monday</option>
@@ -138,7 +138,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="weekend_2">
-                    <option value="" label>weekend two</option>
+                    <option value="" label>Weekend Two</option>
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
                     <option value="Monday">Monday</option>

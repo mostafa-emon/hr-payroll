@@ -52,7 +52,7 @@
                             <tbody>
                                 @foreach($departments as $department)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($departments->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$department->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$department->department_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">
@@ -67,7 +67,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $departments->links() }}
+                    <div class="mg-t-15">
+                        {{ $departments->links() }}
+                    </div>
                 </div>
             </div>
         </div>

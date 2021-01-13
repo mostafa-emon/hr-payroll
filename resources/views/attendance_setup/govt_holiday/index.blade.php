@@ -54,7 +54,7 @@
                             <tbody>
                                 @foreach($holidays as $holiday)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($holidays->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$holiday->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$holiday->holiday_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($holiday->start_date))}}</td>
@@ -71,7 +71,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $holidays->links() }}
+                    <div class="mg-t-15">
+                        {{ $holidays->links() }}
+                    </div>
                 </div>
             </div>
         </div>

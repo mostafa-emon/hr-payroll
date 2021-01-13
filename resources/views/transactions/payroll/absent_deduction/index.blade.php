@@ -57,7 +57,7 @@
                                 @foreach($deductions as $deduction)
                                 @php $employee = get_employee_info($deduction->employee_id); @endphp
                                 <tr>
-                                    <td style="vertical-align: middle;" class="text-center">{{$loop->iteration}}</td>
+                                    <td style="vertical-align: middle;" class="text-center">{{(($deductions->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$employee->employee_id}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->month}}</td>
@@ -67,7 +67,7 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                            <a href="{{'company-pf/update/'.$deduction->id}}" class="dropdown-item">Update</a>
+                                            <a href="{{'absent-deduction/update/'.$deduction->id}}" class="dropdown-item">Update</a>
                                             <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$deduction->id}})">Delete</a>
                                         </div>
                                     </td>

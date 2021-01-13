@@ -53,7 +53,7 @@
                             <tbody>
                                 @foreach($banks as $bank)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($banks->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$bank->name}}</td>
                                     <td style="vertical-align: middle">{{$bank->account_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$bank->account_type}}</td>
@@ -69,7 +69,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $banks->links() }}
+                    <div class="mg-t-15">
+                        {{ $banks->links() }}
+                    </div>
                 </div>
             </div>
         </div>

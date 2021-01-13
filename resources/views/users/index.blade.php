@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach($users as $user)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{ $loop->iteration }}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($users->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{ $user->name }}</td>
                                     <td style="vertical-align: middle">{{ $user->email }}</td>
 
@@ -79,7 +79,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $users->links() }}
+                    <div class="mg-t-15">
+                        {{ $users->links() }}
+                    </div>
                 </div>
             </div>
         </div>

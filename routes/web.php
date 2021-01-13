@@ -245,6 +245,8 @@ Route::get('/absent-deduction/create', 'PayrollController@absent_deduction_creat
 Route::post('/absent-deduction/create', 'PayrollController@absent_deduction_create');
 Route::post('/store-absent-deduction', 'PayrollController@absent_deduction_store');
 Route::get('/absent-deduction/delete/{id}', 'PayrollController@absent_deduction_delete');
+Route::get('/absent-deduction/update/{id}', 'PayrollController@absent_deduction_update');
+Route::post('/absent-deduction/update/{id}', 'PayrollController@absent_deduction_update');
 
 //Configuration
 Route::get('/general-settings', 'ConfigurationController@general_setting');

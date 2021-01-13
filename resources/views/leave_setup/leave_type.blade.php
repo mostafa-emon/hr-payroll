@@ -55,7 +55,7 @@
                             <tbody>
                                 @foreach($types as $type)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($types->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$type->leave_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$type->leave_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$type->leave_short_name}}</td>
@@ -81,7 +81,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $types->links() }}
+                    <div class="mg-t-15">
+                        {{ $types->links() }}
+                    </div>
                 </div>
             </div>
         </div>

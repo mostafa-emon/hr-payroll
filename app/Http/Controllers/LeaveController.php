@@ -289,6 +289,8 @@ class LeaveController extends Controller
         $branch_id          = '';
         $employee_id        = '';
         $applicable_for     = '';
+        $leave_types        = '';
+        $employee           = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);

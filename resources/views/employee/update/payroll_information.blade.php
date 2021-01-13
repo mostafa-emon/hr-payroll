@@ -16,7 +16,7 @@
         <div class="row pd-t-10" id="earnings_{{$sl}}">
             <div class="col-md-4 remove-space" id="component_{{$sl}}">
                 <select class="form-control" name="salary_component_id[]">
-                    <option value="" label>component</option>
+                    <option value="" label>Component</option>
                     @foreach($earning_components as $component)
                         <option value="{{$component->id}}" @if($component->id == $earning->salary_component_id) selected @endif>{{$component->component_name}}</option>
                     @endforeach
@@ -25,18 +25,18 @@
         
             <div class="col-md-2 remove-space" id="cal_type_{{$sl}}"> 
                 <select class="form-control" name="fixed_or_percentage[]" id="fixed_or_percentage_1" onchange="fixed_or_percentage(this.value,'{{$sl}}')">
-                    <option value="fixed" @if($earning->fixed_or_percentage == "fixed") selected @endif>fixed amount</option>
-                    <option value="variable" @if($earning->fixed_or_percentage == "variable") selected @endif>variable amount</option>
+                    <option value="fixed" @if($earning->fixed_or_percentage == "fixed") selected @endif>Fixed Amount</option>
+                    <option value="variable" @if($earning->fixed_or_percentage == "variable") selected @endif>Variable Amount</option>
                 </select>
             </div>
         
             <div class="col-md-2 remove-space" id="percentage_{{$sl}}" @if($earning->fixed_or_percentage == "fixed") style="display:none" @endif>
-                <input type="text" class="form-control" name="percentage_amount[]" placeholder="percentage, Ex:5" value="{{$earning->percentage_amount}}"/>
+                <input type="text" class="form-control" name="percentage_amount[]" placeholder="Percentage, Ex:5" value="{{$earning->percentage_amount}}"/>
             </div>
         
             <div class="col-md-3 remove-space" id="of_component_{{$sl}}" @if($earning->fixed_or_percentage == "fixed") style="display:none" @endif>
                 <select class="form-control" name="of_component_id[]">
-                    <option value="" label>% of component</option>
+                    <option value="" label>% of Component</option>
                     @foreach($earning_components as $component)
                         <option value="{{$component->id}}" @if($earning->of_component_id == $component->id) selected @endif>{{$component->component_name}}</option>
                     @endforeach
@@ -44,7 +44,7 @@
             </div>
         
             <div class="col-md-5 remove-space" id="amount_{{$sl}}" @if($earning->fixed_or_percentage != "fixed") style="display:none" @endif>
-                <input type="text" class="form-control" name="final_amount[]" placeholder="amount" value="{{$earning->final_amount}}"/>
+                <input type="text" class="form-control" name="final_amount[]" placeholder="Amount" value="{{$earning->final_amount}}"/>
             </div>
         
             <div class="col-md-1" style="padding:0px;">
@@ -57,7 +57,7 @@
     <div class="row pd-t-10" id="earnings_1">
         <div class="col-md-4 remove-space" id="component_1">
             <select class="form-control" name="salary_component_id[]">
-                <option value="" label>component</option>
+                <option value="" label>Component</option>
                 @foreach($earning_components as $component)
                     <option value="{{$component->id}}">{{$component->component_name}}</option>
                 @endforeach
@@ -66,18 +66,18 @@
     
         <div class="col-md-2 remove-space" id="cal_type_1"> 
             <select class="form-control" name="fixed_or_percentage[]" id="fixed_or_percentage_1" onchange="fixed_or_percentage(this.value,1)">
-                <option value="fixed">fixed amount</option>
-                <option value="variable">variable amount</option>
+                <option value="fixed">Fixed Amount</option>
+                <option value="variable">Variable Amount</option>
             </select>
         </div>
     
         <div class="col-md-2 remove-space" id="percentage_1" style="display:none">
-            <input type="text" class="form-control" name="percentage_amount[]" placeholder="percentage, Ex:5"/>
+            <input type="text" class="form-control" name="percentage_amount[]" placeholder="Percentage, Ex:5"/>
         </div>
     
         <div class="col-md-3 remove-space" id="of_component_1" style="display:none">
             <select class="form-control" name="of_component_id[]">
-                <option value="" label>% of component</option>
+                <option value="" label>% of Component</option>
                 @foreach($earning_components as $component)
                     <option value="{{$component->id}}">{{$component->component_name}}</option>
                 @endforeach
@@ -85,7 +85,7 @@
         </div>
     
         <div class="col-md-5 remove-space" id="amount_1">
-            <input type="text" class="form-control" name="final_amount[]" placeholder="amount"/>
+            <input type="text" class="form-control" name="final_amount[]" placeholder="Amount"/>
         </div>
     
         <div class="col-md-1" style="padding:0px;">
@@ -109,7 +109,7 @@
         <div class="row pd-t-10" id="deductions_{{$serial}}">
             <div class="col-md-4 remove-space" id="ded_component_{{$serial}}">
                 <select class="form-control" name="ded_salary_component_id[]">
-                    <option value="" label>component</option>
+                    <option value="" label>Component</option>
                     @foreach($deduction_components as $component)
                         <option value="{{$component->id}}" @if($component->id == $deduction->salary_component_id) selected @endif>{{$component->component_name}}</option>
                     @endforeach
@@ -118,18 +118,18 @@
         
             <div class="col-md-2 remove-space" id="ded_cal_type_{{$serial}}"> 
                 <select class="form-control" name="ded_fixed_or_percentage[]" id="ded_fixed_or_percentage_1" onchange="ded_fixed_or_percentage(this.value,'{{$serial}}')">
-                    <option value="fixed" @if($deduction->fixed_or_percentage == "fixed") selected @endif>fixed amount</option>
-                    <option value="variable" @if($deduction->fixed_or_percentage == "variable") selected @endif>variable amount</option>
+                    <option value="fixed" @if($deduction->fixed_or_percentage == "fixed") selected @endif>Fixed Amount</option>
+                    <option value="variable" @if($deduction->fixed_or_percentage == "variable") selected @endif>Variable Amount</option>
                 </select>
             </div>
         
             <div class="col-md-2 remove-space" id="ded_percentage_{{$serial}}" @if($deduction->fixed_or_percentage == "fixed") style="display:none" @endif>
-                <input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="percentage, Ex:5" value="{{$deduction->percentage_amount}}"/>
+                <input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5" value="{{$deduction->percentage_amount}}"/>
             </div>
         
             <div class="col-md-3 remove-space" id="ded_of_component_{{$serial}}" @if($deduction->fixed_or_percentage == "fixed") style="display:none" @endif>
                 <select class="form-control" name="ded_of_component_id[]">
-                    <option value="" label>% of component</option>
+                    <option value="" label>% of Component</option>
                     @foreach($earning_components as $component)
                         <option value="{{$component->id}}" @if($deduction->of_component_id == $component->id) selected @endif>{{$component->component_name}}</option>
                     @endforeach
@@ -137,7 +137,7 @@
             </div>
         
             <div class="col-md-5 remove-space" id="ded_amount_{{$serial}}" @if($deduction->fixed_or_percentage != "fixed") style="display:none" @endif>
-                <input type="text" class="form-control" name="ded_final_amount[]" placeholder="amount" value="{{$deduction->final_amount}}"/>
+                <input type="text" class="form-control" name="ded_final_amount[]" placeholder="Amount" value="{{$deduction->final_amount}}"/>
             </div>
         
             <div class="col-md-1" style="padding:0px;">
@@ -150,7 +150,7 @@
         <div class="row pd-t-10" id="deductions_1">
             <div class="col-md-4 remove-space" id="ded_component_1">
                 <select class="form-control" name="ded_salary_component_id[]">
-                    <option value="" label>component</option>
+                    <option value="" label>Component</option>
                     @foreach($deduction_components as $component)
                         <option value="{{$component->id}}">{{$component->component_name}}</option>
                     @endforeach
@@ -159,18 +159,18 @@
         
             <div class="col-md-2 remove-space" id="ded_cal_type_1"> 
                 <select class="form-control" name="ded_fixed_or_percentage[]" id="ded_fixed_or_percentage_1" onchange="ded_fixed_or_percentage(this.value,1)">
-                    <option value="fixed">fixed amount</option>
-                    <option value="variable">variable amount</option>
+                    <option value="fixed">Fixed Amount</option>
+                    <option value="variable">Variable Amount</option>
                 </select>
             </div>
         
             <div class="col-md-2 remove-space" id="ded_percentage_1" style="display:none;">
-                <input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="percentage, Ex:5"/>
+                <input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/>
             </div>
         
             <div class="col-md-3 remove-space" id="ded_of_component_1" style="display:none">
                 <select class="form-control" name="ded_of_component_id[]">
-                    <option value="" label>% of component</option>
+                    <option value="" label>% of Component</option>
                     @foreach($earning_components as $component)
                         <option value="{{$component->id}}">{{$component->component_name}}</option>
                     @endforeach
@@ -178,7 +178,7 @@
             </div>
         
             <div class="col-md-5 remove-space" id="ded_amount_1">
-                <input type="text" class="form-control" name="ded_final_amount[]" placeholder="amount"/>
+                <input type="text" class="form-control" name="ded_final_amount[]" placeholder="Amount"/>
             </div>
         
             <div class="col-md-1" style="padding:0px;">
@@ -233,9 +233,9 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Salary Currency:</label>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Salary Currency*:</label>
         <select name="currency_id" class="form-control select2-no-search col-md-12 pa" required>
-            <option value="" label>Salary Currency</option>
+            <option value="" label>Salary Currency*</option>
             @foreach($currencies as $currency)
                 <option value="{{$currency->id}}" @if($payroll_info !="" && $payroll_info->currency_id == $currency->id) selected @endif>{{$currency->currency_name}}</option>
             @endforeach
@@ -243,18 +243,18 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work on Holiday:</label>
-        <select name="mark_overtime_if_work_in_holiday" class="form-control select2-no-search col-md-12 pa">
-            <option value="" label>OT if Work on Holiday</option>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work on Holiday*:</label>
+        <select name="mark_overtime_if_work_in_holiday" class="form-control select2-no-search col-md-12 pa" required>
+            <option value="" label>OT if Work on Holiday*</option>
             <option value="1" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_holiday == "1") selected @endif>Yes</option>
             <option value="0" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_holiday == "0") selected @endif>No</option>
         </select>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work on Leave Day:</label>
-        <select name="mark_overtime_if_work_in_leave_day" class="form-control select2-no-search col-md-12 pa">
-            <option value="" label>OT if Work on Leave Day</option>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work on Leave Day*:</label>
+        <select name="mark_overtime_if_work_in_leave_day" class="form-control select2-no-search col-md-12 pa" required>
+            <option value="" label>OT if Work on Leave Day*</option>
             <option value="1" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_leave_day == "1") selected @endif>Yes</option>
             <option value="0" @if($payroll_info !="" && $payroll_info->mark_overtime_if_work_in_leave_day == "0") selected @endif>No</option>
         </select>
@@ -278,7 +278,7 @@
 
     function add_earning_row(){
         earnings = earnings + 1;
-        $('#earnings').append('<div class="row pd-t-10" id="earnings_'+earnings+'"><div class="col-md-4 remove-space" id="component_'+earnings+'"><select class="form-control" name="salary_component_id[]"><option value="" label>component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="cal_type_'+earnings+'"><select class="form-control" name="fixed_or_percentage[]" id="fixed_or_percentage_'+earnings+'" onchange="fixed_or_percentage(this.value,'+earnings+')"><option value="fixed">fixed amount</option><option value="variable">variable amount</option></select></div><div class="col-md-2 remove-space" id="percentage_'+earnings+'" style="display:none"><input type="text" class="form-control" name="percentage_amount[]" placeholder="percentage, Ex:5"/></div><div class="col-md-3 remove-space" id="of_component_'+earnings+'" style="display:none"><select class="form-control" name="of_component_id[]"><option value="" label>% of component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-5 remove-space" id="amount_'+earnings+'"><input type="text" class="form-control" name="final_amount[]" placeholder="amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_earning_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_earning_row('+earnings+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
+        $('#earnings').append('<div class="row pd-t-10" id="earnings_'+earnings+'"><div class="col-md-4 remove-space" id="component_'+earnings+'"><select class="form-control" name="salary_component_id[]"><option value="" label>Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="cal_type_'+earnings+'"><select class="form-control" name="fixed_or_percentage[]" id="fixed_or_percentage_'+earnings+'" onchange="fixed_or_percentage(this.value,'+earnings+')"><option value="fixed">Fixed Amount</option><option value="variable">Variable Amount</option></select></div><div class="col-md-2 remove-space" id="percentage_'+earnings+'" style="display:none"><input type="text" class="form-control" name="percentage_amount[]" placeholder="Percentage, Ex:5"/></div><div class="col-md-3 remove-space" id="of_component_'+earnings+'" style="display:none"><select class="form-control" name="of_component_id[]"><option value="" label>% of Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-5 remove-space" id="amount_'+earnings+'"><input type="text" class="form-control" name="final_amount[]" placeholder="Amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_earning_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_earning_row('+earnings+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
     }
 
     function remove_earning_row(idValue) {
@@ -288,7 +288,7 @@
 
     function add_deduction_row(){
         deductions = deductions + 1;
-        $('#deductions').append('<div class="row pd-t-10" id="deductions_'+deductions+'"><div class="col-md-4 remove-space" id="ded_component_'+deductions+'"><select class="form-control" name="ded_salary_component_id[]"><option value="" label>component</option>@foreach($deduction_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="ded_cal_type_'+deductions+'"><select class="form-control" name="ded_fixed_or_percentage[]" id="ded_fixed_or_percentage_'+deductions+'" onchange="ded_fixed_or_percentage(this.value,'+deductions+')"><option value="fixed">fixed amount</option><option value="variable">variable amount</option></select></div><div class="col-md-2 remove-space" id="ded_percentage_'+deductions+'" style="display:none"><input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="percentage, Ex:5"/></div><div class="col-md-3 remove-space" id="ded_of_component_'+deductions+'" style="display:none"><select class="form-control" name="ded_of_component_id[]"><option value="" label>% of component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-5 remove-space" id="ded_amount_'+deductions+'"><input type="text" class="form-control" name="ded_final_amount[]" placeholder="amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_deduction_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_deduction_row('+deductions+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
+        $('#deductions').append('<div class="row pd-t-10" id="deductions_'+deductions+'"><div class="col-md-4 remove-space" id="ded_component_'+deductions+'"><select class="form-control" name="ded_salary_component_id[]"><option value="" label>Component</option>@foreach($deduction_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="ded_cal_type_'+deductions+'"><select class="form-control" name="ded_fixed_or_percentage[]" id="ded_fixed_or_percentage_'+deductions+'" onchange="ded_fixed_or_percentage(this.value,'+deductions+')"><option value="fixed">Fixed Amount</option><option value="variable">Variable Amount</option></select></div><div class="col-md-2 remove-space" id="ded_percentage_'+deductions+'" style="display:none"><input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/></div><div class="col-md-3 remove-space" id="ded_of_component_'+deductions+'" style="display:none"><select class="form-control" name="ded_of_component_id[]"><option value="" label>% of Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-5 remove-space" id="ded_amount_'+deductions+'"><input type="text" class="form-control" name="ded_final_amount[]" placeholder="Amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_deduction_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_deduction_row('+deductions+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
     }
 
     function remove_deduction_row(idValue) {

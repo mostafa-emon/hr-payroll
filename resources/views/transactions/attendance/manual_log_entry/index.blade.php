@@ -68,7 +68,7 @@
                                 @foreach($attendances as $attendance)
                                 @php $employee = get_employee_info($attendance->employee_id); @endphp
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($attendances->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($attendance->date))}}</td>
@@ -88,7 +88,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $attendances->links() }}
+                    <div class="mg-t-15">
+                        {{ $attendances->links() }}
+                    </div>
                 </div>
             </div>
         </div>

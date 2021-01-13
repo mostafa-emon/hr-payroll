@@ -54,7 +54,7 @@
                             <tbody>
                                 @foreach($currencies as $currency)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($currencies->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$currency->currency_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$currency->full_unit_name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$currency->sub_unit_name}}</td>
@@ -75,7 +75,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $currencies->links() }}
+                    <div class="mg-t-15">
+                        {{ $currencies->links() }}
+                    </div>
                 </div>
             </div>
         </div>

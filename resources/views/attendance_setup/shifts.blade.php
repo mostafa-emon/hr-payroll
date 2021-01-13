@@ -55,7 +55,7 @@
                             <tbody>
                                 @foreach($shifts as $shift)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($shifts->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$shift->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$shift->shift_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$shift->shift_short_name}}</td>
@@ -73,7 +73,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $shifts->links() }}
+                    <div class="mg-t-15">
+                        {{ $shifts->links() }}
+                    </div>
                 </div>
             </div>
         </div>

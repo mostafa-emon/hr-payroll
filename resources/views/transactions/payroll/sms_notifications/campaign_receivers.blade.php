@@ -50,7 +50,7 @@
                             <tbody>
                                 @foreach($receivers as $receiver)
                                     <tr>
-                                        <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                        <td class="text-center" style="vertical-align: middle">{{(($receivers->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                         <td style="vertical-align: middle">{{$receiver->receiver_name}}</td>
                                         <td style="vertical-align: middle">{{$receiver->phone}}</td>
                                     </tr>
@@ -58,7 +58,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $receivers->links() }}
+                    <div class="mg-t-15">
+                        {{ $receivers->links() }}
+                    </div>
                 </div>
             </div>
         </div>

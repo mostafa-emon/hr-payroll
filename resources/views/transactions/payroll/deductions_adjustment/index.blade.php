@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach($deductions as $deduction)
                                 <tr>
-                                    <td style="vertical-align: middle" class="text-center">{{$loop->iteration}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{(($deductions->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{employee_name_by_increment_id($deduction->employee_id)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->amount}}</td>
                                     <td style="vertical-align: middle" class="text-center">

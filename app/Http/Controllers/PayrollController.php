@@ -632,4 +632,15 @@ class PayrollController extends Controller
             return redirect('absent-deduction')->with('message','Do not try to be too smart!');
         }
     }
+
+    public function absent_deduction_update(Request $request,$id) {
+        $deduction = AbsentDeduction::where('id',$id)->first();
+        if($request->total_absent_days != "") {
+            $deduction->total_absent_days   = $request->total_absent_days;
+            $deduction->deduction           = $request->deduction;
+            $deduction->save();
+            return redirect('absent-deduction')->with('message','Absent Deduction Updated Successfully!');
+        }
+        return view('transactions.payroll.absent_deduction.update',compact('deduction'));
+    }
 }

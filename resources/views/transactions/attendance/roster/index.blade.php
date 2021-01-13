@@ -57,7 +57,7 @@
                             <tbody>
                                 @foreach($rosters as $roster)
                                 <tr>
-                                    <td style="vertical-align: middle" class="text-center">{{$loop->iteration}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{(($rosters->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$roster->roster_name}}</td>
                                     <td style="vertical-align: middle">{{department_name($roster->department_id)}}</td>
                                     <td style="vertical-align: middle">{{project_name($roster->project_id)}}</td>

@@ -54,7 +54,7 @@
                             <tbody>
                                 @foreach($leaves as $leave)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($leaves->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{leave_type_name($leave->leave_type_id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($leave->start_date))}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($leave->end_date))}}</td>
@@ -78,7 +78,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $leaves->links() }}
+                    <div class="mg-t-15">
+                        {{ $leaves->links() }}
+                    </div>
                 </div>
             </div>
         </div>
