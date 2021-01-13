@@ -46,7 +46,7 @@
                 <tbody>
                     @foreach ($settings as $setting)
                     <tr>
-                      <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                      <td class="text-center" style="vertical-align: middle">{{(($settings->currentPage() * 10) - 10) + $loop->iteration}}</td>
                       <td style="vertical-align: middle">{{$setting->title}}</td>
                       <td class="text-center">
                           <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
@@ -60,7 +60,9 @@
                 </tbody>
                 </table>
             </div>
-            {{ $settings->links() }}
+            <div class="mg-t-15">
+              {{ $settings->links() }}
+            </div>
         </div>
     </div>
   </div>

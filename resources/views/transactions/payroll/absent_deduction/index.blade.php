@@ -57,7 +57,7 @@
                                 @foreach($deductions as $deduction)
                                 @php $employee = get_employee_info($deduction->employee_id); @endphp
                                 <tr>
-                                    <td style="vertical-align: middle;" class="text-center">{{$loop->iteration}}</td>
+                                    <td style="vertical-align: middle;" class="text-center">{{(($deductions->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$employee->employee_id}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->month}}</td>

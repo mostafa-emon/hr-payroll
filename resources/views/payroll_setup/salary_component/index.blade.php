@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach($salaries as $salary)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($salaries->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$salary->component_type}}</td>
                                     <td style="vertical-align: middle">{{$salary->component_name}}</td>
                                     <td style="vertical-align: middle">{{$salary->component_reference}}</td>
@@ -75,7 +75,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $salaries->links() }}
+                    <div class="mg-t-15">
+                        {{ $salaries->links() }}
+                    </div>
                 </div>
             </div>
         </div>

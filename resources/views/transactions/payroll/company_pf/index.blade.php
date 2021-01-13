@@ -59,7 +59,7 @@
                                     $employee = get_employee_info($pf->employee_id);
                                 @endphp
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($company_pfs->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
@@ -77,7 +77,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $company_pfs->links() }}
+                    <div class="mg-t-15">
+                        {{ $company_pfs->links() }}
+                    </div>
                 </div>
             </div>
         </div>

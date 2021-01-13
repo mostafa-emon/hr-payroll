@@ -50,14 +50,16 @@
                             <tbody>
                                 @foreach($roster_employees as $employee)
                                     <tr>
-                                        <td style="vertical-align: middle;" class="text-center">{{$loop->iteration}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{(($roster_employees->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                         <td style="vertical-align: middle;">{{employee_name_by_increment_id($employee->employee_id)}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    {{ $roster_employees->links() }}
+                    <div class="mg-t-15">
+                        {{ $roster_employees->links() }}
+                    </div>
                 </div>
             </div>
         </div>

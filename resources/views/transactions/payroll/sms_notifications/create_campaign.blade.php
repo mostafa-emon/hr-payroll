@@ -119,7 +119,7 @@
                                     list($total_receiver,$total_sent) = explode("_",$total_number);
                                 @endphp
                                     <tr>
-                                        <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                        <td class="text-center" style="vertical-align: middle">{{(($campaigns->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                         <td class="text-center" style="vertical-align: middle">{{ date('d M Y',strtotime($campaign->created_at))}}</td>
                                         <td style="vertical-align: middle">{{$campaign->sms_body}}</td>
                                         <td style="vertical-align: middle">
@@ -156,7 +156,9 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $campaigns->links() }}
+                    <div class="mg-t-15">
+                        {{ $campaigns->links() }}
+                    </div>
                 </div>
             </div>
         </div>
