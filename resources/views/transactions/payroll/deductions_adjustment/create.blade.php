@@ -71,6 +71,10 @@
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
                                                     <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required>
+                                                        <option label="Employee Name"></option>
+                                                        @foreach($employment_infos as $employment_info)
+                                                            <option value="{{$employment_info->employee_id}}" {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }}>{{$employment_info->name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
@@ -140,6 +144,11 @@
             var project_id      = $('#project_id').val();
             var branch_id       = $('#branch_id').val();
             var component_id    = $('#component_id').val();
+
+            if(department_id == "") {department_id = 0;}
+            if(project_id == "") {project_id = 0;}
+            if(branch_id == "") {branch_id = 0;}
+            if(component_id == "") {component_id = 0;}
 
             var url = '/search-increment-employee_id/'+department_id;
             if(project_id != "") { url = url +'/'+ project_id;} else { url = url + '/0';}

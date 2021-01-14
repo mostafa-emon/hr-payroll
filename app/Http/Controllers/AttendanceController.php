@@ -288,7 +288,10 @@ class AttendanceController extends Controller
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderBy('id','asc')->get();
-        return view('transactions.payroll.earnings_adjustment.create',compact('departments','projects','branches','salary_components'));
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)->get();
+        $employee_id        = [];
+        return view('transactions.payroll.earnings_adjustment.create',compact('departments','projects','branches','salary_components','employment_infos','employee_id'));
     }
 
     public function earnings_adjustment_create_post(Request $request) {
@@ -371,11 +374,14 @@ class AttendanceController extends Controller
     }
 
     public function deductions_adjustment_create() {
+        $employee_id        = [];
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderBy('id','asc')->get();
-        return view('transactions.payroll.deductions_adjustment.create',compact('departments','projects','branches','salary_components'));
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)->get();
+        return view('transactions.payroll.deductions_adjustment.create',compact('departments','projects','branches','salary_components','employment_infos','employee_id'));
     }
 
     public function deductions_adjustment_create_post(Request $request) {
