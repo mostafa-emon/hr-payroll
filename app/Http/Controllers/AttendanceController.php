@@ -457,7 +457,7 @@ class AttendanceController extends Controller
         }else {
             $date = date('Y-m-d');
         }
-        $attendances = Attendance::where('company_id',Auth::user()->company_id)->where('date',$date)->orderBy('id','asc')->paginate(10);
+        $attendances = Attendance::where('company_id',Auth::user()->company_id)->where('date',$date)->where('in_time','!=',null)->orderBy('id','asc')->paginate(10);
         return view('transactions.attendance.manual_log_entry.index',compact('attendances','date'));
     }
 
