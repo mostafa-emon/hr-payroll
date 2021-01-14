@@ -154,10 +154,10 @@
             @endif
 
             @if(document_upload_facility(Auth::user()->company_id) == 1)
-            <div class="col-md-1 pd-t-20 text-left">
-                Upload More
+            <div class="col-md-2 pd-t-20 text-left">
+                Upload More (File size max 2MB)
             </div>
-            <div class="col-md-11 pd-t-10">
+            <div class="col-md-10 pd-t-10">
                 <input class="form-control" name="employee_cv[]" type="file" multiple="multiple">
             </div>
             @else

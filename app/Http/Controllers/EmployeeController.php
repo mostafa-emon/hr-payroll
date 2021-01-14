@@ -98,10 +98,13 @@ class EmployeeController extends Controller
             $cv = [];
             foreach($request->file('employee_cv') as $file)
             {
-                $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
-                $file->move('storage\employees/', $custom_name);
-                array_push($cv, $custom_name);
-
+                $filesize = filesize($file);
+                $filesize_in_kb = $filesize / 1024;
+                if($filesize_in_kb <= 2048) {
+                    $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
+                    $file->move('storage\employees/', $custom_name);
+                    array_push($cv, $custom_name);
+                }
             }
             $employee->employee_cv = json_encode($cv);
         }
@@ -341,9 +344,13 @@ class EmployeeController extends Controller
             $cv = json_decode($employee->employee_cv);
             foreach($request->file('employee_cv') as $file)
             {
-                $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
-                $file->move('storage\employees/', $custom_name);
-                array_push($cv, $custom_name);
+                $filesize = filesize($file);
+                $filesize_in_kb = $filesize / 1024;
+                if($filesize_in_kb <= 2048) {
+                    $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
+                    $file->move('storage\employees/', $custom_name);
+                    array_push($cv, $custom_name);
+                }
             }
             $employee->employee_cv = json_encode($cv);
         }

@@ -118,7 +118,7 @@
 
             @if(document_upload_facility(Auth::user()->company_id) == 1)
             <div class="col-md-3 pd-t-20 text-right">
-                Documents
+                Documents (File size max 2MB)
             </div>
             <div class="col-md-6 pd-t-10">
                 <input class="form-control" name="employee_cv[]" type="file" multiple="multiple">
