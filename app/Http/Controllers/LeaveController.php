@@ -312,14 +312,14 @@ class LeaveController extends Controller
             $employee_id           = $request->employee_id;
         }
 
-        if($request->employee_id != "" || $request->department_id != "") {
+        if($request->employee_id != "") {
             $employment_infos   = $employment_infos->get();
             $employee           = Employee::where('employee_id',$request->employee_id)->first();
             $leave_infos        = LeaveInfo::where('employee_id',$employee->id)->where('carry_forward',1)->get();
             $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
             $applicable_for     = $request->applicable_for;
         }else{
-            $employment_infos   = [];
+            $employment_infos   = $employment_infos->get();
             $leave_infos        = [];
         }
 

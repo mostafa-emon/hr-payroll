@@ -54,25 +54,25 @@
                             <div class="steps clearfix">
                                <ul role="tablist">
                                   <li role="tab" class="@if($page == "personal") current @endif" aria-disabled="false" aria-selected="true">
-                                     <a href="javascript:void(0)">
+                                     <a href="{{url('/employee/update/personal/'.$employee->id)}}">
                                         <span class="number">1</span> 
                                         <span class="title">Personal Information</span>
                                      </a>
                                   </li>
                                   <li role="tab" class="@if($page == "employment") current @endif" aria-disabled="true">
-                                     <a href="javascript:void(0)">
+                                     <a href="{{url('/employee/update/employment/'.$employee->id)}}">
                                         <span class="number">2</span> 
                                         <span class="title">Employement Information</span>
                                      </a>
                                   </li>
                                   <li role="tab" class="@if($page == "payroll") current @endif" aria-disabled="true">
-                                     <a href="javascript:void(0)">
+                                     <a href="{{url('/employee/update/payroll/'.$employee->id)}}">
                                         <span class="number">3</span> 
                                         <span class="title">Payroll Information</span>
                                      </a>
                                   </li>
                                   <li role="tab" class="@if($page == "leave") current @endif" aria-disabled="true">
-                                    <a href="javascript:void(0)">
+                                    <a href="{{url('/employee/update/leave/'.$employee->id)}}">
                                         <span class="number">4</span> 
                                         <span class="title">Leave Information</span>
                                     </a>

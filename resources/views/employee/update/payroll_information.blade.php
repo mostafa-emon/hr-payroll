@@ -195,9 +195,9 @@
 
 <div class="row">
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="company_pf_on_salary_statement" style="font-weight:bold;" class="col-form-label">Company PF on Salary Statement:</label>
-        <select class="form-control" name="company_pf_on_salary_statement">
-            <option value="" label>Company PF on Salary Statement</option>
+        <label for="company_pf_on_salary_statement" style="font-weight:bold;" class="col-form-label">Company PF on Salary Statement*:</label>
+        <select class="form-control" name="company_pf_on_salary_statement" required>
+            <option value="" label>Company PF on Salary Statement*</option>
             <option value="1" @if($payroll_info !="" && $payroll_info->company_pf_on_salary_statement == "1") selected @endif>Yes</option>
             <option value="0" @if($payroll_info !="" && $payroll_info->company_pf_on_salary_statement == "0") selected @endif>No</option>
         </select>
@@ -205,12 +205,12 @@
 
     <div class="col-md-4 mg-t-10 remove-space">
         <label for="festival_bonus_per_festival" style="font-weight:bold;" class="col-form-label">Festival Bonus:</label>
-        <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus" @if($payroll_info !="") value="{{$payroll_info->festival_bonus_per_festival}}" @endif/>
+        <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus*" @if($payroll_info !="") value="{{$payroll_info->festival_bonus_per_festival}}" @endif required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
         <label for="gratuity_amount" style="font-weight:bold;" class="col-form-label">Gratuity Amount:</label>
-        <input type="text" class="form-control" name="gratuity_amount" placeholder="Gratuity Amount" @if($payroll_info !="") value="{{$payroll_info->gratuity_amount}}" @endif/>
+        <input type="text" class="form-control" name="gratuity_amount" placeholder="Gratuity Amount*" @if($payroll_info !="") value="{{$payroll_info->gratuity_amount}}" @endif required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
@@ -219,17 +219,17 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Allow OT:</label>
-        <select class="form-control" name="ot_allowed">
-            <option value="" label>Allow OT</option>
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Allow OT*:</label>
+        <select class="form-control" name="ot_allowed" required>
+            <option value="" label>Allow OT*</option>
             <option value="1" @if($payroll_info !="" && $payroll_info->ot_allowed == "1") selected @endif>Yes</option>
             <option value="0" @if($payroll_info !="" && $payroll_info->ot_allowed == "0") selected @endif>No</option>
         </select>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="hourly_ot_rate" style="font-weight:bold;" class="col-form-label">Hourly OT Rate:</label>
-        <input type="text" class="form-control" name="hourly_ot_rate" placeholder="Hourly OT Rate" @if($payroll_info !="") value="{{$payroll_info->hourly_ot_rate}}" @endif/>
+        <label for="hourly_ot_rate" style="font-weight:bold;" class="col-form-label">Hourly OT Rate*:</label>
+        <input type="text" class="form-control" name="hourly_ot_rate" placeholder="Hourly OT Rate*" required @if($payroll_info !="") value="{{$payroll_info->hourly_ot_rate}}" @endif/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
