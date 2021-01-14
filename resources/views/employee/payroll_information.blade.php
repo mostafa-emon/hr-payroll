@@ -63,7 +63,7 @@
 <div id="deductions">
     <div class="row pd-t-10" id="deductions_1">
         <div class="col-md-4 remove-space" id="ded_component_1">
-            <select class="form-control" name="ded_salary_component_id[]">
+            <select class="form-control" name="ded_salary_component_id[]" onchange="set_deduction_amount_class(1,this.value)">
                 <option value="" label>Component</option>
                 @foreach($deduction_components as $component)
                     <option value="{{$component->id}}">{{$component->component_name}}</option>
@@ -79,20 +79,24 @@
         </div>
     
         <div class="col-md-2 remove-space" id="ded_percentage_1" style="display:none;">
-            <input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/>
+            <input type="text" class="form-control" id="ded_percentage_amount_1" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/>
         </div>
     
-        <div class="col-md-3 remove-space" id="ded_of_component_1" style="display:none">
-            <select class="form-control" name="ded_of_component_id[]">
+        <div class="col-md-2 remove-space" id="ded_of_component_1" style="display:none">
+            <select class="form-control" name="ded_of_component_id[]" onchange="calculate_deduction_percentage_amount(1,this.value)">
                 <option value="" label>% of Component</option>
                 @foreach($earning_components as $component)
                     <option value="{{$component->id}}">{{$component->component_name}}</option>
                 @endforeach
             </select>
         </div>
+
+        <div class="col-md-1 remove-space" style="display:none" id="deduction_percentage_final_amount_div_1">
+            <input type="text" class="form-control" id="deduction_percentage_final_amount_1" name="deduction_percentage_final_amount[]" placeholder="Amount"/>
+        </div>
     
         <div class="col-md-5 remove-space" id="ded_amount_1">
-            <input type="text" class="form-control" name="ded_final_amount[]" placeholder="Amount"/>
+            <input type="text" class="form-control" id="deduction_final_amount_1" name="ded_final_amount[]" placeholder="Amount"/>
         </div>
     
         <div class="col-md-1" style="padding:0px;">
@@ -187,7 +191,7 @@
 
     function add_deduction_row(){
         deductions = deductions + 1;
-        $('#deductions').append('<div class="row pd-t-10" id="deductions_'+deductions+'"><div class="col-md-4 remove-space" id="ded_component_'+deductions+'"><select class="form-control" name="ded_salary_component_id[]"><option value="" label>Component</option>@foreach($deduction_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="ded_cal_type_'+deductions+'"><select class="form-control" name="ded_fixed_or_percentage[]" id="ded_fixed_or_percentage_'+deductions+'" onchange="ded_fixed_or_percentage(this.value,'+deductions+')"><option value="fixed">Fixed Amount</option><option value="variable">Variable Amount</option></select></div><div class="col-md-2 remove-space" id="ded_percentage_'+deductions+'" style="display:none"><input type="text" class="form-control" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/></div><div class="col-md-3 remove-space" id="ded_of_component_'+deductions+'" style="display:none"><select class="form-control" name="ded_of_component_id[]"><option value="" label>% of Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-5 remove-space" id="ded_amount_'+deductions+'"><input type="text" class="form-control" name="ded_final_amount[]" placeholder="Amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_deduction_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_deduction_row('+deductions+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
+        $('#deductions').append('<div class="row pd-t-10" id="deductions_'+deductions+'"><div class="col-md-4 remove-space" id="ded_component_'+deductions+'"><select class="form-control" name="ded_salary_component_id[]" onchange="set_deduction_amount_class('+deductions+',this.value)"><option value="" label>Component</option>@foreach($deduction_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="ded_cal_type_'+deductions+'"><select class="form-control" name="ded_fixed_or_percentage[]" id="ded_fixed_or_percentage_'+deductions+'" onchange="ded_fixed_or_percentage(this.value,'+deductions+')"><option value="fixed">Fixed Amount</option><option value="variable">Variable Amount</option></select></div><div class="col-md-2 remove-space" id="ded_percentage_'+deductions+'" style="display:none"><input type="text" class="form-control" id="ded_percentage_amount_'+deductions+'" name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/></div><div class="col-md-2 remove-space" id="ded_of_component_'+deductions+'" style="display:none"><select class="form-control" name="ded_of_component_id[]" onchange="calculate_deduction_percentage_amount('+deductions+',this.value)"><option value="" label>% of Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-1 remove-space" style="display:none" id="deduction_percentage_final_amount_div_'+deductions+'"><input type="text" class="form-control" id="deduction_percentage_final_amount_'+deductions+'" name="deduction_percentage_final_amount[]" placeholder="Amount"/></div><div class="col-md-5 remove-space" id="ded_amount_'+deductions+'"><input type="text" class="form-control" id="deduction_final_amount_'+deductions+'" name="ded_final_amount[]" placeholder="Amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_deduction_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_deduction_row('+deductions+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
     }
 
     function remove_deduction_row(idValue) {
@@ -213,10 +217,12 @@
         if(selection == "variable") {
             $('#ded_percentage_'+idValue).show();
             $('#ded_of_component_'+idValue).show();
+            $('#deduction_percentage_final_amount_div_'+idValue).show();
             $('#ded_amount_'+idValue).hide();
         }else{
             $('#ded_percentage_'+idValue).hide();
             $('#ded_of_component_'+idValue).hide();
+            $('#deduction_percentage_final_amount_div_'+idValue).hide();
             $('#ded_amount_'+idValue).show();
         }
     }
@@ -227,6 +233,9 @@
 
         if(fixed_amount == "") {
             fixed_amount = 0;
+        } 
+        if(percentage == "") {
+            percentage = 0;
         } 
         var is_fixed_amount_num = /^\d+$/.test(fixed_amount);
         var is_percentage_num = /^\d+$/.test(fixed_amount);
@@ -242,5 +251,31 @@
 
     function set_earnings_amount_class(row_id,component_id) {
         $('#earnings_final_amount_'+row_id).addClass('earnings_final_amount_component_'+component_id);
+    }
+
+    function calculate_deduction_percentage_amount(row_id,component_id) {
+        var fixed_amount = $('.earnings_final_amount_component_'+component_id).val();
+        var percentage = $('#ded_percentage_amount_'+row_id).val();
+
+        if(fixed_amount == "") {
+            fixed_amount = 0;
+        } 
+        if(percentage == "") {
+            percentage = 0;
+        } 
+        var is_fixed_amount_num = /^\d+$/.test(fixed_amount);
+        var is_percentage_num = /^\d+$/.test(fixed_amount);
+
+        if(!is_fixed_amount_num || !is_percentage_num) {
+            var percentage_final_amount = 0;
+        } else {
+            var percentage_final_amount = Math.round((percentage/100)*fixed_amount);
+        }
+        
+        $('#deduction_percentage_final_amount_'+row_id).val(percentage_final_amount)
+    }
+
+    function set_deduction_amount_class(row_id,component_id) {
+        $('#deduction_final_amount_'+row_id).addClass('deduction_final_amount_component_'+component_id);
     }
 </script>
