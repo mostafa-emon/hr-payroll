@@ -104,35 +104,35 @@
 
 <div class="row">
     <div class="col-md-4 mg-t-10 remove-space">
-        <select class="form-control" name="company_pf_on_salary_statement">
-            <option value="" label>Company PF on Salary Statement</option>
+        <select class="form-control" name="company_pf_on_salary_statement" required>
+            <option value="" label>Company PF on Salary Statement*</option>
             <option value="1">Yes</option>
             <option value="0">No</option>
         </select>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus"/>
+        <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <input type="text" class="form-control" name="gratuity_amount" placeholder="Gratuity Amount"/>
+        <input type="text" class="form-control" name="gratuity_amount" placeholder="Gratuity Amount*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <input type="text" class="form-control" name="investment_amount" placeholder="Investment Amount"/>
+        <input type="text" class="form-control" name="investment_amount" placeholder="Investment Amount*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <select class="form-control" name="ot_allowed">
-            <option value="" label>Allow OT</option>
+        <select class="form-control" name="ot_allowed" required>
+            <option value="" label>Allow OT*</option>
             <option value="1">Yes</option>
             <option value="0">No</option>
         </select>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <input type="text" class="form-control" name="hourly_ot_rate" placeholder="Hourly OT Rate"/>
+        <input type="text" class="form-control" name="hourly_ot_rate" placeholder="Hourly OT Rate*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
