@@ -48,7 +48,7 @@
             </div>
 
             <div class="col-md-5 remove-space" id="amount_{{$sl}}" @if($earning->fixed_or_percentage != "fixed") style="display:none" @endif>
-                <input type="text" class="form-control earnings_final_amount_component_{{$earning->of_component_id}}" id="earnings_final_amount_{{$sl}}" name="final_amount[]" placeholder="Amount" value="{{$earning->final_amount}}"/>
+                <input type="text" class="form-control earnings_final_amount_component_{{$earning->salary_component_id}}" id="earnings_final_amount_{{$sl}}" name="final_amount[]" placeholder="Amount" value="{{$earning->final_amount}}"/>
             </div>
         
             <div class="col-md-1" style="padding:0px;">
