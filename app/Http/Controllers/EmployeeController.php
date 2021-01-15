@@ -246,16 +246,18 @@ class EmployeeController extends Controller
 
     public function add_leave_info(Request $request){
         $leaves_row_count = count($request->leave_type_id);
-        for($i = 0; $i < $leaves_row_count; $i++) {
-            $leave = new LeaveInfo();
-            $leave->employee_id             = $request->employee_id;
-            $leave->leave_type_id           = $request->leave_type_id[$i];
-            $leave->yearly_allotment        = $request->yearly_allotment[$i];
-            $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
-            $leave->opening_balance         = $request->opening_balance[$i];
-            $leave->carry_forward           = $request->carry_forward[$i];
-            $leave->max_carry_forward       = $request->max_carry_forward[$i];
-            $leave->save();
+        if($request->leave_type_id !=[null]) {
+            for($i = 0; $i < $leaves_row_count; $i++) {
+                $leave = new LeaveInfo();
+                $leave->employee_id             = $request->employee_id;
+                $leave->leave_type_id           = $request->leave_type_id[$i];
+                $leave->yearly_allotment        = $request->yearly_allotment[$i];
+                $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
+                $leave->opening_balance         = $request->opening_balance[$i];
+                $leave->carry_forward           = $request->carry_forward[$i];
+                $leave->max_carry_forward       = $request->max_carry_forward[$i];
+                $leave->save();
+            }
         }
         $personal_info = Employee::where('id',$request->employee_id)->first();
         $personal_info->leave_count_from = $request->leave_count_from;
@@ -310,6 +312,11 @@ class EmployeeController extends Controller
         $find_employee = Employee::where('company_id',Auth::user()->company_id)->where('id','!=',$employee_id)->where('employee_id',$request->employee_id)->first();
         if($find_employee != "") {
             return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Employee ID is already Used!');
+        }
+
+        $email = User::where('employee_id',null)->where('email',$request->email_address)->first();
+        if($email != "") {
+            return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Email is already Used!');
         }
 
         $email_validation = User::where('employee_id','!=',$employee_id)->where('email',$request->email_address)->first();
@@ -500,16 +507,20 @@ class EmployeeController extends Controller
                 LeaveInfo::where('employee_id',$employee_id)->delete();
             }
             $leaves_row_count = count($request->leave_type_id);
-            for($i = 0; $i < $leaves_row_count; $i++) {
-                $leave = new LeaveInfo();
-                $leave->employee_id             = $request->employee_id;
-                $leave->leave_type_id           = $request->leave_type_id[$i];
-                $leave->yearly_allotment        = $request->yearly_allotment[$i];
-                $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
-                $leave->opening_balance         = $request->opening_balance[$i];
-                $leave->carry_forward           = $request->carry_forward[$i];
-                $leave->max_carry_forward       = $request->max_carry_forward[$i];
-                $leave->save();
+            if($request->leave_type_id !=[null]) {
+
+                for($i = 0; $i < $leaves_row_count; $i++) {
+                    $leave = new LeaveInfo();
+                    $leave->employee_id             = $request->employee_id;
+                    $leave->leave_type_id           = $request->leave_type_id[$i];
+                    $leave->yearly_allotment        = $request->yearly_allotment[$i];
+                    $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
+                    $leave->opening_balance         = $request->opening_balance[$i];
+                    $leave->carry_forward           = $request->carry_forward[$i];
+                    $leave->max_carry_forward       = $request->max_carry_forward[$i];
+                    $leave->save();
+                }
+                
             }
 
             $personal_info = Employee::where('id',$employee_id)->first();
