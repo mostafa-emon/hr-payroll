@@ -711,7 +711,15 @@ class AttendanceController extends Controller
                     $attendance->day_absent_for_late    = 0;
                     $attendance->punishment_processed   = 0;
 
-                    foreach($data_of_late_days_till_today as $row) {
+                    $data_of_late_days_before_today = Attendance::where('employee_id',$employee_id)
+                                    ->whereBetween('date', [$first_day_of_month, $current_date." 23:59:59"])
+                                    ->where('late_over_allowed_time',1)
+                                    ->where('punishment_processed',1)
+                                    ->orderBy('date','desc')
+                                    ->limit($late_days_for_count_absent)
+                                    ->get();
+
+                    foreach($data_of_late_days_before_today as $row) {
                         Attendance::where('id',$row->id)->update(['punishment_processed' => 0]);
                     }
                 }
