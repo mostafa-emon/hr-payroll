@@ -179,25 +179,27 @@ class EmployeeController extends Controller
         if($request->salary_component_id !=[null]) {
 
             for($i = 0; $i < $earnings_row_count; $i++) {
-                $earning = new EmployeeEarningDeduction();
-                $earning->employee_id           = $request->employee_id;
-                $earning->salary_component_id   = $request->salary_component_id[$i];
-                $earning->earning_or_deduction  = 'earnings';
-                $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
+                if($request->salary_component_id[$i] != "") {
+                    $earning = new EmployeeEarningDeduction();
+                    $earning->employee_id           = $request->employee_id;
+                    $earning->salary_component_id   = $request->salary_component_id[$i];
+                    $earning->earning_or_deduction  = 'earnings';
+                    $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
 
-                if($request->fixed_or_percentage[$i] != 'fixed'){
-                    $earning->percentage_amount     = $request->percentage_amount[$i];
-                    $earning->of_component_id       = $request->of_component_id[$i];
+                    if($request->fixed_or_percentage[$i] != 'fixed'){
+                        $earning->percentage_amount     = $request->percentage_amount[$i];
+                        $earning->of_component_id       = $request->of_component_id[$i];
 
-                    $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$earning->of_component_id)->first();
-                    if($component_amount != "" && $component_amount->final_amount) {
-                        $earning->final_amount      = ($earning->percentage_amount / 100) * $component_amount->final_amount;
+                        $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$earning->of_component_id)->first();
+                        if($component_amount != "" && $component_amount->final_amount) {
+                            $earning->final_amount      = ($earning->percentage_amount / 100) * $component_amount->final_amount;
+                        }
+                    }else{
+                        $earning->final_amount          = $request->final_amount[$i];
                     }
-                }else{
-                    $earning->final_amount          = $request->final_amount[$i];
-                }
 
-                $earning->save();
+                    $earning->save();
+                }
             }
 
         }
@@ -206,25 +208,27 @@ class EmployeeController extends Controller
         if($request->ded_salary_component_id !=[null]) {
 
             for($i = 0; $i < $deductions_row_count; $i++) {
-                $deduction = new EmployeeEarningDeduction();
-                $deduction->employee_id           = $request->employee_id;
-                $deduction->salary_component_id   = $request->ded_salary_component_id[$i];
-                $deduction->earning_or_deduction  = 'deductions';
-                $deduction->fixed_or_percentage   = $request->ded_fixed_or_percentage[$i];
+                if($request->ded_salary_component_id[$i] != "") {
+                    $deduction = new EmployeeEarningDeduction();
+                    $deduction->employee_id           = $request->employee_id;
+                    $deduction->salary_component_id   = $request->ded_salary_component_id[$i];
+                    $deduction->earning_or_deduction  = 'deductions';
+                    $deduction->fixed_or_percentage   = $request->ded_fixed_or_percentage[$i];
 
-                if($request->ded_fixed_or_percentage[$i] != 'fixed'){
-                    $deduction->percentage_amount     = $request->ded_percentage_amount[$i];
-                    $deduction->of_component_id       = $request->ded_of_component_id[$i];
-                    
-                    $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$deduction->of_component_id)->first();
-                    if($component_amount != "" && $component_amount->final_amount) {
-                        $deduction->final_amount      = ($deduction->percentage_amount / 100) * $component_amount->final_amount;
+                    if($request->ded_fixed_or_percentage[$i] != 'fixed'){
+                        $deduction->percentage_amount     = $request->ded_percentage_amount[$i];
+                        $deduction->of_component_id       = $request->ded_of_component_id[$i];
+                        
+                        $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$deduction->of_component_id)->first();
+                        if($component_amount != "" && $component_amount->final_amount) {
+                            $deduction->final_amount      = ($deduction->percentage_amount / 100) * $component_amount->final_amount;
+                        }
+                    }else{
+                        $deduction->final_amount          = $request->ded_final_amount[$i];
                     }
-                }else{
-                    $deduction->final_amount          = $request->ded_final_amount[$i];
-                }
 
-                $deduction->save();
+                    $deduction->save();
+                }
             }
 
         }
@@ -248,15 +252,17 @@ class EmployeeController extends Controller
         $leaves_row_count = count($request->leave_type_id);
         if($request->leave_type_id !=[null]) {
             for($i = 0; $i < $leaves_row_count; $i++) {
-                $leave = new LeaveInfo();
-                $leave->employee_id             = $request->employee_id;
-                $leave->leave_type_id           = $request->leave_type_id[$i];
-                $leave->yearly_allotment        = $request->yearly_allotment[$i];
-                $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
-                $leave->opening_balance         = $request->opening_balance[$i];
-                $leave->carry_forward           = $request->carry_forward[$i];
-                $leave->max_carry_forward       = $request->max_carry_forward[$i];
-                $leave->save();
+                if($request->leave_type_id[$i] != "") {
+                    $leave = new LeaveInfo();
+                    $leave->employee_id             = $request->employee_id;
+                    $leave->leave_type_id           = $request->leave_type_id[$i];
+                    $leave->yearly_allotment        = $request->yearly_allotment[$i];
+                    $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
+                    $leave->opening_balance         = $request->opening_balance[$i];
+                    $leave->carry_forward           = $request->carry_forward[$i];
+                    $leave->max_carry_forward       = $request->max_carry_forward[$i];
+                    $leave->save();
+                }
             }
         }
         $personal_info = Employee::where('id',$request->employee_id)->first();
@@ -433,49 +439,53 @@ class EmployeeController extends Controller
             $earnings_row_count = count($request->salary_component_id);
             if($request->salary_component_id !=[null]) {
                 for($i = 0; $i < $earnings_row_count; $i++) {
-                    $earning = new EmployeeEarningDeduction();
-                    $earning->employee_id           = $request->employee_id;
-                    $earning->salary_component_id   = $request->salary_component_id[$i];
-                    $earning->earning_or_deduction  = 'earnings';
-                    $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
+                    if($request->salary_component_id[$i] != "") {
+                        $earning = new EmployeeEarningDeduction();
+                        $earning->employee_id           = $request->employee_id;
+                        $earning->salary_component_id   = $request->salary_component_id[$i];
+                        $earning->earning_or_deduction  = 'earnings';
+                        $earning->fixed_or_percentage   = $request->fixed_or_percentage[$i];
 
-                    if($request->fixed_or_percentage[$i] != 'fixed'){
-                        $earning->percentage_amount     = $request->percentage_amount[$i];
-                        $earning->of_component_id       = $request->of_component_id[$i];
+                        if($request->fixed_or_percentage[$i] != 'fixed'){
+                            $earning->percentage_amount     = $request->percentage_amount[$i];
+                            $earning->of_component_id       = $request->of_component_id[$i];
 
-                        $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$earning->of_component_id)->first();
-                        if($component_amount != "" && $component_amount->final_amount) {
-                            $earning->final_amount      = ($earning->percentage_amount / 100) * $component_amount->final_amount;
+                            $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$earning->of_component_id)->first();
+                            if($component_amount != "" && $component_amount->final_amount) {
+                                $earning->final_amount      = ($earning->percentage_amount / 100) * $component_amount->final_amount;
+                            }
+                        }else{
+                            $earning->final_amount          = $request->final_amount[$i];
                         }
-                    }else{
-                        $earning->final_amount          = $request->final_amount[$i];
+                        $earning->save();
                     }
-                    $earning->save();
                 }
             }
             
             $deductions_row_count = count($request->ded_salary_component_id);
             if($request->ded_salary_component_id !=[null]) {
                 for($i = 0; $i < $deductions_row_count; $i++) {
-                    $deduction = new EmployeeEarningDeduction();
-                    $deduction->employee_id           = $request->employee_id;
-                    $deduction->salary_component_id   = $request->ded_salary_component_id[$i];
-                    $deduction->earning_or_deduction  = 'deductions';
-                    $deduction->fixed_or_percentage   = $request->ded_fixed_or_percentage[$i];
-        
-                    if($request->ded_fixed_or_percentage[$i] != 'fixed'){
-                        $deduction->percentage_amount     = $request->ded_percentage_amount[$i];
-                        $deduction->of_component_id       = $request->ded_of_component_id[$i];
-
-                        $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$deduction->of_component_id)->first();
-                        if($component_amount != "" && $component_amount->final_amount) {
-                            $deduction->final_amount      = ($deduction->percentage_amount / 100) * $component_amount->final_amount;
+                    if($request->ded_salary_component_id[$i] != "") {
+                        $deduction = new EmployeeEarningDeduction();
+                        $deduction->employee_id           = $request->employee_id;
+                        $deduction->salary_component_id   = $request->ded_salary_component_id[$i];
+                        $deduction->earning_or_deduction  = 'deductions';
+                        $deduction->fixed_or_percentage   = $request->ded_fixed_or_percentage[$i];
+            
+                        if($request->ded_fixed_or_percentage[$i] != 'fixed'){
+                            $deduction->percentage_amount     = $request->ded_percentage_amount[$i];
+                            $deduction->of_component_id       = $request->ded_of_component_id[$i];
+    
+                            $component_amount = EmployeeEarningDeduction::where('employee_id',$request->employee_id)->where('salary_component_id',$deduction->of_component_id)->first();
+                            if($component_amount != "" && $component_amount->final_amount) {
+                                $deduction->final_amount      = ($deduction->percentage_amount / 100) * $component_amount->final_amount;
+                            }
+                        }else{
+                            $deduction->final_amount          = $request->ded_final_amount[$i];
                         }
-                    }else{
-                        $deduction->final_amount          = $request->ded_final_amount[$i];
+            
+                        $deduction->save();
                     }
-        
-                    $deduction->save();
                 }
             }
 
@@ -510,15 +520,17 @@ class EmployeeController extends Controller
             if($request->leave_type_id !=[null]) {
 
                 for($i = 0; $i < $leaves_row_count; $i++) {
-                    $leave = new LeaveInfo();
-                    $leave->employee_id             = $request->employee_id;
-                    $leave->leave_type_id           = $request->leave_type_id[$i];
-                    $leave->yearly_allotment        = $request->yearly_allotment[$i];
-                    $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
-                    $leave->opening_balance         = $request->opening_balance[$i];
-                    $leave->carry_forward           = $request->carry_forward[$i];
-                    $leave->max_carry_forward       = $request->max_carry_forward[$i];
-                    $leave->save();
+                    if($request->leave_type_id[$i] != "") {
+                        $leave = new LeaveInfo();
+                        $leave->employee_id             = $request->employee_id;
+                        $leave->leave_type_id           = $request->leave_type_id[$i];
+                        $leave->yearly_allotment        = $request->yearly_allotment[$i];
+                        $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
+                        $leave->opening_balance         = $request->opening_balance[$i];
+                        $leave->carry_forward           = $request->carry_forward[$i];
+                        $leave->max_carry_forward       = $request->max_carry_forward[$i];
+                        $leave->save();
+                    }
                 }
                 
             }

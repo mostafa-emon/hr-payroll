@@ -676,6 +676,9 @@ class AttendanceController extends Controller
                 if($attendance->late > $policy->late_mark) {
                     $attendance->late_over_allowed_time = 1;
                 }
+                else{
+                    $attendance->late_over_allowed_time = 0;
+                }
             }
             else {
                 $attendance->late_over_allowed_time = 1;
