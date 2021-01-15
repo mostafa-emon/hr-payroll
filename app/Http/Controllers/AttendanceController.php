@@ -706,6 +706,14 @@ class AttendanceController extends Controller
                     foreach($data_of_late_days_till_today as $row) {
                         Attendance::where('id',$row->id)->update(['punishment_processed' => 1]);
                     }
+                }else{
+                    $attendance->status                 = "PRESENT";
+                    $attendance->day_absent_for_late    = 0;
+                    $attendance->punishment_processed   = 0;
+
+                    foreach($data_of_late_days_till_today as $row) {
+                        Attendance::where('id',$row->id)->update(['punishment_processed' => 0]);
+                    }
                 }
 
             }
@@ -765,10 +773,12 @@ class AttendanceController extends Controller
                     }
                     else {
                         $attendance->over_time = $today_over_time;
+                        $attendance->over_time_round_slab = 0;
                     }
                 }
                 else{
                     $attendance->over_time = $today_over_time;
+                    $attendance->over_time_round_slab = 0;
                 }
             }
 
