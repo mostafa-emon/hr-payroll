@@ -222,6 +222,7 @@
 							{{ (!request()->is('deductions-adjustment')) && ( (request()->is('deductions-adjustment*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('create-campaign')) && ( (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('company-pf')) && ( (request()->is('company-pf*')) ) ? 'is-expanded' : '' }}
+							{{ (!request()->is('gratuity')) && ( (request()->is('gratuity*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('absent-deduction')) && ( (request()->is('absent-deduction*')) ) ? 'is-expanded' : '' }}">
 
 							<a class="side-menu__item {{ (request()->is('earnings-adjustment*')) || (request()->is('deductions-adjustment*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
@@ -244,6 +245,9 @@
 								</li>
 								<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>
+								</li>
+								<li class="{{ (request()->is('gratuity*')) ? 'active' : '' }}">
+									<a class="slide-item {{ (request()->is('gratuity*')) ? 'active' : '' }}" href="{{url('gratuity')}}">Gratuity</a>
 								</li>
 							</ul>
 

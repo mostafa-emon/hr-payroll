@@ -27,6 +27,7 @@ use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
 use App\Attendance;
 use App\GovtHolidayDetail;
+use App\PayrollInfo;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -313,6 +314,24 @@ function find_holiday($date) {
     $holiday = GovtHolidayDetail::where('company_id',Auth::user()->company_id)->where('date',$date)->first();
     if($holiday != "") {
         return $holiday;
+    }else{
+        return "";
+    }
+}
+
+function get_gratuity_amount($employee_id) {
+    $employee = Employee::where('employee_id',$employee_id)->first();
+    if($employee != "") {
+        $payroll_info = PayrollInfo::where('employee_id',$employee->id)->first();
+        if($payroll_info != ''){
+            if($payroll_info->gratuity_amount != '') {
+                return $payroll_info->gratuity_amount;
+            }else{
+                return "";
+            }
+        }else{
+            return "";
+        }
     }else{
         return "";
     }

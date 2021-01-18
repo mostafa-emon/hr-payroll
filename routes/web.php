@@ -248,6 +248,28 @@ Route::get('/absent-deduction/delete/{id}', 'PayrollController@absent_deduction_
 Route::get('/absent-deduction/update/{id}', 'PayrollController@absent_deduction_update');
 Route::post('/absent-deduction/update/{id}', 'PayrollController@absent_deduction_update');
 
+Route::get('/company-pf', 'PayrollController@company_pf_index');
+Route::get('/company-pf-create', 'PayrollController@company_pf_create');
+Route::post('/company-pf-create', 'PayrollController@company_pf_create');
+Route::post('/store-company-pf', 'PayrollController@company_pf_store');
+Route::get('/company-pf-pay', 'PayrollController@company_pf_pay_index');
+Route::post('/company-pf-pay', 'PayrollController@company_pf_pay_index');
+Route::get('/company-pf-pay-store/{id}', 'PayrollController@company_pf_pay_store');
+Route::get('/company-pf/delete/{id}', 'PayrollController@company_pf_delete');
+Route::get('/company-pf/update/{id}', 'PayrollController@company_pf_update');
+Route::post('/company-pf/update/{id}', 'PayrollController@company_pf_update');
+
+Route::get('/gratuity', 'PayrollController@gratuity_index');
+Route::get('/gratuity-create', 'PayrollController@gratuity_create');
+Route::post('/gratuity-create', 'PayrollController@gratuity_create');
+Route::post('/store-gratuity', 'PayrollController@gratuity_store');
+Route::get('/gratuity-pay', 'PayrollController@gratuity_pay_index');
+Route::post('/gratuity-pay', 'PayrollController@gratuity_pay_index');
+Route::get('/gratuity-pay-store/{id}', 'PayrollController@gratuity_pay_store');
+Route::get('/gratuity/delete/{id}', 'PayrollController@gratuity_delete');
+Route::get('/gratuity/update/{id}', 'PayrollController@gratuity_update');
+Route::post('/gratuity/update/{id}', 'PayrollController@gratuity_update');
+
 //Configuration
 Route::get('/general-settings', 'ConfigurationController@general_setting');
 Route::post('/general-settings/update', 'ConfigurationController@general_setting_update');
@@ -274,17 +296,6 @@ Route::get('ajax-send-sms/{sl}/{send_per_sms}/{campaign_id}/{api_id}', 'PayrollC
 
 Route::get('/smtp-settings', 'ConfigurationController@mail_setup');
 Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
-
-Route::get('/company-pf', 'PayrollController@company_pf_index');
-Route::get('/company-pf-create', 'PayrollController@company_pf_create');
-Route::post('/company-pf-create', 'PayrollController@company_pf_create');
-Route::post('/store-company-pf', 'PayrollController@company_pf_store');
-Route::get('/company-pf-pay', 'PayrollController@company_pf_pay_index');
-Route::post('/company-pf-pay', 'PayrollController@company_pf_pay_index');
-Route::get('/company-pf-pay-store/{id}', 'PayrollController@company_pf_pay_store');
-Route::get('/company-pf/delete/{id}', 'PayrollController@company_pf_delete');
-Route::get('/company-pf/update/{id}', 'PayrollController@company_pf_update');
-Route::post('/company-pf/update/{id}', 'PayrollController@company_pf_update');
 
 //Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');

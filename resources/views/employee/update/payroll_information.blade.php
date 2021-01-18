@@ -180,7 +180,7 @@
                 <input type="text" class="form-control" id="ded_percentage_amount_1"  name="ded_percentage_amount[]" placeholder="Percentage, Ex:5"/>
             </div>
         
-            <div class="col-md-3 remove-space" id="ded_of_component_1" style="display:none">
+            <div class="col-md-2 remove-space" id="ded_of_component_1" style="display:none">
                 <select class="form-control" name="ded_of_component_id[]" onchange="calculate_deduction_percentage_amount(1,this.value)">
                     <option value="" label>% of Component</option>
                     @foreach($earning_components as $component)

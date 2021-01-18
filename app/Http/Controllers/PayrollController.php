@@ -15,6 +15,7 @@ use App\CampaignReceiver;
 use App\CompanyPf;
 use App\Currency;
 use App\AbsentDeduction;
+use App\Gratuity;
 use Auth;
 
 class PayrollController extends Controller
@@ -642,5 +643,150 @@ class PayrollController extends Controller
             return redirect('absent-deduction')->with('message','Absent Deduction Updated Successfully!');
         }
         return view('transactions.payroll.absent_deduction.update',compact('deduction'));
+    }
+
+    //Gratuity Amount
+    public function gratuity_index() {
+        $gratuities = Gratuity::where('company_id',Auth::user()->company_id)->where('status',0)->orderBy('id','desc')->paginate(10);
+        return view('transactions.payroll.gratuity.index',compact('gratuities'));
+    }
+
+    public function gratuity_create(Request $request) {
+        $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id          = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $year                   = '';
+        $employee_id            = [];
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->year != ""){
+            $year               = $request->year;
+        }
+
+        if($request->employee_id != "") {
+            $employment_infos   = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
+            $employee_id        = $request->employee_id;
+        }
+
+        $employment_infos   = $employment_infos->get();
+
+        return view('transactions.payroll.gratuity.add',compact('departments','projects','branches',
+        'employee_id','department_id','project_id','branch_id','year','employment_infos'));
+    }
+
+    public function gratuity_store(Request $request){
+        $interval = count($request->gratuity_amount);
+        for($i = 0; $i < $interval; $i++) {
+            if($request->gratuity_amount[$i] !=''){
+
+                $count_gratuity = Gratuity::where('employee_id',$request->employee_id[$i])->where('year',$request->store_year)->first();
+                if($count_gratuity !=""){
+                    $gratuity_amount = Gratuity::where('employee_id',$request->employee_id[$i])->where('year',$request->store_year)->delete();
+                }
+
+                $gratuity = new Gratuity();
+                $gratuity->company_id     = Auth::user()->company_id;
+                $gratuity->employee_id    = $request->employee_id[$i];
+                $gratuity->amount         = $request->gratuity_amount[$i];
+                $gratuity->year           = $request->store_year;
+                $gratuity->status         = 0;
+                $gratuity->save();
+            }
+        }
+        return redirect('gratuity')->with('message','Gratuity Created successfully!');
+    }
+
+    public function gratuity_pay_index(Request $request) {
+        $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id          = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $employee_id            = '';
+        $increment_employee_id  = '';
+        $gratuities             = [];
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->employee_id != "") {
+            $employee_id            = $request->employee_id;
+            $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
+            $gratuities             = Gratuity::where('company_id',Auth::user()->company_id)
+                                    ->where('employee_id',$increment_employee_id)
+                                    ->where('status',0)->get();
+        }
+
+        $employment_infos = $employment_infos->get();
+
+        return view('transactions.payroll.gratuity.pay',compact('departments','projects','branches','department_id',
+        'project_id','branch_id','employee_id','employment_infos','gratuities','increment_employee_id'));
+    }
+
+    public function gratuity_pay_store($employee_id) {
+        $gratuities    = Gratuity::where('company_id',Auth::user()->company_id)
+                        ->where('employee_id',$employee_id)
+                        ->where('status',0)->get();
+        foreach($gratuities as $gratuity) {
+            $gratuity->status = 1;
+            $gratuity->save();
+        }
+        return redirect('gratuity')->with('message','Gratuity paid successfully!');
+    }
+
+    public function gratuity_delete($id) {
+        $gratuity = Gratuity::find($id);
+        if($gratuity->company_id == Auth::user()->company_id){
+            $gratuity->delete();
+            return redirect('gratuity')->with('message','Gratuity Deleted Successfully!');
+        }else{
+            return redirect('gratuity')->with('message','Do not try to be too smart!');
+        }
+    }
+
+    public function gratuity_update(Request $request,$id) {
+        $gratuity = Gratuity::where('id',$id)->first();
+        if($request->amount != "") {
+            $gratuity->year           = $request->year;
+            $gratuity->amount         = $request->amount;
+            $gratuity->save();
+
+            return redirect('gratuity')->with('message','Gratuity Updated Successfully!');
+        }
+        return view('transactions.payroll.gratuity.update',compact('gratuity'));
     }
 }
