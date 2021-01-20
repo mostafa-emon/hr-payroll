@@ -312,7 +312,7 @@ function per_day_salary($employee_id,$request_month,$request_year) {
 
     }
 
-    $per_day_salary     = round($total_salary / $total_days);
+    $per_day_salary     = $total_salary / $total_days;
 
     return $per_day_salary;
 }
