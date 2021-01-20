@@ -302,7 +302,14 @@ function per_day_salary($employee_id,$request_month,$request_year) {
     $payroll_infos      = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
 
     foreach($payroll_infos as $payroll_info) {
-        $total_salary   = $total_salary + $payroll_info->final_amount;
+        $get_component_id = $payroll_info->salary_component_id;
+
+        $component_detail = SalaryComponent::where('id',$get_component_id)->first();
+        
+        if($component_detail->component_reference != "PF Company Portion") {
+            $total_salary   = $total_salary + $payroll_info->final_amount;
+        }
+
     }
 
     $per_day_salary     = round($total_salary / $total_days);
