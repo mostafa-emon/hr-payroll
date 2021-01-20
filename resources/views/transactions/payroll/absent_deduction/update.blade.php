@@ -62,7 +62,7 @@
                                             <input type="text" id="total_absent_days" name="total_absent_days" class="form-control" value="{{$deduction->total_absent_days}}" oninput="calculateTotalDeduction()" required/>
                                         </td>
                                         <td style="vertical-align: middle" class="text-center">
-                                            <input type="text" id="per_day_salary" name="per_day_salary" class="form-control" value="{{$deduction->deduction / $deduction->total_absent_days}}"/>
+                                            <input type="hidden" id="per_day_salary" name="per_day_salary" class="form-control" value="{{$deduction->deduction / $deduction->total_absent_days}}"/>
                                             <input type="text" id="deduction" name="deduction" class="form-control" value="{{$deduction->deduction}}" readonly/>
                                         </td>
                                     </tr>
