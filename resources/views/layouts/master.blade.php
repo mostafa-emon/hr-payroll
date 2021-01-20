@@ -223,7 +223,8 @@
 							{{ (!request()->is('create-campaign')) && ( (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('company-pf')) && ( (request()->is('company-pf*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('gratuity')) && ( (request()->is('gratuity*')) ) ? 'is-expanded' : '' }}
-							{{ (!request()->is('absent-deduction')) && ( (request()->is('absent-deduction*')) ) ? 'is-expanded' : '' }}">
+							{{ (!request()->is('absent-deduction')) && ( (request()->is('absent-deduction*')) ) ? 'is-expanded' : '' }}
+							{{ (!request()->is('salary-sheet')) && ( (request()->is('salary-sheet*')) ) ? 'is-expanded' : '' }}">
 
 							<a class="side-menu__item {{ (request()->is('earnings-adjustment*')) || (request()->is('deductions-adjustment*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
 								<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
@@ -240,11 +241,14 @@
 								<li class="{{ (request()->is('absent-deduction*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('absent-deduction*')) ? 'active' : '' }}" href="{{url('absent-deduction')}}">Absent Deduction</a>
 								</li>
-								<li class="{{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}" href="{{url('create-campaign')}}">SMS Notifications</a>
+								<li class="{{ (request()->is('salary-sheet*')) ? 'active' : '' }}">
+									<a class="slide-item {{ (request()->is('salary-sheet*')) ? 'active' : '' }}" href="{{url('salary-sheet')}}">Create Salary Sheet</a>
 								</li>
 								<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>
+								</li>
+								<li class="{{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}">
+									<a class="slide-item {{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}" href="{{url('create-campaign')}}">SMS Notifications</a>
 								</li>
 								<li class="{{ (request()->is('gratuity*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('gratuity*')) ? 'active' : '' }}" href="{{url('gratuity')}}">Gratuity</a>

@@ -303,3 +303,6 @@ Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_
 
 //Public Route
 Route::get('/attendance/{company_id}','PublicController@index');
+
+//Salary Sheet
+Route::get('/salary-sheet','SalarySheetController@index');
