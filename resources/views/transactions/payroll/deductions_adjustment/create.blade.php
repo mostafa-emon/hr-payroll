@@ -86,8 +86,8 @@
                                                 <div class="col-md-2 mg-t-10">
                                                     <select name="type" class="form-control select2-no-search" required>
                                                         <option label="Type"></option>
-                                                        <option Value="Addition">Addition</option>
-                                                        <option Value="Deduction" selected>Deduction</option>
+                                                        <option Value="Addition">Increase</option>
+                                                        <option Value="Deduction" selected>Decrease</option>
                                                     </select>
                                                 </div>
 

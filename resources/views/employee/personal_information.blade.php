@@ -56,8 +56,8 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <select class="form-control" name="religion">
-                    <option value="" label>Religion</option>
+                <select class="form-control" name="religion" required>
+                    <option value="" label>Religion*</option>
                     <option value="Islam">Islam</option>
                     <option value="Christianity">Christianity</option>
                     <option value="Hinduism">Hinduism</option>

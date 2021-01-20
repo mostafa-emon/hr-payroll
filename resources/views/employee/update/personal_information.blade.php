@@ -71,9 +71,9 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <label for="religion" style="font-weight:bold;" class="col-form-label">Religion:</label>
-                <select class="form-control" name="religion">
-                    <option value="" label>Religion</option>
+                <label for="religion" style="font-weight:bold;" class="col-form-label">Religion*:</label>
+                <select class="form-control" name="religion" required>
+                    <option value="" label>Religion*</option>
                     <option value="Islam" @if($employee->religion == "Islam") selected @endif>Islam</option>
                     <option value="Christianity" @if($employee->religion == "Christianity") selected @endif>Christianity</option>
                     <option value="Hinduism" @if($employee->religion == "Hinduism") selected @endif>Hinduism</option>
