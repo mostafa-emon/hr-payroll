@@ -2,16 +2,28 @@
 
 @section('content')
 
-        <div class="row mb-2">
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url('/earnings-adjustment')}}" style="color:#6c757d; font-weight: bold">Earnings Adjustment</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/earnings-adjustment/create')}}" style="color:#6c757d;">Create</a></li>
-            </ol>
-            </div>
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+        .ui-datepicker-prev {
+            display: none;
+        }
+        .ui-datepicker-next {
+            display: none;
+        }
+    </style>
+
+    <div class="row mb-2">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/earnings-adjustment')}}" style="color:#6c757d; font-weight: bold">Earnings Adjustment</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('/earnings-adjustment/create')}}" style="color:#6c757d;">Create</a></li>
+        </ol>
         </div>
+    </div>
 
     <div class="row row-sm">
 
@@ -38,7 +50,7 @@
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-3 mg-t-10">
-                                                    <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" required>
+                                                    <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()">
                                                         <option label="Department"></option>
                                                         @foreach($departments as $department)
                                                             <option value="{{$department->id}}">{{$department->name}}</option>
@@ -78,10 +90,10 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
-                                                    <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" required>
+                                                    <input type="text" name="from_date" class="form-control monthpicker" autocomplete="off" placeholder="From" required>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
-                                                    <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" required>
+                                                    <input type="text" name="to_date" class="form-control monthpicker" autocomplete="off" placeholder="To" required>
                                                 </div>
                                                 <div class="col-md-2 mg-t-10">
                                                     <select name="type" class="form-control select2-no-search" required>

@@ -684,17 +684,28 @@
 			});
 
 			$('#datatable').DataTable();
-            $(".form-layout .form-control").on("focusin", function () {
-            $(this).closest(".form-group").addClass("form-group-active");
+            
+			$(".form-layout .form-control").on("focusin", function () {
+            	$(this).closest(".form-group").addClass("form-group-active");
             });
 
             $(".form-layout .form-control").on("focusout", function () {
-            $(this).closest(".form-group").removeClass("form-group-active");
+            	$(this).closest(".form-group").removeClass("form-group-active");
             });
 
 			$('.dtpicker').datepicker({
 				dateFormat: 'dd-mm-yy'
 			});
+
+			$('.monthpicker').datepicker( {
+				changeMonth: true,
+				changeYear: true,
+				showButtonPanel: true,
+				dateFormat: 'MM yy',
+				onClose: function(dateText, inst) { 
+					$(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+				}
+            });
 
 			$(".employee_multiple").select2({
 				placeholder: "Choose Employees",
