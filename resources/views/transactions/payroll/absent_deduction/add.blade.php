@@ -148,7 +148,7 @@
                                                 <input type="text" id="total_absent_days_{{$employee->id}}" name="total_absent_days[]" class="form-control total_absent_days" value="{{total_absent_days($employee->id,$month,$year)}}" oninput="calculateTotalDeduction('{{$employee->id}}')" required/>
                                             </td>
                                             <td style="vertical-align: middle" class="text-center">
-                                                <input type="text" id="per_day_salary_{{$employee->id}}" name="per_day_salary[]" class="form-control per_day_salary" value="{{per_day_salary($employee->id,$month,$year)}}"/>
+                                                <input type="hidden" id="per_day_salary_{{$employee->id}}" name="per_day_salary[]" class="form-control per_day_salary" value="{{per_day_salary($employee->id,$month,$year)}}"/>
                                                 <input type="text" id="deduction_{{$employee->id}}" name="deduction[]" class="form-control deduction" value="{{total_absent_days($employee->id,$month,$year) * per_day_salary($employee->id,$month,$year)}}" readonly/>
                                             </td>
                                         </tr>
