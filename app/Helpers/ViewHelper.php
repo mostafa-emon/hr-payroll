@@ -343,3 +343,12 @@ function get_gratuity_amount($employee_id) {
         return "";
     }
 }
+
+function get_component_name($component_id) {
+    $component = SalaryComponent::where('id',$component_id)->first();
+    if($component != "") {
+        return $component->component_name;
+    }else{
+        return "";
+    }
+}

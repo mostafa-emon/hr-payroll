@@ -43,14 +43,15 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="text-center" style="width:5%;">SL</th>
-                                    <th style="width:20%;">Employee Name</th>
-                                    <th class="text-center" style="width:15%;">Amount</th>
-                                    <th class="text-center" style="width:15%;">Amount Type</th>
-                                    <th class="text-center" style="width:15%;">Month</th>
-                                    <th class="text-center" style="width:10%;">Year</th>
-                                    <th class="text-center" style="width:10%;">Status</th>
-                                    <th class="text-center" style="width:10%;">Action</th>
+                                    <th class="text-center" style="width:5%;vertical-align: middle;">SL</th>
+                                    <th style="width:18%;vertical-align: middle;">Employee Name</th>
+                                    <th class="text-center" style="width:12%;vertical-align: middle;">Component Type</th>
+                                    <th class="text-center" style="width:10%;vertical-align: middle;">Amount</th>
+                                    <th class="text-center" style="width:10%;vertical-align: middle;">Amount Type</th>
+                                    <th class="text-center" style="width:15%;vertical-align: middle;">Month</th>
+                                    <th class="text-center" style="width:10%;vertical-align: middle;">Year</th>
+                                    <th class="text-center" style="width:10%;vertical-align: middle;">Status</th>
+                                    <th class="text-center" style="width:10%;vertical-align: middle;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,12 +59,13 @@
                                 <tr>
                                     <td style="vertical-align: middle" class="text-center">{{(($deductions->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{employee_name_by_increment_id($deduction->employee_id)}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{get_component_name($deduction->salary_component_id)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->amount}}</td>
                                     <td style="vertical-align: middle" class="text-center">
                                         @if($deduction->type == "Addition")
-                                            <span class="badge badge-success">Addition</span>
+                                            <span class="badge badge-success">Increase</span>
                                         @else
-                                            <span class="badge badge-danger">Deduction</span>
+                                            <span class="badge badge-danger">Decrease</span>
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->month}}</td>
