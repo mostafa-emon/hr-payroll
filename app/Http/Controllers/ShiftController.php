@@ -24,16 +24,38 @@ class ShiftController extends Controller
         $shift->name                = $request->name;
         $shift->shift_id            = $request->shift_id;
         $shift->shift_short_name    = $request->shift_short_name;
-        $shift->start_time          = $request->start_time;
-        $shift->start_time_meridiem = $request->start_time_meridiem;
-        $shift->end_time            = $request->end_time;
-        $shift->end_time_meridiem   = $request->end_time_meridiem;
+
+        $shift->start_time          = date('h:i',strtotime($request->start_time));
+        $start_time_am_or_pm        = date('A',strtotime($request->start_time));
+        if($start_time_am_or_pm == "AM") {
+            $shift->start_time_meridiem = 0;
+        }else { $shift->start_time_meridiem = 1; }
+        
+        $shift->end_time            = date('h:i',strtotime($request->end_time));
+        $end_time_am_or_pm          = date('A',strtotime($request->end_time));
+        if($end_time_am_or_pm == "AM") {
+            $shift->end_time_meridiem = 0;
+        }else { $shift->end_time_meridiem = 1; }
+
         $shift->save();
         return redirect('shift')->with('message','Shift Added Successfully!');
     }
 
     public function get($id) {
         $shift = ShiftType::where('id',$id)->first();
+
+        if($shift->start_time_meridiem == 1) {
+            $shift->start_time = date('H:i',strtotime($shift->start_time . " +12 hours"));
+        }else {
+            $shift->start_time = date('H:i',strtotime($shift->start_time));
+        }
+
+        if($shift->end_time_meridiem == 1) {
+            $shift->end_time = date('H:i',strtotime($shift->end_time . " +12 hours"));
+        }else {
+            $shift->end_time = date('H:i',strtotime($shift->end_time));
+        }
+        
         echo $shift;
     }
 
@@ -42,10 +64,19 @@ class ShiftController extends Controller
         $shift->name                = $request->name;
         $shift->shift_id            = $request->shift_id;
         $shift->shift_short_name    = $request->shift_short_name;
-        $shift->start_time          = $request->start_time;
-        $shift->start_time_meridiem = $request->start_time_meridiem;
-        $shift->end_time            = $request->end_time;
-        $shift->end_time_meridiem   = $request->end_time_meridiem;
+        
+        $shift->start_time          = date('h:i',strtotime($request->start_time));
+        $start_time_am_or_pm        = date('A',strtotime($request->start_time));
+        if($start_time_am_or_pm == "AM") {
+            $shift->start_time_meridiem = 0;
+        }else { $shift->start_time_meridiem = 1; }
+        
+        $shift->end_time            = date('h:i',strtotime($request->end_time));
+        $end_time_am_or_pm          = date('A',strtotime($request->end_time));
+        if($end_time_am_or_pm == "AM") {
+            $shift->end_time_meridiem = 0;
+        }else { $shift->end_time_meridiem = 1; }
+
         $shift->save();
         return redirect('shift')->with('message','Shift Updated Successfully!');
     }

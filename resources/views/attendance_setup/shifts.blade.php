@@ -112,20 +112,12 @@
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="start_time" class="col-form-label col-md-3">Start Time :</label>
-                        <input type="text" class="form-control col-md-5 pa" id="start_time" name="start_time" placeholder="HH:MM"/>
-                        <select id="start_time_meridiem" name="start_time_meridiem" class="form-control select2-no-search col-md-4 pa" required>
-                            <option value="0">AM</option>
-                            <option value="1">PM</option>
-                        </select>
+                        <input type="time" class="form-control col-md-9 pa" autocomplete="off" id="start_time" name="start_time" placeholder="HH:MM"/>
                     </div>
 
                     <div class="form-group row pd-r-15 pd-l-10">
                         <label for="end_time" class="col-form-label col-md-3">End Time :</label>
-                        <input type="text" class="form-control col-md-5 pa" id="end_time" name="end_time" placeholder="HH:MM"/>
-                        <select id="end_time_meridiem" name="end_time_meridiem" class="form-control select2-no-search col-md-4 pa" required>
-                            <option value="0">AM</option>
-                            <option value="1">PM</option>
-                        </select>
+                        <input type="time" class="form-control col-md-9 pa" autocomplete="off" id="end_time" name="end_time" placeholder="HH:MM"/>
                     </div>
 
                 </div>
