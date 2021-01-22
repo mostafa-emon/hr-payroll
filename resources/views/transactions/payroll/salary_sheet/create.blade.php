@@ -60,7 +60,7 @@
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" name="salary_month" class="form-control monthpicker" autocomplete="off" placeholder="Salary Month">
+                                <input type="text" name="salary_month" class="form-control monthpicker" autocomplete="off" placeholder="Salary Month" required>
                             </div>
                             <div id="festival_bonus" class="col-md-4">
                                 <select name="festival_bonus" class="form-control" onchange="hide_show_element(this.value)">
@@ -70,8 +70,8 @@
                                 </select>
                             </div>
                             <div id="religion" style="display:none;" class="col-md-4">
-                                <select class="form-control" name="religion">
-                                    <option value="" label>Religion*</option>
+                                <select class="form-control" id="religion_dropdown" name="religion">
+                                    <option value="" label>Religion</option>
                                     <option value="Islam">Islam</option>
                                     <option value="Christianity">Christianity</option>
                                     <option value="Hinduism">Hinduism</option>
@@ -83,7 +83,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-4 text-left" style="margin-top:10px;">
-                                <input type="checkbox" name="confirmation_check" style="width: 20px; height: 20px;" value="1"/>
+                                <input type="checkbox" name="confirmation_check" style="width: 20px; height: 20px;" value="1" required/>
                                 <div style="margin-top:-26px;padding-left:25px;">I confirm that I have given all thing correct</div>
                             </div>
 
@@ -107,8 +107,10 @@
         function hide_show_element(value) {
             if(value == "1") {
                 $('#religion').show();
+                $("#religion_dropdown").prop('required',true);
             }else{
                 $('#religion').hide();
+                $("#religion_dropdown").prop('required',false);
             }
         }
 
