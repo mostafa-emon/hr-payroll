@@ -18,7 +18,8 @@ class SalarySheetController extends Controller
     }
 
     public function index(){
-        return view('transactions.payroll.salary_sheet.index');
+        $sheets         = SalarySheet::where('company_id',Auth::user()->company_id)->select('month','year')->groupBy('month', 'year')->get();
+        return view('transactions.payroll.salary_sheet.index',compact('sheets'));
     }
 
     public function add(Request $request){

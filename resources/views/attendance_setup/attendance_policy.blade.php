@@ -48,23 +48,14 @@
                                             <div class="row row-xs">
 
                                                 <label for="name" style="margin-left:-5px;" class="col-form-label col-md-12">Duty Time for Non-Roster Employees:</label>
-                                                <div class="col-md-4 mg-t-8">
-                                                    <input class="form-control" placeholder="10:00" name="start_time" type="text" value="@if($policy != ""){{$policy->start_time}} @endif" required/>
+                                                <div class="col-md-6 mg-t-8">
+                                                    {{$policy->start_time}}
+                                                    <input type="time" class="form-control" name="start_time" autocomplete="off" value="@if($policy != ""){{$policy->start_time}}@endif" required/>
                                                 </div>
-                                                <div class="col-md-2 mg-t-8">
-                                                    <select id="account_1type" name="start_time_meridiem" class="form-control select2-no-search col-md-12 pa" required>
-                                                        <option value="0" @if($policy !='') ( @if($policy->start_time_meridiem == "0") selected @endif ) @endif>AM</option>
-                                                        <option value="1" @if($policy !='') ( @if($policy->start_time_meridiem == "1") selected @endif ) @endif>PM</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-4 mg-t-8">
-                                                    <input class="form-control" name="end_time" placeholder="06:00" type="text" value="@if($policy != ""){{$policy->end_time}} @endif" required>
-                                                </div>
-                                                <div class="col-md-2 mg-t-8">
-                                                    <select id="account_1type" name="end_time_meridiem" class="form-control select2-no-search col-md-12 pa" required>
-                                                        <option value="0" @if($policy !='') ( @if($policy->end_time_meridiem == "0") selected @endif ) @endif>AM</option>
-                                                        <option value="1" @if($policy !='') ( @if($policy->end_time_meridiem == "1") selected @endif ) @endif>PM</option>
-                                                    </select>
+                                                
+                                                <div class="col-md-6 mg-t-8">
+                                                    {{$policy->end_time}}
+                                                    <input type="time" class="form-control" name="end_time" autocomplete="off" value="@if($policy != ""){{$policy->end_time}}@endif" required>
                                                 </div>
 
                                                 <div class="col-md-6 mg-t-10">

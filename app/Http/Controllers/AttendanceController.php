@@ -35,14 +35,24 @@ class AttendanceController extends Controller
 
             $count = AttendancePolicy::where('company_id',Auth::user()->company_id)->count();
 
-            if($count == 0){ $policy = new AttendancePolicy(); } 
-            else { $policy = AttendancePolicy::first(); }
+            if($count == 0){ $policy = new AttendancePolicy(); }else { $policy = AttendancePolicy::first();}
 
             $policy->company_id             = Auth::user()->company_id;
-            $policy->start_time             = $request->start_time;
-            $policy->start_time_meridiem    = $request->start_time_meridiem;
-            $policy->end_time               = $request->end_time;
-            $policy->end_time_meridiem      = $request->end_time_meridiem;
+            $policy->start_time             = date('h:i',strtotime($request->start_time));
+
+            $start_time_am_or_pm            = date('A',strtotime($request->start_time));
+            if($start_time_am_or_pm         == "AM") {
+                $policy->start_time_meridiem = 0;
+            }else { 
+                $policy->start_time_meridiem = 1; 
+            }
+            $policy->end_time               = date('h:i',strtotime($request->end_time));
+            $end_time_am_or_pm              = date('A',strtotime($request->end_time));
+            if($end_time_am_or_pm           == "AM") {
+                $policy->end_time_meridiem  = 0;
+            }else { 
+                $policy->end_time_meridiem = 1; 
+            }
             $policy->late_policy            = $request->late_policy;
             $policy->late_mark              = $request->late_mark;
             $policy->late_absent_policy     = $request->late_absent_policy;
@@ -55,6 +65,19 @@ class AttendanceController extends Controller
             return redirect('attendance-policy')->with('message','Attendance Policy Updated Successfully!');
         }
         $policy = AttendancePolicy::where('company_id',Auth::user()->company_id)->first();
+        if($policy !=""){
+            if($policy->start_time_meridiem == 1) {
+                $policy->start_time = date('H:i',strtotime($policy->start_time . " +12 hours"));
+            }else {
+                $policy->start_time = date('H:i',strtotime($policy->start_time));
+            }
+    
+            if($policy->end_time_meridiem == 1) {
+                $policy->end_time = date('H:i',strtotime($policy->end_time . " +12 hours"));
+            }else {
+                $policy->end_time = date('H:i',strtotime($policy->end_time));
+            }
+        }
         return view('attendance_setup.attendance_policy',compact('policy'));
     }
 
