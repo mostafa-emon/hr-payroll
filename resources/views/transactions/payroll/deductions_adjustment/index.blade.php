@@ -45,7 +45,7 @@
                                 <tr>
                                     <th class="text-center" style="width:5%;vertical-align: middle;">SL</th>
                                     <th style="width:18%;vertical-align: middle;">Employee Name</th>
-                                    <th class="text-center" style="width:12%;vertical-align: middle;">Component Type</th>
+                                    <th class="text-left" style="width:12%;vertical-align: middle;">Component Type</th>
                                     <th class="text-center" style="width:10%;vertical-align: middle;">Amount</th>
                                     <th class="text-center" style="width:10%;vertical-align: middle;">Amount Type</th>
                                     <th class="text-center" style="width:15%;vertical-align: middle;">Month</th>
@@ -59,7 +59,7 @@
                                 <tr>
                                     <td style="vertical-align: middle" class="text-center">{{(($deductions->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{employee_name_by_increment_id($deduction->employee_id)}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{get_component_name($deduction->salary_component_id)}}</td>
+                                    <td style="vertical-align: middle" class="text-left">{{get_component_name($deduction->salary_component_id)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->amount}}</td>
                                     <td style="vertical-align: middle" class="text-center">
                                         @if($deduction->type == "Increase")

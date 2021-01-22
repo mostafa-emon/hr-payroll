@@ -23,22 +23,22 @@ class SalarySheetController extends Controller
 
     public function add(Request $request){
         
-        if($request->confirmation_check =="1") {
+        if($request->confirmation_check == "1") {
 
             $month = date('F',strtotime($request->salary_month));
-            $year  = date('m',strtotime($request->salary_month));
+            $year  = date('Y',strtotime($request->salary_month));
 
-            SalaraySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
+            SalarySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             // TODO: Delete 2 more data: Income Tax & PF Employee Portion
 
             $employees = Employee::where('company_id',Auth::user()->company_id)->get();
-
+            
             foreach($employees as $employee) {
 
                 // ADJUSTMENTS
                 $adjustment_array = [];
-                $adjustments = EarningDeductionAdjustment::where('employee_id',$employee->id)->where('month',$month)->where('year',$year)->get();
+                $adjustments = EarningDeductionAdjustment::where('employee_id',$employee->id)->where('month',$month)->where('year',$year)->where('status',1)->get();
                 foreach($adjustments as $key => $adjustment) {
                     $adjustment_array[$key]['component_id']            = 'component_'.$adjustment->salary_component_id;
                     $adjustment_array[$key]['earning_or_deduction']    = $adjustment->earning_or_deduction;
@@ -53,18 +53,20 @@ class SalarySheetController extends Controller
                                     ->orderBy('earning_or_deduction','desc')
                                     ->orderBy('salary_component_id','asc')
                                     ->get();
-
+                  
+                $total_salary = 0; $final_amount = 0;
+                
                 foreach($earnings_deductions as $earn_ded) {
 
-                    $total_salary = 0; $adjustment_type = ""; $adjustment_amount = ""; $final_amount = 0;
-                    
-                    if($earn_ded->component_reference != "Gratuity" || $earn_ded->component_reference != "PF Company Portion") {
+                    $adjustment_type = 0; $adjustment_amount = 0;
+
+                    if($earn_ded->component_reference != "Gratuity" && $earn_ded->component_reference != "PF Company Portion") {
                         $column = array_column($adjustment_array, 'component_id');
                         $search = array_search('component_'.$earn_ded->salary_component_id,$column);
 
                         if($search !== false) {
-                            $adjustment_type   = $array[$search]['type'];
-                            $adjustment_amount = $array[$search]['amount'];
+                            $adjustment_type   = $adjustment_array[$search]['type'];
+                            $adjustment_amount = $adjustment_array[$search]['amount'];
                         }
 
                         $salary_sheet_details = new SalarySheetDetails();
@@ -105,12 +107,10 @@ class SalarySheetController extends Controller
                 $salary_sheet->year                     = $year;
                 $salary_sheet->total_salary             = $total_salary;
                 $salary_sheet->save();
-
-                return redirect('salary-sheet')->with('message','Salary generated successfully!');
             }
 
-            return view('transactions.payroll.salary_sheet.create');
-            
+            return redirect('salary-sheet')->with('message','Salary generated successfully!');
         }
+        return view('transactions.payroll.salary_sheet.create');
     }
 }
