@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEarningAdjustmentsTable extends Migration
+class CreateEarningDeductionAdjustmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEarningAdjustmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('earning_adjustments', function (Blueprint $table) {
+        Schema::create('earning_deduction_adjustments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
@@ -21,6 +21,7 @@ class CreateEarningAdjustmentsTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->unsignedBigInteger('salary_component_id');
             $table->foreign('salary_component_id')->references('id')->on('salary_components')->onDelete('cascade');
+            $table->string('earning_or_deduction');
             $table->string('amount',100);
             $table->string('month',100);
             $table->string('year',100);
@@ -40,6 +41,6 @@ class CreateEarningAdjustmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('earning_adjustments');
+        Schema::dropIfExists('earning_deduction_adjustments');
     }
 }

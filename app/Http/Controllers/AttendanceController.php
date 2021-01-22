@@ -12,8 +12,7 @@ use App\Branch;
 use App\ShiftType;
 use App\Roster;
 use App\RosterEmployee;
-use App\EarningAdjustment;
-use App\DeductionAdjustment;
+use App\EarningDeductionAdjustment;
 use App\SalaryComponent;
 use App\AttendanceRecord;
 use App\Attendance;
@@ -279,7 +278,7 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_index() {
-        $earnings = EarningAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
+        $earnings = EarningDeductionAdjustment::where('company_id',Auth::user()->company_id)->where('earning_or_deduction','earnings')->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
         return view('transactions.payroll.earnings_adjustment.index',compact('earnings'));
     }
 
@@ -301,7 +300,7 @@ class AttendanceController extends Controller
 
         foreach($request->employee_id as $employee_id) {
             foreach ($period as $dt) {
-                $earning = new EarningAdjustment();
+                $earning = new EarningDeductionAdjustment();
                 $earning->company_id            = Auth::user()->company_id;
                 $earning->employee_id           = $employee_id;
                 $earning->salary_component_id   = $request->component_id;
@@ -310,6 +309,7 @@ class AttendanceController extends Controller
                 $earning->amount                = $request->amount;
                 $earning->note                  = $request->note;
                 $earning->reference_no          = $request->reference_no;
+                $earning->earning_or_deduction  = 'earnings';
                 $earning->type                  = $request->type;
                 $earning->status                = $request->status;
                 if($request->hasFile('attach_file')){
@@ -323,12 +323,12 @@ class AttendanceController extends Controller
 
     public function earnings_adjustment_status($status,$earning_id) {
         if($status == "active") {
-            $earning = EarningAdjustment::where('id',$earning_id)->first();
+            $earning = EarningDeductionAdjustment::where('id',$earning_id)->first();
             $earning->status = "1";
             $earning->save();
             return redirect('earnings-adjustment')->with('message','Earning Adjustment Activated Successfully!');
         }else{
-            $earning = EarningAdjustment::where('id',$earning_id)->first();
+            $earning = EarningDeductionAdjustment::where('id',$earning_id)->first();
             $earning->status = "0";
             $earning->save();
             return redirect('earnings-adjustment')->with('message','Earning Adjustment Inactivated Successfully!');
@@ -336,13 +336,13 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_delete($earning_id){
-        $earning = EarningAdjustment::find($earning_id);
+        $earning = EarningDeductionAdjustment::find($earning_id);
         $earning->delete();
         return redirect('earnings-adjustment')->with('message','Earning Adjustment Deleted Successfully!');
     }
 
     public function earnings_adjustment_update(Request $request,$earning_id){
-        $earning = EarningAdjustment::where('id',$earning_id)->first();
+        $earning = EarningDeductionAdjustment::where('id',$earning_id)->first();
         if($request->amount) {
             $earning->month     = $request->month;
             $earning->year      = $request->year;
@@ -356,20 +356,20 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_view($earning_id){
-        $earning    = EarningAdjustment::where('id',$earning_id)->first();
+        $earning    = EarningDeductionAdjustment::where('id',$earning_id)->first();
         $print      = '';
         return view('transactions.payroll.earnings_adjustment.view',compact('earning','print'));
     }
 
     public function earnings_adjustment_print($earning_id){
-        $earning    = EarningAdjustment::where('id',$earning_id)->first();
+        $earning    = EarningDeductionAdjustment::where('id',$earning_id)->first();
         $print      = "Print";
         return view('transactions.payroll.earnings_adjustment.view',compact('earning','print'));
     }
 
     //Deduction
     public function deductions_adjustment_index() {
-        $deductions = DeductionAdjustment::where('company_id',Auth::user()->company_id)->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
+        $deductions = EarningDeductionAdjustment::where('company_id',Auth::user()->company_id)->where('earning_or_deduction','deductions')->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
         return view('transactions.payroll.deductions_adjustment.index',compact('deductions'));
     }
 
@@ -391,7 +391,7 @@ class AttendanceController extends Controller
 
         foreach($request->employee_id as $employee_id) {
             foreach ($period as $dt) {
-                $deduction = new DeductionAdjustment();
+                $deduction = new EarningDeductionAdjustment();
                 $deduction->company_id            = Auth::user()->company_id;
                 $deduction->employee_id           = $employee_id;
                 $deduction->salary_component_id   = $request->component_id;
@@ -399,6 +399,7 @@ class AttendanceController extends Controller
                 $deduction->year                  = $dt->format("Y");
                 $deduction->amount                = $request->amount;
                 $deduction->note                  = $request->note;
+                $deduction->earning_or_deduction  = 'deductions';
                 $deduction->reference_no          = $request->reference_no;
                 $deduction->type                  = $request->type;
                 $deduction->status                = $request->status;
@@ -412,19 +413,19 @@ class AttendanceController extends Controller
     }
 
     public function deductions_adjustment_delete($deduction_id) {
-        $deduction = DeductionAdjustment::find($deduction_id);
+        $deduction = EarningDeductionAdjustment::find($deduction_id);
         $deduction->delete();
         return redirect('deductions-adjustment')->with('message','Deduction Adjustment Deleted Successfully!');
     }
 
     public function deductions_adjustment_status($status,$deduction_id) {
         if($status == "active") {
-            $deduction = DeductionAdjustment::where('id',$deduction_id)->first();
+            $deduction = EarningDeductionAdjustment::where('id',$deduction_id)->first();
             $deduction->status = "1";
             $deduction->save();
             return redirect('deductions-adjustment')->with('message','Deduction Adjustment Activated Successfully!');
         }else{
-            $deduction = DeductionAdjustment::where('id',$deduction_id)->first();
+            $deduction = EarningDeductionAdjustment::where('id',$deduction_id)->first();
             $deduction->status = "0";
             $deduction->save();
             return redirect('deductions-adjustment')->with('message','Deduction Adjustment Inactivated Successfully!');
@@ -432,19 +433,19 @@ class AttendanceController extends Controller
     }
 
     public function deductions_adjustment_view($deduction_id){
-        $deduction  = DeductionAdjustment::where('id',$deduction_id)->first();
+        $deduction  = EarningDeductionAdjustment::where('id',$deduction_id)->first();
         $print      = '';
         return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
     }
 
     public function deductions_adjustment_print($deduction_id){
-        $deduction  = DeductionAdjustment::where('id',$deduction_id)->first();
+        $deduction  = EarningDeductionAdjustment::where('id',$deduction_id)->first();
         $print      = "Print";
         return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
     }
 
     public function deductions_adjustment_update(Request $request,$deduction_id){
-        $deduction = DeductionAdjustment::where('id',$deduction_id)->first();
+        $deduction = EarningDeductionAdjustment::where('id',$deduction_id)->first();
         if($request->amount) {
             $deduction->month     = $request->month;
             $deduction->year      = $request->year;
