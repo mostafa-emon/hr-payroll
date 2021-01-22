@@ -21,8 +21,7 @@ class CreateSalarySheetDetailsTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->string('month');
             $table->string('year');
-            $table->unsignedBigInteger('component_id');
-            $table->foreign('component_id')->references('id')->on('salary_components')->onDelete('cascade');
+            $table->integer('component_id');
             $table->string('component_name')->nullable();
             $table->string('component_type')->nullable();
             $table->string('component_reference')->nullable();

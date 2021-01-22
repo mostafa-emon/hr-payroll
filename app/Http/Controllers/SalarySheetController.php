@@ -32,7 +32,10 @@ class SalarySheetController extends Controller
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             // TODO: Delete 2 more data: Income Tax & PF Employee Portion
 
-            $employees = Employee::where('company_id',Auth::user()->company_id)->get();
+            $employees = Employee::where('company_id',Auth::user()->company_id)
+                        ->join('payroll_infos','employees.id','payroll_infos.employee_id')
+                        ->select('employees.*','payroll_infos.festival_bonus_per_festival')
+                        ->get();
             
             foreach($employees as $employee) {
 
@@ -97,6 +100,29 @@ class SalarySheetController extends Controller
                         }else if($earn_ded->component_type == "Deduction") {
                             $total_salary = $total_salary - $final_amount;
                         }
+                    }
+                }
+
+                if($request->festival_bonus == 1) {
+                    if($employee->religion == $request->religion && $employee->festival_bonus_per_festival != "") {
+                        $salary_sheet_details = new SalarySheetDetails();
+                        $salary_sheet_details->company_id               = $employee->company_id;
+                        $salary_sheet_details->employee_id              = $employee->id;
+                        $salary_sheet_details->month                    = $month;
+                        $salary_sheet_details->year                     = $year;
+                        $salary_sheet_details->component_id             = 0;
+                        $salary_sheet_details->component_name           = "Festival Bonus";
+                        $salary_sheet_details->component_type           = "Festival Bonus";
+                        $salary_sheet_details->component_reference      = "Festival Bonus";
+                        $salary_sheet_details->actual_amount            = $employee->festival_bonus_per_festival;
+
+                        $salary_sheet_details->increase_adjustment      = 0;
+                        $salary_sheet_details->decrease_adjustment      = 0;
+
+                        $salary_sheet_details->payable_amount           = $employee->festival_bonus_per_festival;
+                        $salary_sheet_details->save();
+
+                        $total_salary = $total_salary + $employee->festival_bonus_per_festival;
                     }
                 }
 
