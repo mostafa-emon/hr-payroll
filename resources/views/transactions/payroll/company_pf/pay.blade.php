@@ -97,27 +97,24 @@
 
                     @if(count($company_pfs) > 0)
                         <br>
-                        <div class="div-padding-30">
+                        <div class="table-responsive">
                             <div id="printArea">
-                                <table style="width:100%;">
+                                <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                     <thead>
-                                        @php 
-
-                                        @endphp
-                                        <tr>
+                                        <tr class="visibility: hidden">
                                             <th colspan="5" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
                                         </tr>
-                                        <tr>
+                                        <tr class="visibility: hidden">
                                             <th colspan="5" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
                                         </tr>
-                                        <tr>
+                                        <tr class="visibility: hidden">
                                             <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$employee_id}} <b>{{employee_name($employee_id)}}</b></th>
                                         </tr>
                                         @php $employee_auto_increment_id = get_auto_increment_employee_id($employee_id); @endphp
-                                        <tr>
+                                        <tr class="visibility: hidden">
                                             <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
                                         </tr>
-                                        <tr>
+                                        <tr class="visibility: hidden">
                                             <th colspan="5" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr>
