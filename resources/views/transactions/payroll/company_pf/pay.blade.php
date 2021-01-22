@@ -115,10 +115,10 @@
                                         </tr>
                                         @php $employee_auto_increment_id = get_auto_increment_employee_id($employee_id); @endphp
                                         <tr>
-                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_department($employee_auto_increment_id)}}</th>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr>
                                             <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
