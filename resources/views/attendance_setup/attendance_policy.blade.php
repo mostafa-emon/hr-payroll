@@ -49,12 +49,10 @@
 
                                                 <label for="name" style="margin-left:-5px;" class="col-form-label col-md-12">Duty Time for Non-Roster Employees:</label>
                                                 <div class="col-md-6 mg-t-8">
-                                                    {{$policy->start_time}}
                                                     <input type="time" class="form-control" name="start_time" autocomplete="off" value="@if($policy != ""){{$policy->start_time}}@endif" required/>
                                                 </div>
                                                 
                                                 <div class="col-md-6 mg-t-8">
-                                                    {{$policy->end_time}}
                                                     <input type="time" class="form-control" name="end_time" autocomplete="off" value="@if($policy != ""){{$policy->end_time}}@endif" required>
                                                 </div>
 
