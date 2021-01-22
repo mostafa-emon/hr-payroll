@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompanyPfsTable extends Migration
+class CreateProvidentFundsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCompanyPfsTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_pfs', function (Blueprint $table) {
+        Schema::create('provident_funds', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
@@ -21,9 +21,9 @@ class CreateCompanyPfsTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->integer('currency_id');
             $table->string('type',100);
-            $table->string('month',100);
-            $table->string('year',100);
-            $table->string('amount',100);
+            $table->string('month',20);
+            $table->string('year',10);
+            $table->double('amount', 8, 2)->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ class CreateCompanyPfsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_pfs');
+        Schema::dropIfExists('provident_funds');
     }
 }

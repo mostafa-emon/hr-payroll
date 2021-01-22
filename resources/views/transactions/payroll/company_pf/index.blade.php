@@ -7,7 +7,7 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/company-pf')}}" style="color:#6c757d;">Company PF</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/company-pf')}}" style="color:#6c757d;">PF Company Portion</a></li>
             </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Company PF</h4>
+                            <h4 class="card-title mg-b-0">PF Company Portion</h4>
                         </div>
                         <div class="col-md-6 text-right">
                             <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('company-pf-pay')}}">Pay PF</a>
