@@ -45,15 +45,33 @@ class ShiftController extends Controller
         $shift = ShiftType::where('id',$id)->first();
 
         if($shift->start_time_meridiem == 1) {
-            $shift->start_time = date('H:i',strtotime($shift->start_time . " +12 hours"));
+            if(date('h',strtotime($shift->start_time)) == 12) {
+                $shift->start_time = date('H:i',strtotime($shift->start_time));
+            }else {
+                $shift->start_time = date('H:i',strtotime($shift->start_time . " +12 hours"));
+            }
+            
         }else {
-            $shift->start_time = date('H:i',strtotime($shift->start_time));
+            if(date('h',strtotime($shift->start_time)) == 12) {
+                $shift->start_time = date('H:i',strtotime($shift->start_time. " +12 hours"));
+            }else {
+                $shift->start_time = date('H:i',strtotime($shift->start_time));
+            }
         }
 
         if($shift->end_time_meridiem == 1) {
-            $shift->end_time = date('H:i',strtotime($shift->end_time . " +12 hours"));
+            if(date('h',strtotime($shift->start_time)) == 12) {
+                $shift->end_time = date('H:i',strtotime($shift->end_time));
+            }else {
+                $shift->end_time = date('H:i',strtotime($shift->end_time . " +12 hours"));
+            }
+            
         }else {
-            $shift->end_time = date('H:i',strtotime($shift->end_time));
+            if(date('h',strtotime($shift->end_time)) == 12) {
+                $shift->end_time = date('H:i',strtotime($shift->end_time . " +12 hours"));
+            }else {
+                $shift->end_time = date('H:i',strtotime($shift->end_time));
+            }
         }
         
         echo $shift;
