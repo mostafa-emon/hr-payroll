@@ -47,8 +47,8 @@
                                     <th class="text-center" style="width:20%;">Salary Month</th>
                                     <th class="text-center" style="width:15%;">Total Employee</th>
                                     <th class="text-center" style="width:15%;">Total Amount</th>
-                                    <th class="text-center" style="width:15%;">Email Page Leave</th>
-                                    <th style="width:30%;">Details</th>
+                                    <th class="text-center" style="width:15%;">Email Pay Slip</th>
+                                    <th class="text-center" style="width:30%;">Details</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,10 +56,10 @@
                                 <tr>
                                     <td class="text-center" style="vertical-align:middle">{{$loop->iteration}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->month}} {{$sheet->year}}</td>
-                                    <td style="vertical-align:middle">{{$sheet->branch_name}}</td>
-                                    <td style="vertical-align:middle">{{$sheet->branch_name}}</td>
-                                    <td style="vertical-align:middle">{{$sheet->branch_name}}</td>
-                                    <td style="vertical-align:middle">{{$sheet->branch_name}}</td>
+                                    <td class="text-center" style="vertical-align:middle">{{total_employee($sheet->month,$sheet->year)}}</td>
+                                    <td class="text-center" style="vertical-align:middle">{{$sheet->total_salary}}</td>
+                                    <td style="vertical-align:middle"></td>
+                                    <td style="vertical-align:middle"></td>
                                 </tr>
                                 @endforeach
                             </tbody>

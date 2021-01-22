@@ -18,7 +18,7 @@ class SalarySheetController extends Controller
     }
 
     public function index(){
-        $sheets         = SalarySheet::where('company_id',Auth::user()->company_id)->select('month','year')->groupBy('month', 'year')->get();
+        $sheets = SalarySheet::where('company_id',Auth::user()->company_id)->select('month','year')->selectRaw("SUM(total_salary) as total_salary")->groupBy('month', 'year')->orderBy('id','desc')->get();
         return view('transactions.payroll.salary_sheet.index',compact('sheets'));
     }
 

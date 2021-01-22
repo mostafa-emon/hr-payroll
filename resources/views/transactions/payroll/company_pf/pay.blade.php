@@ -97,19 +97,35 @@
 
                     @if(count($company_pfs) > 0)
                         <br>
-                        <div class="table-responsive">
+                        <div class="div-padding-30">
                             <div id="printArea">
-                                <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                                <table style="width:100%;">
                                     <thead>
+                                        @php 
+
+                                        @endphp
                                         <tr>
-                                            <th class="text-center" style="width:5%;vertical-align: middle;">SL</th>
-                                            <th style="width:18%;vertical-align: middle;">Employee Name</th>
-                                            <th class="text-center" style="width:15%;vertical-align: middle;">Employee ID</th>
-                                            <th class="text-center" style="width:18%;vertical-align: middle;">Department</th>
-                                            <th class="text-center" style="width:18%;vertical-align: middle;">Designation</th>
-                                            <th class="text-center" style="width:10%;vertical-align: middle;">Month</th>
-                                            <th class="text-center" style="width:6%;vertical-align: middle;">Year</th>
-                                            <th class="text-center" style="width:10%;vertical-align: middle;">PF Amount</th>
+                                            <th colspan="5" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$employee_id}} <b>{{employee_name($employee_id)}}</b></th>
+                                        </tr>
+                                        @php $employee_auto_increment_id = get_auto_increment_employee_id($employee_id); @endphp
+                                        <tr>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_department($employee_auto_increment_id)}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
+                                            <th style="width:25%;vertical-align: middle;text-align:center;">Applicable Month</th>
+                                            <th style="width:25%;vertical-align: middle;text-align:center;">Applicable Year</th>
+                                            <th style="width:20%;vertical-align: middle;text-align:center;">PF Type</th>
+                                            <th style="width:20%;vertical-align: middle;text-align:right;">PF Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -119,22 +135,19 @@
                                             $employee = get_employee_info($pf->employee_id);
                                         @endphp
                                         <tr>
-                                            <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                            <td style="vertical-align: middle">{{$employee->name}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{$pf->month}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{$pf->year}}</td>
-                                            <td class="text-center" style="vertical-align: middle">
+                                            <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$pf->month}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$pf->year}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$pf->type}}</td>
+                                            <td style="vertical-align: middle;text-align:right;">
                                                 {{$pf->amount}}
                                                 @php $total_pf_amount = $total_pf_amount + $pf->amount; @endphp
                                             </td>
                                         </tr>
                                         @endforeach
                                         <tr>
-                                            <td class="text-center" colspan="7">Total PF Amount</td>
-                                            <td class="text-center" style="vertical-align: middle">{{ $total_pf_amount }}</td>
+                                            <td style="text-align:right;font-weight:bold;" colspan="4">Total PF Amount</td>
+                                            <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_pf_amount }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -151,6 +164,18 @@
         </div>
 
     </div>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            font-family:arial;
+            font-size:13px;
+            padding:5px;
+        }
+    </style>
 
     <script>
         function get_employee() {

@@ -45,10 +45,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
-                                    <th style="width:20%;">Employee Name</th>
-                                    <th class="text-center" style="width:15%;">Employee ID</th>
-                                    <th class="text-center" style="width:20%;">Department</th>
-                                    <th class="text-center" style="width:20%;">Designation</th>
+                                    <th style="width:14%;">Applicable Month</th>
+                                    <th style="width:15%;">Employee Name</th>
+                                    <th class="text-center" style="width:10%;">Employee ID</th>
+                                    <th style="width:18%;">Department</th>
+                                    <th style="width:18%;">Designation</th>
                                     <th class="text-center" style="width:10%;">Amount</th>
                                     <th class="text-center" style="width:10%;">Action</th>
                                 </tr>
@@ -60,10 +61,11 @@
                                 @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($company_pfs->currentPage() * 10) - 10) + $loop->iteration}}</td>
+                                    <td style="vertical-align: middle">{{$pf->month}} {{$pf->year}}</td>
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
+                                    <td style="vertical-align: middle">{{employee_department($employee->id)}}</td>
+                                    <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$pf->amount}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>

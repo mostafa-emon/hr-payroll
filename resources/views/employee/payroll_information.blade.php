@@ -147,7 +147,7 @@
         <select name="currency_id" class="form-control select2-no-search col-md-12 pa" required>
             <option value="" label>Salary Currency*</option>
             @foreach($currencies as $currency)
-                <option value="{{$currency->id}}">{{$currency->currency_name}}</option>
+                <option value="{{$currency->id}}" @if($currency->id == $default_currency->id) selected @endif>{{$currency->currency_name}}</option>
             @endforeach
         </select>
     </div>

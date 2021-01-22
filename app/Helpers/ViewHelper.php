@@ -28,6 +28,7 @@ use App\EmployeeEarningDeduction;
 use App\Attendance;
 use App\GovtHolidayDetail;
 use App\PayrollInfo;
+use App\SalarySheet;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -342,6 +343,10 @@ function get_gratuity_amount($employee_id) {
     }else{
         return "";
     }
+}
+
+function total_employee($month,$year) {
+    return SalarySheet::where('year',$year)->where('month',$month)->count();
 }
 
 function get_component_name($component_id) {

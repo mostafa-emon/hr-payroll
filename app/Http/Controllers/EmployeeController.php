@@ -45,8 +45,9 @@ class EmployeeController extends Controller
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
         $leave_types            = LeaveType::where('company_id',Auth::user()->company_id)->orderby('leave_name','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
+        $default_currency       = Currency::where('company_id',Auth::user()->company_id)->where('default',1)->first();
         return view('employee.add',compact('page','employee_id','departments','designations','currencies',
-        'projects','branches','banks','earning_components','deduction_components','leave_types'));
+        'projects','branches','banks','earning_components','deduction_components','leave_types','default_currency'));
     }
 
     public function add_personal_info(Request $request){
