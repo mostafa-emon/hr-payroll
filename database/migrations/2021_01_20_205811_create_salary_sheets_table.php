@@ -22,7 +22,6 @@ class CreateSalarySheetsTable extends Migration
             $table->string('month');
             $table->string('year');
             $table->double('total_salary');
-            $table->double('payable_salary');
             $table->timestamps();
         });
     }

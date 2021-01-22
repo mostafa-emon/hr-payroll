@@ -62,7 +62,7 @@
                                     <td style="vertical-align: middle" class="text-center">{{get_component_name($earning->salary_component_id)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$earning->amount}}</td>
                                     <td style="vertical-align: middle" class="text-center">
-                                        @if($earning->type == "Addition")
+                                        @if($earning->type == "Increase")
                                             <span class="badge badge-success">Increase</span>
                                         @else
                                             <span class="badge badge-danger">Decrease</span>

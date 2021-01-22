@@ -62,7 +62,7 @@
                                     <td style="vertical-align: middle" class="text-center">{{get_component_name($deduction->salary_component_id)}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->amount}}</td>
                                     <td style="vertical-align: middle" class="text-center">
-                                        @if($deduction->type == "Addition")
+                                        @if($deduction->type == "Increase")
                                             <span class="badge badge-success">Increase</span>
                                         @else
                                             <span class="badge badge-danger">Decrease</span>

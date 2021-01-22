@@ -15,16 +15,20 @@ class CreateSalarySheetDetailsTable extends Migration
     {
         Schema::create('salary_sheet_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('salary_id');
-            $table->foreign('salary_id')->references('id')->on('salary_sheets')->onDelete('cascade');
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->unsignedBigInteger('employee_id');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->string('month');
+            $table->string('year');
             $table->unsignedBigInteger('component_id');
             $table->foreign('component_id')->references('id')->on('salary_components')->onDelete('cascade');
             $table->string('component_name')->nullable();
             $table->string('component_type')->nullable();
             $table->string('component_reference')->nullable();
             $table->double('actual_amount')->default(0);
-            $table->double('earning_adjustment')->default(0);
-            $table->double('deduction_adjustment')->default(0);
+            $table->double('increase_adjustment')->default(0);
+            $table->double('decrease_adjustment')->default(0);
             $table->double('payable_amount')->default(0);
             $table->timestamps();
         });
