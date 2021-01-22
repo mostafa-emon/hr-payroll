@@ -48,7 +48,7 @@
                                                 </div>
                                                 <div class="col-md-6 mg-t-10">
                                                     <label for="component_name" class="col-form-label">Component Name:</label>
-                                                    <input class="form-control" name="component_name" placeholder="Enter Name" type="text" required>
+                                                    <input class="form-control" name="component_name" autocomplete="off" placeholder="Enter Name" type="text" required>
                                                 </div>
 
                                                 <div class="@if($company->quickbooks != 1)col-md-12 @else col-md-6 @endif mg-t-10">

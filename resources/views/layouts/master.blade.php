@@ -676,12 +676,14 @@
 		<script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
 		
 		<script>
+			/*
 			$("body").on("submit", "form", function() {
 				$(this).submit(function() {
 					return false;
 				});
 				return true;
 			});
+			*/
 
 			$('#datatable').DataTable();
             
