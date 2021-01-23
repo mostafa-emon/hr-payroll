@@ -11,6 +11,7 @@ use App\EmployeeEarningDeduction;
 use App\EarningDeductionAdjustment;
 use App\ProvidentFund;
 use App\IncomeTax;
+use DB;
 
 class SalarySheetController extends Controller
 {
@@ -20,7 +21,11 @@ class SalarySheetController extends Controller
     }
 
     public function index(){
-        $sheets = SalarySheet::where('company_id',Auth::user()->company_id)->select('month','year')->selectRaw("SUM(total_salary) as total_salary")->groupBy('month', 'year')->orderBy('id','desc')->get();
+        $sheets = SalarySheet::where('company_id',Auth::user()->company_id)
+                ->select('month','year',DB::raw('SUM(total_salary) as total_salary'),DB::raw('count(salary_sheets.id) as total_employee'))
+                ->groupBy('month', 'year')
+                ->orderBy('id','desc')
+                ->get();
         return view('transactions.payroll.salary_sheet.index',compact('sheets'));
     }
 
@@ -120,14 +125,14 @@ class SalarySheetController extends Controller
 
                         if($earn_ded->component_reference == "Income Tax") {
                             $income_tax = new IncomeTax();
-                            $pf->company_id        = $employee->company_id;
-                            $pf->employee_id       = $employee->id;
-                            $pf->currency_id       = $employee->currency_id;
-                            $pf->month             = $month;
-                            $pf->year              = $year;
-                            $pf->amount            = $final_amount;
-                            $pf->status            = 0;
-                            $pf->save();
+                            $income_tax->company_id        = $employee->company_id;
+                            $income_tax->employee_id       = $employee->id;
+                            $income_tax->currency_id       = $employee->currency_id;
+                            $income_tax->month             = $month;
+                            $income_tax->year              = $year;
+                            $income_tax->amount            = $final_amount;
+                            $income_tax->status            = 0;
+                            $income_tax->save();
                         }
                     }
                 }

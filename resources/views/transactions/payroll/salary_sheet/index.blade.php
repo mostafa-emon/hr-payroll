@@ -56,7 +56,7 @@
                                 <tr>
                                     <td class="text-center" style="vertical-align:middle">{{$loop->iteration}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->month}} {{$sheet->year}}</td>
-                                    <td class="text-center" style="vertical-align:middle">{{total_employee($sheet->month,$sheet->year)}}</td>
+                                    <td class="text-center" style="vertical-align:middle">{{$sheet->total_employee}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->total_salary}}</td>
                                     <td class="text-center" style="vertical-align:middle">
                                         <a style="font-size: 15px;" class="btn btn-info btn-sm" href="javascript:void(0)">Email</a>
