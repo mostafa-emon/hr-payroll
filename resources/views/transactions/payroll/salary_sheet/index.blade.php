@@ -45,8 +45,8 @@
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
                                     <th class="text-center" style="width:20%;">Salary Month</th>
-                                    <th class="text-center" style="width:15%;">Total Employee</th>
-                                    <th class="text-center" style="width:15%;">Total Amount</th>
+                                    <th class="text-center" style="width:20%;">Total Employee</th>
+                                    <th class="text-center" style="width:20%;">Total Amount</th>
                                     <th class="text-center" style="width:15%;">Email Pay Slip</th>
                                     <th class="text-center" style="width:30%;">Details</th>
                                 </tr>
@@ -58,8 +58,12 @@
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->month}} {{$sheet->year}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{total_employee($sheet->month,$sheet->year)}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->total_salary}}</td>
-                                    <td style="vertical-align:middle"></td>
-                                    <td style="vertical-align:middle"></td>
+                                    <td class="text-center" style="vertical-align:middle">
+                                        <a style="font-size: 15px;" class="btn btn-info btn-sm" href="javascript:void(0)">Email</a>
+                                    </td>
+                                    <td class="text-center" style="vertical-align:middle">
+                                        <a style="font-size: 15px;" class="btn btn-success btn-sm" href="javascript:void(0)">Details</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
