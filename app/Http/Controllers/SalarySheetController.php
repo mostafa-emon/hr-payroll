@@ -38,7 +38,7 @@ class SalarySheetController extends Controller
 
             SalarySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
-            ProvidentFund::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
+            ProvidentFund::where('company_id',Auth::user()->company_id)->where('type','Employee Portion')->where('month',$month)->where('year',$year)->delete();
             IncomeTax::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
 
             $employees = Employee::where('company_id',Auth::user()->company_id)
