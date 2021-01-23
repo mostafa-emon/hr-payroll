@@ -247,6 +247,7 @@
 								<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>
 								</li>
+								<li><a class="slide-item" href="{{url('pf-pay')}}">Pay PF</a></li>
 								<li class="{{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}" href="{{url('create-campaign')}}">SMS Notifications</a>
 								</li>

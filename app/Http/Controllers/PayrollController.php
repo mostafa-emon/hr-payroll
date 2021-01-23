@@ -386,7 +386,7 @@ class PayrollController extends Controller
     }
 
     public function company_pf_index() {
-        $company_pfs            = ProvidentFund::where('company_id',Auth::user()->company_id)->where('type','Company PF')->where('status',0)->orderBy('id','desc')->paginate(10);
+        $company_pfs            = ProvidentFund::where('company_id',Auth::user()->company_id)->where('type','Company Portion')->where('status',0)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.company_pf.index',compact('company_pfs'));
     }
 
@@ -439,9 +439,9 @@ class PayrollController extends Controller
         for($i = 0; $i < $interval; $i++) {
             if($request->pf_amount[$i] !=''){
 
-                $count_pf = ProvidentFund::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->first();
+                $count_pf = ProvidentFund::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->where('type','Company Portion')->first();
                 if($count_pf !=""){
-                    $pf = ProvidentFund::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->delete();
+                    $pf = ProvidentFund::where('employee_id',$request->employee_id[$i])->where('month',$request->store_month)->where('year',$request->store_year)->where('type','Company Portion')->delete();
                 }
 
                 $company_pf = new ProvidentFund();
@@ -451,7 +451,7 @@ class PayrollController extends Controller
                 $company_pf->currency_id    = $request->store_currency_id;
                 $company_pf->month          = date('F',strtotime($request->store_month));
                 $company_pf->year           = date('Y',strtotime($request->store_month));
-                $company_pf->type           = 'Company PF';
+                $company_pf->type           = 'Company Portion';
                 $company_pf->status         = 0;
                 $company_pf->save();
             }
@@ -459,7 +459,7 @@ class PayrollController extends Controller
         return redirect('company-pf')->with('message','PF company portion generated successfully!');
     }
 
-    public function company_pf_pay_index(Request $request) {
+    public function pf_pay_index(Request $request) {
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -470,7 +470,7 @@ class PayrollController extends Controller
         $branch_id              = '';
         $employee_id            = '';
         $increment_employee_id  = '';
-        $company_pfs            = [];
+        $pfs                    = [];
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -490,32 +490,30 @@ class PayrollController extends Controller
         if($request->employee_id != "") {
             $employee_id            = $request->employee_id;
             $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
-            $company_pfs            = ProvidentFund::where('company_id',Auth::user()->company_id)
+            $pfs                    = ProvidentFund::where('company_id',Auth::user()->company_id)
                                     ->where('employee_id',$increment_employee_id)
                                     ->where('status',0)->get();
         }
 
         $employment_infos = $employment_infos->get();
 
-        return view('transactions.payroll.company_pf.pay',compact('departments','projects','branches',
-        'department_id','project_id','branch_id','employee_id','employment_infos','company_pfs','increment_employee_id'));
+        return view('transactions.payroll.pay_pf',compact('departments','projects','branches',
+        'department_id','project_id','branch_id','employee_id','employment_infos','pfs','increment_employee_id'));
     }
 
-    public function company_pf_pay_store($employee_id) {
-        //return response()->json($employee_id);
-        $company_pfs    = CompanyPf::where('company_id',Auth::user()->company_id)
+    public function pf_pay_store($employee_id) {
+        $pfs            = ProvidentFund::where('company_id',Auth::user()->company_id)
                         ->where('employee_id',$employee_id)
-                        ->where('type','Company PF')
                         ->where('status',0)->get();
-        foreach($company_pfs as $pf) {
+        foreach($pfs as $pf) {
             $pf->status = 1;
             $pf->save();
         }
-        return redirect('company-pf')->with('message','Company PF paid successfully!');
+        return redirect('pf-pay')->with('message','Provident Fund paid successfully!');
     }
 
     public function company_pf_delete($id) {
-        $pf = CompanyPf::find($id);
+        $pf = ProvidentFund::find($id);
         if($pf->company_id == Auth::user()->company_id){
             $pf->delete();
             return redirect('company-pf')->with('message','Company PF Deleted Successfully!');
@@ -526,7 +524,7 @@ class PayrollController extends Controller
 
     public function company_pf_update(Request $request,$id) {
         $currencies = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $company_pf = CompanyPf::where('id',$id)->first();
+        $company_pf = ProvidentFund::where('id',$id)->first();
         if($request->amount != "") {
             $company_pf->currency_id    = $request->currency_id;
             $company_pf->month          = $request->month;

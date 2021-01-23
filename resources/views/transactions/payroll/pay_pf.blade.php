@@ -7,8 +7,7 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url('/company-pf')}}" style="color:#6c757d; font-weight: bold">Company PF</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/company-pf-pay')}}" style="color:#6c757d;">Pay PF</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/pf-pay')}}" style="color:#6c757d;">Pay PF</a></li>
             </ol>
             </div>
         </div>
@@ -40,16 +39,16 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Pay Company PF</h4>
+                            <h4 class="card-title mg-b-0">Pay Provident Fund</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if(count($company_pfs) > 0)
+                            @if(count($pfs) > 0)
                                 <button class="btn btn-success" onclick="printElem()">Print</button>
                             @endif
                         </div>
                     </div>
                     <hr>
-                    <form action="{{ url('company-pf-pay') }}" method="POST">
+                    <form action="{{ url('pf-pay') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-3">
@@ -86,7 +85,7 @@
                             </div>
                         </div>
                         <br>
-                        @if(count($company_pfs) == 0)
+                        @if(count($pfs) == 0)
                             <div class="row">
                                 <div class="col-md-3 text-left">
                                     <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
@@ -95,7 +94,7 @@
                         @endif
                     </form>
 
-                    @if(count($company_pfs) > 0)
+                    @if(count($pfs) > 0)
                         <br>
                         <div class="table-responsive">
                             <div id="printArea">
@@ -127,7 +126,7 @@
                                     </thead>
                                     <tbody>
                                         @php $total_pf_amount = 0; @endphp
-                                        @foreach($company_pfs as $pf)
+                                        @foreach($pfs as $pf)
                                         @php 
                                             $employee = get_employee_info($pf->employee_id);
                                         @endphp
@@ -217,7 +216,7 @@
         function confirmpay(id) {
             var r = confirm("Are you confirm to pay?");
             if (r == true) {
-            window.location = "/company-pf-pay-store/"+id;
+            window.location = "/pf-pay-store/"+id;
             }
         }
     </script>

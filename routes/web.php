@@ -252,12 +252,13 @@ Route::get('/company-pf', 'PayrollController@company_pf_index');
 Route::get('/company-pf-create', 'PayrollController@company_pf_create');
 Route::post('/company-pf-create', 'PayrollController@company_pf_create');
 Route::post('/store-company-pf', 'PayrollController@company_pf_store');
-Route::get('/company-pf-pay', 'PayrollController@company_pf_pay_index');
-Route::post('/company-pf-pay', 'PayrollController@company_pf_pay_index');
-Route::get('/company-pf-pay-store/{id}', 'PayrollController@company_pf_pay_store');
 Route::get('/company-pf/delete/{id}', 'PayrollController@company_pf_delete');
 Route::get('/company-pf/update/{id}', 'PayrollController@company_pf_update');
 Route::post('/company-pf/update/{id}', 'PayrollController@company_pf_update');
+
+Route::get('/pf-pay', 'PayrollController@pf_pay_index');
+Route::post('/pf-pay', 'PayrollController@pf_pay_index');
+Route::get('/pf-pay-store/{id}', 'PayrollController@pf_pay_store');
 
 Route::get('/gratuity', 'PayrollController@gratuity_index');
 Route::get('/gratuity-create', 'PayrollController@gratuity_create');
