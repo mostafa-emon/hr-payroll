@@ -38,10 +38,10 @@
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-6 mg-t-10">
-                                                    <input type="text" class="form-control" id="in_time" name="in_time" value="{{date('H:i:s',strtotime($attendance->in_time))}}" placeholder="In Time">
+                                                    <input type="time" class="form-control" id="in_time" name="in_time" value="{{$attendance->in_time}}" placeholder="In Time" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-md-6 mg-t-10">
-                                                    <input type="text" class="form-control" id="out_time" name="out_time" value="{{date('H:i:s',strtotime($attendance->out_time))}}" placeholder="Out Time">
+                                                    <input type="time" class="form-control" id="out_time" name="out_time" value="{{$attendance->out_time}}" placeholder="Out Time" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>

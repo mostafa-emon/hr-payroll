@@ -73,10 +73,10 @@
                                                     <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date('d-m-Y')}}" required/>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
-                                                    <input type="text" class="form-control" id="in_time" name="in_time" placeholder="In Time">
+                                                    <input type="time" class="form-control" id="in_time" name="in_time" placeholder="In Time" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
-                                                    <input type="text" class="form-control" id="out_time" name="out_time" placeholder="Out Time">
+                                                    <input type="time" class="form-control" id="out_time" name="out_time" placeholder="Out Time" autocomplete="off" required>
                                                 </div>
                                             </div>
                                         </div>

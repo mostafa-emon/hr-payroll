@@ -72,8 +72,8 @@
                                     <td style="vertical-align: middle">{{$employee->name}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($attendance->date))}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$attendance->in_time}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$attendance->out_time}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{date('h:i A', strtotime($attendance->in_time))}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{date('h:i A', strtotime($attendance->out_time))}}</td>
                                     {{--<td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
