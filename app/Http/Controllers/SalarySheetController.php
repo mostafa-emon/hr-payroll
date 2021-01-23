@@ -9,6 +9,8 @@ use App\SalarySheetDetails;
 use App\Employee;
 use App\EmployeeEarningDeduction;
 use App\EarningDeductionAdjustment;
+use App\ProvidentFund;
+use App\IncomeTax;
 
 class SalarySheetController extends Controller
 {
@@ -31,11 +33,12 @@ class SalarySheetController extends Controller
 
             SalarySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
-            // TODO: Delete 2 more data: Income Tax & PF Employee Portion
+            ProvidentFund::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
+            IncomeTax::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
 
             $employees = Employee::where('company_id',Auth::user()->company_id)
                         ->join('payroll_infos','employees.id','payroll_infos.employee_id')
-                        ->select('employees.*','payroll_infos.festival_bonus_per_festival')
+                        ->select('employees.*','payroll_infos.festival_bonus_per_festival','payroll_infos.currency_id')
                         ->get();
             
             foreach($employees as $employee) {
@@ -100,6 +103,31 @@ class SalarySheetController extends Controller
                             $total_salary = $total_salary + $final_amount;
                         }else if($earn_ded->component_type == "Deduction") {
                             $total_salary = $total_salary - $final_amount;
+                        }
+
+                        if($earn_ded->component_reference == "PF Employee Portion") {
+                            $pf = new ProvidentFund();
+                            $pf->company_id        = $employee->company_id;
+                            $pf->employee_id       = $employee->id;
+                            $pf->currency_id       = $employee->currency_id;
+                            $pf->type              = "Employee Portion";
+                            $pf->month             = $month;
+                            $pf->year              = $year;
+                            $pf->amount            = $final_amount;
+                            $pf->status            = 0;
+                            $pf->save();
+                        }
+
+                        if($earn_ded->component_reference == "Income Tax") {
+                            $income_tax = new IncomeTax();
+                            $pf->company_id        = $employee->company_id;
+                            $pf->employee_id       = $employee->id;
+                            $pf->currency_id       = $employee->currency_id;
+                            $pf->month             = $month;
+                            $pf->year              = $year;
+                            $pf->amount            = $final_amount;
+                            $pf->status            = 0;
+                            $pf->save();
                         }
                     }
                 }
