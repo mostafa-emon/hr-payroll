@@ -29,6 +29,7 @@ use App\Attendance;
 use App\GovtHolidayDetail;
 use App\PayrollInfo;
 use App\SalarySheet;
+use App\Currency;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -64,6 +65,10 @@ function project_name($project_id){
 
 function branch_name($branch_id){
     return Branch::where('id',$branch_id)->value('name');
+}
+
+function currency_name($currency_id){
+    return Currency::where('id',$currency_id)->value('currency_name');
 }
 
 function leave_balance_left($leave_info_id,$employee_id,$applicable_for){

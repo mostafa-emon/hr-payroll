@@ -62,7 +62,7 @@
                                         <a style="font-size: 15px;" class="btn btn-info btn-sm" href="javascript:void(0)">Email</a>
                                     </td>
                                     <td class="text-center" style="vertical-align:middle">
-                                        <a style="font-size: 15px;" class="btn btn-success btn-sm" href="javascript:void(0)">Details</a>
+                                        <a style="font-size: 15px;" class="btn btn-success btn-sm" href="{{url('salary-sheet-details/'.$sheet->month.'/'.$sheet->year)}}">Details</a>
                                     </td>
                                 </tr>
                                 @endforeach
