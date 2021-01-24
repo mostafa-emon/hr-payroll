@@ -39,11 +39,11 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Pay Provident Fund</h4>
+                            <h4 class="card-title mg-b-0">Salary Sheet Details</h4>
                         </div>
-                        <div class="col-md-6 text-right">
+                        {{--<div class="col-md-6 text-right">
                             <button class="btn btn-success" onclick="printElem()">Print</button>
-                        </div>
+                        </div>--}}
                     </div>
 
                     <br>
@@ -55,7 +55,7 @@
                                         <th colspan="5" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="5" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
+                                        <th colspan="5" style="font-size:15px;text-align:center;;border:none">Salary Sheet Details</th>
                                     </tr>
                                     <tr class="visibility: hidden">
                                         <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$festival_details->employee_id}} <b>{{employee_name($festival_details->employee_id)}}</b></th>
@@ -159,190 +159,6 @@
                         </div>
                     </div>
 
-                    <div id="printArea" class="visibility: hidden">
-                        <div>
-                            <div style="text-align:center;font-family: Arial;font-weight:bold;font-size:20px;">
-                                ABC Company Limited
-                            </div>
-                        
-                            <br>
-                        
-                            <div style="text-align:center;font-family: Arial;font-weight:bold;">
-                                Salary Sheet
-                            </div>
-                        
-                            <br>
-                        
-                            <div style="text-align:center;font-family: Arial;">
-                                For the Month of Dec-2020
-                            </div>
-                        </div>
-            
-                        <br>
-            
-                        <div style="font-family: Arial;">
-                            Department: <b>Finance</b>
-                        </div>
-            
-                        <br>
-            
-                        <div style="text-align:center;font-family: Arial;">
-                            <table style="width:100%;border: 1px solid black;border-collapse: collapse;">
-                                <tr>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:7%;">Employee ID</th>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:13%;">Name</th>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:10%;">Designation</th>
-                                  <th colspan="6" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Earnings</th>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Total Earnings</th>
-                                  <th colspan="3" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Deductions</th>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Total Deductions</th>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Net Salary</th>
-                                  <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Revenue Stamp</th>
-                                </tr>
-            
-                                <tr>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Basic</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">House Rent</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Conveyance</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Medical</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Festival Bonus</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Other Adj.</td>
-            
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Income Tax</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Absent</td>
-                                  <td style="border-right: 1px solid black;padding:5px;font-weight:bold;">Other</td>
-                                </tr>
-            
-                                <tr>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">968647</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">Md. Hafijur Rahman</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">Manager Finance</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">30,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">15,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">3,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">2,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">30,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">1,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">81,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">3,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">4,000.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">500.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">7,500.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">73,500.00</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                </tr>
-            
-                                <tr>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                </tr>
-            
-                                <tr>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                </tr>
-            
-                                <tr>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                </tr>
-            
-                                <tr>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">&nbsp</td>
-                                </tr>
-                                
-                                <tr>
-                                    <td colspan="3" style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;font-weight:bold;">Total</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">30,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">15,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">3,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">2,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">30,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">1,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">81,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">3,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">4,000.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">500.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">7,500.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">73,500.00</td>
-                                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">&nbsp</td>
-                                </tr>
-            
-                            </table>
-            
-                            <table style="width:100%;margin-top:50px;">
-                                <tr>
-                                    <td style="padding-top:25px;padding-bottom:15px;">
-                                        <div style="text-align:center;">__________________<br>Prepared By</div>
-                                    </td>
-                                    <td style="padding-top:25px;padding-bottom:15px;">
-                                        <div style="text-align:center;">__________________<br>Checked By</div>
-                                    </td>
-                                    <td style="padding-top:25px;padding-bottom:15px;">
-                                        <div style="text-align:center;">__________________<br>Approved By</div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
                 </div>
                 
             </div>
@@ -390,7 +206,7 @@
 
         function printElem(){
             var mywindow = window.open('', 'PRINT');
-            mywindow.document.write('<style>table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .div-padding-30{padding:30px;} body {zoom:80%;}</style>');
+            mywindow.document.write('<style>table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .div-padding-30{padding:30px;}</style>');
             mywindow.document.write(document.getElementById('printArea').innerHTML);
 
             setTimeout(function () {
