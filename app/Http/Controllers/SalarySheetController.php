@@ -290,7 +290,7 @@ class SalarySheetController extends Controller
             $earning_comps[] = "Festival Bonus";
         }
 
-        // Manage Earning Components
+        // Manage Deduction Components
         $deduction_comps       = [];
         $deduction_components = SalaryComponent::where('component_type','Deduction')->get();
         
@@ -300,10 +300,7 @@ class SalarySheetController extends Controller
                 $deduction_comps[] = $row['component_name'];
             }
         }
-
-        return $deduction_comps;
-
         
-        return view('transactions.payroll.salary_sheet.print_salary_sheet');
+        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('employment_infos','earning_comps','deduction_comps'));
     }
 }
