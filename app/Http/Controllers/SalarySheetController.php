@@ -238,4 +238,8 @@ class SalarySheetController extends Controller
         $festival_details   = SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('component_type','Festival Bonus')->first();
         return view('transactions.payroll.salary_sheet.sheet_details',compact('earning_details','deduction_details','festival_details'));
     }
+
+    public function print_salary_sheet() {
+        return view('transactions.payroll.salary_sheet.print_salary_sheet');
+    }
 }

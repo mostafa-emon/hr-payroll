@@ -307,6 +307,7 @@ Route::get('/attendance/{company_id}','PublicController@index');
 
 //Salary Sheet
 Route::get('/salary-sheet','SalarySheetController@index');
+Route::get('/salary-sheet-print','SalarySheetController@print_salary_sheet');
 Route::get('/salary-sheet/create','SalarySheetController@add');
 Route::post('/salary-sheet/create','SalarySheetController@add');
 Route::get('/salary-sheet-details/{month}/{year}','SalarySheetController@details');
