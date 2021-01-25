@@ -95,6 +95,15 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="col-md-2">
+                                <select name="bank_id" id="bank_id" class="form-control select2-no-search">
+                                    <option label="Choose Bank"></option>
+                                    @foreach($banks as $bank)
+                                        <option value="{{$bank->id}}" @if($bank_id == $bank->id) selected @endif>{{$bank->bank_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             
                             <div class="col-md-2 text-left">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>

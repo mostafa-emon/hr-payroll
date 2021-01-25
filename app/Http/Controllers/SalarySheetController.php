@@ -17,6 +17,7 @@ use App\Department;
 use App\Project;
 use App\Branch;
 use App\Currency;
+use App\PayrollBank;
 
 class SalarySheetController extends Controller
 {
@@ -191,12 +192,14 @@ class SalarySheetController extends Controller
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
 
         $department_id          = '';
         $project_id             = '';
         $branch_id              = '';
         $currency_id            = '';
+        $bank_id                = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -218,10 +221,15 @@ class SalarySheetController extends Controller
             $currency_id        = $request->currency_id;
         }
 
+        if($request->bank_id != ""){
+            $employment_infos   = $employment_infos->where('bank_name',$request->bank_id);
+            $bank_id            = $request->bank_id;
+        }
+
         $employment_infos   = $employment_infos->get();
 
-        return view('transactions.payroll.salary_sheet.details',compact('departments','projects','branches',
-        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
+        return view('transactions.payroll.salary_sheet.details',compact('departments','projects','branches','bank_id',
+        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year','banks'));
     }
     
     public function single_employee_details($employee_id,$month,$year) {
