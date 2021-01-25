@@ -29,6 +29,7 @@ use App\Attendance;
 use App\GovtHolidayDetail;
 use App\PayrollInfo;
 use App\SalarySheet;
+use App\SalarySheetDetails;
 use App\Currency;
 
 function leftmenu_color() {
@@ -358,6 +359,15 @@ function get_component_name($component_id) {
     $component = SalaryComponent::where('id',$component_id)->first();
     if($component != "") {
         return $component->component_name;
+    }else{
+        return "";
+    }
+}
+
+function get_salary_component_amount($month,$year,$employee_id,$component_id) {
+    $data = SalarySheetDetails::where('month',$month)->where('year',$year)->where('employee_id',$employee_id)->where('component_id',$component_id)->first();
+    if($data != "") {
+        return $amount = $data->payable_amount;
     }else{
         return "";
     }
