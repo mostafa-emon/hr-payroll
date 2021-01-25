@@ -18,6 +18,7 @@ use App\Project;
 use App\Branch;
 use App\Currency;
 use App\PayrollBank;
+use App\SalaryComponent;
 
 class SalarySheetController extends Controller
 {
@@ -239,7 +240,70 @@ class SalarySheetController extends Controller
         return view('transactions.payroll.salary_sheet.sheet_details',compact('earning_details','deduction_details','festival_details','employee_id'));
     }
 
-    public function print_salary_sheet() {
+    public function print_salary_sheet(Request $request) {
+
+        $employment_infos       = EmploymentInfo::select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
+                                ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->join('salary_sheets','salary_sheets.employee_id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->where('month',$request->month)
+                                ->where('year',$request->year);
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->currency_id != ""){
+            $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
+            $currency_id        = $request->currency_id;
+        }
+        $employment_infos       = $employment_infos->get()->toArray();
+        $employee_ids           = array_column($employment_infos,'employee_id');
+
+        // Manage Earning Components
+        $earning_comps       = [];
+        $earning_components = SalaryComponent::where('component_type','Earnings')
+                            ->where('component_reference','!=','Gratuity')
+                            ->where('component_reference','!=','PF Company Portion')
+                            ->get();
+        
+        foreach($earning_components as $row) {
+            $count = SalarySheetDetails::where('month',$request->month)->where('year',$request->year)->where('component_id',$row->id)->whereIn('employee_id',$employee_ids)->count();
+            if($count > 0) {
+                $earning_comps[] = $row['component_name'];
+            }
+        }
+        $festival_bonus = SalarySheetDetails::where('month',$request->month)->where('year',$request->year)->where('component_id',0)->whereIn('employee_id',$employee_ids)->count();
+        if($festival_bonus > 0) {
+            $earning_comps[] = "Festival Bonus";
+        }
+
+        // Manage Earning Components
+        $deduction_comps       = [];
+        $deduction_components = SalaryComponent::where('component_type','Deduction')->get();
+        
+        foreach($deduction_components as $row) {
+            $count = SalarySheetDetails::where('month',$request->month)->where('year',$request->year)->where('component_id',$row->id)->whereIn('employee_id',$employee_ids)->count();
+            if($count > 0) {
+                $deduction_comps[] = $row['component_name'];
+            }
+        }
+
+        return $deduction_comps;
+
+        
         return view('transactions.payroll.salary_sheet.print_salary_sheet');
     }
 }

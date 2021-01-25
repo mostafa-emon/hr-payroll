@@ -55,7 +55,7 @@
                             <h4 class="card-title mg-b-0">Salary Sheet Details</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button class="btn btn-success" onclick="printElem()">Print</button>
+                            <a href="{{url('salary-sheet-print?month='.$month.'&year='.$year.'&department_id='.$department_id.'&project_id='.$project_id.'&branch_id='.$branch_id.'&currency_id='.$currency_id.'&bank_account=')}}" class="btn btn-success">Print</a>
                         </div>
                     </div>
                     <hr>
