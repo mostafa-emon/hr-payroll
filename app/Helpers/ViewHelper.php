@@ -372,3 +372,12 @@ function get_salary_component_amount($month,$year,$employee_id,$component_id) {
         return "";
     }
 }
+
+function get_salary_sheet_component_total($month,$year,$component_id,$employee_ids) {
+    $data = SalarySheetDetails::where('month',$month)->where('year',$year)->where('component_id',$component_id)->whereIn('employee_id',$employee_ids)->sum('payable_amount');
+    if($data == "" || $data == 0) {
+        return 0;
+    }else {
+        return $data;
+    }
+}

@@ -85,6 +85,36 @@
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;padding-top:40px;padding-bottom:40px;">&nbsp;</td>
             </tr>
             @endforeach
+            <tr>
+                <td colspan="3" style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;font-weight:bold;">Total</td>
+                @php $grand_total_earnings = 0; @endphp
+                @foreach($earning_comps as $component)
+                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">
+                        @php 
+                            echo $comp_wise_earning = get_salary_sheet_component_total($month,$year,$component['component_id'],$employee_ids);
+                            if($comp_wise_earning  != "" || $comp_wise_earning != 0) {
+                                $grand_total_earnings = $grand_total_earnings + $comp_wise_earning;
+                            }
+                        @endphp
+                    </td>
+                @endforeach
+                <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_earnings}}</td>
+                
+                @php $grand_total_deduction = 0; @endphp
+                @foreach($deduction_comps as $component)
+                <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">
+                    @php 
+                        echo $comp_wise_earning = get_salary_sheet_component_total($month,$year,$component['component_id'],$employee_ids);
+                        if($comp_wise_earning  != "" || $comp_wise_earning != 0) {
+                            $grand_total_deduction = $grand_total_deduction + $comp_wise_earning;
+                        }
+                    @endphp
+                </td>
+                @endforeach
+                <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_deduction}}</td>
+                <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_earnings - $grand_total_deduction}}</td>
+                <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">&nbsp</td>
+            </tr>
         </table>
 
         <table style="width:100%;margin-top:50px;">
@@ -112,5 +142,7 @@
         mywindow.focus();
         mywindow.print();
         mywindow.close();
-    }, 2000);
+        window.history.back();
+    }, 500);
+
 </script>

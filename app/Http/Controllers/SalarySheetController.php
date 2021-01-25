@@ -313,6 +313,6 @@ class SalarySheetController extends Controller
             }
         }
         
-        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employment_infos','earning_comps','deduction_comps','department','project','branch','currency'));
+        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency'));
     }
 }
