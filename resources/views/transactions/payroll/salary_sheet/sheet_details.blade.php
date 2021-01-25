@@ -70,7 +70,7 @@
                                         <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
                                         <th style="width:12%;vertical-align: middle;text-align:center;">Component Type</th>
                                         <th style="width:15%;vertical-align: middle;text-align:center;">Applicable Month</th>
-                                        <th style="width:20%;vertical-align: middle;text-align:center;">Component Name</th>
+                                        <th style="width:20%;vertical-align: middle;">Component Name</th>
                                         <th style="width:12%;vertical-align: middle;text-align:center;">Total Amount</th>
                                         <th style="width:12%;vertical-align: middle;text-align:center;">Increase Amount</th>
                                         <th style="width:12%;vertical-align: middle;text-align:center;">Decrease Amount</th>
@@ -85,7 +85,7 @@
                                             <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$earning->component_type}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$earning->month}} {{$earning->year}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">{{$earning->component_name}}</td>
+                                            <td style="vertical-align: middle;">{{$earning->component_name}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$earning->actual_amount}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$earning->increase_adjustment}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$earning->decrease_adjustment}}</td>
@@ -106,7 +106,7 @@
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_serial}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->component_type}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->month}} {{$festival_details->year}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">{{$festival_details->component_name}}</td>
+                                            <td style="vertical-align: middle;">{{$festival_details->component_name}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->actual_amount}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->increase_adjustment}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->decrease_adjustment}}</td>
@@ -118,12 +118,10 @@
                                         </tr>
                                      @endif
 
-                                    @if(count($earning_details) == 0 && $festival_details != "")
                                     <tr>
                                         <td style="text-align:right;font-weight:bold;" colspan="7">Total Earning Amount</td>
                                         <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_earning_amount + $festival_bonus}}</td>
                                     </tr>
-                                    @endif
 
 
                                     <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
@@ -134,7 +132,7 @@
                                             <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$deduction->component_type}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$deduction->month}} {{$deduction->year}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->component_name}}</td>
+                                            <td style="vertical-align: middle;">{{$deduction->component_name}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$deduction->actual_amount}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$deduction->increase_adjustment}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$deduction->decrease_adjustment}}</td>
@@ -145,14 +143,15 @@
                                             </td>
                                         </tr>
                                         @endforeach
-                                    
-                                        <tr>
-                                            <td style="text-align:right;font-weight:bold;" colspan="7">Total Deduction Amount</td>
-                                            <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_deduction_amount }}</td>
-                                        </tr>
-
-                                        <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
                                     @endif
+
+                                    <tr>
+                                        <td style="text-align:right;font-weight:bold;" colspan="7">Total Deduction Amount</td>
+                                        <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_deduction_amount }}</td>
+                                    </tr>
+
+                                    <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
+                                    
 
                                     <tr>
                                         <td style="text-align:right;font-weight:bold;" colspan="7">Total Salary</td>
