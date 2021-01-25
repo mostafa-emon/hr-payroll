@@ -58,13 +58,13 @@
                                         <th colspan="8" style="font-size:15px;text-align:center;;border:none">Salary Sheet Details</th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Employee Name: <b>{{employee_name_by_increment_id($festival_details->employee_id)}}</b></th>
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Employee Name: <b>{{employee_name_by_increment_id($employee_id)}}</b></th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">{{employee_designation($festival_details->employee_id)}}</th>
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_id)}}</th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($festival_details->employee_id)}}</th>
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_id)}}</th>
                                     </tr>
                                     <tr>
                                         <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
@@ -78,34 +78,32 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php $total_earning_amount = 0; $total_deduction_amount = 0; $festival_bonus = 0; $total_salary = 0; @endphp
-                                    @foreach($earning_details as $earning)
-                                    <tr>
-                                        <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$earning->component_type}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$earning->month}} {{$earning->year}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$earning->component_name}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$earning->actual_amount}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$earning->increase_adjustment}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$earning->decrease_adjustment}}</td>
+                                    @php $total_earning_amount = 0; $total_deduction_amount = 0; $festival_bonus = 0; $total_salary = 0; $festival_serial = 0; @endphp
+                                    @if(count($earning_details) > 0)
+                                        @foreach($earning_details as $earning)
+                                        <tr>
+                                            <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$earning->component_type}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$earning->month}} {{$earning->year}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$earning->component_name}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$earning->actual_amount}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$earning->increase_adjustment}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$earning->decrease_adjustment}}</td>
 
-                                        <td style="vertical-align: middle;text-align:right;">
-                                            {{$earning->payable_amount}}
-                                            @php $total_earning_amount = $total_earning_amount + $earning->payable_amount; @endphp
-                                        </td>
-                                    </tr>
-                                    @endforeach
-
-                                    <tr>
-                                        <td style="text-align:right;font-weight:bold;" colspan="7">Total Earning Amount</td>
-                                        <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_earning_amount }}</td>
-                                    </tr>
+                                            <td style="vertical-align: middle;text-align:right;">
+                                                {{$earning->payable_amount}}
+                                                @php 
+                                                    $total_earning_amount   = $total_earning_amount + $earning->payable_amount;
+                                                    $festival_serial        = $loop->iteration + 1;
+                                                @endphp
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
 
                                     @if($festival_details != "")
-                                        <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
-
                                         <tr>
-                                            <td style="vertical-align: middle;text-align:center;">1</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$festival_serial}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->component_type}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->month}} {{$festival_details->year}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$festival_details->component_name}}</td>
@@ -118,38 +116,49 @@
                                                 @php $festival_bonus = $festival_details->payable_amount @endphp
                                             </td>
                                         </tr>
+                                     @endif
+
+                                    @if(count($earning_details) == 0 && $festival_details != "")
+                                    <tr>
+                                        <td style="text-align:right;font-weight:bold;" colspan="7">Total Earning Amount</td>
+                                        <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_earning_amount + $festival_bonus}}</td>
+                                    </tr>
                                     @endif
 
-                                    <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
-
-                                    @foreach($deduction_details as $deduction)
-                                    <tr>
-                                        <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$deduction->component_type}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$deduction->month}} {{$deduction->year}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$deduction->component_name}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$deduction->actual_amount}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$deduction->increase_adjustment}}</td>
-                                        <td style="vertical-align: middle;text-align:center;">{{$deduction->decrease_adjustment}}</td>
-
-                                        <td style="vertical-align: middle;text-align:right;">
-                                            {{$deduction->payable_amount}}
-                                            @php $total_deduction_amount = $total_deduction_amount + $deduction->payable_amount; @endphp
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    <tr>
-                                        <td style="text-align:right;font-weight:bold;" colspan="7">Total Deduction Amount</td>
-                                        <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_deduction_amount }}</td>
-                                    </tr>
 
                                     <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
+
+                                    @if(count($deduction_details) > 0)
+                                        @foreach($deduction_details as $deduction)
+                                        <tr>
+                                            <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->component_type}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->month}} {{$deduction->year}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->component_name}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->actual_amount}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->increase_adjustment}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$deduction->decrease_adjustment}}</td>
+
+                                            <td style="vertical-align: middle;text-align:right;">
+                                                {{$deduction->payable_amount}}
+                                                @php $total_deduction_amount = $total_deduction_amount + $deduction->payable_amount; @endphp
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    
+                                        <tr>
+                                            <td style="text-align:right;font-weight:bold;" colspan="7">Total Deduction Amount</td>
+                                            <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_deduction_amount }}</td>
+                                        </tr>
+
+                                        <tr><td style="text-align:right;font-weight:bold;" colspan="8">&nbsp</td></tr>
+                                    @endif
 
                                     <tr>
                                         <td style="text-align:right;font-weight:bold;" colspan="7">Total Salary</td>
                                         <td style="vertical-align: middle;text-align:right;font-weight:bold;">
                                             @php 
-                                                $total_salary = $total_salary + $total_earning_amount + $festival_bonus + $total_deduction_amount;
+                                                $total_salary = ($total_salary + $total_earning_amount + $festival_bonus) - $total_deduction_amount;
                                             @endphp
                                             {{$total_salary}}
                                         </td>
