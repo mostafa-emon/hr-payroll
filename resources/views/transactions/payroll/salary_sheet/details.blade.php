@@ -123,7 +123,7 @@
                                     <th style="vertical-align: middle;width:10%;">Department</th>
                                     <th style="vertical-align: middle;width:10%;">Project</th>
                                     <th style="vertical-align: middle;width:10%;">Branch</th>
-                                    <th class="text-center" style="vertical-align: middle;width:10%;">Currency</th>
+                                    <th style="vertical-align: middle;width:10%;">Currency</th>
                                     <th class="text-left" style="vertical-align: middle;width:10%;">Bank Account</th>
                                     <th class="text-center" style="vertical-align: middle;width:10%;">Payable Salary</th>
                                     <th class="text-center" style="vertical-align: middle;width:10%;">Details</th>
@@ -138,7 +138,7 @@
                                     <td style="vertical-align: middle">{{department_name($employee->department_id)}}</td>
                                     <td style="vertical-align: middle">{{project_name($employee->project_id)}}</td>
                                     <td style="vertical-align: middle">{{branch_name($employee->branch_id)}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{currency_name($employee->currency_id)}}</td>
+                                    <td style="vertical-align: middle">{{currency_name($employee->currency_id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->bank_account_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->total_salary}}</td>
                                     <td class="text-center" style="vertical-align:middle">
