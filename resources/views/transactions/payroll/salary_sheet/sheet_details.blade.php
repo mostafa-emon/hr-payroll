@@ -41,31 +41,31 @@
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Salary Sheet Details</h4>
                         </div>
-                        {{--<div class="col-md-6 text-right">
+                        <div class="col-md-6 text-right">
                             <button class="btn btn-success" onclick="printElem()">Print</button>
-                        </div>--}}
+                        </div>
                     </div>
 
                     <br>
                     <div class="table-responsive">
-                        <div>
+                        <div id="printArea">
                             <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                 <thead>
-                                    {{--<tr class="visibility: hidden">
-                                        <th colspan="5" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
+                                    <tr class="visibility: hidden">
+                                        <th colspan="8" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="5" style="font-size:15px;text-align:center;;border:none">Salary Sheet Details</th>
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Salary Sheet Details</th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$festival_details->employee_id}} <b>{{employee_name($festival_details->employee_id)}}</b></th>
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Employee Name: <b>{{employee_name_by_increment_id($festival_details->employee_id)}}</b></th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_designation($festival_details->employee_id)}}</th>
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">{{employee_designation($festival_details->employee_id)}}</th>
                                     </tr>
                                     <tr class="visibility: hidden">
-                                        <th colspan="5" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($festival_details->employee_id)}}</th>
-                                    </tr>--}}
+                                        <th colspan="8" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($festival_details->employee_id)}}</th>
+                                    </tr>
                                     <tr>
                                         <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
                                         <th style="width:12%;vertical-align: middle;text-align:center;">Component Type</th>
