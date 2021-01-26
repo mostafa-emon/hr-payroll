@@ -313,3 +313,5 @@ Route::post('/salary-sheet/create','SalarySheetController@add');
 Route::get('/salary-sheet-details/{month}/{year}','SalarySheetController@details');
 Route::post('/salary-sheet-details/{month}/{year}','SalarySheetController@details');
 Route::get('/salary-sheet/details/{employee_id}/{month}/{year}','SalarySheetController@single_employee_details');
+
+Route::get('/mail-pay-slip','SalarySheetController@mail_pay_slip');

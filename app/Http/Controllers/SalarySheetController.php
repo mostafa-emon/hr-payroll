@@ -19,6 +19,9 @@ use App\Branch;
 use App\Currency;
 use App\SalaryComponent;
 use App\Company;
+use Illuminate\Support\Facades\Mail;
+use PDF;
+use Redirect;
 
 class SalarySheetController extends Controller
 {
@@ -306,5 +309,39 @@ class SalarySheetController extends Controller
         }
         
         return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency'));
+    }
+
+    public function mail_pay_slip(){
+        $employees = Employee::where('company_id',Auth::user()->company_id)->get();
+
+        foreach($employees as $employee) {
+            $data["email"]          = $employee->email_address;
+            $data["client_name"]    = $employee->name;
+            $data["subject"]        = 'Pay Slip';
+            $data["body"]           = 'Hello';
+
+            $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip');
+            
+            try{
+                Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {
+                $message->to($data["email"], $data["client_name"])
+                    ->subject($data["subject"])
+                    ->attachData($pdf->output(), "PaySlip.pdf");
+                });
+
+                $error      =   "";
+                $message    =   "Message sent Succesfully!";
+                $status     =   "1";
+            }catch(Swift_SwiftException $Ste){
+                $this->serverstatuscode = "0";
+                $this->serverstatusdes = $Ste->getMessage();
+
+                $error      =   $Ste->getMessage();
+                $message    =   "Error sending mail!";
+                $status     =   "0";
+            }
+        }
+
+        return redirect('/');
     }
 }
