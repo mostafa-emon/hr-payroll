@@ -1,14 +1,13 @@
 <div id="printArea">
     <div>
         <div style="text-align:center;font-family: Arial;">
-            ABC Construction Co Ltd.
-            {{ get_company_name(auth()->user()->company_id ) }}
+            {{$company_info->name}}
         </div>
     
         <br>
     
         <div style="text-align:center;font-family: Arial;">
-            House no: 08, Road: 03, Block-A, Banasree,Rampura, Dhaka-1219
+            {{$company_info->address_line_1}} {{$company_info->address_line_2}}
         </div>
     
         <br>
@@ -20,7 +19,7 @@
         <br>
     
         <div style="text-align:center;font-family: Arial;">
-            For The Month of Jan-2020
+            For The Month of {{date('M-Y',strtotime($month))}}
         </div>
     </div>
 
@@ -36,57 +35,66 @@
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Empolyee Name</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span>
-                    <span>MD. ARMAN SHARIF</span>
+                    <span>{{$employee->name}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Employee ID</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
-                    <span style="padding-top:2px;">1736461</span>
+                    <span style="padding-top:2px;">{{$employee->original_employee_id}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Department</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
-                    <span style="padding-top:2px;">Admin</span>
+                    <span style="padding-top:2px;">{{department_name($employee->department_id)}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Designation</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span>
-                    <span style="padding-top:2px;">Senior Executive, Admin</span>
+                    <span style="padding-top:2px;">{{designation_name($employee->designation_id)}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Date of Joining</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
-                    <span style="padding-top:2px;">01-MAR-12</span>
+                    <span style="padding-top:2px;">{{date('d-M-y', strtotime($employee->date_of_joining))}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Project</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
-                    <span style="padding-top:2px;">DHAKA-CTG 4 Lane Project</span>
+                    <span style="padding-top:2px;">{{project_name($employee->project_id)}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Branch</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
-                    <span style="padding-top:2px;">Chittagong</span>
+                    <span style="padding-top:2px;">{{branch_name($employee->branch_id)}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Payment Method</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
-                    <span style="padding-top:2px;">Bank Transfer</span>
+                    <span style="padding-top:2px;">
+                        @if($employee->salary_payment_method == "Bank") Bank Transfer
+                        @else Cash
+                        @endif
+                    </span>
                 </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
@@ -100,38 +108,38 @@
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Total Present Days</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
                 <td style="padding-right:8px;padding-top:8px;text-align:right;">
-                    <span style="padding-top:2px;">27</span>
+                    <span style="padding-top:2px;">{{$total_present_days}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Total Day Off</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
-                <td style="padding-right:8px;padding-top:8px;text-align:right;">4</td>
+                <td style="padding-right:8px;padding-top:8px;text-align:right;">{{$total_day_off}}</td>
             </tr>
             <tr>
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Total Leave Days</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
-                <td style="padding-right:8px;padding-top:8px;text-align:right;">0</td>
+                <td style="padding-right:8px;padding-top:8px;text-align:right;">{{$total_leave_days}}</td>
             </tr>
             <tr>
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Total Holidays</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
-                <td style="padding-right:8px;padding-top:8px;text-align:right;">0</td>
+                <td style="padding-right:8px;padding-top:8px;text-align:right;">{{$total_holidays}}</td>
             </tr>
             <tr>
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Total Late Days</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
-                <td style="padding-right:8px;padding-top:8px;text-align:right;">17</td>
+                <td style="padding-right:8px;padding-top:8px;text-align:right;">{{$total_late_days}}</td>
             </tr>
             <tr>
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Total Absent Days</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
-                <td style="padding-right:8px;padding-top:8px;text-align:right;">0</td>
+                <td style="padding-right:8px;padding-top:8px;text-align:right;">{{$total_absent_days}}</td>
             </tr>
             <tr>
                 <td style="padding-left:80px;padding-top:8px;text-align:left;">Net Payable Days</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:center;"><b>:</b></td>
-                <td style="padding-right:8px;padding-top:8px;text-align:right;">31</td>
+                <td style="padding-right:8px;padding-top:8px;text-align:right;">{{$net_payable_days}}</td>
             </tr>
             <tr>
                 <td style="padding-right:8px;padding-top:8px;text-align:left;">&nbsp;</td>

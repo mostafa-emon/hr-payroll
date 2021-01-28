@@ -31,6 +31,7 @@ use App\PayrollInfo;
 use App\SalarySheet;
 use App\SalarySheetDetails;
 use App\Currency;
+use App\MailPaySlip;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -380,4 +381,8 @@ function get_salary_sheet_component_total($month,$year,$component_id,$employee_i
     }else {
         return $data;
     }
+}
+
+function count_mail_pay_slip($month,$year) {
+    return MailPaySlip::where('month',$month)->where('year',$year)->count();
 }

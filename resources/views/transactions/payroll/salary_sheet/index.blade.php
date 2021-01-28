@@ -59,7 +59,12 @@
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->total_employee}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->total_salary}}</td>
                                     <td class="text-center" style="vertical-align:middle">
-                                        <a style="font-size: 15px;" class="btn btn-info btn-sm" href="javascript:void(0)">Email</a>
+                                        @php $count_mail_pay_slip = count_mail_pay_slip($sheet->month,$sheet->year); @endphp
+                                        @if($count_mail_pay_slip == 0)
+                                            <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('mail-pay-slip/'.$sheet->month.'/'.$sheet->year)}}">Send Email</a>
+                                        @else
+                                            <a style="font-size: 15px;" class="btn btn-warning btn-sm" href="{{url('mail-pay-slip/'.$sheet->month.'/'.$sheet->year)}}">Resend Email</a>
+                                        @endif
                                     </td>
                                     <td class="text-center" style="vertical-align:middle">
                                         <a style="font-size: 15px;" class="btn btn-success btn-sm" href="{{url('salary-sheet-details/'.$sheet->month.'/'.$sheet->year)}}">Details</a>
