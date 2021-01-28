@@ -312,15 +312,30 @@ class SalarySheetController extends Controller
     }
 
     public function mail_pay_slip(){
-        $employees = Employee::where('company_id',Auth::user()->company_id)->get();
+        $month = "January";
+        $year  = "2021";
 
+        $company_info = Company::where('id',Auth::user()->company_id)->first();
+
+        $employees = Employee::where('company_id',Auth::user()->company_id)
+                    ->join('employment_infos','employment_infos.employee_id','employees.id')
+                    ->get();
+        
         foreach($employees as $employee) {
+            /*
             $data["email"]          = $employee->email_address;
             $data["client_name"]    = $employee->name;
-            $data["subject"]        = 'Pay Slip';
-            $data["body"]           = 'Hello';
+            $data["subject"]        = 'Pay Slip for the month of '.$month.'-'.$year;
+            $data["body"]           = 'Pay Slip for the month of '.$month.'-'.$year;
 
-            $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip');
+            // GET ATTENDANCE DATA
+            $total_present = 0; $total_day_off = 0; $total_leave = 0;
+            $total_holiday = 0; $total_late_day = 0; $total_absent_day = 0; $net_payable_day = 0;
+
+
+            // GET SALARY DATA
+
+            $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip',compact($data));
             
             try{
                 Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {
@@ -340,8 +355,9 @@ class SalarySheetController extends Controller
                 $message    =   "Error sending mail!";
                 $status     =   "0";
             }
+            */
         }
 
-        return redirect('/');
+        return view('transactions.payroll.salary_sheet.email.pay_slip');
     }
 }

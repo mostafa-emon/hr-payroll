@@ -2,6 +2,7 @@
     <div>
         <div style="text-align:center;font-family: Arial;">
             ABC Construction Co Ltd.
+            {{ get_company_name(auth()->user()->company_id ) }}
         </div>
     
         <br>
@@ -60,7 +61,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="padding-left:8px;padding-top:8px;text-align:left;">Date of JoiningP.</td>
+                <td style="padding-left:8px;padding-top:8px;text-align:left;">Date of Joining</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
                     <span style="font-weight:bold;">:</span> 
                     <span style="padding-top:2px;">01-MAR-12</span>
