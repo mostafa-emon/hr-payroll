@@ -244,6 +244,7 @@
 								<li class="{{ (request()->is('salary-sheet*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('salary-sheet*')) ? 'active' : '' }}" href="{{url('salary-sheet')}}">Create Salary Sheet</a>
 								</li>
+								<li><a class="slide-item" href="{{url('create-salary-transfer-letter')}}">Create Salary Transfer Letter</a></li>
 								<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>
 								</li>

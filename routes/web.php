@@ -175,8 +175,8 @@ Route::post('/payroll-banks/branch/update/{id}', 'PayrollController@branch_updat
 Route::get('/payroll-banks/branch/delete/{id}', 'PayrollController@branch_delete');
 Route::get('/get-payroll-branch/{id}', 'PayrollController@get_branch');
 
-Route::get('/salary-transfer-letter-format', 'SalaryTransferLetter@format');
-Route::post('/salary-transfer-letter-format', 'SalaryTransferLetter@format');
+Route::get('/salary-transfer-letter-format', 'SalaryTransferLetterController@format');
+Route::post('/salary-transfer-letter-format', 'SalaryTransferLetterController@format');
 
 //Leave
 Route::get('/leave-request', 'LeaveController@leave_request_index');
@@ -315,3 +315,6 @@ Route::post('/salary-sheet-details/{month}/{year}','SalarySheetController@detail
 Route::get('/salary-sheet/details/{employee_id}/{month}/{year}','SalarySheetController@single_employee_details');
 
 Route::get('/mail-pay-slip/{month}/{year}','SalarySheetController@mail_pay_slip');
+
+Route::get('/create-salary-transfer-letter','SalaryTransferLetterController@transfer_letter');
+Route::post('/create-salary-transfer-letter','SalaryTransferLetterController@transfer_letter');
