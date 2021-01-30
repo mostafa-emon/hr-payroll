@@ -39,7 +39,7 @@
               <th colspan="{{count($deduction_comps)}}" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Deductions</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Total Deductions</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Net Salary</th>
-              <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Revenue Stamp</th>
+              @if($revenue_stamp == 1) <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Revenue Stamp</th> @endif
             </tr>
 
             <tr>
@@ -82,7 +82,7 @@
                 @endforeach
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">{{$total_deduction}}</td>
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">{{$total_earnings - $total_deduction}}</td>
-                <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;padding-top:40px;padding-bottom:40px;">&nbsp;</td>
+                @if($revenue_stamp == 1) <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;padding-top:40px;padding-bottom:40px;">&nbsp;</td> @endif
             </tr>
             @endforeach
             <tr>
@@ -113,7 +113,7 @@
                 @endforeach
                 <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_deduction}}</td>
                 <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_earnings - $grand_total_deduction}}</td>
-                <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">&nbsp</td>
+                @if($revenue_stamp == 1) <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">&nbsp;</td> @endif
             </tr>
         </table>
 

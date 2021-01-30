@@ -389,5 +389,5 @@ function get_salary_sheet_component_total($month,$year,$component_id,$employee_i
 }
 
 function count_mail_pay_slip($month,$year) {
-    return MailPaySlip::where('month',$month)->where('year',$year)->count();
+    return MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->count();
 }

@@ -23,6 +23,7 @@ use App\Attendance;
 use App\LeaveRequest;
 use App\MailPaySlip;
 use App\Email;
+use App\SheetRevenueStamp;
 use Config;
 use Illuminate\Support\Facades\Mail;
 use PDF;
@@ -51,10 +52,18 @@ class SalarySheetController extends Controller
             $month = date('F',strtotime($request->salary_month));
             $year  = date('Y',strtotime($request->salary_month));
 
+            SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             ProvidentFund::where('company_id',Auth::user()->company_id)->where('type','Employee Portion')->where('month',$month)->where('year',$year)->delete();
             IncomeTax::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
+
+            $stamp              = new SheetRevenueStamp();
+            $stamp->company_id  = Auth::user()->company_id;
+            $stamp->month       = $month;
+            $stamp->year        = $year;
+            $stamp->status      = $request->revenue_stamp;
+            $stamp->save();
 
             $employees = Employee::where('company_id',Auth::user()->company_id)
                         ->join('payroll_infos','employees.id','payroll_infos.employee_id')
@@ -243,6 +252,8 @@ class SalarySheetController extends Controller
 
     public function print_salary_sheet(Request $request) {
         $month = $request->month; $year = $request->year;
+
+        $revenue_stamp  = SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->first()->status;
         
         $employment_infos       = EmploymentInfo::select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
@@ -313,7 +324,7 @@ class SalarySheetController extends Controller
             }
         }
         
-        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency'));
+        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency','revenue_stamp'));
     }
 
     public function mail_pay_slip($request_month,$request_year){
@@ -403,11 +414,12 @@ class SalarySheetController extends Controller
                 }
             }
 
-            $pay_slip = MailPaySlip::where('month',$request_month)->where('year',$request_year)->count();
+            $pay_slip = MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$request_month)->where('year',$request_year)->count();
             if($pay_slip == 0) {
                 $slip = new MailPaySlip();
-                $slip->month    = $request_month;
-                $slip->year     = $request_year;
+                $slip->company_id   = Auth::user()->company_id;
+                $slip->month        = $request_month;
+                $slip->year         = $request_year;
                 $slip->save();
             }
         }

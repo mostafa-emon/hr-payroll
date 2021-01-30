@@ -59,17 +59,20 @@
                     <form action="{{ url('salary-sheet/create') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <label for="Salary Month" style="font-weight:bold;" class="col-form-label">Salary Month*:</label>
                                 <input type="text" name="salary_month" class="form-control monthpicker" autocomplete="off" placeholder="Salary Month" required>
                             </div>
-                            <div id="festival_bonus" class="col-md-4">
+                            <div id="festival_bonus" class="col-md-3">
+                                <label for="Festival Bonus" style="font-weight:bold;" class="col-form-label">Festival Bonus:</label>
                                 <select name="festival_bonus" class="form-control" onchange="hide_show_element(this.value)">
                                     <option value="" label>Festival Bonus</option>
                                     <option value="1">Yes</option>
                                     <option value="0" selected>No</option>
                                 </select>
                             </div>
-                            <div id="religion" style="display:none;" class="col-md-4">
+                            <div id="religion" style="display:none;" class="col-md-3">
+                                <label for="Religion" style="font-weight:bold;" class="col-form-label">Religion*:</label>
                                 <select class="form-control" id="religion_dropdown" name="religion">
                                     <option value="" label>Religion</option>
                                     <option value="Islam">Islam</option>
@@ -77,6 +80,14 @@
                                     <option value="Hinduism">Hinduism</option>
                                     <option value="Buddhism">Buddhism</option>
                                     <option value="Others">Others</option>
+                                </select>
+                            </div>
+                            <div id="festival_bonus" class="col-md-3">
+                                <label for="Revenue Stamp" style="font-weight:bold;" class="col-form-label">Revenue Stamp:</label>
+                                <select name="revenue_stamp" class="form-control">
+                                    <option value="" label>Revenue Stamp</option>
+                                    <option value="1">Show</option>
+                                    <option value="0" selected>Hide</option>
                                 </select>
                             </div>
                         </div>
@@ -90,7 +101,7 @@
                             <br>
 
                             <div class="col-md-1 text-center">
-                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
+                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
                             </div>
                         </div>
                     </form>
