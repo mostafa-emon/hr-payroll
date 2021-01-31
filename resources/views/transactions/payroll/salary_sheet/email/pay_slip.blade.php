@@ -165,52 +165,32 @@
 
         <table style="width: 100%;border: 1px solid black;border-collapse: collapse;margin-top:282px;">
             <tr>
-            <th style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">Earnings</th>
-            <th style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">Amount</th>
-            <th style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">Deductions</th>
-            <th style="text-align:center;border-bottom: 1px solid black;">Amount</th>
+                <th style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">Earnings</th>
+                <th style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">Amount</th>
+                <th style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">Deductions</th>
+                <th style="text-align:center;border-bottom: 1px solid black;">Amount</th>
             </tr>
+            @foreach($pay_slip_data as $row)
             <tr>
-            <td style="text-align:left;border-right: 1px solid black;padding:5px;">Basic Salary</td>
-            <td style="text-align:right;border-right: 1px solid black;padding:5px;">32,000.00</td>
-            <td style="padding-left:8px;text-align:left;border-right: 1px solid black;">Fine Deduction</td>
-            <td style="text-align:right;padding-right:6px;">0.00</td>
+                <td style="text-align:left;border-right: 1px solid black;padding:5px;">{{$row['earning_component']}}</td>
+                <td style="text-align:right;border-right: 1px solid black;padding:5px;">{{$row['earning_amount']}}</td>
+                <td style="padding-left:8px;text-align:left;border-right: 1px solid black;">{{$row['deduction_component']}}</td>
+                <td style="text-align:right;padding-right:6px;">{{$row['deduction_amount']}}</td>
             </tr>
-            <tr>
-                <td style="text-align:left;border-right: 1px solid black;padding:5px;">House Rent Allowance</td>
-                <td style="text-align:right;border-right: 1px solid black;padding:5px;">16,000.00</td>
-                <td style="padding-left:8px;text-align:left;border-right: 1px solid black;">Absent Deduction</td>
-                <td style="text-align:right;padding-right:6px;">6,903.00</td>
-            </tr>
-            <tr>
-                <td style="text-align:left;border-right: 1px solid black;padding:5px;">Convenyance Allowance</td>
-                <td style="text-align:right;border-right: 1px solid black;padding:5px;">4,000.00</td>
-                <td style="padding-left:8px;text-align:left;border-right: 1px solid black;">Advance Deduction</td>
-                <td style="text-align:right;padding-right:6px;">0.00</td>
-            </tr>
-            <tr>
-                <td style="text-align:left;border-right: 1px solid black;padding:5px;">Medical Allowance</td>
-                <td style="text-align:right;border-right: 1px solid black;padding:5px;">1,000.00</td>
-                <td style="padding-left:8px;text-align:left;border-right: 1px solid black;">Income Tax</td>
-                <td style="text-align:right;padding-right:6px;">1,600.00</td>
-            </tr>
-            <tr>
-                <td style="text-align:left;border-right: 1px solid black;padding:5px;">Other Allowance</td>
-                <td style="text-align:right;border-right: 1px solid black;padding:5px;">500.00</td>
-                <td style="padding-left:8px;text-align:left;border-right: 1px solid black;">PF Deduction (Own Portion)</td>
-                <td style="text-align:right;padding-right:6px;">0.00</td>
-            </tr>
+            @endforeach
             <tr>
                 <td style="text-align:center;border-right: 1px solid black;padding:5px;border-top: 1px solid black;">Total Earning</td>
-                <td style="text-align:right;border-right: 1px solid black;padding:5px;border-top: 1px solid black;"><u>53,500.00</u></td>
+                <td style="text-align:right;border-right: 1px solid black;padding:5px;border-top: 1px solid black;"><u>{{$total_earning}}</u></td>
                 <td style="padding-left:8px;text-align:center;border-right: 1px solid black;border-top: 1px solid black;">Total Deduction</td>
-                <td style="text-align:right;padding-right:6px;border-top: 1px solid black;"><u>8,503.00</u></td>
+                <td style="text-align:right;padding-right:6px;border-top: 1px solid black;"><u>{{$total_deduction}}</u></td>
             </tr>
             <tr>
-                <td style="text-align:left;border-right: 1px solid black;padding:5px;border-top: 1px solid black;border-bottom: 1px solid black;">Company Contribution to PF</td>
-                <td style="text-align:right;border-right: 1px solid black;padding:5px;border-top: 1px solid black;border-bottom: 1px solid black;">0.00</td>
+                <td style="text-align:left;border-right: 1px solid black;padding:5px;border-top: 1px solid black;border-bottom: 1px solid black;">
+                    @if($company_pf != 0) Company Contribution to PF @else &nbsp; @endif
+                </td>
+                <td style="text-align:right;border-right: 1px solid black;padding:5px;border-top: 1px solid black;border-bottom: 1px solid black;">@if($company_pf != 0) {{$company_pf}} @else &nbsp; @endif</td>
                 <td style="padding-left:8px;text-align:left;border-right: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;">Net Salary</td>
-                <td style="text-align:right;padding-right:6px;border-top: 1px solid black;border-bottom: 1px solid black;"><u>44,997.00</u></td>
+                <td style="text-align:right;padding-right:6px;border-top: 1px solid black;border-bottom: 1px solid black;"><u>{{$total_earning - $total_deduction}}</u></td>
             </tr>
             <tr>
                 <td colspan="4" style="text-align:left;border-right: 1px solid black;padding:8px;padding-top:15px;">

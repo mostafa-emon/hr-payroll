@@ -353,7 +353,6 @@ class SalarySheetController extends Controller
                         ->get();
             
             foreach($employees as $employee) {
-
                 $month_first_date   = date('Y-m-d', strtotime("01-".$month));
                 $month_last_date    = date('Y-m-d', strtotime("31-".$month));
                 $total_days         = date('t', strtotime($month));
@@ -389,10 +388,52 @@ class SalarySheetController extends Controller
                 $data["body"]           = 'Pay Slip of '.$month;
 
                 // GET SALARY DATA
+                $pay_slip_data = []; 
+                $earning_components = SalarySheetDetails::where('employee_id',$employee->id)
+                            ->where('month',$request_month)
+                            ->where('year',$request_year)
+                            ->where('component_type','!=','Deduction')
+                            ->get();    
+                $total_earning = 0;
+                foreach($earning_components as $row) {
+                    $total_earning = $total_earning + $row->payable_amount;
+                }
+
+                $deduction_components = SalarySheetDetails::where('employee_id',$employee->id)
+                            ->where('month',$request_month)
+                            ->where('year',$request_year)
+                            ->where('component_type','Deduction')
+                            ->get();  
+                $total_deduction = 0;
+                foreach($deduction_components as $row) {
+                    $total_deduction = $total_deduction + $row->payable_amount;
+                }
+                            
+                $count_earning_components = count($earning_components);
+                
+                for($i = 0; $i < $count_earning_components; $i++) {
+                    $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
+                    $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
+
+                    if(isset($deduction_components[$i])) {
+                        $pay_slip_data[$i]['deduction_component']   = $deduction_components[$i]['component_name'];
+                        $pay_slip_data[$i]['deduction_amount']      = $deduction_components[$i]['payable_amount'];
+                    }else {
+                        $pay_slip_data[$i]['deduction_component']   = "";
+                        $pay_slip_data[$i]['deduction_amount']      = "";
+                    }
+                }
+                $company_pf = ProvidentFund::where('employee_id',$employee->id)->where('month',$request_month)
+                            ->where('year',$request_year)->where('type','Company Portion')->where('status',0)->first();
+                if($company_pf != "") {
+                    $company_pf = $company_pf->amount;
+                }else {
+                    $company_pf = 0;
+                }
 
                 $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip',compact('company_info','month',
                         'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days',
-                        'total_holidays','total_late_days','total_absent_days','net_payable_days'));
+                        'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
                 
                 try{
                     Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {

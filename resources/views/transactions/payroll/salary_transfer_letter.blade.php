@@ -98,7 +98,7 @@
                                     <tr>
                                         <th class="text-center" style="vertical-align: middle;width:5%;">SL</th>
                                         <th class="text-center" style="vertical-align: middle;width:35%;">Month</th>
-                                        <th class="text-center" style="vertical-align: middle;width:20%;">Currency</th>
+                                        <th class="text-left" style="vertical-align: middle;width:20%;">Currency</th>
                                         <th class="text-left" style="vertical-align: middle;width:25%;">Bank Account</th>
                                         <th class="text-center" style="vertical-align: middle;width:15%;">Print</th>
                                     </tr>
@@ -107,7 +107,7 @@
                                     <tr>
                                         <td class="text-center" style="vertical-align: middle">1</td>
                                         <td class="text-center" style="vertical-align: middle">{{$sheet->month}} {{$sheet->year}}</td>
-                                        <td class="text-center" style="vertical-align: middle">{{currency_name($currency_id)}}</td>
+                                        <td class="text-left" style="vertical-align: middle">{{currency_name($currency_id)}}</td>
                                         <td style="vertical-align: middle">{{bank_name($bank_id)}}</td>
                                         <td class="text-center" style="vertical-align: middle">
                                             <button style="font-size: 15px;" class="btn btn-success btn-sm" onclick="printElem()">Print</button>
@@ -128,8 +128,8 @@
                                         <tr>
                                             <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
                                             <th style="width:30%;vertical-align: middle;text-align:center;">Employee ID</th>
-                                            <th style="width:35%;vertical-align: middle;text-align:center;">Employee Name</th>
-                                            <th style="width:30%;vertical-align: middle;text-align:right;">Salary Amount</th>
+                                            <th style="width:35%;vertical-align: middle;text-align:left;">Employee Name</th>
+                                            <th style="width:30%;vertical-align: middle;text-align:left;">Salary Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,7 +137,7 @@
                                             <tr>
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{{$employee->original_employee_id}}</td>
-                                                <td style="vertical-align: middle;text-align:center;">{{$employee->name}}</td>
+                                                <td style="vertical-align: middle;text-align:left;">{{$employee->name}}</td>
                                                 <td style="vertical-align: middle;text-align:right;">{{$employee->total_salary}}</td>
                                             </tr>
                                         @endforeach
