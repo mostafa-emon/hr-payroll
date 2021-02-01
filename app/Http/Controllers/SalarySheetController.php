@@ -52,6 +52,7 @@ class SalarySheetController extends Controller
             $month = date('F',strtotime($request->salary_month));
             $year  = date('Y',strtotime($request->salary_month));
 
+            MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
