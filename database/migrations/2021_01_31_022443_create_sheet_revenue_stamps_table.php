@@ -20,6 +20,7 @@ class CreateSheetRevenueStampsTable extends Migration
             $table->string('month',50);
             $table->string('year',50);
             $table->boolean('status');
+            $table->boolean('company_portion');
             $table->timestamps();
         });
     }

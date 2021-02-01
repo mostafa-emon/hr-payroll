@@ -236,7 +236,6 @@ class EmployeeController extends Controller
 
         $info = new PayrollInfo();
         $info->employee_id                          = $request->employee_id;
-        $info->company_pf_on_salary_statement       = $request->company_pf_on_salary_statement;
         $info->festival_bonus_per_festival          = $request->festival_bonus_per_festival;
         $info->gratuity_amount                      = $request->gratuity_amount;
         $info->investment_amount                    = $request->investment_amount;
@@ -497,7 +496,6 @@ class EmployeeController extends Controller
                 $info = PayrollInfo::where('employee_id',$employee_id)->first();
             }
             $info->employee_id                          = $request->employee_id;
-            $info->company_pf_on_salary_statement       = $request->company_pf_on_salary_statement;
             $info->festival_bonus_per_festival          = $request->festival_bonus_per_festival;
             $info->gratuity_amount                      = $request->gratuity_amount;
             $info->investment_amount                    = $request->investment_amount;

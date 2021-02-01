@@ -63,7 +63,7 @@
                                 <label for="Salary Month" style="font-weight:bold;" class="col-form-label">Salary Month*:</label>
                                 <input type="text" name="salary_month" class="form-control monthpicker" autocomplete="off" placeholder="Salary Month" required>
                             </div>
-                            <div id="festival_bonus" class="col-md-3">
+                            <div id="festival_bonus" class="col-md-2">
                                 <label for="Festival Bonus" style="font-weight:bold;" class="col-form-label">Festival Bonus:</label>
                                 <select name="festival_bonus" class="form-control" onchange="hide_show_element(this.value)">
                                     <option value="" label>Festival Bonus</option>
@@ -82,10 +82,18 @@
                                     <option value="Others">Others</option>
                                 </select>
                             </div>
-                            <div id="festival_bonus" class="col-md-3">
+                            <div id="festival_bonus" class="col-md-2">
                                 <label for="Revenue Stamp" style="font-weight:bold;" class="col-form-label">Revenue Stamp:</label>
                                 <select name="revenue_stamp" class="form-control">
                                     <option value="" label>Revenue Stamp</option>
+                                    <option value="1">Show</option>
+                                    <option value="0" selected>Hide</option>
+                                </select>
+                            </div>
+                            <div id="festival_bonus" class="col-md-2">
+                                <label for="Company Portion" style="font-weight:bold;" class="col-form-label">Company Portion:</label>
+                                <select name="company_portion" class="form-control">
+                                    <option value="" label>Company Portion</option>
                                     <option value="1">Show</option>
                                     <option value="0" selected>Hide</option>
                                 </select>

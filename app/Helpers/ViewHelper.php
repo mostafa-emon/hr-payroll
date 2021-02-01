@@ -33,6 +33,7 @@ use App\SalarySheetDetails;
 use App\Currency;
 use App\MailPaySlip;
 use App\PayrollBank;
+use App\ProvidentFund;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -394,4 +395,22 @@ function get_salary_sheet_component_total($month,$year,$component_id,$employee_i
 
 function count_mail_pay_slip($month,$year) {
     return MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->count();
+}
+
+function employee_provident_fund($month,$year,$employee_id) {
+    $company_pf = ProvidentFund::where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('type','Company Portion')->where('status',0)->first();
+    if($company_pf != "") {
+        return $company_pf->amount;
+    }else {
+        return 0;
+    }
+}
+
+function get_provident_fund_total($month,$year,$employee_ids) {
+    $data = ProvidentFund::where('month',$month)->where('year',$year)->whereIn('employee_id',$employee_ids)->sum('amount');
+    if($data == "" || $data == 0) {
+        return 0;
+    }else {
+        return $data;
+    }
 }

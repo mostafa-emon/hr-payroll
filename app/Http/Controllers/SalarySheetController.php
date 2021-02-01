@@ -58,11 +58,12 @@ class SalarySheetController extends Controller
             ProvidentFund::where('company_id',Auth::user()->company_id)->where('type','Employee Portion')->where('month',$month)->where('year',$year)->delete();
             IncomeTax::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
 
-            $stamp              = new SheetRevenueStamp();
-            $stamp->company_id  = Auth::user()->company_id;
-            $stamp->month       = $month;
-            $stamp->year        = $year;
-            $stamp->status      = $request->revenue_stamp;
+            $stamp                  = new SheetRevenueStamp();
+            $stamp->company_id      = Auth::user()->company_id;
+            $stamp->month           = $month;
+            $stamp->year            = $year;
+            $stamp->status          = $request->revenue_stamp;
+            $stamp->company_portion = $request->company_portion;
             $stamp->save();
 
             $employees = Employee::where('company_id',Auth::user()->company_id)
@@ -253,7 +254,7 @@ class SalarySheetController extends Controller
     public function print_salary_sheet(Request $request) {
         $month = $request->month; $year = $request->year;
 
-        $revenue_stamp  = SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->first()->status;
+        $revenue_stamp  = SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->first();
         
         $employment_infos       = EmploymentInfo::select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')

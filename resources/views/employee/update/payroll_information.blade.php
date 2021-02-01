@@ -210,14 +210,6 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4 mg-t-10 remove-space">
-        <label for="company_pf_on_salary_statement" style="font-weight:bold;" class="col-form-label">Company PF on Salary Statement*:</label>
-        <select class="form-control" name="company_pf_on_salary_statement" required>
-            <option value="" label>Company PF on Salary Statement*</option>
-            <option value="1" @if($payroll_info !="" && $payroll_info->company_pf_on_salary_statement == "1") selected @endif>Yes</option>
-            <option value="0" @if($payroll_info !="" && $payroll_info->company_pf_on_salary_statement == "0") selected @endif>No</option>
-        </select>
-    </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
         <label for="festival_bonus_per_festival" style="font-weight:bold;" class="col-form-label">Festival Bonus:</label>

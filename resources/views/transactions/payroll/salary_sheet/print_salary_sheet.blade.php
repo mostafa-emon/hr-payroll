@@ -34,21 +34,27 @@
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:7%;">Employee ID</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:13%;text-align:left">Name</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:10%;text-align:left">Designation</th>
-              <th colspan="{{count($earning_comps)}}" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Earnings</th>
+              <th colspan="{{count($earning_comps) + $revenue_stamp->company_portion}}" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Earnings</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Total Earnings</th>
-              <th colspan="{{count($deduction_comps)}}" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Deductions</th>
+              <th colspan="{{count($deduction_comps) + $revenue_stamp->company_portion}}" style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;width:25%;">Deductions</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Total Deductions</th>
               <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Net Salary</th>
-              @if($revenue_stamp == 1) <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Revenue Stamp</th> @endif
+              @if($revenue_stamp->status == 1) <th rowspan="2" style="border-right: 1px solid black;padding:5px;width:5%;">Revenue Stamp</th> @endif
             </tr>
 
             <tr>
-            @foreach($earning_comps as $component)
-              <td style="border-right: 1px solid black;padding:5px;font-weight:bold;text-align:left;">{{$component['component_name']}}</td>
-            @endforeach
-            @foreach($deduction_comps as $component)
-              <td style="border-right: 1px solid black;padding:5px;font-weight:bold;text-align:left;">{{$component['component_name']}}</td>
-            @endforeach
+                @foreach($earning_comps as $component)
+                    <td style="border-right: 1px solid black;padding:5px;font-weight:bold;text-align:left;">{{$component['component_name']}}</td>
+                @endforeach
+                @if($revenue_stamp->company_portion == 1)
+                    <td style="border-right: 1px solid black;padding:5px;font-weight:bold;text-align:left;">Company Portion</td>
+                @endif
+                @foreach($deduction_comps as $component)
+                    <td style="border-right: 1px solid black;padding:5px;font-weight:bold;text-align:left;">{{$component['component_name']}}</td>
+                @endforeach
+                @if($revenue_stamp->company_portion == 1)
+                    <td style="border-right: 1px solid black;padding:5px;font-weight:bold;text-align:left;">Company Portion</td>
+                @endif
             </tr>
 
             @foreach($employment_infos as $employee)
@@ -56,7 +62,7 @@
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">{{$employee['original_employee_id']}}</td>
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">{{$employee['name']}}</td>
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;">{{designation_name($employee['designation_id'])}}</td>
-                
+
                 @php $total_earnings = 0; @endphp
                 @foreach($earning_comps as $component)
                     <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">
@@ -68,6 +74,16 @@
                     @endphp
                     </td>
                 @endforeach
+
+                @if($revenue_stamp->company_portion == 1)
+                <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">
+                    @php 
+                        echo $provident_fund = employee_provident_fund($month,$year,$employee['employee_id']);
+                        $total_earnings = $total_earnings + $provident_fund;
+                    @endphp
+                </td>
+                @endif
+
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">{{$total_earnings}}</td>
                 @php $total_deduction = 0; @endphp
                 @foreach($deduction_comps as $component)
@@ -80,9 +96,19 @@
                     @endphp
                 </td>
                 @endforeach
+
+                @if($revenue_stamp->company_portion == 1)
+                    <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">
+                        @php 
+                            echo $provident_fund = employee_provident_fund($month,$year,$employee['employee_id']);
+                            $total_deduction = $total_deduction + $provident_fund;
+                        @endphp
+                    </td>
+                @endif
+
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">{{$total_deduction}}</td>
                 <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right;">{{$total_earnings - $total_deduction}}</td>
-                @if($revenue_stamp == 1) <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;padding-top:40px;padding-bottom:40px;">&nbsp;</td> @endif
+                @if($revenue_stamp->status == 1) <td style="border-top: 1px solid black;border-right: 1px solid black;padding:5px;padding-top:40px;padding-bottom:40px;">&nbsp;</td> @endif
             </tr>
             @endforeach
             <tr>
@@ -98,6 +124,14 @@
                         @endphp
                     </td>
                 @endforeach
+                @if($revenue_stamp->company_portion == 1)
+                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right">
+                        @php 
+                            echo $total_provident_fund = get_provident_fund_total($month,$year,$employee_ids);
+                            $grand_total_earnings = $grand_total_earnings + $total_provident_fund;
+                        @endphp
+                    </td>
+                @endif
                 <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_earnings}}</td>
                 
                 @php $grand_total_deduction = 0; @endphp
@@ -111,9 +145,17 @@
                     @endphp
                 </td>
                 @endforeach
+                @if($revenue_stamp->company_portion == 1)
+                    <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;text-align:right">
+                        @php 
+                            echo $total_provident_fund = get_provident_fund_total($month,$year,$employee_ids);
+                            $grand_total_deduction = $grand_total_deduction + $total_provident_fund;
+                        @endphp
+                    </td>
+                @endif
                 <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_deduction}}</td>
                 <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;text-align:right">{{$grand_total_earnings - $grand_total_deduction}}</td>
-                @if($revenue_stamp == 1) <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">&nbsp;</td> @endif
+                @if($revenue_stamp->status == 1) <td style="border-top: 1px solid black;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">&nbsp;</td> @endif
             </tr>
         </table>
 

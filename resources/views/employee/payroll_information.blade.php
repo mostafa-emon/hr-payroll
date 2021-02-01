@@ -111,13 +111,6 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4 mg-t-10 remove-space">
-        <select class="form-control" name="company_pf_on_salary_statement" required>
-            <option value="" label>Company PF on Salary Statement*</option>
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </select>
-    </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
         <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus*" required/>
