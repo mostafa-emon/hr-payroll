@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGeneralSettingsTable extends Migration
+class CreateSalaryTransferLettersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateGeneralSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('general_settings', function (Blueprint $table) {
+        Schema::create('salary_transfer_letters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->string('amount_in_word',100)->nullable();
-            $table->string('date_format',100)->nullable();
-            $table->string('tax_chalan_code',100)->nullable();
+            $table->string('month',50);
+            $table->string('year',50);
+            $table->string('currency_id')->nullable();
+            $table->string('bank_id')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateGeneralSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('general_settings');
+        Schema::dropIfExists('salary_transfer_letters');
     }
 }

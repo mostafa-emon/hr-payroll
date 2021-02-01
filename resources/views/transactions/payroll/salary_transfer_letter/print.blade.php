@@ -1,0 +1,51 @@
+<div id="printArea">
+    <div class="visibility: hidden">
+        @php if($salary_format !=""){ echo $salary_format->top_text;} @endphp
+
+        <br>
+    </div>
+
+    <div class="table-responsive">
+        <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+            <thead>
+                <tr>
+                    <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
+                    <th style="width:30%;vertical-align: middle;text-align:center;">Employee ID</th>
+                    <th style="width:35%;vertical-align: middle;text-align:left;">Employee Name</th>
+                    <th style="width:30%;vertical-align: middle;text-align:right;">Salary Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($employees as $employee)
+                    <tr>
+                        <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
+                        <td style="vertical-align: middle;text-align:center;">{{get_employee_id($employee->employee_id)}}</td>
+                        <td style="vertical-align: middle;text-align:left;">{{employee_name_by_increment_id($employee->employee_id)}}</td>
+                        <td style="vertical-align: middle;text-align:right;">{{$employee->salary_amount}}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="visibility: hidden">
+        <br>
+
+        @php if($salary_format !=""){ echo $salary_format->bottom_text;} @endphp
+    </div>
+
+</div>
+
+<script>
+    var mywindow = window.open('', 'PRINT');
+    mywindow.document.write('<style>table {border-collapse: collapse;} th, td {border: 1px solid black;font-family:arial;font-size:13px;padding:7px;} .div-padding-30{padding:30px;}</style>');
+    mywindow.document.write(document.getElementById('printArea').innerHTML);
+
+    setTimeout(function () {
+        mywindow.focus();
+        mywindow.print();
+        mywindow.close();
+        window.location = "/salary-transfer-letter"
+    }, 1000);
+
+</script>

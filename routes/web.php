@@ -316,5 +316,9 @@ Route::get('/salary-sheet/details/{employee_id}/{month}/{year}','SalarySheetCont
 
 Route::get('/mail-pay-slip/{month}/{year}','SalarySheetController@mail_pay_slip');
 
-Route::get('/create-salary-transfer-letter','SalaryTransferLetterController@transfer_letter');
-Route::post('/create-salary-transfer-letter','SalaryTransferLetterController@transfer_letter');
+Route::get('/salary-transfer-letter','SalaryTransferLetterController@transfer_letter');
+Route::get('/salary-transfer-letter/create','SalaryTransferLetterController@transfer_letter_create');
+Route::post('/salary-transfer-letter/create','SalaryTransferLetterController@transfer_letter_create');
+Route::post('/store-salary-transfer-letter','SalaryTransferLetterController@transfer_letter_store');
+
+Route::get('/salary-transfer-letter-details/{letter_id}','SalaryTransferLetterController@transfer_letter_details');

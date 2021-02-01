@@ -62,6 +62,10 @@
                                                     <option value="DD-MMM-YY" @if(isset($settings) && $settings->date_format == "DD-MMM-YY") selected @endif>DD-MMM-YY (Ex: 21-Oct-19)</option>
                                                 </select>
                                             </div>
+                                            <div class="form-group row mg-t-10">
+                                                <label for="date_format" class="col-form-label col-md-3">Tax Chalan Code:</label>
+                                                <input type="text" name="tax_chalan_code" placeholder="Enter Code" class="form-control col-md-9 pa" value="@isset($settings){{$settings->tax_chalan_code}}@endisset">
+                                            </div>
                                         </div>
 
                                         <div class="row pd-t-15">

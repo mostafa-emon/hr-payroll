@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\SalaryTransferLetterFormat;
+use App\SalaryTransferLetter;
+use App\SalaryTransferLetterDetail;
 use App\EmploymentInfo;
 use App\Department;
 use App\Project;
@@ -47,10 +49,20 @@ class SalaryTransferLetterController extends Controller
         return view('payroll_setup.salary_transfer_letter.format',compact('format'));
     }
 
-    public function transfer_letter(Request $request) {
-        $salary_format          = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
+    public function transfer_letter() {
+        $transfer_letters = SalaryTransferLetter::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
+        return view('transactions.payroll.salary_transfer_letter.index',compact('transfer_letters'));
+    }
 
-        $sheet                  = SalarySheet::where('company_id',Auth::user()->company_id)->select('month','year')->groupBy('month', 'year');
+    public function transfer_letter_create(Request $request) {
+        
+        $currency_id            = '';
+        $bank_id                = '';
+        $month                  = '';
+        $formatted_month        = '';
+        $formatted_year         = '';
+
+        $salary_format          = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
 
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')
                                 ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.bank_name','salary_sheets.*','payroll_infos.currency_id')
@@ -62,10 +74,6 @@ class SalaryTransferLetterController extends Controller
 
         $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-
-        $currency_id            = '';
-        $bank_id                = '';
-        $month                  = '';
 
         if($request->currency_id != ""){
             $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
@@ -82,16 +90,42 @@ class SalaryTransferLetterController extends Controller
             $formatted_year     = date('Y', strtotime($request->month));
             $month              = $request->month;
 
-            $sheet              = $sheet->where('month',$formatted_month);
-            $sheet              = $sheet->where('year',$formatted_year);
-            $sheet              = $sheet->first();
-
             $employment_infos   = $employment_infos->where('month',$formatted_month);
             $employment_infos   = $employment_infos->where('year',$formatted_year);
             $employment_infos   = $employment_infos->get();
         }
 
 
-        return view('transactions.payroll.salary_transfer_letter',compact('banks','currencies','month','currency_id','bank_id','employment_infos','sheet','salary_format'));
+        return view('transactions.payroll.salary_transfer_letter.add',compact('banks','currencies','month','currency_id','bank_id','employment_infos','salary_format','formatted_month','formatted_year'));
+    }
+
+    public function transfer_letter_store(Request $request){
+
+        $transfer_letter                = new SalaryTransferLetter();
+        $transfer_letter->company_id    = Auth::user()->company_id;
+        $transfer_letter->month         = $request->store_month;
+        $transfer_letter->year          = $request->store_year;
+        $transfer_letter->currency_id   = $request->store_currency_id;
+        $transfer_letter->bank_id       = $request->store_bank_id;
+        $transfer_letter->save();
+
+        $interval = count($request->employee_id);
+        for($i = 0; $i < $interval; $i++) {
+
+            $detail = new SalaryTransferLetterDetail();
+            $detail->letter_id      = $transfer_letter->id;
+            $detail->employee_id    = $request->employee_id[$i];
+            $detail->salary_amount  = $request->salary_amount[$i];
+            $detail->save();
+        }
+
+        $salary_format              = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
+        $employees                  = SalaryTransferLetterDetail::where('letter_id',$transfer_letter->id)->get();
+        return view('transactions.payroll.salary_transfer_letter.print',compact('salary_format','employees'));
+    }
+
+    public function transfer_letter_details($letter_id) {
+        $transfer_details = SalaryTransferLetterDetail::where('letter_id',$letter_id)->orderBy('id','asc')->paginate(10);
+        return view('transactions.payroll.salary_transfer_letter.details',compact('transfer_details'));
     }
 }

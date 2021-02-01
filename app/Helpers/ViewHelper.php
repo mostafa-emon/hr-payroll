@@ -54,6 +54,10 @@ function employee_name_by_increment_id($employee_id) {
     return Employee::where('id',$employee_id)->value('name');
 }
 
+function get_employee_id($employee_id) {
+    return Employee::where('id',$employee_id)->value('employee_id');
+}
+
 function shift_name($shift_id) {
     return ShiftType::where('id',$shift_id)->value('name');
 }
