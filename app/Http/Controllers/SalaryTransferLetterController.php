@@ -128,4 +128,10 @@ class SalaryTransferLetterController extends Controller
         $transfer_details = SalaryTransferLetterDetail::where('letter_id',$letter_id)->orderBy('id','asc')->paginate(10);
         return view('transactions.payroll.salary_transfer_letter.details',compact('transfer_details'));
     }
+
+    public function transfer_letter_reprint($letter_id) {
+        $salary_format              = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
+        $employees                  = SalaryTransferLetterDetail::where('letter_id',$letter_id)->get();
+        return view('transactions.payroll.salary_transfer_letter.print',compact('salary_format','employees'));
+    }
 }

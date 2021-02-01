@@ -322,3 +322,4 @@ Route::post('/salary-transfer-letter/create','SalaryTransferLetterController@tra
 Route::post('/store-salary-transfer-letter','SalaryTransferLetterController@transfer_letter_store');
 
 Route::get('/salary-transfer-letter-details/{letter_id}','SalaryTransferLetterController@transfer_letter_details');
+Route::get('/salary-transfer-letter-reprint/{letter_id}','SalaryTransferLetterController@transfer_letter_reprint');
