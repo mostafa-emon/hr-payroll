@@ -316,10 +316,18 @@ Route::get('/salary-sheet/details/{employee_id}/{month}/{year}','SalarySheetCont
 
 Route::get('/mail-pay-slip/{month}/{year}','SalarySheetController@mail_pay_slip');
 
+//Salary Transfer Letter
 Route::get('/salary-transfer-letter','SalaryTransferLetterController@transfer_letter');
 Route::get('/salary-transfer-letter/create','SalaryTransferLetterController@transfer_letter_create');
 Route::post('/salary-transfer-letter/create','SalaryTransferLetterController@transfer_letter_create');
 Route::post('/store-salary-transfer-letter','SalaryTransferLetterController@transfer_letter_store');
-
 Route::get('/salary-transfer-letter-details/{letter_id}','SalaryTransferLetterController@transfer_letter_details');
 Route::get('/salary-transfer-letter-reprint/{letter_id}','SalaryTransferLetterController@transfer_letter_reprint');
+
+//Deposit Salary Tax
+Route::get('/deposit-salary-tax','PayrollController@deposit_salary_tax');
+Route::get('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
+Route::post('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
+Route::get('/deposit-salary-tax/{status}/{id}','PayrollController@deposit_salary_tax_status');
+
+Route::get('/download-file/{location}/{name}','HomeController@download_file');

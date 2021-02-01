@@ -58,4 +58,9 @@ class HomeController extends Controller
         
         return back();
     }
+
+    public function download_file($location,$name) {
+        $path = 'storage/'.$location.'/'.$name;
+        return response()->download($path);
+    }
 }

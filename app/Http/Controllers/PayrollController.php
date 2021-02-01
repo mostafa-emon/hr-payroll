@@ -16,6 +16,7 @@ use App\ProvidentFund;
 use App\Currency;
 use App\AbsentDeduction;
 use App\Gratuity;
+use App\DepositSalaryTax;
 use Auth;
 
 class PayrollController extends Controller
@@ -780,5 +781,45 @@ class PayrollController extends Controller
             return redirect('gratuity')->with('message','Gratuity Updated Successfully!');
         }
         return view('transactions.payroll.gratuity.update',compact('gratuity'));
+    }
+
+    public function deposit_salary_tax() {
+        $taxes = DepositSalaryTax::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
+        return view('transactions.payroll.deposit_salary_tax.index',compact('taxes'));
+    }
+
+    public function deposit_salary_tax_add(Request $request) {
+        $tax = new DepositSalaryTax();
+        if($request->from != "") {
+            $tax->company_id        = Auth::user()->company_id;
+            $tax->from              = date('F-Y', strtotime($request->from));
+            $tax->to                = date('F-Y', strtotime($request->to));
+            $tax->challan_no        = $request->challan_no;
+            $tax->text_1            = $request->text_1;
+            $tax->text_2            = $request->text_2;
+            $tax->text_3            = $request->text_3;
+            $tax->text_4            = $request->text_4;
+            $tax->status            = 'Pending';
+            if($request->hasFile('attachment')){  
+                $tax->attachment    = $request->file('attachment')->store('deposit_salary_tax');
+            }
+            $tax->save();
+
+            return view('transactions.payroll.deposit_salary_tax.print',compact('tax'));
+        }
+        return view('transactions.payroll.deposit_salary_tax.add');
+    }
+
+    public function deposit_salary_tax_status($status,$id) {
+        if($status == "Approved") {
+            $tax            = DepositSalaryTax::where('id',$id)->first();
+            $tax->status    = "Approved";
+            $tax->save();
+        }elseif($status == "Cancelled") {
+            $tax            = DepositSalaryTax::where('id',$id)->first();
+            $tax->status    = "Cancelled";
+            $tax->save();
+        }
+        return redirect('deposit-salary-tax')->with('message','Deposit Salary Tax '.$status.' Successfully!');
     }
 }
