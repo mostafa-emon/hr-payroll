@@ -58,7 +58,7 @@
                                             </div>
                                             <div class="col-md-4 mg-t-10">
                                                 <label for="Challan No" style="font-weight:bold;" class="col-form-label">Challan No*:</label>
-                                                <input class="form-control" placeholder="Challan No" name="challan_no" type="text">
+                                                <input class="form-control" placeholder="Challan No" name="challan_no" type="text" required>
                                             </div>
                                             <div class="col-md-8 mg-t-10">
                                                 <label for="Attachment" style="font-weight:bold;" class="col-form-label">Attachment:</label>
@@ -78,7 +78,9 @@
                                             </div>
                                             <div class="col-md-12 mg-t-15">
                                                 <label for="Text 4" style="font-weight:bold;" class="col-form-label">মুদ্রা ও নোটের বিবরণ/ড্রাফট, পে-অর্ডার ও চেকের বিবরণ।*:</label>
-                                                <textarea class="form-control" rows="4" placeholder="মুদ্রা ও নোটের বিবরণ/ড্রাফট, পে-অর্ডার ও চেকের বিবরণ........" name="text_4" type="text"></textarea>
+                                                <div class="ql-wrapper ql-wrapper-demo bg-gray-100">
+                                                    <textarea class="form-control" rows="4" placeholder="মুদ্রা ও নোটের বিবরণ/ড্রাফট, পে-অর্ডার ও চেকের বিবরণ........" name="text_4" type="text"></textarea>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -97,5 +99,12 @@
         </div>
 
     </div>
+    <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'text_1' );
+        CKEDITOR.replace( 'text_2' );
+        CKEDITOR.replace( 'text_3' );
+        CKEDITOR.replace( 'text_4' );
+    </script>
 
 @endsection

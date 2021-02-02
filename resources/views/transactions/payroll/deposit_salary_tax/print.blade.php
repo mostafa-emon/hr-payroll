@@ -61,22 +61,38 @@
                 <span>
                     <table>
                         <tr>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;">&nbsp</td>
+                            @php
+                                $length = strlen($code_no);
+                                $a = substr($code_no, 0 , -($length - 1));
+                                $b = substr($code_no, 1 , -($length - 2));
+                                $c = substr($code_no, 2 , -($length - 3));
+                                $d = substr($code_no, 3 , -($length - 4));
+                                $e = substr($code_no, 4 , -($length - 5));
+                                $f = substr($code_no, 5 , -($length - 6));
+                                $g = substr($code_no, 6 , -($length - 7));
+                                $h = substr($code_no, 7 , -($length - 8));
+                                $i = substr($code_no, 8 , -($length - 9));
+                                $j = substr($code_no, 9 , -($length - 10));
+                                $k = substr($code_no, 10 , -($length - 11));
+                                $l = substr($code_no, 11 , -($length - 12));
+                                $m = substr($code_no,($length - 1));
+                            @endphp
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$a}}</td>
+                            <td style="width:25px;height:22px;text-align:center;">&nbsp</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$b}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$c}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$d}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$e}}</td>
+                            <td style="width:25px;height:22px;text-align:center;">&nbsp</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$f}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$g}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;;text-align:center;">{{$h}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$i}}</td>
+                            <td style="width:25px;height:22px;text-align:center;">&nbsp</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$j}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$k}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$l}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$m}}</td>
                         </tr>
                         
                     </table>
@@ -104,10 +120,10 @@
             <td style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">পয়সা</td>
         </tr>
         <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{{$tax->text_1}}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{{$tax->text_2}}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{{$tax->text_3}}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{{$tax->text_4}}</td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_1!!}</td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_2!!}</td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_3!!}</td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_4!!}</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>

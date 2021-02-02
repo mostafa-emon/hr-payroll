@@ -17,6 +17,7 @@ use App\Currency;
 use App\AbsentDeduction;
 use App\Gratuity;
 use App\DepositSalaryTax;
+use App\GeneralSetting;
 use Auth;
 
 class PayrollController extends Controller
@@ -791,6 +792,17 @@ class PayrollController extends Controller
     public function deposit_salary_tax_add(Request $request) {
         $tax = new DepositSalaryTax();
         if($request->from != "") {
+            $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
+            if($code_no != "") {
+                if($code_no->tax_chalan_code) {
+                    $code_no = $code_no->tax_chalan_code;
+                }else{
+                    return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
+                }
+            }else{
+                return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
+            }
+            
             $tax->company_id        = Auth::user()->company_id;
             $tax->from              = date('F-Y', strtotime($request->from));
             $tax->to                = date('F-Y', strtotime($request->to));
@@ -805,7 +817,7 @@ class PayrollController extends Controller
             }
             $tax->save();
 
-            return view('transactions.payroll.deposit_salary_tax.print',compact('tax'));
+            return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no'));
         }
         return view('transactions.payroll.deposit_salary_tax.add');
     }
