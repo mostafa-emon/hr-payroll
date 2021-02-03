@@ -19,6 +19,7 @@ use App\Gratuity;
 use App\DepositSalaryTax;
 use App\GeneralSetting;
 use Auth;
+use Storage;
 
 class PayrollController extends Controller
 {
@@ -790,7 +791,6 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_add(Request $request) {
-        $tax = new DepositSalaryTax();
         if($request->from != "") {
             $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
             if($code_no != "") {
@@ -803,6 +803,7 @@ class PayrollController extends Controller
                 return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
             }
             
+            $tax = new DepositSalaryTax();
             $tax->company_id        = Auth::user()->company_id;
             $tax->from              = date('F-Y', strtotime($request->from));
             $tax->to                = date('F-Y', strtotime($request->to));
@@ -833,5 +834,19 @@ class PayrollController extends Controller
             $tax->save();
         }
         return redirect('deposit-salary-tax')->with('message','Deposit Salary Tax '.$status.' Successfully!');
+    }
+
+    public function deposit_salary_tax_upload_file(Request $request,$tax_id) {
+        $tax = DepositSalaryTax::where('id',$tax_id)->first();
+        if($request->hasFile('attachment')){
+            if($tax->attachment != ""){
+                Storage::delete($tax->attachment);
+            }
+            $tax->attachment    = $request->file('attachment')->store('deposit_salary_tax');
+            $tax->save();
+
+            return redirect('deposit-salary-tax')->with('message','File Uploaded Successfully!');
+        }
+        return view('transactions.payroll.deposit_salary_tax.upload_file',compact('tax_id'));
     }
 }

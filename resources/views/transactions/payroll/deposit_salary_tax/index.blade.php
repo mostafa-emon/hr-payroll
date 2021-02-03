@@ -91,7 +91,7 @@
                                                 <a href="{{url('deposit-salary-tax/Approved/'.$tax->id)}}" class="dropdown-item">Approved</a>
                                                 <a href="{{url('deposit-salary-tax/Cancelled/'.$tax->id)}}" class="dropdown-item">Cancelled</a>
                                             @endif
-                                            <a href="javascript:void(0)" class="dropdown-item">Upload</a>
+                                            <a href="{{url('deposit-salary-tax-upload_file/'.$tax->id)}}" class="dropdown-item">Upload</a>
                                         </div>
                                     </td>
                                 </tr>

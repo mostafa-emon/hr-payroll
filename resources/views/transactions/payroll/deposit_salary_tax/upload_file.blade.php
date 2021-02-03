@@ -1,0 +1,59 @@
+@extends('layouts.master')
+
+@section('content')
+
+    <div class="row mb-2">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/deposit-salary-tax')}}" style="color:#6c757d; font-weight: bold">Deposit Salary Tax</a></li>
+            <li class="breadcrumb-item active"><a href="{{url('deposit-salary-tax-upload_file/'.$tax_id)}}" style="color:#6c757d;">Upload File</a></li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top:5px">
+                            <h4 class="card-title mg-b-0">Deposit Salary Tax Upload File</h4>
+                        </div>
+                        <div class="col-md-6 text-right"></div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-body">
+                                    <form method="POST" action="{{url('deposit-salary-tax-upload_file/'.$tax_id)}}" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+
+                                        <div class="row row-xs mg-t-10">
+                                            <label for="Attachment" style="font-weight:bold;" class="col-form-label col-md-2">Attachment:</label>
+                                            <input class="form-control col-md-10" placeholder="Attachment" name="attachment" type="file">
+                                        </div>
+
+                                        <div class="row pd-t-20">
+                                            <div class="col-md-12 text-center">
+                                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
+                                            </div>
+                                        </div>
+                                    </form>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@endsection

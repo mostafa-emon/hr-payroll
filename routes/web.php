@@ -329,5 +329,7 @@ Route::get('/deposit-salary-tax','PayrollController@deposit_salary_tax');
 Route::get('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
 Route::post('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
 Route::get('/deposit-salary-tax/{status}/{id}','PayrollController@deposit_salary_tax_status');
+Route::get('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
+Route::post('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

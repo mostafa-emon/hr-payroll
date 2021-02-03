@@ -28,14 +28,21 @@
     <br>
 
     <div style="float:left;padding-left:40px;">
-        <div>
+        <div style="margin-bottom:15px;">
             <span>
                 চালান নং...........................................................
             </span>
             <span>
                 তারিখঃ...................................................
             </span>
-            
+            <div style="padding-left:68px;margin-top:-22px;">
+                <span>
+                    {{$tax->challan_no}}
+                </span>
+                <span style="padding-left:236px;">
+                    {{date('d/m/y')}}
+                </span>
+            </div>
         </div>
 
         <div>
