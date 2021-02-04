@@ -328,8 +328,11 @@ Route::get('/salary-transfer-letter-reprint/{letter_id}','SalaryTransferLetterCo
 Route::get('/deposit-salary-tax','PayrollController@deposit_salary_tax');
 Route::get('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
 Route::post('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
+Route::get('/deposit-salary-tax-update/{id}','PayrollController@deposit_salary_tax_update');
+Route::post('/deposit-salary-tax-update-post/{id}','PayrollController@deposit_salary_tax_update_post');
 Route::get('/deposit-salary-tax/{status}/{id}','PayrollController@deposit_salary_tax_status');
 Route::get('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
 Route::post('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
+Route::get('/deposit-salary-tax-reprint/{tax_id}','PayrollController@deposit_salary_tax_reprint');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

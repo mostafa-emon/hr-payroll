@@ -213,7 +213,7 @@
             <td colspan="4" style="text-align:left;border-top: 1px solid black;">টাকা পাওয়া গেল</td>
         </tr>
         <tr>
-            <td colspan="4" style="text-align:left;border-top: 1px solid black;">তারিখঃ..............................</td>
+            <td colspan="4" style="text-align:left;border-top: 1px solid black;">তারিখঃ {{date('d-F-Y',strtotime($tax->created_at))}}</td>
         </tr>
 
     </table>

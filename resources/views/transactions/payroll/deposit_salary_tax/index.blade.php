@@ -87,7 +87,9 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
+                                            <a href="{{url('deposit-salary-tax-reprint/'.$tax->id)}}" class="dropdown-item">Print</a>
                                             @if($tax->status == "Pending")
+                                                <a href="{{url('deposit-salary-tax-update/'.$tax->id)}}" class="dropdown-item">Edit</a>
                                                 <a href="{{url('deposit-salary-tax/Approved/'.$tax->id)}}" class="dropdown-item">Approved</a>
                                                 <a href="{{url('deposit-salary-tax/Cancelled/'.$tax->id)}}" class="dropdown-item">Cancelled</a>
                                             @endif

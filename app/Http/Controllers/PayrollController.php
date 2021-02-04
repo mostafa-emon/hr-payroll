@@ -791,6 +791,11 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_add(Request $request) {
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
+        
         if($request->from != "") {
             $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
             if($code_no != "") {
@@ -807,6 +812,10 @@ class PayrollController extends Controller
             $tax->company_id        = Auth::user()->company_id;
             $tax->from              = date('F-Y', strtotime($request->from));
             $tax->to                = date('F-Y', strtotime($request->to));
+            $tax->department_id     = $request->department_id;
+            $tax->project_id        = $request->project_id;
+            $tax->branch_id         = $request->branch_id;
+            $tax->currency_id       = $request->currency_id;
             $tax->challan_no        = $request->challan_no;
             $tax->text_1            = $request->text_1;
             $tax->text_2            = $request->text_2;
@@ -820,7 +829,26 @@ class PayrollController extends Controller
 
             return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no'));
         }
-        return view('transactions.payroll.deposit_salary_tax.add');
+        return view('transactions.payroll.deposit_salary_tax.add',compact('departments','projects','branches','currencies'));
+    }
+
+    public function deposit_salary_tax_update($id) {
+        $tax            = DepositSalaryTax::where('id',$id)->first();
+        if($tax->status != "Pending") {
+            return redirect('deposit-salary-tax')->with('message','Do not try to be too smart!');
+        }
+        return view('transactions.payroll.deposit_salary_tax.update',compact('tax'));
+    }
+
+    public function deposit_salary_tax_update_post(Request $request,$id) {
+        $tax            = DepositSalaryTax::where('id',$id)->first();
+        $tax->challan_no        = $request->challan_no;
+        $tax->text_1            = $request->text_1;
+        $tax->text_2            = $request->text_2;
+        $tax->text_3            = $request->text_3;
+        $tax->text_4            = $request->text_4;
+        $tax->save();
+        return redirect('deposit-salary-tax')->with('message','Deposit Salary Tax Updated Successfully!');
     }
 
     public function deposit_salary_tax_status($status,$id) {
@@ -848,5 +876,20 @@ class PayrollController extends Controller
             return redirect('deposit-salary-tax')->with('message','File Uploaded Successfully!');
         }
         return view('transactions.payroll.deposit_salary_tax.upload_file',compact('tax_id'));
+    }
+
+    public function deposit_salary_tax_reprint($tax_id) {
+        $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
+        if($code_no != "") {
+            if($code_no->tax_chalan_code) {
+                $code_no = $code_no->tax_chalan_code;
+            }else{
+                return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
+            }
+        }else{
+            return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
+        }
+        $tax = DepositSalaryTax::where('id',$tax_id)->first();
+        return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no'));
     }
 }

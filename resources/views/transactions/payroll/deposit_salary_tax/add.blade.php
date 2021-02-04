@@ -56,7 +56,43 @@
                                                 <label for="To Month" style="font-weight:bold;" class="col-form-label">To Month*:</label>
                                                 <input type="text" name="to" class="form-control monthpicker" autocomplete="off" placeholder="To Month" required>
                                             </div>
-                                            <div class="col-md-12 mg-t-10">
+                                            <div class="col-md-3 pd-t-10">
+                                                <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
+                                                <select class="form-control" name="department_id">
+                                                    <option value="" label>Department*</option>
+                                                    @foreach($departments as $department)
+                                                        <option value="{{$department->id}}">{{$department->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 pd-t-10">
+                                                <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
+                                                <select class="form-control" name="project_id">
+                                                    <option value="" label>Project</option>
+                                                    @foreach($projects as $project)
+                                                        <option value="{{$project->id}}">{{$project->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 pd-t-10">
+                                                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
+                                                <select class="form-control" name="branch_id">
+                                                    <option value="" label>Branch</option>
+                                                    @foreach($branches as $branch)
+                                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3 pd-t-10">
+                                                <label for="Currency" style="font-weight:bold;" class="col-form-label">Currency:</label>
+                                                <select name="currency_id" class="form-control">
+                                                    <option value="" label>Currency</option>
+                                                    @foreach($currencies as $currency)
+                                                        <option value="{{$currency->id}}">{{$currency->currency_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12 mg-t-15">
                                                 <label for="Text 1" style="font-weight:bold;" class="col-form-label">যাহার মারফত প্রদান হইল তাহার নাম ও ঠিকানা।*:</label>
                                                 <textarea class="form-control" rows="4" placeholder="যাহার মারফত প্রদান হইল তাহার নাম ও ঠিকানা........" name="text_1" type="text"></textarea>
                                             </div>
