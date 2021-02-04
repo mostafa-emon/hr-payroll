@@ -36,8 +36,12 @@
                                         {{ csrf_field() }}
 
                                         <div class="row row-xs mg-t-10">
-                                            <label for="Attachment" style="font-weight:bold;" class="col-form-label col-md-2">Attachment:</label>
-                                            <input class="form-control col-md-10" placeholder="Attachment" name="attachment" type="file">
+                                            <div class="col-md-3 pd-t-20 text-left">
+                                                Documents (File size max 2MB)
+                                            </div>
+                                            <div class="col-md-9 pd-t-10">
+                                                <input class="form-control" placeholder="Attachment" name="attachment[]" type="file" multiple="multiple">
+                                            </div>
                                         </div>
 
                                         <div class="row pd-t-20">

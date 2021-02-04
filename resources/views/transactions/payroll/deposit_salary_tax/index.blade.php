@@ -72,7 +72,10 @@
                                     <td class="text-center" style="vertical-align: middle">{{$tax->challan_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($tax->attachment != "")
-                                            <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('download-file/'.$tax->attachment)}}">Download</a>
+                                            @foreach(json_decode($tax->attachment) as $file)
+                                                <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('download-file/deposit_salary_tax/'.$file)}}">Download</a>
+                                                <br><br>
+                                            @endforeach
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">
@@ -89,7 +92,7 @@
                                         <div class="dropdown-menu">
                                             <a href="{{url('deposit-salary-tax-reprint/'.$tax->id)}}" class="dropdown-item">Print</a>
                                             @if($tax->status == "Pending")
-                                                <a href="{{url('deposit-salary-tax-update/'.$tax->id)}}" class="dropdown-item">Edit</a>
+                                            <a href="{{url('deposit-salary-tax-update/'.$tax->id)}}" class="dropdown-item">Edit</a>
                                                 <a href="{{url('deposit-salary-tax/Approved/'.$tax->id)}}" class="dropdown-item">Approved</a>
                                                 <a href="{{url('deposit-salary-tax/Cancelled/'.$tax->id)}}" class="dropdown-item">Cancelled</a>
                                             @endif

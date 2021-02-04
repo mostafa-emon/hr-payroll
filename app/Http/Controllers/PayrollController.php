@@ -866,14 +866,27 @@ class PayrollController extends Controller
 
     public function deposit_salary_tax_upload_file(Request $request,$tax_id) {
         $tax = DepositSalaryTax::where('id',$tax_id)->first();
-        if($request->hasFile('attachment')){
+        if($request->hasFile('attachment'))
+        {
             if($tax->attachment != ""){
-                Storage::delete($tax->attachment);
+                foreach(json_decode($tax->attachment) as $upload_file) {
+                    Storage::delete('deposit_salary_tax/'.$upload_file);
+                }
             }
-            $tax->attachment    = $request->file('attachment')->store('deposit_salary_tax');
+            $attach_file = [];
+            foreach($request->file('attachment') as $file)
+            {
+                $filesize = filesize($file);
+                $filesize_in_kb = $filesize / 1024;
+                if($filesize_in_kb <= 2048) {
+                    $custom_name    = md5(uniqid(rand(), true)).$tax->company_id.'.'.$file->getClientOriginalExtension();
+                    $file->move('storage\deposit_salary_tax/', $custom_name);
+                    array_push($attach_file, $custom_name);
+                }
+            }
+            $tax->attachment = json_encode($attach_file);
             $tax->save();
-
-            return redirect('deposit-salary-tax')->with('message','File Uploaded Successfully!');
+            return redirect('deposit-salary-tax')->with('message','Files Uploaded Successfully!');
         }
         return view('transactions.payroll.deposit_salary_tax.upload_file',compact('tax_id'));
     }
