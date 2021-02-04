@@ -40,7 +40,7 @@
                     {{$tax->challan_no}}
                 </span>
                 <span style="padding-left:236px;">
-                    {{date('d/m/y')}}
+                    &nbsp
                 </span>
             </div>
         </div>

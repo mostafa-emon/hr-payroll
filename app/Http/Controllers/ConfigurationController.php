@@ -27,6 +27,12 @@ class ConfigurationController extends Controller
 
     public function general_setting_update(Request $request) {
         $count = GeneralSetting::where('company_id',Auth::user()->company_id)->count();
+        if($request->tax_chalan_code !=""){
+            $length = strlen($request->tax_chalan_code);
+            if($length != 13) {
+                return redirect('general-settings')->with('error','Tax Challan Code Cannot More or Less than 13!');
+            }
+        }
         if($count == 0) {
             $setting = new GeneralSetting;
             $setting->company_id        = Auth::user()->company_id;

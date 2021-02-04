@@ -28,6 +28,15 @@
                         </div>
                     @endif
 
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session()->get('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">General Settings</h4>
@@ -63,7 +72,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group row mg-t-10">
-                                                <label for="date_format" class="col-form-label col-md-3">Tax Chalan Code:</label>
+                                                <label for="date_format" class="col-form-label col-md-3">Tax Challan Code:</label>
                                                 <input type="text" name="tax_chalan_code" placeholder="Enter Code" class="form-control col-md-9 pa" value="@isset($settings){{$settings->tax_chalan_code}}@endisset">
                                             </div>
                                         </div>

@@ -56,14 +56,6 @@
                                                 <label for="To Month" style="font-weight:bold;" class="col-form-label">To Month*:</label>
                                                 <input type="text" name="to" class="form-control monthpicker" autocomplete="off" placeholder="To Month" required>
                                             </div>
-                                            <div class="col-md-4 mg-t-10">
-                                                <label for="Challan No" style="font-weight:bold;" class="col-form-label">Challan No*:</label>
-                                                <input class="form-control" placeholder="Challan No" name="challan_no" type="text" required>
-                                            </div>
-                                            <div class="col-md-8 mg-t-10">
-                                                <label for="Attachment" style="font-weight:bold;" class="col-form-label">Attachment:</label>
-                                                <input class="form-control" placeholder="Attachment" name="attachment" type="file">
-                                            </div>
                                             <div class="col-md-12 mg-t-10">
                                                 <label for="Text 1" style="font-weight:bold;" class="col-form-label">যাহার মারফত প্রদান হইল তাহার নাম ও ঠিকানা।*:</label>
                                                 <textarea class="form-control" rows="4" placeholder="যাহার মারফত প্রদান হইল তাহার নাম ও ঠিকানা........" name="text_1" type="text"></textarea>

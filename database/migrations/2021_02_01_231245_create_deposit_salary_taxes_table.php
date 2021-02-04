@@ -17,10 +17,14 @@ class CreateDepositSalaryTaxesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->string('department_id')->nullable();
+            $table->string('project_id')->nullable();
+            $table->string('branch_id')->nullable();
+            $table->string('currency_id')->nullable();
             $table->string('from');
             $table->string('to');
             $table->string('challan_no')->nullable();
-            $table->string('attachment')->nullable();
+            $table->text('attachment')->nullable();
             $table->text('text_1')->nullable();
             $table->text('text_2')->nullable();
             $table->text('text_3')->nullable();
