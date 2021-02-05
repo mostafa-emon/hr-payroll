@@ -967,6 +967,33 @@ class PayrollController extends Controller
             return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
         }
         $tax = DepositSalaryTax::where('id',$tax_id)->first();
-        return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no'));
+        $from           = date('Y-m-01',strtotime($tax->from));
+        $to             = date('Y-m-31',strtotime($tax->to));
+        $total_tax      = 0;
+        $total_taka     = 0;
+        $total_poisa    = 0;
+
+        $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereBetween('query_date', [$from, $to])->get();
+
+        foreach($income_taxes as $income_tax) {
+            $total_tax = $total_tax + $income_tax->amount;
+        }
+        $total_taka  = floor($total_tax);
+        $poisa = ($total_tax) - $total_taka;
+        if($poisa > 0) {
+            $final = substr($poisa,2);
+            $length = strlen($final);
+            if($length > 2) {
+                $cutting = $length - 2;
+                $full_final = substr($final,0,-$cutting);
+                $total_poisa = $full_final;
+            }else{
+                $total_poisa = $final;
+            }
+        }else{
+            $total_poisa = 00;
+        }
+
+        return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no','total_poisa','total_taka'));
     }
 }
