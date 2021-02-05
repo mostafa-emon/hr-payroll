@@ -796,6 +796,9 @@ class PayrollController extends Controller
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
+        $total_tax              = 0;
+        $total_taka             = 0;
+        $total_poisa            = 0;
 
         $employment_infos       = EmploymentInfo::orderBy('income_taxes.query_date','asc')
                                 ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
@@ -825,6 +828,25 @@ class PayrollController extends Controller
 
             $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to]);
             $employment_infos   = $employment_infos->where('status',0)->get();
+
+            foreach($employment_infos as $income_tax) {
+                $total_tax = $total_tax + $income_tax->amount;
+            }
+            $total_taka  = floor($total_tax);
+            $poisa = ($total_tax) - $total_taka;
+            if($poisa > 0) {
+                $final = substr($poisa,2);
+                $length = strlen($final);
+                if($length > 2) {
+                    $cutting = $length - 2;
+                    $full_final = substr($final,0,-$cutting);
+                    $total_poisa = $full_final;
+                }else{
+                    $total_poisa = $final;
+                }
+            }else{
+                $total_poisa = 00;
+            }
         }
 
         
@@ -859,7 +881,7 @@ class PayrollController extends Controller
             }
             $tax->save();
 
-            return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no','employment_infos'));
+            return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no','employment_infos','total_taka','total_poisa'));
         }
         return view('transactions.payroll.deposit_salary_tax.add',compact('departments','projects','branches','currencies'));
     }
@@ -888,6 +910,16 @@ class PayrollController extends Controller
             $tax            = DepositSalaryTax::where('id',$id)->first();
             $tax->status    = "Approved";
             $tax->save();
+
+            $from           = date('Y-m-01',strtotime($tax->from));
+            $to             = date('Y-m-31',strtotime($tax->to));
+
+            $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereBetween('query_date', [$from, $to])->where('status',0)->get();
+            foreach($income_taxes as $income_tax) {
+                $income_tax->status = 1;
+                $income_tax->save();
+            }
+
         }elseif($status == "Cancelled") {
             $tax            = DepositSalaryTax::where('id',$id)->first();
             $tax->status    = "Cancelled";

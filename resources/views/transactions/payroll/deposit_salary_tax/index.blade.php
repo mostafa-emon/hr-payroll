@@ -64,12 +64,16 @@
                             </thead>
                             <tbody>
                                 @foreach($taxes as $tax)
+                                @php 
+                                    $total_taxes = total_tax($tax->id);
+                                    list($total_tax,$total_amount) = explode("_",$total_taxes);
+                                @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($taxes->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$tax->from}} - {{$tax->to}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$total_tax}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{$total_amount}}</td>
                                     <td class="text-center" style="vertical-align: middle"></td>
-                                    <td class="text-center" style="vertical-align: middle"></td>
-                                    <td class="text-center" style="vertical-align: middle">{{$tax->challan_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($tax->attachment != "")
                                             @foreach(json_decode($tax->attachment) as $file)
