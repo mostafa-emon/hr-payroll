@@ -52,14 +52,18 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="text-center" style="vertical-align:middle;width:5%;">SL</th>
-                                    <th style="vertical-align:middle;width:20%;">From - To</th>
-                                    <th class="text-center" style="vertical-align:middle;width:10%;">Total Tax</th>
-                                    <th class="text-center" style="vertical-align:middle;width:15%;">Total Amount</th>
-                                    <th class="text-center" style="vertical-align:middle;width:15%;">Challan No</th>
-                                    <th class="text-center" style="vertical-align:middle;width:12%;">Attachment</th>
-                                    <th class="text-center" style="vertical-align:middle;width:10%;">Status</th>
-                                    <th class="text-center" style="vertical-align:middle;width:13%;">Action</th>
+                                    <th class="text-center" style="vertical-align:middle;width:3%;">SL</th>
+                                    <th style="vertical-align:middle;width:19%;">From - To</th>
+                                    <th style="vertical-align:middle;width:10%;">Department</th>
+                                    <th style="vertical-align:middle;width:10%;">Project</th>
+                                    <th style="vertical-align:middle;width:10%;">Branch</th>
+                                    <th style="vertical-align:middle;width:10%;">Currency</th>
+                                    <th class="text-center" style="vertical-align:middle;width:5%;">Total Tax</th>
+                                    <th class="text-center" style="vertical-align:middle;width:5%;">Total Amount</th>
+                                    <th class="text-center" style="vertical-align:middle;width:10%;">Challan No</th>
+                                    <th class="text-center" style="vertical-align:middle;width:8%;">Attachment</th>
+                                    <th class="text-center" style="vertical-align:middle;width:5%;">Status</th>
+                                    <th class="text-center" style="vertical-align:middle;width:10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,9 +75,13 @@
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($taxes->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$tax->from}} - {{$tax->to}}</td>
+                                    <td style="vertical-align: middle">{{department_name($tax->department_id)}}</td>
+                                    <td style="vertical-align: middle">{{project_name($tax->project_id)}}</td>
+                                    <td style="vertical-align: middle">{{branch_name($tax->branch_id)}}</td>
+                                    <td style="vertical-align: middle">{{currency_name($tax->currency_id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$total_tax}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$total_amount}}</td>
-                                    <td class="text-center" style="vertical-align: middle"></td>
+                                    <td class="text-center" style="vertical-align: middle">{{$tax->challan_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($tax->attachment != "")
                                             @foreach(json_decode($tax->attachment) as $file)
