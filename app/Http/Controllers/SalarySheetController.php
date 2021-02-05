@@ -157,6 +157,7 @@ class SalarySheetController extends Controller
                             $income_tax->month             = $month;
                             $income_tax->year              = $year;
                             $income_tax->amount            = $final_amount;
+                            $income_tax->query_date        = date('Y-m-01',strtotime($request->salary_month));
                             $income_tax->status            = 0;
                             $income_tax->save();
                         }

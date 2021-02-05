@@ -127,75 +127,50 @@
             <td style="text-align:center;border-bottom: 1px solid black;border-right: 1px solid black;padding:5px;">পয়সা</td>
         </tr>
         <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_1!!}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_2!!}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_3!!}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_4!!}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
+            <td rowspan="{{count($employment_infos) + 1}}" style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_1!!}</td>
+            <td rowspan="{{count($employment_infos) + 1}}" style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_2!!}</td>
+            <td rowspan="{{count($employment_infos) + 1}}" style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_3!!}</td>
+            <td rowspan="{{count($employment_infos) + 1}}" style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_4!!}</td>
         </tr>
+        @php $total_taka = 0; $total_poisa = 0; @endphp
+        @foreach($employment_infos as $income_tax)
         <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-        </tr>
-        <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-        </tr>
-        <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-        </tr>
-        <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">
+                @php
+                    echo $taka  = floor($income_tax->amount);
+                    $total_taka = $total_taka + $taka;
+                @endphp
+            </td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">
+                @php 
+                    $poisa = ($income_tax->amount) - $taka;
+                    if($poisa > 0) {
+                        $final = substr($poisa,2);
+                        $length = strlen($final);
+                        if($length > 2) {
+                            $cutting = $length - 2;
+                            echo $full_final = substr($final,0,-$cutting);
+                            $total_poisa = $total_poisa + $full_final;
+                        }else{
+                            echo $final;
+                            $total_poisa = $total_poisa + $final;
+                        }
+                    }else{
+                        echo '00';
+                    }
+                @endphp
+
+            </td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
         </tr>
-        <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-        </tr>
-        <tr>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
-        </tr>
+        @endforeach
         <tr>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
             <td style="text-align:right;border-top: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">মোট টাকা</td>
-            <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">&nbsp</td>
-            <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">&nbsp</td>
+            <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">{{$total_taka}}</td>
+            <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">{{$total_poisa}}</td>
             <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">&nbsp</td>
         </tr>
         <tr>

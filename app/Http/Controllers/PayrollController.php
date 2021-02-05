@@ -18,6 +18,7 @@ use App\AbsentDeduction;
 use App\Gratuity;
 use App\DepositSalaryTax;
 use App\GeneralSetting;
+use App\IncomeTax;
 use Auth;
 use Storage;
 
@@ -795,6 +796,37 @@ class PayrollController extends Controller
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
+
+        $employment_infos       = EmploymentInfo::orderBy('income_taxes.query_date','asc')
+                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
+                                ->join('income_taxes','income_taxes.employee_id','employment_infos.employee_id')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id);
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+        }
+
+        if($request->currency_id != ""){
+            $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
+        }
+
+        if($request->from != "" && $request->to != ""){
+            $from       = date('Y-m-01',strtotime($request->from));
+            $to         = date('Y-m-31',strtotime($request->to));
+
+            $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to]);
+            $employment_infos   = $employment_infos->where('status',0)->get();
+        }
+
         
         if($request->from != "") {
             $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
@@ -827,7 +859,7 @@ class PayrollController extends Controller
             }
             $tax->save();
 
-            return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no'));
+            return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no','employment_infos'));
         }
         return view('transactions.payroll.deposit_salary_tax.add',compact('departments','projects','branches','currencies'));
     }
