@@ -53,7 +53,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="vertical-align:middle;">SL</th>
-                                    <th style="vertical-align:middle;">From - To</th>
+                                    <th style="vertical-align:middle;">Tax Months</th>
                                     <th style="vertical-align:middle;">Department</th>
                                     <th style="vertical-align:middle;">Project</th>
                                     <th style="vertical-align:middle;">Branch</th>
@@ -74,7 +74,7 @@
                                 @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($taxes->currentPage() * 10) - 10) + $loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{date('M-Y',strtotime($tax->from))}} {{date('M-Y',strtotime($tax->to))}}</td>
+                                    <td style="vertical-align: middle">{{date('M Y',strtotime($tax->from))}} to {{date('M Y',strtotime($tax->to))}}</td>
                                     <td style="vertical-align: middle">{{department_name($tax->department_id)}}</td>
                                     <td style="vertical-align: middle">{{project_name($tax->project_id)}}</td>
                                     <td style="vertical-align: middle">{{branch_name($tax->branch_id)}}</td>

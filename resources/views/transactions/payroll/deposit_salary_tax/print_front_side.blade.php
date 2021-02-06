@@ -205,7 +205,14 @@
             <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">&nbsp</td>
         </tr>
         <tr>
-            <td colspan="4" style="text-align:left;border-top: 1px solid black;">টাকা কথায়ঃ</td>
+            @php
+                if($tax->currency_id == "") {
+                    $employee_id = get_default_currency_employee();
+                }else {
+                    $employee_id = get_selected_currency_employee($tax->currency_id);
+                }    
+            @endphp
+            <td colspan="4" style="text-align:left;border-top: 1px solid black;">টাকা কথায়ঃ {{amount_in_word($total_tax,$employee_id)}}</td>
             <td rowspan="3" colspan="3" style="text-align:center;border-left: 1px solid black;border-right: 1px solid black;padding:5px;">
                 <div>
                     ম্যানেজার

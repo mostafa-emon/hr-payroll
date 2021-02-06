@@ -641,3 +641,12 @@ function convert_number_to_words($number,$currency_sub_unit = "") {
 
     return $string;
 }
+
+function get_default_currency_employee() {
+    $default_currency = Currency::where('default',1)->where('company_id',Auth::user()->company_id)->first();
+    return PayrollInfo::where('currency_id',$default_currency->id)->first()->employee_id;
+}
+
+function get_selected_currency_employee($currency_id) {
+    return PayrollInfo::where('currency_id',$currency_id)->first()->employee_id;
+}
