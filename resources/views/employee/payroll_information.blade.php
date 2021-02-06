@@ -113,18 +113,22 @@
 <div class="row">
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="festival_bonus_per_festival" style="font-weight:bold;" class="col-form-label">Festival Bonus*:</label>
         <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="gratuity_amount" style="font-weight:bold;" class="col-form-label">Gratuity Amount*:</label>
         <input type="text" class="form-control" id="gratuity_amount" name="gratuity_amount" placeholder="Gratuity Amount*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="investment_amount" style="font-weight:bold;" class="col-form-label">Investment Amount*:</label>
         <input type="text" class="form-control" name="investment_amount" placeholder="Investment Amount*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Allow OT*:</label>
         <select class="form-control" name="ot_allowed" required>
             <option value="" label>Allow OT*</option>
             <option value="1">Yes</option>
@@ -133,10 +137,12 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="hourly_ot_rate" style="font-weight:bold;" class="col-form-label">Hourly OT Rate*:</label>
         <input type="text" class="form-control" name="hourly_ot_rate" placeholder="Hourly OT Rate*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Salary Currency*:</label>
         <select name="currency_id" class="form-control select2-no-search col-md-12 pa" required>
             <option value="" label>Salary Currency*</option>
             @foreach($currencies as $currency)
@@ -146,6 +152,7 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work on Holiday*:</label>
         <select name="mark_overtime_if_work_in_holiday" class="form-control select2-no-search col-md-12 pa" required>
             <option value="" label>OT if Work on Holiday*</option>
             <option value="1">Yes</option>
@@ -154,6 +161,7 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">OT if Work on Leave Day*:</label>
         <select name="mark_overtime_if_work_in_leave_day" class="form-control select2-no-search col-md-12 pa" required>
             <option value="" label>OT if Work on Leave Day*</option>
             <option value="1">Yes</option>
