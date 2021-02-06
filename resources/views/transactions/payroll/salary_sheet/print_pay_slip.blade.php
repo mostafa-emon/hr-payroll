@@ -180,11 +180,11 @@
                 </td>
                 <td style="text-align:right;border-right: 1px solid black;padding:5px;border-top: 1px solid black;border-bottom: 1px solid black;">@if($company_pf != 0) {{$company_pf}} @else &nbsp; @endif</td>
                 <td style="padding-left:8px;text-align:left;border-right: 1px solid black;border-top: 1px solid black;border-bottom: 1px solid black;">Net Salary</td>
-                <td style="text-align:right;padding-right:6px;border-top: 1px solid black;border-bottom: 1px solid black;"><u>{{$total_earning - $total_deduction}}</u></td>
+                <td style="text-align:right;padding-right:6px;border-top: 1px solid black;border-bottom: 1px solid black;"><u>{{ $payable_salary = $total_earning - $total_deduction}}</u></td>
             </tr>
             <tr>
                 <td colspan="4" style="text-align:left;border-right: 1px solid black;padding:8px;padding-top:15px;">
-                    <b>Net Amount in word:</b> Forty-Four Thousand Nine Hundred Ninety-Seven Only.
+                    <b>Net Amount in word:</b> {{ amount_in_word($payable_salary,$employee->id) }}
                 </td>
             </tr>
             <tr>
