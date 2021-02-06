@@ -470,4 +470,228 @@ class SalarySheetController extends Controller
 
         return redirect('salary-sheet')->with('message','Pay Slip Mailed Successfully!');
     }
+
+    public function single_employee_details_print($employee_id,$request_month,$request_year){
+
+        $month  = date('M-Y', strtotime($request_month."-".$request_year));
+
+        $company_info = Company::where('id',Auth::user()->company_id)->first();
+
+        $employee       = Employee::where('id',$employee_id)->first();
+        $employment_info = EmploymentInfo::where('employee_id',$employee_id)->first();
+
+        $month_first_date   = date('Y-m-d', strtotime("01-".$month));
+        $month_last_date    = date('Y-m-d', strtotime("31-".$month));
+        $total_days         = date('t', strtotime($month));
+
+        // GET ATTENDANCE DATA
+
+        $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
+        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
+        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
+        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
+        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
+        $net_payable_days   = $total_days - $total_absent_days;
+
+        $total_approved_leave_days  = 0;
+
+        $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)
+                                    ->whereBetween('start_date', [$month_first_date, $month_last_date])
+                                    ->whereBetween('end_date', [$month_first_date, $month_last_date])
+                                    ->where('status','Approved')
+                                    ->get();
+
+        foreach($approved_leave_requests as $leave) {
+            $total_approved_leave_days = $total_approved_leave_days + $leave->leave_days;
+        }
+
+        $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
+
+        $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
+
+        // GET SALARY DATA
+        $pay_slip_data = []; 
+        $earning_components = SalarySheetDetails::where('employee_id',$employee->id)
+                    ->where('month',$request_month)
+                    ->where('year',$request_year)
+                    ->where('component_type','!=','Deduction')
+                    ->get();    
+        $total_earning = 0;
+        foreach($earning_components as $row) {
+            $total_earning = $total_earning + $row->payable_amount;
+        }
+
+        $deduction_components = SalarySheetDetails::where('employee_id',$employee->id)
+                    ->where('month',$request_month)
+                    ->where('year',$request_year)
+                    ->where('component_type','Deduction')
+                    ->get();  
+        $total_deduction = 0;
+        foreach($deduction_components as $row) {
+            $total_deduction = $total_deduction + $row->payable_amount;
+        }
+                    
+        $count_earning_components = count($earning_components);
+        
+        for($i = 0; $i < $count_earning_components; $i++) {
+            $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
+            $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
+
+            if(isset($deduction_components[$i])) {
+                $pay_slip_data[$i]['deduction_component']   = $deduction_components[$i]['component_name'];
+                $pay_slip_data[$i]['deduction_amount']      = $deduction_components[$i]['payable_amount'];
+            }else {
+                $pay_slip_data[$i]['deduction_component']   = "";
+                $pay_slip_data[$i]['deduction_amount']      = "";
+            }
+        }
+        $company_pf = ProvidentFund::where('employee_id',$employee->id)->where('month',$request_month)
+                    ->where('year',$request_year)->where('type','Company Portion')->where('status',0)->first();
+        if($company_pf != "") {
+            $company_pf = $company_pf->amount;
+        }else {
+            $company_pf = 0;
+        }
+
+        return view('transactions.payroll.salary_sheet.print_pay_slip',compact('company_info','month','employee','total_present_days',
+                'total_day_off','total_work_in_leave_days','total_leave_days','employment_info','total_holidays','total_late_days',
+                'total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
+    }
+
+    public function single_employee_details_mail($employee_id,$request_month,$request_year){
+        $email_setup = Email::where('company_id',Auth::user()->company_id)->first();
+        
+        if($email_setup == "") {
+            return redirect('salary-sheet')->with('error','Please complete your mail setup first!');
+        }else{
+            Config::set('mail.driver', $email_setup->mail_driver);
+            Config::set('mail.host', $email_setup->host_name);
+            Config::set('mail.port', $email_setup->port_name);
+            Config::set('mail.username', $email_setup->user_name);
+            Config::set('mail.password', $email_setup->password);
+            Config::set('mail.encryption', $email_setup->encryption);
+            Config::set('mail.from.address', $email_setup->from_address);
+            Config::set('mail.from.name', $email_setup->from_name);
+
+
+            $month  = date('M-Y', strtotime($request_month."-".$request_year));
+
+            $company_info       = Company::where('id',Auth::user()->company_id)->first();
+
+            $employee           = Employee::where('id',$employee_id)->first();
+            $employment_info    = EmploymentInfo::where('employee_id',$employee_id)->first();
+            
+            $month_first_date   = date('Y-m-d', strtotime("01-".$month));
+            $month_last_date    = date('Y-m-d', strtotime("31-".$month));
+            $total_days         = date('t', strtotime($month));
+
+            // GET ATTENDANCE DATA
+
+            $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
+            $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
+            $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
+            $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
+            $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
+            $net_payable_days   = $total_days - $total_absent_days;
+
+            $total_approved_leave_days  = 0;
+
+            $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)
+                                        ->whereBetween('start_date', [$month_first_date, $month_last_date])
+                                        ->whereBetween('end_date', [$month_first_date, $month_last_date])
+                                        ->where('status','Approved')
+                                        ->get();
+
+            foreach($approved_leave_requests as $leave) {
+                $total_approved_leave_days = $total_approved_leave_days + $leave->leave_days;
+            }
+
+            $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
+
+            $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
+
+            $data["email"]          = $employee->email_address;
+            $data["client_name"]    = $employee->name;
+            $data["subject"]        = 'Pay Slip of '.$month;
+            $data["body"]           = 'Pay Slip of '.$month;
+
+            // GET SALARY DATA
+            $pay_slip_data = []; 
+            $earning_components = SalarySheetDetails::where('employee_id',$employee->id)
+                        ->where('month',$request_month)
+                        ->where('year',$request_year)
+                        ->where('component_type','!=','Deduction')
+                        ->get();    
+            $total_earning = 0;
+            foreach($earning_components as $row) {
+                $total_earning = $total_earning + $row->payable_amount;
+            }
+
+            $deduction_components = SalarySheetDetails::where('employee_id',$employee->id)
+                        ->where('month',$request_month)
+                        ->where('year',$request_year)
+                        ->where('component_type','Deduction')
+                        ->get();  
+            $total_deduction = 0;
+            foreach($deduction_components as $row) {
+                $total_deduction = $total_deduction + $row->payable_amount;
+            }
+                        
+            $count_earning_components = count($earning_components);
+            
+            for($i = 0; $i < $count_earning_components; $i++) {
+                $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
+                $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
+
+                if(isset($deduction_components[$i])) {
+                    $pay_slip_data[$i]['deduction_component']   = $deduction_components[$i]['component_name'];
+                    $pay_slip_data[$i]['deduction_amount']      = $deduction_components[$i]['payable_amount'];
+                }else {
+                    $pay_slip_data[$i]['deduction_component']   = "";
+                    $pay_slip_data[$i]['deduction_amount']      = "";
+                }
+            }
+            $company_pf = ProvidentFund::where('employee_id',$employee->id)->where('month',$request_month)
+                        ->where('year',$request_year)->where('type','Company Portion')->where('status',0)->first();
+            if($company_pf != "") {
+                $company_pf = $company_pf->amount;
+            }else {
+                $company_pf = 0;
+            }
+
+            $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.mail_pay_slip',compact('company_info','month',
+                    'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days','employment_info',
+                    'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
+            
+            try{
+                Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {
+                $message->to($data["email"], $data["client_name"])
+                    ->subject($data["subject"])
+                    ->attachData($pdf->output(), "PaySlip.pdf");
+                });
+
+                $error      =   "";
+                $message    =   "Message sent Succesfully!";
+                $status     =   "1";
+            }catch(Swift_SwiftException $Ste){
+                $this->serverstatuscode = "0";
+                $this->serverstatusdes = $Ste->getMessage();
+
+                $error      =   $Ste->getMessage();
+                $message    =   "Error sending mail!";
+                $status     =   "0";
+            }
+
+            /*$pay_slip = MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$request_month)->where('year',$request_year)->count();
+            if($pay_slip == 0) {
+                $slip = new MailPaySlip();
+                $slip->company_id   = Auth::user()->company_id;
+                $slip->month        = $request_month;
+                $slip->year         = $request_year;
+                $slip->save();
+            }*/
+        }
+
+        return back()->with('message','Pay Slip Mailed Successfully!');
+    }
 }
