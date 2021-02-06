@@ -212,18 +212,18 @@
 <div class="row">
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="festival_bonus_per_festival" style="font-weight:bold;" class="col-form-label">Festival Bonus:</label>
+        <label for="festival_bonus_per_festival" style="font-weight:bold;" class="col-form-label">Festival Bonus*:</label>
         <input type="text" class="form-control" name="festival_bonus_per_festival" placeholder="Festival Bonus*" @if($payroll_info !="") value="{{$payroll_info->festival_bonus_per_festival}}" @endif required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="gratuity_amount" style="font-weight:bold;" class="col-form-label">Gratuity Amount:</label>
+        <label for="gratuity_amount" style="font-weight:bold;" class="col-form-label">Gratuity Amount*:</label>
         <input type="text" class="form-control" name="gratuity_amount" placeholder="Gratuity Amount*" @if($payroll_info !="") value="{{$payroll_info->gratuity_amount}}" @endif required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <label for="investment_amount" style="font-weight:bold;" class="col-form-label">Investment Amount:</label>
-        <input type="text" class="form-control" name="investment_amount" placeholder="Investment Amount" @if($payroll_info !="") value="{{$payroll_info->investment_amount}}" @endif/>
+        <label for="investment_amount" style="font-weight:bold;" class="col-form-label">Investment Amount*:</label>
+        <input type="text" class="form-control" name="investment_amount" placeholder="Investment Amount*" required @if($payroll_info !="") value="{{$payroll_info->investment_amount}}" @endif/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">

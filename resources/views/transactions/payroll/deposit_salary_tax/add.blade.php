@@ -59,7 +59,7 @@
                                             <div class="col-md-3 pd-t-10">
                                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
                                                 <select class="form-control" name="department_id">
-                                                    <option value="" label>Department*</option>
+                                                    <option value="" label>Department</option>
                                                     @foreach($departments as $department)
                                                         <option value="{{$department->id}}">{{$department->name}}</option>
                                                     @endforeach
