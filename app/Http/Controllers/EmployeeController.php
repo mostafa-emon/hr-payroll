@@ -238,6 +238,7 @@ class EmployeeController extends Controller
         $info->employee_id                          = $request->employee_id;
         $info->festival_bonus_per_festival          = $request->festival_bonus_per_festival;
         $info->gratuity_amount                      = $request->gratuity_amount;
+        $info->gratuity_opening_balance             = $request->gratuity_opening_balance;
         $info->company_pf_opening_balance           = $request->company_pf_opening_balance;
         $info->employee_pf_opening_balance          = $request->employee_pf_opening_balance;
         $info->investment_amount                    = $request->investment_amount;
@@ -500,6 +501,7 @@ class EmployeeController extends Controller
             $info->employee_id                          = $request->employee_id;
             $info->festival_bonus_per_festival          = $request->festival_bonus_per_festival;
             $info->gratuity_amount                      = $request->gratuity_amount;
+            $info->gratuity_opening_balance             = $request->gratuity_opening_balance;
             $info->company_pf_opening_balance           = $request->company_pf_opening_balance;
             $info->employee_pf_opening_balance          = $request->employee_pf_opening_balance;
             $info->investment_amount                    = $request->investment_amount;

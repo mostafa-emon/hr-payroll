@@ -123,6 +123,11 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="gratuity_opening_balance" style="font-weight:bold;" class="col-form-label">Gratuity Opening Balance*:</label>
+        <input type="text" class="form-control" id="gratuity_opening_balance" name="gratuity_opening_balance" placeholder="Gratuity Opening Balance*" required/>
+    </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
         <label for="company_pf_opening_balance" style="font-weight:bold;" class="col-form-label">Company PF Opening Balance*:</label>
         <input type="text" class="form-control" id="company_pf_opening_balance" name="company_pf_opening_balance" placeholder="Company PF Opening Balance*" required/>
     </div>

@@ -19,6 +19,7 @@ class CreatePayrollInfosTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->double('festival_bonus_per_festival')->default(0);
             $table->double('gratuity_amount')->default(0);
+            $table->double('gratuity_opening_balance')->default(0);
             $table->double('company_pf_opening_balance')->default(0);
             $table->double('employee_pf_opening_balance')->default(0);
             $table->double('investment_amount')->default(0);
