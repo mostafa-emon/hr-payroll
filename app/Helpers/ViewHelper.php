@@ -423,8 +423,34 @@ function total_tax($tax_id) {
     $to             = date('Y-m-31',strtotime($deposit_tax->to));
     $total_amount   = 0;
 
-    $total_tax      = IncomeTax::where('company_id',Auth::user()->company_id)->whereBetween('query_date', [$from, $to])->count();
-    $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereBetween('query_date', [$from, $to])->get();
+    $employees      = EmploymentInfo::orderBy('id','asc');
+
+    if($deposit_tax->department_id != "") {
+        $employees  = $employees->where('department_id',$deposit_tax->department_id);
+    }
+
+    if($deposit_tax->project_id !="") {
+        $employees  = $employees->where('project_id',$deposit_tax->project_id);
+    }
+
+    if($deposit_tax->branch_id !="") {
+        $employees  = $employees->where('branch_id',$deposit_tax->branch_id);
+    }
+
+    $employees      = $employees->get();
+
+    $employee_ids   = array();
+
+    foreach($employees as $employee) {
+        $employee_ids[] = $employee->employee_id;
+    }
+
+    $total_tax      = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
+                    ->where('currency_id',$deposit_tax->currency_id)->whereBetween('query_date', [$from, $to])->count();
+
+    $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
+                    ->where('currency_id',$deposit_tax->currency_id)->whereBetween('query_date', [$from, $to])->get();
+
     foreach($income_taxes as $income_tax) {
         $total_amount = $total_amount + $income_tax->amount;
     }

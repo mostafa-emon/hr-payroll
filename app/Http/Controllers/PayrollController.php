@@ -966,6 +966,7 @@ class PayrollController extends Controller
         }else{
             return redirect('deposit-salary-tax')->with('error','Please Update Your General Settings First!');
         }
+
         $tax = DepositSalaryTax::where('id',$tax_id)->first();
         $from           = date('Y-m-01',strtotime($tax->from));
         $to             = date('Y-m-31',strtotime($tax->to));
@@ -973,7 +974,30 @@ class PayrollController extends Controller
         $total_taka     = 0;
         $total_poisa    = 0;
 
-        $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereBetween('query_date', [$from, $to])->get();
+        $employees      = EmploymentInfo::orderBy('id','asc');
+
+        if($tax->department_id != "") {
+            $employees  = $employees->where('department_id',$tax->department_id);
+        }
+
+        if($tax->project_id !="") {
+            $employees  = $employees->where('project_id',$tax->project_id);
+        }
+
+        if($tax->branch_id !="") {
+            $employees  = $employees->where('branch_id',$tax->branch_id);
+        }
+
+        $employees      = $employees->get();
+
+        $employee_ids   = array();
+
+        foreach($employees as $employee) {
+            $employee_ids[] = $employee->employee_id;
+        }
+
+        $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
+                        ->where('currency_id',$tax->currency_id)->whereBetween('query_date', [$from, $to])->get();
 
         foreach($income_taxes as $income_tax) {
             $total_tax = $total_tax + $income_tax->amount;
