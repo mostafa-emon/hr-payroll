@@ -52,18 +52,18 @@
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="text-center" style="vertical-align:middle;width:3%;">SL</th>
-                                    <th style="vertical-align:middle;width:19%;">From - To</th>
-                                    <th style="vertical-align:middle;width:10%;">Department</th>
-                                    <th style="vertical-align:middle;width:10%;">Project</th>
-                                    <th style="vertical-align:middle;width:10%;">Branch</th>
-                                    <th style="vertical-align:middle;width:10%;">Currency</th>
-                                    <th class="text-center" style="vertical-align:middle;width:5%;">Total Tax</th>
-                                    <th class="text-center" style="vertical-align:middle;width:5%;">Total Amount</th>
-                                    <th class="text-center" style="vertical-align:middle;width:10%;">Challan No</th>
-                                    <th class="text-center" style="vertical-align:middle;width:8%;">Attachment</th>
-                                    <th class="text-center" style="vertical-align:middle;width:5%;">Status</th>
-                                    <th class="text-center" style="vertical-align:middle;width:10%;">Action</th>
+                                    <th class="text-center" style="vertical-align:middle;">SL</th>
+                                    <th style="vertical-align:middle;">From - To</th>
+                                    <th style="vertical-align:middle;">Department</th>
+                                    <th style="vertical-align:middle;">Project</th>
+                                    <th style="vertical-align:middle;">Branch</th>
+                                    <th style="vertical-align:middle;">Currency</th>
+                                    <th class="text-center" style="vertical-align:middle;">Total Tax</th>
+                                    <th class="text-center" style="vertical-align:middle;">Total Amount</th>
+                                    <th class="text-center" style="vertical-align:middle;">Challan No</th>
+                                    <th class="text-center" style="vertical-align:middle;">Attachment</th>
+                                    <th class="text-center" style="vertical-align:middle;">Status</th>
+                                    <th class="text-center" style="vertical-align:middle;width:95px;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,13 +74,13 @@
                                 @endphp
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($taxes->currentPage() * 10) - 10) + $loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{$tax->from}} - {{$tax->to}}</td>
+                                    <td style="vertical-align: middle">{{date('M-Y',strtotime($tax->from))}} {{date('M-Y',strtotime($tax->to))}}</td>
                                     <td style="vertical-align: middle">{{department_name($tax->department_id)}}</td>
                                     <td style="vertical-align: middle">{{project_name($tax->project_id)}}</td>
                                     <td style="vertical-align: middle">{{branch_name($tax->branch_id)}}</td>
                                     <td style="vertical-align: middle">{{currency_name($tax->currency_id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$total_tax}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$total_amount}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{sprintf("%.2f", $total_amount)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$tax->challan_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($tax->attachment != "")

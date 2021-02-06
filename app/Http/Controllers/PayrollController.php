@@ -914,7 +914,37 @@ class PayrollController extends Controller
             $from           = date('Y-m-01',strtotime($tax->from));
             $to             = date('Y-m-31',strtotime($tax->to));
 
-            $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereBetween('query_date', [$from, $to])->where('status',0)->get();
+            $employees      = EmploymentInfo::orderBy('id','asc');
+
+            if($tax->department_id != "") {
+                $employees  = $employees->where('department_id',$tax->department_id);
+            }
+        
+            if($tax->project_id !="") {
+                $employees  = $employees->where('project_id',$tax->project_id);
+            }
+        
+            if($tax->branch_id !="") {
+                $employees  = $employees->where('branch_id',$tax->branch_id);
+            }
+        
+            $employees      = $employees->get();
+        
+            $employee_ids   = array();
+        
+            foreach($employees as $employee) {
+                $employee_ids[] = $employee->employee_id;
+            }
+        
+            $income_taxes      = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
+                                ->whereBetween('query_date', [$from, $to])->where('status',0);
+        
+            if($tax->currency_id !="") {
+                $income_taxes  = $income_taxes->where('currency_id',$tax->currency_id);
+            }
+
+            $income_taxes  = $income_taxes->get();
+
             foreach($income_taxes as $income_tax) {
                 $income_tax->status = 1;
                 $income_tax->save();

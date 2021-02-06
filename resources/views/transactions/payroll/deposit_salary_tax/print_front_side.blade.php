@@ -132,7 +132,10 @@
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_3!!}</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">{!!$tax->text_4!!}</td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">{{$total_taka}}</td>
-            <td style="text-align:center;border-right: 1px solid black;padding:5px;">{{$total_poisa}}</td>
+            <td style="text-align:center;border-right: 1px solid black;padding:5px;">
+                @php $poisa_length = strlen($total_poisa); @endphp
+                @if($poisa_length < 2) {{$total_poisa}}0 @else {{$total_poisa}} @endif
+            </td>
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
         </tr>
         <tr>
@@ -195,7 +198,10 @@
             <td style="text-align:center;border-right: 1px solid black;padding:5px;">&nbsp</td>
             <td style="text-align:right;border-top: 1px solid black;border-right: 1px solid black;padding:5px;font-weight:bold;">মোট টাকা</td>
             <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">{{$total_taka}}</td>
-            <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">{{$total_poisa}}</td>
+            <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">
+                @php $poisa_length = strlen($total_poisa); @endphp
+                @if($poisa_length < 2) {{$total_poisa}}0 @else {{$total_poisa}} @endif
+            </td>
             <td style="text-align:center;border-top: 1px solid black;border-right: 1px solid black;padding:5px;border-bottom: 1px solid black;">&nbsp</td>
         </tr>
         <tr>
