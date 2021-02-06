@@ -14,7 +14,7 @@
                 <td style="border: 1px solid black;text-align:left;padding:5px;">{{$employee->original_employee_id}}</td>
                 <td style="border: 1px solid black;text-align:left;padding:5px;">{{$employee->name}}</td>
                 <td style="border: 1px solid black;text-align:left;padding:5px;">{{$employee->month}} {{$employee->year}}</td>
-                <td style="border: 1px solid black;text-align:right;padding:5px;">{{$employee->amount}}</td>
+                <td style="border: 1px solid black;text-align:right;padding:5px;">{{sprintf("%.2f", $employee->amount)}}</td>
             </tr>
             @endforeach
         </table>
