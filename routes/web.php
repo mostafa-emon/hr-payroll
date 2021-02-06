@@ -333,6 +333,7 @@ Route::post('/deposit-salary-tax-update-post/{id}','PayrollController@deposit_sa
 Route::get('/deposit-salary-tax/{status}/{id}','PayrollController@deposit_salary_tax_status');
 Route::get('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
 Route::post('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
-Route::get('/deposit-salary-tax-reprint/{tax_id}','PayrollController@deposit_salary_tax_reprint');
+Route::get('/deposit-salary-tax-print-frontside/{tax_id}','PayrollController@deposit_salary_tax_print_frontside');
+Route::get('/deposit-salary-tax-print-backside/{tax_id}','PayrollController@deposit_salary_tax_print_backside');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

@@ -881,7 +881,7 @@ class PayrollController extends Controller
             }
             $tax->save();
 
-            return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no','employment_infos','total_taka','total_poisa'));
+            return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','employment_infos','total_taka','total_poisa'));
         }
         return view('transactions.payroll.deposit_salary_tax.add',compact('departments','projects','branches','currencies'));
     }
@@ -955,7 +955,7 @@ class PayrollController extends Controller
         return view('transactions.payroll.deposit_salary_tax.upload_file',compact('tax_id'));
     }
 
-    public function deposit_salary_tax_reprint($tax_id) {
+    public function deposit_salary_tax_print_frontside($tax_id) {
         $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
         if($code_no != "") {
             if($code_no->tax_chalan_code) {
@@ -997,7 +997,13 @@ class PayrollController extends Controller
         }
 
         $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
-                        ->where('currency_id',$tax->currency_id)->whereBetween('query_date', [$from, $to])->get();
+                        ->whereBetween('query_date', [$from, $to]);
+
+        if($tax->currency_id !="") {
+            $income_taxes  = $income_taxes->where('currency_id',$tax->currency_id);
+        }
+
+        $income_taxes  = $income_taxes->get();
 
         foreach($income_taxes as $income_tax) {
             $total_tax = $total_tax + $income_tax->amount;
@@ -1018,6 +1024,38 @@ class PayrollController extends Controller
             $total_poisa = 00;
         }
 
-        return view('transactions.payroll.deposit_salary_tax.print',compact('tax','code_no','total_poisa','total_taka'));
+        return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','total_poisa','total_taka'));
+    }
+
+    public function deposit_salary_tax_print_backside($tax_id) {
+        $tax = DepositSalaryTax::where('id',$tax_id)->first();
+        $from           = date('Y-m-01',strtotime($tax->from));
+        $to             = date('Y-m-31',strtotime($tax->to));
+
+        $employment_infos       = EmploymentInfo::orderBy('income_taxes.query_date','asc')
+                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
+                                ->join('income_taxes','income_taxes.employee_id','employment_infos.employee_id')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id);
+
+        if($tax->department_id != ""){
+        $employment_infos   = $employment_infos->where('department_id',$tax->department_id);
+        }
+
+        if($tax->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$tax->project_id);
+        }
+
+        if($tax->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$tax->branch_id);
+        }
+
+        if($tax->currency_id != ""){
+            $employment_infos   = $employment_infos->where('currency_id',$tax->currency_id);
+        }
+
+        $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to])->get();
+
+        return view('transactions.payroll.deposit_salary_tax.print_back_side',compact('employment_infos'));
     }
 }

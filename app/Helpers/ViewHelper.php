@@ -446,13 +446,17 @@ function total_tax($tax_id) {
     }
 
     $total_tax      = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
-                    ->where('currency_id',$deposit_tax->currency_id)->whereBetween('query_date', [$from, $to])->count();
+                    ->whereBetween('query_date', [$from, $to]);
 
-    $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
-                    ->where('currency_id',$deposit_tax->currency_id)->whereBetween('query_date', [$from, $to])->get();
+    if($deposit_tax->currency_id !="") {
+        $total_tax  = $total_tax->where('currency_id',$deposit_tax->currency_id);
+    }
+
+    $count_total_tax = $total_tax->count();
+    $income_taxes  = $total_tax->get();
 
     foreach($income_taxes as $income_tax) {
         $total_amount = $total_amount + $income_tax->amount;
     }
-    return $total_tax."_".$total_amount;
+    return $count_total_tax."_".$total_amount;
 }
