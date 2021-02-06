@@ -125,25 +125,44 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $total_pf_amount = 0; @endphp
+                                        @php $total_pf_amount = 0; $sl = 0; @endphp
+                                        @if($company_pf_opening_balance != 0)
+                                        <tr>
+                                            <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
+                                            <td colspan="2" style="vertical-align: middle;text-align:center;">Opening Balance</td>
+                                            <td style="vertical-align: middle;text-align:center;">Company Portion</td>
+                                            <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance}}</td>
+                                        </tr>
+                                        @endif
+                                        @if($employee_pf_opening_balance != 0)
+                                        <tr>
+                                            <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
+                                            <td colspan="2" style="vertical-align: middle;text-align:center;">Opening Balance</td>
+                                            <td style="vertical-align: middle;text-align:center;">Employee Portion</td>
+                                            <td style="vertical-align: middle;text-align:right;">{{$employee_pf_opening_balance}}</td>
+                                        </tr>
+                                        @endif
+
                                         @foreach($pfs as $pf)
                                         @php 
                                             $employee = get_employee_info($pf->employee_id);
                                         @endphp
                                         <tr>
-                                            <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
+                                            <td style="vertical-align: middle;text-align:center;">{{$loop->iteration + $sl}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$pf->month}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$pf->year}}</td>
                                             <td style="vertical-align: middle;text-align:center;">{{$pf->type}}</td>
                                             <td style="vertical-align: middle;text-align:right;">
                                                 {{$pf->amount}}
-                                                @php $total_pf_amount = $total_pf_amount + $pf->amount; @endphp
+                                                @php 
+                                                    $total_pf_amount = $total_pf_amount + $pf->amount;
+                                                @endphp
                                             </td>
                                         </tr>
                                         @endforeach
                                         <tr>
                                             <td style="text-align:right;font-weight:bold;" colspan="4">Total PF Amount</td>
-                                            <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_pf_amount }}</td>
+                                            <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_pf_amount = $total_pf_amount + $employee_pf_opening_balance + $company_pf_opening_balance }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

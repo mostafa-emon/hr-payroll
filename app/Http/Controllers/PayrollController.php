@@ -19,6 +19,7 @@ use App\Gratuity;
 use App\DepositSalaryTax;
 use App\GeneralSetting;
 use App\IncomeTax;
+use App\PayrollInfo;
 use Auth;
 use Storage;
 
@@ -475,6 +476,8 @@ class PayrollController extends Controller
         $employee_id            = '';
         $increment_employee_id  = '';
         $pfs                    = [];
+        $company_pf_opening_balance     = 0;
+        $employee_pf_opening_balance    = 0;
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -494,6 +497,12 @@ class PayrollController extends Controller
         if($request->employee_id != "") {
             $employee_id            = $request->employee_id;
             $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
+            $payroll_info           = PayrollInfo::where('employee_id',$increment_employee_id)->first();
+            if($payroll_info != "") {
+                $company_pf_opening_balance     = $company_pf_opening_balance + $payroll_info->company_pf_opening_balance;
+                $employee_pf_opening_balance    = $employee_pf_opening_balance + $payroll_info->employee_pf_opening_balance;
+            }
+
             $pfs                    = ProvidentFund::where('company_id',Auth::user()->company_id)
                                     ->where('employee_id',$increment_employee_id)
                                     ->where('status',0)->get();
@@ -501,8 +510,8 @@ class PayrollController extends Controller
 
         $employment_infos = $employment_infos->get();
 
-        return view('transactions.payroll.pay_pf',compact('departments','projects','branches',
-        'department_id','project_id','branch_id','employee_id','employment_infos','pfs','increment_employee_id'));
+        return view('transactions.payroll.pay_pf',compact('departments','projects','branches','company_pf_opening_balance',
+        'department_id','project_id','branch_id','employee_id','employment_infos','pfs','increment_employee_id','employee_pf_opening_balance'));
     }
 
     public function pf_pay_store($employee_id) {
