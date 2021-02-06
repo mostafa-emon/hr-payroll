@@ -732,6 +732,7 @@ class PayrollController extends Controller
         $employee_id            = '';
         $increment_employee_id  = '';
         $gratuities             = [];
+        $gratuity_opening_balance   = 0;
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -751,6 +752,11 @@ class PayrollController extends Controller
         if($request->employee_id != "") {
             $employee_id            = $request->employee_id;
             $increment_employee_id  = get_auto_increment_employee_id($request->employee_id);
+            $payroll_info           = PayrollInfo::where('employee_id',$increment_employee_id)->first();
+            if($payroll_info != "") {
+                $gratuity_opening_balance     = $gratuity_opening_balance + $payroll_info->gratuity_opening_balance;
+            }
+
             $gratuities             = Gratuity::where('company_id',Auth::user()->company_id)
                                     ->where('employee_id',$increment_employee_id)
                                     ->where('status',0)->get();
@@ -759,7 +765,7 @@ class PayrollController extends Controller
         $employment_infos = $employment_infos->get();
 
         return view('transactions.payroll.gratuity.pay',compact('departments','projects','branches','department_id',
-        'project_id','branch_id','employee_id','employment_infos','gratuities','increment_employee_id'));
+        'project_id','branch_id','employee_id','employment_infos','gratuities','increment_employee_id','gratuity_opening_balance'));
     }
 
     public function gratuity_pay_store($employee_id) {
