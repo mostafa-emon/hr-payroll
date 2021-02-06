@@ -13,7 +13,7 @@
 <div id="earnings">
     <div class="row pd-t-10" id="earnings_1">
         <div class="col-md-4 remove-space" id="component_1">
-            <select class="form-control" name="salary_component_id[]" onchange="set_earnings_amount_class(1,this.value)">
+            <select class="form-control" id="earning_component_1" name="salary_component_id[]" onchange="set_earnings_amount_class(1,this.value)">
                 <option value="" label>Component</option>
                 @foreach($earning_components as $component)
                     <option value="{{$component->id}}">{{$component->component_name}}</option>
@@ -29,7 +29,7 @@
         </div>
     
         <div class="col-md-2 remove-space" id="percentage_1" style="display:none">
-            <input type="text" class="form-control" id="percentage_amount_1" name="percentage_amount[]" placeholder="Percentage, Ex:5"/>
+            <input type="text" class="form-control" id="percentage_amount_1" name="percentage_amount[]" placeholder="Percentage, Ex:5" oninput="is_basic_salary(1)"/>
         </div>
     
         <div class="col-md-2 remove-space" id="of_component_1" style="display:none">
@@ -46,7 +46,7 @@
         </div>
 
         <div class="col-md-5 remove-space" id="amount_1">
-            <input type="text" id="earnings_final_amount_1" class="form-control" name="final_amount[]" placeholder="Amount"/>
+            <input type="text" id="earnings_final_amount_1" class="form-control" name="final_amount[]" placeholder="Amount" oninput="is_basic_salary(1)"/>
         </div>
     
         <div class="col-md-1" style="padding:0px;">
@@ -117,7 +117,7 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
-        <input type="text" class="form-control" name="gratuity_amount" placeholder="Gratuity Amount*" required/>
+        <input type="text" class="form-control" id="gratuity_amount" name="gratuity_amount" placeholder="Gratuity Amount*" required/>
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
@@ -174,7 +174,7 @@
     var deductions  = 1;
     function add_earning_row(){
         earnings = earnings + 1;
-        $('#earnings').append('<div class="row pd-t-10" id="earnings_'+earnings+'"><div class="col-md-4 remove-space" id="component_'+earnings+'"><select class="form-control" name="salary_component_id[]" onchange="set_earnings_amount_class('+earnings+',this.value)"><option value="" label>Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="cal_type_'+earnings+'"><select class="form-control" name="fixed_or_percentage[]" id="fixed_or_percentage_'+earnings+'" onchange="fixed_or_percentage(this.value,'+earnings+')"><option value="fixed">Fixed Amount</option><option value="variable">Variable Amount</option></select></div><div class="col-md-2 remove-space" id="percentage_'+earnings+'" style="display:none"><input type="text" class="form-control" id="percentage_amount_'+earnings+'" name="percentage_amount[]" placeholder="Percentage, Ex:5"/></div><div class="col-md-2 remove-space" id="of_component_'+earnings+'" style="display:none"><select class="form-control" name="of_component_id[]" onchange="calculate_earnings_percentage_amount('+earnings+',this.value)"><option value="" label>% of Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-1 remove-space" style="display:none" id="earnings_percentage_final_amount_div_'+earnings+'"><input type="text" class="form-control" id="earnings_percentage_final_amount_'+earnings+'" name="earnings_percentage_final_amount[]" placeholder="Amount"/></div><div class="col-md-5 remove-space" id="amount_'+earnings+'"><input type="text" class="form-control" id="earnings_final_amount_'+earnings+'" name="final_amount[]" placeholder="Amount"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_earning_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_earning_row('+earnings+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
+        $('#earnings').append('<div class="row pd-t-10" id="earnings_'+earnings+'"><div class="col-md-4 remove-space" id="component_'+earnings+'"><select class="form-control" id="earning_component_'+earnings+'" name="salary_component_id[]" onchange="set_earnings_amount_class('+earnings+',this.value)"><option value="" label>Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-2 remove-space" id="cal_type_'+earnings+'"><select class="form-control" name="fixed_or_percentage[]" id="fixed_or_percentage_'+earnings+'" onchange="fixed_or_percentage(this.value,'+earnings+')"><option value="fixed">Fixed Amount</option><option value="variable">Variable Amount</option></select></div><div class="col-md-2 remove-space" id="percentage_'+earnings+'" style="display:none"><input type="text" class="form-control" id="percentage_amount_'+earnings+'" name="percentage_amount[]" oninput="is_basic_salary('+earnings+')" placeholder="Percentage, Ex:5"/></div><div class="col-md-2 remove-space" id="of_component_'+earnings+'" style="display:none"><select class="form-control" name="of_component_id[]" onchange="calculate_earnings_percentage_amount('+earnings+',this.value)"><option value="" label>% of Component</option>@foreach($earning_components as $component)<option value="{{$component->id}}">{{$component->component_name}}</option>@endforeach</select></div><div class="col-md-1 remove-space" style="display:none" id="earnings_percentage_final_amount_div_'+earnings+'"><input type="text" class="form-control" id="earnings_percentage_final_amount_'+earnings+'" name="earnings_percentage_final_amount[]" placeholder="Amount"/></div><div class="col-md-5 remove-space" id="amount_'+earnings+'"><input type="text" class="form-control" id="earnings_final_amount_'+earnings+'" name="final_amount[]" placeholder="Amount" oninput="is_basic_salary('+earnings+')"/></div><div class="col-md-1" style="padding:0px;"><a href="javascript:void(0)" class="btn btn-success" onclick="add_earning_row()" style="width:15px;padding-left:7px;margin-left:3px;margin-right:5px"><i class="fa fa-plus-circle"></i></a><a href="javascript:void(0)" class="btn btn-danger" onclick="remove_earning_row('+earnings+')" style="width:15px;padding-left:7px;"><i class="fa fa-minus-circle"></i></a></div></div>');
     }
 
     function remove_earning_row(idValue) {
@@ -240,6 +240,21 @@
         }
         
         $('#earnings_percentage_final_amount_'+row_id).val(percentage_final_amount)
+
+        var main_component_id = $('#earning_component_'+row_id).val();
+        var url = '/component-reference/'+main_component_id;
+        $.ajax({
+            type:'GET',
+            url:url,
+            success:function(response) {
+                if(response == "Basic Salary") {
+                    var fixed_or_perct = $('#fixed_or_percentage_'+row_id).val();
+                    if(fixed_or_perct == "variable") {
+                        $('#gratuity_amount').val(percentage_final_amount);
+                    }
+                }
+            }
+        });
     }
 
     function set_earnings_amount_class(row_id,component_id) {
@@ -270,5 +285,24 @@
 
     function set_deduction_amount_class(row_id,component_id) {
         $('#deduction_final_amount_'+row_id).addClass('deduction_final_amount_component_'+component_id);
+    }
+
+    function is_basic_salary(row_value) {
+        var component_id = $('#earning_component_'+row_value).val();
+        var url = '/component-reference/'+component_id;
+        $.ajax({
+            type:'GET',
+            url:url,
+            success:function(response) {
+                if(response == "Basic Salary") {
+                    var fixed_or_perct = $('#fixed_or_percentage_'+row_value).val();
+                    if(fixed_or_perct == "fixed") {
+                        var final_gratuity_amount = $('#earnings_final_amount_'+row_value).val();
+                        $('#gratuity_amount').val(final_gratuity_amount);
+                    }
+                    
+                }
+            }
+        });
     }
 </script>

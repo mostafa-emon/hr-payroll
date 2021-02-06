@@ -162,6 +162,7 @@ Route::post('/salary-components/add', 'SalaryController@component_add');
 Route::get('/salary-components/update/{id}', 'SalaryController@component_update');
 Route::post('/salary-components/update/{id}', 'SalaryController@component_update');
 Route::get('/salary-components/delete/{id}', 'SalaryController@component_delete');
+Route::get('/component-reference/{component_id}', 'SalaryController@component_reference');
 
 Route::get('/payroll-banks', 'PayrollController@bank_index');
 Route::post('/payroll-banks/add', 'PayrollController@bank_add');

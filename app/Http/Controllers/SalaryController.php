@@ -71,4 +71,8 @@ class SalaryController extends Controller
             return redirect('salary-components')->with('message','Do not try to be too smart!');
         }
     }
+
+    public function component_reference($component_id) {
+        echo SalaryComponent::where('id',$component_id)->first()->component_reference;
+    }
 }
