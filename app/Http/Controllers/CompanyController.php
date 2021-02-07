@@ -44,7 +44,6 @@ class CompanyController extends Controller
             $company->ein                       = $request->ein;
             $company->vat_reg_no                = $request->vat_reg_no;
             $company->website                   = $request->website;
-            $company->currency_id               = $request->currency_id;
             $company->leave_year_from           = $request->leave_year_from;
             $company->leave_year_to             = $request->leave_year_to;
             if ($request->hasFile('logo')) {
@@ -67,7 +66,6 @@ class CompanyController extends Controller
             $company->ein                       = $request->ein;
             $company->vat_reg_no                = $request->vat_reg_no;
             $company->website                   = $request->website;
-            $company->currency_id               = $request->currency_id;
             $company->leave_year_from           = $request->leave_year_from;
             $company->leave_year_to             = $request->leave_year_to;
             if ($request->hasFile('logo')) {

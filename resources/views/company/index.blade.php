@@ -85,20 +85,11 @@
                       <input id="vat_reg_no" type="text" name="vat_reg_no" placeholder="VAT Registration Number" class="form-control" value="@isset($info->vat_reg_no){{$info->vat_reg_no}}@endisset">
                     </div>
 
-                    <div class="col-md-3 pd-t-10">
+                    <div class="col-md-4 pd-t-10">
                       <input id="website" type="text" name="website" placeholder="Website" class="form-control" value="@isset($info->website){{$info->website}}@endisset">
                     </div>
 
-                    <div class="col-md-3 pd-t-10">
-                      <select name="currency_id" class="form-control" required>
-                        <option value="" label>Currency</option>
-                        @foreach($currency as $cur)
-                          <option value="{{$cur->id}}" @if(isset($info) && $info->currency_id == $cur->id) selected @endif>{{$cur->currency_name}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-
-                    <div class="col-md-3 pd-t-10">
+                    <div class="col-md-4 pd-t-10">
                       <select name="leave_year_from" class="form-control">
                         <option value="" label>Leave year from</option>
                         <option value="1" @if(isset($info) && $info->leave_year_from == 1) selected @endif>January</option>
@@ -116,7 +107,7 @@
                       </select>
                     </div>
 
-                    <div class="col-md-3 pd-t-10">
+                    <div class="col-md-4 pd-t-10">
                       <select name="leave_year_to" class="form-control">
                         <option value="" label>Leave year to</option>
                         <option value="1" @if(isset($info) && $info->leave_year_to == 1) selected @endif>January</option>
