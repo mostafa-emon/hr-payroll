@@ -911,7 +911,7 @@ class PayrollController extends Controller
             }
             $tax->save();
 
-            return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','employment_infos','total_taka','total_poisa'));
+            return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','employment_infos','total_taka','total_poisa','total_tax'));
         }
         return view('transactions.payroll.deposit_salary_tax.add',compact('departments','projects','branches','currencies'));
     }
@@ -1084,7 +1084,7 @@ class PayrollController extends Controller
             $total_poisa = 00;
         }
 
-        return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','total_poisa','total_taka'));
+        return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','total_poisa','total_taka','total_tax'));
     }
 
     public function deposit_salary_tax_print_backside($tax_id) {

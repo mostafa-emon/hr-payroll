@@ -462,12 +462,19 @@ function total_tax($tax_id) {
     return $count_total_tax."_".$total_amount;
 }
 
-function amount_in_word($amount,$employee_id) {
+function amount_in_word($amount,$employee_id = "") {
     $setting        = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
-    $currency_id    = PayrollInfo::where('employee_id',$employee_id)->first()->currency_id;
-    $currency       = Currency::where('id',$currency_id)->first();
-    $currency_unit      = $currency->full_unit_name;
-    $currency_sub_unit  = $currency->sub_unit_name;
+
+    if($employee_id != "") {
+        $currency_id    = PayrollInfo::where('employee_id',$employee_id)->first()->currency_id;
+        $currency       = Currency::where('id',$currency_id)->first();
+        $currency_unit      = $currency->full_unit_name;
+        $currency_sub_unit  = $currency->sub_unit_name;
+    }else {
+        $currency_unit      = "";
+        $currency_sub_unit  = "";
+    }
+    
 
     if($setting->amount_in_word == "Crore-Lac-Thousand" || $setting->amount_in_word == "Crore-Lakh-Thousand") {
         $number = $amount;
@@ -531,11 +538,68 @@ function amount_in_word($amount,$employee_id) {
     }
     
     else {
-        return $currency_unit." ".convert_number_to_words($amount,$currency_sub_unit).' Only';
+        return $currency_unit." ".convert_number_to_words($amount,$amount,$currency_sub_unit).' Only';
     }
 }
 
-function convert_number_to_words($number,$currency_sub_unit = "") {
+function decimal_in_word($amount) {
+    $number = $amount;
+    $no = round($number);
+    $decimal = round($number - ($no = floor($number)), 2) * 100;    
+    $digits_length = strlen($no);    
+    $i = 0;
+    $str = array();
+    $words = array(
+        0 => '',
+        1 => 'One',
+        2 => 'Two',
+        3 => 'Three',
+        4 => 'Four',
+        5 => 'Five',
+        6 => 'Six',
+        7 => 'Seven',
+        8 => 'Eight',
+        9 => 'Nine',
+        10 => 'Ten',
+        11 => 'Eleven',
+        12 => 'Twelve',
+        13 => 'Thirteen',
+        14 => 'Fourteen',
+        15 => 'Fifteen',
+        16 => 'Sixteen',
+        17 => 'Seventeen',
+        18 => 'Eighteen',
+        19 => 'Nineteen',
+        20 => 'Twenty',
+        30 => 'Thirty',
+        40 => 'Forty',
+        50 => 'Fifty',
+        60 => 'Sixty',
+        70 => 'Seventy',
+        80 => 'Eighty',
+        90 => 'Ninety');
+    
+    $digits = array('', 'Hundred', 'Thousand', 'Lac', 'Crore');
+    
+    while ($i < $digits_length) {
+        $divider = ($i == 2) ? 10 : 100;
+        $number = floor($no % $divider);
+        $no = floor($no / $divider);
+        $i += $divider == 10 ? 1 : 2;
+        if ($number) {
+            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;            
+            $str [] = ($number < 21) ? $words[$number] . ' ' . $digits[$counter] . $plural : $words[floor($number / 10) * 10] . ' ' . $words[$number % 10] . ' ' . $digits[$counter] . $plural;
+        } else {
+            $str [] = null;
+        }  
+    }
+    
+    $Rupees = implode(' ', array_reverse($str));
+    $paise = ($decimal) ? ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  : '';
+    return ($Rupees ? $currency_unit .' '. $Rupees : '') . $paise;
+}
+
+function convert_number_to_words($number,$amount="",$currency_sub_unit = "") {
     $hyphen      = ' ';
     $conjunction = ' ';
     $separator   = ' ';
@@ -634,10 +698,20 @@ function convert_number_to_words($number,$currency_sub_unit = "") {
             break;
     }
 
-    if (null !== $fraction && is_numeric($fraction)) {
-        $string .= $decimal;
-        $string .= $currency_sub_unit.' '.convert_number_to_words($fraction);
+    if (is_float($amount)) {
+        $intValue = intval($amount);
+        $decimalValue = $amount - $intValue;
+        $string .= " And ".$currency_sub_unit.' '.decimal_in_word($decimalValue);
     }
 
     return $string;
+}
+
+function get_default_currency_employee() {
+    $default_currency = Currency::where('default',1)->where('company_id',Auth::user()->company_id)->first();
+    return PayrollInfo::where('currency_id',$default_currency->id)->first()->employee_id;
+}
+
+function get_selected_currency_employee($currency_id) {
+    return PayrollInfo::where('currency_id',$currency_id)->first()->employee_id;
 }
