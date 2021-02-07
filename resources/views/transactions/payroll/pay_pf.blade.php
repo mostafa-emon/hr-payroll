@@ -101,27 +101,26 @@
                                 <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                     <thead>
                                         <tr class="visibility: hidden">
-                                            <th colspan="5" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
+                                            <th colspan="4" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
                                         </tr>
                                         <tr class="visibility: hidden">
-                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
+                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
                                         </tr>
                                         <tr class="visibility: hidden">
-                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$employee_id}} <b>{{employee_name($employee_id)}}</b></th>
+                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$employee_id}} <b>{{employee_name($employee_id)}}</b></th>
                                         </tr>
                                         @php $employee_auto_increment_id = get_auto_increment_employee_id($employee_id); @endphp
                                         <tr class="visibility: hidden">
-                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
+                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr class="visibility: hidden">
-                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_auto_increment_id)}}</th>
+                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr>
                                             <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
-                                            <th style="width:25%;vertical-align: middle;text-align:center;">Applicable Month</th>
-                                            <th style="width:25%;vertical-align: middle;text-align:center;">Applicable Year</th>
-                                            <th style="width:20%;vertical-align: middle;text-align:center;">PF Type</th>
-                                            <th style="width:20%;vertical-align: middle;text-align:right;">PF Amount</th>
+                                            <th style="width:35%;vertical-align: middle;text-align:center;">Applicable Month</th>
+                                            <th style="width:30%;vertical-align: middle;text-align:center;">PF Type</th>
+                                            <th style="width:30%;vertical-align: middle;text-align:right;">PF Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>

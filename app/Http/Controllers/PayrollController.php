@@ -522,6 +522,14 @@ class PayrollController extends Controller
             $pf->status = 1;
             $pf->save();
         }
+
+        $payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+        if($payroll_info != "") {
+            $payroll_info->company_pf_opening_balance   = 0;
+            $payroll_info->employee_pf_opening_balance  = 0;
+            $payroll_info->save();
+        }
+
         return redirect('pf-pay')->with('message','Provident Fund paid successfully!');
     }
 
@@ -776,6 +784,13 @@ class PayrollController extends Controller
             $gratuity->status = 1;
             $gratuity->save();
         }
+
+        $payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+        if($payroll_info != "") {
+            $payroll_info->gratuity_opening_balance   = 0;
+            $payroll_info->save();
+        }
+
         return redirect('gratuity')->with('message','Gratuity paid successfully!');
     }
 
