@@ -19,8 +19,8 @@
         <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{url('/salary-sheet')}}" style="color:#6c757d; font-weight: bold">Salary Sheet</a></li>
-            <li class="breadcrumb-item active"><a href="{{ url('salary-sheet-details/') }}" style="color:#6c757d;">Details</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/salary-transfer-letter')}}" style="color:#6c757d; font-weight: bold">Salary Transfer Letter</a></li>
+            <li class="breadcrumb-item active"><a href="{{ url('salary-transfer-letter/create') }}" style="color:#6c757d;">Create</a></li>
         </ol>
         </div>
     </div>
@@ -52,7 +52,7 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Salary Sheet Details</h4>
+                            <h4 class="card-title mg-b-0">Create Salary Transfer Letter</h4>
                         </div>
                         <div class="col-md-6 text-right">
                         </div>
