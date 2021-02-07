@@ -103,20 +103,33 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center" style="width:5%;vertical-align: middle;">SL</th>
-                                            <th style="width:18%;vertical-align: middle;">Employee Name</th>
-                                            <th class="text-center" style="width:15%;vertical-align: middle;">Employee ID</th>
+                                            <th style="width:15%;vertical-align: middle;">Employee Name</th>
+                                            <th class="text-center" style="width:10%;vertical-align: middle;">Employee ID</th>
                                             <th class="text-center" style="width:18%;vertical-align: middle;">Department</th>
                                             <th class="text-center" style="width:18%;vertical-align: middle;">Designation</th>
-                                            <th class="text-center" style="width:6%;vertical-align: middle;">Year</th>
-                                            <th class="text-center" style="width:10%;vertical-align: middle;">Gratuity Amount</th>
+                                            <th class="text-center" style="width:15%;vertical-align: middle;">Year</th>
+                                            <th class="text-center" style="width:13%;vertical-align: middle;">Gratuity Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $total_gratuity_amount = 0; @endphp
-                                        @foreach($gratuities as $gratuity)
                                         @php 
-                                            $employee = get_employee_info($gratuity->employee_id);
+                                            $total_gratuity_amount = 0; $sl = 0;
+                                            $employee = get_employee_info($increment_employee_id);
                                         @endphp
+
+                                        @if($gratuity_opening_balance != 0)
+                                        <tr>
+                                            <td class="text-center" style="vertical-align: middle">{{$sl = $sl + 1}}</td>
+                                            <td style="vertical-align: middle">{{$employee->name}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
+                                            <td class="text-center" style="vertical-align: middle">Opening Balance</td>
+                                            <td class="text-center" style="vertical-align: middle">{{$gratuity_opening_balance}}</td>
+                                        </tr>
+                                        @endif
+
+                                        @foreach($gratuities as $gratuity)
                                         <tr>
                                             <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
                                             <td style="vertical-align: middle">{{$employee->name}}</td>
@@ -132,7 +145,7 @@
                                         @endforeach
                                         <tr>
                                             <td class="text-center" colspan="6">Total Gratuity Amount</td>
-                                            <td class="text-center" style="vertical-align: middle">{{ $total_gratuity_amount }}</td>
+                                            <td class="text-center" style="vertical-align: middle">{{ $total_gratuity_amount = $total_gratuity_amount + $gratuity_opening_balance }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

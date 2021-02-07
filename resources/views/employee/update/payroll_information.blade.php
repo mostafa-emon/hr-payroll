@@ -222,6 +222,21 @@
     </div>
 
     <div class="col-md-4 mg-t-10 remove-space">
+        <label for="gratuity_opening_balance" style="font-weight:bold;" class="col-form-label">Gratuity Opening Balance*:</label>
+        <input type="text" class="form-control" id="gratuity_opening_balance" name="gratuity_opening_balance" placeholder="Gratuity Opening Balance*" @if($payroll_info !="") value="{{$payroll_info->gratuity_opening_balance}}" @endif required/>
+    </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
+        <label for="company_pf_opening_balance" style="font-weight:bold;" class="col-form-label">Company PF Opening Balance*:</label>
+        <input type="text" class="form-control" id="company_pf_opening_balance" name="company_pf_opening_balance" placeholder="Company PF Opening Balance*" @if($payroll_info !="") value="{{$payroll_info->company_pf_opening_balance}}" @endif required/>
+    </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
+        <label for="employee_pf_opening_balance" style="font-weight:bold;" class="col-form-label">Employee PF Opening Balance*:</label>
+        <input type="text" class="form-control" id="employee_pf_opening_balance" name="employee_pf_opening_balance" placeholder="Employee PF Opening Balance*" @if($payroll_info !="") value="{{$payroll_info->employee_pf_opening_balance}}" @endif required/>
+    </div>
+
+    <div class="col-md-4 mg-t-10 remove-space">
         <label for="investment_amount" style="font-weight:bold;" class="col-form-label">Investment Amount*:</label>
         <input type="text" class="form-control" name="investment_amount" placeholder="Investment Amount*" required @if($payroll_info !="") value="{{$payroll_info->investment_amount}}" @endif/>
     </div>

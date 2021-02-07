@@ -132,8 +132,13 @@
                                     <td style="vertical-align: middle">{{currency_name($employee->currency_id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->bank_account_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$employee->total_salary}}</td>
-                                    <td class="text-center" style="vertical-align:middle">
-                                        <a style="font-size: 15px;" class="btn btn-success btn-sm" href="{{ url('salary-sheet/details/'.$employee->employee_id.'/'.$month.'/'.$year) }}">Details</a>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="{{ url('salary-sheet/details/'.$employee->employee_id.'/'.$month.'/'.$year) }}">Details</a>
+                                            <a class="dropdown-item" href="{{url('salary-sheet-details-print/'.$employee->employee_id.'/'.$month.'/'.$year)}}">Print</a>
+                                            <a class="dropdown-item" href="{{url('mail-pay-slip-single-employee/'.$employee->employee_id.'/'.$month.'/'.$year)}}">Send Email</a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
