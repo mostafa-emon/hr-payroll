@@ -43,7 +43,7 @@
                             <h4 class="card-title mg-b-0">Pay Gratuity</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if(count($gratuities) > 0)
+                            @if(count($gratuities) > 0 || $gratuity_opening_balance != 0)
                                 <button class="btn btn-success" onclick="printElem()">Print</button>
                             @endif
                         </div>
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                         <br>
-                        @if(count($gratuities) == 0)
+                        @if(count($gratuities) == 0 && $gratuity_opening_balance == 0)
                             <div class="row">
                                 <div class="col-md-3 text-left">
                                     <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
@@ -95,7 +95,7 @@
                         @endif
                     </form>
 
-                    @if(count($gratuities) > 0)
+                    @if(count($gratuities) > 0 || $gratuity_opening_balance != 0)
                         <br>
                         <div class="table-responsive">
                             <div id="printArea">
@@ -129,20 +129,22 @@
                                         </tr>
                                         @endif
 
-                                        @foreach($gratuities as $gratuity)
-                                        <tr>
-                                            <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
-                                            <td style="vertical-align: middle">{{$employee->name}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
-                                            <td class="text-center" style="vertical-align: middle">{{$gratuity->year}}</td>
-                                            <td class="text-center" style="vertical-align: middle">
-                                                {{$gratuity->amount}}
-                                                @php $total_gratuity_amount = $total_gratuity_amount + $gratuity->amount; @endphp
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                        @if(count($gratuities) > 0)
+                                            @foreach($gratuities as $gratuity)
+                                            <tr>
+                                                <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                                <td style="vertical-align: middle">{{$employee->name}}</td>
+                                                <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
+                                                <td class="text-center" style="vertical-align: middle">{{employee_department($employee->id)}}</td>
+                                                <td class="text-center" style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
+                                                <td class="text-center" style="vertical-align: middle">{{$gratuity->year}}</td>
+                                                <td class="text-center" style="vertical-align: middle">
+                                                    {{$gratuity->amount}}
+                                                    @php $total_gratuity_amount = $total_gratuity_amount + $gratuity->amount; @endphp
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endif
                                         <tr>
                                             <td class="text-center" colspan="6">Total Gratuity Amount</td>
                                             <td class="text-center" style="vertical-align: middle">{{ $total_gratuity_amount = $total_gratuity_amount + $gratuity_opening_balance }}</td>

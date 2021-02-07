@@ -42,7 +42,7 @@
                             <h4 class="card-title mg-b-0">Pay Provident Fund</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if(count($pfs) > 0)
+                            @if(count($pfs) > 0 || $company_pf_opening_balance != 0 || $employee_pf_opening_balance != 0)
                                 <button class="btn btn-success" onclick="printElem()">Print</button>
                             @endif
                         </div>
@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <br>
-                        @if(count($pfs) == 0)
+                        @if(count($pfs) == 0 && $employee_pf_opening_balance == 0 && $company_pf_opening_balance == 0)
                             <div class="row">
                                 <div class="col-md-3 text-left">
                                     <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
@@ -94,7 +94,7 @@
                         @endif
                     </form>
 
-                    @if(count($pfs) > 0)
+                    @if(count($pfs) > 0 || $company_pf_opening_balance != 0 || $employee_pf_opening_balance != 0)
                         <br>
                         <div class="table-responsive">
                             <div id="printArea">
@@ -128,7 +128,7 @@
                                         @if($company_pf_opening_balance != 0)
                                         <tr>
                                             <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
-                                            <td colspan="2" style="vertical-align: middle;text-align:center;">Opening Balance</td>
+                                            <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
                                             <td style="vertical-align: middle;text-align:center;">Company Portion</td>
                                             <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance}}</td>
                                         </tr>
@@ -136,31 +136,32 @@
                                         @if($employee_pf_opening_balance != 0)
                                         <tr>
                                             <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
-                                            <td colspan="2" style="vertical-align: middle;text-align:center;">Opening Balance</td>
+                                            <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
                                             <td style="vertical-align: middle;text-align:center;">Employee Portion</td>
                                             <td style="vertical-align: middle;text-align:right;">{{$employee_pf_opening_balance}}</td>
                                         </tr>
                                         @endif
 
-                                        @foreach($pfs as $pf)
-                                        @php 
-                                            $employee = get_employee_info($pf->employee_id);
-                                        @endphp
+                                        @if(count($pfs) > 0)
+                                            @foreach($pfs as $pf)
+                                            @php 
+                                                $employee = get_employee_info($pf->employee_id);
+                                            @endphp
+                                            <tr>
+                                                <td style="vertical-align: middle;text-align:center;">{{$loop->iteration + $sl}}</td>
+                                                <td style="vertical-align: middle;text-align:center;">{{$pf->month}} {{$pf->year}}</td>
+                                                <td style="vertical-align: middle;text-align:center;">{{$pf->type}}</td>
+                                                <td style="vertical-align: middle;text-align:right;">
+                                                    {{$pf->amount}}
+                                                    @php 
+                                                        $total_pf_amount = $total_pf_amount + $pf->amount;
+                                                    @endphp
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        @endif
                                         <tr>
-                                            <td style="vertical-align: middle;text-align:center;">{{$loop->iteration + $sl}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">{{$pf->month}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">{{$pf->year}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">{{$pf->type}}</td>
-                                            <td style="vertical-align: middle;text-align:right;">
-                                                {{$pf->amount}}
-                                                @php 
-                                                    $total_pf_amount = $total_pf_amount + $pf->amount;
-                                                @endphp
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        <tr>
-                                            <td style="text-align:right;font-weight:bold;" colspan="4">Total PF Amount</td>
+                                            <td style="text-align:right;font-weight:bold;" colspan="3">Total PF Amount</td>
                                             <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_pf_amount = $total_pf_amount + $employee_pf_opening_balance + $company_pf_opening_balance }}</td>
                                         </tr>
                                     </tbody>
