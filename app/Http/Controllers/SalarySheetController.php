@@ -37,11 +37,17 @@ class SalarySheetController extends Controller
     }
 
     public function index(){
-        $sheets = SalarySheet::where('company_id',Auth::user()->company_id)
+        $sheet_count = SalarySheet::where('company_id',Auth::user()->company_id)->count();
+        if($sheet_count > 0) {
+            $sheets = SalarySheet::where('company_id',Auth::user()->company_id)
                 ->select('month','year',DB::raw('SUM(total_salary) as total_salary'),DB::raw('count(salary_sheets.id) as total_employee'))
                 ->groupBy('month', 'year')
                 ->orderBy('id','desc')
                 ->get();
+        } else {
+            $sheets = [];
+        }
+        
         return view('transactions.payroll.salary_sheet.index',compact('sheets'));
     }
 
