@@ -103,7 +103,7 @@ class EmployeeController extends Controller
                 $filesize_in_kb = $filesize / 1024;
                 if($filesize_in_kb <= 2048) {
                     $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
-                    $file->move('storage\employees/', $custom_name);
+                    $file->move('storage/employees/', $custom_name);
                     array_push($cv, $custom_name);
                 }
             }
@@ -374,7 +374,7 @@ class EmployeeController extends Controller
                 $filesize_in_kb = $filesize / 1024;
                 if($filesize_in_kb <= 2048) {
                     $custom_name    = md5(uniqid(rand(), true)).$employee->company_id.'.'.$file->getClientOriginalExtension();
-                    $file->move('storage\employees/', $custom_name);
+                    $file->move('storage/employees/', $custom_name);
                     array_push($cv, $custom_name);
                 }
             }

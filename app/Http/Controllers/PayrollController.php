@@ -1004,7 +1004,7 @@ class PayrollController extends Controller
                 $filesize_in_kb = $filesize / 1024;
                 if($filesize_in_kb <= 2048) {
                     $custom_name    = md5(uniqid(rand(), true)).$tax->company_id.'.'.$file->getClientOriginalExtension();
-                    $file->move('storage\deposit_salary_tax/', $custom_name);
+                    $file->move('storage/deposit_salary_tax/', $custom_name);
                     array_push($attach_file, $custom_name);
                 }
             }
