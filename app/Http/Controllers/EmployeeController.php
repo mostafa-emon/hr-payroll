@@ -108,6 +108,8 @@ class EmployeeController extends Controller
                 }
             }
             $employee->employee_cv = json_encode($cv);
+        }else{
+            $employee->employee_cv = '[]';
         }
 
         $employee->save();
