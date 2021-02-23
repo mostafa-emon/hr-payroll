@@ -98,8 +98,8 @@
                                                 <div class="col-md-2 mg-t-10">
                                                     <select name="type" class="form-control select2-no-search" required>
                                                         <option label="Type"></option>
-                                                        <option Value="Increase" selected>Increase</option>
-                                                        <option Value="Decrease">Decrease</option>
+                                                        <option Value="Increase" selected>Salary Increase</option>
+                                                        <option Value="Decrease">Salary Decrease</option>
                                                     </select>
                                                 </div>
 

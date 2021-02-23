@@ -84,22 +84,22 @@
                                 $l = substr($code_no, 11 , -($length - 12));
                                 $m = substr($code_no,($length - 1));
                             @endphp
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$a}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$a}}</td>
                             <td style="width:25px;height:22px;text-align:center;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$b}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$c}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$d}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$e}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$b}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$c}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$d}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$e}}</td>
                             <td style="width:25px;height:22px;text-align:center;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$f}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$g}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;;text-align:center;">{{$h}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$i}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$f}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$g}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$h}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$i}}</td>
                             <td style="width:25px;height:22px;text-align:center;">&nbsp</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$j}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$k}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$l}}</td>
-                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;">{{$m}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$j}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$k}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$l}}</td>
+                            <td style="width:25px;height:22px;border: 1px solid black;text-align:center;vertical-align: middle;">{{$m}}</td>
                         </tr>
                         
                     </table>
@@ -242,7 +242,7 @@
             <div style="padding-left:50px;margin-top:-22px;">
                 ০১। সংশ্লিষ্ট দপ্তরের সহিত যোগাযোগ করিয়া সঠিক কোড নম্বর জানিয়া লইবেন ।
                 <br>
-                ০২। সংশ্লিষ্ট দপ্তরের সহিত যোগাযোগ করিয়া সঠিক কোড নম্বর জানিয়া লইবেন ।
+                ০২। যে সকল ক্ষেত্রে কর্মকর্তা কর্তৃক পৃষ্ঠাঙ্কন প্রয়োজন, সে সকল ক্ষেত্রে প্রযোজ্য হইবে ।
             </div>
             
         </div>

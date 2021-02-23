@@ -5,7 +5,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="department_id" style="font-weight:bold;" class="col-form-label">Department*:</label>
                 <select class="form-control" name="department_id" required>
-                    <option value="" label>Department*</option>
+                    <option value="" label>Select Department*</option>
                     @foreach($departments as $department)
                         <option value="{{$department->id}}" @if($employment_info != "" && $department->id == $employment_info->department_id) selected @endif>{{$department->name}}</option>
                     @endforeach
@@ -15,7 +15,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="designation_id" style="font-weight:bold;" class="col-form-label">Designation*:</label>
                 <select class="form-control" name="designation_id" required>
-                    <option value="" label>Designation*</option>
+                    <option value="" label>Select Designation*</option>
                     @foreach($designations as $designation)
                         <option value="{{$designation->id}}" @if($employment_info != "" && $designation->id == $employment_info->designation_id) selected @endif>{{$designation->name}}</option>
                     @endforeach
@@ -25,7 +25,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="project_id" style="font-weight:bold;" class="col-form-label">Project:</label>
                 <select class="form-control" name="project_id">
-                    <option value="" label>Project</option>
+                    <option value="" label>Select Project</option>
                     @foreach($projects as $project)
                         <option value="{{$project->id}}" @if($employment_info != "" && $project->id == $employment_info->project_id) selected @endif>{{$project->name}}</option>
                     @endforeach
@@ -35,7 +35,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="branch_id" style="font-weight:bold;" class="col-form-label">Branch:</label>
                 <select class="form-control" name="branch_id">
-                    <option value="" label>Branch</option>
+                    <option value="" label>Select Branch</option>
                     @foreach($branches as $branch)
                         <option value="{{$branch->id}}" @if($employment_info != "" && $branch->id == $employment_info->branch_id) selected @endif>{{$branch->name}}</option>
                     @endforeach
@@ -45,7 +45,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="status" style="font-weight:bold;" class="col-form-label">Status*:</label>
                 <select class="form-control" name="current_status" required>
-                    <option value="" label>Status*</option>
+                    <option value="" label>Select Status*</option>
                     <option value="Active" @if($employment_info != "" && $employment_info->current_status == "Active") selected @endif>Active</option>
                     <option value="Inactive" @if($employment_info != "" && $employment_info->current_status == "Inactive") selected @endif>Inactive</option>
                 </select>
@@ -64,7 +64,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="duty_type" style="font-weight:bold;" class="col-form-label">Duty Type*:</label>
                 <select class="form-control" name="duty_type" required>
-                    <option value="" label>Duty Type*</option>
+                    <option value="" label>Select Duty Type*</option>
                     <option value="Roster" @if($employment_info != "" && $employment_info->duty_type == "Roster") selected @endif>Roster</option>
                     <option value="Non-Roster" @if($employment_info != "" && $employment_info->duty_type == "Non-Roster") selected @endif>Non-Roster</option>
                 </select>
@@ -84,7 +84,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="terminated" style="font-weight:bold;" class="col-form-label">Terminated:</label>
                 <select class="form-control" name="terminated">
-                    <option value="" label>Terminated</option>
+                    <option value="" label>Select Termination</option>
                     <option value="Yes" @if($employment_info != "" && $employment_info->terminated == "Yes") selected @endif>Yes</option>
                     <option value="No" @if($employment_info != "" && $employment_info->terminated == "No") selected @endif>No</option>
                 </select>
@@ -103,7 +103,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="salary payment method*" style="font-weight:bold;" class="col-form-label">Salary Payment Method*:</label>
                 <select class="form-control" name="salary_payment_method" required>
-                    <option value="" label>Salary Payment Method*</option>
+                    <option value="" label>Select Salary Payment Method*</option>
                     <option value="Bank" @if($employment_info != "" && $employment_info->salary_payment_method == "Bank") selected @endif>Bank</option>
                     <option value="Cash" @if($employment_info != "" && $employment_info->salary_payment_method == "Cash") selected @endif>Cash</option>
                 </select>
@@ -137,7 +137,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="pay_slip_send_method" style="font-weight:bold;" class="col-form-label">Pay Slip Send Method*:</label>
                 <select class="form-control" name="pay_slip_send_method" required>
-                    <option value="" label>Pay Slip Send Method*</option>
+                    <option value="" label>Select Pay Slip Send Method*</option>
                     <option value="Email" @if($employment_info != "" && $employment_info->pay_slip_send_method == "Email") selected @endif>Email</option>
                     <option value="Print" @if($employment_info != "" && $employment_info->pay_slip_send_method == "Print") selected @endif>Print</option>
                 </select>
@@ -146,7 +146,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="weekend one" style="font-weight:bold;" class="col-form-label">Weekend One:</label>
                 <select class="form-control" name="weekend_1">
-                    <option value="" label>Weekend One</option>
+                    <option value="" label>Select Weekend One</option>
                     <option value="Saturday" @if($employment_info != "" && $employment_info->weekend_1 == "Saturday") selected @endif>Saturday</option>
                     <option value="Sunday" @if($employment_info != "" && $employment_info->weekend_1 == "Sunday") selected @endif>Sunday</option>
                     <option value="Monday" @if($employment_info != "" && $employment_info->weekend_1 == "Monday") selected @endif>Monday</option>
@@ -160,7 +160,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="weekend two" style="font-weight:bold;" class="col-form-label">Weekend Two:</label>
                 <select class="form-control" name="weekend_2">
-                    <option value="" label>Weekend Two</option>
+                    <option value="" label>Select Weekend Two</option>
                     <option value="Saturday" @if($employment_info != "" && $employment_info->weekend_2 == "Saturday") selected @endif>Saturday</option>
                     <option value="Sunday" @if($employment_info != "" && $employment_info->weekend_2 == "Sunday") selected @endif>Sunday</option>
                     <option value="Monday" @if($employment_info != "" && $employment_info->weekend_2 == "Monday") selected @endif>Monday</option>

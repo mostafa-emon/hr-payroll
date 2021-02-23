@@ -66,7 +66,6 @@
                             <div id="festival_bonus" class="col-md-2">
                                 <label for="Festival Bonus" style="font-weight:bold;" class="col-form-label">Festival Bonus:</label>
                                 <select name="festival_bonus" class="form-control" onchange="hide_show_element(this.value)">
-                                    <option value="" label>Festival Bonus</option>
                                     <option value="1">Yes</option>
                                     <option value="0" selected>No</option>
                                 </select>
@@ -74,7 +73,7 @@
                             <div id="religion" style="display:none;" class="col-md-3">
                                 <label for="Religion" style="font-weight:bold;" class="col-form-label">Religion*:</label>
                                 <select class="form-control" id="religion_dropdown" name="religion">
-                                    <option value="" label>Religion</option>
+                                    <option value="" label>Select Religion</option>
                                     <option value="Islam">Islam</option>
                                     <option value="Christianity">Christianity</option>
                                     <option value="Hinduism">Hinduism</option>
@@ -85,15 +84,13 @@
                             <div id="festival_bonus" class="col-md-2">
                                 <label for="Revenue Stamp" style="font-weight:bold;" class="col-form-label">Revenue Stamp:</label>
                                 <select name="revenue_stamp" class="form-control">
-                                    <option value="" label>Revenue Stamp</option>
                                     <option value="1">Show</option>
                                     <option value="0" selected>Hide</option>
                                 </select>
                             </div>
                             <div id="festival_bonus" class="col-md-2">
-                                <label for="Company Portion" style="font-weight:bold;" class="col-form-label">Company Portion:</label>
+                                <label for="Company Portion" style="font-weight:bold;" class="col-form-label">Company Portion PF:</label>
                                 <select name="company_portion" class="form-control">
-                                    <option value="" label>Company Portion</option>
                                     <option value="1">Show</option>
                                     <option value="0" selected>Hide</option>
                                 </select>

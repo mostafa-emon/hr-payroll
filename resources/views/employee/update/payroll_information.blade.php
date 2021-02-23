@@ -258,7 +258,7 @@
     <div class="col-md-4 mg-t-10 remove-space">
         <label for="ot_allowed" style="font-weight:bold;" class="col-form-label">Salary Currency*:</label>
         <select name="currency_id" class="form-control select2-no-search col-md-12 pa" required>
-            <option value="" label>Salary Currency*</option>
+            <option value="" label>Select Salary Currency*</option>
             @foreach($currencies as $currency)
                 <option value="{{$currency->id}}" @if($payroll_info !="" && $payroll_info->currency_id == $currency->id) selected @endif>{{$currency->currency_name}}</option>
             @endforeach

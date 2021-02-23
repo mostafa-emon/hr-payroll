@@ -46,6 +46,9 @@
                                     <th class="text-center">SL</th>
                                     <th>Employee ID</th>
                                     <th>Employee Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Bank Account No</th>
                                     <th>Salary Amount</th>
                                 </tr>
                             </thead>
@@ -55,6 +58,9 @@
                                         <td class="text-center" style="vertical-align: middle">{{(($transfer_details->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                         <td style="vertical-align: middle">{{get_employee_id($detail->employee_id)}}</td>
                                         <td style="vertical-align: middle">{{employee_name_by_increment_id($detail->employee_id)}}</td>
+                                        <td style="vertical-align: middle;text-align:left;">{{employee_department($detail->employee_id)}}</td>
+                                        <td style="vertical-align: middle;text-align:left;">{{employee_designation($detail->employee_id)}}</td>
+                                        <td style="vertical-align: middle;text-align:left;">{{bank_account_no($detail->employee_id)}}</td>
                                         <td style="vertical-align: middle">{{$detail->salary_amount}}</td>
                                     </tr>
                                 @endforeach

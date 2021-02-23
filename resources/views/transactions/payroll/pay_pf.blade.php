@@ -129,7 +129,7 @@
                                         <tr>
                                             <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
                                             <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
-                                            <td style="vertical-align: middle;text-align:center;">Company Portion</td>
+                                            <td style="vertical-align: middle;text-align:center;">Company Portion PF</td>
                                             <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance}}</td>
                                         </tr>
                                         @endif
@@ -137,7 +137,7 @@
                                         <tr>
                                             <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
                                             <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
-                                            <td style="vertical-align: middle;text-align:center;">Employee Portion</td>
+                                            <td style="vertical-align: middle;text-align:center;">Employee Portion PF</td>
                                             <td style="vertical-align: middle;text-align:right;">{{$employee_pf_opening_balance}}</td>
                                         </tr>
                                         @endif
@@ -150,7 +150,7 @@
                                             <tr>
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration + $sl}}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{{$pf->month}} {{$pf->year}}</td>
-                                                <td style="vertical-align: middle;text-align:center;">{{$pf->type}}</td>
+                                                <td style="vertical-align: middle;text-align:center;">{{$pf->type}} PF</td>
                                                 <td style="vertical-align: middle;text-align:right;">
                                                     {{$pf->amount}}
                                                     @php 

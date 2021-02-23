@@ -63,9 +63,9 @@
                                     <td style="vertical-align: middle" class="text-center">{{$earning->amount}}</td>
                                     <td style="vertical-align: middle" class="text-center">
                                         @if($earning->type == "Increase")
-                                            <span class="badge badge-success">Increase</span>
+                                            <span class="badge badge-success">Salary Increase</span>
                                         @else
-                                            <span class="badge badge-danger">Decrease</span>
+                                            <span class="badge badge-danger">Salary Decrease</span>
                                         @endif
                                     </td>
                                     <td style="vertical-align: middle" class="text-center">{{$earning->month}}</td>

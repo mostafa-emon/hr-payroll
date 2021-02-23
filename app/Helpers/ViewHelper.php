@@ -62,6 +62,10 @@ function get_employee_id($employee_id) {
     return Employee::where('id',$employee_id)->value('employee_id');
 }
 
+function bank_account_no($employee_id){
+    return EmploymentInfo::where('employee_id',$employee_id)->value('bank_account_no');
+}
+
 function shift_name($shift_id) {
     return ShiftType::where('id',$shift_id)->value('name');
 }

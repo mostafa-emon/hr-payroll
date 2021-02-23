@@ -63,7 +63,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="gender" style="font-weight:bold;" class="col-form-label">Gender:</label>
                 <select class="form-control" name="gender">
-                    <option value="" label>Gender</option>
+                    <option value="" label>Select Gender</option>
                     <option value="Male" @if($employee->gender == "Male") selected @endif>Male</option>
                     <option value="Female" @if($employee->gender == "Female") selected @endif>Female</option>
                     <option value="Others" @if($employee->gender == "Others") selected @endif>Others</option>
@@ -73,7 +73,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="religion" style="font-weight:bold;" class="col-form-label">Religion*:</label>
                 <select class="form-control" name="religion" required>
-                    <option value="" label>Religion*</option>
+                    <option value="" label>Select Religion*</option>
                     <option value="Islam" @if($employee->religion == "Islam") selected @endif>Islam</option>
                     <option value="Christianity" @if($employee->religion == "Christianity") selected @endif>Christianity</option>
                     <option value="Hinduism" @if($employee->religion == "Hinduism") selected @endif>Hinduism</option>
@@ -85,7 +85,7 @@
             <div class="col-md-3 pd-t-10">
                 <label for="blood_group" style="font-weight:bold;" class="col-form-label">Blood Group:</label>
                 <select class="form-control" name="blood_group">
-                    <option value="" label>Blood Group</option>
+                    <option value="" label>Select Blood Group</option>
                     <option value="A+" @if($employee->religion == "A+") selected @endif>A+</option>
                     <option value="A-" @if($employee->religion == "A-") selected @endif>A-</option>
                     <option value="B+" @if($employee->religion == "B+") selected @endif>B+</option>

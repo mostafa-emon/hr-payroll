@@ -65,7 +65,7 @@ class SalaryTransferLetterController extends Controller
         $salary_format          = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
 
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')
-                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.bank_name','salary_sheets.*','payroll_infos.currency_id')
+                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.bank_name','employment_infos.bank_account_no','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
                                 ->join('employees','employees.id','employment_infos.employee_id')
                                 ->join('salary_sheets','salary_sheets.employee_id','employment_infos.employee_id')

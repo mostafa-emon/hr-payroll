@@ -66,8 +66,8 @@
                                                 <div class="col-md-4 mg-t-10">
                                                     <select name="type" class="form-control select2-no-search" required>
                                                         <option label="Type"></option>
-                                                        <option Value="Increase" @if($deduction->type == "Increase") selected @endif>Increase</option>
-                                                        <option Value="Decrease" @if($deduction->type == "Decrease") selected @endif>Decrease</option>
+                                                        <option Value="Increase" @if($deduction->type == "Increase") selected @endif>Salary Increase</option>
+                                                        <option Value="Decrease" @if($deduction->type == "Decrease") selected @endif>Salary Decrease</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">

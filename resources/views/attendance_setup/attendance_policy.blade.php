@@ -69,18 +69,6 @@
                                                 </div>
 
                                                 <div class="col-md-6 mg-t-10">
-                                                    <label for="name" class="col-form-label">Activate Late Absent Policy:</label>
-                                                    <select id="account_1type" name="late_absent_policy" class="form-control select2-no-search col-md-12 pa" required>
-                                                        <option value="1" @if($policy !='') ( @if($policy->late_absent_policy == "1") selected @endif ) @endif>Yes</option>
-                                                        <option value="0" @if($policy !='') ( @if($policy->late_absent_policy == "0") selected @endif ) @endif>No</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-6 mg-t-10">
-                                                    <label for="name" class="col-form-label">Mark as 1 Day Absent for:</label>
-                                                    <input class="form-control" name="marks_absent_for" placeholder="Days Late in a month" type="text" value="@if($policy !=''){{$policy->marks_absent_for}} @endif" required>
-                                                </div>
-
-                                                <div class="col-md-6 mg-t-10">
                                                     <label for="name" class="col-form-label">Use OT Round off Slab:</label>
                                                     <select id="account_1type" name="use_ot_round" onclick="hideShowElement(this.value)" class="form-control select2-no-search col-md-12 pa" required>
                                                         <option value="1" @if($policy !='') ( @if($policy->use_ot_round == "1") selected @endif ) @endif>Yes</option>
@@ -96,6 +84,21 @@
                                                 <div class="col-md-6 mg-t-10">
                                                     <label for="name" class="col-form-label">Minimum time need to stay for considering as OT:</label>
                                                     <input class="form-control" name="time_for_ot" placeholder="Minutes" type="text" value="@if($policy !=''){{$policy->time_for_ot}} @endif" required>
+                                                </div>
+
+                                                <div class="col-md-6 mg-t-10">
+                                                    <label for="name" class="col-form-label">Activate Late Absent Policy:</label>
+                                                    <select id="account_1type" name="late_absent_policy" class="form-control select2-no-search col-md-12 pa" required>
+                                                        <option value="1" @if($policy !='') ( @if($policy->late_absent_policy == "1") selected @endif ) @endif>Yes</option>
+                                                        <option value="0" @if($policy !='') ( @if($policy->late_absent_policy == "0") selected @endif ) @endif>No</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12 mg-t-10">
+                                                    <label for="name" class="col-form-label">
+                                                        Mark as 1 Day Absent for
+                                                            <input name="marks_absent_for" style="width:32px;text-align: center;" placeholder="Days Late in a month" type="text" value="@if($policy !=''){{$policy->marks_absent_for}} @endif" required>
+                                                        days left
+                                                    </label>
                                                 </div>
 
                                             </div>

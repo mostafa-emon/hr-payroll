@@ -104,10 +104,13 @@
                                 <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                     <thead>
                                         <tr>
-                                            <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
-                                            <th style="width:30%;vertical-align: middle;text-align:center;">Employee ID</th>
-                                            <th style="width:35%;vertical-align: middle;text-align:left;">Employee Name</th>
-                                            <th style="width:30%;vertical-align: middle;text-align:right;">Salary Amount</th>
+                                            <th style="width:3%;vertical-align: middle;text-align:center;">SL</th>
+                                            <th style="width:12%;vertical-align: middle;text-align:center;">Employee ID</th>
+                                            <th style="width:25%;vertical-align: middle;text-align:left;">Employee Name</th>
+                                            <th style="width:15%;vertical-align: middle;text-align:left;">Department</th>
+                                            <th style="width:15%;vertical-align: middle;text-align:left;">Designation</th>
+                                            <th style="width:15%;vertical-align: middle;text-align:left;">Bank Account No</th>
+                                            <th style="width:15%;vertical-align: middle;text-align:right;">Salary Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -116,6 +119,9 @@
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{{$employee->original_employee_id}}</td>
                                                 <td style="vertical-align: middle;text-align:left;">{{$employee->name}}</td>
+                                                <td style="vertical-align: middle;text-align:left;">{{employee_department($employee->employee_id)}}</td>
+                                                <td style="vertical-align: middle;text-align:left;">{{employee_designation($employee->employee_id)}}</td>
+                                                <td style="vertical-align: middle;text-align:left;">{{$employee->bank_account_no}}</td>
                                                 <td style="vertical-align: middle;text-align:right;">
                                                     {{$employee->total_salary}}
                                                     <input type="hidden" name="employee_id[]" value="{{$employee->employee_id}}">
