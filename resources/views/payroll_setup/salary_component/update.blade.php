@@ -57,7 +57,7 @@
                                                         <option label="Choose One"></option>
                                                         <option value="Basic Salary" @if($salary->component_reference == "Basic Salary") selected @endif>Basic Salary</option>
                                                         <option value="House Rent" @if($salary->component_reference == "House Rent") selected @endif>House Rent</option>
-                                                        <option value="Convenience" @if($salary->component_reference == "Convenience") selected @endif>Convenience</option>
+                                                        <option value="Convenience" @if($salary->component_reference == "Convenience") selected @endif>Conveyance</option>
                                                         <option value="Medical" @if($salary->component_reference == "Medical") selected @endif>Medical</option>
                                                         <option value="Festival Bonus" @if($salary->component_reference == "Festival Bonus") selected @endif>Festival Bonus</option>
                                                         <option value="PF Company Portion" @if($salary->component_reference == "PF Company Portion") selected @endif>PF Company Portion</option>

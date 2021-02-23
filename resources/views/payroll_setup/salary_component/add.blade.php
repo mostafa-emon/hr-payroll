@@ -61,7 +61,7 @@
                                                             <option label="Choose One"></option>
                                                             <option value="Basic Salary">Basic Salary</option>
                                                             <option value="House Rent">House Rent</option>
-                                                            <option value="Convenience">Convenience</option>
+                                                            <option value="Convenience">Conveyance</option>
                                                             <option value="Medical">Medical</option>
                                                             <option value="Festival Bonus">Festival Bonus</option>
                                                             <option value="PF Company Portion">PF Company Portion</option>

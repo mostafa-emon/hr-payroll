@@ -75,6 +75,10 @@
                                                 <label for="date_format" class="col-form-label col-md-3">Tax Challan Code:</label>
                                                 <input type="text" name="tax_chalan_code" placeholder="Enter Code" class="form-control col-md-9 pa" value="@isset($settings){{$settings->tax_chalan_code}}@endisset">
                                             </div>
+                                            <div class="form-group row mg-t-10">
+                                                <label for="provident_fund_registered" class="col-form-label col-md-3" class="ckbox">Provident Fund is registered?:</label>
+                                                <input type="checkbox" name="provident_fund_registered" style="height:25px;margin-left:-25px;margin-top:3px;" class="col-md-1 pa" value="1" @if(isset($settings) && $settings->provident_fund_registered == 1) checked @endif>
+                                            </div>
                                         </div>
 
                                         <div class="row pd-t-15">

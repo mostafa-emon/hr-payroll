@@ -39,12 +39,18 @@ class ConfigurationController extends Controller
             $setting->amount_in_word    = $request->amount_in_word;
             $setting->date_format       = $request->date_format;
             $setting->tax_chalan_code   = $request->tax_chalan_code;
+            if($request->provident_fund_registered == 1) 
+            { $setting->provident_fund_registered = 1; }
+            else{ $setting->provident_fund_registered = 0;}
             $setting->save();
         }else{
             $setting = GeneralSetting::where('company_id', Auth::user()->company_id)->first();
             $setting->amount_in_word    = $request->amount_in_word;
             $setting->date_format       = $request->date_format;
             $setting->tax_chalan_code   = $request->tax_chalan_code;
+            if($request->provident_fund_registered == 1) 
+            { $setting->provident_fund_registered = 1; }
+            else{ $setting->provident_fund_registered = 0;}
             $setting->save();
         }
         return redirect('general-settings')->with('message','General Settings updated successfully!');

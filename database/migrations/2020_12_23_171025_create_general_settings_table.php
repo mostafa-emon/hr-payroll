@@ -20,6 +20,7 @@ class CreateGeneralSettingsTable extends Migration
             $table->string('amount_in_word',100)->nullable();
             $table->string('date_format',100)->nullable();
             $table->string('tax_chalan_code',100)->nullable();
+            $table->boolean('provident_fund_registered')->default(false);
             $table->timestamps();
         });
     }
