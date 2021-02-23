@@ -79,9 +79,9 @@
                             <div class="col-md-2">
                                 <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required>
                                     <option label="Employee Name"></option>
-                                    <option value="All">All</option>
+                                    <option value="All" @if($all_employee !='') selected @endif>All</option>
                                     @foreach($employment_infos as $employment_info)
-                                        <option value="{{$employment_info->employee_id}}" {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }}>{{$employment_info->name}}</option>
+                                        <option value="{{$employment_info->employee_id}}" @if($all_employee =='') {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }} @endif>{{$employment_info->name}}</option>
                                     @endforeach
                                 </select>
                             </div>

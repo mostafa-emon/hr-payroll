@@ -575,6 +575,7 @@ class PayrollController extends Controller
         $employee_id        = [];
         $month              = '';
         $year               = '';
+        $all_employee       = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -617,11 +618,12 @@ class PayrollController extends Controller
                 foreach($employment_infos as $employment_info) {
                     $employee_id[]      = $employment_info->employee_id;
                 }
+                $all_employee = 'All';
             }
         }
 
         return view('transactions.payroll.absent_deduction.add',compact('departments','projects','branches',
-        'department_id','branch_id','project_id','employment_infos','month','year','employee_id'));
+        'department_id','branch_id','project_id','employment_infos','month','year','employee_id','all_employee'));
     }
 
     public function absent_deduction_store(Request $request){
@@ -685,6 +687,7 @@ class PayrollController extends Controller
         $branch_id              = '';
         $year                   = '';
         $employee_id            = [];
+        $all_employee           = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -719,11 +722,12 @@ class PayrollController extends Controller
                 foreach($employment_infos as $employment_info) {
                     $employee_id[]      = $employment_info->employee_id;
                 }
+                $all_employee = 'All';
             }
         }
 
         return view('transactions.payroll.gratuity.add',compact('departments','projects','branches',
-        'employee_id','department_id','project_id','branch_id','year','employment_infos'));
+        'employee_id','department_id','project_id','branch_id','year','employment_infos','all_employee'));
     }
 
     public function gratuity_store(Request $request){
