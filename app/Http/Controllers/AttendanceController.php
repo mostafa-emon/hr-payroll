@@ -18,6 +18,7 @@ use App\AttendanceRecord;
 use App\Attendance;
 use App\PayrollInfo;
 use App\GovtHolidayDetail;
+use App\EmployeeEarningDeduction;
 use App\PaidLeave;
 use Auth;
 use DateTime;
@@ -341,27 +342,80 @@ class AttendanceController extends Controller
         $formatted_to_date      = date('Y-m-d',strtotime($request->to_date));
         $period                 = CarbonPeriod::create($formatted_from_date, '1 month', $formatted_to_date);
 
-        foreach($request->employee_id as $employee_id) {
-            foreach ($period as $dt) {
-                $earning = new EarningDeductionAdjustment();
-                $earning->company_id            = Auth::user()->company_id;
-                $earning->employee_id           = $employee_id;
-                $earning->salary_component_id   = $request->component_id;
-                $earning->month                 = $dt->format("F");
-                $earning->year                  = $dt->format("Y");
-                $earning->amount                = $request->amount;
-                $earning->note                  = $request->note;
-                $earning->reference_no          = $request->reference_no;
-                $earning->earning_or_deduction  = 'earnings';
-                $earning->type                  = $request->type;
-                $earning->status                = $request->status;
-                if($request->hasFile('attach_file')){
-                    $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
-                }
-                $earning->save();
+        if(in_array("All", $request->employee_id)) {
+
+            $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
+                        ->join('employees','employees.id','employment_infos.employee_id')
+                        ->where('employees.company_id',Auth::user()->company_id);
+            
+            if($request->department_id != "" && $request->department_id != 0){
+                $employees    = $employees->where('department_id',$request->department_id);
             }
+
+            if($request->project_id != "" && $request->project_id != 0){
+                $employees   = $employees->where('project_id',$request->project_id);
+            }
+
+            if($request->branch_id != "" && $request->branch_id != 0){
+                $employees   = $employees->where('branch_id',$request->branch_id);
+            }
+
+            if($request->component_id != "" && $request->component_id != 0){
+                $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$request->component_id)->get();
+                $earning_employee = [];
+                foreach($is_exists as $earning) {
+                    $earning_employee[] = $earning->employee_id;
+                }
+                $employees = $employees->whereIn('employees.id',$earning_employee);
+            }
+
+            $employees = $employees->get();
+
+            foreach($employees as $employee) {
+                foreach ($period as $dt) {
+                    $earning = new EarningDeductionAdjustment();
+                    $earning->company_id            = Auth::user()->company_id;
+                    $earning->employee_id           = $employee->id;
+                    $earning->salary_component_id   = $request->component_id;
+                    $earning->month                 = $dt->format("F");
+                    $earning->year                  = $dt->format("Y");
+                    $earning->amount                = $request->amount;
+                    $earning->note                  = $request->note;
+                    $earning->reference_no          = $request->reference_no;
+                    $earning->earning_or_deduction  = 'earnings';
+                    $earning->type                  = $request->type;
+                    $earning->status                = $request->status;
+                    if($request->hasFile('attach_file')){
+                        $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
+                    }
+                    $earning->save();
+                }
+            }
+            return redirect('earnings-adjustment')->with('message','Earning Adjustment Created Successfully!');
+
+        }else{
+            foreach($request->employee_id as $employee_id) {
+                foreach ($period as $dt) {
+                    $earning = new EarningDeductionAdjustment();
+                    $earning->company_id            = Auth::user()->company_id;
+                    $earning->employee_id           = $employee_id;
+                    $earning->salary_component_id   = $request->component_id;
+                    $earning->month                 = $dt->format("F");
+                    $earning->year                  = $dt->format("Y");
+                    $earning->amount                = $request->amount;
+                    $earning->note                  = $request->note;
+                    $earning->reference_no          = $request->reference_no;
+                    $earning->earning_or_deduction  = 'earnings';
+                    $earning->type                  = $request->type;
+                    $earning->status                = $request->status;
+                    if($request->hasFile('attach_file')){
+                        $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
+                    }
+                    $earning->save();
+                }
+            }
+            return redirect('earnings-adjustment')->with('message','Earning Adjustment Created Successfully!');
         }
-        return redirect('earnings-adjustment')->with('message','Earning Adjustment Created Successfully!');
     }
 
     public function earnings_adjustment_status($status,$earning_id) {
@@ -432,27 +486,80 @@ class AttendanceController extends Controller
         $formatted_to_date      = date('Y-m-d',strtotime($request->to_date));
         $period                 = CarbonPeriod::create($formatted_from_date, '1 month', $formatted_to_date);
 
-        foreach($request->employee_id as $employee_id) {
-            foreach ($period as $dt) {
-                $deduction = new EarningDeductionAdjustment();
-                $deduction->company_id            = Auth::user()->company_id;
-                $deduction->employee_id           = $employee_id;
-                $deduction->salary_component_id   = $request->component_id;
-                $deduction->month                 = $dt->format("F");
-                $deduction->year                  = $dt->format("Y");
-                $deduction->amount                = $request->amount;
-                $deduction->note                  = $request->note;
-                $deduction->earning_or_deduction  = 'deductions';
-                $deduction->reference_no          = $request->reference_no;
-                $deduction->type                  = $request->type;
-                $deduction->status                = $request->status;
-                if($request->hasFile('attach_file')){
-                    $deduction->attach_file   = $request->file('attach_file')->store('deduction_adjustment');
-                }
-                $deduction->save();
+        if(in_array("All", $request->employee_id)) {
+
+            $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
+                        ->join('employees','employees.id','employment_infos.employee_id')
+                        ->where('employees.company_id',Auth::user()->company_id);
+            
+            if($request->department_id != "" && $request->department_id != 0){
+                $employees    = $employees->where('department_id',$request->department_id);
             }
+
+            if($request->project_id != "" && $request->project_id != 0){
+                $employees   = $employees->where('project_id',$request->project_id);
+            }
+
+            if($request->branch_id != "" && $request->branch_id != 0){
+                $employees   = $employees->where('branch_id',$request->branch_id);
+            }
+
+            if($request->component_id != "" && $request->component_id != 0){
+                $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$request->component_id)->get();
+                $earning_employee = [];
+                foreach($is_exists as $earning) {
+                    $earning_employee[] = $earning->employee_id;
+                }
+                $employees = $employees->whereIn('employees.id',$earning_employee);
+            }
+
+            $employees = $employees->get();
+
+            foreach($employees as $employee) {
+                foreach ($period as $dt) {
+                    $deduction = new EarningDeductionAdjustment();
+                    $deduction->company_id            = Auth::user()->company_id;
+                    $deduction->employee_id           = $employee->id;
+                    $deduction->salary_component_id   = $request->component_id;
+                    $deduction->month                 = $dt->format("F");
+                    $deduction->year                  = $dt->format("Y");
+                    $deduction->amount                = $request->amount;
+                    $deduction->note                  = $request->note;
+                    $deduction->earning_or_deduction  = 'deductions';
+                    $deduction->reference_no          = $request->reference_no;
+                    $deduction->type                  = $request->type;
+                    $deduction->status                = $request->status;
+                    if($request->hasFile('attach_file')){
+                        $deduction->attach_file   = $request->file('attach_file')->store('deduction_adjustment');
+                    }
+                    $deduction->save();
+                }
+            }
+            return redirect('deductions-adjustment')->with('message','Deduction Adjustment Created Successfully!');
+
+        }else{
+            foreach($request->employee_id as $employee_id) {
+                foreach ($period as $dt) {
+                    $deduction = new EarningDeductionAdjustment();
+                    $deduction->company_id            = Auth::user()->company_id;
+                    $deduction->employee_id           = $employee_id;
+                    $deduction->salary_component_id   = $request->component_id;
+                    $deduction->month                 = $dt->format("F");
+                    $deduction->year                  = $dt->format("Y");
+                    $deduction->amount                = $request->amount;
+                    $deduction->note                  = $request->note;
+                    $deduction->earning_or_deduction  = 'deductions';
+                    $deduction->reference_no          = $request->reference_no;
+                    $deduction->type                  = $request->type;
+                    $deduction->status                = $request->status;
+                    if($request->hasFile('attach_file')){
+                        $deduction->attach_file   = $request->file('attach_file')->store('deduction_adjustment');
+                    }
+                    $deduction->save();
+                }
+            }
+            return redirect('deductions-adjustment')->with('message','Deduction Adjustment Created Successfully!');
         }
-        return redirect('deductions-adjustment')->with('message','Deduction Adjustment Created Successfully!');
     }
 
     public function deductions_adjustment_delete($deduction_id) {

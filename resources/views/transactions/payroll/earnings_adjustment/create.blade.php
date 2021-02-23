@@ -84,6 +84,7 @@
                                                 <div class="col-md-4 mg-t-10">
                                                     <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required>
                                                         <option label="Employee Name"></option>
+                                                        <option value="All">All</option>
                                                         @foreach($employment_infos as $employment_info)
                                                             <option value="{{$employment_info->employee_id}}" {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }}>{{$employment_info->name}}</option>
                                                         @endforeach
@@ -173,6 +174,7 @@
                 success:function(data) {
                     console.log(data)
                     $('#employee_id').html('');
+                    $('#employee_id').append('<option value="All">All</option>');
                     $('#employee_id').append(data);
                 }
             });

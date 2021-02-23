@@ -604,11 +604,21 @@ class PayrollController extends Controller
         }
 
         if($request->employee_id != "") {
-            $employee_id        = $request->employee_id;
-            $employment_infos   = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
+            if(!in_array("All", $request->employee_id)) {
+                $employee_id        = $request->employee_id;
+                $employment_infos   = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
+            }
         }
 
         $employment_infos       = $employment_infos->get();
+
+        if($request->employee_id != "") {
+            if(in_array("All", $request->employee_id)) {
+                foreach($employment_infos as $employment_info) {
+                    $employee_id[]      = $employment_info->employee_id;
+                }
+            }
+        }
 
         return view('transactions.payroll.absent_deduction.add',compact('departments','projects','branches',
         'department_id','branch_id','project_id','employment_infos','month','year','employee_id'));
@@ -696,11 +706,21 @@ class PayrollController extends Controller
         }
 
         if($request->employee_id != "") {
-            $employment_infos   = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
-            $employee_id        = $request->employee_id;
+            if(!in_array("All", $request->employee_id)) {
+                $employment_infos   = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
+                $employee_id        = $request->employee_id;
+            }
         }
 
         $employment_infos   = $employment_infos->get();
+
+        if($request->employee_id != "") {
+            if(in_array("All", $request->employee_id)) {
+                foreach($employment_infos as $employment_info) {
+                    $employee_id[]      = $employment_info->employee_id;
+                }
+            }
+        }
 
         return view('transactions.payroll.gratuity.add',compact('departments','projects','branches',
         'employee_id','department_id','project_id','branch_id','year','employment_infos'));
