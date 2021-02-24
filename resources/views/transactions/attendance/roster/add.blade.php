@@ -85,8 +85,9 @@
                             <div class="col-md-3">
                                 <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required @if(count($employee_id) > 0) disabled @endif>
                                     <option label="Employee Name"></option>
+                                    <option value="All" @if($all_employee !='') selected @endif>All</option>
                                     @foreach($employment_infos as $employment_info)
-                                        <option value="{{$employment_info->employee_id}}" {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }}>{{$employment_info->name}}</option>
+                                        <option value="{{$employment_info->employee_id}}" @if($all_employee =='') {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }} @endif>{{$employment_info->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -177,7 +178,7 @@
             if(project_id == "") {project_id = 0;}
             if(branch_id == "") {branch_id = 0;}
 
-            var url = '/search-employee/'+department_id;
+            var url = '/search-roster-employee/'+department_id;
             if(project_id != "") { url = url +'/'+ project_id;} else { url = url + '/0';}
             if(branch_id != "") { url = url +'/'+ branch_id;} else { url = url + '/0';}
 
@@ -187,6 +188,7 @@
                 success:function(data) {
                     console.log(data)
                     $('#employee_id').html('');
+                    $('#employee_id').append('<option value="All">All</option>');
                     $('#employee_id').append(data);
                 }
             });

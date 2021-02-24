@@ -302,6 +302,7 @@ Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 //Common Route
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');
+Route::get('/search-roster-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_roster_employee');
 
 //Public Route
 Route::get('/attendance/{company_id}','PublicController@index');

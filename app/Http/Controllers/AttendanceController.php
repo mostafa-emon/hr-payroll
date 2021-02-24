@@ -109,7 +109,7 @@ class AttendanceController extends Controller
     }
 
     public function roster_create(Request $request) {
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->where('duty_type','Roster');
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -123,6 +123,7 @@ class AttendanceController extends Controller
         $to_date            = '';
         $roster_name        = '';
         $roster_id          = '';
+        $all_employee       = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -148,14 +149,24 @@ class AttendanceController extends Controller
         }
 
         if($request->employee_id != "") {
-            $employee_id = $request->employee_id;
+            if(!in_array("All", $request->employee_id)) {
+                $employee_id = $request->employee_id;
+            }else{
+                $employment_infos = $employment_infos->get();
+
+                foreach($employment_infos as $employment_info) {
+                    $employee_id[]      = $employment_info->employee_id;
+                }
+                $all_employee = 'All';
+            }
+
             $roster = new Roster();
             $roster->company_id     = Auth::user()->company_id;
             $roster->roster_name    = $request->roster_name;
             $roster->department_id  = $request->department_id;
             $roster->project_id     = $request->project_id;
             $roster->branch_id      = $request->branch_id;
-            $roster->employee_id    = json_encode($request->employee_id);
+            $roster->employee_id    = json_encode($employee_id);
             $roster->from_date      = date('Y-m-d',strtotime($request->from_date));
             $roster->to_date        = date('Y-m-d',strtotime($request->to_date));
             $roster->save();
@@ -167,10 +178,12 @@ class AttendanceController extends Controller
             $roster_name = $request->roster_name;
         }
 
-        $employment_infos = $employment_infos->get();
+        if($request->employee_id == "" && $request->employee_id != ['All']) {
+            $employment_infos = $employment_infos->get();
+        }
 
         return view('transactions.attendance.roster.add',
-        compact('departments','projects','branches','department_id','branch_id','roster_name',
+        compact('departments','projects','branches','department_id','branch_id','roster_name','all_employee',
         'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster_id'));
     }
 
@@ -207,7 +220,7 @@ class AttendanceController extends Controller
     public function roster_duplicate($roster_id,Request $request) {
         $roster             = Roster::where('id',$roster_id)->first();
 
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->get();
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->where('duty_type','Roster')->get();
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -293,7 +306,7 @@ class AttendanceController extends Controller
                                 ->whereBetween('date', [$changed_from_date, $changed_to_date])->orderBy('date','asc')->get();
         }
 
-        $employment_infos = $employment_infos->get();
+        $employment_infos = $employment_infos->where('duty_type','Roster')->get();
 
         return view('transactions.attendance.roster.search.index',
         compact('departments','projects','branches','department_id','branch_id','roster_name','roster_employees',

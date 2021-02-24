@@ -155,7 +155,7 @@
                 if(project_id == "") {project_id = 0;}
                 if(branch_id == "") {branch_id = 0;}
 
-                var url = '/search-employee/'+department_id;
+                var url = '/search-roster-employee/'+department_id;
                 if(project_id != "") { url = url +'/'+ project_id;} else { url = url + '/0';}
                 if(branch_id != "") { url = url +'/'+ branch_id;} else { url = url + '/0';}
 
