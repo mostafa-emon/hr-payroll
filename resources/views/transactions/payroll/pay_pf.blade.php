@@ -101,69 +101,69 @@
                                 <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                                     <thead>
                                         <tr class="visibility: hidden">
-                                            <th colspan="4" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
+                                            <th colspan="6" style="font-size:17px;text-align:center;border:none">{{get_company_name(Auth::user()->company_id)}}</th>
                                         </tr>
                                         <tr class="visibility: hidden">
-                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
+                                            <th colspan="6" style="font-size:15px;text-align:center;;border:none">Provident Fund</th>
                                         </tr>
                                         <tr class="visibility: hidden">
-                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$employee_id}} <b>{{employee_name($employee_id)}}</b></th>
+                                            <th colspan="6" style="font-size:15px;text-align:center;;border:none">Employee ID:{{$employee_id}} <b>{{employee_name($employee_id)}}</b></th>
                                         </tr>
                                         @php $employee_auto_increment_id = get_auto_increment_employee_id($employee_id); @endphp
                                         <tr class="visibility: hidden">
-                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
+                                            <th colspan="6" style="font-size:15px;text-align:center;;border:none">{{employee_designation($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr class="visibility: hidden">
-                                            <th colspan="4" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_auto_increment_id)}}</th>
+                                            <th colspan="6" style="font-size:15px;text-align:center;;border:none">Department: {{employee_department($employee_auto_increment_id)}}</th>
                                         </tr>
                                         <tr>
                                             <th style="width:5%;vertical-align: middle;text-align:center;">SL</th>
-                                            <th style="width:35%;vertical-align: middle;text-align:center;">Applicable Month</th>
-                                            <th style="width:30%;vertical-align: middle;text-align:center;">PF Type</th>
-                                            <th style="width:30%;vertical-align: middle;text-align:right;">PF Amount</th>
+                                            <th style="width:20%;vertical-align: middle;text-align:center;">Applicable Month</th>
+                                            <th style="width:20%;vertical-align: middle;text-align:right;">Company Portion PF</th>
+                                            <th style="width:20%;vertical-align: middle;text-align:right;">Employee Portion PF</th>
+                                            <th style="width:15%;vertical-align: middle;text-align:right;">Month Total</th>
+                                            <th style="width:20%;vertical-align: middle;text-align:right;">Cumulative Balance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $total_pf_amount = 0; $sl = 0; @endphp
-                                        @if($company_pf_opening_balance != 0)
+                                        @php $total_pf_amount = 0; $sl = 0; $cumulative_balance = 0; @endphp
+                                        @if($company_pf_opening_balance != 0 || $employee_pf_opening_balance != 0)
                                         <tr>
                                             <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
                                             <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
-                                            <td style="vertical-align: middle;text-align:center;">Company Portion PF</td>
                                             <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance}}</td>
-                                        </tr>
-                                        @endif
-                                        @if($employee_pf_opening_balance != 0)
-                                        <tr>
-                                            <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
-                                            <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
-                                            <td style="vertical-align: middle;text-align:center;">Employee Portion PF</td>
                                             <td style="vertical-align: middle;text-align:right;">{{$employee_pf_opening_balance}}</td>
+                                            <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance + $employee_pf_opening_balance}}</td>
+                                            <td style="vertical-align: middle;text-align:right;">
+                                                @php
+                                                    echo $cumulative_balance = $cumulative_balance + $company_pf_opening_balance + $employee_pf_opening_balance;
+                                                @endphp
+                                            </td>
                                         </tr>
                                         @endif
 
                                         @if(count($pfs) > 0)
                                             @foreach($pfs as $pf)
                                             @php 
-                                                $employee = get_employee_info($pf->employee_id);
+                                                $all_portion_amount = all_portion_amount($increment_employee_id,$pf->month,$pf->year);
+                                                list($company_pf_amount,$employee_pf_amount) = explode("_",$all_portion_amount);
+                                                $month_total = 0;
                                             @endphp
                                             <tr>
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration + $sl}}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{{$pf->month}} {{$pf->year}}</td>
-                                                <td style="vertical-align: middle;text-align:center;">{{$pf->type}} PF</td>
+                                                <td style="vertical-align: middle;text-align:right;">{{$company_pf_amount}}</td>
+                                                <td style="vertical-align: middle;text-align:right;">{{$employee_pf_amount}}</td>
                                                 <td style="vertical-align: middle;text-align:right;">
-                                                    {{$pf->amount}}
                                                     @php 
-                                                        $total_pf_amount = $total_pf_amount + $pf->amount;
+                                                        echo $month_total   = $company_pf_amount + $employee_pf_amount;
+                                                        $cumulative_balance = $cumulative_balance + $month_total;
                                                     @endphp
                                                 </td>
+                                                <td style="vertical-align: middle;text-align:right;">{{$cumulative_balance}}</td>
                                             </tr>
                                             @endforeach
                                         @endif
-                                        <tr>
-                                            <td style="text-align:right;font-weight:bold;" colspan="3">Total PF Amount</td>
-                                            <td style="vertical-align: middle;text-align:right;font-weight:bold;">{{ $total_pf_amount = $total_pf_amount + $employee_pf_opening_balance + $company_pf_opening_balance }}</td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

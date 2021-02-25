@@ -719,3 +719,29 @@ function get_default_currency_employee() {
 function get_selected_currency_employee($currency_id) {
     return PayrollInfo::where('currency_id',$currency_id)->first()->employee_id;
 }
+
+function all_portion_amount($employee_id,$month,$year) {
+    $company_pf =  ProvidentFund::where('company_id',Auth::user()->company_id)
+                        ->where('employee_id',$employee_id)->where('status',0)
+                        ->where('month',$month)->where('year',$year)
+                        ->where('type','Company Portion')->first();
+
+    if($company_pf != ""){
+        $company_pf_amount = $company_pf->amount;
+    }else{
+        $company_pf_amount = 0;
+    }
+
+    $employee_pf =  ProvidentFund::where('company_id',Auth::user()->company_id)
+                        ->where('employee_id',$employee_id)->where('status',0)
+                        ->where('month',$month)->where('year',$year)
+                        ->where('type','Employee Portion')->first();
+
+    if($employee_pf != ""){
+        $employee_pf_amount = $employee_pf->amount;
+    }else{
+        $employee_pf_amount = 0;
+    }
+
+    return $company_pf_amount."_".$employee_pf_amount;
+}

@@ -505,7 +505,13 @@ class PayrollController extends Controller
 
             $pfs                    = ProvidentFund::where('company_id',Auth::user()->company_id)
                                     ->where('employee_id',$increment_employee_id)
-                                    ->where('status',0)->get();
+                                    ->where('status',0)
+                                    ->select('month','year')
+                                    ->groupBy('month', 'year')
+                                    ->orderBy('id','desc')
+                                    ->get();
+
+            //return response()->json($pfs);
         }
 
         $employment_infos = $employment_infos->get();
