@@ -97,7 +97,7 @@
                                                     <label for="name" class="col-form-label">
                                                         Mark as 1 Day Absent for
                                                             <input name="marks_absent_for" style="width:32px;text-align: center;" placeholder="Days Late in a month" type="text" value="@if($policy !=''){{$policy->marks_absent_for}} @endif" required>
-                                                        days left
+                                                        days late
                                                     </label>
                                                 </div>
 

@@ -61,7 +61,7 @@
                                     <th class="text-center" style="vertical-align:middle;">Total Tax</th>
                                     <th class="text-center" style="vertical-align:middle;">Total Amount</th>
                                     <th class="text-center" style="vertical-align:middle;">Challan No</th>
-                                    <th class="text-center" style="vertical-align:middle;">Attachment</th>
+                                    <th class="text-center" style="vertical-align:middle;width:111px;">Attachment</th>
                                     <th class="text-center" style="vertical-align:middle;">Status</th>
                                     <th class="text-center" style="vertical-align:middle;width:95px;">Action</th>
                                 </tr>
@@ -84,10 +84,12 @@
                                     <td class="text-center" style="vertical-align: middle">{{$tax->challan_no}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($tax->attachment != "")
-                                            @foreach(json_decode($tax->attachment) as $file)
-                                                <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('download-file/deposit_salary_tax/'.$file)}}">Download</a>
-                                                <br><br>
-                                            @endforeach
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Download <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @foreach(json_decode($tax->attachment) as $file)
+                                                <a href="{{url('download-file/deposit_salary_tax/'.$file)}}" class="dropdown-item">File {{$loop->iteration}}</a>
+                                                @endforeach
+                                            </div>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align: middle">

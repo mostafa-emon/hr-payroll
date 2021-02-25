@@ -170,7 +170,7 @@ class LeaveController extends Controller
 
                     if(count($leave_requests) == 0) {
                         if($request->leave_days > "1") {
-                            return redirect('leave-request/add')->with('error_message','You cannot take more than 1 earn leave now!');
+                            return redirect('leave-request/add')->with('error_message','As you are taking earn leave first time, you cannot take more than one!');
                         }
                     }
 
