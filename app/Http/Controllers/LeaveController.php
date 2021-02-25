@@ -164,8 +164,15 @@ class LeaveController extends Controller
 
                 $leave_type = LeaveType::where('id',$request->leave_type_id)->first();
                 if($leave_type->reference == 'paid_leave') {
+
                     $total_date = $leave_type->el_deviding_factor * $request->leave_days;
                     $last_date = Carbon\Carbon::now()->subDays($total_date)->format('Y-m-d');
+
+                    if(count($leave_requests) == 0) {
+                        if($request->leave_days > "1") {
+                            return redirect('leave-request/add')->with('error_message','You cannot take more than 1 earn leave now!');
+                        }
+                    }
 
                     $request_leaves = LeaveRequest::where('employee_id',Auth::user()->employee_id)->whereBetween('start_date', [$last_date, $current_date])->where('leave_type_id',$request->leave_type_id)->where('status','!=','Rejected')->get();
                     if(count($request_leaves) > 0){
@@ -187,6 +194,7 @@ class LeaveController extends Controller
                 $leave->attach_file       = $request->file('attach_file')->store('leave_request');
             }
             $leave->save();
+
             return redirect('leave-request')->with('message','Leave Request Created Successfully!');
         }
         $types = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('leave_name','asc')->get();
