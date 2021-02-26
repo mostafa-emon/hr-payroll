@@ -51,6 +51,7 @@
                     <hr>
                     <form action="{{ url('create-roster') }}" method="POST">
                         {{ csrf_field() }}
+                        @if(count($employee_id) == 0)
                         <div class="row">
                             <div class="col-md-3">
                                 <input type="text" name="roster_name" class="form-control" placeholder="Roster Name*" value="{{$roster_name}}" @if(count($employee_id) > 0) readonly @endif required/>
@@ -87,7 +88,7 @@
                                     <option label="Employee Name"></option>
                                     <option value="All" @if($all_employee !='') selected @endif>All</option>
                                     @foreach($employment_infos as $employment_info)
-                                        <option value="{{$employment_info->employee_id}}" @if($all_employee =='') {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }} @endif>{{$employment_info->name}}</option>
+                                        <option value="{{$employment_info->employee_id}}" @if($all_employee =='') {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }} @endif>{{$employment_info->employee_id}} - {{$employment_info->name}} - {{employee_designation($employment_info->id)}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -103,6 +104,7 @@
                                 </div>
                             @endif
                         </div>
+                        @endif
                     </form>
 
                     @if(count($employee_id) > 0)
@@ -119,45 +121,87 @@
                             $interval = $formatted_to_date->diff($formatted_from_date);
                             $interval = $interval->format('%a');
                         @endphp
-                         <div class="table-responsive">
-                            <form method="post" action="{{url('store-roster')}}">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="roster_id" value="{{$roster_id}}"/>
-                                <input type="hidden" name="store_from_date" value="{{date('Y-m-d',strtotime($from_date))}}"/>
-                                <input type="hidden" name="store_to_date" value="{{date('Y-m-d',strtotime($to_date))}}"/>
-                                <input type="hidden" name="store_employee_id" value="{{rtrim($store_employee_id, ',')}}"/>
+                        <div class="row">
 
-                                <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
-                                    <tr>
-                                        <th class="text-center" style="width:33%">Date</th>
-                                        <th class="text-center" style="width:33%">Shift</th>
-                                        <th class="text-center" style="width:34%">Day Off</th>
-                                    </tr>
-                                    @for($i = 0; $i <= $interval; $i++)
+
+                            <div class="table-responsive col-md-6">
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
                                         <tr>
-                                            <td class="text-center">
-                                                @php $holiday = find_holiday(date('Y-m-d',strtotime($from_date . "+".$i." days"))); @endphp
-                                                <input type="text" class="form-control" style="@if($holiday !="")font-weight:bold;font-size:16px;@endif" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
-                                            </td>
-                                            
-                                            <td class="text-center">
-                                                <select class="form-control" name="shift_id_{{$i}}">
-                                                    @foreach($shifts as $shift)
-                                                        <option value="{{$shift->id}}">{{$shift->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                            
-                                            <td class="text-center">
-                                                <input type="checkbox" style="cursor:pointer; width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="day_off_{{$i}}"/>
-                                            </td>
+                                            <th colspan="5" style="font-size:17px;text-align:center;border:none">From Date: {{$from_date}} To Date: {{$to_date}}</th>
+                                          </tr>
+                                          <tr>
+                                            <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee List</th>
+                                          </tr>
+                                        <tr>
+                                            <th style="vertical-align: middle;" class="text-center">SL</th>
+                                            <th style="vertical-align: middle;">Employee ID</th>
+                                            <th style="vertical-align: middle;">Employee Name</th>
+                                            <th style="vertical-align: middle;">Designation</th>
+                                            <th style="vertical-align: middle;" class="text-center">Remove</th>
                                         </tr>
-                                    @endfor
+                                    </thead>
+                                    <tbody>
+                                        @foreach($temporary_roster_list as $list)
+                                                <tr id="hide_temporary_roster_{{$list->id}}">
+                                                    <td style="vertical-align: middle;" class="text-center">
+                                                        {{$loop->iteration}}
+                                                    </td>
+                                                    <td style="vertical-align: middle;">{{$list->string_employee_id}}</td>
+                                                    <td style="vertical-align: middle">{{$list->name}}</td>
+                                                    <td style="vertical-align: middle;">{{$list->designation}}</td>
+                                                    <td style="vertical-align: middle;">
+                                                        <button onclick="delete_temporary_roster({{$list->id}})" style="font-size: 15px;" class="btn btn-info btn-sm">Remove</button>
+                                                    </td>
+                                                </tr>
+                                            </div>
+                                        @endforeach
+                                    </tbody>
                                 </table>
-                                <div class="pd-t-15 text-center">
-                                    <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
-                                </div>
-                            </form>
+                            </div>
+
+
+
+                            <div class="table-responsive col-md-6">
+                                <form method="post" action="{{url('store-roster')}}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="roster_id" value="{{$roster_id}}"/>
+                                    <input type="hidden" name="store_from_date" value="{{date('Y-m-d',strtotime($from_date))}}"/>
+                                    <input type="hidden" name="store_to_date" value="{{date('Y-m-d',strtotime($to_date))}}"/>
+                                    <input type="hidden" name="store_employee_id" value="{{rtrim($store_employee_id, ',')}}"/>
+
+                                    <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                                        <tr>
+                                            <th class="text-center" style="width:33%">Date</th>
+                                            <th class="text-center" style="width:33%">Shift</th>
+                                            <th class="text-center" style="width:34%">Day Off</th>
+                                        </tr>
+                                        @for($i = 0; $i <= $interval; $i++)
+                                            <tr>
+                                                <td class="text-center">
+                                                    @php $holiday = find_holiday(date('Y-m-d',strtotime($from_date . "+".$i." days"))); @endphp
+                                                    <input type="text" class="form-control" style="@if($holiday !="")font-weight:bold;font-size:16px;@endif" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
+                                                </td>
+                                                
+                                                <td class="text-center">
+                                                    <select class="form-control" name="shift_id_{{$i}}">
+                                                        @foreach($shifts as $shift)
+                                                            <option value="{{$shift->id}}">{{$shift->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                
+                                                <td class="text-center">
+                                                    <input type="checkbox" style="cursor:pointer; width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="day_off_{{$i}}"/>
+                                                </td>
+                                            </tr>
+                                        @endfor
+                                    </table>
+                                    <div class="pd-t-15 text-center">
+                                        <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     @endif
 
@@ -192,7 +236,18 @@
                     $('#employee_id').append(data);
                 }
             });
-    }
+        }
+
+        function delete_temporary_roster(id) {
+            $.ajax({
+                type:'GET',
+                url:'/delete-temporary-roster/'+id,
+                success:function(data) {
+                    console.log(data);
+                }
+            });
+            $('#hide_temporary_roster_'+id).hide();
+        };
     </script>
 
 @endsection

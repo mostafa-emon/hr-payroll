@@ -24,6 +24,8 @@ class CreateRostersTable extends Migration
             $table->text('employee_id');
             $table->date('from_date');
             $table->date('to_date');
+            $table->boolean('data_entered')->default(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

@@ -51,6 +51,7 @@
                                     <th style="vertical-align: middle">Branch</th>
                                     <th style="vertical-align: middle" class="text-center">From Date</th>
                                     <th style="vertical-align: middle" class="text-center">To Date</th>
+                                    <th style="vertical-align: middle" class="text-center">Status</th>
                                     <th style="vertical-align: middle" class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -65,10 +66,18 @@
                                     <td style="vertical-align: middle" class="text-center">{{date('d-m-Y',strtotime($roster->from_date))}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{date('d-m-Y',strtotime($roster->to_date))}}</td>
                                     <td style="vertical-align: middle" class="text-center">
+                                        @if($roster->status == 1)
+                                        <span class="badge badge-info">Active</span>
+                                        @else
+                                            <span class="badge badge-warning">Inactive</span>
+                                        @endif
+                                    </td>
+                                    <td style="vertical-align: middle" class="text-center">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
                                             <a href="{{url('roster-duplicate/'.$roster->id)}}" class="dropdown-item">Duplicate</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$roster->id}})">Delete</a>
+                                            {{--<a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$roster->id}})">Delete</a>--}}
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmInactive({{$roster->id}})">Inactive</a>
                                             <a href="{{url('roster/employee-list/'.$roster->id)}}" class="dropdown-item">Employee List</a>
                                         </div>
                                     </td>
@@ -91,6 +100,13 @@
             var r = confirm("Are you confirm to delete?");
             if (r == true) {
             window.location = "/roster/delete/"+id;
+            }
+        }
+
+        function confirmInactive(id) {
+            var r = confirm("Are you confirm to Inactive?");
+            if (r == true) {
+            window.location = "/roster/inactive/"+id;
             }
         }
 

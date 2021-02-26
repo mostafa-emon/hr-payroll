@@ -211,6 +211,8 @@ Route::post('/roster-search', 'AttendanceController@roster_search');
 Route::get('/roster-employee/delete/{id}', 'AttendanceController@roster_employee_delete');
 Route::get('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
 Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
+Route::get('/delete-temporary-roster/{id}', 'AttendanceController@delete_temporary_roster');
+Route::get('/roster/inactive/{id}', 'AttendanceController@roster_inactive');
 
 //Manual Log Entry
 Route::get('/manual-log-entry', 'AttendanceController@manual_log_index');

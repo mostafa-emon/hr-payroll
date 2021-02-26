@@ -19,6 +19,7 @@ use App\Attendance;
 use App\PayrollInfo;
 use App\GovtHolidayDetail;
 use App\EmployeeEarningDeduction;
+use App\TemporaryRosterSelection;
 use App\PaidLeave;
 use Auth;
 use DateTime;
@@ -104,7 +105,7 @@ class AttendanceController extends Controller
 
 
     public function roster_index() {
-        $rosters = Roster::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
+        $rosters = Roster::where('company_id',Auth::user()->company_id)->where('data_entered',1)->orderBy('id','asc')->paginate(10);
         return view('transactions.attendance.roster.index',compact('rosters'));
     }
 
@@ -115,15 +116,16 @@ class AttendanceController extends Controller
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $shifts             = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
-        $department_id      = '';
-        $project_id         = '';
-        $branch_id          = '';
-        $employee_id        = [];
-        $from_date          = '';
-        $to_date            = '';
-        $roster_name        = '';
-        $roster_id          = '';
-        $all_employee       = '';
+        $department_id          = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $employee_id            = [];
+        $from_date              = '';
+        $to_date                = '';
+        $roster_name            = '';
+        $roster_id              = '';
+        $all_employee           = '';
+        $temporary_roster_list  = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -151,6 +153,7 @@ class AttendanceController extends Controller
         if($request->employee_id != "") {
             if(!in_array("All", $request->employee_id)) {
                 $employee_id = $request->employee_id;
+                $employment_infos = $employment_infos->whereIn('employees.employee_id',$employee_id)->get();
             }else{
                 $employment_infos = $employment_infos->get();
 
@@ -182,20 +185,36 @@ class AttendanceController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
+        if($roster_id != '') {
+            $temp_roster_selection  = TemporaryRosterSelection::where('user_id',Auth::user()->id)->delete();
+            foreach($employment_infos as $employment_info) {
+                $roster_select                      = new TemporaryRosterSelection();
+                $roster_select->user_id             = Auth::user()->id;
+                $roster_select->employee_id         = $employment_info->id;
+                $roster_select->string_employee_id  = $employment_info->employee_id;
+                $roster_select->name                = $employment_info->name;
+                $roster_select->designation         = employee_designation($employment_info->id);
+                $roster_select->save();
+            }
+
+            $temporary_roster_list  = TemporaryRosterSelection::where('user_id',Auth::user()->id)->get();
+        }
+
         return view('transactions.attendance.roster.add',
         compact('departments','projects','branches','department_id','branch_id','roster_name','all_employee',
-        'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster_id'));
+        'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster_id','temporary_roster_list'));
     }
 
     public function roster_store(Request $request){
-        foreach(explode(',',$request->store_employee_id) as $row) {
-            $all_employees = RosterEmployee::where('employee_id',get_auto_increment_employee_id($row))->whereBetween('date', [date('Y-m-d',strtotime($request->store_from_date)), date('Y-m-d',strtotime($request->store_to_date))])->count();
+        $temporary_rosters = TemporaryRosterSelection::where('user_id',Auth::user()->id)->get();
+        foreach($temporary_rosters as $temporary_roster) {
+            $all_employees = RosterEmployee::where('employee_id',$temporary_roster->employee_id)->whereBetween('date', [date('Y-m-d',strtotime($request->store_from_date)), date('Y-m-d',strtotime($request->store_to_date))])->count();
             if($all_employees > 0 && $all_employees !='') {
-                $all_employees = RosterEmployee::where('employee_id',get_auto_increment_employee_id($row))->whereBetween('date', [date('Y-m-d',strtotime($request->store_from_date)), date('Y-m-d',strtotime($request->store_to_date))])->delete();
+                $all_employees = RosterEmployee::where('employee_id',$temporary_roster->employee_id)->whereBetween('date', [date('Y-m-d',strtotime($request->store_from_date)), date('Y-m-d',strtotime($request->store_to_date))])->delete();
             }
         }
 
-        foreach(explode(',',$request->store_employee_id) as $row) {
+        foreach($temporary_rosters as $temporary_roster) {
             $formatted_from_date = new DateTime($request->store_from_date);
             $formatted_to_date   = new DateTime($request->store_to_date);
             $interval = $formatted_to_date->diff($formatted_from_date);
@@ -205,7 +224,7 @@ class AttendanceController extends Controller
                 $add_roster = new RosterEmployee();
                 $add_roster->company_id     = Auth::user()->company_id;
                 $add_roster->roster_id      = $request->roster_id;
-                $add_roster->employee_id    = get_auto_increment_employee_id($row);
+                $add_roster->employee_id    = $temporary_roster->employee_id;
                 $add_roster->date           = date('Y-m-d',strtotime($request['date_'.$i]));
                 $add_roster->shift_id       = $request['shift_id_'.$i];
                 if($request['day_off_'.$i] == 1) {
@@ -214,6 +233,11 @@ class AttendanceController extends Controller
                 $add_roster->save();
             }
         }
+
+        $roster = Roster::where('id',$request->roster_id)->first();
+        $roster->data_entered = 1;
+        $roster->save();
+
         return redirect('roster')->with('message','Roster created successfully!');
     }
 
@@ -244,7 +268,7 @@ class AttendanceController extends Controller
         return view('transactions.attendance.roster.employee_list',compact('roster_employees'));
     }
 
-    public function roster_delete($roster_id){
+    /*public function roster_delete($roster_id){
         $roster = Roster::find($roster_id);
         if($roster->company_id == Auth::user()->company_id){
             $roster->delete();
@@ -258,6 +282,20 @@ class AttendanceController extends Controller
         }else{
             return redirect('roster')->with('message','Do not try to be too smart!');
         }
+    }*/
+
+    public function roster_inactive($roster_id){
+        $roster = Roster::where('id',$roster_id)->first();
+        $roster->status = 0;
+        $roster->save();
+
+        $current_date = Carbon\Carbon::now()->format('Y-m-d');
+        $preDataCount = RosterEmployee::where('roster_id',$roster_id)->where('date','>',$current_date)->count();
+        if($preDataCount != 0 && $preDataCount != "") {
+            RosterEmployee::where('roster_id',$roster_id)->where('date','>',$current_date)->delete();
+        }
+
+        return redirect('roster')->with('message','Roster Inactivated Successfully!');
     }
 
     public function roster_search(Request $request) {
@@ -318,6 +356,12 @@ class AttendanceController extends Controller
         $roster = RosterEmployee::find($roster_employee_id);
         $roster->delete();
         return redirect('roster-search')->with('message','Roster Deleted Successfully!');
+    }
+
+    public function delete_temporary_roster($roster_id){
+        $roster = TemporaryRosterSelection::find($roster_id);
+        $roster->delete();
+        return back()->withInput();
     }
 
     public function roster_employee_update(Request $request,$id) {
