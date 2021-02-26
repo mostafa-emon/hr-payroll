@@ -81,7 +81,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" class="form-control" name="applicable_for" placeholder="Applicable For" value="@if($applicable_for != ""){{$applicable_for}}@else{{date('Y')}}@endif" required>
+                                <input type="text" class="form-control" name="applicable_for" placeholder="Transfer From" value="@if($applicable_for != ""){{$applicable_for}}@else{{date('Y')}}@endif" required>
                             </div>
                             <div class="col-md-2">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
@@ -101,7 +101,7 @@
 
                                             <div>
                                                 <div class="row pd-t-10">
-                                                    <div class="col-form-label col-md-2 remove-space" style="font-weight:bold;">Applicable For:</div>
+                                                    <div class="col-form-label col-md-2 remove-space" style="font-weight:bold;">Transfer From:</div>
                                                     <div class="col-md-4 remove-space">
                                                         <input type="text" class="form-control" placeholder="Applicable For" value={{date($applicable_for)}}>
                                                     </div>
