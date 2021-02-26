@@ -361,7 +361,6 @@ class AttendanceController extends Controller
     public function delete_temporary_roster($roster_id){
         $roster = TemporaryRosterSelection::find($roster_id);
         $roster->delete();
-        return back()->withInput();
     }
 
     public function roster_employee_update(Request $request,$id) {
