@@ -123,8 +123,19 @@
                         @endphp
                         <div class="row">
 
-
-                            <div class="table-responsive col-md-6">
+                            <div class="col-md-6">
+                                <style>
+                                    table {
+                                        border-collapse: collapse;
+                                    }
+                                    th, td {
+                                        border: 1px solid black;
+                                        font-family:arial;
+                                        font-size:13px;
+                                        padding:5px;
+                                    }
+                                </style>
+                                
                                 <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr>
@@ -159,8 +170,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
-
 
                             <div class="table-responsive col-md-6">
                                 <form method="post" action="{{url('store-roster')}}">
