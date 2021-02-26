@@ -72,10 +72,11 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <select id="employee_id" name="employee_id" class="form-control select2-no-search" required>
+                                <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required>
                                     <option label="Employee Name"></option>
+                                    <option value="All" @if($all_employee !='') selected @endif>All</option>
                                     @foreach($employment_infos as $employment_info)
-                                        <option value="{{$employment_info->employee_id}}" @if($employee_id == $employment_info->employee_id) selected @endif>{{$employment_info->name}}</option>
+                                        <option value="{{$employment_info->employee_id}}" @if($all_employee =='') {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }} @endif>{{$employment_info->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -109,29 +110,44 @@
                                                         <input type="text" class="form-control" name="applicable_year" placeholder="Applicable Year" value={{date($applicable_for + 1)}}>
                                                     </div>
                                                 </div>
-                                                @foreach($leave_infos as $leave_info)
-                                                <div class="row pd-t-10">
-                                                    <div class="col-md-4 remove-space">
-                                                        <div class="col-form-label" style="font-weight:bold;">Leave Type:</div>
-                                                        <select class="form-control" name="leave_type_id[]" readonly>
-                                                            <option value="" label>Leave Type</option>
-                                                            @foreach($leave_types as $leave_type)
-                                                                <option value="{{$leave_type->id}}" @if($leave_type->id == $leave_info->leave_type_id) selected @endif>{{$leave_type->leave_name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                
-                                                    <div class="col-md-4 remove-space">
-                                                        <div class="col-form-label" style="font-weight:bold;">Balance Left:</div>
-                                                        <input type="text" class="form-control" placeholder="Balance Left" value="{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}" readonly>
-                                                    </div>
-                                    
-                                                    <div class="col-md-4 remove-space">
-                                                        <div class="col-form-label" style="font-weight:bold;">Transfer Amount:</div>
-                                                        <input type="number" min="0" class="form-control" name="transfer_amount[]" placeholder="Transfer Amount" max="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif" value="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif">
-                                                    </div>
-                                                </div>
-                                                @endforeach
+
+                                                <br>
+
+                                                <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="vertical-align: middle" class="text-center">Employee ID</th>
+                                                            <th style="vertical-align: middle">Employee Name</th>
+                                                            <th style="vertical-align: middle">Designation</th>
+                                                            <th style="vertical-align: middle" class="text-center">Leave Type</th>
+                                                            <th style="vertical-align: middle" class="text-center">Remaining Balance</th>
+                                                            <th style="vertical-align: middle" class="text-center">To Be Forwarded</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($leave_infos as $leave_info)
+                                                        @php $employee = get_employee_info($leave_info->employee_id); @endphp
+                                                        <tr>
+                                                            <td style="vertical-align: middle" class="text-center">
+                                                                {{$employee->employee_id}}
+                                                                <input type="hidden" name="employee_id[]" class="form-control" value="{{$employee->id}}">
+                                                            </td>
+                                                            <td style="vertical-align: middle">{{$employee->name}}</td>
+                                                            <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
+                                                            <td style="vertical-align: middle" class="text-center">
+                                                                {{leave_type_name($leave_info->leave_type_id)}}
+                                                                <input type="hidden" name="leave_type_id[]" class="form-control" value="{{$leave_info->leave_type_id}}">
+                                                            </td>
+                                                            <td style="vertical-align: middle">
+                                                                <input type="text" class="form-control" placeholder="Balance Left" value="{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}" readonly>
+                                                            </td>
+                                                            <td style="vertical-align: middle">
+                                                                <input type="number" min="0" class="form-control" name="transfer_amount[]" placeholder="Transfer Amount" max="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif" value="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif">
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
 
                                         <div class="row pd-t-30">
@@ -172,6 +188,7 @@
                     console.log(data)
                     $('#employee_id').html('');
                     $('#employee_id').append('<option value="" selected>Employee Name</option>');
+                    $('#employee_id').append('<option value="All">All</option>');
                     $('#employee_id').append(data);
                 }
             });

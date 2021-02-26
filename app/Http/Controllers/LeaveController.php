@@ -295,10 +295,11 @@ class LeaveController extends Controller
         $department_id      = '';
         $project_id         = '';
         $branch_id          = '';
-        $employee_id        = '';
+        $employee_id        = [];
         $applicable_for     = '';
         $leave_types        = '';
         $employee           = '';
+        $all_employee       = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -316,16 +317,29 @@ class LeaveController extends Controller
         }
 
         if($request->employee_id != ""){
-            $employment_infos    = $employment_infos->where('employees.employee_id',$request->employee_id);
-            $employee_id           = $request->employee_id;
-        }
+            if(!in_array("All", $request->employee_id)) {
+                $employment_infos    = $employment_infos->whereIn('employees.employee_id',$request->employee_id);
+                $employee_id           = $request->employee_id;
+                $employment_infos   = $employment_infos->get();
 
-        if($request->employee_id != "") {
-            $employment_infos   = $employment_infos->get();
-            $employee           = Employee::where('employee_id',$request->employee_id)->first();
-            $leave_infos        = LeaveInfo::where('employee_id',$employee->id)->where('carry_forward',1)->get();
+            }else{
+                $employment_infos   = $employment_infos->get();
+                foreach($employment_infos as $employment_info) {
+                    $employee_id[]      = $employment_info->employee_id;
+                }
+                $all_employee = 'All';
+            }
+
+            $employees          = Employee::whereIn('employee_id',$employee_id)->get();
+            $increment_employee_id = [];
+            foreach($employees as $employee) {
+                $increment_employee_id[]      = $employee->id;
+            }
+
+            $leave_infos        = LeaveInfo::whereIn('employee_id',$increment_employee_id)->where('carry_forward',1)->orderBy('employee_id','asc')->get();
             $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
             $applicable_for     = $request->applicable_for;
+
         }else{
             $employment_infos   = $employment_infos->get();
             $leave_infos        = [];
@@ -333,19 +347,19 @@ class LeaveController extends Controller
 
         return view('transactions.leave.balance_transfer.index',
         compact('departments','projects','branches','department_id','branch_id','applicable_for',
-        'project_id','employment_infos','employee_id','leave_infos','leave_types','employee'));
+        'project_id','employment_infos','employee_id','leave_infos','leave_types','employee','all_employee'));
     }
 
     public function transfer_leave_balance($employee_id,Request $request){
         if($request->applicable_year !=""){
-            $leave_balance = LeaveBalance::where('employee_id',$employee_id)->where('applicable_year',$request->applicable_year)->get();
+            $leave_balance = LeaveBalance::whereIn('employee_id',$request->employee_id)->where('applicable_year',$request->applicable_year)->get();
             if(count($leave_balance) > 0){
-                return redirect('leave-balance-transfer')->with('error_message', 'You Have Already Transferred This Employee Balance!');
+                $leave_balance = LeaveBalance::whereIn('employee_id',$request->employee_id)->where('applicable_year',$request->applicable_year)->delete();
             }
             $leaves_row_count = count($request->transfer_amount);
             for($i = 0; $i < $leaves_row_count; $i++) {
                 $leave = new LeaveBalance();
-                $leave->employee_id     = $employee_id;
+                $leave->employee_id     = $request->employee_id[$i];
                 $leave->leave_type_id   = $request->leave_type_id[$i];
                 $leave->transfer_amount = $request->transfer_amount[$i];
                 $leave->applicable_year = $request->applicable_year;
