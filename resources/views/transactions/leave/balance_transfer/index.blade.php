@@ -119,7 +119,7 @@
                                                             <th style="vertical-align: middle" class="text-center">Employee ID</th>
                                                             <th style="vertical-align: middle">Employee Name</th>
                                                             <th style="vertical-align: middle">Designation</th>
-                                                            <th style="vertical-align: middle" class="text-center">Leave Type</th>
+                                                            <th style="vertical-align: middle">Leave Type</th>
                                                             <th style="vertical-align: middle" class="text-center">Remaining Balance</th>
                                                             <th style="vertical-align: middle" class="text-center">To Be Forwarded</th>
                                                         </tr>
@@ -134,15 +134,15 @@
                                                             </td>
                                                             <td style="vertical-align: middle">{{$employee->name}}</td>
                                                             <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
-                                                            <td style="vertical-align: middle" class="text-center">
+                                                            <td style="vertical-align: middle">
                                                                 {{leave_type_name($leave_info->leave_type_id)}}
                                                                 <input type="hidden" name="leave_type_id[]" class="form-control" value="{{$leave_info->leave_type_id}}">
                                                             </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="text" class="form-control" placeholder="Balance Left" value="{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}" readonly>
+                                                            <td style="vertical-align: middle" class="text-center">
+                                                                <input type="text" class="form-control" style="text-align:center;" placeholder="Balance Left" value="{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}" readonly>
                                                             </td>
-                                                            <td style="vertical-align: middle">
-                                                                <input type="number" min="0" class="form-control" name="transfer_amount[]" placeholder="Transfer Amount" max="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif" value="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif">
+                                                            <td style="vertical-align: middle" class="text-center">
+                                                                <input type="number" min="0" class="form-control" style="text-align:center;" name="transfer_amount[]" placeholder="Transfer Amount" max="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif" value="@if($leave_info->max_carry_forward < leave_balance_left($leave_info->id,$employee->id,$applicable_for)){{$leave_info->max_carry_forward}}@else{{leave_balance_left($leave_info->id,$employee->id,$applicable_for)}}@endif">
                                                             </td>
                                                         </tr>
                                                         @endforeach

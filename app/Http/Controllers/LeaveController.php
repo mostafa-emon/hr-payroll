@@ -168,7 +168,8 @@ class LeaveController extends Controller
                     $total_date = $leave_type->el_deviding_factor * $request->leave_days;
                     $last_date = Carbon\Carbon::now()->subDays($total_date)->format('Y-m-d');
 
-                    if(count($leave_requests) == 0) {
+                    $first_leave_requests = LeaveRequest::where('employee_id',Auth::user()->employee_id)->where('leave_type_id',$request->leave_type_id)->where('status','!=','Rejected')->get();
+                    if(count($first_leave_requests) == 0) {
                         if($request->leave_days > "1") {
                             return redirect('leave-request/add')->with('error_message','As you are taking earn leave first time, you cannot take more than one!');
                         }
