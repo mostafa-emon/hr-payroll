@@ -80,7 +80,7 @@
                                 <select name="employee_id" id="employee_id" class="form-control select2-no-search" required>
                                     <option label="Choose Employee"></option>
                                     @foreach($employment_infos as $employment_info)
-                                        <option value="{{$employment_info->employee_id}}" @if($employee_id == $employment_info->employee_id) selected @endif>{{$employment_info->name}}</option>
+                                        <option value="{{$employment_info->employee_id}}" @if($employee_id == $employment_info->employee_id) selected @endif>{{$employment_info->employee_id}} - {{$employment_info->name}} - {{employee_designation($employment_info->id)}}</option>
                                     @endforeach
                                 </select>
                             </div>
