@@ -20,6 +20,7 @@ use App\DepositSalaryTax;
 use App\GeneralSetting;
 use App\IncomeTax;
 use App\PayrollInfo;
+use App\OtTransferLetterFormat;
 use Auth;
 use Storage;
 
@@ -1147,5 +1148,33 @@ class PayrollController extends Controller
         $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to])->get();
 
         return view('transactions.payroll.deposit_salary_tax.print_back_side',compact('employment_infos'));
+    }
+
+    //OT Transfer Letter Format
+    public function ot_transfer_letter_format(Request $request){
+        $format = OtTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
+        if($request->editor1 != "" || $request->editor2 != "") {
+
+            $top_text = str_replace('<p>', '<div>', $request->editor1);
+            $top_text = str_replace('</p>', '</div>', $top_text);
+
+            $bottom_text = str_replace('<p>', '<div>', $request->editor2);
+            $bottom_text = str_replace('</p>', '</div>', $bottom_text);
+
+            if($format == "") {
+                $letterFormat = new OtTransferLetterFormat();
+                $letterFormat->company_id = Auth::user()->company_id;
+                $letterFormat->top_text = $top_text;
+                $letterFormat->bottom_text = $bottom_text;
+                $letterFormat->save();
+            }else{
+                $format->company_id = Auth::user()->company_id;
+                $format->top_text = $top_text;
+                $format->bottom_text = $bottom_text;
+                $format->save();
+            }
+            return redirect('ot-transfer-letter-format')->with('message','Format updated successfully!');
+        }
+        return view('payroll_setup.ot_transfer_letter.format',compact('format'));
     }
 }

@@ -179,6 +179,9 @@ Route::get('/get-payroll-branch/{id}', 'PayrollController@get_branch');
 Route::get('/salary-transfer-letter-format', 'SalaryTransferLetterController@format');
 Route::post('/salary-transfer-letter-format', 'SalaryTransferLetterController@format');
 
+Route::get('/ot-transfer-letter-format', 'PayrollController@ot_transfer_letter_format');
+Route::post('/ot-transfer-letter-format', 'PayrollController@ot_transfer_letter_format');
+
 //Leave
 Route::get('/leave-request', 'LeaveController@leave_request_index');
 Route::get('/leave-request/add', 'LeaveController@leave_request_add');
