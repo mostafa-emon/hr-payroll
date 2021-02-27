@@ -54,7 +54,7 @@
                         @if(count($employee_id) == 0)
                         <div class="row">
                             <div class="col-md-3">
-                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Name*" value="{{$roster_name}}" @if(count($employee_id) > 0) readonly @endif required/>
+                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Title" value="{{$roster_name}}" @if(count($employee_id) > 0) readonly @endif required/>
                             </div>
                             <div class="col-md-3">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employee_id) > 0) disabled @endif>
@@ -93,10 +93,10 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="from date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif" @if(count($employee_id) > 0) readonly @endif/>
+                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif" @if(count($employee_id) > 0) readonly @endif/>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="to date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif" @if(count($employee_id) > 0) readonly @endif/>
+                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif" @if(count($employee_id) > 0) readonly @endif/>
                             </div>
                             @if(count($employee_id) == 0)
                                 <div class="col-md-3 text-left">
@@ -139,13 +139,12 @@
                                 <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th colspan="5" style="font-size:17px;text-align:center;border:none">From Date: {{$from_date}} To Date: {{$to_date}}</th>
+                                            <th colspan="5" style="font-size:15px;text-align:center;border:none">From: {{date('d M,Y', strtotime($from_date))}} To: {{date('d M,Y', strtotime($to_date))}}</th>
                                           </tr>
                                           <tr>
                                             <th colspan="5" style="font-size:15px;text-align:center;;border:none">Employee List</th>
                                           </tr>
                                         <tr>
-                                            <th style="vertical-align: middle;" class="text-center">SL</th>
                                             <th style="vertical-align: middle;">Employee ID</th>
                                             <th style="vertical-align: middle;">Employee Name</th>
                                             <th style="vertical-align: middle;">Designation</th>
@@ -155,9 +154,6 @@
                                     <tbody>
                                         @foreach($temporary_roster_list as $list)
                                                 <tr id="hide_temporary_roster_{{$list->id}}">
-                                                    <td style="vertical-align: middle;" class="text-center">
-                                                        {{$loop->iteration}}
-                                                    </td>
                                                     <td style="vertical-align: middle;">{{$list->string_employee_id}}</td>
                                                     <td style="vertical-align: middle">{{$list->name}}</td>
                                                     <td style="vertical-align: middle;">{{$list->designation}}</td>
@@ -189,7 +185,7 @@
                                             <tr>
                                                 <td class="text-center">
                                                     @php $holiday = find_holiday(date('Y-m-d',strtotime($from_date . "+".$i." days"))); @endphp
-                                                    <input type="text" class="form-control" style="@if($holiday !="")color:red;@endif" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
+                                                    <input type="text" class="form-control" style="@if($holiday !="")font-weight:bold;color:red;font-size:16px;@endif" name="date_{{$i}}" value="{{date('d-m-Y',strtotime($from_date . "+".$i." days"))}}" readonly/>
                                                 </td>
                                                 
                                                 <td class="text-center">

@@ -48,9 +48,9 @@
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-3">
-                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Name*" value="{{$roster_name}}" required/>
+                                <input type="text" name="roster_name" class="form-control" placeholder="Roster Title" value="{{$roster_name}}" required/>
                             </div>
-                            <div class="col-md-3">
+                            <div style="display:none;" class="col-md-3">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Department"></option>
                                         @foreach($departments as $department)
@@ -58,7 +58,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div style="display:none;" class="col-md-3">
                                 <select name="project_id" id="project_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Choose Project"></option>
                                         @foreach($projects as $project)
@@ -66,7 +66,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div style="display:none;" class="col-md-3">
                                 <select name="branch_id" id="branch_id" class="form-control select2-no-search" onchange="get_employee()">
                                         <option label="Choose Branch"></option>
                                         @foreach($branches as $branch)
@@ -74,25 +74,25 @@
                                         @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-3">
+                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif"/>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif"/>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
+                            </div>
                         </div>
                         <br> 
                         <div class="row">
-                            <div class="col-md-3">
+                            <div style="display:none;" class="col-md-3">
                                 <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required>
                                     <option label="Employee Name"></option>
                                     @foreach($employment_infos as $employment_info)
                                         <option value="{{$employment_info->employee_id}}" {{ (collect($employee_id)->contains($employment_info->employee_id)) ? 'selected':'' }}>{{$employment_info->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="from date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif"/>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="to date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif"/>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
                             </div>
                         </div>
 
