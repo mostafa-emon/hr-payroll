@@ -165,6 +165,10 @@
 								<li class="{{ (request()->is('salary-transfer-letter-format*')) ? 'active' : '' }}">
 									<a class="slide-item" href="{{url('salary-transfer-letter-format')}}">Salary Transfer Letter Format</a>
 								</li>
+
+								<li class="{{ (request()->is('ot-transfer-letter-format*')) ? 'active' : '' }}">
+									<a class="slide-item" href="{{url('ot-transfer-letter-format')}}">OT Transfer Letter Format</a>
+								</li>
 								
 								<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Payroll Banks</a>
