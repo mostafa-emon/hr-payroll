@@ -745,3 +745,13 @@ function all_portion_amount($employee_id,$month,$year) {
 
     return $company_pf_amount."_".$employee_pf_amount;
 }
+
+function hourly_ot_rate($employee_id) {
+    $payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+    if($payroll_info != "") {
+        $hourly_ot_rate = $payroll_info->hourly_ot_rate;
+    }else{
+        $hourly_ot_rate = 0;
+    }
+    return $hourly_ot_rate;
+}

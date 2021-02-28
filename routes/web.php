@@ -333,6 +333,14 @@ Route::post('/store-salary-transfer-letter','SalaryTransferLetterController@tran
 Route::get('/salary-transfer-letter-details/{letter_id}','SalaryTransferLetterController@transfer_letter_details');
 Route::get('/salary-transfer-letter-reprint/{letter_id}','SalaryTransferLetterController@transfer_letter_reprint');
 
+//OT Transfer Letter
+Route::get('/ot-transfer-letter','PayrollController@ot_transfer_letter');
+Route::get('/ot-transfer-letter/create','PayrollController@ot_transfer_letter_create');
+Route::post('/ot-transfer-letter/create','PayrollController@ot_transfer_letter_create');
+Route::post('/store-ot-transfer-letter','PayrollController@ot_transfer_letter_store');
+Route::get('/ot-transfer-letter-details/{letter_id}','PayrollController@ot_transfer_letter_details');
+Route::get('/ot-transfer-letter-reprint/{letter_id}','PayrollController@ot_transfer_letter_reprint');
+
 //Deposit Salary Tax
 Route::get('/deposit-salary-tax','PayrollController@deposit_salary_tax');
 Route::get('/deposit-salary-tax/add','PayrollController@deposit_salary_tax_add');
