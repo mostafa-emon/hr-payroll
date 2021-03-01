@@ -43,6 +43,9 @@
                                                 <div class="col-md-6 mg-t-10">
                                                     <input type="time" class="form-control" id="out_time" name="out_time" value="{{$attendance->out_time}}" placeholder="Out Time" autocomplete="off" required>
                                                 </div>
+                                                <div class="col-md-12 mg-t-10">
+                                                    <input type="text" class="form-control" name="note" placeholder="Note" value="{{$attendance->note}}">
+                                                </div>
                                             </div>
                                         </div>
 

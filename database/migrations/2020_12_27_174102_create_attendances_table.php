@@ -43,6 +43,8 @@ class CreateAttendancesTable extends Migration
             
             $table->string('status')->default('ABSENT'); // PRESENT,ABSENT,HOLIDAY,PAID_LEAVE
             
+            $table->text('note')->nullable();
+
             $table->timestamps();
         });
     }

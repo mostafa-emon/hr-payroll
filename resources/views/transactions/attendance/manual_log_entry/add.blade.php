@@ -78,6 +78,9 @@
                                                 <div class="col-md-3 mg-t-10">
                                                     <input type="time" class="form-control" id="out_time" name="out_time" placeholder="Out Time" autocomplete="off" required>
                                                 </div>
+                                                <div class="col-md-12 mg-t-10">
+                                                    <input type="text" class="form-control" name="note" placeholder="Note">
+                                                </div>
                                             </div>
                                         </div>
 

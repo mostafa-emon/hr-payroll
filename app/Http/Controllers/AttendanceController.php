@@ -688,9 +688,9 @@ class AttendanceController extends Controller
         $company_id = Auth::user()->company_id;
         $attendance_policy = AttendancePolicy::where('company_id',$company_id)->first();
 
-        $count = Attendance::where('company_id',$company_id)->where('date',date('Y-m-d'))->count();
+        $count = Attendance::where('company_id',$company_id)->where('date',date('Y-m-d',strtotime($request->date)))->count();
         if($count == 0) {
-            $is_govt_holiday = GovtHolidayDetail::where('company_id',$company_id)->where('date',date('Y-m-d'))->count();
+            $is_govt_holiday = GovtHolidayDetail::where('company_id',$company_id)->where('date',date('Y-m-d',strtotime($request->date)))->count();
 
             $employees = Employee::where('company_id',$company_id)
                             ->join('employment_infos','employees.id','employment_infos.employee_id')
@@ -700,11 +700,11 @@ class AttendanceController extends Controller
                 $attendance = new Attendance();
                 $attendance->company_id     = $employee->company_id;
                 $attendance->employee_id    = $employee->id;
-                $attendance->date           = date('Y-m-d');
+                $attendance->date           = date('Y-m-d',strtotime($request->date));
 
                 $is_weekly_holiday = 0;
 
-                $is_in_paid_leave = PaidLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->count();
+                $is_in_paid_leave = PaidLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request->date)))->count();
 
                 if($employee->duty_type == "Non-Roster") {
                     if(date("l") == $employee->weekend_1 || date("l") == $employee->weekend_2) {
@@ -731,7 +731,7 @@ class AttendanceController extends Controller
                 }
 
                 else {
-                    $roster = RosterEmployee::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->first();
+                    $roster = RosterEmployee::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request->date)))->first();
                     if($roster != "") {
                         if($roster->day_off == 1) {
                             $is_weekly_holiday = 1;
@@ -908,6 +908,8 @@ class AttendanceController extends Controller
                 }
             }
         }
+
+        $attendance->note = $request->note;
         
         $attendance->save();
         
@@ -1105,6 +1107,8 @@ class AttendanceController extends Controller
             $attendance->over_time              = 0;
             $attendance->over_time_round_slab   = 0;
         }
+
+        $attendance->note = $request->note;
         
         $attendance->save();
         
