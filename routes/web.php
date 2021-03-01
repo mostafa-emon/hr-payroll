@@ -308,6 +308,7 @@ Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');
 Route::get('/search-roster-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_roster_employee');
+Route::get('/search-employee-with-designation/{department_id}/{project_id?}/{branch_id?}/{designation_id?}', 'EmployeeController@search_employee_with_designation');
 
 //Public Route
 Route::get('/attendance/{company_id}','PublicController@index');
@@ -352,5 +353,9 @@ Route::get('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_sal
 Route::post('/deposit-salary-tax-upload_file/{id}','PayrollController@deposit_salary_tax_upload_file');
 Route::get('/deposit-salary-tax-print-frontside/{tax_id}','PayrollController@deposit_salary_tax_print_frontside');
 Route::get('/deposit-salary-tax-print-backside/{tax_id}','PayrollController@deposit_salary_tax_print_backside');
+
+//Report
+Route::get('/daily-attendance-report', 'ReportController@daily_attendance_report');
+Route::post('/daily-attendance-report', 'ReportController@daily_attendance_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

@@ -654,6 +654,37 @@ class EmployeeController extends Controller
 
         if(count($employees) > 0) {
             foreach($employees as $employee) {
+                echo "<option value=".$employee->employee_id.">".$employee->employee_id.' - '.$employee->name .' - '.employee_designation($employee->id)."</option>";
+            }
+        }else {
+            echo "";
+        }
+    }
+
+    public function search_employee_with_designation($department_id,$project_id="",$branch_id="",$designation_id="") {
+        $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
+                    ->join('employees','employees.id','employment_infos.employee_id')
+                    ->where('employees.company_id',Auth::user()->company_id);
+        if($department_id != "" && $department_id != 0){
+            $employees    = $employees->where('department_id',$department_id);
+        }
+
+        if($project_id != "" && $project_id != 0){
+            $employees   = $employees->where('project_id',$project_id);
+        }
+
+        if($branch_id != "" && $branch_id != 0){
+            $employees   = $employees->where('branch_id',$branch_id);
+        }
+
+        if($designation_id != "" && $designation_id != 0){
+            $employees   = $employees->where('designation_id',$designation_id);
+        }
+
+        $employees = $employees->get();
+
+        if(count($employees) > 0) {
+            foreach($employees as $employee) {
                 echo "<option value=".$employee->employee_id.">".$employee->name."</option>";
             }
         }else {
