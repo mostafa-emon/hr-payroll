@@ -118,7 +118,7 @@
                                             @php 
                                                 $employee_info  = get_employee_info($employee->employee_id);
                                                 $ot_hourly_rate = hourly_ot_rate($employee->employee_id);
-                                                $payable_amount = round(($employee->over_time * $ot_hourly_rate) / 60);$payable_amount = round(($employee->over_time * $ot_hourly_rate) / 60);
+                                                $payable_amount = round(($employee->over_time * $ot_hourly_rate) / 60);
                                             @endphp
                                             <tr>
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
