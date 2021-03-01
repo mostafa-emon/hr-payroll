@@ -230,9 +230,10 @@
 							{{ (!request()->is('absent-deduction')) && ( (request()->is('absent-deduction*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('salary-sheet')) && ( (request()->is('salary-sheet*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('salary-transfer-letter')) && ( (request()->is('salary-transfer-letter*')) ) ? 'is-expanded' : '' }}
+							{{ (!request()->is('ot-transfer-letter')) && ( (request()->is('ot-transfer-letter*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('deposit-salary-tax')) && ( (request()->is('deposit-salary-tax*')) ) ? 'is-expanded' : '' }}">
 
-							<a class="side-menu__item {{ (request()->is('earnings-adjustment*')) || (request()->is('deductions-adjustment*')) || (request()->is('salary-transfer-letter*')) || (request()->is('deposit-salary-tax*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
+							<a class="side-menu__item {{ (request()->is('earnings-adjustment*')) || (request()->is('deductions-adjustment*')) || (request()->is('salary-transfer-letter*')) || (request()->is('ot-transfer-letter*')) || (request()->is('deposit-salary-tax*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
 								<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
 								<span class="side-menu__label">Payroll</span><i class="angle fe fe-chevron-down"></i>
 							</a>
@@ -252,6 +253,9 @@
 								</li>
 								<li class="{{ (request()->is('salary-transfer-letter*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('salary-transfer-letter*')) ? 'active' : '' }}" href="{{url('salary-transfer-letter')}}">Create Salary Transfer Letter</a>
+								</li>
+								<li class="{{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}">
+									<a class="slide-item {{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}" href="{{url('ot-transfer-letter')}}">Create OT Transfer Letter</a>
 								</li>
 								<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>

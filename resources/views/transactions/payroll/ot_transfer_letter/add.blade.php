@@ -95,10 +95,10 @@
 
                         <form method="post" action="{{url('store-ot-transfer-letter')}}">
                             {{ csrf_field() }}
-                            <input type="text" name="store_month" value="{{$formatted_month}}"/>
-                            <input type="text" name="store_year" value="{{$formatted_year}}"/>
-                            <input type="text" name="store_currency_id" value="{{$currency_id}}"/>
-                            <input type="text" name="store_bank_id" value="{{$bank_id}}"/>
+                            <input type="hidden" name="store_month" value="{{$formatted_month}}"/>
+                            <input type="hidden" name="store_year" value="{{$formatted_year}}"/>
+                            <input type="hidden" name="store_currency_id" value="{{$currency_id}}"/>
+                            <input type="hidden" name="store_bank_id" value="{{$bank_id}}"/>
 
                             <div class="table-responsive">
                                 <table style="width:100%;" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
@@ -118,6 +118,7 @@
                                             @php 
                                                 $employee_info  = get_employee_info($employee->employee_id);
                                                 $ot_hourly_rate = hourly_ot_rate($employee->employee_id);
+                                                $payable_amount = round(($employee->over_time * $ot_hourly_rate) / 60);$payable_amount = round(($employee->over_time * $ot_hourly_rate) / 60);
                                             @endphp
                                             <tr>
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration}}</td>
@@ -127,11 +128,9 @@
                                                 <td style="vertical-align: middle;text-align:left;">{{employee_designation($employee->employee_id)}}</td>
                                                 <td style="vertical-align: middle;text-align:left;">{{bank_account_no($employee->employee_id)}}</td>
                                                 <td style="vertical-align: middle;text-align:right;">
-                                                    @php 
-                                                        echo $payable_amount = round(($employee->over_time * $ot_hourly_rate) / 60);
-                                                    @endphp
-                                                    <input type="text" name="employee_id[]" value="{{$employee->employee_id}}">
-                                                    <input type="text" name="ot_amount[]" value="{{$payable_amount}}">
+                                                    {{$payable_amount}}
+                                                    <input type="hidden" name="employee_id[]" value="{{$employee->employee_id}}">
+                                                    <input type="hidden" name="ot_amount[]" value="{{$payable_amount}}">
                                                 </td>
                                             </tr>
                                         @endforeach

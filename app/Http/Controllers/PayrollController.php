@@ -1226,7 +1226,7 @@ class PayrollController extends Controller
             $month              = $request->month;
 
             $employment_infos   = $employment_infos->whereBetween('date', [$from_date, $to_date]);
-            $employment_infos   = $employment_infos->groupBy('attendances.employee_id')->get();
+            $employment_infos   = $employment_infos->groupBy('attendances.employee_id')->where('over_time','!=',0)->get();
         }
 
 
