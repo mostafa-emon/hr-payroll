@@ -50,6 +50,7 @@
                         </div>
                     </div>
                     <hr>
+                    @if(count($employee_id) == 0)
                     <form action="{{ url('daily-attendance-report') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
@@ -122,6 +123,7 @@
                             </div>
                         </div>
                     </form>
+                    @endif
 
                     @if(count($employee_id) > 0)
                         <div class="card-body" id="printArea">
