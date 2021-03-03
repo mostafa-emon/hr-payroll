@@ -13,6 +13,7 @@ use App\Department;
 use App\Project;
 use App\Branch;
 use App\PaidLeave;
+use App\GeneralLeave;
 use Auth;
 use Carbon;
 use Redirect;
@@ -273,7 +274,27 @@ class LeaveController extends Controller
 
                 $current_day = $next_day;
             }
+
+        }elseif(LeaveType::where('id',$leave->leave_type_id)->first()->reference == "general_leave"){
+            $formatted_from_date = new DateTime($leave->start_date);
+            $formatted_to_date   = new DateTime($leave->end_date);
+            $interval = $formatted_to_date->diff($formatted_from_date);
+            $interval = $interval->format('%a');
+    
+            $current_day = $leave->start_date;
+
+            for($i = 0; $i <= $interval; $i++) {
+                $next_day = date('Y-m-d', strtotime('+1 day', strtotime($current_day)));
+
+                $paid_leave = new GeneralLeave();
+                $paid_leave->employee_id    = $leave->employee_id;
+                $paid_leave->date           = $current_day;
+                $paid_leave->save();
+
+                $current_day = $next_day;
+            }
         }
+
         return redirect('approve-leave-request')->with('message','Leave Request Approved Successfully!');
     }
 

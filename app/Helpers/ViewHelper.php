@@ -37,6 +37,7 @@ use App\ProvidentFund;
 use App\DepositSalaryTax;
 use App\IncomeTax;
 use App\GeneralSetting;
+use App\RosterEmployee;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -68,6 +69,20 @@ function bank_account_no($employee_id){
 
 function shift_name($shift_id) {
     return ShiftType::where('id',$shift_id)->value('name');
+}
+
+function shift_name_from_roster($employee_id,$date) {
+    $roster = RosterEmployee::where('employee_id',$employee_id)->where('date',$date)->first();
+    if($roster != "") {
+        $shift = ShiftType::where('id',$roster->shift_id)->first();
+        if($shift != "") {
+            return $shift->shift_short_name;
+        }else{
+            return "";
+        }
+    }else{
+        return "";
+    }
 }
 
 function designation_name($designation_id){
@@ -277,6 +292,10 @@ function get_auto_increment_employee_id($employee_id) {
 
 function get_company_name($company_id) {
     return Company::where('id',$company_id)->value('name');
+}
+
+function get_company_info($company_id) {
+    return Company::where('id',$company_id)->first();
 }
 
 function campaign_total_receiver_and_sent($campaign_id) {

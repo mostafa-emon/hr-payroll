@@ -10,6 +10,8 @@ use App\Designation;
 use App\Project;
 use App\Branch;
 use App\Attendance;
+use App\GeneralLeave;
+use App\RosterEmployee;
 use Auth;
 
 class ReportController extends Controller
@@ -20,7 +22,12 @@ class ReportController extends Controller
     }
 
     public function daily_attendance_report(Request $request) {
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
+        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')
+                            ->select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','employment_infos.employee_id')
+                            ->join('attendances','attendances.id','employment_infos.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id);
+
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -32,6 +39,9 @@ class ReportController extends Controller
         $branch_id              = '';
         $employee_id            = [];
         $all_employee           = '';
+        $remark                 = '';
+        $employees              = [];
+        $remark                 = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -49,21 +59,166 @@ class ReportController extends Controller
         }
 
         if($request->branch_id != ""){
-            $employment_infos    = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id           = $request->branch_id;
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->remark != "") {
+            $remark             = $request->remark;
+            if($request->remark == "OK") {
+                $employment_infos   = $employment_infos->where('status','PRESENT')->where('late',0);
+                $remark             = "OK";
+            }
+            elseif($request->remark == "Late") {
+                $employment_infos   = $employment_infos->where('status','PRESENT')->where('late','>',0);
+                $remark             = "Late";
+            }
+            elseif($request->remark == "Govt Holiday") {
+                $employment_infos   = $employment_infos->where('status','GOVT_HOLIDAY');
+                $remark             = "Govt Holiday";
+            }
+            /*elseif($request->remark == "Day Off") {
+                $employment_infos   = $employment_infos->where('status','WEEKLY_HOLIDAY');
+            }*/
         }
 
         if($request->employee_id != "") {
             if(!in_array("All", $request->employee_id)) {
                 $employee_id = $request->employee_id;
+
+                $employees      = $employment_infos;
+
                 $employment_infos = $employment_infos->whereIn('employees.employee_id',$employee_id)->get();
+                if($request->remark != "") {
+
+                    if($request->remark == "Leave") {
+                        $employee_id = [];
+                        foreach($employment_infos as $employment_info) {
+                            $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                            if($general_leave != "") {
+                                $employee_id[] = $employment_info->string_employee_id;
+                            }elseif($employment_info->status == "PAID_LEAVE"){
+                                $employee_id[] = $employment_info->string_employee_id;
+                            }
+                        }
+                        $remark             = "Leave";
+
+                    }elseif($request->remark == "Absent") {
+                        $employee_id = [];
+                        foreach($employment_infos as $employment_info) {
+                            if($employment_info->status == "ABSENT") {
+                                if($employment_info->roster_employee == 0) {
+                                    $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                    if($general_leave == "") {
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }else{
+                                    $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                    if($roster != "") {
+                                        if($roster->day_off == 0) {
+                                            $employee_id[] = $employment_info->string_employee_id;
+                                        }
+                                    }else{
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }
+                            }
+                        }
+                        $remark             = "Absent";
+
+                    }elseif($request->remark == "Day Off") {
+                        $employee_id = [];
+                        foreach($employment_infos as $employment_info) {
+                            if($employment_info->roster_employee == 0) {
+                                if($employment_info->status == "WEEKLY_HOLIDAY") {
+                                    $employee_id[] = $employment_info->string_employee_id;
+                                }
+                            }else{
+                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                if($roster != "") {
+                                    if($roster->day_off == 1) {
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }
+                            }
+                        }
+                        $remark             = "Day Off";
+                    }
+                }
+                $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
+
             }else{
+                $employees      = $employment_infos;
+
                 $employment_infos = $employment_infos->get();
 
-                foreach($employment_infos as $employment_info) {
-                    $employee_id[]      = $employment_info->employee_id;
+                if($request->remark != "") {
+                    if($request->remark == "Leave") {
+                        $employee_id = [];
+                        foreach($employment_infos as $employment_info) {
+                            $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                            if($general_leave != "") {
+                                $employee_id[] = $employment_info->string_employee_id;
+                            }elseif($employment_info->status == "PAID_LEAVE"){
+                                $employee_id[] = $employment_info->string_employee_id;
+                            }
+                        }
+                        $remark             = "Leave";
+
+                    }elseif($request->remark == "Absent") {
+                        $employee_id = [];
+                        foreach($employment_infos as $employment_info) {
+                            if($employment_info->status == "ABSENT") {
+                                if($employment_info->roster_employee == 0) {
+                                    $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                    if($general_leave == "") {
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }else{
+                                    $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                    if($roster != "") {
+                                        if($roster->day_off == 0) {
+                                            $employee_id[] = $employment_info->string_employee_id;
+                                        }
+                                    }else{
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }
+                            }
+                        }
+                        $remark             = "Absent";
+
+                    }elseif($request->remark == "Day Off") {
+                        $employee_id = [];
+                        foreach($employment_infos as $employment_info) {
+                            if($employment_info->roster_employee == 0) {
+                                if($employment_info->status == "WEEKLY_HOLIDAY") {
+                                    $employee_id[] = $employment_info->string_employee_id;
+                                }
+                            }else{
+                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                if($roster != "") {
+                                    if($roster->day_off == 1) {
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }
+                            }
+                        }
+                        $remark             = "Day Off";
+
+                    }else{
+                        foreach($employment_infos as $employment_info) {
+                            $employee_id[]      = $employment_info->string_employee_id;
+                        }
+                    }
+                }else{
+                    foreach($employment_infos as $employment_info) {
+                        $employee_id[]      = $employment_info->string_employee_id;
+                    }
                 }
                 $all_employee = 'All';
+
+                $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
                 
             }
         }
@@ -72,8 +227,8 @@ class ReportController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
-        return view('reports.attendance.daily_attendance',
-        compact('departments','projects','branches','designations','department_id','branch_id',
-        'all_employee','project_id','employment_infos','employee_id','designation_id'));
+        return view('reports.daily_attendance',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees',
+        'all_employee','project_id','employment_infos','employee_id','designation_id','remark'));
     }
 }
