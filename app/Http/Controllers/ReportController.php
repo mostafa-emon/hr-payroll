@@ -13,6 +13,8 @@ use App\Attendance;
 use App\GeneralLeave;
 use App\RosterEmployee;
 use Auth;
+use Excel;
+use App\Exports\DailyAttendanceReport;
 
 class ReportController extends Controller
 {
@@ -26,7 +28,8 @@ class ReportController extends Controller
                             ->select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','employment_infos.employee_id')
                             ->join('attendances','attendances.id','employment_infos.employee_id')
-                            ->where('employees.company_id',Auth::user()->company_id);
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('date',date('Y-m-d'));
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -42,6 +45,7 @@ class ReportController extends Controller
         $remark                 = '';
         $employees              = [];
         $remark                 = '';
+        $selected_employee_id   = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -77,9 +81,6 @@ class ReportController extends Controller
                 $employment_infos   = $employment_infos->where('status','GOVT_HOLIDAY');
                 $remark             = "Govt Holiday";
             }
-            /*elseif($request->remark == "Day Off") {
-                $employment_infos   = $employment_infos->where('status','WEEKLY_HOLIDAY');
-            }*/
         }
 
         if($request->employee_id != "") {
@@ -146,6 +147,8 @@ class ReportController extends Controller
                     }
                 }
                 $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
+
+                $selected_employee_id = implode(" ",$employee_id);
 
             }else{
                 $employees      = $employment_infos;
@@ -220,6 +223,7 @@ class ReportController extends Controller
 
                 $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
                 
+                $selected_employee_id = implode(" ",$employee_id);
             }
         }
 
@@ -227,8 +231,14 @@ class ReportController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
+        $excel_link = "export/daily-attendance-report?employee_id=".$selected_employee_id."&remark=".$remark;
+
         return view('reports.daily_attendance',
         compact('departments','projects','branches','designations','department_id','branch_id','employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark'));
+        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','excel_link'));
+    }
+
+    public function export_daily_attendance_report(){
+        return Excel::download(new DailyAttendanceReport(), 'Daily Attendance Report.xlsx');
     }
 }

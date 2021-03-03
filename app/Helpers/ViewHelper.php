@@ -38,6 +38,7 @@ use App\DepositSalaryTax;
 use App\IncomeTax;
 use App\GeneralSetting;
 use App\RosterEmployee;
+use App\GeneralLeave;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -773,4 +774,30 @@ function hourly_ot_rate($employee_id) {
         $hourly_ot_rate = 0;
     }
     return $hourly_ot_rate;
+}
+
+function attendance_remark($employee_id,$date) {
+    $attendance = Attendance::where('employee_id',$employee_id)->where('date',$date)->first();
+
+    if($attendance->status == "ABSENT") {
+        if($attendance->roster_employee == 0) {
+            $general_leave = GeneralLeave::where('employee_id',$employee_id)->where('date',date('Y-m-d'))->first();
+            if($general_leave == "") {
+                return "Absent";
+            }else{
+                return "Leave";
+            }
+        }else{
+            $roster = RosterEmployee::where('employee_id',$employee_id)->where('date',date('Y-m-d'))->first();
+            if($roster != "") {
+                if($roster->day_off == 0) {
+                    return "Absent";
+                }else{
+                    return "Day Off";
+                }
+            }else{
+                return "Absent";
+            }
+        }
+    }
 }

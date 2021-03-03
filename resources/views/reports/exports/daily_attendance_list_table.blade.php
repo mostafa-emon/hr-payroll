@@ -41,7 +41,7 @@
       <tbody>
           @foreach($employees as $employee)
           <tr>
-              <td style="text-align:center;">{{$loop->iteration}} {{$employee->date}}</td>
+              <td style="text-align:center;">{{$loop->iteration}}</td>
               <td>{{$employee->string_employee_id}}</td>
               <td>{{$employee->name}}</td>
               <td>{{designation_name($employee->designation_id)}}</td>
@@ -68,6 +68,8 @@
                   @elseif($employee->status == "PRESENT" && $employee->late > 0) Late
                   @elseif($employee->status == "GOVT_HOLIDAY") Govt Holiday
                   @elseif($employee->status == "WEEKLY_HOLIDAY") Day Off
+                  @elseif($employee->status == "PAID_LEAVE") Leave
+                  @elseif($employee->status == "ABSENT") {{attendance_remark($employee->employee_id,date('Y-m-d'))}}
                   @endif
                 @endif
               </td>

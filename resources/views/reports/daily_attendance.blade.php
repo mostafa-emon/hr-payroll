@@ -44,6 +44,7 @@
                         <div class="col-md-6 text-right">
                             @if(count($employee_id) > 0)
                             <a href="{{url('daily-attendance-report')}}" class="btn btn-info">Reset</a>
+                            <a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;
                             <button class="btn btn-primary" onclick="printElem()">Print</button>
                             @endif
                         </div>
