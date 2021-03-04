@@ -59,10 +59,10 @@
           <th rowspan="2" style="text-align: left;">Note</th>
       </tr>
       <tr>
-        <th style="text-align: center;">Shift Time</th>
-        <th style="text-align: center;">Actual Time</th>
-        <th style="text-align: center;">Shift Time</th>
-        <th style="text-align: center;">Actual Time</th>
+        <th style="text-align: center;">In</th>
+        <th style="text-align: center;">Out</th>
+        <th style="text-align: center;">First In</th>
+        <th style="text-align: center;">Last Out</th>
       </tr>
   </thead>
   @endif
@@ -79,10 +79,10 @@
             @else
             @endif
           </td>
-          <td style="text-align: center;">{{$employee->in_time}}</td>
-          <td style="text-align: center;">{{$employee->out_time}}</td>
           <td style="text-align: center;">{{$employee->actual_in_time}}</td>
           <td style="text-align: center;">{{$employee->actual_out_time}}</td>
+          <td style="text-align: center;">{{$employee->in_time}}</td>
+          <td style="text-align: center;">{{$employee->out_time}}</td>
           <td style="text-align: center;">
             {{gmdate("H:i", $employee->total_working_hour * 60)}}
           </td>

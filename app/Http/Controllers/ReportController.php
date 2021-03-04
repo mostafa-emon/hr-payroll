@@ -27,7 +27,7 @@ class ReportController extends Controller
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','employment_infos.employee_id')
-                            ->join('attendances','attendances.id','employment_infos.employee_id')
+                            ->join('attendances','attendances.employee_id','employment_infos.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)
                             ->where('date',date('Y-m-d'))
                             ->orderBy('department_id','asc');
@@ -173,12 +173,11 @@ class ReportController extends Controller
                         $employee_id = [];
                         foreach($employment_infos as $employment_info) {
                             if($employment_info->status == "ABSENT") {
-                                if($employment_info->roster_employee == 0) {
-                                    $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                    if($general_leave == "") {
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }else{
+                                $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                if($general_leave == "") {
+                                    $employee_id[] = $employment_info->string_employee_id;
+                                }
+                                if($employment_info->roster_employee == 1){
                                     $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
                                     if($roster != "") {
                                         if($roster->day_off == 0) {
