@@ -129,6 +129,21 @@
                         <div class="card-body" id="printArea">
                             <div class="div-padding-30">
                                 @include('reports.exports.daily_attendance_list_table',$employees)
+
+                                <table style="width:100%;">
+                                    <tr>
+                                      <td colspan="1" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                          <div style="text-align:center;">__________________<br>Prepared By</div>
+                                      </td>
+                                      <td colspan="2" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                          <div style="text-align:center;">__________________<br>Checked By</div>
+                                      </td>
+                                      <td colspan="1" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                          <div style="text-align:center;">__________________<br>Approved By</div>
+                                      </td>
+                                    </tr>
+                                </table>
+
                             </div>
                         </div>
                     @endif
