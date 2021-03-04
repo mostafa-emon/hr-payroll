@@ -31,9 +31,10 @@
 </table>
 
 <table style="width:100%;">
-  @php $old_department_id = ''; @endphp
+  @php $old_department_id = ''; $sl = 0; @endphp
   @foreach($employees as $employee)
   @if($old_department_id != $employee->department_id)
+  @php $sl = 0; @endphp
   <thead>
       <tr>
         <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
@@ -68,7 +69,7 @@
 
   <tbody>
       <tr>
-          <td style="text-align:center;">{{$loop->iteration}}</td>
+          <td style="text-align:center;">{{$sl = $sl + 1}}</td>
           <td>{{$employee->string_employee_id}}</td>
           <td>{{$employee->name}}</td>
           <td>{{designation_name($employee->designation_id)}}</td>
