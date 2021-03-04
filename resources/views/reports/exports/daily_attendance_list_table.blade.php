@@ -4,34 +4,52 @@
         $company = get_company_info(Auth::user()->company_id);
       @endphp
       <tr>
-        <th colspan="13" style="font-size:17px;text-align:center;border:none">{{$company->name}}</th>
+        <th colspan="13" style="font-size:17px;text-align:center;border:none;">{{$company->name}}</th>
       </tr>
 
       @if($company->address_line_1 != "")
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;border:none">{{$company->address_line_1}}</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_1}}</th>
       </tr>
       @endif
 
       @if($company->address_line_2 != "")
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;border:none">{{$company->address_line_2}}</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_2}}</th>
       </tr>
       @endif
 
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;;border:none">Daily Attendance Report</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">Daily Attendance Report</th>
       </tr>
       
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;;border:none">{{date('d/M/Y')}}</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{date('d/M/Y')}}</th>
+      </tr>
+  </thead>
+
+</table>
+
+<table style="width:100%;">
+  @php $old_department_id = ''; @endphp
+  @foreach($employees as $employee)
+  @if($old_department_id != $employee->department_id)
+  <thead>
+      <tr>
+        <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
+      </tr>
+      <tr>
+        <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
+      </tr>
+      <tr>
+        <th colspan="13" style="font-size:15px;text-align:left;border:none;">Department: <b>{{department_name($employee->department_id)}}</b></th>
       </tr>
       <tr>
           <th rowspan="2" style="text-align: center;">Sl</th>
           <th rowspan="2" style="text-align: left;">Employee ID</th>
           <th rowspan="2" style="text-align: left;">Name</th>
           <th rowspan="2" style="text-align: left;">Designation</th>
-          <th rowspan="2" style="text-align: center">Shift Name</th>
+          <th rowspan="2" style="text-align: center;">Shift Name</th>
           <th colspan="2" style="text-align: center;">Shift Time</th>
           <th colspan="2" style="text-align: center;">Actual Time</th>
           <th rowspan="2" style="text-align: center;">Total Hours</th>
@@ -46,9 +64,9 @@
         <th style="text-align: center;">Actual Time</th>
       </tr>
   </thead>
+  @endif
+
   <tbody>
-      @php $old_department_id = ''; @endphp
-      @foreach($employees as $employee)
       <tr>
           <td style="text-align:center;">{{$loop->iteration}}</td>
           <td>{{$employee->string_employee_id}}</td>
@@ -84,6 +102,9 @@
           </td>
           <td style="text-align: left;">{{$employee->note}}</td>
       </tr>
-      @endforeach
+      
   </tbody>
+
+    @php $old_department_id = $employee->department_id; @endphp
+  @endforeach
 </table>
