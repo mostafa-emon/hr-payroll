@@ -363,5 +363,6 @@ Route::get('/attendance-summary-report-single', 'ReportController@attendance_sum
 Route::post('/attendance-summary-report-single', 'ReportController@attendance_summary_report_single');
 //Export
 Route::get('export/daily-attendance-report', 'ReportController@export_daily_attendance_report');
+Route::get('export/attendance-summary-report-single', 'ReportController@export_attendance_summary_report_single');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

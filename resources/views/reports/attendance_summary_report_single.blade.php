@@ -44,12 +44,13 @@
                         <div class="col-md-6 text-right">
                             @if(count($employees) > 0)
                             <a href="{{url('attendance-summary-report-single')}}" class="btn btn-info">Reset</a>
-                            {{--<a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;--}}
+                            <a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;
                             <button class="btn btn-primary" onclick="printElem()">Print</button>
                             @endif
                         </div>
                     </div>
                     <hr>
+                    @if(count($employees) == 0)
                     <form action="{{ url('attendance-summary-report-single') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
@@ -132,6 +133,7 @@
                             </div>
                         </div>
                     </form>
+                    @endif
 
                     @if(count($employees) > 0)
                         <div class="card-body" id="printArea">
@@ -140,13 +142,13 @@
 
                                 <table style="width:100%;">
                                     <tr>
-                                      <td colspan="1" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                      <td colspan="1" style="padding-top:75px;padding-bottom:15px;border:none;">
                                           <div style="text-align:center;">__________________<br>Prepared By</div>
                                       </td>
-                                      <td colspan="2" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                      <td colspan="2" style="padding-top:75px;padding-bottom:15px;border:none;">
                                           <div style="text-align:center;">__________________<br>Checked By</div>
                                       </td>
-                                      <td colspan="1" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                      <td colspan="1" style="padding-top:75px;padding-bottom:15px;border:none;">
                                           <div style="text-align:center;">__________________<br>Approved By</div>
                                       </td>
                                     </tr>
