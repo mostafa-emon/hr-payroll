@@ -357,6 +357,10 @@ Route::get('/deposit-salary-tax-print-backside/{tax_id}','PayrollController@depo
 //Report
 Route::get('/daily-attendance-report', 'ReportController@daily_attendance_report');
 Route::post('/daily-attendance-report', 'ReportController@daily_attendance_report');
+Route::get('/attendance-summary-report-all', 'ReportController@attendance_summary_report_all');
+Route::post('/attendance-summary-report-all', 'ReportController@attendance_summary_report_all');
+Route::get('/attendance-summary-report-single', 'ReportController@attendance_summary_report_single');
+Route::post('/attendance-summary-report-single', 'ReportController@attendance_summary_report_single');
 //Export
 Route::get('export/daily-attendance-report', 'ReportController@export_daily_attendance_report');
 

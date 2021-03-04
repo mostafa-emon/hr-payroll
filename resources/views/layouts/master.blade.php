@@ -337,6 +337,8 @@
                             
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('daily-attendance-report')}}">Daily Attendance Report</a></li>
+								<li><a class="slide-item" href="{{url('attendance-summary-report-all')}}">Attendance Summary Report All</a></li>
+								<li><a class="slide-item" href="{{url('attendance-summary-report-single')}}">Attendance Summary Report Single</a></li>
                             </ul>
 						</li>
 						@endif

@@ -14,6 +14,7 @@ use App\GeneralLeave;
 use App\RosterEmployee;
 use Auth;
 use Excel;
+use Carbon;
 use App\Exports\DailyAttendanceReport;
 
 class ReportController extends Controller
@@ -23,9 +24,9 @@ class ReportController extends Controller
         $this->middleware('auth');
     }
 
+    //Daily Attendance Report
     public function daily_attendance_report(Request $request) {
-        $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')
-                            ->select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+        $employment_infos   = EmploymentInfo::select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','employment_infos.employee_id')
                             ->join('attendances','attendances.employee_id','employment_infos.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)
@@ -241,5 +242,189 @@ class ReportController extends Controller
 
     public function export_daily_attendance_report(){
         return Excel::download(new DailyAttendanceReport(), 'Daily Attendance Report.xlsx');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //Attendance Summary Report Single
+    public function attendance_summary_report_single(Request $request) {
+        $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
+                            ->select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','attendances.employee_id')
+                            ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->orderBy('department_id','asc');
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date   = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $employee_id            = '';
+        $all_employee           = '';
+        $remark                 = '';
+        $employees              = [];
+        $remark                 = '';
+        $selected_employee_id   = '';
+        $from_date              = '';
+        $to_date                = '';
+        $original_employee_id   = '';
+
+        if($request->original_employee_id != ""){
+            $employment_infos   = $employment_infos->where('employees.employee_id',$request->original_employee_id);
+            $original_employee_id = $request->original_employee_id;
+        }else{
+            if($request->department_id != ""){
+                $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+                $department_id      = $request->department_id;
+            }
+    
+            if($request->designation_id != ""){
+                $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+                $designation_id     = $request->designation_id;
+            }
+    
+            if($request->project_id != ""){
+                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+                $project_id         = $request->project_id;
+            }
+    
+            if($request->branch_id != ""){
+                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+                $branch_id          = $request->branch_id;
+            }
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('date',[$from_date,$to_date]);
+        }
+
+        if($request->remark != "") {
+            $remark             = $request->remark;
+            if($request->remark == "OK") {
+                $employment_infos   = $employment_infos->where('status','PRESENT')->where('late',0);
+                $remark             = "OK";
+            }
+            elseif($request->remark == "Late") {
+                $employment_infos   = $employment_infos->where('status','PRESENT')->where('late','>',0);
+                $remark             = "Late";
+            }
+            elseif($request->remark == "Govt Holiday") {
+                $employment_infos   = $employment_infos->where('status','GOVT_HOLIDAY');
+                $remark             = "Govt Holiday";
+            }
+        }
+
+        if($request->original_employee_id != "") {
+            $employee_id = $request->original_employee_id;
+        }elseif($request->employee_id != "") {
+            $employee_id = $request->employee_id;
+        }
+
+        if($employee_id != "") {
+
+            $employees      = $employment_infos;
+
+            $employment_infos = $employment_infos->where('employees.employee_id',$employee_id)->get();
+            if($request->remark != "") {
+
+                if($request->remark == "Leave") {
+                    $employee_id = [];
+                    foreach($employment_infos as $employment_info) {
+                        $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                        if($general_leave != "") {
+                            $employee_id[] = $employment_info->string_employee_id;
+                        }elseif($employment_info->status == "PAID_LEAVE"){
+                            $employee_id[] = $employment_info->string_employee_id;
+                        }
+                    }
+                    $remark             = "Leave";
+
+                }elseif($request->remark == "Absent") {
+                    $employee_id = [];
+                    foreach($employment_infos as $employment_info) {
+                        if($employment_info->status == "ABSENT") {
+                            if($employment_info->roster_employee == 0) {
+                                $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                if($general_leave == "") {
+                                    $employee_id[] = $employment_info->string_employee_id;
+                                }
+                            }else{
+                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                                if($roster != "") {
+                                    if($roster->day_off == 0) {
+                                        $employee_id[] = $employment_info->string_employee_id;
+                                    }
+                                }else{
+                                    $employee_id[] = $employment_info->string_employee_id;
+                                }
+                            }
+                        }
+                    }
+                    $remark             = "Absent";
+
+                }elseif($request->remark == "Day Off") {
+                    $employee_id = [];
+                    foreach($employment_infos as $employment_info) {
+                        if($employment_info->roster_employee == 0) {
+                            if($employment_info->status == "WEEKLY_HOLIDAY") {
+                                $employee_id[] = $employment_info->string_employee_id;
+                            }
+                        }else{
+                            $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
+                            if($roster != "") {
+                                if($roster->day_off == 1) {
+                                    $employee_id[] = $employment_info->string_employee_id;
+                                }
+                            }
+                        }
+                    }
+                    $remark             = "Day Off";
+                }
+            }
+            $employees      = $employees->where('employees.employee_id',$employee_id)->get();
+
+            //$selected_employee_id = implode(" ",$employee_id);
+
+        }
+
+        if($request->employee_id == "") {
+            $employment_infos = $employment_infos->where('date',date('Y-m-d'))->get();
+        }
+
+        //$excel_link = "export/daily-attendance-report?employee_id=".$selected_employee_id."&remark=".$remark;
+
+        return view('reports.attendance_summary_report_single',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date',
+        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id'));
     }
 }
