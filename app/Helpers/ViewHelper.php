@@ -780,13 +780,14 @@ function attendance_remark($employee_id,$date) {
     $attendance = Attendance::where('employee_id',$employee_id)->where('date',$date)->first();
 
     if($attendance->status == "ABSENT") {
-        $general_leave = GeneralLeave::where('employee_id',$employee_id)->where('date',date('Y-m-d'))->first();
-        if($general_leave == "") {
-            return "Absent";
+        if($attendance->roster_employee == 0) {
+            $general_leave = GeneralLeave::where('employee_id',$employee_id)->where('date',date('Y-m-d'))->first();
+            if($general_leave == "") {
+                return "Absent";
+            }else{
+                return "Leave";
+            }
         }else{
-            return "Leave";
-        }
-        if($attendance->roster_employee == 1){
             $roster = RosterEmployee::where('employee_id',$employee_id)->where('date',date('Y-m-d'))->first();
             if($roster != "") {
                 if($roster->day_off == 0) {
