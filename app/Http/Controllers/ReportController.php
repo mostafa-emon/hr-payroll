@@ -16,6 +16,7 @@ use Auth;
 use Excel;
 use Carbon;
 use App\Exports\DailyAttendanceReport;
+use App\Exports\AttendanceSummaryReportAll;
 use App\Exports\AttendanceSummaryReportSingle;
 
 class ReportController extends Controller
@@ -432,26 +433,35 @@ class ReportController extends Controller
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
 
     //Attendance Summary Report All Employee
     public function attendance_summary_report_all(Request $request) {
-        $employment_infos   = EmploymentInfo::select('employment_infos.*','attendances.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+        $employment_infos   = EmploymentInfo::select('attendances.employee_id')
                             ->join('employees','employees.id','employment_infos.employee_id')
                             ->join('attendances','attendances.employee_id','employment_infos.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)
@@ -461,6 +471,9 @@ class ReportController extends Controller
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date       = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
@@ -472,6 +485,8 @@ class ReportController extends Controller
         $employees              = [];
         $remark                 = '';
         $selected_employee_id   = '';
+        $from_date              = '';
+        $to_date                = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -493,174 +508,34 @@ class ReportController extends Controller
             $branch_id          = $request->branch_id;
         }
 
-        if($request->remark != "") {
-            $remark             = $request->remark;
-            if($request->remark == "OK") {
-                $employment_infos   = $employment_infos->where('status','PRESENT')->where('late',0);
-                $remark             = "OK";
-            }
-            elseif($request->remark == "Late") {
-                $employment_infos   = $employment_infos->where('status','PRESENT')->where('late','>',0);
-                $remark             = "Late";
-            }
-            elseif($request->remark == "Govt Holiday") {
-                $employment_infos   = $employment_infos->where('status','GOVT_HOLIDAY');
-                $remark             = "Govt Holiday";
-            }
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
         }
 
         if($request->employee_id != "") {
-            if(!in_array("All", $request->employee_id)) {
-                $employee_id = $request->employee_id;
-
-                $employees      = $employment_infos;
-
-                $employment_infos = $employment_infos->whereIn('employees.employee_id',$employee_id)->get();
-                if($request->remark != "") {
-
-                    if($request->remark == "Leave") {
-                        $employee_id = [];
-                        foreach($employment_infos as $employment_info) {
-                            $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                            if($general_leave != "") {
-                                $employee_id[] = $employment_info->string_employee_id;
-                            }elseif($employment_info->status == "PAID_LEAVE"){
-                                $employee_id[] = $employment_info->string_employee_id;
-                            }
-                        }
-                        $remark             = "Leave";
-
-                    }elseif($request->remark == "Absent") {
-                        $employee_id = [];
-                        foreach($employment_infos as $employment_info) {
-                            if($employment_info->status == "ABSENT") {
-                                $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                if($general_leave == "") {
-                                    if($employment_info->roster_employee == 1) {
-                                        $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                        if($roster != "") {
-                                            if($roster->day_off == 0) {
-                                                $employee_id[] = $employment_info->string_employee_id;
-                                            }
-                                        }else{
-                                            $employee_id[] = $employment_info->string_employee_id;
-                                        }
-                                    }else{
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }
-                            }
-                        }
-                        $remark             = "Absent";
-
-                    }elseif($request->remark == "Day Off") {
-                        $employee_id = [];
-                        foreach($employment_infos as $employment_info) {
-                            if($employment_info->roster_employee == 0) {
-                                if($employment_info->status == "WEEKLY_HOLIDAY") {
-                                    $employee_id[] = $employment_info->string_employee_id;
-                                }
-                            }else{
-                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                if($roster != "") {
-                                    if($roster->day_off == 1) {
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }
-                            }
-                        }
-                        $remark             = "Day Off";
-                    }
-                }
-                $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
-
-                $selected_employee_id = implode(" ",$employee_id);
-
-            }else{
-                $employees      = $employment_infos;
-
-                $employment_infos = $employment_infos->get();
-
-                if($request->remark != "") {
-                    if($request->remark == "Leave") {
-                        $employee_id = [];
-                        foreach($employment_infos as $employment_info) {
-                            $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                            if($general_leave != "") {
-                                $employee_id[] = $employment_info->string_employee_id;
-                            }elseif($employment_info->status == "PAID_LEAVE"){
-                                $employee_id[] = $employment_info->string_employee_id;
-                            }
-                        }
-                        $remark             = "Leave";
-
-                    }elseif($request->remark == "Absent") {
-                        $employee_id = [];
-                        foreach($employment_infos as $employment_info) {
-                            if($employment_info->status == "ABSENT") {
-                                $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                if($general_leave == "") {
-                                    if($employment_info->roster_employee == 1) {
-                                        $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                        if($roster != "") {
-                                            if($roster->day_off == 0) {
-                                                $employee_id[] = $employment_info->string_employee_id;
-                                            }
-                                        }else{
-                                            $employee_id[] = $employment_info->string_employee_id;
-                                        }
-                                    }else{
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }
-                            }
-                        }
-                        $remark             = "Absent";
-
-                    }elseif($request->remark == "Day Off") {
-                        $employee_id = [];
-                        foreach($employment_infos as $employment_info) {
-                            if($employment_info->roster_employee == 0) {
-                                if($employment_info->status == "WEEKLY_HOLIDAY") {
-                                    $employee_id[] = $employment_info->string_employee_id;
-                                }
-                            }else{
-                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',date('Y-m-d'))->first();
-                                if($roster != "") {
-                                    if($roster->day_off == 1) {
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }
-                            }
-                        }
-                        $remark             = "Day Off";
-
-                    }else{
-                        foreach($employment_infos as $employment_info) {
-                            $employee_id[]      = $employment_info->string_employee_id;
-                        }
-                    }
-                }else{
-                    foreach($employment_infos as $employment_info) {
-                        $employee_id[]      = $employment_info->string_employee_id;
-                    }
-                }
-                $all_employee = 'All';
-
-                $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
-                
-                $selected_employee_id = implode(" ",$employee_id);
-            }
+            $employment_infos   = $employment_infos->whereBetween('date',[$from_date,$to_date]);
         }
 
-        if($request->employee_id == "" && $request->employee_id != ['All']) {
-            $employment_infos = $employment_infos->get();
+        if($request->employee_id != "") {
+            $employees = $employment_infos->groupBy('attendances.employee_id')->get();
         }
 
-        $excel_link = "export/daily-attendance-report?employee_id=".$selected_employee_id."&remark=".$remark;
+        $excel_link = "export/attendance-summary-report-all?department_id=".$department_id."&project_id=".$project_id."&branch_id=".$branch_id.
+        "&designation_id=".$designation_id."&from_date=".$from_date."&to_date=".$to_date."&employee_id=".$request->employee_id;
 
-        return view('reports.daily_attendance',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','excel_link'));
+        return view('reports.attendance_summary_all',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date',
+        'all_employee','project_id','employment_infos','employee_id','designation_id','excel_link','remark','to_date'));
+    }
+
+    public function export_attendance_summary_report_all(){
+        return Excel::download(new AttendanceSummaryReportAll(), 'Attendance Summary Report.xlsx');
     }
 }

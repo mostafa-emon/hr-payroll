@@ -20,11 +20,11 @@
       @endif
 
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;border:none;">Daily Attendance Report</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">Attendance Summary Report</th>
       </tr>
       
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{date('d/M/Y')}}</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">From {{date('d-M-Y',strtotime($from_date))}} to {{date('d-M-Y',strtotime($to_date))}}</th>
       </tr>
   </thead>
 
@@ -33,7 +33,15 @@
 <table style="width:100%;">
   @php $old_department_id = ''; $sl = 0; @endphp
   @foreach($employees as $employee)
-  @if($old_department_id != $employee->department_id)
+  @php
+    $employee_info    = get_employee_info($employee->employee_id);
+    $employment_info  = get_employment_info($employee->employee_id);
+    $attendance_days  = calculate_attendance_days($employee->employee_id,$from_date,$to_date);
+
+    list($ok_days,$leave_days,$late_days,$absent_days,$day_off_days,$govt_holidays) = explode("_",$attendance_days);
+
+  @endphp
+  @if($old_department_id != $employment_info->department_id)
   @php $sl = 0; @endphp
   <thead>
       <tr>
@@ -43,26 +51,19 @@
         <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
       </tr>
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:left;border:none;">Department: <b>{{department_name($employee->department_id)}}</b></th>
+        <th colspan="13" style="font-size:15px;text-align:left;border:none;">Department: <b>{{department_name($employment_info->department_id)}}</b></th>
       </tr>
       <tr>
-          <th rowspan="2" style="text-align: center;">Sl</th>
-          <th rowspan="2" style="text-align: left;">Employee ID</th>
-          <th rowspan="2" style="text-align: left;">Name</th>
-          <th rowspan="2" style="text-align: left;">Designation</th>
-          <th rowspan="2" style="text-align: center;">Shift Name</th>
-          <th colspan="2" style="text-align: center;">Shift Time</th>
-          <th colspan="2" style="text-align: center;">Actual Time</th>
-          <th rowspan="2" style="text-align: center;">Total Hours</th>
-          <th rowspan="2" style="text-align: center;">OT Hours</th>
-          <th rowspan="2" style="text-align: center;">Remark</th>
-          <th rowspan="2" style="text-align: left;">Note</th>
-      </tr>
-      <tr>
-        <th style="text-align: center;">In</th>
-        <th style="text-align: center;">Out</th>
-        <th style="text-align: center;">First In</th>
-        <th style="text-align: center;">Last Out</th>
+          <th style="text-align: center;">Sl</th>
+          <th style="text-align: left;">Employee ID</th>
+          <th style="text-align: left;">Name</th>
+          <th style="text-align: left;">Designation</th>
+          <th style="text-align: center;">OK Days</th>
+          <th style="text-align: center;">Leave Days</th>
+          <th style="text-align: center;">Late Days</th>
+          <th style="text-align: center;">Absent Days</th>
+          <th style="text-align: center;">Days Off Days</th>
+          <th style="text-align: center;">Govt Holidays Days</th>
       </tr>
   </thead>
   @endif
@@ -70,43 +71,20 @@
   <tbody>
       <tr>
           <td style="text-align:center;">{{$sl = $sl + 1}}</td>
-          <td>{{$employee->string_employee_id}}</td>
-          <td>{{$employee->name}}</td>
-          <td>{{designation_name($employee->designation_id)}}</td>
-          <td style="text-align:center;">
-            @if($employee->roster_employee == 1)
-            {{shift_name_from_roster($employee->employee_id,date('Y-m-d'))}}
-            @else
-            @endif
-          </td>
-          <td style="text-align: center;">{{$employee->actual_in_time}}</td>
-          <td style="text-align: center;">{{$employee->actual_out_time}}</td>
-          <td style="text-align: center;">{{$employee->in_time}}</td>
-          <td style="text-align: center;">{{$employee->out_time}}</td>
-          <td style="text-align: center;">
-            {{gmdate("H:i", $employee->total_working_hour * 60)}}
-          </td>
-          <td style="text-align: center;">
-            {{gmdate("H:i", $employee->over_time * 60)}}
-          </td>
-          <td style="text-align: center;">
-            @if($remark != "") {{$remark}} 
-            @else
-              @if($employee->status == "PRESENT" && $employee->late == 0) OK
-              @elseif($employee->status == "PRESENT" && $employee->late > 0) Late
-              @elseif($employee->status == "GOVT_HOLIDAY") Govt Holiday
-              @elseif($employee->status == "WEEKLY_HOLIDAY") Day Off
-              @elseif($employee->status == "PAID_LEAVE") Leave
-              @elseif($employee->status == "ABSENT") {{attendance_remark($employee->employee_id,date('Y-m-d'))}}
-              @endif
-            @endif
-          </td>
-          <td style="text-align: left;">{{$employee->note}}</td>
+          <td>{{$employee_info->employee_id}}</td>
+          <td>{{$employee_info->name}}</td>
+          <td>{{designation_name($employment_info->designation_id)}}</td>
+          <td style="text-align: center;">{{$ok_days}}</td>
+          <td style="text-align: center;">{{$leave_days}}</td>
+          <td style="text-align: center;">{{$late_days}}</td>
+          <td style="text-align: center;">{{$absent_days}}</td>
+          <td style="text-align: center;">{{$day_off_days}}</td>
+          <td style="text-align: center;">{{$govt_holidays}}</td>
       </tr>
       
   </tbody>
 
-    @php $old_department_id = $employee->department_id; @endphp
+    @php $old_department_id = $employment_info->department_id; @endphp
   @endforeach
 </table>
 
