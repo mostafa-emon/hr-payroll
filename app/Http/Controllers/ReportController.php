@@ -383,15 +383,16 @@ class ReportController extends Controller
                     $attendance_id = [];
                     foreach($employment_infos as $employment_info) {
                         if($employment_info->status == "ABSENT") {
-                            if($employment_info->roster_employee == 0) {
-                                $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',$employment_info->date)->first();
-                                if($general_leave == "") {
-                                    $attendance_id[] = $employment_info->attendance_id;
-                                }
-                            }else{
-                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',$employment_info->date)->first();
-                                if($roster != "") {
-                                    if($roster->day_off == 0) {
+                            
+                            $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',$employment_info->date)->first();
+                            if($general_leave == "") {
+                                if($employment_info->roster_employee == 1) {
+                                    $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',$employment_info->date)->first();
+                                    if($roster != "") {
+                                        if($roster->day_off == 0) {
+                                            $attendance_id[] = $employment_info->attendance_id;
+                                        }
+                                    }else{
                                         $attendance_id[] = $employment_info->attendance_id;
                                     }
                                 }else{
