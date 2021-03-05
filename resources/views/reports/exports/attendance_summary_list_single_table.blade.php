@@ -32,9 +32,9 @@
       </tr>
       <tr>
           <th style="text-align: left;">Date</th>
-          <th style="text-align: center;">Shift Name</th>
-          <th style="text-align: center;">Shift In</th>
-          <th style="text-align: center;">Shift Out</th>
+          <th style="text-align: center;">Shift <br> Name</th>
+          <th style="text-align: center;">Shift <br> In</th>
+          <th style="text-align: center;">Shift <br> Out</th>
           <th style="text-align: center;">First In</th>
           <th style="text-align: center;">Last Out</th>
           <th style="text-align: center;">Total Hours</th>

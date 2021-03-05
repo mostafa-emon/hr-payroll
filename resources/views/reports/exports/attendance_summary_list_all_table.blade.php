@@ -58,13 +58,14 @@
           <th style="text-align: left;">Employee ID</th>
           <th style="text-align: left;">Name</th>
           <th style="text-align: left;">Designation</th>
-          <th style="text-align: center;">OK Days</th>
-          <th style="text-align: center;">Leave Days</th>
-          <th style="text-align: center;">Late Days</th>
-          <th style="text-align: center;">Absent Days</th>
-          <th style="text-align: center;">Days Off Days</th>
-          <th style="text-align: center;">Govt Holidays Days</th>
+          <th style="text-align: center;">OK <br> Days</th>
+          <th style="text-align: center;">Leave <br> Days</th>
+          <th style="text-align: center;">Late <br> Days</th>
+          <th style="text-align: center;">Absent <br> Days</th>
+          <th style="text-align: center;">Days Off <br> Days</th>
+          <th style="text-align: center;">Gov't Holidays <br> Days</th>
       </tr>
+
   </thead>
   @endif
 
