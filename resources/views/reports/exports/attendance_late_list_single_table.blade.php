@@ -20,7 +20,7 @@
       @endif
 
       <tr>
-        <th colspan="10" style="font-size:15px;text-align:center;border:none;">Attendance Summary Report</th>
+        <th colspan="10" style="font-size:15px;text-align:center;border:none;">Late Report-Individual</th>
       </tr>
       
       <tr>
