@@ -24,7 +24,7 @@
       </tr>
       
       <tr>
-        <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{date('d/M/Y')}}</th>
+        <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{date('d/M/Y',strtotime($date))}}</th>
       </tr>
   </thead>
 
@@ -75,7 +75,7 @@
           <td>{{designation_name($employee->designation_id)}}</td>
           <td style="text-align:center;">
             @if($employee->roster_employee == 1)
-            {{shift_name_from_roster($employee->employee_id,date('Y-m-d'))}}
+            {{shift_name_from_roster($employee->employee_id,date('Y-m-d',strtotime($date)))}}
             @else
             @endif
           </td>
@@ -97,7 +97,7 @@
               @elseif($employee->status == "GOVT_HOLIDAY") Govt Holiday
               @elseif($employee->status == "WEEKLY_HOLIDAY") Day Off
               @elseif($employee->status == "PAID_LEAVE") Leave
-              @elseif($employee->status == "ABSENT") {{attendance_remark($employee->employee_id,date('Y-m-d'))}}
+              @elseif($employee->status == "ABSENT") {{attendance_remark($employee->employee_id,date('Y-m-d',strtotime($date)))}}
               @endif
             @endif
           </td>

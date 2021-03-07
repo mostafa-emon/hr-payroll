@@ -98,12 +98,12 @@
                                 <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required @if(count($employee_id) > 0) disabled @endif>
                                     <option label="Employee Name"></option>
                                     <option value="All" @if($all_employee !='') selected @endif>All</option>
-                                    @foreach($employment_infos as $employment_info)
+                                    @foreach($select_employees as $employment_info)
                                         <option value="{{$employment_info->string_employee_id}}" @if($all_employee =='') {{ (collect($employee_id)->contains($employment_info->string_employee_id)) ? 'selected':'' }} @endif>{{$employment_info->string_employee_id}} - {{$employment_info->name}} - {{employee_designation($employment_info->id)}}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <label for="Remark" style="font-weight:bold;" class="col-form-label">Remark:</label>
                                 <select name="remark" id="remark" class="form-control select2-no-search" @if(count($employee_id) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -114,6 +114,10 @@
                                         <option value="Day Off" @if($remark == "Day Off") selected @endif>Day Off</option>
                                         <option value="Govt Holiday" @if($remark == "Govt Holiday") selected @endif>Govt Holiday</option>
                                 </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="Date" style="font-weight:bold;" class="col-form-label">Date:</label>
+                                <input type="text" class="form-control dtpicker" name="date" value="{{date('d-m-Y',strtotime($date))}}"placeholder="Date" autocomplete="off" required>
                             </div>
                         </div>
                         <br>
