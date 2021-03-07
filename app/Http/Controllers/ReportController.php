@@ -18,6 +18,7 @@ use Carbon;
 use App\Exports\DailyAttendanceReport;
 use App\Exports\AttendanceSummaryReportAll;
 use App\Exports\AttendanceSummaryReportSingle;
+use App\Exports\AttendanceLateReportSingle;
 
 class ReportController extends Controller
 {
@@ -439,33 +440,6 @@ class ReportController extends Controller
         return Excel::download(new AttendanceSummaryReportSingle(), 'Attendance Summary Report.xlsx');
     }
 
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-
-
     //Attendance Summary Report All Employee
     public function attendance_summary_report_all(Request $request) {
         $employment_infos   = EmploymentInfo::select('attendances.employee_id')
@@ -545,4 +519,154 @@ class ReportController extends Controller
     public function export_attendance_summary_report_all(){
         return Excel::download(new AttendanceSummaryReportAll(), 'Attendance Summary Report.xlsx');
     }
+
+
+
+    
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+    public function attendance_late_report_single(Request $request) {
+        $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
+                            ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','attendances.employee_id')
+                            ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('status','PRESENT')->where('late','>',0);
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date       = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $employee_id            = '';
+        $all_employee           = '';
+        $remark                 = '';
+        $employees              = [];
+        $select_employees       = [];
+        $remark                 = '';
+        $selected_attendance_id = '';
+        $from_date              = '';
+        $to_date                = '';
+        $original_employee_id   = '';
+        $employee_selection     = '';
+        $selected_employee_id   = '';
+
+        if($request->original_employee_id != ""){
+            $employment_infos       = $employment_infos->where('employees.employee_id',$request->original_employee_id);
+            $original_employee_id   = $request->original_employee_id;
+        }else{
+            if($request->department_id != ""){
+                $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+                $department_id      = $request->department_id;
+            }
+
+            if($request->designation_id != ""){
+                $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+                $designation_id     = $request->designation_id;
+            }
+
+            if($request->project_id != ""){
+                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+                $project_id         = $request->project_id;
+            }
+
+            if($request->branch_id != ""){
+                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+                $branch_id          = $request->branch_id;
+            }
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('date',[$from_date,$to_date]);
+        }
+
+        if($request->original_employee_id != "") {
+            $employee_id = $request->original_employee_id;
+        }elseif($request->employee_id != "") {
+            $employee_id = $request->employee_id;
+        }
+
+        if($employee_id != "") {
+            $employee_selection = Employee::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->first();
+
+            $selected_employee_id = $employee_selection->id;
+
+            $employees      = $employment_infos;
+
+            $employment_infos = $employment_infos->where('employees.employee_id',$employee_id)->get();
+
+            $attendance_id = [];
+            foreach($employment_infos as $employment_info) {
+                $attendance_id[] = $employment_info->attendance_id;
+            }
+            $employees      = $employees->whereIn('attendances.id',$attendance_id)->get();
+
+            $selected_attendance_id = implode(" ",$attendance_id);
+
+        }
+
+        if($request->employee_id == "") {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/attendance-late-report-single?attendance_id=".$selected_attendance_id."&employee_id="
+        .$selected_employee_id."&remark=".$remark."&from_date=".$from_date."&to_date=".$to_date;
+
+        return view('reports.attendance_late_single',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
+        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
+    }
+
+    public function export_attendance_late_report_single(){
+        return Excel::download(new AttendanceLateReportSingle(), 'Late Report-Individual.xlsx');
+    }
+
 }
