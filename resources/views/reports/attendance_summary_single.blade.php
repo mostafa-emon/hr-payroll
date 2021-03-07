@@ -100,7 +100,7 @@
                             <div class="col-md-3">
                                 <label for="Employee" style="font-weight:bold;" class="col-form-label">Employee Name:</label>
                                 <select id="employee_id" name="employee_id[]" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
-                                    @foreach($employment_infos as $employment_info)
+                                    @foreach($select_employees as $employment_info)
                                         <option value="{{$employment_info->string_employee_id}}">{{$employment_info->name}}</option>
                                     @endforeach
                                 </select>

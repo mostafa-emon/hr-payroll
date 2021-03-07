@@ -270,6 +270,7 @@ class ReportController extends Controller
         $all_employee           = '';
         $remark                 = '';
         $employees              = [];
+        $select_employees       = [];
         $remark                 = '';
         $selected_attendance_id = '';
         $from_date              = '';
@@ -417,14 +418,20 @@ class ReportController extends Controller
         }
 
         if($request->employee_id == "") {
-            $employment_infos = $employment_infos->where('date',date('Y-m-d'))->get();
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
         }
 
         $excel_link = "export/attendance-summary-report-single?attendance_id=".$selected_attendance_id."&employee_id="
         .$selected_employee_id."&remark=".$remark."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.attendance_summary_single',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
         'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
     }
 
