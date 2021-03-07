@@ -271,33 +271,6 @@ class ReportController extends Controller
         return Excel::download(new DailyAttendanceReport(), 'Daily Attendance Report.xlsx');
     }
 
-
-//////////////////////////////
-/////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Attendance Summary Report Single
     public function attendance_summary_report_single(Request $request) {
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
