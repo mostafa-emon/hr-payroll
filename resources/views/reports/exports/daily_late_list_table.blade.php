@@ -35,10 +35,10 @@
 <div class="table-responsive">
 
   <table style="width:100%;">
-    @php $old_department_id = ''; $sl = 0; $total_late_minutes = 0; @endphp
+    @php $old_department_id = ''; $sl = 0; @endphp
     @foreach($employees as $employee)
     @if($old_department_id != $employee->department_id)
-    @php $sl = 0; @endphp
+    @php $sl = 0; $total_late_minutes = 0; @endphp
     <thead>
         <tr>
           <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
@@ -91,7 +91,13 @@
             </td>
             <td style="text-align: left;">{{$employee->note}}</td>
         </tr>
-        
+        @if($old_department_id == $employee->department_id)
+        <tr>
+          <td colspan="7" style="text-align: right;">Total Late Time</td>
+          <td style="text-align: center;">{{gmdate("H:i", $total_late_minutes * 60)}}</td>
+          <td colspan="1">Hours</td>
+        </tr>
+        @endif
     </tbody>
 
       @php $old_department_id = $employee->department_id; @endphp
