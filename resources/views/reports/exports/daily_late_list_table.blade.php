@@ -30,6 +30,9 @@
     </thead>
 
   </table>
+</div>
+
+<div class="table-responsive">
 
   <table style="width:100%;">
     @php $old_department_id = ''; $sl = 0; $total_late_minutes = 0; @endphp
