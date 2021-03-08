@@ -339,8 +339,8 @@
 								<li><a class="slide-item" href="{{url('daily-attendance-report')}}">Daily Attendance</a></li>
 								<li><a class="slide-item" href="{{url('attendance-summary-report-all')}}">Attendance Summary All</a></li>
 								<li><a class="slide-item" href="{{url('attendance-summary-report-single')}}">Attendance Summary Single</a></li>
-								<li><a class="slide-item" href="{{url('daily-late-report')}}">Daily Late</a></li>
-								<li><a class="slide-item" href="{{url('attendance-late-report-single')}}">Attendance Late Single</a></li>
+								<li><a class="slide-item" href="{{url('daily-late-report')}}">Daily Late Report</a></li>
+								<li><a class="slide-item" href="{{url('attendance-late-report-single')}}">Late Report Individual</a></li>
                             </ul>
 						</li>
 						@endif
