@@ -367,6 +367,8 @@ Route::get('/daily-late-report', 'ReportController@daily_late_report');
 Route::post('/daily-late-report', 'ReportController@daily_late_report');
 Route::get('/daily-absent-report', 'ReportController@daily_absent_report');
 Route::post('/daily-absent-report', 'ReportController@daily_absent_report');
+Route::get('/attendance-absent-report-single', 'ReportController@attendance_absent_report_single');
+Route::post('/attendance-absent-report-single', 'ReportController@attendance_absent_report_single');
 //Export
 Route::get('export/daily-attendance-report', 'ReportController@export_daily_attendance_report');
 Route::get('export/attendance-summary-report-all', 'ReportController@export_attendance_summary_report_all');
@@ -374,5 +376,6 @@ Route::get('export/attendance-summary-report-single', 'ReportController@export_a
 Route::get('export/attendance-late-report-single', 'ReportController@export_attendance_late_report_single');
 Route::get('export/daily-late-report', 'ReportController@export_daily_late_report');
 Route::get('export/daily-absent-report', 'ReportController@export_daily_absent_report');
+Route::get('export/attendance-absent-report-single', 'ReportController@export_attendance_absent_report_single');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
