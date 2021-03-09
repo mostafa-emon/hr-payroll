@@ -125,13 +125,13 @@
                                 <div class="table-responsive">
                                     <table style="width:100%;">
                                         <tr>
-                                        <td colspan="1" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                        <td colspan="1" style="padding-top:75px;padding-bottom:15px;border:none;">
                                             <div style="text-align:center;">__________________<br>Prepared By</div>
                                         </td>
-                                        <td colspan="2" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                        <td colspan="2" style="padding-top:75px;padding-bottom:15px;border:none;">
                                             <div style="text-align:center;">__________________<br>Checked By</div>
                                         </td>
-                                        <td colspan="1" style="padding-top:50px;padding-bottom:15px;border:none;">
+                                        <td colspan="1" style="padding-top:75px;padding-bottom:15px;border:none;">
                                             <div style="text-align:center;">__________________<br>Approved By</div>
                                         </td>
                                         </tr>
