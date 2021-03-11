@@ -344,6 +344,7 @@
 								<li><a class="slide-item" href="{{url('daily-absent-report')}}">Daily Absent Report</a></li>
 								<li><a class="slide-item" href="{{url('attendance-absent-report-single')}}">Absent Report Single</a></li>
 								<li><a class="slide-item" href="{{url('ot-summary-report')}}">OT Summary Report</a></li>
+								<li><a class="slide-item" href="{{url('ot-report-single')}}">OT Report Individual</a></li>
                             </ul>
 						</li>
 						@endif
