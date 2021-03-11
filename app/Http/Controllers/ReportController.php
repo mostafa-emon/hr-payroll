@@ -15,6 +15,7 @@ use App\RosterEmployee;
 use Auth;
 use Excel;
 use Carbon;
+use DB;
 use App\Exports\DailyAttendanceReport;
 use App\Exports\AttendanceSummaryReportAll;
 use App\Exports\AttendanceSummaryReportSingle;
@@ -22,6 +23,7 @@ use App\Exports\AttendanceLateReportSingle;
 use App\Exports\DailyLateReport;
 use App\Exports\DailyAbsentReport;
 use App\Exports\AttendanceAbsentReportSingle;
+use App\Exports\OTSummaryReport;
 
 class ReportController extends Controller
 {
@@ -1122,4 +1124,130 @@ class ReportController extends Controller
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
+
+    public function ot_summary_report(Request $request) {
+        /*$employment_infos   = EmploymentInfo::select('attendances.employee_id')
+                            ->join('employees','employees.id','employment_infos.employee_id')
+                            ->join('attendances','attendances.employee_id','employment_infos.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('over_time','>',0)
+                            ->orderBy('department_id','asc');*/
+
+        $employment_infos   = EmploymentInfo::select('attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','employment_infos.employee_id')
+                            ->join('attendances','attendances.employee_id','employment_infos.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('over_time','>',0)
+                            ->orderBy('department_id','asc');
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date       = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $employee_id            = [];
+        $all_employee           = '';
+        $remark                 = '';
+        $employees              = [];
+        $remark                 = '';
+        $selected_employee_id   = '';
+        $from_date              = '';
+        $to_date                = '';
+        $select_employees       = [];
+        $selected_attendance_id = '';
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->designation_id != ""){
+            $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+            $designation_id     = $request->designation_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
+        }
+
+        if($request->employee_id != "") {
+            $employment_infos   = $employment_infos->whereBetween('date',[$from_date,$to_date]);
+        }
+
+        if($request->employee_id != "") {
+            if(!in_array("All", $request->employee_id)) {
+                $employee_id    = $request->employee_id;
+
+                $employment_infos = $employment_infos->whereIn('employees.employee_id',$employee_id)->get();
+
+                $attendance_id  = [];
+                foreach($employment_infos as $attendance) {
+                    $attendance_id[] = $attendance->attendance_id;
+                }
+                
+                $selected_attendance_id = implode(" ",$attendance_id);
+
+            }else{
+                $employees      = $employment_infos;
+
+                $employment_infos = $employment_infos->get();
+
+                $attendance_id  = [];
+                foreach($employment_infos as $attendance) {
+                    $attendance_id[] = $attendance->attendance_id;
+                }
+
+                $all_employee = 'All';
+                
+                $selected_attendance_id = implode(" ",$attendance_id);
+            }
+
+
+            $employees = Attendance::whereIn('id',$attendance_id)->select('employee_id',DB::raw('SUM(over_time) as over_time'))->groupBy('employee_id')->get();
+        }
+
+        if($request->employee_id == "" && $request->employee_id != ['All']) {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/ot-summary-report?from_date=".$from_date."&to_date=".$to_date."&attendance_id=".$selected_attendance_id;
+
+        return view('reports.ot_summary',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees',
+        'all_employee','project_id','employment_infos','employee_id','designation_id','excel_link','remark','to_date'));
+    }
+
+    public function export_ot_summary_report(){
+        return Excel::download(new OTSummaryReport(), 'OT Summary Report.xlsx');
+    }
+
 }

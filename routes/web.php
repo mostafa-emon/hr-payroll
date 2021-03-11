@@ -379,5 +379,6 @@ Route::get('export/attendance-late-report-single', 'ReportController@export_atte
 Route::get('export/daily-late-report', 'ReportController@export_daily_late_report');
 Route::get('export/daily-absent-report', 'ReportController@export_daily_absent_report');
 Route::get('export/attendance-absent-report-single', 'ReportController@export_attendance_absent_report_single');
+Route::get('export/ot-summary-report', 'ReportController@export_ot_summary_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
