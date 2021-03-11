@@ -550,6 +550,7 @@ class ReportController extends Controller
         return Excel::download(new AttendanceSummaryReportAll(), 'Attendance Summary Report.xlsx');
     }
 
+    //Late Report Individual
     public function attendance_late_report_single(Request $request) {
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
@@ -670,6 +671,7 @@ class ReportController extends Controller
         return Excel::download(new AttendanceLateReportSingle(), 'Late Report-Individual.xlsx');
     }
 
+    //Daily Late Report
     public function daily_late_report(Request $request) {
         $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
@@ -798,6 +800,7 @@ class ReportController extends Controller
         return Excel::download(new DailyLateReport(), 'Daily Late Report.xlsx');
     }
 
+    //Daily Absent Report
     public function daily_absent_report(Request $request) {
         $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
@@ -949,6 +952,7 @@ class ReportController extends Controller
         return Excel::download(new DailyAbsentReport(), 'Daily Absent Report.xlsx');
     }
 
+    //Absent Report Single
     public function attendance_absent_report_single(Request $request) {
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
@@ -1092,6 +1096,7 @@ class ReportController extends Controller
         return Excel::download(new AttendanceAbsentReportSingle(), 'Absent Report Single.xlsx');
     }
 
+    //OT Summary Report
     public function ot_summary_report(Request $request) {
 
         $employment_infos   = EmploymentInfo::select('attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
@@ -1211,41 +1216,7 @@ class ReportController extends Controller
         return Excel::download(new OTSummaryReport(), 'OT Summary Report.xlsx');
     }
 
-    
-
-            
-
-
-    
-
-
-    
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-
+    //OT Report Individual
     public function ot_report_single(Request $request) {
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','attendances.work_in_leave_day','attendances.work_in_govt_holiday','employees.id','employees.employee_id as string_employee_id','employees.name')
