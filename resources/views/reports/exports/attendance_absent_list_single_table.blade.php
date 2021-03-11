@@ -21,7 +21,7 @@
         @endif
 
         <tr>
-          <th colspan="10" style="font-size:15px;text-align:center;border:none;">Late Report-Individual</th>
+          <th colspan="10" style="font-size:15px;text-align:center;border:none;">Absent Report-Individual</th>
         </tr>
         
         <tr>

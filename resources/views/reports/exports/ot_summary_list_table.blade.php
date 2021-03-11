@@ -21,7 +21,7 @@
         @endif
 
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">Attendance Summary Report</th>
+          <th colspan="13" style="font-size:15px;text-align:center;border:none;">OT Summary Report</th>
         </tr>
         
         <tr>

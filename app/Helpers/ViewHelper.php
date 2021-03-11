@@ -881,3 +881,59 @@ function calculate_attendance_days($employee_id,$from_date,$to_date) {
 
     return $ok_days."_".$leave_days."_".$late_days."_".$absent_days."_".$day_off_days."_".$govt_holidays;
 }
+
+function attendance_special_remark($employee_id,$date) {
+    $attendance         = Attendance::where('employee_id',$employee_id)->where('date',$date)->first();
+    $employment_info    = EmploymentInfo::where('employee_id',$employee_id)->first();
+
+    $day_name = date('l',strtotime($attendance->date));
+    if($employment_info->weekend_1 != $day_name && $employment_info->weekend_2 != $day_name && $attendance->status != 'WEEKLY_HOLIDAY') {
+        $general_leave = GeneralLeave::where('employee_id',$attendance->employee_id)->where('date',$attendance->date)->first();
+        if($general_leave == "") {
+            if($attendance->work_in_govt_holiday != 1 && $attendance->status != 'GOVT_HOLIDAY') {
+                if($attendance->work_in_leave_day != 1 && $attendance->status != 'PAID_LEAVE') {
+                    if($attendance->roster_employee == 1) {
+                        $roster = RosterEmployee::where('employee_id',$attendance->employee_id)->where('date',$attendance->date)->first();
+                        if($roster != "") {
+                            if($roster->day_off == 0) {
+                                if($attendance->status == 'PRESENT' && $attendance->late > 0) {
+                                    return "Late";
+                                }elseif($attendance->status == 'PRESENT' && $attendance->late == 0) {
+                                    return "OK";
+                                }elseif($attendance->status == 'ABSENT') {
+                                    return "Absent";
+                                }
+                            }else{
+                                return "Day Off";
+                            }
+                        }else{
+                            if($attendance->status == 'PRESENT' && $attendance->late > 0) {
+                                return "Late";
+                            }elseif($attendance->status == 'PRESENT' && $attendance->late == 0) {
+                                return "OK";
+                            }elseif($attendance->status == 'ABSENT') {
+                                return "Absent";
+                            }
+                        }
+                    }else{
+                        if($attendance->status == 'PRESENT' && $attendance->late > 0) {
+                            return "Late";
+                        }elseif($attendance->status == 'PRESENT' && $attendance->late == 0) {
+                            return "OK";
+                        }elseif($attendance->status == 'ABSENT') {
+                            return "Absent";
+                        }
+                    }
+                }else{
+                    return "Leave";
+                }
+            }else{
+                return "Govt Holiday";
+            }
+        }else{
+            return "Leave";
+        }
+    }else{
+        return "Day Off";
+    }
+}
