@@ -129,6 +129,14 @@
           <td></td>
           <td></td>
         </tr>
+        <tr>
+          <td colspan="12" style="border:none;">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="12" style="text-align:left;border:none;">
+              <b>Amount in word:</b> {{amount_in_word($total_ot_amount)}}
+          </td>
+        </tr>
     </tbody>
   </table>
 </div>
