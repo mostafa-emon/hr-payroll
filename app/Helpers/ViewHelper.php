@@ -937,3 +937,18 @@ function attendance_special_remark($employee_id,$date) {
         return "Day Off";
     }
 }
+
+function gross_salary($employee_id) {
+    $payroll_infos = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
+    $gross_salary = 0;
+    foreach($payroll_infos as $payroll_info) {
+        $get_component_id = $payroll_info->salary_component_id;
+
+        $component_detail = SalaryComponent::where('id',$get_component_id)->first();
+        
+        if($component_detail->component_reference != "PF Company Portion" && $component_detail->component_reference != "Festival Bonus" && $component_detail->component_reference != "Gratuity") {
+            $gross_salary   = $gross_salary + $payroll_info->final_amount;
+        }
+    }
+    return $gross_salary;
+}

@@ -355,6 +355,8 @@ Route::get('/deposit-salary-tax-print-frontside/{tax_id}','PayrollController@dep
 Route::get('/deposit-salary-tax-print-backside/{tax_id}','PayrollController@deposit_salary_tax_print_backside');
 
 //Report
+
+//Attendance
 Route::get('/daily-attendance-report', 'ReportController@daily_attendance_report');
 Route::post('/daily-attendance-report', 'ReportController@daily_attendance_report');
 Route::get('/attendance-summary-report-all', 'ReportController@attendance_summary_report_all');
@@ -373,7 +375,14 @@ Route::get('/ot-summary-report', 'ReportController@ot_summary_report');
 Route::post('/ot-summary-report', 'ReportController@ot_summary_report');
 Route::get('/ot-report-single', 'ReportController@ot_report_single');
 Route::post('/ot-report-single', 'ReportController@ot_report_single');
+
+//Leave
+Route::get('/employee-list-report', 'ReportController@employee_list_report');
+Route::post('/employee-list-report', 'ReportController@employee_list_report');
+
 //Export
+
+//Attendance
 Route::get('export/daily-attendance-report', 'ReportController@export_daily_attendance_report');
 Route::get('export/attendance-summary-report-all', 'ReportController@export_attendance_summary_report_all');
 Route::get('export/attendance-summary-report-single', 'ReportController@export_attendance_summary_report_single');
@@ -383,5 +392,8 @@ Route::get('export/daily-absent-report', 'ReportController@export_daily_absent_r
 Route::get('export/attendance-absent-report-single', 'ReportController@export_attendance_absent_report_single');
 Route::get('export/ot-summary-report', 'ReportController@export_ot_summary_report');
 Route::get('export/ot-report-single', 'ReportController@export_ot_report_single');
+
+//Leave
+Route::get('export/employee-list-report', 'ReportController@export_employee_list_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
