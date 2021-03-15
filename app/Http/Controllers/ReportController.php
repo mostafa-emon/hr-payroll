@@ -26,6 +26,7 @@ use App\Exports\AttendanceAbsentReportSingle;
 use App\Exports\OTSummaryReport;
 use App\Exports\OTReportSingle;
 use App\Exports\EmployeeListReport;
+use App\Exports\InactiveEmployeeListReport;
 
 class ReportController extends Controller
 {
@@ -1484,35 +1485,6 @@ class ReportController extends Controller
         return Excel::download(new OTReportSingle(), 'OT Report Individual.xlsx');
     }
 
-
-
-    ///////////
-    ////////////////////////////////////
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    ///////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-    ///////////
-    ////////////////////////////////////
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    ///////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-    ///////////
-    ////////////////////////////////////
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    ///////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-    ///////////
-    ////////////////////////////////////
-    /////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    ///////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-
-
-
     public function employee_list_report(Request $request) {
         $employment_infos       = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
                                 ->join('employees','employees.id','employment_infos.employee_id')
@@ -1623,4 +1595,139 @@ class ReportController extends Controller
 
 
 
+
+    ///////////
+    ////////////////////////////////////
+    /////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    ///////////
+    ////////////////////////////////////
+    /////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    ///////////
+    ////////////////////////////////////
+    /////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    ///////////
+    ////////////////////////////////////
+    /////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+
+
+    public function inactive_employee_list_report(Request $request) {
+        $employment_infos       = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->where('current_status','Inactive')
+                                ->orderBy('department_id','asc');
+
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $department_id          = '';
+        $designation_id         = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $religion               = '';
+        $gender                 = '';
+        $duty_type              = '';
+        $blood_group            = '';
+        $employees              = [];
+        $original_employee_id   = '';
+
+        if($request->original_employee_id != ""){
+            $employment_infos   = $employment_infos->where('employees.employee_id',$request->original_employee_id);
+            $original_employee_id = $request->original_employee_id;
+        }else{
+            if($request->department_id != ""){
+                $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+                $department_id      = $request->department_id;
+            }
+
+            if($request->designation_id != ""){
+                $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+                $designation_id     = $request->designation_id;
+            }
+
+            if($request->project_id != ""){
+                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+                $project_id         = $request->project_id;
+            }
+
+            if($request->branch_id != ""){
+                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+                $branch_id          = $request->branch_id;
+            }
+
+            if($request->religion != ""){
+                $employment_infos   = $employment_infos->where('religion',$request->religion);
+                $religion           = $request->religion;
+            }
+
+            if($request->gender != ""){
+                $employment_infos   = $employment_infos->where('gender',$request->gender);
+                $gender             = $request->gender;
+            }
+
+            if($request->blood_group != ""){
+                $employment_infos   = $employment_infos->where('blood_group',$request->blood_group);
+                if($request->blood_group == "AB+") {
+                    $blood_group        = 'AB Positive';
+
+                }elseif($request->blood_group == "AB-") {
+                    $blood_group        = 'AB Negative';
+
+                }elseif($request->blood_group == "A+") {
+                    $blood_group        = 'A Positive';
+
+                }elseif($request->blood_group == "A-") {
+                    $blood_group        = 'A Negative';
+
+                }elseif($request->blood_group == "B+") {
+                    $blood_group        = 'B Positive';
+
+                }elseif($request->blood_group == "B-") {
+                    $blood_group        = 'B Negative';
+
+                }elseif($request->blood_group == "O+") {
+                    $blood_group        = 'O Positive';
+                    
+                }elseif($request->blood_group == "O-") {
+                    $blood_group        = 'O Negative';
+                }
+            }
+
+            if($request->duty_type != ""){
+                $employment_infos   = $employment_infos->where('duty_type',$request->duty_type);
+                $duty_type          = $request->duty_type;
+            }
+        }
+
+        if($request->job            == "1"){
+            $employees              = $employment_infos->get();
+        }
+
+        $excel_link = "export/inactive-employee-list-report?department_id=".$department_id."&designation_id=".$designation_id."&project_id=".$project_id.
+        "&branch_id=".$branch_id."&religion=".$religion."&gender=".$gender."&blood_group=".$blood_group."&duty_type=".$duty_type.
+        "&original_employee_id=".$original_employee_id;
+
+        return view('reports.inactive_employee_list',
+        compact('departments','projects','branches','designations','department_id','branch_id','project_id','designation_id',
+        'religion','gender','blood_group','duty_type','employees','original_employee_id','excel_link'));
+    }
+
+    public function export_inactive_employee_list_report(){
+        return Excel::download(new InactiveEmployeeListReport(), 'Inactive Employee List.xlsx');
+    }
 }

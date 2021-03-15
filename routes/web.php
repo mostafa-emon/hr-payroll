@@ -379,6 +379,8 @@ Route::post('/ot-report-single', 'ReportController@ot_report_single');
 //Leave
 Route::get('/employee-list-report', 'ReportController@employee_list_report');
 Route::post('/employee-list-report', 'ReportController@employee_list_report');
+Route::get('/inactive-employee-list-report', 'ReportController@inactive_employee_list_report');
+Route::post('/inactive-employee-list-report', 'ReportController@inactive_employee_list_report');
 
 //Export
 
@@ -395,5 +397,6 @@ Route::get('export/ot-report-single', 'ReportController@export_ot_report_single'
 
 //Leave
 Route::get('export/employee-list-report', 'ReportController@export_employee_list_report');
+Route::get('export/inactive-employee-list-report', 'ReportController@export_inactive_employee_list_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

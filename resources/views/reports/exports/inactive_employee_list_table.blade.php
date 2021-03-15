@@ -40,8 +40,10 @@
     @if($sl == 0 && $old_department_id != '')
       <tbody>
         <tr>
-          <td colspan="12" style="text-align: right;font-weight:bold;">Total</td>
+          <td colspan="11" style="text-align: right;font-weight:bold;">Total</td>
           <td style="text-align: right;font-weight:bold;">{{$total_salary}}</td>
+          <td></td>
+          <td></td>
         </tr>
       <tbody>
     @endif
@@ -66,10 +68,11 @@
             <th style="text-align: left;">DOB</th>
             <th style="text-align: center;">Sex</th>
             <th style="text-align: center;">Religion</th>
-            <th style="text-align: center;">Blood Group</th>
             <th style="text-align: center;">Phone</th>
             <th style="text-align: center;">NID</th>
             <th style="text-align: right;">Gross Salary</th>
+            <th style="text-align: left;">Date Of Resign</th>
+            <th style="text-align: left;">Reason</th>
         </tr>
     </thead>
     @endif
@@ -97,7 +100,6 @@
             </td>
             <td style="text-align: center;">{{$employee->gender}}</td>
             <td style="text-align: center;">{{$employee->religion}}</td>
-            <td style="text-align: center;">{{$employee->blood_group}}</td>
             <td style="text-align: center;">{{$employee->phone_1}}</td>
             <td style="text-align: center;">{{$employee->nid_number}}</td>
             <td style="text-align: right;">
@@ -106,6 +108,12 @@
               $total_salary       = $total_salary + $gross_salary;
               @endphp
             </td>
+            <td>
+              @if($employee->date_of_resign != "")
+              {{date('d-M-Y',strtotime($employee->date_of_resign))}}
+              @endif
+            </td>
+            <td>{{$employee->reason_for_resign}}</td>
         </tr>
     </tbody>
 
@@ -113,8 +121,10 @@
     @endforeach
     <tbody>
       <tr>
-        <td colspan="12" style="text-align: right;font-weight:bold;">Total</td>
+        <td colspan="11" style="text-align: right;font-weight:bold;">Total</td>
         <td style="text-align: right;font-weight:bold;">{{$total_salary}}</td>
+        <td></td>
+        <td></td>
       </tr>
       <tbody>
   </table>
