@@ -5,23 +5,23 @@
           $company = get_company_info(Auth::user()->company_id);
         @endphp
         <tr>
-          <th colspan="13" style="font-size:17px;text-align:center;border:none;">{{$company->name}}</th>
+          <th colspan="14" style="font-size:17px;text-align:center;border:none;">{{$company->name}}</th>
         </tr>
 
         @if($company->address_line_1 != "")
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_1}}</th>
+          <th colspan="14" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_1}}</th>
         </tr>
         @endif
 
         @if($company->address_line_2 != "")
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_2}}</th>
+          <th colspan="14" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_2}}</th>
         </tr>
         @endif
 
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">Employee List</th>
+          <th colspan="14" style="font-size:15px;text-align:center;border:none;">Inactive Employee List</th>
         </tr>
     </thead>
 
@@ -50,13 +50,13 @@
     @php $total_salary = 0; @endphp
     <thead>
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
+          <th colspan="14" style="font-size:15px;text-align:left;border:none;"></th>
         </tr>
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
+          <th colspan="14" style="font-size:15px;text-align:left;border:none;"></th>
         </tr>
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:left;border:none;">Department: <b>{{department_name($employee->department_id)}}</b></th>
+          <th colspan="14" style="font-size:15px;text-align:left;border:none;">Department: <b>{{department_name($employee->department_id)}}</b></th>
         </tr>
         <tr>
             <th style="text-align: center;">Sl</th>
