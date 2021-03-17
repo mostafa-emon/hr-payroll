@@ -26,6 +26,8 @@ class CreateLeaveRequestsTable extends Migration
             $table->string('leave_days');
             $table->string('remark')->nullable();
             $table->string('attach_file')->nullable();
+            $table->string('rejected_by')->nullable();
+            $table->string('reason_for_rejection')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

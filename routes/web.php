@@ -192,7 +192,8 @@ Route::get('/leave-request/delete/{id}', 'LeaveController@leave_request_delete')
 
 Route::get('/verify-leave-request', 'LeaveController@verify_leave_request');
 Route::get('/leave-request/verify/{id}', 'LeaveController@leave_request_verify');
-Route::get('/leave-request/reject/{id}', 'LeaveController@leave_request_reject');
+Route::get('/leave-request/reject/{id}/{page}', 'LeaveController@leave_request_reject');
+Route::post('/leave-request/reject/{id}/{page}', 'LeaveController@leave_request_reject');
 Route::get('/leave-request/approve/{id}', 'LeaveController@leave_request_approve');
 
 Route::get('/approve-leave-request', 'LeaveController@approve_leave_request');

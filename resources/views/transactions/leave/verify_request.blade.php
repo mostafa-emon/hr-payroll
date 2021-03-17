@@ -68,9 +68,7 @@
                                         <div class="dropdown-menu">
                                             <a href="{{'leave-request/update/verify/'.$leave->id}}" class="dropdown-item">Edit</a>
                                             <a href="{{'leave-request/verify/'.$leave->id}}" class="dropdown-item">Verify</a>
-                                            <a href="{{'leave-request/reject/'.$leave->id}}" class="dropdown-item">Reject</a>
-                                            <a class="dropdown-item">Print</a>
-                                            <a class="dropdown-item">Email</a>
+                                            <a href="{{'leave-request/reject/'.$leave->id.'/verify'}}" class="dropdown-item">Reject</a>
                                         </div>
                                     </td>
                                 </tr>

@@ -244,11 +244,20 @@ class LeaveController extends Controller
         return redirect('verify-leave-request')->with('message','Leave Request Verified Successfully!');
     }
 
-    public function leave_request_reject($id) {
-        $leave = LeaveRequest::where('id',$id)->first();
-        $leave->status = "Rejected";
-        $leave->save();
-        return redirect('verify-leave-request')->with('message','Leave Request Rejected Successfully!');
+    public function leave_request_reject($leave_id,$page,Request $request) {
+        if($request->reason_for_rejection != "") {
+            $leave = LeaveRequest::where('id',$leave_id)->first();
+            $leave->rejected_by             = Auth::user()->id;
+            $leave->reason_for_rejection    = $request->reason_for_rejection;
+            $leave->status = "Rejected";
+            $leave->save();
+            if($page == "verify") {
+                return redirect('verify-leave-request')->with('message','Leave Request Rejected Successfully!');
+            }elseif($page == "approve") {
+                return redirect('approve-leave-request')->with('message','Leave Request Rejected Successfully!');
+            }
+        }
+        return view('transactions.leave.reject_request',compact('leave_id','page'));
     }
 
     public function leave_request_approve($id) {
