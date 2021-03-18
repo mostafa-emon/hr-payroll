@@ -39,7 +39,7 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Attendance Summary Report Individual</h4>
+                            <h4 class="card-title mg-b-0">Leave Report Individual</h4>
                         </div>
                         <div class="col-md-6 text-right">
                             @if(count($employees) > 0)

@@ -76,7 +76,7 @@
           <th colspan="2" style="text-align: center;">Leave Days</th>
           <th colspan="{{count($leave_types)}}" style="text-align: center;">Leave Types</th>
           <th rowspan="2" style="text-align: center;">Total Leave</th>
-          <th rowspan="2" style="text-align: center;">Reason For Leave</th>
+          <th rowspan="2">Reason For Leave</th>
         </tr>
         <tr>
             <th style="text-align: center;">From</th>
@@ -107,11 +107,11 @@
                 @if($employee->leave_type_id == $type->id) {{$employee->leave_days}} @endif
               @endforeach
             </td>
-            <td style="text-align: center;">{{$employee->remark}}</td>
+            <td>{{$employee->remark}}</td>
         </tr>
       @endforeach
       <tr>
-        <td colspan="2" style="text-align:right;">Total</td>
+        <td colspan="2" style="text-align:right;font-weight:bold;">Total</td>
         @php $grand_total = 0; @endphp
         @foreach($leave_types as $type)
           @php $total = 0; @endphp
@@ -122,13 +122,13 @@
                 @endif
             
           @endforeach
-          <td style="text-align: center;">
+          <td style="text-align: center;font-weight:bold;">
             {{$total}}
             @php $grand_total = $grand_total + $total; @endphp
           </td>
         @endforeach
-        <td style="text-align: center;">{{$grand_total}}</td>
-        <td style="text-align: center;">&nbsp;</td>
+        <td style="text-align: center;font-weight:bold;">{{$grand_total}}</td>
+        <td style="text-align: center;font-weight:bold;">&nbsp;</td>
       </tr>
     </tbody>
   </table>
