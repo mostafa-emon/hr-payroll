@@ -30,6 +30,7 @@ use App\Exports\OTReportSingle;
 use App\Exports\EmployeeListReport;
 use App\Exports\InactiveEmployeeListReport;
 use App\Exports\LeaveReportSingle;
+use App\Exports\RejectedLeaveReport;
 
 class ReportController extends Controller
 {
@@ -1705,33 +1706,6 @@ class ReportController extends Controller
     public function export_inactive_employee_list_report(){
         return Excel::download(new InactiveEmployeeListReport(), 'Inactive Employee List.xlsx');
     }
-
-
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
-    ////////////////////////////////////////////////
     
     public function leave_report_single(Request $request) {
         $employment_infos   = LeaveRequest::select('employment_infos.*','leave_requests.*','employees.id','employees.employee_id as string_employee_id','employees.name')
@@ -1822,5 +1796,125 @@ class ReportController extends Controller
 
     public function export_leave_report_single(){
         return Excel::download(new LeaveReportSingle(), 'Leave Report Individual.xlsx');
+    }
+
+
+    
+
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    ////////////////////////////////////////////////
+    
+    public function rejected_leave_report(Request $request) {
+        $employment_infos   = LeaveRequest::select('employment_infos.*','leave_requests.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','leave_requests.employee_id')
+                            ->join('employment_infos','employment_infos.employee_id','leave_requests.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('leave_requests.status','Rejected')
+                            ->orderBy('leave_requests.id','asc');
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date       = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $employee_id            = '';
+        $employees              = [];
+        $select_employees       = [];
+        $from_date              = '';
+        $to_date                = '';
+        $original_employee_id   = '';
+        $employee_selection     = '';
+        $selected_employee_id   = '';
+
+        if($request->original_employee_id != ""){
+            $employment_infos   = $employment_infos->where('employees.employee_id',$request->original_employee_id);
+            $original_employee_id = $request->original_employee_id;
+        }else{
+            if($request->department_id != ""){
+                $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+                $department_id      = $request->department_id;
+            }
+    
+            if($request->designation_id != ""){
+                $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+                $designation_id     = $request->designation_id;
+            }
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('start_date',[$from_date,$to_date]);
+            $employment_infos   = $employment_infos->whereBetween('end_date',[$from_date,$to_date]);
+        }
+
+        if($request->original_employee_id != "") {
+            $employee_id = $request->original_employee_id;
+        }elseif($request->employee_id != "") {
+            $employee_id = $request->employee_id;
+        }
+
+        if($employee_id != "") {
+            $employee_selection     = Employee::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->first();
+            $selected_employee_id   = $employee_selection->id;
+
+            $employees              = $employment_infos->where('leave_requests.employee_id',$employee_selection->id)->get();
+        }
+
+        if($request->employee_id == "") {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/rejected-leave-report?from_date=".$from_date."&to_date=".$to_date."&employee_id=".$selected_employee_id;
+
+        return view('reports.rejected_leave',
+        compact('departments','designations','department_id','employees','from_date','select_employees','leave_types',
+        'employment_infos','employee_id','designation_id','to_date','original_employee_id','employee_selection','excel_link'));
+    }
+
+    public function export_rejected_leave_report(){
+        return Excel::download(new RejectedLeaveReport(), 'Rejected Leave Report.xlsx');
     }
 }

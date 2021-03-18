@@ -316,6 +316,7 @@
 								<li><a class="slide-item" href="{{url('employee-list-report')}}">Employee List</a></li>
 								<li><a class="slide-item" href="{{url('inactive-employee-list-report')}}">Inactive Employee List</a></li>
 								<li><a class="slide-item" href="{{url('leave-report-single')}}">Leave Report Individual</a></li>
+								<li><a class="slide-item" href="{{url('rejected-leave-report')}}">Rejected Leave Report</a></li>
                             </ul>
 						</li>
 						<li class="slide">

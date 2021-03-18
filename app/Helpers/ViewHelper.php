@@ -952,3 +952,12 @@ function gross_salary($employee_id) {
     }
     return $gross_salary;
 }
+
+function get_user_name($user_id) {
+    $user = User::where('id',$user_id)->first();
+    if($user != "") {
+        return $user->name;
+    }else{
+        return "";
+    }
+}
