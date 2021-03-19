@@ -386,6 +386,8 @@ Route::get('/leave-report-single', 'ReportController@leave_report_single');
 Route::post('/leave-report-single', 'ReportController@leave_report_single');
 Route::get('/rejected-leave-report', 'ReportController@rejected_leave_report');
 Route::post('/rejected-leave-report', 'ReportController@rejected_leave_report');
+Route::get('/leave-report-all', 'ReportController@leave_report_all');
+Route::post('/leave-report-all', 'ReportController@leave_report_all');
 
 //Export
 
@@ -405,5 +407,6 @@ Route::get('export/employee-list-report', 'ReportController@export_employee_list
 Route::get('export/inactive-employee-list-report', 'ReportController@export_inactive_employee_list_report');
 Route::get('export/leave-report-single', 'ReportController@export_leave_report_single');
 Route::get('export/rejected-leave-report', 'ReportController@export_rejected_leave_report');
+Route::get('export/leave-report-all', 'ReportController@export_leave_report_all');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

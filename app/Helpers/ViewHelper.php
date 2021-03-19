@@ -961,3 +961,25 @@ function get_user_name($user_id) {
         return "";
     }
 }
+
+function leave_days($employee_id,$leave_type_id,$from_date,$to_date) {
+    $leave_requests = LeaveRequest::where('employee_id',$employee_id)->where('leave_type_id',$leave_type_id)->whereBetween('start_date', [$from_date, $to_date])->whereBetween('end_date', [$from_date, $to_date])->where('status','Approved')->get();
+    if(count($leave_requests) != 0) {
+        $leave_days = 0;
+        foreach($leave_requests as $leave) {
+            $leave_days = $leave_days + $leave->leave_days;
+        }
+        return $leave_days;
+    }else{
+        return "0";
+    }
+}
+
+function get_leave_info_id($employee_id,$leave_type_id) {
+    $leave_info     = LeaveInfo::where('employee_id',$employee_id)->where('leave_type_id',$leave_type_id)->first();
+    if($leave_info != "") {
+        return $leave_info->id;
+    }else{
+        return "";
+    }
+}

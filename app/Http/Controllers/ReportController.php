@@ -31,6 +31,7 @@ use App\Exports\EmployeeListReport;
 use App\Exports\InactiveEmployeeListReport;
 use App\Exports\LeaveReportSingle;
 use App\Exports\RejectedLeaveReport;
+use App\Exports\LeaveReportAll;
 
 class ReportController extends Controller
 {
@@ -1887,5 +1888,153 @@ class ReportController extends Controller
 
     public function export_rejected_leave_report(){
         return Excel::download(new RejectedLeaveReport(), 'Rejected Leave Report.xlsx');
+    }
+
+
+
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+
+    public function leave_report_all(Request $request) {
+        $employment_infos   = LeaveRequest::select('employment_infos.*','leave_requests.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','leave_requests.employee_id')
+                            ->join('employment_infos','employment_infos.employee_id','leave_requests.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('leave_requests.status','Approved')
+                            ->orderBy('department_id','asc');
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date       = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $employee_id            = '';
+        $employees              = [];
+        $select_employees       = [];
+        $from_date              = '';
+        $to_date                = '';
+        $original_employee_id   = '';
+        $employee_selection     = '';
+        $selected_employee_id   = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $gender                 = '';
+        $duty_type              = '';
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->designation_id != ""){
+            $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+            $designation_id     = $request->designation_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->gender != ""){
+            $employment_infos   = $employment_infos->where('gender',$request->gender);
+            $gender             = $request->gender;
+        }
+
+        if($request->duty_type != ""){
+            $employment_infos   = $employment_infos->where('duty_type',$request->duty_type);
+            $duty_type          = $request->duty_type;
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('start_date',[$from_date,$to_date]);
+            $employment_infos   = $employment_infos->whereBetween('end_date',[$from_date,$to_date]);
+        }
+
+        if($request->job            == "1"){
+            $employees              = $employment_infos->groupBy('leave_requests.employee_id')->get();
+        }
+
+        if($request->employee_id == "") {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/leave-report-all?department_id=".$department_id."&designation_id=".$designation_id."&project_id=".$project_id.
+        "&branch_id=".$branch_id."&gender=".$gender."&duty_type=".$duty_type."&from_date=".$from_date."&to_date=".$to_date;
+
+        return view('reports.leave_all',
+        compact('departments','designations','department_id','employees','from_date','select_employees','leave_types','projects','branches',
+        'employment_infos','employee_id','designation_id','to_date','original_employee_id','employee_selection','project_id','branch_id','excel_link'));
+    }
+
+    public function export_leave_report_all(){
+        return Excel::download(new LeaveReportAll(), 'Leave Report All.xlsx');
     }
 }
