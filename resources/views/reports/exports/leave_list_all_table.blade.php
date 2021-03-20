@@ -21,7 +21,7 @@
         @endif
 
         <tr>
-          <th colspan="{{count($leave_types) + 6}}" style="font-size:15px;text-align:center;border:none;">OT Summary Report</th>
+          <th colspan="{{count($leave_types) + 6}}" style="font-size:15px;text-align:center;border:none;">Leave Report All</th>
         </tr>
         
         <tr>

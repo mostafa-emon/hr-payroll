@@ -21,7 +21,7 @@
         @endif
 
         <tr>
-          <th colspan="{{count($leave_types) + 4}}" style="font-size:15px;text-align:center;border:none;">Leave Report Individual</th>
+          <th colspan="{{count($leave_types) + 4}}" style="font-size:15px;text-align:center;border:none;">Rejected Leave Report</th>
         </tr>
         
         <tr>
