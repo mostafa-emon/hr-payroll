@@ -440,6 +440,7 @@ class AttendanceController extends Controller
                     $earning->reference_no          = $request->reference_no;
                     $earning->earning_or_deduction  = 'earnings';
                     $earning->type                  = $request->type;
+                    $earning->query_date            = date('Y-m-01',strtotime($dt));
                     $earning->status                = $request->status;
                     if($request->hasFile('attach_file')){
                         $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
@@ -463,6 +464,7 @@ class AttendanceController extends Controller
                     $earning->reference_no          = $request->reference_no;
                     $earning->earning_or_deduction  = 'earnings';
                     $earning->type                  = $request->type;
+                    $earning->query_date            = date('Y-m-01',strtotime($dt));
                     $earning->status                = $request->status;
                     if($request->hasFile('attach_file')){
                         $earning->attach_file   = $request->file('attach_file')->store('earning_adjustment');
@@ -584,6 +586,7 @@ class AttendanceController extends Controller
                     $deduction->earning_or_deduction  = 'deductions';
                     $deduction->reference_no          = $request->reference_no;
                     $deduction->type                  = $request->type;
+                    $deduction->query_date            = date('Y-m-01',strtotime($dt));
                     $deduction->status                = $request->status;
                     if($request->hasFile('attach_file')){
                         $deduction->attach_file   = $request->file('attach_file')->store('deduction_adjustment');
@@ -607,6 +610,7 @@ class AttendanceController extends Controller
                     $deduction->earning_or_deduction  = 'deductions';
                     $deduction->reference_no          = $request->reference_no;
                     $deduction->type                  = $request->type;
+                    $deduction->query_date            = date('Y-m-01',strtotime($dt));
                     $deduction->status                = $request->status;
                     if($request->hasFile('attach_file')){
                         $deduction->attach_file   = $request->file('attach_file')->store('deduction_adjustment');

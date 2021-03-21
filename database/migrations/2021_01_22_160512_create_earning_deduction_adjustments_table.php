@@ -29,6 +29,7 @@ class CreateEarningDeductionAdjustmentsTable extends Migration
             $table->string('attach_file')->nullable();
             $table->string('reference_no',100)->nullable();
             $table->string('type',50);
+            $table->date('query_date')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

@@ -39,6 +39,7 @@ use App\IncomeTax;
 use App\GeneralSetting;
 use App\RosterEmployee;
 use App\GeneralLeave;
+use App\EarningDeductionAdjustment;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -981,5 +982,21 @@ function get_leave_info_id($employee_id,$leave_type_id) {
         return $leave_info->id;
     }else{
         return "";
+    }
+}
+
+function get_component_amount($employee_id,$salary_component_id,$date) {
+    $month  = date('F',strtotime($date));
+    $year   = date('Y',strtotime($date));
+
+    $adjustment = EarningDeductionAdjustment::where('employee_id',$employee_id)->where('salary_component_id',$salary_component_id)->where('earning_or_deduction','earnings')->where('month',$month)->where('year',$year)->where('status',1)->first();
+    if($adjustment != "") {
+        if($adjustment->type == 'Increase') {
+            return $adjustment->amount;
+        }elseif($adjustment->type == 'Decrease') {
+            return '-'.$adjustment->amount;
+        }
+    }else{
+        return "0";
     }
 }

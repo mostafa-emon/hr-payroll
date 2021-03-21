@@ -310,6 +310,7 @@ Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'Emplo
 Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');
 Route::get('/search-roster-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_roster_employee');
 Route::get('/search-employee-with-designation/{department_id}/{project_id?}/{branch_id?}/{designation_id?}', 'EmployeeController@search_employee_with_designation');
+Route::get('/search-increment-employee_id-with-designation/{department_id}/{project_id?}/{branch_id?}/{component_id?}/{designation_id?}', 'EmployeeController@search_employee_increment_id_with_designation');
 
 //Public Route
 Route::get('/attendance/{company_id}','PublicController@index');
@@ -389,6 +390,10 @@ Route::post('/rejected-leave-report', 'ReportController@rejected_leave_report');
 Route::get('/leave-report-all', 'ReportController@leave_report_all');
 Route::post('/leave-report-all', 'ReportController@leave_report_all');
 
+//Payroll
+Route::get('/earning-adjustment-report', 'ReportController@earning_adjustment_report');
+Route::post('/earning-adjustment-report', 'ReportController@earning_adjustment_report');
+
 //Export
 
 //Attendance
@@ -408,5 +413,8 @@ Route::get('export/inactive-employee-list-report', 'ReportController@export_inac
 Route::get('export/leave-report-single', 'ReportController@export_leave_report_single');
 Route::get('export/rejected-leave-report', 'ReportController@export_rejected_leave_report');
 Route::get('export/leave-report-all', 'ReportController@export_leave_report_all');
+
+//Payroll
+Route::get('export/earning-adjustment-report', 'ReportController@export_earning_adjustment_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
