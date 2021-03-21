@@ -985,7 +985,7 @@ function get_leave_info_id($employee_id,$leave_type_id) {
     }
 }
 
-function get_component_amount($employee_id,$salary_component_id,$date) {
+function get_earning_component_amount($employee_id,$salary_component_id,$date) {
     $month  = date('F',strtotime($date));
     $year   = date('Y',strtotime($date));
 

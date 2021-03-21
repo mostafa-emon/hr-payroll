@@ -61,7 +61,7 @@
             @foreach($employees as $employee_list)
               @if($employee_list->salary_component_id == $old_salary_component_id)
                 @php 
-                  $component_amount = get_component_amount($employee_list->employee_id,$employee_list->salary_component_id,$dt->format("M-Y"));
+                  $component_amount = get_earning_component_amount($employee_list->employee_id,$employee_list->salary_component_id,$dt->format("M-Y"));
                   $total_component_amount = $total_component_amount + $component_amount;
                   $all_employee_component_amount = $all_employee_component_amount + $component_amount;
                 @endphp
@@ -114,7 +114,7 @@
             @foreach($period as $dt)
               <td style="text-align: center;">
                 @php 
-                  echo $component_amount = get_component_amount($employee->employee_id,$employee->salary_component_id,$dt->format("M-Y"));
+                  echo $component_amount = get_earning_component_amount($employee->employee_id,$employee->salary_component_id,$dt->format("M-Y"));
                   $single_employee_total_component_amount = $single_employee_total_component_amount + $component_amount;
                 @endphp
               </td>
@@ -134,7 +134,7 @@
           @foreach($employees as $employee_list)
             @if($employee_list->salary_component_id == $old_salary_component_id)
               @php 
-                $component_amount = get_component_amount($employee_list->employee_id,$employee_list->salary_component_id,$dt->format("M-Y"));
+                $component_amount = get_earning_component_amount($employee_list->employee_id,$employee_list->salary_component_id,$dt->format("M-Y"));
                 $total_component_amount = $total_component_amount + $component_amount;
                 $all_employee_component_amount = $all_employee_component_amount + $component_amount;
               @endphp
