@@ -93,7 +93,7 @@
             <th rowspan="2" style="text-align: left;">Department</th>
             <th rowspan="2" style="text-align: left;">Designation</th>
             <th colspan="{{$total_month}}" style="text-align: center;">Salary Month</th>
-            <th rowspan="2" style="text-align: right;">Total</th>
+            <th rowspan="2" style="text-align: center;">Total</th>
         </tr>
         <tr>
           @foreach($period as $dt)
