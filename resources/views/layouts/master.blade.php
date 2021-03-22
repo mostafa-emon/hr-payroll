@@ -349,6 +349,7 @@
                             
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('earning-adjustment-report')}}">Earnings Adjustment Report</a></li>
+								<li><a class="slide-item" href="{{url('deduction-adjustment-report')}}">Deduction Adjustment Report</a></li>
                             </ul>
 						</li>
 						@endif

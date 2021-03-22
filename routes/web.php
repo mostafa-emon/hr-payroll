@@ -393,6 +393,8 @@ Route::post('/leave-report-all', 'ReportController@leave_report_all');
 //Payroll
 Route::get('/earning-adjustment-report', 'ReportController@earning_adjustment_report');
 Route::post('/earning-adjustment-report', 'ReportController@earning_adjustment_report');
+Route::get('/deduction-adjustment-report', 'ReportController@deduction_adjustment_report');
+Route::post('/deduction-adjustment-report', 'ReportController@deduction_adjustment_report');
 
 //Export
 
@@ -416,5 +418,6 @@ Route::get('export/leave-report-all', 'ReportController@export_leave_report_all'
 
 //Payroll
 Route::get('export/earning-adjustment-report', 'ReportController@export_earning_adjustment_report');
+Route::get('export/deduction-adjustment-report', 'ReportController@export_deduction_adjustment_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');

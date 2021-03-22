@@ -37,6 +37,7 @@ use App\Exports\LeaveReportSingle;
 use App\Exports\RejectedLeaveReport;
 use App\Exports\LeaveReportAll;
 use App\Exports\EarningAdjustmentReport;
+use App\Exports\DeductionAdjustmentReport;
 
 class ReportController extends Controller
 {
@@ -2150,6 +2151,105 @@ class ReportController extends Controller
 
 
 
+    //Earning Adjustment Report
+    public function deduction_adjustment_report(Request $request) {
+        $employment_infos   = EmploymentInfo::select('earning_deduction_adjustments.*','employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
+                            ->join('employees','employees.id','employment_infos.employee_id')
+                            ->join('earning_deduction_adjustments','earning_deduction_adjustments.employee_id','employment_infos.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('earning_deduction_adjustments.status',1)
+                            ->where('earning_deduction_adjustments.earning_or_deduction','deductions')
+                            ->orderBy('earning_deduction_adjustments.salary_component_id','asc');
 
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderBy('id','asc')->get();
+
+        $department_id      = '';
+        $designation_id     = '';
+        $project_id         = '';
+        $branch_id          = '';
+        $employee_id        = '';
+        $employees          = [];
+        $select_employees   = [];
+        $from_date          = '';
+        $to_date            = '';
+        $component_id       = '';
+        $period             = [];
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->designation_id != ""){
+            $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+            $designation_id     = $request->designation_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+        
+        if($request->component_id != ""){
+            $employment_infos   = $employment_infos->where('earning_deduction_adjustments.salary_component_id',$request->component_id);
+            $component_id       = $request->component_id;
+        }
+
+        if($request->employee_id != ""){
+            $employment_infos   = $employment_infos->where('earning_deduction_adjustments.employee_id',$request->employee_id);
+            $employee_id        = $request->employee_id;
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-01',strtotime($request->from_date ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-31',strtotime($request->to_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('earning_deduction_adjustments.query_date',[$from_date,$to_date]);
+
+            $start    = (new DateTime($from_date))->modify('first day of this month');
+            $end      = (new DateTime($to_date))->modify('first day of next month');
+            $interval = DateInterval::createFromDateString('1 month');
+            $period   = new DatePeriod($start, $interval, $end);
+        }
+
+        if($request->job            == "1"){
+            $employees              = $employment_infos->groupBy('earning_deduction_adjustments.salary_component_id','earning_deduction_adjustments.employee_id')->get();
+        }
+
+        if($request->employee_id == "") {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/deduction-adjustment-report?department_id=".$department_id."&designation_id=".$designation_id."&project_id="
+        .$project_id."&branch_id=".$branch_id."&component_id=".$component_id."&employee_id=".$employee_id."&from_date=".$from_date.
+        "&to_date=".$to_date;
+
+        return view('reports.deduction_adjustment',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees',
+        'project_id','employment_infos','employee_id','designation_id','to_date','salary_components','period','excel_link'));
+    }
+
+    public function export_deduction_adjustment_report(){
+        return Excel::download(new DeductionAdjustmentReport(), 'Deduction Adjustment Report.xlsx');
+    }
 
 }

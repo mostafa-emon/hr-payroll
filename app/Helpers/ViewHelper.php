@@ -1000,3 +1000,19 @@ function get_earning_component_amount($employee_id,$salary_component_id,$date) {
         return "0";
     }
 }
+
+function get_deduction_component_amount($employee_id,$salary_component_id,$date) {
+    $month  = date('F',strtotime($date));
+    $year   = date('Y',strtotime($date));
+
+    $adjustment = EarningDeductionAdjustment::where('employee_id',$employee_id)->where('salary_component_id',$salary_component_id)->where('earning_or_deduction','deductions')->where('month',$month)->where('year',$year)->where('status',1)->first();
+    if($adjustment != "") {
+        if($adjustment->type == 'Increase') {
+            return $adjustment->amount;
+        }elseif($adjustment->type == 'Decrease') {
+            return '-'.$adjustment->amount;
+        }
+    }else{
+        return "0";
+    }
+}
