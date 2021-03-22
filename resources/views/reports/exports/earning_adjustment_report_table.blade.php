@@ -3,29 +3,35 @@
     <thead>
         @php 
           $company = get_company_info(Auth::user()->company_id);
+          $total_month = 0;
+          foreach ($period as $dt) {
+            $total_month = $total_month + 1;
+
+            $dt->format("M-y") . "<br>\n";
+          }
         @endphp
         <tr>
-          <th colspan="13" style="font-size:17px;text-align:center;border:none;">{{$company->name}}</th>
+          <th colspan="{{$total_month + 6}}" style="font-size:17px;text-align:center;border:none;">{{$company->name}}</th>
         </tr>
 
         @if($company->address_line_1 != "")
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_1}}</th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_1}}</th>
         </tr>
         @endif
 
         @if($company->address_line_2 != "")
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_2}}</th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:center;border:none;">{{$company->address_line_2}}</th>
         </tr>
         @endif
 
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">Earnings Adjustment Report</th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:center;border:none;">Earnings Adjustment Report</th>
         </tr>
 
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">From {{date('M-Y',strtotime($from_date))}} to {{date('M-Y',strtotime($to_date))}}</th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:center;border:none;">From {{date('M-Y',strtotime($from_date))}} to {{date('M-Y',strtotime($to_date))}}</th>
         </tr>
     </thead>
 
@@ -37,14 +43,6 @@
   <table style="width:100%;">
     @php 
       $old_salary_component_id = ''; $sl = 0;
-
-      $total_month = 0;
-      foreach ($period as $dt) {
-        $total_month = $total_month + 1;
-
-        $dt->format("M-y") . "<br>\n";
-      }
-
     @endphp
     @foreach($employees as $employee)
     @php $single_employee_total_component_amount = 0; $all_employee_component_amount = 0; @endphp
@@ -74,17 +72,17 @@
       <tbody>
     @endif
 
-    @php $all_employee_component_amount = 0; @endphp
+    @php $all_employee_component_amount = 0; $all_employee_total_component_amount = 0; @endphp
 
     <thead>
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:left;border:none;"></th>
         </tr>
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:left;border:none;"></th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:left;border:none;"></th>
         </tr>
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:left;border:none;">Component: <b>{{get_component_name($employee->salary_component_id)}}</b></th>
+          <th colspan="{{$total_month + 6}}" style="font-size:15px;text-align:left;border:none;">Component: <b>{{get_component_name($employee->salary_component_id)}}</b></th>
         </tr>
         <tr>
             <th rowspan="2" style="text-align: center;">Sl</th>
@@ -148,6 +146,26 @@
           <td style="text-align: center;font-weight:bold;">{{$total_component_amount}}</td>
         @endforeach
         <td style="text-align: center;font-weight:bold;">{{$all_employee_component_amount}}</td>
+      </tr>
+
+      <tr>
+        <td colspan="{{$total_month + 6}}" style="border:none;">&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td colspan="5" style="text-align: right;font-weight:bold;">Total Adjustments</td>
+        @foreach($period as $dt)
+          @php $grand_total_component_amount = 0; @endphp
+          @foreach($employees as $employee_list)
+              @php 
+                $component_amount = get_earning_component_amount($employee_list->employee_id,$employee_list->salary_component_id,$dt->format("M-Y"));
+                $grand_total_component_amount = $grand_total_component_amount + $component_amount;
+                $all_employee_total_component_amount = $all_employee_total_component_amount + $component_amount;
+              @endphp
+          @endforeach
+          <td style="text-align: center;font-weight:bold;">{{$grand_total_component_amount}}</td>
+        @endforeach
+        <td style="text-align: center;font-weight:bold;">{{$all_employee_total_component_amount}}</td>
       </tr>
     <tbody>
   </table>
