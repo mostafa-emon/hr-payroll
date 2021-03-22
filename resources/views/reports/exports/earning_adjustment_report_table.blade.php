@@ -114,7 +114,12 @@
             @foreach($period as $dt)
               <td style="text-align: center;">
                 @php 
-                  echo $component_amount = get_earning_component_amount($employee->employee_id,$employee->salary_component_id,$dt->format("M-Y"));
+                  $component_amount = get_earning_component_amount($employee->employee_id,$employee->salary_component_id,$dt->format("M-Y"));
+                  if($component_amount != 0) {
+                    echo $component_amount;
+                  }else{
+                    echo "";
+                  }
                   $single_employee_total_component_amount = $single_employee_total_component_amount + $component_amount;
                 @endphp
               </td>
