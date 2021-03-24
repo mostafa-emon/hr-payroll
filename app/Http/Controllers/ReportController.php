@@ -2064,7 +2064,7 @@ class ReportController extends Controller
             $from_date = date('Y-m-01',strtotime($request->from_date ));
         }
         if($request->to_date != null){
-            $to_date = date('Y-m-31',strtotime($request->to_date ));
+            $to_date = date('Y-m-t',strtotime($request->to_date ));
         }
 
         if($from_date != null && $to_date != null) {
@@ -2213,7 +2213,7 @@ class ReportController extends Controller
             $from_date = date('Y-m-01',strtotime($request->from_date ));
         }
         if($request->to_date != null){
-            $to_date = date('Y-m-31',strtotime($request->to_date ));
+            $to_date = date('Y-m-t',strtotime($request->to_date ));
         }
 
         if($from_date != null && $to_date != null) {
