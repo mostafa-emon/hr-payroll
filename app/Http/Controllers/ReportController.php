@@ -15,6 +15,7 @@ use App\RosterEmployee;
 use App\LeaveRequest;
 use App\SalaryComponent;
 use App\LeaveType;
+use App\ProvidentFund;
 use Auth;
 use Excel;
 use Carbon;
@@ -38,6 +39,7 @@ use App\Exports\RejectedLeaveReport;
 use App\Exports\LeaveReportAll;
 use App\Exports\EarningAdjustmentReport;
 use App\Exports\DeductionAdjustmentReport;
+use App\Exports\PfDetailReport;
 
 class ReportController extends Controller
 {
@@ -2252,4 +2254,136 @@ class ReportController extends Controller
         return Excel::download(new DeductionAdjustmentReport(), 'Deduction Adjustment Report.xlsx');
     }
 
+
+
+
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ////////////////////////////////////////////
+
+    public function pf_detail_report(Request $request) {
+        $employment_infos   = ProvidentFund::select('employment_infos.*','provident_funds.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','provident_funds.employee_id')
+                            ->join('employment_infos','employment_infos.employee_id','provident_funds.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->orderBy('provident_funds.id','asc');
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date       = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $employee_id            = '';
+        $employees              = [];
+        $select_employees       = [];
+        $from_date              = '';
+        $to_date                = '';
+        $original_employee_id   = '';
+        $employee_selection     = '';
+        $selected_employee_id   = '';
+        $show_previous_balance  = '';
+
+        if($request->original_employee_id != ""){
+            $employment_infos   = $employment_infos->where('employees.employee_id',$request->original_employee_id);
+            $original_employee_id = $request->original_employee_id;
+        }else{
+            if($request->department_id != ""){
+                $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+                $department_id      = $request->department_id;
+            }
+    
+            if($request->designation_id != ""){
+                $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+                $designation_id     = $request->designation_id;
+            }
+        }
+
+        if($request->show_previous_balance != ""){
+            $show_previous_balance  = $request->show_previous_balance;
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-01',strtotime($request->from_date ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-t',strtotime($request->to_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('provident_funds.query_date',[$from_date,$to_date]);
+        }
+
+        if($request->original_employee_id != "") {
+            $employee_id = $request->original_employee_id;
+        }elseif($request->employee_id != "") {
+            $employee_id = $request->employee_id;
+        }
+
+        if($employee_id != "") {
+            $employee_selection     = Employee::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->first();
+            $selected_employee_id   = $employee_selection->id;
+
+            $employees              = $employment_infos->where('provident_funds.employee_id',$employee_selection->id)->groupBy('provident_funds.query_date')->get();
+        }
+
+        if($request->employee_id == "") {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/pf-detail-report?from_date=".$from_date."&to_date=".$to_date."&employee_id=".$selected_employee_id."&show_previous_balance=".$show_previous_balance;
+
+        return view('reports.pf_detail',
+        compact('departments','designations','department_id','employees','from_date','select_employees','show_previous_balance',
+        'employment_infos','employee_id','designation_id','to_date','original_employee_id','employee_selection','excel_link'));
+    }
+
+    public function export_pf_detail_report(){
+        return Excel::download(new PfDetailReport(), 'PF Detail Report Individual.xlsx');
+    }
 }

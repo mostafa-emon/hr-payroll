@@ -350,6 +350,8 @@
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('earning-adjustment-report')}}">Earnings Adjustment Report</a></li>
 								<li><a class="slide-item" href="{{url('deduction-adjustment-report')}}">Deduction Adjustment Report</a></li>
+								<li><a class="slide-item" href="{{url('pf-summary-report')}}">PF Summary Report</a></li>
+								<li><a class="slide-item" href="{{url('pf-detail-report')}}">PF Detail Report</a></li>
                             </ul>
 						</li>
 						@endif

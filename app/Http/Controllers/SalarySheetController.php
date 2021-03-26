@@ -150,6 +150,7 @@ class SalarySheetController extends Controller
                             $pf->type              = "Employee Portion";
                             $pf->month             = $month;
                             $pf->year              = $year;
+                            $pf->query_date        = date('Y-m-01',strtotime($request->salary_month));
                             $pf->amount            = $final_amount;
                             $pf->status            = 0;
                             $pf->save();

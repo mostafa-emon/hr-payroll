@@ -1016,3 +1016,57 @@ function get_deduction_component_amount($employee_id,$salary_component_id,$date)
         return "0";
     }
 }
+
+function company_portion($month,$year,$employee_id) {
+    $company_pf = ProvidentFund::where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('type','Company Portion')->first();
+    if($company_pf != "") {
+        return $company_pf->amount;
+    }else {
+        return 0;
+    }
+}
+
+function own_portion($month,$year,$employee_id) {
+    $own_pf = ProvidentFund::where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('type','Employee Portion')->first();
+    if($own_pf != "") {
+        return $own_pf->amount;
+    }else {
+        return 0;
+    }
+}
+
+function previous_own_portion($date,$employee_id) {
+    $own_portion = 0;
+    $payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+    if($payroll_info != "") {
+        if($payroll_info->employee_pf_opening_balance != "") {
+            $own_portion = $own_portion + $payroll_info->employee_pf_opening_balance;
+        }
+    }
+    $own_pfs = ProvidentFund::where('employee_id',$employee_id)->where('query_date','<',$date)->where('type','Employee Portion')->get();
+    if(count($own_pfs) != 0) {
+        foreach($own_pfs as $pf) {
+            $own_portion = $own_portion + $pf->amount;
+        }
+    }
+
+    return $own_portion;
+}
+
+function previous_company_portion($date,$employee_id) {
+    $own_portion = 0;
+    $payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+    if($payroll_info != "") {
+        if($payroll_info->company_pf_opening_balance != "") {
+            $own_portion = $own_portion + $payroll_info->company_pf_opening_balance;
+        }
+    }
+    $own_pfs = ProvidentFund::where('employee_id',$employee_id)->where('query_date','<',$date)->where('type','Company Portion')->get();
+    if(count($own_pfs) != 0) {
+        foreach($own_pfs as $pf) {
+            $own_portion = $own_portion + $pf->amount;
+        }
+    }
+
+    return $own_portion;
+}

@@ -460,6 +460,7 @@ class PayrollController extends Controller
                 $company_pf->currency_id    = $request->store_currency_id;
                 $company_pf->month          = date('F',strtotime($request->store_month));
                 $company_pf->year           = date('Y',strtotime($request->store_month));
+                $company_pf->query_date     = date('Y-m-01',strtotime($request->store_month));
                 $company_pf->type           = 'Company Portion';
                 $company_pf->status         = 0;
                 $company_pf->save();

@@ -24,6 +24,7 @@ class CreateProvidentFundsTable extends Migration
             $table->string('month',20);
             $table->string('year',10);
             $table->double('amount', 8, 2)->default(0);
+            $table->date('query_date')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });
