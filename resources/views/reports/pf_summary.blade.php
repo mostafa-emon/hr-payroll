@@ -7,7 +7,7 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/ot-summary-report')}}" style="color:#6c757d;">OT Summary Report</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/pf-summary-report')}}" style="color:#6c757d;">PF Summary Report</a></li>
             </ol>
             </div>
         </div>
@@ -43,20 +43,20 @@
                         </div>
                         <div class="col-md-6 text-right">
                             @if(count($employees) > 0)
-                            <a href="{{url('ot-summary-report')}}" class="btn btn-info">Reset</a>
-                            <a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;
+                            <a href="{{url('pf-summary-report')}}" class="btn btn-info">Reset</a>
+                            {{--<a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;--}}
                             <button class="btn btn-primary" onclick="printElem()">Print</button>
                             @endif
                         </div>
                     </div>
                     <hr>
                     @if(count($employees) == 0)
-                    <form action="{{ url('ot-summary-report') }}" method="POST">
+                    <form action="{{ url('pf-summary-report') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-md-3">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
-                                <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
+                                <select name="department_id" id="department_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}" @if($department_id == $department->id) selected @endif>{{$department->name}}</option>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
-                                <select name="project_id" id="project_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
+                                <select name="project_id" id="project_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
                                         @foreach($projects as $project)
                                             <option value="{{$project->id}}" @if($project_id == $project->id) selected @endif>{{$project->name}}</option>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
+                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
                                         @foreach($branches as $branch)
                                             <option value="{{$branch->id}}" @if($branch_id == $branch->id) selected @endif>{{$branch->name}}</option>
@@ -83,7 +83,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="Designation" style="font-weight:bold;" class="col-form-label">Designation:</label>
-                                <select name="designation_id" id="designation_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
+                                <select name="designation_id" id="designation_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
                                         @foreach($designations as $designation)
                                             <option value="{{$designation->id}}" @if($designation_id == $designation->id) selected @endif>{{$designation->name}}</option>
@@ -113,6 +113,30 @@
                         </div>
                         <br>
                         <div class="row">
+                            <div class="col-md-4">
+                                <label for="Show Previous Balance" style="font-weight:bold;" class="col-form-label">Show Previous Balance:</label>
+                                <select name="show_previous_balance" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No" selected>No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="Show Current Period" style="font-weight:bold;" class="col-form-label">Show Current Period:</label>
+                                <select name="show_current_period" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
+                                        <option value="Yes" selected>Yes</option>
+                                        <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="Show Closing Balance" style="font-weight:bold;" class="col-form-label">Show Closing Balance:</label>
+                                <select name="show_closing_balance" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No" selected>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="col-md-3 text-left">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
                             </div>
@@ -123,7 +147,7 @@
                     @if(count($employees) > 0)
                         <div class="card-body" id="printArea">
                             <div class="div-padding-30">
-                                @include('reports.exports.ot_summary_list_table',$employees)
+                                @include('reports.exports.pf_summary_list_table',$employees)
 
                                 <div class="table-responsive">
                                     <table style="width:100%;">
