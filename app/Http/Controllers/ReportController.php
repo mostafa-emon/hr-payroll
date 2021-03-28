@@ -40,6 +40,7 @@ use App\Exports\LeaveReportAll;
 use App\Exports\EarningAdjustmentReport;
 use App\Exports\DeductionAdjustmentReport;
 use App\Exports\PfDetailReport;
+use App\Exports\PfSummaryReport;
 
 class ReportController extends Controller
 {
@@ -2341,11 +2342,11 @@ class ReportController extends Controller
     ////////////////////////////////////////////
 
     public function pf_summary_report(Request $request) {
-        $employment_infos   = ProvidentFund::select('employment_infos.*','provident_funds.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+        $employment_infos   = ProvidentFund::select('employment_infos.*','provident_funds.id as provident_fund_id','provident_funds.employee_id','provident_funds.type','provident_funds.month','provident_funds.year','provident_funds.amount','provident_funds.query_date','provident_funds.status','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','provident_funds.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','provident_funds.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)
-                            ->orderBy('provident_funds.id','asc');
+                            ->orderBy('provident_funds.query_date','asc');
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -2368,7 +2369,22 @@ class ReportController extends Controller
         $from_date              = '';
         $to_date                = '';
         $select_employees       = [];
-        $selected_attendance_id = '';
+        $selected_provident_fund_id = '';
+        $show_previous_balance  = '';
+        $show_current_period    = '';
+        $show_closing_balance   = '';
+
+        if($request->show_previous_balance != ""){
+            $show_previous_balance  = $request->show_previous_balance;
+        }
+
+        if($request->show_current_period != ""){
+            $show_current_period    = $request->show_current_period;
+        }
+
+        if($request->show_closing_balance != ""){
+            $show_closing_balance   = $request->show_closing_balance;
+        }
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -2407,30 +2423,30 @@ class ReportController extends Controller
 
                 $employment_infos = $employment_infos->whereIn('employees.employee_id',$employee_id)->get();
 
-                $attendance_id  = [];
-                foreach($employment_infos as $attendance) {
-                    $attendance_id[] = $attendance->attendance_id;
+                $provident_fund_id  = [];
+                foreach($employment_infos as $provident_fund) {
+                    $provident_fund_id[] = $provident_fund->provident_fund_id;
                 }
                 
-                $selected_attendance_id = implode(" ",$attendance_id);
+                $selected_provident_fund_id = implode(" ",$provident_fund_id);
 
             }else{
                 $employees      = $employment_infos;
 
                 $employment_infos = $employment_infos->get();
 
-                $attendance_id  = [];
-                foreach($employment_infos as $attendance) {
-                    $attendance_id[] = $attendance->attendance_id;
+                $provident_fund_id  = [];
+                foreach($employment_infos as $provident_fund) {
+                    $provident_fund_id[] = $provident_fund->provident_fund_id;
                 }
 
                 $all_employee = 'All';
                 
-                $selected_attendance_id = implode(" ",$attendance_id);
+                $selected_provident_fund_id = implode(" ",$provident_fund_id);
             }
 
 
-            $employees = Attendance::whereIn('id',$attendance_id)->select('employee_id',DB::raw('SUM(over_time) as over_time'))->groupBy('employee_id')->get();
+            $employees = ProvidentFund::whereIn('id',$provident_fund_id)->groupBy('employee_id')->get();
         }
 
         if($request->employee_id == "" && $request->employee_id != ['All']) {
@@ -2442,10 +2458,14 @@ class ReportController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
-        //$excel_link = "export/ot-summary-report?from_date=".$from_date."&to_date=".$to_date."&attendance_id=".$selected_attendance_id;
+        $excel_link = "export/pf-summary-report?from_date=".$from_date."&to_date=".$to_date."&provident_fund_id=".$selected_provident_fund_id."&show_previous_balance=".$show_previous_balance."&show_current_period=".$show_current_period."&show_closing_balance=".$show_closing_balance;
 
         return view('reports.pf_summary',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date'));
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees','show_closing_balance',
+        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','show_previous_balance','show_current_period','excel_link'));
+    }
+
+    public function export_pf_summary_report(){
+        return Excel::download(new PfSummaryReport(), 'PF Summary Report All.xlsx');
     }
 }

@@ -1070,3 +1070,51 @@ function previous_company_portion($date,$employee_id) {
 
     return $own_portion;
 }
+
+function closing_own_portion($date,$employee_id) {
+    $own_portion = 0;
+    $own_pfs = ProvidentFund::where('employee_id',$employee_id)->where('query_date','>',$date)->where('type','Employee Portion')->get();
+    if(count($own_pfs) != 0) {
+        foreach($own_pfs as $pf) {
+            $own_portion = $own_portion + $pf->amount;
+        }
+    }
+
+    return $own_portion;
+}
+
+function closing_company_portion($date,$employee_id) {
+    $own_portion = 0;
+    $own_pfs = ProvidentFund::where('employee_id',$employee_id)->where('query_date','>',$date)->where('type','Company Portion')->get();
+    if(count($own_pfs) != 0) {
+        foreach($own_pfs as $pf) {
+            $own_portion = $own_portion + $pf->amount;
+        }
+    }
+
+    return $own_portion;
+}
+
+function present_own_portion($from_date,$to_date,$employee_id) {
+    $own_portion = 0;
+    $own_pfs = ProvidentFund::where('employee_id',$employee_id)->whereBetween('query_date',[$from_date,$to_date])->where('type','Employee Portion')->get();
+    if(count($own_pfs) != 0) {
+        foreach($own_pfs as $pf) {
+            $own_portion = $own_portion + $pf->amount;
+        }
+    }
+
+    return $own_portion;
+}
+
+function present_company_portion($from_date,$to_date,$employee_id) {
+    $own_portion = 0;
+    $own_pfs = ProvidentFund::where('employee_id',$employee_id)->whereBetween('query_date',[$from_date,$to_date])->where('type','Company Portion')->get();
+    if(count($own_pfs) != 0) {
+        foreach($own_pfs as $pf) {
+            $own_portion = $own_portion + $pf->amount;
+        }
+    }
+
+    return $own_portion;
+}

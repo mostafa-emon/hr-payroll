@@ -2,6 +2,18 @@
 
 @section('content')
 
+        <style>
+            .ui-datepicker-calendar {
+                display: none;
+            }
+            .ui-datepicker-prev {
+                display: none;
+            }
+            .ui-datepicker-next {
+                display: none;
+            }
+        </style>
+
         <div class="row mb-2">
             <div class="col-sm-6"></div>
             <div class="col-sm-6">
@@ -39,12 +51,12 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">OT Summary Report</h4>
+                            <h4 class="card-title mg-b-0">PF Summary Report</h4>
                         </div>
                         <div class="col-md-6 text-right">
                             @if(count($employees) > 0)
                             <a href="{{url('pf-summary-report')}}" class="btn btn-info">Reset</a>
-                            {{--<a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;--}}
+                            <a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;
                             <button class="btn btn-primary" onclick="printElem()">Print</button>
                             @endif
                         </div>
@@ -103,12 +115,13 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label for="Remark" style="font-weight:bold;" class="col-form-label">From Date:</label>
-                                <input type="text" class="form-control dtpicker" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}"placeholder="From Date" autocomplete="off" required>
+                                <label for="From Month" style="font-weight:bold;" class="col-form-label">From Month:</label>
+                                <input type="text" name="from_date" class="form-control monthpicker" autocomplete="off" placeholder="From Month" required>
                             </div>
+
                             <div class="col-md-4">
-                                <label for="Remark" style="font-weight:bold;" class="col-form-label">To Date:</label>
-                                <input type="text" class="form-control dtpicker" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" placeholder="To Date" autocomplete="off" required>
+                                <label for="To Month" style="font-weight:bold;" class="col-form-label">To Month:</label>
+                                <input type="text" name="to_date" class="form-control monthpicker" autocomplete="off" placeholder="To Month" required>
                             </div>
                         </div>
                         <br>
