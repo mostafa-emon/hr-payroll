@@ -21,6 +21,7 @@
 
     <div style="font-family: Arial;">
         @if($department != "")Department: <b>{{$department}}</b> &nbsp;@endif
+        @if($designation != "")Designation: <b>{{$designation}}</b> &nbsp;@endif
         @if($project != "")Project: <b>{{$project}}</b> &nbsp;@endif
         @if($branch != "")Branch: <b>{{$branch}}</b> &nbsp;@endif
         @if($currency != "")Currency: <b>{{$currency}}</b> &nbsp;@endif

@@ -9,6 +9,7 @@ use App\SalarySheetDetails;
 use App\Employee;
 use App\EmployeeEarningDeduction;
 use App\EarningDeductionAdjustment;
+use App\Designation;
 use App\ProvidentFund;
 use App\IncomeTax;
 use DB;
@@ -273,12 +274,18 @@ class SalarySheetController extends Controller
                                 ->where('month',$request->month)
                                 ->where('year',$request->year);
 
-        $department = ""; $project = ""; $branch = ""; $currency = "";
+        $department = ""; $project = ""; $branch = ""; $currency = ""; $designation = "";
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
             $department         = Department::where('id',$department_id)->first()->name;
+        }
+
+        if($request->designation_id != ""){
+            $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+            $designation_id     = $request->designation_id;
+            $designation        = Designation::where('id',$designation_id)->first()->name;
         }
 
         if($request->project_id != ""){
@@ -334,7 +341,7 @@ class SalarySheetController extends Controller
             }
         }
         
-        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency','revenue_stamp'));
+        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency','revenue_stamp','designation'));
     }
 
     public function mail_pay_slip($request_month,$request_year){
