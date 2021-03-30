@@ -2372,10 +2372,6 @@ class ReportController extends Controller
             $to_date = date('Y-m-t',strtotime($request->to_date ));
         }
 
-        if($from_date != null && $to_date != null) {
-            $employment_infos   = $employment_infos->whereBetween('provident_funds.query_date',[$from_date,$to_date]);
-        }
-
         if($request->employee_id != "") {
             if(!in_array("All", $request->employee_id)) {
                 $employee_id    = $request->employee_id;
