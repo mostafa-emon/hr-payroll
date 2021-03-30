@@ -25,7 +25,7 @@
         </tr>
         
         <tr>
-          <th colspan="13" style="font-size:15px;text-align:center;border:none;">From {{date('d-M-Y',strtotime($from_date))}} to {{date('d-M-Y',strtotime($to_date))}}</th>
+          <th colspan="13" style="font-size:15px;text-align:center;border:none;">From {{date('M-Y',strtotime($from_date))}} to {{date('M-Y',strtotime($to_date))}}</th>
         </tr>
     </thead>
 

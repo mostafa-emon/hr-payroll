@@ -21,11 +21,11 @@
         @endif
 
         <tr>
-          <th colspan="5" style="font-size:15px;text-align:center;border:none;">Leave Report Individual</th>
+          <th colspan="5" style="font-size:15px;text-align:center;border:none;">PF Detail Report Individual</th>
         </tr>
         
         <tr>
-          <th colspan="5" style="font-size:15px;text-align:center;border:none;">From {{date('d-M-Y',strtotime($from_date))}} to {{date('d-M-Y',strtotime($to_date))}}</th>
+          <th colspan="5" style="font-size:15px;text-align:center;border:none;">From {{date('M-Y',strtotime($from_date))}} to {{date('M-Y',strtotime($to_date))}}</th>
         </tr>
 
         <tr>
