@@ -191,13 +191,13 @@
             @if($show_closing_balance == 'Yes')
               <td style="text-align: center;">
                 @php 
-                  echo $closing_own_portion       = closing_own_portion($to_date,$employee->employee_id);
+                  echo $closing_own_portion       = $previous_own_portion + $present_own_portion;
                   $total_closing_own_portion      = $total_closing_own_portion + $closing_own_portion;
                 @endphp
               </td>
               <td style="text-align: center;">
                 @php 
-                  echo $closing_company_portion   = closing_company_portion($to_date,$employee->employee_id);
+                  echo $closing_company_portion   = $previous_company_portion + $present_company_portion;
                   $total_closing_company_portion  = $total_closing_company_portion + $closing_company_portion;
                 @endphp
               </td>
