@@ -2541,4 +2541,70 @@ class ReportController extends Controller
     ////////////////////////////////////////////
     ////////////////////////////////////////////
 
+
+    //Payslip Report
+    public function payslip_report(Request $request) {
+        $employment_infos       = EmploymentInfo::orderBy('employment_infos.department_id','asc')
+                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
+                                ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->join('salary_sheets','salary_sheets.employee_id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id);
+
+        $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+
+        $department_id          = '';
+        $designation_id         = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $currency_id            = '';
+        $month                  = '';
+        $year                   = '';
+        $hide_detail_btn        = '';
+
+        if($request->date != null){
+            $month              = date('F',strtotime($request->date));
+            $year               = date('Y',strtotime($request->date));
+            $employment_infos   = $employment_infos->where('month',$month)->where('year',$year);
+        }
+
+        if($request->department_id != ""){
+            $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+            $department_id      = $request->department_id;
+        }
+
+        if($request->designation_id != ""){
+            $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+            $designation_id     = $request->designation_id;
+        }
+
+        if($request->project_id != ""){
+            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+            $project_id         = $request->project_id;
+        }
+
+        if($request->branch_id != ""){
+            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+            $branch_id          = $request->branch_id;
+        }
+
+        if($request->currency_id != ""){
+            $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
+            $currency_id        = $request->currency_id;
+        }
+
+        if($request->job            == "1"){
+            $employment_infos   = $employment_infos->get();
+        }else{
+            $employment_infos       = [];
+        }
+
+        return view('reports.payslip',compact('departments','projects','branches','designations','designation_id','hide_detail_btn',
+        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
+    }
 }

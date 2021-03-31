@@ -401,6 +401,8 @@ Route::get('/pf-summary-report', 'ReportController@pf_summary_report');
 Route::post('/pf-summary-report', 'ReportController@pf_summary_report');
 Route::get('/salary-sheet-report', 'ReportController@salary_sheet_report');
 Route::post('/salary-sheet-report', 'ReportController@salary_sheet_report');
+Route::get('/payslip-report', 'ReportController@payslip_report');
+Route::post('/payslip-report', 'ReportController@payslip_report');
 
 //Export
 
@@ -428,5 +430,6 @@ Route::get('export/deduction-adjustment-report', 'ReportController@export_deduct
 Route::get('export/pf-detail-report', 'ReportController@export_pf_detail_report');
 Route::get('export/pf-summary-report', 'ReportController@export_pf_summary_report');
 Route::get('export/salary-sheet-report', 'ReportController@export_salary_sheet_report');
+Route::get('export/payslip-report', 'ReportController@export_payslip_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
