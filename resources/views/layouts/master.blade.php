@@ -353,7 +353,8 @@
 								<li><a class="slide-item" href="{{url('pf-summary-report')}}">PF Summary Report</a></li>
 								<li><a class="slide-item" href="{{url('pf-detail-report')}}">PF Detail Report</a></li>
 								<li><a class="slide-item" href="{{url('salary-sheet-report')}}">Salary Sheet Report</a></li>
-								<li><a class="slide-item" href="{{url('payslip-report')}}">Payslip Report</a></li>
+								<li><a class="slide-item" href="{{url('payslip-report')}}">Pay Slip Report</a></li>
+								<li><a class="slide-item" href="{{url('email-payslip-report')}}">Email Pay Slip Report</a></li>
                             </ul>
 						</li>
 						@endif
