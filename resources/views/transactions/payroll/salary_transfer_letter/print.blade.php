@@ -51,7 +51,7 @@
         mywindow.focus();
         mywindow.print();
         mywindow.close();
-        window.location = "/salary-transfer-letter"
+        window.history.back();
     }, 1000);
 
 </script>

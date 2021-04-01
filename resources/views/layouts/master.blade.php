@@ -355,6 +355,7 @@
 								<li><a class="slide-item" href="{{url('salary-sheet-report')}}">Salary Sheet Report</a></li>
 								<li><a class="slide-item" href="{{url('payslip-report')}}">Pay Slip Report</a></li>
 								<li><a class="slide-item" href="{{url('email-payslip-report')}}">Email Pay Slip Report</a></li>
+								<li><a class="slide-item" href="{{url('salary-transfer-letter-report')}}">Salary Transfer Letter Report</a></li>
                             </ul>
 						</li>
 						@endif

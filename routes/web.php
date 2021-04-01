@@ -405,6 +405,8 @@ Route::get('/payslip-report', 'ReportController@payslip_report');
 Route::post('/payslip-report', 'ReportController@payslip_report');
 Route::get('/email-payslip-report', 'ReportController@email_payslip_report');
 Route::post('/email-payslip-report', 'ReportController@email_payslip_report');
+Route::get('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
+Route::post('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
 
 //Export
 
@@ -432,7 +434,5 @@ Route::get('export/deduction-adjustment-report', 'ReportController@export_deduct
 Route::get('export/pf-detail-report', 'ReportController@export_pf_detail_report');
 Route::get('export/pf-summary-report', 'ReportController@export_pf_summary_report');
 Route::get('export/salary-sheet-report', 'ReportController@export_salary_sheet_report');
-Route::get('export/payslip-report', 'ReportController@export_payslip_report');
-Route::get('export/email-payslip-report', 'ReportController@export_email_payslip_report');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
