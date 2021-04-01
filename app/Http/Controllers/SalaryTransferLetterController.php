@@ -108,8 +108,10 @@ class SalaryTransferLetterController extends Controller
         $transfer_letter->year          = $request->store_year;
         $transfer_letter->currency_id   = $request->store_currency_id;
         $transfer_letter->bank_id       = $request->store_bank_id;
-        $transfer_letter->top_text      = $format->top_text;
-        $transfer_letter->bottom_text   = $format->bottom_text;
+        if($format != "") {
+            $transfer_letter->top_text  = $format->top_text;
+            $transfer_letter->bottom_text = $format->bottom_text;
+        }
         $transfer_letter->save();
 
         $interval = count($request->employee_id);
