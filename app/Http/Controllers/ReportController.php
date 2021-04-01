@@ -2631,6 +2631,42 @@ class ReportController extends Controller
         'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
     }
 
+    // Salary Transfer Letter Report
+    public function salary_transfer_letter_report(Request $request) {
+        $currency_id            = '';
+        $bank_id                = '';
+        $month                  = '';
+        $formatted_month        = '';
+        $formatted_year         = '';
+
+        $transfer_letters       = SalaryTransferLetter::where('company_id',Auth::user()->company_id)->orderBy('id','desc');
+        $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        if($request->currency_id != ""){
+            $transfer_letters   = $transfer_letters->where('currency_id',$request->currency_id);
+            $currency_id        = $request->currency_id;
+        }
+
+        if($request->bank_id != ""){
+            $transfer_letters   = $transfer_letters->where('bank_id',$request->bank_id);
+            $bank_id            = $request->bank_id;
+        }
+
+        if($request->month != ""){
+            $formatted_month    = date('F', strtotime($request->month));
+            $formatted_year     = date('Y', strtotime($request->month));
+            $month              = $request->month;
+
+            $transfer_letters   = $transfer_letters->where('month',$formatted_month);
+            $transfer_letters   = $transfer_letters->where('year',$formatted_year);
+        }
+
+        $transfer_letters   = $transfer_letters->paginate(10);
+
+        return view('reports.salary_transfer_letter',compact('transfer_letters','banks','currencies','currency_id','bank_id','month'));
+    }
+    
         
 
 
@@ -2674,40 +2710,4 @@ class ReportController extends Controller
     ////////////////////////////////////////////
     ////////////////////////////////////////////
     ////////////////////////////////////////////
-
-    // Salary Transfer Letter Report
-    public function salary_transfer_letter_report(Request $request) {
-        $currency_id            = '';
-        $bank_id                = '';
-        $month                  = '';
-        $formatted_month        = '';
-        $formatted_year         = '';
-
-        $transfer_letters       = SalaryTransferLetter::where('company_id',Auth::user()->company_id)->orderBy('id','desc');
-        $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-
-        if($request->currency_id != ""){
-            $transfer_letters   = $transfer_letters->where('currency_id',$request->currency_id);
-            $currency_id        = $request->currency_id;
-        }
-
-        if($request->bank_id != ""){
-            $transfer_letters   = $transfer_letters->where('bank_id',$request->bank_id);
-            $bank_id            = $request->bank_id;
-        }
-
-        if($request->month != ""){
-            $formatted_month    = date('F', strtotime($request->month));
-            $formatted_year     = date('Y', strtotime($request->month));
-            $month              = $request->month;
-
-            $transfer_letters   = $transfer_letters->where('month',$formatted_month);
-            $transfer_letters   = $transfer_letters->where('year',$formatted_year);
-        }
-
-        $transfer_letters   = $transfer_letters->paginate(10);
-
-        return view('reports.salary_transfer_letter',compact('transfer_letters','banks','currencies','currency_id','bank_id','month'));
-    }
 }
