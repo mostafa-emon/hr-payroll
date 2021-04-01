@@ -2706,7 +2706,7 @@ class ReportController extends Controller
             $transfer_letters   = $transfer_letters->where('year',$formatted_year);
         }
 
-        $transfer_letters   = $transfer_letters->get();
+        $transfer_letters   = $transfer_letters->paginate(10);
 
         return view('reports.salary_transfer_letter',compact('transfer_letters','banks','currencies','currency_id','bank_id','month'));
     }

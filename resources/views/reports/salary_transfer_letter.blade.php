@@ -94,7 +94,7 @@
                             <tbody>
                                 @foreach($transfer_letters as $letter)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{$loop->iteration}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{(($transfer_letters->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$letter->month}} {{$letter->year}}</td>
                                     <td style="vertical-align: middle">{{currency_name($letter->currency_id)}}</td>
                                     <td style="vertical-align: middle">{{bank_name($letter->bank_id)}}</td>
@@ -109,6 +109,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="mg-t-15">
+                        {{ $transfer_letters->links() }}
                     </div>
                 </div>
             </div>
