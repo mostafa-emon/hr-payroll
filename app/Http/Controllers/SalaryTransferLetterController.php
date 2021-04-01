@@ -100,6 +100,7 @@ class SalaryTransferLetterController extends Controller
     }
 
     public function transfer_letter_store(Request $request){
+        $format = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
 
         $transfer_letter                = new SalaryTransferLetter();
         $transfer_letter->company_id    = Auth::user()->company_id;
@@ -107,6 +108,8 @@ class SalaryTransferLetterController extends Controller
         $transfer_letter->year          = $request->store_year;
         $transfer_letter->currency_id   = $request->store_currency_id;
         $transfer_letter->bank_id       = $request->store_bank_id;
+        $transfer_letter->top_text      = $format->top_text;
+        $transfer_letter->bottom_text   = $format->bottom_text;
         $transfer_letter->save();
 
         $interval = count($request->employee_id);
@@ -130,7 +133,7 @@ class SalaryTransferLetterController extends Controller
     }
 
     public function transfer_letter_reprint($letter_id) {
-        $salary_format              = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
+        $salary_format              = SalaryTransferLetter::where('id',$letter_id)->first();
         $employees                  = SalaryTransferLetterDetail::where('letter_id',$letter_id)->get();
         return view('transactions.payroll.salary_transfer_letter.print',compact('salary_format','employees'));
     }

@@ -21,6 +21,8 @@ class CreateSalaryTransferLettersTable extends Migration
             $table->string('year',50);
             $table->string('currency_id')->nullable();
             $table->string('bank_id')->nullable();
+            $table->longText('top_text')->nullable();
+            $table->longText('bottom_text')->nullable();
             $table->timestamps();
         });
     }
