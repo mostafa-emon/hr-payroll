@@ -962,6 +962,7 @@ class PayrollController extends Controller
     public function deposit_salary_tax_update_post(Request $request,$id) {
         $tax            = DepositSalaryTax::where('id',$id)->first();
         $tax->challan_no        = $request->challan_no;
+        $tax->chalan_date       = date('Y-m-d',strtotime($request->chalan_date));
         $tax->text_1            = $request->text_1;
         $tax->text_2            = $request->text_2;
         $tax->text_3            = $request->text_3;

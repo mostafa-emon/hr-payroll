@@ -36,9 +36,13 @@
                                         {{ csrf_field() }}
 
                                         <div class="row row-xs">
-                                            <div class="col-md-12 mg-t-10">
+                                            <div class="col-md-6 mg-t-10">
                                                 <label for="Challan No" style="font-weight:bold;" class="col-form-label">Challan No:</label>
                                                 <input class="form-control" placeholder="Challan No" name="challan_no" value="{{$tax->challan_no}}" type="text">
+                                            </div>
+                                            <div class="col-md-6 mg-t-10">
+                                                <label for="Challan Date" style="font-weight:bold;" class="col-form-label">Challan Date:</label>
+                                                <input type="text" name="chalan_date" placeholder="Challan Date" class="form-control dtpicker" value="{{date('d-m-Y',strtotime($tax->chalan_date))}}" autocomplete="off"/>
                                             </div>
                                             <div class="col-md-12 mg-t-15">
                                                 <label for="Text 1" style="font-weight:bold;" class="col-form-label">যাহার মারফত প্রদান হইল তাহার নাম ও ঠিকানা।*:</label>
