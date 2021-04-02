@@ -23,6 +23,7 @@ use App\PayrollInfo;
 use App\OtTransferLetterFormat;
 use App\OtTransferLetter;
 use App\OtTransferLetterDetail;
+use App\DepositSalaryTaxDetail;
 use Auth;
 use Storage;
 use DB;
@@ -866,7 +867,7 @@ class PayrollController extends Controller
         $total_poisa            = 0;
 
         $employment_infos       = EmploymentInfo::orderBy('income_taxes.query_date','asc')
-                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
+                                ->select('employees.name','employees.id as incriment_employee_id','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
                                 ->join('income_taxes','income_taxes.employee_id','employment_infos.employee_id')
                                 ->join('employees','employees.id','employment_infos.employee_id')
                                 ->where('employees.company_id',Auth::user()->company_id);
@@ -945,6 +946,19 @@ class PayrollController extends Controller
                 $tax->attachment    = $request->file('attachment')->store('deposit_salary_tax');
             }
             $tax->save();
+
+            $sl = 0;
+            foreach($employment_infos as $employee_list) {
+                $sl = $sl + 1;
+                $tax_detail = new DepositSalaryTaxDetail();
+                $tax_detail->tax_id                 = $tax->id;
+                $tax_detail->employee_id            = $employee_list->incriment_employee_id;
+                $tax_detail->original_employee_id   = $employee_list->original_employee_id;
+                $tax_detail->query_date             = $employee_list->query_date;
+                $tax_detail->amount                 = $employee_list->amount;
+                $tax_detail->sl                     = $sl;
+                $tax_detail->save();
+            }
 
             return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','employment_infos','total_taka','total_poisa','total_tax'));
         }
@@ -1070,7 +1084,7 @@ class PayrollController extends Controller
         $total_taka     = 0;
         $total_poisa    = 0;
 
-        $employees      = EmploymentInfo::orderBy('id','asc');
+        /*$employees      = EmploymentInfo::orderBy('id','asc');
 
         if($tax->department_id != "") {
             $employees  = $employees->where('department_id',$tax->department_id);
@@ -1090,16 +1104,9 @@ class PayrollController extends Controller
 
         foreach($employees as $employee) {
             $employee_ids[] = $employee->employee_id;
-        }
+        }*/
 
-        $income_taxes   = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
-                        ->whereBetween('query_date', [$from, $to]);
-
-        if($tax->currency_id !="") {
-            $income_taxes  = $income_taxes->where('currency_id',$tax->currency_id);
-        }
-
-        $income_taxes  = $income_taxes->get();
+        $income_taxes   = DepositSalaryTaxDetail::where('tax_id',$tax_id)->get();
 
         foreach($income_taxes as $income_tax) {
             $total_tax = $total_tax + $income_tax->amount;
@@ -1124,7 +1131,7 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_print_backside($tax_id) {
-        $tax = DepositSalaryTax::where('id',$tax_id)->first();
+        /*$tax = DepositSalaryTax::where('id',$tax_id)->first();
         $from           = date('Y-m-01',strtotime($tax->from));
         $to             = date('Y-m-31',strtotime($tax->to));
 
@@ -1150,7 +1157,9 @@ class PayrollController extends Controller
             $employment_infos   = $employment_infos->where('currency_id',$tax->currency_id);
         }
 
-        $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to])->get();
+        $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to])->get();*/
+
+        $employment_infos   = DepositSalaryTaxDetail::where('tax_id',$tax_id)->get();
 
         return view('transactions.payroll.deposit_salary_tax.print_back_side',compact('employment_infos'));
     }

@@ -40,6 +40,7 @@ use App\GeneralSetting;
 use App\RosterEmployee;
 use App\GeneralLeave;
 use App\EarningDeductionAdjustment;
+use App\DepositSalaryTaxDetail;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -453,12 +454,12 @@ function get_provident_fund_total($month,$year,$employee_ids) {
 }
 
 function total_tax($tax_id) {
-    $deposit_tax    = DepositSalaryTax::where('id',$tax_id)->first();
+    /*$deposit_tax    = DepositSalaryTax::where('id',$tax_id)->first();
     $from           = date('Y-m-01',strtotime($deposit_tax->from));
-    $to             = date('Y-m-31',strtotime($deposit_tax->to));
+    $to             = date('Y-m-31',strtotime($deposit_tax->to));*/
     $total_amount   = 0;
 
-    $employees      = EmploymentInfo::orderBy('id','asc');
+    /*$employees      = EmploymentInfo::orderBy('id','asc');
 
     if($deposit_tax->department_id != "") {
         $employees  = $employees->where('department_id',$deposit_tax->department_id);
@@ -478,14 +479,9 @@ function total_tax($tax_id) {
 
     foreach($employees as $employee) {
         $employee_ids[] = $employee->employee_id;
-    }
+    }*/
 
-    $total_tax      = IncomeTax::where('company_id',Auth::user()->company_id)->whereIn('employee_id',$employee_ids)
-                    ->whereBetween('query_date', [$from, $to]);
-
-    if($deposit_tax->currency_id !="") {
-        $total_tax  = $total_tax->where('currency_id',$deposit_tax->currency_id);
-    }
+    $total_tax      = DepositSalaryTaxDetail::where('tax_id',$tax_id);
 
     $count_total_tax = $total_tax->count();
     $income_taxes  = $total_tax->get();

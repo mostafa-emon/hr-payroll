@@ -10,10 +10,10 @@
             </tr>
             @foreach($employment_infos as $employee)
             <tr>
-                <td style="border: 1px solid black;text-align:center;padding:5px;">{{$loop->iteration}}</td>
+                <td style="border: 1px solid black;text-align:center;padding:5px;">{{$employee->sl}}</td>
                 <td style="border: 1px solid black;text-align:left;padding:5px;">{{$employee->original_employee_id}}</td>
-                <td style="border: 1px solid black;text-align:left;padding:5px;">{{$employee->name}}</td>
-                <td style="border: 1px solid black;text-align:left;padding:5px;">{{$employee->month}} {{$employee->year}}</td>
+                <td style="border: 1px solid black;text-align:left;padding:5px;">{{employee_name_by_increment_id($employee->employee_id)}}</td>
+                <td style="border: 1px solid black;text-align:left;padding:5px;">{{date('F Y',strtotime($employee->query_date))}}</td>
                 <td style="border: 1px solid black;text-align:right;padding:5px;">{{sprintf("%.2f", $employee->amount)}}</td>
             </tr>
             @endforeach
