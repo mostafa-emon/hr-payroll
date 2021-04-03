@@ -19,6 +19,7 @@ use App\ProvidentFund;
 use App\Currency;
 use App\SalaryTransferLetter;
 use App\PayrollBank;
+use App\SalaryTransferLetterDetail;
 use Auth;
 use Excel;
 use Carbon;
@@ -2667,7 +2668,11 @@ class ReportController extends Controller
         return view('reports.salary_transfer_letter',compact('transfer_letters','banks','currencies','currency_id','bank_id','month'));
     }
     
-        
+    public function salary_transfer_letter_reprint($letter_id) {
+        $salary_format              = SalaryTransferLetter::where('id',$letter_id)->first();
+        $employees                  = SalaryTransferLetterDetail::where('letter_id',$letter_id)->get();
+        return view('reports.salary_transfer_letter_print',compact('salary_format','employees'));
+    }
 
 
     ////////////////////////////////////////////

@@ -407,6 +407,7 @@ Route::get('/email-payslip-report', 'ReportController@email_payslip_report');
 Route::post('/email-payslip-report', 'ReportController@email_payslip_report');
 Route::get('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
 Route::post('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
+Route::get('/salary-transfer-letter-report-reprint/{letter_id}','ReportController@salary_transfer_letter_reprint');
 
 //Export
 

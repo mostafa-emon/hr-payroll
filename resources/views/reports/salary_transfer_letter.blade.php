@@ -101,7 +101,7 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                            <a href="{{url('salary-transfer-letter-reprint/'.$letter->id)}}" class="dropdown-item">Print</a>
+                                            <a href="{{url('salary-transfer-letter-report-reprint/'.$letter->id)}}" class="dropdown-item">Print</a>
                                             <a href="{{url('salary-transfer-letter-details/'.$letter->id)}}" class="dropdown-item">Details</a>
                                         </div>
                                     </td>
