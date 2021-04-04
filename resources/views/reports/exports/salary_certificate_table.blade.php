@@ -8,10 +8,6 @@
         <tr>
           <th colspan="13" style="border:none;font-size:16px;text-align:left;">This is to certify that {{$employee_selection->name}}, S/O. {{$employee_selection->fathers_name}}, has been under employment with our company. His basic employment details are as follows:</th>
         </tr>
-
-        <tr>
-          <th colspan="13" style="border:none;">&nbsp;</th>
-        </tr>
     </thead>
   </table>
 </div>
@@ -92,24 +88,37 @@
           <td style="text-align: right;font-weight:bold;">{{$gross_salary}}</td>
         </tr>
 
+        @php 
+          $employee_portion = present_own_portion($from_date,$to_date,$employee->id);
+          $employee_deposit_tax = 0;
+          if(count($deposit_taxes) > 0) {
+            foreach($deposit_taxes as $deposit_tax) {
+              $employee_deposit_tax = $employee_deposit_tax + $deposit_tax->amount;
+            }
+          }
+        @endphp
+
+        @if($employee_portion != 0 || $employee_deposit_tax != 0)
         <tr>
           <td colspan="3" style="border:none;">&nbsp;</td>
         </tr>
         
         <tr>
           <td colspan="3" style="border:none;font-size:15px;">
-            Against the Above earnings, The Source Tax Amount <b>BDT 1,04,356</b> and <b>P/F Amount BDT {{present_own_portion($from_date,$to_date,$employee->id)}}</b> was deducted during this period, Tax amount was deposited the same into the Government Treasury, vide following challan Nos.:       
+            Against the Above earnings, @if($employee_deposit_tax != 0)The Source Tax Amount <b>BDT {{$employee_deposit_tax}}</b> and @endif @if($employee_portion != 0)<b>P/F Amount BDT {{$employee_portion}}</b> @endif was deducted during this period, @if($employee_deposit_tax != 0)Tax amount was deposited the same into the Government Treasury, vide following challan Nos.: @endif      
           </td>
         <tr>
 
         <tr>
           <td colspan="3" style="border:none;">&nbsp;</td>
         </tr>
+        @endif
 
     </tbody>
   </table>
 </div>
 
+@if(count($deposit_taxes) > 0)
 <div class="table-responsive">
   <table style="width:100%;">
       <thead>
@@ -148,6 +157,7 @@
     </tbody>
   </table>
 </div>
+@endif
 
 <div class="table-responsive">
   <table style="width:100%;">
