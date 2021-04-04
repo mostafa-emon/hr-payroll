@@ -36,13 +36,20 @@
                                         {{ csrf_field() }}
 
                                         <div class="row row-xs">
-                                            <div class="col-md-6 mg-t-10">
+                                            <div class="col-md-4 mg-t-10">
                                                 <label for="Challan No" style="font-weight:bold;" class="col-form-label">Challan No:</label>
                                                 <input class="form-control" placeholder="Challan No" name="challan_no" value="{{$tax->challan_no}}" type="text">
                                             </div>
-                                            <div class="col-md-6 mg-t-10">
+                                            <div class="col-md-4 mg-t-10">
                                                 <label for="Challan Date" style="font-weight:bold;" class="col-form-label">Challan Date:</label>
                                                 <input type="text" name="chalan_date" placeholder="Challan Date" class="form-control dtpicker" value="{{date('d-m-Y',strtotime($tax->chalan_date))}}" autocomplete="off"/>
+                                            </div>
+                                            <div class="col-md-4 pd-t-10">
+                                                <label for="Bank Name" style="font-weight:bold;" class="col-form-label">Bank Name:</label>
+                                                <select class="form-control" name="bank_name">
+                                                    <option value="Sonali Bank Ltd" @if($tax->bank_name == "Sonali Bank Ltd") selected @endif>Sonali Bank Ltd.</option>
+                                                    <option value="Bangladesh Bank Ltd" @if($tax->bank_name == "Bangladesh Bank Ltd") selected @endif>Bangladesh Bank Ltd.</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-12 mg-t-15">
                                                 <label for="Text 1" style="font-weight:bold;" class="col-form-label">যাহার মারফত প্রদান হইল তাহার নাম ও ঠিকানা।*:</label>

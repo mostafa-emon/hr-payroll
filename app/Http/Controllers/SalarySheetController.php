@@ -135,6 +135,7 @@ class SalarySheetController extends Controller
                         }
 
                         $salary_sheet_details->payable_amount           = $final_amount;
+                        $salary_sheet_details->query_date               = date('Y-m-01',strtotime($request->salary_month));
                         $salary_sheet_details->save();
 
                         if($earn_ded->component_type == "Earnings") {
@@ -189,6 +190,7 @@ class SalarySheetController extends Controller
                         $salary_sheet_details->decrease_adjustment      = 0;
 
                         $salary_sheet_details->payable_amount           = $employee->festival_bonus_per_festival;
+                        $salary_sheet_details->query_date               = date('Y-m-01',strtotime($request->salary_month));
                         $salary_sheet_details->save();
 
                         $total_salary = $total_salary + $employee->festival_bonus_per_festival;

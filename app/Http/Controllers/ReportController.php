@@ -20,6 +20,9 @@ use App\Currency;
 use App\SalaryTransferLetter;
 use App\PayrollBank;
 use App\SalaryTransferLetterDetail;
+use App\SalarySheetDetails;
+use App\DepositSalaryTax;
+use App\DepositSalaryTaxDetail;
 use Auth;
 use Excel;
 use Carbon;
@@ -46,6 +49,7 @@ use App\Exports\DeductionAdjustmentReport;
 use App\Exports\PfDetailReport;
 use App\Exports\PfSummaryReport;
 use App\Exports\SalarySheetReport;
+use App\Exports\SalaryCertificate;
 
 class ReportController extends Controller
 {
@@ -2715,4 +2719,116 @@ class ReportController extends Controller
     ////////////////////////////////////////////
     ////////////////////////////////////////////
     ////////////////////////////////////////////
+
+    //Salary Certificate
+    public function salary_certificate(Request $request) {
+        $employment_infos   = SalarySheetDetails::orderBy('employment_infos.id','asc')
+                            ->select('employment_infos.*','salary_sheet_details.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                            ->join('employees','employees.id','salary_sheet_details.employee_id')
+                            ->join('employment_infos','employment_infos.employee_id','salary_sheet_details.employee_id')
+                            ->where('employees.company_id',Auth::user()->company_id)
+                            ->where('component_type','!=','Deduction');
+
+        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
+        $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date   = Carbon\Carbon::now()->format('Y-m-d');
+
+        $department_id          = '';
+        $designation_id         = '';
+        $project_id             = '';
+        $branch_id              = '';
+        $employee_id            = '';
+        $employees              = [];
+        $select_employees       = [];
+        $selected_attendance_id = '';
+        $from_date              = '';
+        $to_date                = '';
+        $original_employee_id   = '';
+        $employee_selection     = '';
+        $selected_employee_id   = '';
+        $deposit_taxes          = [];
+
+        if($request->original_employee_id != ""){
+            $employment_infos   = $employment_infos->where('employees.employee_id',$request->original_employee_id);
+            $original_employee_id = $request->original_employee_id;
+        }else{
+            if($request->department_id != ""){
+                $employment_infos   = $employment_infos->where('department_id',$request->department_id);
+                $department_id      = $request->department_id;
+            }
+
+            if($request->designation_id != ""){
+                $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
+                $designation_id     = $request->designation_id;
+            }
+
+            if($request->project_id != ""){
+                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
+                $project_id         = $request->project_id;
+            }
+
+            if($request->branch_id != ""){
+                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
+                $branch_id          = $request->branch_id;
+            }
+        }
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-01',strtotime($request->from_date ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-t',strtotime($request->to_date ));
+        }
+
+        if($from_date != null && $to_date != null) {
+            $employment_infos   = $employment_infos->whereBetween('query_date',[$from_date,$to_date]);
+        }
+
+        if($request->original_employee_id != "") {
+            $employee_id = $request->original_employee_id;
+        }elseif($request->employee_id != "") {
+            $employee_id = $request->employee_id;
+        }
+
+        if($employee_id != "") {
+            $employee_selection = Employee::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->first();
+
+            $selected_employee_id = $employee_selection->id;
+
+            $employees = $employment_infos->where('employees.employee_id',$employee_id)->groupBy('salary_sheet_details.component_id')->get();
+
+            $deposit_taxes = DepositSalaryTax::orderBy('deposit_salary_taxes.id','asc')
+                            ->select('deposit_salary_taxes.id','deposit_salary_taxes.company_id','deposit_salary_taxes.challan_no','deposit_salary_taxes.chalan_date','deposit_salary_taxes.bank_name','deposit_salary_tax_details.*')
+                            ->join('deposit_salary_tax_details','deposit_salary_tax_details.tax_id','deposit_salary_taxes.id')
+                            ->where('deposit_salary_taxes.company_id',Auth::user()->company_id)
+                            ->where('employee_id',$selected_employee_id)
+                            ->whereBetween('query_date',[$from_date,$to_date])
+                            ->where('status','Approved')->get();
+
+        }
+
+        if($request->employee_id == "") {
+            $select_employees = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
+                                ->join('employees','employees.id','employment_infos.employee_id')
+                                ->where('employees.company_id',Auth::user()->company_id)
+                                ->orderBy('department_id','asc')->get();
+
+
+            $employment_infos = $employment_infos->get();
+        }
+
+        $excel_link = "export/salary-certificate?employee_id=".$selected_employee_id."&from_date=".$from_date."&to_date=".$to_date;
+
+        return view('reports.salary_certificate',
+        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
+        'project_id','employment_infos','employee_id','designation_id','to_date','original_employee_id','deposit_taxes','excel_link'));
+    }
+
+    public function export_salary_certificate(){
+        return Excel::download(new SalaryCertificate(), 'Salary Certificate.xlsx');
+    }
 }

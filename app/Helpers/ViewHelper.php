@@ -1090,3 +1090,22 @@ function present_company_portion($from_date,$to_date,$employee_id) {
 
     return $own_portion;
 }
+
+function total_component_amount($from_date,$to_date,$employee_id,$component_id) {
+    $total_component_amount = 0;
+    $salary_details = SalarySheetDetails::where('employee_id',$employee_id)->where('component_id',$component_id)->whereBetween('query_date',[$from_date,$to_date])->get();
+    foreach($salary_details as $detail) {
+        $total_component_amount = $total_component_amount + $detail->payable_amount;
+    }
+
+    return $total_component_amount;
+}
+
+function total_deposit_tax_amount($tax_id) {
+    $total_tax = 0;
+    $tax_details = DepositSalaryTaxDetail::where('tax_id',$tax_id)->get();
+    foreach($tax_details as $detail) {
+        $total_tax = $total_tax + $detail->amount;
+    }
+    return $total_tax;
+}

@@ -30,6 +30,7 @@ class CreateDepositSalaryTaxesTable extends Migration
             $table->text('text_3')->nullable();
             $table->text('text_4')->nullable();
             $table->date('chalan_date')->nullable();
+            $table->string('bank_name')->nullable();
             $table->string('status');
             $table->timestamps();
         });

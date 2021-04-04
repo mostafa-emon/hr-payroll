@@ -29,6 +29,7 @@ class CreateSalarySheetDetailsTable extends Migration
             $table->double('increase_adjustment')->default(0);
             $table->double('decrease_adjustment')->default(0);
             $table->double('payable_amount')->default(0);
+            $table->date('query_date')->nullable();
             $table->timestamps();
         });
     }

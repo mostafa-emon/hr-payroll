@@ -408,6 +408,8 @@ Route::post('/email-payslip-report', 'ReportController@email_payslip_report');
 Route::get('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
 Route::post('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
 Route::get('/salary-transfer-letter-report-reprint/{letter_id}','ReportController@salary_transfer_letter_reprint');
+Route::get('/salary-certificate', 'ReportController@salary_certificate');
+Route::post('/salary-certificate', 'ReportController@salary_certificate');
 
 //Export
 
@@ -435,5 +437,6 @@ Route::get('export/deduction-adjustment-report', 'ReportController@export_deduct
 Route::get('export/pf-detail-report', 'ReportController@export_pf_detail_report');
 Route::get('export/pf-summary-report', 'ReportController@export_pf_summary_report');
 Route::get('export/salary-sheet-report', 'ReportController@export_salary_sheet_report');
+Route::get('export/salary-certificate', 'ReportController@export_salary_certificate');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
