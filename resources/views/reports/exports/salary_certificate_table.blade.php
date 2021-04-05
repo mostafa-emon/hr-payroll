@@ -73,20 +73,24 @@
           </td>
         </tr>
       @endforeach
-        <tr>
-          <td style="text-align: center;">{{$sl = $sl + 1}}</td>
-          <td>PF(Company Portion)</td>
-          <td style="text-align: right;">
-            @php
-              echo $company_portion       = present_company_portion($from_date,$to_date,$employee->id);
-              $gross_salary               = $gross_salary + $company_portion;
-            @endphp
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align:right;font-weight:bold;">Gross Salary (BDT)</td>
-          <td style="text-align: right;font-weight:bold;">{{$gross_salary}}</td>
-        </tr>
+
+      @php
+        $company_portion            = present_company_portion($from_date,$to_date,$employee->id);
+        $gross_salary               = $gross_salary + $company_portion;
+      @endphp
+
+      @if($company_portion != 0)
+      <tr>
+        <td style="text-align: center;">{{$sl = $sl + 1}}</td>
+        <td>PF(Company Portion)</td>
+        <td style="text-align: right;">{{$company_portion}}</td>
+      </tr>
+      @endif
+
+      <tr>
+        <td colspan="2" style="text-align:right;font-weight:bold;">Gross Salary (BDT)</td>
+        <td style="text-align: right;font-weight:bold;">{{$gross_salary}}</td>
+      </tr>
 
         @php 
           $employee_portion = present_own_portion($from_date,$to_date,$employee->id);

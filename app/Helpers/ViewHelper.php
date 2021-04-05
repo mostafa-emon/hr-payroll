@@ -247,8 +247,8 @@ function getToken(){
 
 function number_formatting($amount){
     if($amount != ""){
-        $setting = Setting::where('company_id',Auth::user()->company_id)->first();
-        if($setting->amount_in_word_format == "crore_lakh_thousand" || $setting->amount_in_word_format == "crore_lac_thousand") {
+        $setting = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
+        if($setting->amount_in_word == "Crore-Lakh-Thousand" || $setting->amount_in_word == "Crore-Lac-Thousand") {
             $intpart = floor( $amount );
             $fraction = $amount - $intpart;
 
@@ -273,7 +273,7 @@ function number_formatting($amount){
                 $full_digit = "&nbsp;".number_format($amount,2);
             }
             
-        }else if($setting->amount_in_word_format == "billion_million_thousand") {
+        }else if($setting->amount_in_word == "Billion-Million-Thousand") {
             $intpart = floor( $amount );
             $fraction = $amount - $intpart;
             
@@ -296,7 +296,8 @@ function number_formatting($amount){
     }else {
         return "";
     }
-}  
+    
+} 
 
 function get_auto_increment_employee_id($employee_id) {
     return Employee::where('employee_id',$employee_id)->first()->id;
