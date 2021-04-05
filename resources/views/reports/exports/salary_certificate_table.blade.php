@@ -143,7 +143,7 @@
         <tr>
           <td style="text-align: center;">{{$loop->iteration}}</td>
           <td style="text-align: center;">{{$tax->challan_no}}</td>
-          <td style="text-align: center;">{{$tax->challan_date}}</td>
+          <td style="text-align: center;">{{$tax->chalan_date}}</td>
           <td style="text-align: center;">{{$tax->bank_name}}</td>
           <td style="text-align: right;">{{total_deposit_tax_amount($tax->tax_id)}}</td>
           <td style="text-align: right;">

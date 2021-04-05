@@ -2722,7 +2722,7 @@ class ReportController extends Controller
 
     //Salary Certificate
     public function salary_certificate(Request $request) {
-        $employment_infos   = SalarySheetDetails::orderBy('employment_infos.id','asc')
+        $employment_infos   = SalarySheetDetails::orderBy('salary_sheet_details.id','asc')
                             ->select('employment_infos.*','salary_sheet_details.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','salary_sheet_details.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','salary_sheet_details.employee_id')
