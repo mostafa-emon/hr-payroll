@@ -890,7 +890,7 @@ class PayrollController extends Controller
 
         if($request->from != "" && $request->to != ""){
             $from       = date('Y-m-01',strtotime($request->from));
-            $to         = date('Y-m-31',strtotime($request->to));
+            $to         = date('Y-m-t',strtotime($request->to));
 
             $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to]);
             $employment_infos   = $employment_infos->where('status',0)->get();
@@ -993,7 +993,7 @@ class PayrollController extends Controller
             $tax->save();
 
             $from           = date('Y-m-01',strtotime($tax->from));
-            $to             = date('Y-m-31',strtotime($tax->to));
+            $to             = date('Y-m-t',strtotime($tax->to));
 
             $employees      = EmploymentInfo::orderBy('id','asc');
 
@@ -1080,7 +1080,7 @@ class PayrollController extends Controller
 
         $tax = DepositSalaryTax::where('id',$tax_id)->first();
         $from           = date('Y-m-01',strtotime($tax->from));
-        $to             = date('Y-m-31',strtotime($tax->to));
+        $to             = date('Y-m-t',strtotime($tax->to));
         $total_tax      = 0;
         $total_taka     = 0;
         $total_poisa    = 0;
@@ -1234,7 +1234,7 @@ class PayrollController extends Controller
             $formatted_year     = date('Y', strtotime($request->month));
 
             $from_date          = date('Y-m-01', strtotime($request->month));
-            $to_date            = date('Y-m-31', strtotime($request->month));
+            $to_date            = date('Y-m-t', strtotime($request->month));
             $month              = $request->month;
 
             $employment_infos   = $employment_infos->whereBetween('date', [$from_date, $to_date]);
