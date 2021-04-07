@@ -3,9 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class TemporaryRosterSelection extends Model implements Auditable
+class TemporaryRosterSelection extends Model
 {
-    use \OwenIt\Auditing\Auditable;
+
 }

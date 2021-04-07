@@ -3,9 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class OtTransferLetterDetail extends Model implements Auditable
+class OtTransferLetterDetail extends Model
 {
-    use \OwenIt\Auditing\Auditable;
+
 }

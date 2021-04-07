@@ -79,21 +79,23 @@
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
                                     <th class="text-center">Date Time</th>
-                                    <th>User ID</th>
-                                    <th>Auditable Type</th>
-                                    <th>Auditable ID</th>
+                                    <th>User Name</th>
+                                    <th>Changes Made</th>
                                     <th>Event</th>
+                                    <th>Old Value</th>
+                                    <th>New Value</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($audits as $audit)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{(($audits->currentPage() * 10) - 10) + $loop->iteration}}</td>
+                                    <td class="text-center">{{(($audits->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td class="text-center">{{date('d M Y h:i A',strtotime($audit->created_at))}}</td>
-                                    <td>{{$audit->user_id}}</td>
+                                    <td>{{$audit->user_name}}</td>
                                     <td>{{$audit->auditable_type}}</td>
-                                    <td>{{$audit->auditable_id}}</td>
                                     <td>{{$audit->event}}</td>
+                                    <td>{{$audit->old_values}}</td>
+                                    <td>{{$audit->new_values}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
