@@ -86,14 +86,14 @@
                 <label for="blood_group" style="font-weight:bold;" class="col-form-label">Blood Group:</label>
                 <select class="form-control" name="blood_group">
                     <option value="" label>Select Blood Group</option>
-                    <option value="A+" @if($employee->religion == "A+") selected @endif>A+</option>
-                    <option value="A-" @if($employee->religion == "A-") selected @endif>A-</option>
-                    <option value="B+" @if($employee->religion == "B+") selected @endif>B+</option>
-                    <option value="B-" @if($employee->religion == "B-") selected @endif>B-</option>
-                    <option value="O+" @if($employee->religion == "O+") selected @endif>O+</option>
-                    <option value="O-" @if($employee->religion == "O-") selected @endif>O-</option>
-                    <option value="AB+" @if($employee->religion == "AB+") selected @endif>AB+</option>
-                    <option value="AB-" @if($employee->religion == "AB-") selected @endif>AB-</option>
+                    <option value="A+" @if($employee->blood_group == "A+") selected @endif>A+</option>
+                    <option value="A-" @if($employee->blood_group == "A-") selected @endif>A-</option>
+                    <option value="B+" @if($employee->blood_group == "B+") selected @endif>B+</option>
+                    <option value="B-" @if($employee->blood_group == "B-") selected @endif>B-</option>
+                    <option value="O+" @if($employee->blood_group == "O+") selected @endif>O+</option>
+                    <option value="O-" @if($employee->blood_group == "O-") selected @endif>O-</option>
+                    <option value="AB+" @if($employee->blood_group == "AB+") selected @endif>AB+</option>
+                    <option value="AB-" @if($employee->blood_group == "AB-") selected @endif>AB-</option>
                 </select>
             </div>
 

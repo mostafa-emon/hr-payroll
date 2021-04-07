@@ -410,6 +410,8 @@ Route::post('/salary-transfer-letter-report', 'ReportController@salary_transfer_
 Route::get('/salary-transfer-letter-report-reprint/{letter_id}','ReportController@salary_transfer_letter_reprint');
 Route::get('/salary-certificate', 'ReportController@salary_certificate');
 Route::post('/salary-certificate', 'ReportController@salary_certificate');
+Route::get('/audit-trail-report', 'ReportController@audit_trail_report');
+Route::post('/audit-trail-report', 'ReportController@audit_trail_report');
 
 //Export
 

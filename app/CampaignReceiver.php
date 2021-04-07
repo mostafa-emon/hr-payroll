@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class CampaignReceiver extends Model
+class CampaignReceiver extends Model implements Auditable
 {
-    //
+    use \OwenIt\Auditing\Auditable;
 }

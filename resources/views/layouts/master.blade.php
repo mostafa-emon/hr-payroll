@@ -357,6 +357,7 @@
 								<li><a class="slide-item" href="{{url('email-payslip-report')}}">Email Pay Slip Report</a></li>
 								<li><a class="slide-item" href="{{url('salary-transfer-letter-report')}}">Salary Transfer Letter Report</a></li>
 								<li><a class="slide-item" href="{{url('salary-certificate')}}">Salary Certificate</a></li>
+								<li><a class="slide-item" href="{{url('audit-trail-report')}}">Audit Trail Report</a></li>
 							</ul>
 						</li>
 						@endif

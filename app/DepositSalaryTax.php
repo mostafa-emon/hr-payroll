@@ -3,8 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class DepositSalaryTax extends Model
+class DepositSalaryTax extends Model implements Auditable
 {
-    //
+    use \OwenIt\Auditing\Auditable;
 }

@@ -23,6 +23,7 @@ use App\SalaryTransferLetterDetail;
 use App\SalarySheetDetails;
 use App\DepositSalaryTax;
 use App\DepositSalaryTaxDetail;
+use App\Audit;
 use Auth;
 use Excel;
 use Carbon;
@@ -2830,5 +2831,36 @@ class ReportController extends Controller
 
     public function export_salary_certificate(){
         return Excel::download(new SalaryCertificate(), 'Salary Certificate.xlsx');
+    }
+
+    public function audit_trail_report(Request $request) {
+        $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
+        $current_date   = Carbon\Carbon::now()->format('Y-m-d');
+
+        $from_date              = '';
+        $to_date                = '';
+        $audits                 = [];
+
+        if($request->from_date != null){
+            $from_date = date('Y-m-d',strtotime($request->from_date ));
+        }else{
+            $from_date = date('Y-m-d',strtotime($last_week ));
+        }
+        if($request->to_date != null){
+            $to_date = date('Y-m-d',strtotime($request->to_date ));
+        }else{
+            $to_date = date('Y-m-d',strtotime($current_date ));
+        }
+
+        if($request->from_date != null && $request->to_date != null) {
+            $audits = Audit::select('audits.*','users.name as user_name')
+                ->join('users','users.id','audits.user_id')
+                ->whereBetween('audits.created_at', [$from_date, $to_date.' 23:59'])
+                ->orderBy('audits.created_at','desc')
+                ->where('users.company_id', Auth::user()->company_id)
+                ->paginate(10);
+        }
+
+        return view('reports.audit_trail',compact('from_date','to_date','audits'));
     }
 }

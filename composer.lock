@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c4090b5414c458516d510afa83707c0",
+    "content-hash": "4b0b662b241fab961dd9ad2f99cd943e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1857,28 +1857,28 @@
         },
         {
             "name": "owen-it/laravel-auditing",
-            "version": "v10.0.0",
+            "version": "v12.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/owen-it/laravel-auditing.git",
-                "reference": "50b0d9bc8d47a6fd873427c012c6710850e73a34"
+                "reference": "5659c736f17aa75805b60c0d0a23783f3bf5c2a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/50b0d9bc8d47a6fd873427c012c6710850e73a34",
-                "reference": "50b0d9bc8d47a6fd873427c012c6710850e73a34",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/5659c736f17aa75805b60c0d0a23783f3bf5c2a1",
+                "reference": "5659c736f17aa75805b60c0d0a23783f3bf5c2a1",
                 "shasum": ""
             },
             "require": {
-                "illuminate/console": "^5.8|^6.0|^7.0",
-                "illuminate/database": "^5.8|^6.0|^7.0",
-                "illuminate/filesystem": "^5.8|^6.0|^7.0",
-                "php": ">=7.2.5"
+                "illuminate/console": "^6.0|^7.0|^8.0",
+                "illuminate/database": "^6.0|^7.0|^8.0",
+                "illuminate/filesystem": "^6.0|^7.0|^8.0",
+                "php": "^7.3|^8.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.0",
-                "orchestra/testbench": "^3.8",
-                "phpunit/phpunit": "^8.0",
+                "orchestra/testbench": "^4.0",
+                "phpunit/phpunit": "^9.0",
                 "ramsey/uuid": "^3.0"
             },
             "suggest": {
@@ -1936,7 +1936,11 @@
                 "revision",
                 "tracking"
             ],
-            "time": "2020-03-23T22:49:02+00:00"
+            "support": {
+                "issues": "https://github.com/owen-it/laravel-auditing/issues",
+                "source": "https://github.com/owen-it/laravel-auditing"
+            },
+            "time": "2020-12-15T19:19:43+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -6650,5 +6654,6 @@
     "platform": {
         "php": "^7.2.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
