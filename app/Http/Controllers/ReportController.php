@@ -2834,12 +2834,17 @@ class ReportController extends Controller
     }
 
     public function audit_trail_report(Request $request) {
+        $audits         = Audit::select('audits.*','users.name as user_name')
+                        ->join('users','users.id','audits.user_id')
+                        ->orderBy('audits.created_at','desc')
+                        ->where('users.company_id', Auth::user()->company_id);
+
         $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date   = Carbon\Carbon::now()->format('Y-m-d');
 
-        $from_date              = '';
-        $to_date                = '';
-        $audits                 = [];
+        $from_date      = '';
+        $to_date        = '';
+        $changes_made   = '';
 
         if($request->from_date != null){
             $from_date = date('Y-m-d',strtotime($request->from_date ));
@@ -2852,15 +2857,116 @@ class ReportController extends Controller
             $to_date = date('Y-m-d',strtotime($current_date ));
         }
 
-        if($request->from_date != null && $request->to_date != null) {
-            $audits = Audit::select('audits.*','users.name as user_name')
-                ->join('users','users.id','audits.user_id')
-                ->whereBetween('audits.created_at', [$from_date, $to_date.' 23:59'])
-                ->orderBy('audits.created_at','desc')
-                ->where('users.company_id', Auth::user()->company_id)
-                ->paginate(10);
+        if($request->changes_made != "") {
+            $changes_made = $request->changes_made;
+
+            if($request->changes_made == "Company") {
+                $audits = $audits->where('auditable_type','App\Company');
+
+            }elseif($request->changes_made == "Department") {
+                $audits = $audits->where('auditable_type','App\Department');
+
+            }elseif($request->changes_made == "Designation") {
+                $audits = $audits->where('auditable_type','App\Designation');
+
+            }elseif($request->changes_made == "Project") {
+                $audits = $audits->where('auditable_type','App\Project');
+
+            }elseif($request->changes_made == "Branch") {
+                $audits = $audits->where('auditable_type','App\Branch');
+
+            }elseif($request->changes_made == "Currency") {
+                $audits = $audits->where('auditable_type','App\Currency');
+
+            }elseif($request->changes_made == "Employee") {
+                $audits = $audits->where('auditable_type','App\Employee')
+                        ->orWhere('auditable_type','App\EmploymentInfo')
+                        ->orWhere('auditable_type','App\EmployeeEarningDeduction')
+                        ->orWhere('auditable_type','App\PayrollInfo')
+                        ->orWhere('auditable_type','App\LeaveInfo');
+
+            }elseif($request->changes_made == "User") {
+                $audits = $audits->where('auditable_type','App\User');
+
+            }elseif($request->changes_made == "Leave Type") {
+                $audits = $audits->where('auditable_type','App\LeaveType');
+
+            }elseif($request->changes_made == "Shift") {
+                $audits = $audits->where('auditable_type','App\ShiftType');
+
+            }elseif($request->changes_made == "Govt Holiday") {
+                $audits = $audits->where('auditable_type','App\GovtHoliday');
+
+            }elseif($request->changes_made == "Attendance Policy") {
+                $audits = $audits->where('auditable_type','App\AttendancePolicy');
+
+            }elseif($request->changes_made == "Salary Component") {
+                $audits = $audits->where('auditable_type','App\SalaryComponent');
+
+            }elseif($request->changes_made == "Salary Transfer Letter Format") {
+                $audits = $audits->where('auditable_type','App\SalaryTransferLetterFormat');
+
+            }elseif($request->changes_made == "OT Transfer Letter Format") {
+                $audits = $audits->where('auditable_type','App\OtTransferLetterFormat');
+
+            }elseif($request->changes_made == "Payroll Bank") {
+                $audits = $audits->where('auditable_type','App\PayrollBank')
+                        ->orWhere('auditable_type','App\PayrollBranch');
+
+            }elseif($request->changes_made == "Leave Request") {
+                $audits = $audits->where('auditable_type','App\LeaveRequest');
+
+            }elseif($request->changes_made == "Leave Balance Transfer") {
+                $audits = $audits->where('auditable_type','App\LeaveBalance');
+
+            }elseif($request->changes_made == "Roster") {
+                $audits = $audits->where('auditable_type','App\Roster')
+                        ->orWhere('auditable_type','App\RosterEmployee');
+
+            }elseif($request->changes_made == "Manual Log Entry") {
+                $audits = $audits->where('auditable_type','App\Attendance');
+
+            }elseif($request->changes_made == "Earnings Deductions Adjustment") {
+                $audits = $audits->where('auditable_type','App\EarningDeductionAdjustment');
+
+            }elseif($request->changes_made == "Absent Deduction") {
+                $audits = $audits->where('auditable_type','App\AbsentDeduction');
+
+            }elseif($request->changes_made == "Create Salary Sheet") {
+                $audits = $audits->where('auditable_type','App\SalarySheet');
+
+            }elseif($request->changes_made == "Create Salary Transfer Letter") {
+                $audits = $audits->where('auditable_type','App\SalaryTransferLetter');
+
+            }elseif($request->changes_made == "Create OT Transfer Letter") {
+                $audits = $audits->where('auditable_type','App\OTTransferLetter');
+
+            }elseif($request->changes_made == "PF") {
+                $audits = $audits->where('auditable_type','App\ProvidentFund');
+
+            }elseif($request->changes_made == "Deposit Salary Tax") {
+                $audits = $audits->where('auditable_type','App\DepositSalaryTax');
+
+            }elseif($request->changes_made == "Gratuity") {
+                $audits = $audits->where('auditable_type','App\Gratuity');
+
+            }elseif($request->changes_made == "General Settings") {
+                $audits = $audits->where('auditable_type','App\GeneralSetting');
+
+            }elseif($request->changes_made == "SMS Setting") {
+                $audits = $audits->where('auditable_type','App\SmsSetting');
+
+            }elseif($request->changes_made == "SMTP Setting") {
+                $audits = $audits->where('auditable_type','App\Email');
+            }
         }
 
-        return view('reports.audit_trail',compact('from_date','to_date','audits'));
+        if($from_date != null && $to_date != null) {
+            $audits = $audits->whereBetween('audits.created_at', [$from_date, $to_date.' 23:59'])->get();
+        }else{
+            $audits = [];
+        }
+
+        return view('reports.audit_trail',compact('from_date','to_date','audits','changes_made'));
     }
 }
