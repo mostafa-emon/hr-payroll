@@ -118,10 +118,9 @@
                 @if(count($audits) > 0)
                 <div class="card-body" id="printArea">
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                        <table id="datatable" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th style="text-align:center;vertical-align:middle;">SL</th>
                                     <th style="text-align:center;vertical-align:middle;">Date Time</th>
                                     <th style="vertical-align:middle;">User Name</th>
                                     <th style="vertical-align:middle;">Changes Made</th>
@@ -133,7 +132,6 @@
                             <tbody>
                                 @foreach($audits as $audit)
                                 <tr>
-                                    <td style="text-align:center;vertical-align:middle;">{{$loop->iteration}}</td>
                                     <td style="text-align:center;vertical-align:middle;">{{date('d M Y h:i A',strtotime($audit->created_at))}}</td>
                                     <td style="vertical-align:middle;">{{$audit->user_name}}</td>
                                     <td style="vertical-align:middle;">
