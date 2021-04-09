@@ -2962,6 +2962,14 @@ class ReportController extends Controller
         }
 
         if($from_date != null && $to_date != null) {
+            $datetime1 = new DateTime($request->from_date);
+            $datetime2 = new DateTime($request->to_date);
+            $interval = $datetime1->diff($datetime2);
+            $days = $interval->format('%a');
+            if($days > 30) {
+                return redirect('audit-trail-report')->with('error_message','Date Range cannot greater than 1 month');
+            }
+
             $audits = $audits->whereBetween('audits.created_at', [$from_date, $to_date.' 23:59'])->get();
         }else{
             $audits = [];
