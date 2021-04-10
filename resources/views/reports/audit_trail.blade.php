@@ -119,12 +119,12 @@
                         <table id="datatable" class="table table-striped table-bordered mg-b-0 text-md-nowrap">
                             <thead>
                                 <tr>
-                                    <th style="text-align:center;vertical-align:middle;width:5%;">Date Time</th>
-                                    <th style="vertical-align:middle;width:5%;">User Name</th>
-                                    <th style="vertical-align:middle;width:5%;">Changes Made</th>
-                                    <th style="vertical-align:middle;width:5%;">Event</th>
-                                    <th style="vertical-align:middle;width:40%;">Old Value</th>
-                                    <th style="vertical-align:middle;width:40%;">New Value</th>
+                                    <th style="text-align:center;vertical-align:middle;">Date Time</th>
+                                    <th style="vertical-align:middle;">User Name</th>
+                                    <th style="vertical-align:middle;">Changes Made</th>
+                                    <th style="vertical-align:middle;">Event</th>
+                                    <th style="vertical-align:middle;">Old Value</th>
+                                    <th style="vertical-align:middle;">New Value</th>
                                 </tr>
                             </thead>
                             <tbody>
