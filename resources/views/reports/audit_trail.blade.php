@@ -167,8 +167,29 @@
                                         @endif
                                     </td>
                                     <td style="vertical-align:middle;">{{$audit->event}}</td>
-                                    <td style="vertical-align:middle;">{{$audit->old_values}}</td>
-                                    <td style="vertical-align:middle;">{{$audit->new_values}}</td>
+                                    <td style="vertical-align:middle;">
+                                        @php 
+                                        $old_value = json_decode($audit->old_values);
+
+                                        $old = "";
+                                        foreach($old_value as $key => $value) {
+                                            $old = $old.$key.": ".$value.', ';
+                                        }
+                                        echo rtrim($old, ', ');
+                                        @endphp
+                                    </td>
+                                    <td style="vertical-align:middle;">
+                                        @php 
+                                        $new_value = json_decode($audit->new_values);
+
+                                        $new = "";
+                                        foreach($new_value as $key => $value) {
+                                            $new = $new.$key.": ".$value.', ';
+                                        }
+                                        echo rtrim($new, ', ');
+                                        @endphp
+
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
