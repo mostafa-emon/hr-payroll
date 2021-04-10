@@ -43,8 +43,6 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <a href="{{url('audit-trail-report')}}" class="btn btn-info">Reset</a>
-                            {{--<a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;--}}
-                            <button class="btn btn-primary" onclick="printElem()">Print</button>
                         </div>
                     </div>
                     <hr>

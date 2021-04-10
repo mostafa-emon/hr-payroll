@@ -20,6 +20,7 @@
 		<link href="{{asset('assets/css/skin-modes.css')}}" rel="stylesheet" />
 		<link href="{{asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
 		<link href="{{asset('lib/datatables/jquery.dataTables.css')}}" rel="stylesheet">
+		<link href="{{asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
 
 	</head>
 
@@ -749,6 +750,13 @@
 		<script src="{{asset('assets/js/index.js')}}"></script>
 		<script src="{{asset('assets/js/custom.js')}}"></script>
 		<script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
+
+		
+		<script src="{{asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+		<script src="{{asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+		<script src="{{asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+		<script src="{{asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+		<script src="{{asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
 		
 		<script>
 			/*
@@ -760,7 +768,12 @@
 			});
 			*/
 
-			$('#datatable').DataTable();
+			$('#datatable').DataTable( {
+				dom: 'Bfrtip',
+				buttons: [
+					 'excel', 'print'
+				]
+			} );
             
 			$(".form-layout .form-control").on("focusin", function () {
             	$(this).closest(".form-group").addClass("form-group-active");
