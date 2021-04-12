@@ -35,6 +35,19 @@
                                     <form method="POST" action="{{url('leave-request/update/'.$request_type.'/'.$leave->id)}}" enctype="multipart/form-data">
                                         {{ csrf_field() }}
 
+                                        @php 
+                                            $datepicker_format = datepicker_format();
+                                            $date_format = 'd-m-Y';
+                                            
+                                            if($datepicker_format == "MM-DD-YYYY") {
+                                                $date_format = 'm-d-Y';
+                                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                                $date_format = 'Y/m/d';
+                                            }else if($datepicker_format == "DD-MMM-YY") {
+                                                $date_format = 'd-M-Y';
+                                            }
+                                        @endphp
+
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-4 mg-t-10">
@@ -46,10 +59,10 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input id="start_date" class="form-control dtpicker" name="start_date" placeholder="Start date" value="{{date('d-m-Y',strtotime($leave->start_date))}}" type="text" autocomplete="off">
+                                                    <input id="start_date" class="form-control dtpicker" name="start_date" placeholder="Start date" value="{{date($date_format,strtotime($leave->start_date))}}" type="text" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input id="end_date" class="form-control dtpicker" name="end_date" placeholder="End date" value="{{date('d-m-Y',strtotime($leave->end_date))}}" type="text" autocomplete="off">
+                                                    <input id="end_date" class="form-control dtpicker" name="end_date" placeholder="End date" value="{{date($date_format,strtotime($leave->end_date))}}" type="text" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
                                                     <input id="leave_days" class="form-control" placeholder="Number of Days" name="leave_days" value="{{$leave->leave_days}}" type="text">

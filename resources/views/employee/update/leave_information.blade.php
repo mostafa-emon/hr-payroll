@@ -6,6 +6,19 @@
 {{ csrf_field() }}
 <input type="hidden" name="employee_id" value="{{$employee_id}}"/>
 
+@php 
+$datepicker_format = datepicker_format();
+$date_format = 'd-m-Y';
+
+if($datepicker_format == "MM-DD-YYYY") {
+    $date_format = 'm-d-Y';
+}else if($datepicker_format == "YYYY/MM/DD") {
+    $date_format = 'Y/m/d';
+}else if($datepicker_format == "DD-MMM-YY") {
+    $date_format = 'd-M-Y';
+}
+@endphp
+
 <div id="leaves">
     @if(count($leaves) > 0) @php $sl = 0; @endphp
         @foreach($leaves as $leave) @php $sl = $sl + 1; @endphp
@@ -24,7 +37,7 @@
                 </div>
 
                 <div class="col-md-2 remove-space" id="opening_date_{{$sl}}">
-                    <input type="text" class="form-control dtpicker" name="opening_balance_date[]" placeholder="Opening Date" @if($leave->opening_balance_date != ""&& $leave->opening_balance_date != "1970-01-01") value="{{ date('d-m-Y',strtotime($leave->opening_balance_date))}}" @endif autocomplete="off"/>
+                    <input type="text" class="form-control dtpicker" name="opening_balance_date[]" placeholder="Opening Date" @if($leave->opening_balance_date != ""&& $leave->opening_balance_date != "1970-01-01") value="{{ date($date_format,strtotime($leave->opening_balance_date))}}" @endif autocomplete="off"/>
                 </div>
 
                 <div class="col-md-2 remove-space" id="opening_balance_{{$sl}}">

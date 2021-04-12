@@ -51,6 +51,20 @@
                     <hr>
                     <form action="{{ url('roster-search') }}" method="POST">
                         {{ csrf_field() }}
+
+                        @php 
+                            $datepicker_format = datepicker_format();
+                            $date_format = 'd-m-Y';
+                            
+                            if($datepicker_format == "MM-DD-YYYY") {
+                                $date_format = 'm-d-Y';
+                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                $date_format = 'Y/m/d';
+                            }else if($datepicker_format == "DD-MMM-YY") {
+                                $date_format = 'd-M-Y';
+                            }
+                        @endphp
+
                         <div class="row">
                             <div class="col-md-2">
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()">
@@ -85,10 +99,10 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="from date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif" required/>
+                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="from date" value="@if($from_date != ""){{date($date_format,strtotime($from_date))}}@endif" required/>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="to date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif" required/>
+                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="to date" value="@if($from_date != ""){{date($date_format,strtotime($to_date))}}@endif" required/>
                             </div>
                         </div>
                         <br>

@@ -39,6 +39,19 @@
                     </div>
                 </div>
 
+                @php 
+                    $datepicker_format = datepicker_format();
+                    $date_format = 'd-m-Y';
+                    
+                    if($datepicker_format == "MM-DD-YYYY") {
+                        $date_format = 'm-d-Y';
+                    }else if($datepicker_format == "YYYY/MM/DD") {
+                        $date_format = 'Y/m/d';
+                    }else if($datepicker_format == "DD-MMM-YY") {
+                        $date_format = 'd-M-Y';
+                    }
+                @endphp
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
@@ -63,8 +76,8 @@
                                     <td style="vertical-align: middle">{{department_name($roster->department_id)}}</td>
                                     <td style="vertical-align: middle">{{project_name($roster->project_id)}}</td>
                                     <td style="vertical-align: middle">{{branch_name($roster->branch_id)}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{date('d-m-Y',strtotime($roster->from_date))}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{date('d-m-Y',strtotime($roster->to_date))}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{date($date_format,strtotime($roster->from_date))}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{date($date_format,strtotime($roster->to_date))}}</td>
                                     <td style="vertical-align: middle" class="text-center">
                                         @if($roster->status == 1)
                                         <span class="badge badge-info">Active</span>

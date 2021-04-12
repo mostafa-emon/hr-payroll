@@ -38,6 +38,19 @@
                     </div>
                 </div>
 
+                @php 
+                    $datepicker_format = datepicker_format();
+                    $date_format = 'd-m-Y';
+                    
+                    if($datepicker_format == "MM-DD-YYYY") {
+                        $date_format = 'm-d-Y';
+                    }else if($datepicker_format == "YYYY/MM/DD") {
+                        $date_format = 'Y/m/d';
+                    }else if($datepicker_format == "DD-MMM-YY") {
+                        $date_format = 'd-M-Y';
+                    }
+                @endphp
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
@@ -56,8 +69,8 @@
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($leaves->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{leave_type_name($leave->leave_type_id)}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($leave->start_date))}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{date('d-m-Y',strtotime($leave->end_date))}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{date($date_format,strtotime($leave->start_date))}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{date($date_format,strtotime($leave->end_date))}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$leave->leave_days}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($leave->status == "Verified") <span class="badge badge-success">Verified</span>

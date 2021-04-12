@@ -1,6 +1,19 @@
 <section id="Personal" class="body tabcontent" style="display:block">
     <form action="{{url('employee/update-personal-info/'.$employee->id)}}" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
+
+        @php 
+            $datepicker_format = datepicker_format();
+            $date_format = 'd-m-Y';
+
+            if($datepicker_format == "MM-DD-YYYY") {
+                $date_format = 'm-d-Y';
+            }else if($datepicker_format == "YYYY/MM/DD") {
+                $date_format = 'Y/m/d';
+            }else if($datepicker_format == "DD-MMM-YY") {
+                $date_format = 'd-M-Y';
+            }
+        @endphp
         <div>
             @if($employee->employee_photo != "")
                 <img src="{{ asset('storage/'.$employee->employee_photo) }}" class="pointer" style="margin-bottom:10px;border-radius:50%;" height="80" id="avatar" width="80" alt="employee" onclick="document.getElementById('imgInp').click()"/>
@@ -57,7 +70,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <label for="date_of_birth" style="font-weight:bold;" class="col-form-label">Date of Birth:</label>
-                <input type="text" name="date_of_birth" placeholder="Date of Birth" @if($employee->date_of_birth != ""&& $employee->date_of_birth != "1970-01-01") value="{{ date('d-m-Y',strtotime($employee->date_of_birth))}}" @endif class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_birth" placeholder="Date of Birth" @if($employee->date_of_birth != ""&& $employee->date_of_birth != "1970-01-01") value="{{ date($date_format,strtotime($employee->date_of_birth))}}" @endif class="form-control dtpicker" autocomplete="off"/>
             </div>
 
             <div class="col-md-3 pd-t-10">

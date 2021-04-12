@@ -97,6 +97,19 @@
 
                 </div>
 
+                @php 
+                    $datepicker_format = datepicker_format();
+                    $date_format = 'd-m-Y';
+                    
+                    if($datepicker_format == "MM-DD-YYYY") {
+                        $date_format = 'm-d-Y';
+                    }else if($datepicker_format == "YYYY/MM/DD") {
+                        $date_format = 'Y/m/d';
+                    }else if($datepicker_format == "DD-MMM-YY") {
+                        $date_format = 'd-M-Y';
+                    }
+                @endphp
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover">
@@ -120,7 +133,7 @@
                                 @endphp
                                     <tr>
                                         <td class="text-center" style="vertical-align: middle">{{(($campaigns->currentPage() * 10) - 10) + $loop->iteration}}</td>
-                                        <td class="text-center" style="vertical-align: middle">{{ date('d M Y',strtotime($campaign->created_at))}}</td>
+                                        <td class="text-center" style="vertical-align: middle">{{ date($date_format,strtotime($campaign->created_at))}}</td>
                                         <td style="vertical-align: middle">{{$campaign->sms_body}}</td>
                                         <td style="vertical-align: middle">
                                             <b>{{$campaign->language}}</b><br>

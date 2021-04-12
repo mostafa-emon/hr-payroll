@@ -53,6 +53,20 @@
                     @if(count($employee_id) == 0)
                     <form action="{{ url('daily-late-report') }}" method="POST">
                         {{ csrf_field() }}
+
+                        @php 
+                            $datepicker_format = datepicker_format();
+                            $date_format = 'd-m-Y';
+                            
+                            if($datepicker_format == "MM-DD-YYYY") {
+                                $date_format = 'm-d-Y';
+                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                $date_format = 'Y/m/d';
+                            }else if($datepicker_format == "DD-MMM-YY") {
+                                $date_format = 'd-M-Y';
+                            }
+                        @endphp
+
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
@@ -105,7 +119,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="Date" style="font-weight:bold;" class="col-form-label">Date:</label>
-                                <input type="text" class="form-control dtpicker" name="date" value="{{date('d-m-Y',strtotime($date))}}"placeholder="Date" autocomplete="off" required>
+                                <input type="text" class="form-control dtpicker" name="date" value="{{date($date_format,strtotime($date))}}"placeholder="Date" autocomplete="off" required>
                             </div>
                         </div>
                         <br>

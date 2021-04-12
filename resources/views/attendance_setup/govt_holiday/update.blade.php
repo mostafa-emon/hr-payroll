@@ -35,6 +35,19 @@
                                     <form method="POST" action="{{url('govt-holiday/update/'.$holiday->id)}}" enctype="multipart/form-data">
                                         {{ csrf_field() }}
 
+                                        @php 
+                                            $datepicker_format = datepicker_format();
+                                            $date_format = 'd-m-Y';
+                                            
+                                            if($datepicker_format == "MM-DD-YYYY") {
+                                                $date_format = 'm-d-Y';
+                                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                                $date_format = 'Y/m/d';
+                                            }else if($datepicker_format == "DD-MMM-YY") {
+                                                $date_format = 'd-M-Y';
+                                            }
+                                        @endphp
+
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-6 mg-t-10">
@@ -44,10 +57,10 @@
                                                     <input class="form-control" placeholder="ID" name="holiday_id" value="{{$holiday->holiday_id}}" type="text">
                                                 </div>
                                                 <div class="col-md-6 mg-t-10">
-                                                    <input class="form-control dtpicker" name="start_date" placeholder="Start date" value="{{date('d-m-Y',strtotime($holiday->start_date))}}" type="text" autocomplete="off">
+                                                    <input class="form-control dtpicker" name="start_date" placeholder="Start date" value="{{date($date_format,strtotime($holiday->start_date))}}" type="text" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-6 mg-t-10">
-                                                    <input class="form-control dtpicker" name="end_date" placeholder="End date" value="{{date('d-m-Y',strtotime($holiday->end_date))}}" type="text" autocomplete="off">
+                                                    <input class="form-control dtpicker" name="end_date" placeholder="End date" value="{{date($date_format,strtotime($holiday->end_date))}}" type="text" autocomplete="off">
                                                 </div>
                                             </div>
                                         </div>

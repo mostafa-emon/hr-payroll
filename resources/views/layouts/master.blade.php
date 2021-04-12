@@ -25,7 +25,18 @@
 	</head>
 
 	<body class="main-body app sidebar-mini {{ leftmenu_color() }}">
-		@php $datepicker_format = datepicker_format(); @endphp
+		@php 
+			$datepicker_format = datepicker_format();
+			$date_format = 'd-m-Y';
+			
+			if($datepicker_format == "MM-DD-YYYY") {
+				$date_format = 'm-d-Y';
+			}else if($datepicker_format == "YYYY/MM/DD") {
+				$date_format = 'Y/m/d';
+			}else if($datepicker_format == "DD-MMM-YY") {
+				$date_format = 'd-M-Y';
+			}
+		@endphp
 		<!-- Loader -->
 		<div id="global-loader">
 			<img src="{{asset('assets/img/loader.svg')}}" class="loader-img" alt="Loader">

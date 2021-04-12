@@ -39,9 +39,23 @@
                     <hr>
                     <form action="{{ url('manual-log-entry') }}" method="POST">
                         {{ csrf_field() }}
+
+                        @php 
+                            $datepicker_format = datepicker_format();
+                            $date_format = 'd-m-Y';
+                            
+                            if($datepicker_format == "MM-DD-YYYY") {
+                                $date_format = 'm-d-Y';
+                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                $date_format = 'Y/m/d';
+                            }else if($datepicker_format == "DD-MMM-YY") {
+                                $date_format = 'd-M-Y';
+                            }
+                        @endphp
+                        
                         <div class="row">
                             <div class="col-md-3">
-                                <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date('d-m-Y',strtotime($date))}}" required/>
+                                <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date($date_format,strtotime($date))}}" required/>
                             </div>
                             <div class="col-md-9">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>

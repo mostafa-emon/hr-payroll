@@ -1,6 +1,20 @@
 <section>
     <form action="{{url('employee/update-employment-info/'.$info_id)}}" method="POST">
         {{ csrf_field() }}
+
+        @php 
+            $datepicker_format = datepicker_format();
+            $date_format = 'd-m-Y';
+            
+            if($datepicker_format == "MM-DD-YYYY") {
+                $date_format = 'm-d-Y';
+            }else if($datepicker_format == "YYYY/MM/DD") {
+                $date_format = 'Y/m/d';
+            }else if($datepicker_format == "DD-MMM-YY") {
+                $date_format = 'd-M-Y';
+            }
+        @endphp
+
         <div class="row row-xs">
             <div class="col-md-3 pd-t-10">
                 <label for="department_id" style="font-weight:bold;" class="col-form-label">Department*:</label>
@@ -53,12 +67,12 @@
 
             <div class="col-md-3 pd-t-10">
                 <label for="date_of_joining" style="font-weight:bold;" class="col-form-label">Date of Joining*:</label>
-                <input type="text" name="date_of_joining" placeholder="Date of Joining*" @if($employment_info !="" && $employment_info->date_of_joining != "" && $employment_info->date_of_joining != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_joining))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
+                <input type="text" name="date_of_joining" placeholder="Date of Joining*" @if($employment_info !="" && $employment_info->date_of_joining != "" && $employment_info->date_of_joining != "1970-01-01") value="{{ date($date_format,strtotime($employment_info->date_of_joining))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
                 <label for="date_of_confirmation" style="font-weight:bold;" class="col-form-label">Date of Confirmation*:</label>
-                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation*" @if($employment_info !="" && $employment_info->date_of_confirmation != "" && $employment_info->date_of_confirmation != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_confirmation))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
+                <input type="text" name="date_of_confirmation" placeholder="Date of Confirmation*" @if($employment_info !="" && $employment_info->date_of_confirmation != "" && $employment_info->date_of_confirmation != "1970-01-01") value="{{ date($date_format,strtotime($employment_info->date_of_confirmation))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
@@ -72,7 +86,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <label for="date_of_resign" style="font-weight:bold;" class="col-form-label">Date of Resign:</label>
-                <input type="text" name="date_of_resign" placeholder="Date of Resign" @if($employment_info !="" && $employment_info->date_of_resign != "" && $employment_info->date_of_resign != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_resign))}}" @endif class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_resign" placeholder="Date of Resign" @if($employment_info !="" && $employment_info->date_of_resign != "" && $employment_info->date_of_resign != "1970-01-01") value="{{ date($date_format,strtotime($employment_info->date_of_resign))}}" @endif class="form-control dtpicker" autocomplete="off"/>
             </div>
 
             <div class="col-md-9 pd-t-10">
@@ -92,7 +106,7 @@
 
             <div class="col-md-3 pd-t-10">
                 <label for="date_of_termination" style="font-weight:bold;" class="col-form-label">Date of Termination:</label>
-                <input type="text" name="date_of_termination" placeholder="Date of Termination" @if($employment_info !="" && $employment_info->date_of_termination != "" && $employment_info->date_of_termination != "1970-01-01") value="{{ date('d-m-Y',strtotime($employment_info->date_of_termination))}}" @endif class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_termination" placeholder="Date of Termination" @if($employment_info !="" && $employment_info->date_of_termination != "" && $employment_info->date_of_termination != "1970-01-01") value="{{ date($date_format,strtotime($employment_info->date_of_termination))}}" @endif class="form-control dtpicker" autocomplete="off"/>
             </div>
 
             <div class="col-md-6 pd-t-10">

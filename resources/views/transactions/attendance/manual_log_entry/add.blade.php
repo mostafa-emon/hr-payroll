@@ -35,6 +35,19 @@
                                     <form method="POST" action="{{url('manual-log-entry/add-post')}}">
                                         {{ csrf_field() }}
 
+                                        @php 
+                                            $datepicker_format = datepicker_format();
+                                            $date_format = 'd-m-Y';
+                                            
+                                            if($datepicker_format == "MM-DD-YYYY") {
+                                                $date_format = 'm-d-Y';
+                                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                                $date_format = 'Y/m/d';
+                                            }else if($datepicker_format == "DD-MMM-YY") {
+                                                $date_format = 'd-M-Y';
+                                            }
+                                        @endphp
+
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-4 mg-t-10">
@@ -70,7 +83,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
-                                                    <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date('d-m-Y')}}" required/>
+                                                    <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date($date_format)}}" required/>
                                                 </div>
                                                 <div class="col-md-3 mg-t-10">
                                                     <input type="time" class="form-control" id="in_time" name="in_time" placeholder="In Time" autocomplete="off" required>

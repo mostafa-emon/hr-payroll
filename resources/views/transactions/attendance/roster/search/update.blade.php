@@ -35,10 +35,23 @@
                                     <form method="POST" action="{{url('roster-employee/update/'.$r_employee->id)}}" enctype="multipart/form-data">
                                         {{ csrf_field() }}
 
+                                        @php 
+                                            $datepicker_format = datepicker_format();
+                                            $date_format = 'd-m-Y';
+                                            
+                                            if($datepicker_format == "MM-DD-YYYY") {
+                                                $date_format = 'm-d-Y';
+                                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                                $date_format = 'Y/m/d';
+                                            }else if($datepicker_format == "DD-MMM-YY") {
+                                                $date_format = 'd-M-Y';
+                                            }
+                                        @endphp
+
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
                                                 <div class="col-md-4 mg-t-10">
-                                                    <input class="form-control dtpicker" name="date" placeholder="Date" value="{{date('d-m-Y',strtotime($r_employee->date))}}" type="text" autocomplete="off" required>
+                                                    <input class="form-control dtpicker" name="date" placeholder="Date" value="{{date($date_format,strtotime($r_employee->date))}}" type="text" autocomplete="off" required>
                                                 </div>
                                                 <div class="col-md-4 mg-t-10">
                                                     <select name="shift_id" class="form-control select2-no-search" required>

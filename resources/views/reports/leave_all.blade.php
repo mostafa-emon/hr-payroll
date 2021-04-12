@@ -53,6 +53,20 @@
                     @if(count($employees) == 0)
                     <form action="{{ url('leave-report-all') }}" method="POST">
                         {{ csrf_field() }}
+
+                        @php 
+                            $datepicker_format = datepicker_format();
+                            $date_format = 'd-m-Y';
+                            
+                            if($datepicker_format == "MM-DD-YYYY") {
+                                $date_format = 'm-d-Y';
+                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                $date_format = 'Y/m/d';
+                            }else if($datepicker_format == "DD-MMM-YY") {
+                                $date_format = 'd-M-Y';
+                            }
+                        @endphp
+
                         <div class="row">
                             <div class="col-md-3" style="display:none;">
                                 <input type="text" class="form-control" name="job" value="1"/>
@@ -115,11 +129,11 @@
                             </div>
                             <div class="col-md-3">
                                 <label for="Remark" style="font-weight:bold;" class="col-form-label">From Date:</label>
-                                <input type="text" class="form-control dtpicker" name="from_date" value="{{date('d-m-Y',strtotime($from_date))}}"placeholder="From Date" autocomplete="off" required>
+                                <input type="text" class="form-control dtpicker" name="from_date" value="{{date($date_format,strtotime($from_date))}}"placeholder="From Date" autocomplete="off" required>
                             </div>
                             <div class="col-md-3">
                                 <label for="Remark" style="font-weight:bold;" class="col-form-label">To Date:</label>
-                                <input type="text" class="form-control dtpicker" name="to_date" value="{{date('d-m-Y',strtotime($to_date))}}" placeholder="To Date" autocomplete="off" required>
+                                <input type="text" class="form-control dtpicker" name="to_date" value="{{date($date_format,strtotime($to_date))}}" placeholder="To Date" autocomplete="off" required>
                             </div>
                         </div>
                         <br>

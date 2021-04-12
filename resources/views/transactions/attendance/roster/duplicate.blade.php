@@ -46,6 +46,20 @@
                     <hr>
                     <form action="{{ url('create-roster') }}" method="POST">
                         {{ csrf_field() }}
+
+                        @php 
+                            $datepicker_format = datepicker_format();
+                            $date_format = 'd-m-Y';
+                            
+                            if($datepicker_format == "MM-DD-YYYY") {
+                                $date_format = 'm-d-Y';
+                            }else if($datepicker_format == "YYYY/MM/DD") {
+                                $date_format = 'Y/m/d';
+                            }else if($datepicker_format == "DD-MMM-YY") {
+                                $date_format = 'd-M-Y';
+                            }
+                        @endphp
+
                         <div class="row">
                             <div class="col-md-3">
                                 <input type="text" name="roster_name" class="form-control" placeholder="Roster Title" value="{{$roster_name}}" required/>
@@ -75,10 +89,10 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" value="@if($from_date != ""){{date('d-m-Y',strtotime($from_date))}}@endif"/>
+                                <input type="text" name="from_date" class="form-control dtpicker" autocomplete="off" placeholder="From Date" value="@if($from_date != ""){{date($date_format,strtotime($from_date))}}@endif"/>
                             </div>
                             <div class="col-md-3">
-                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" value="@if($from_date != ""){{date('d-m-Y',strtotime($to_date))}}@endif"/>
+                                <input type="text" name="to_date" class="form-control dtpicker" autocomplete="off" placeholder="To Date" value="@if($from_date != ""){{date($date_format,strtotime($to_date))}}@endif"/>
                             </div>
                             <div class="col-md-3">
                                 <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Search"/>
