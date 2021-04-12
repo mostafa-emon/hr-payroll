@@ -1110,3 +1110,12 @@ function total_deposit_tax_amount($tax_id) {
     }
     return $total_tax;
 }
+
+function datepicker_format() {
+    $general_settings = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
+    if($general_settings != "") {
+        return $general_settings->date_format;
+    }else{
+        return "";
+    }
+}

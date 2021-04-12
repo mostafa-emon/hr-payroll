@@ -25,7 +25,7 @@
 	</head>
 
 	<body class="main-body app sidebar-mini {{ leftmenu_color() }}">
-
+		@php $datepicker_format = datepicker_format(); @endphp
 		<!-- Loader -->
 		<div id="global-loader">
 			<img src="{{asset('assets/img/loader.svg')}}" class="loader-img" alt="Loader">
@@ -759,6 +759,7 @@
 		<script src="{{asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
 		
 		<script>
+			var datepicker_format = "{{$datepicker_format}}";
 			/*
 			$("body").on("submit", "form", function() {
 				$(this).submit(function() {
@@ -783,9 +784,23 @@
             	$(this).closest(".form-group").removeClass("form-group-active");
             });
 
-			$('.dtpicker').datepicker({
-				dateFormat: 'dd-mm-yy'
-			});
+			if(datepicker_format == "DD-MM-YYYY") {
+				$('.dtpicker').datepicker({
+					dateFormat: 'dd-mm-yy'
+				});
+			}else if(datepicker_format == "MM-DD-YYYY") {
+				$('.dtpicker').datepicker({
+					dateFormat: 'mm-dd-yy'
+				});
+			}else if(datepicker_format == "YYYY/MM/DD") {
+				$('.dtpicker').datepicker({
+					dateFormat: 'yy/mm/dd'
+				});
+			}else if(datepicker_format == "DD-MMM-YY") {
+				$('.dtpicker').datepicker({
+					dateFormat: 'dd-M-y'
+				});
+			}
 
 			$('.monthpicker').datepicker( {
 				changeMonth: true,
