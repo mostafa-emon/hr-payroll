@@ -44,7 +44,7 @@
                     }else if($datepicker_format == "YYYY/MM/DD") {
                         $date_format = 'Y/m/d';
                     }else if($datepicker_format == "DD-MMM-YY") {
-                        $date_format = 'd-M-Y';
+                        $date_format = 'd-M-y';
                     }
                 @endphp
 
