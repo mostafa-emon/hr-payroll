@@ -229,7 +229,7 @@ function getToken(){
                 'refreshTokenKey'   => $OAuth->refresh_token,
                 'QBORealmID'        => $company->qb_company_id,
             ));
-            
+
             $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
             $refreshedAccessTokenObj = $OAuth2LoginHelper->refreshToken();
 
@@ -252,35 +252,44 @@ function number_formatting($amount){
             $intpart = floor( $amount );
             $fraction = $amount - $intpart;
 
-            $lenght = strlen($intpart);
-            if($lenght > 3) {
-                $last_3_digits  = substr($intpart, -3);
-                $rest_digits    = substr($intpart, 0, -3);
-
-                $rest_digits = (string)$rest_digits;
-                $arr = str_split($rest_digits, "2");
-                $comma_separated = implode(",", $arr);
-
-                $full_digit = $comma_separated.','.$last_3_digits;
-
-                if($fraction != 0) {
-                    $fraction = substr(number_format($fraction,2), -2);
-                    $full_digit = $full_digit.'.'.$fraction;
-                }else{
-                    $full_digit = $full_digit.'.00';
+            $num = $intpart;
+            $explrestunits = "" ;
+            if(strlen($num)>3) {
+                $lastthree = substr($num, strlen($num)-3, strlen($num));
+                $restunits = substr($num, 0, strlen($num)-3); // extracts the last three digits
+                $restunits = (strlen($restunits)%2 == 1)?"0".$restunits:$restunits; // explodes the remaining digits in 2's formats, adds a zero in the beginning to maintain the 2's grouping.
+                $expunit = str_split($restunits, 2);
+                for($i=0; $i<sizeof($expunit); $i++) {
+                    // creates each of the 2's group and adds a comma to the end
+                    if($i==0) {
+                        $explrestunits .= (int)$expunit[$i].","; // if is first value , convert into integer
+                    } else {
+                        $explrestunits .= $expunit[$i].",";
+                    }
                 }
-            }else{
-                $full_digit = "&nbsp;".number_format($amount,2);
+                $thecash = $explrestunits.$lastthree;
+            } else {
+                $thecash = $num;
             }
-            
+
+            if($fraction != 0) {
+                $fraction = substr(number_format($fraction,2), -2);
+                $full_digit = $thecash.'.'.$fraction;
+            }else {
+                $full_digit = $thecash;
+            }
+
         }else if($setting->amount_in_word == "Billion-Million-Thousand") {
             $intpart = floor( $amount );
             $fraction = $amount - $intpart;
-            
+
+            if($fraction >= 0.5) {
+                $amount = $amount - 1;
+            }
+
             $lenght = strlen($intpart);
             if($lenght > 3) {
                 $full_digit = number_format($amount, 0, '', ',');
-
                 if($fraction != 0) {
                     $fraction = substr(number_format($fraction,2), -2);
                     $full_digit = $full_digit.'.'.$fraction;
@@ -296,8 +305,8 @@ function number_formatting($amount){
     }else {
         return "";
     }
-    
-} 
+
+}
 
 function get_auto_increment_employee_id($employee_id) {
     return Employee::where('employee_id',$employee_id)->first()->id;
@@ -354,7 +363,7 @@ function per_day_salary($employee_id,$request_month,$request_year) {
     $month = date('m', strtotime($request_month));
     $cur_month = $request_year.'-'.$month;
     $total_days         = date('t', strtotime($cur_month));
-    
+
     $total_salary       = 0;
     $payroll_infos      = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
 
@@ -362,7 +371,7 @@ function per_day_salary($employee_id,$request_month,$request_year) {
         $get_component_id = $payroll_info->salary_component_id;
 
         $component_detail = SalaryComponent::where('id',$get_component_id)->first();
-        
+
         if($component_detail->component_reference != "PF Company Portion") {
             $total_salary   = $total_salary + $payroll_info->final_amount;
         }
@@ -505,13 +514,13 @@ function amount_in_word($amount,$employee_id = "") {
         $currency_unit      = "";
         $currency_sub_unit  = "";
     }
-    
+
 
     if($setting->amount_in_word == "Crore-Lac-Thousand" || $setting->amount_in_word == "Crore-Lakh-Thousand") {
         $number = $amount;
         $no = round($number);
-        $decimal = round($number - ($no = floor($number)), 2) * 100;    
-        $digits_length = strlen($no);    
+        $decimal = round($number - ($no = floor($number)), 2) * 100;
+        $digits_length = strlen($no);
         $i = 0;
         $str = array();
         $words = array(
@@ -543,31 +552,31 @@ function amount_in_word($amount,$employee_id = "") {
             70 => 'Seventy',
             80 => 'Eighty',
             90 => 'Ninety');
-        
+
         if($setting->amount_in_word == "Crore-Lac-Thousand") {
             $digits = array('', 'Hundred', 'Thousand', 'Lac', 'Crore');
         }else {
             $digits = array('', 'Hundred', 'Thousand', 'Lakh', 'Crore');
         }
-        
+
         while ($i < $digits_length) {
             $divider = ($i == 2) ? 10 : 100;
             $number = floor($no % $divider);
             $no = floor($no / $divider);
             $i += $divider == 10 ? 1 : 2;
             if ($number) {
-                $plural = (($counter = count($str)) && $number > 9) ? 's' : null;            
+                $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
                 $str [] = ($number < 21) ? $words[$number] . ' ' . $digits[$counter] . $plural : $words[floor($number / 10) * 10] . ' ' . $words[$number % 10] . ' ' . $digits[$counter] . $plural;
             } else {
                 $str [] = null;
-            }  
+            }
         }
-        
+
         $Rupees = implode(' ', array_reverse($str));
         $paise = ($decimal) ? "And ".$currency_sub_unit." " . ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  : '';
         return ($Rupees ? $currency_unit .' '. $Rupees : '') . $paise . " Only";
     }
-    
+
     else {
         return $currency_unit." ".convert_number_to_words($amount,$amount,$currency_sub_unit).' Only';
     }
@@ -576,8 +585,8 @@ function amount_in_word($amount,$employee_id = "") {
 function decimal_in_word($amount) {
     $number = $amount;
     $no = round($number);
-    $decimal = round($number - ($no = floor($number)), 2) * 100;    
-    $digits_length = strlen($no);    
+    $decimal = round($number - ($no = floor($number)), 2) * 100;
+    $digits_length = strlen($no);
     $i = 0;
     $str = array();
     $words = array(
@@ -609,22 +618,22 @@ function decimal_in_word($amount) {
         70 => 'Seventy',
         80 => 'Eighty',
         90 => 'Ninety');
-    
+
     $digits = array('', 'Hundred', 'Thousand', 'Lac', 'Crore');
-    
+
     while ($i < $digits_length) {
         $divider = ($i == 2) ? 10 : 100;
         $number = floor($no % $divider);
         $no = floor($no / $divider);
         $i += $divider == 10 ? 1 : 2;
         if ($number) {
-            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;            
+            $plural = (($counter = count($str)) && $number > 9) ? 's' : null;
             $str [] = ($number < 21) ? $words[$number] . ' ' . $digits[$counter] . $plural : $words[floor($number / 10) * 10] . ' ' . $words[$number % 10] . ' ' . $digits[$counter] . $plural;
         } else {
             $str [] = null;
-        }  
+        }
     }
-    
+
     $Rupees = implode(' ', array_reverse($str));
     $paise = ($decimal) ? ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  : '';
     return ($Rupees ? $currency_unit .' '. $Rupees : '') . $paise;
@@ -943,7 +952,7 @@ function gross_salary($employee_id) {
         $get_component_id = $payroll_info->salary_component_id;
 
         $component_detail = SalaryComponent::where('id',$get_component_id)->first();
-        
+
         if($component_detail->component_reference != "PF Company Portion" && $component_detail->component_reference != "Festival Bonus" && $component_detail->component_reference != "Gratuity") {
             $gross_salary   = $gross_salary + $payroll_info->final_amount;
         }

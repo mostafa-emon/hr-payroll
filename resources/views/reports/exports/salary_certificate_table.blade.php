@@ -11,7 +11,7 @@
     </thead>
   </table>
 </div>
-        
+
 <div class="table-responsive">
   <table style="width:100%;">
     <thead>
@@ -67,8 +67,9 @@
           <td>{{$employee->component_name}}</td>
           <td style="text-align: right;">
             @php
-              echo $total_component_amount = total_component_amount($from_date,$to_date,$employee->id,$employee->component_id);
+              $total_component_amount = total_component_amount($from_date,$to_date,$employee->id,$employee->component_id);
               $gross_salary                = $gross_salary + $total_component_amount;
+              echo number_formatting($total_component_amount);
             @endphp
           </td>
         </tr>
@@ -92,7 +93,7 @@
         <td style="text-align: right;font-weight:bold;">{{$gross_salary}}</td>
       </tr>
 
-        @php 
+        @php
           $employee_portion = present_own_portion($from_date,$to_date,$employee->id);
           $employee_deposit_tax = 0;
           if(count($deposit_taxes) > 0) {
@@ -106,10 +107,10 @@
         <tr>
           <td colspan="3" style="border:none;">&nbsp;</td>
         </tr>
-        
+
         <tr>
           <td colspan="3" style="border:none;font-size:15px;">
-            Against the Above earnings, @if($employee_deposit_tax != 0)The Source Tax Amount <b>BDT {{$employee_deposit_tax}}</b> and @endif @if($employee_portion != 0)<b>P/F Amount BDT {{$employee_portion}}</b> @endif was deducted during this period, @if($employee_deposit_tax != 0)Tax amount was deposited the same into the Government Treasury, vide following challan Nos.: @endif      
+            Against the Above earnings, @if($employee_deposit_tax != 0)The Source Tax Amount <b>BDT {{$employee_deposit_tax}}</b> and @endif @if($employee_portion != 0)<b>P/F Amount BDT {{$employee_portion}}</b> @endif was deducted during this period, @if($employee_deposit_tax != 0)Tax amount was deposited the same into the Government Treasury, vide following challan Nos.: @endif
           </td>
         <tr>
 
