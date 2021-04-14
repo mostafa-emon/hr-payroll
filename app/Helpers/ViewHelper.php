@@ -668,7 +668,7 @@ function convert_number_to_words($number,$amount="",$currency_sub_unit = "") {
         19                  => 'Nineteen',
         20                  => 'Twenty',
         30                  => 'Thirty',
-        40                  => 'Fourty',
+        40                  => 'Forty',
         50                  => 'Fifty',
         60                  => 'Sixty',
         70                  => 'Seventy',
