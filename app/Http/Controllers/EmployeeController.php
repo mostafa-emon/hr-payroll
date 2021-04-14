@@ -685,7 +685,7 @@ class EmployeeController extends Controller
 
         if(count($employees) > 0) {
             foreach($employees as $employee) {
-                echo "<option value=".$employee->employee_id.">".$employee->name."</option>";
+                echo "<option value=".$employee->employee_id.">".$employee->employee_id.' - '.$employee->name .' - '.employee_designation($employee->id)."</option>";
             }
         }else {
             echo "";
