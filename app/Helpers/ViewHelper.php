@@ -741,7 +741,9 @@ function convert_number_to_words($number,$amount="",$currency_sub_unit = "") {
     if (is_float($amount)) {
         $intValue = intval($amount);
         $decimalValue = $amount - $intValue;
-        $string .= " And ".$currency_sub_unit.' '.decimal_in_word($decimalValue);
+        if($decimalValue != "" && $decimalValue != 0) {
+            $string .= " And ".$currency_sub_unit.' '.decimal_in_word($decimalValue);
+        }
     }
 
     return $string;
