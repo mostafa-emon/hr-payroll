@@ -87,13 +87,15 @@
             </td>
             <td style="text-align: center;">
               @php
-                echo $hourly_ot_rate = hourly_ot_rate($employee->employee_id);
+                $hourly_ot_rate = hourly_ot_rate($employee->employee_id);
+                echo number_formatting($hourly_ot_rate);
               @endphp
             </td>
             <td style="text-align: center;">
               @php
                 $ot_hour = $employee->over_time / 60;
-                echo $amount = round($ot_hour * $hourly_ot_rate);
+                $amount = round($ot_hour * $hourly_ot_rate);
+                echo number_formatting($amount);
                 $total_ot_amount        = $total_ot_amount + $amount;
               @endphp
             </td>
@@ -125,7 +127,7 @@
           <td colspan="7" style="text-align: right;">Total OT</td>
           <td style="text-align: center;">{{gmdate("H:i", $total_ot_minutes * 60)}}</td>
           <td></td>
-          <td style="text-align: center;">{{$total_ot_amount}}</td>
+          <td style="text-align: center;">{{number_formatting($total_ot_amount)}}</td>
           <td></td>
           <td></td>
         </tr>

@@ -80,7 +80,7 @@
             <td>{{branch_name($employee->branch_id)}}</td>
             <td>{{currency_name($employee->currency_id)}}</td>
             <td style="text-align:center;">{{$employee->bank_account_no}}</td>
-            <td style="text-align:center;">{{$employee->total_salary}}</td>
+            <td style="text-align:center;">{{number_formatting($employee->total_salary)}}</td>
             @if($hide_detail_btn != 'Yes')
               <td style="text-align:center;vertical-align:middle;">
                 <a href="{{ url('salary-sheet/details/'.$employee->employee_id.'/'.$month.'/'.$year) }}" class="btn btn-success btn-sm">Details</a>

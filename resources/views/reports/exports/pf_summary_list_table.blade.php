@@ -54,21 +54,21 @@
           <td colspan="6" style="text-align: right;font-weight:bold;">Total</td>
   
           @if($show_previous_balance == 'Yes')
-            <td style="text-align: center;font-weight:bold;">{{$total_previous_own_portion}}</td>
-            <td style="text-align: center;font-weight:bold;">{{$total_previous_company_portion}}</td>
-            <td style="text-align: center;font-weight:bold;">{{$grand_total_previous_portion}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_previous_own_portion)}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_previous_company_portion)}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_previous_portion)}}</td>
           @endif
   
           @if($show_current_period == 'Yes')
-            <td style="text-align: center;font-weight:bold;">{{$total_present_own_portion}}</td>
-            <td style="text-align: center;font-weight:bold;">{{$total_present_company_portion}}</td>
-            <td style="text-align: center;font-weight:bold;">{{$grand_total_present_portion}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_present_own_portion)}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_present_company_portion)}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_present_portion)}}</td>
           @endif
   
           @if($show_closing_balance == 'Yes')
-            <td style="text-align: center;font-weight:bold;">{{$total_closing_own_portion}}</td>
-            <td style="text-align: center;font-weight:bold;">{{$total_closing_company_portion}}</td>
-            <td style="text-align: center;font-weight:bold;">{{$grand_total_closing_portion}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_closing_own_portion)}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_closing_company_portion)}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_closing_portion)}}</td>
           @endif
         </tr>
       <tbody>
@@ -148,19 +148,34 @@
             @if($show_previous_balance == 'Yes')
               <td style="text-align: center;">
                 @php 
-                  echo $previous_own_portion      = previous_own_portion($from_date,$employee->employee_id); 
+                  $previous_own_portion      = previous_own_portion($from_date,$employee->employee_id);
+                  if($previous_own_portion != 0) {
+                    echo number_formatting($previous_own_portion);
+                  }else{
+                    echo "0";
+                  }
                   $total_previous_own_portion     = $total_previous_own_portion + $previous_own_portion;
                 @endphp
               </td>
               <td style="text-align: center;">
                 @php 
-                  echo $previous_company_portion  = previous_company_portion($from_date,$employee->employee_id);
+                  $previous_company_portion  = previous_company_portion($from_date,$employee->employee_id);
+                  if($previous_company_portion != 0) {
+                    echo number_formatting($previous_company_portion);
+                  }else{
+                    echo "0";
+                  }
                   $total_previous_company_portion = $total_previous_company_portion + $previous_company_portion;
                 @endphp
               </td>
               <td style="text-align: center;">
                 @php 
-                  echo $total_previous_portion    = $previous_own_portion + $previous_company_portion;
+                  $total_previous_portion    = $previous_own_portion + $previous_company_portion;
+                  if($total_previous_portion != 0) {
+                    echo number_formatting($total_previous_portion);
+                  }else{
+                    echo "0";
+                  }
                   $grand_total_previous_portion   = $grand_total_previous_portion + $total_previous_portion;
                 @endphp
               </td>
@@ -169,20 +184,35 @@
             @if($show_current_period == 'Yes')
               <td style="text-align: center;">
                 @php 
-                  echo $present_own_portion       = present_own_portion($from_date,$to_date,$employee->employee_id);
+                  $present_own_portion       = present_own_portion($from_date,$to_date,$employee->employee_id);
+                  if($present_own_portion != 0) {
+                    echo number_formatting($present_own_portion);
+                  }else{
+                    echo "0";
+                  }
                   $total_present_own_portion      = $total_present_own_portion + $present_own_portion;
                 @endphp
               </td>
               <td style="text-align: center;">
                 @php 
-                  echo $present_company_portion   = present_company_portion($from_date,$to_date,$employee->employee_id);
+                  $present_company_portion   = present_company_portion($from_date,$to_date,$employee->employee_id);
+                  if($present_company_portion != 0) {
+                    echo number_formatting($present_company_portion);
+                  }else{
+                    echo "0";
+                  }
                   $total_present_company_portion  = $total_present_company_portion + $present_company_portion;
                 @endphp
               </td>
 
               <td style="text-align: center;">
                 @php 
-                  echo $total_present_portion     = $present_own_portion + $present_company_portion;
+                  $total_present_portion     = $present_own_portion + $present_company_portion;
+                  if($total_present_portion != 0) {
+                    echo number_formatting($total_present_portion);
+                  }else{
+                    echo "0";
+                  }
                   $grand_total_present_portion    = $grand_total_present_portion + $total_present_portion;
                 @endphp
               </td>
@@ -191,19 +221,34 @@
             @if($show_closing_balance == 'Yes')
               <td style="text-align: center;">
                 @php 
-                  echo $closing_own_portion       = $previous_own_portion + $present_own_portion;
+                  $closing_own_portion       = $previous_own_portion + $present_own_portion;
+                  if($closing_own_portion != 0) {
+                    echo number_formatting($closing_own_portion);
+                  }else{
+                    echo "0";
+                  }
                   $total_closing_own_portion      = $total_closing_own_portion + $closing_own_portion;
                 @endphp
               </td>
               <td style="text-align: center;">
                 @php 
-                  echo $closing_company_portion   = $previous_company_portion + $present_company_portion;
+                  $closing_company_portion   = $previous_company_portion + $present_company_portion;
+                  if($closing_company_portion != 0) {
+                    echo number_formatting($closing_company_portion);
+                  }else{
+                    echo "0";
+                  }
                   $total_closing_company_portion  = $total_closing_company_portion + $closing_company_portion;
                 @endphp
               </td>
               <td style="text-align: center;">
                 @php
-                  echo $total_closing_portion    = $closing_own_portion + $closing_company_portion;
+                  $total_closing_portion    = $closing_own_portion + $closing_company_portion;
+                  if($total_closing_portion != 0) {
+                    echo number_formatting($total_closing_portion);
+                  }else{
+                    echo "0";
+                  }
                   $grand_total_closing_portion   = $grand_total_closing_portion + $total_closing_portion;
                 @endphp
               </td>
@@ -219,21 +264,21 @@
         <td colspan="6" style="text-align: right;font-weight:bold;">Total</td>
 
         @if($show_previous_balance == 'Yes')
-          <td style="text-align: center;font-weight:bold;">{{$total_previous_own_portion}}</td>
-          <td style="text-align: center;font-weight:bold;">{{$total_previous_company_portion}}</td>
-          <td style="text-align: center;font-weight:bold;">{{$grand_total_previous_portion}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_previous_own_portion)}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_previous_company_portion)}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_previous_portion)}}</td>
         @endif
 
         @if($show_current_period == 'Yes')
-          <td style="text-align: center;font-weight:bold;">{{$total_present_own_portion}}</td>
-          <td style="text-align: center;font-weight:bold;">{{$total_present_company_portion}}</td>
-          <td style="text-align: center;font-weight:bold;">{{$grand_total_present_portion}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_present_own_portion)}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_present_company_portion)}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_present_portion)}}</td>
         @endif
 
         @if($show_closing_balance == 'Yes')
-          <td style="text-align: center;font-weight:bold;">{{$total_closing_own_portion}}</td>
-          <td style="text-align: center;font-weight:bold;">{{$total_closing_company_portion}}</td>
-          <td style="text-align: center;font-weight:bold;">{{$grand_total_closing_portion}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_closing_own_portion)}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_closing_company_portion)}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_closing_portion)}}</td>
         @endif
       </tr>
       <tr>

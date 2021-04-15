@@ -131,12 +131,13 @@
                                         <tr>
                                             <td style="vertical-align: middle;text-align:center;">{{$sl = $sl + 1}}</td>
                                             <td style="vertical-align: middle;text-align:center;">Opening Balance</td>
-                                            <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance}}</td>
-                                            <td style="vertical-align: middle;text-align:right;">{{$employee_pf_opening_balance}}</td>
-                                            <td style="vertical-align: middle;text-align:right;">{{$company_pf_opening_balance + $employee_pf_opening_balance}}</td>
+                                            <td style="vertical-align: middle;text-align:right;">{{number_formatting($company_pf_opening_balance)}}</td>
+                                            <td style="vertical-align: middle;text-align:right;">{{number_formatting($employee_pf_opening_balance)}}</td>
+                                            <td style="vertical-align: middle;text-align:right;">{{number_formatting($company_pf_opening_balance + $employee_pf_opening_balance)}}</td>
                                             <td style="vertical-align: middle;text-align:right;">
                                                 @php
-                                                    echo $cumulative_balance = $cumulative_balance + $company_pf_opening_balance + $employee_pf_opening_balance;
+                                                    $cumulative_balance = $cumulative_balance + $company_pf_opening_balance + $employee_pf_opening_balance;
+                                                    echo number_formatting($cumulative_balance);
                                                 @endphp
                                             </td>
                                         </tr>
@@ -152,15 +153,16 @@
                                             <tr>
                                                 <td style="vertical-align: middle;text-align:center;">{{$loop->iteration + $sl}}</td>
                                                 <td style="vertical-align: middle;text-align:center;">{{$pf->month}} {{$pf->year}}</td>
-                                                <td style="vertical-align: middle;text-align:right;">{{$company_pf_amount}}</td>
-                                                <td style="vertical-align: middle;text-align:right;">{{$employee_pf_amount}}</td>
+                                                <td style="vertical-align: middle;text-align:right;">{{number_formatting($company_pf_amount)}}</td>
+                                                <td style="vertical-align: middle;text-align:right;">{{number_formatting($employee_pf_amount)}}</td>
                                                 <td style="vertical-align: middle;text-align:right;">
                                                     @php 
-                                                        echo $month_total   = $company_pf_amount + $employee_pf_amount;
+                                                        $month_total   = $company_pf_amount + $employee_pf_amount;
+                                                        echo number_formatting($month_total);
                                                         $cumulative_balance = $cumulative_balance + $month_total;
                                                     @endphp
                                                 </td>
-                                                <td style="vertical-align: middle;text-align:right;">{{$cumulative_balance}}</td>
+                                                <td style="vertical-align: middle;text-align:right;">{{number_formatting($cumulative_balance)}}</td>
                                             </tr>
                                             @endforeach
                                         @endif

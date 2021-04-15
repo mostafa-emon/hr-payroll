@@ -65,9 +65,9 @@
                 @endphp
               @endif
             @endforeach
-            <td style="text-align: center;font-weight:bold;">{{$total_component_amount}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($total_component_amount)}}</td>
           @endforeach
-          <td style="text-align: center;font-weight:bold;">{{$all_employee_component_amount}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($all_employee_component_amount)}}</td>
         </tr>
       <tbody>
     @endif
@@ -114,7 +114,7 @@
                 @php 
                   $component_amount = get_earning_component_amount($employee->employee_id,$employee->salary_component_id,$dt->format("M-Y"));
                   if($component_amount != 0) {
-                    echo $component_amount;
+                    echo number_formatting($component_amount);
                   }else{
                     echo "";
                   }
@@ -122,7 +122,7 @@
                 @endphp
               </td>
             @endforeach
-            <td style="text-align: center;font-weight:bold;">{{$single_employee_total_component_amount}}</td>
+            <td style="text-align: center;font-weight:bold;">{{number_formatting($single_employee_total_component_amount)}}</td>
         </tr>
     </tbody>
 
@@ -143,9 +143,9 @@
               @endphp
             @endif
           @endforeach
-          <td style="text-align: center;font-weight:bold;">{{$total_component_amount}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($total_component_amount)}}</td>
         @endforeach
-        <td style="text-align: center;font-weight:bold;">{{$all_employee_component_amount}}</td>
+        <td style="text-align: center;font-weight:bold;">{{number_formatting($all_employee_component_amount)}}</td>
       </tr>
 
       <tr>
@@ -163,9 +163,9 @@
                 $all_employee_total_component_amount = $all_employee_total_component_amount + $component_amount;
               @endphp
           @endforeach
-          <td style="text-align: center;font-weight:bold;">{{$grand_total_component_amount}}</td>
+          <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_component_amount)}}</td>
         @endforeach
-        <td style="text-align: center;font-weight:bold;">{{$all_employee_total_component_amount}}</td>
+        <td style="text-align: center;font-weight:bold;">{{number_formatting($all_employee_total_component_amount)}}</td>
       </tr>
     <tbody>
   </table>

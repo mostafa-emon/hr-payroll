@@ -49,7 +49,7 @@
         <td colspan="4" style="text-align: right;">Total</td>
         <td style="text-align: center;">{{gmdate("H:i", $total_ot_minutes * 60)}}</td>
         <td></td>
-        <td style="text-align: center;">{{$total_ot_amount}}</td>
+        <td style="text-align: center;">{{number_formatting($total_ot_amount)}}</td>
       </tr>
       <tbody>
     @endif
@@ -92,13 +92,15 @@
             </td>
             <td style="text-align: center;">
             @php
-              echo $hourly_ot_rate = hourly_ot_rate($employee_info->id);
+              $hourly_ot_rate = hourly_ot_rate($employee_info->id);
+              echo number_formatting($hourly_ot_rate);
             @endphp
             </td>
             <td style="text-align: center;">
               @php
                 $ot_hour = $employee->over_time / 60;
-                echo $amount = round($ot_hour * $hourly_ot_rate);
+                $amount = round($ot_hour * $hourly_ot_rate);
+                echo number_formatting($amount);
                 $total_ot_amount        = $total_ot_amount + $amount;
                 $grand_total_ot_amount  = $grand_total_ot_amount + $amount;
               @endphp
@@ -114,7 +116,7 @@
         <td colspan="4" style="text-align: right;">Total</td>
         <td style="text-align: center;">{{gmdate("H:i", $total_ot_minutes * 60)}}</td>
         <td></td>
-        <td style="text-align: center;">{{$total_ot_amount}}</td>
+        <td style="text-align: center;">{{number_formatting($total_ot_amount)}}</td>
       </tr>
       <tr>
         <td colspan="7" style="border:none;">&nbsp;</td>
@@ -123,7 +125,7 @@
         <td colspan="4" style="text-align: right;font-weight:bold;">Grand Total</td>
         <td style="text-align: center;font-weight:bold;">{{gmdate("H:i", $grand_total_ot_minutes * 60)}}</td>
         <td></td>
-        <td style="text-align: center;font-weight:bold;">{{$grand_total_ot_amount}}</td>
+        <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total_ot_amount)}}</td>
       </tr>
       <tr>
         <td colspan="7" style="border:none;">&nbsp;</td>

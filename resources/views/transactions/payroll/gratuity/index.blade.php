@@ -65,7 +65,7 @@
                                     <td class="text-center" style="vertical-align: middle">{{$employee->employee_id}}</td>
                                     <td style="vertical-align: middle">{{employee_department($employee->id)}}</td>
                                     <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$gratuity->amount}}</td>
+                                    <td class="text-center" style="vertical-align: middle">{{number_formatting($gratuity->amount)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$gratuity->year}}</td>
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>

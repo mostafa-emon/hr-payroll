@@ -60,7 +60,7 @@
                                     <td style="vertical-align: middle" class="text-center">{{(($deductions->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{employee_name_by_increment_id($deduction->employee_id)}}</td>
                                     <td style="vertical-align: middle" class="text-left">{{get_component_name($deduction->salary_component_id)}}</td>
-                                    <td style="vertical-align: middle" class="text-center">{{$deduction->amount}}</td>
+                                    <td style="vertical-align: middle" class="text-center">{{number_formatting($deduction->amount)}}</td>
                                     <td style="vertical-align: middle" class="text-center">
                                         @if($deduction->type == "Increase")
                                             <span class="badge badge-success">Salary Increase</span>

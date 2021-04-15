@@ -27,7 +27,7 @@
                         <td style="vertical-align: middle;text-align:left;">{{employee_department($employee->employee_id)}}</td>
                         <td style="vertical-align: middle;text-align:left;">{{employee_designation($employee->employee_id)}}</td>
                         <td style="vertical-align: middle;text-align:left;">{{bank_account_no($employee->employee_id)}}</td>
-                        <td style="vertical-align: middle;text-align:right;">{{$employee->ot_amount}}</td>
+                        <td style="vertical-align: middle;text-align:right;">{{number_formatting($employee->ot_amount)}}</td>
                     </tr>
                 @endforeach
             </tbody>

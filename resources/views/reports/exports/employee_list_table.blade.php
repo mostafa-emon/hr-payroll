@@ -41,7 +41,7 @@
       <tbody>
         <tr>
           <td colspan="12" style="text-align: right;font-weight:bold;">Total</td>
-          <td style="text-align: right;font-weight:bold;">{{$total_salary}}</td>
+          <td style="text-align: right;font-weight:bold;">{{number_formatting($total_salary)}}</td>
         </tr>
       <tbody>
     @endif
@@ -102,7 +102,8 @@
             <td style="text-align: center;">{{$employee->nid_number}}</td>
             <td style="text-align: right;">
               @php
-              echo $gross_salary  = gross_salary($employee->employee_id);
+              $gross_salary  = gross_salary($employee->employee_id);
+              echo number_formatting($gross_salary);
               $total_salary       = $total_salary + $gross_salary;
               @endphp
             </td>
@@ -114,7 +115,7 @@
     <tbody>
       <tr>
         <td colspan="12" style="text-align: right;font-weight:bold;">Total</td>
-        <td style="text-align: right;font-weight:bold;">{{$total_salary}}</td>
+        <td style="text-align: right;font-weight:bold;">{{number_formatting($total_salary)}}</td>
       </tr>
       <tbody>
   </table>

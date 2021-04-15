@@ -61,7 +61,7 @@
                                         <td style="vertical-align: middle;text-align:left;">{{employee_department($detail->employee_id)}}</td>
                                         <td style="vertical-align: middle;text-align:left;">{{employee_designation($detail->employee_id)}}</td>
                                         <td style="vertical-align: middle;text-align:left;">{{bank_account_no($detail->employee_id)}}</td>
-                                        <td style="vertical-align: middle">{{$detail->salary_amount}}</td>
+                                        <td style="vertical-align: middle">{{number_formatting($detail->salary_amount)}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

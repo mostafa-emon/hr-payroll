@@ -88,9 +88,36 @@
       @if($show_previous_balance == 'Yes')
       <tr>
         <td colspan="2" style="text-align:right;font-weight:bold;">Previous Balance</td>
-        <td style="text-align: center;font-weight:bold;">@php echo $previous_own_portion     = $previous_own_portion + previous_own_portion($from_date,$employee_selection->id); @endphp</td>
-        <td style="text-align: center;font-weight:bold;">@php echo $previous_company_portion = $previous_company_portion + previous_company_portion($from_date,$employee_selection->id); @endphp</td>
-        <td style="text-align: center;font-weight:bold;">@php echo $total_previous_portion   = $total_previous_portion + $previous_own_portion + $previous_company_portion; @endphp</td>
+        <td style="text-align: center;font-weight:bold;">
+          @php 
+            $previous_own_portion     = $previous_own_portion + previous_own_portion($from_date,$employee_selection->id);
+            if($previous_own_portion != "") {
+              echo number_formatting($previous_own_portion);
+            }else{
+              echo "0";
+            }
+          @endphp
+        </td>
+        <td style="text-align: center;font-weight:bold;">
+          @php 
+            $previous_company_portion = $previous_company_portion + previous_company_portion($from_date,$employee_selection->id); 
+            if($previous_company_portion != "") {
+              echo number_formatting($previous_company_portion);
+            }else{
+              echo "0";
+            }
+          @endphp
+        </td>
+        <td style="text-align: center;font-weight:bold;">
+          @php 
+            $total_previous_portion   = $total_previous_portion + $previous_own_portion + $previous_company_portion;
+            if($total_previous_portion != "") {
+              echo number_formatting($total_previous_portion);
+            }else{
+              echo "0";
+            }
+          @endphp
+        </td>
       </tr>
       @endif
       @foreach($employees as $employee)
@@ -99,19 +126,34 @@
             <td style="text-align: center;"></td>
             <td style="text-align: center;">
               @php 
-                echo $own_portion      = own_portion($employee->month,$employee->year,$employee->employee_id);
+                $own_portion      = own_portion($employee->month,$employee->year,$employee->employee_id);
+                if($own_portion != "") {
+                  echo number_formatting($own_portion);
+                }else{
+                  echo "0";
+                }
                 $total_own_portion     = $total_own_portion + $own_portion;
               @endphp
             </td>
             <td style="text-align: center;">
               @php 
-                echo $company_portion  = company_portion($employee->month,$employee->year,$employee->employee_id);
+                $company_portion  = company_portion($employee->month,$employee->year,$employee->employee_id);
+                if($company_portion != "") {
+                  echo number_formatting($company_portion);
+                }else{
+                  echo "0";
+                }
                 $total_company_portion = $total_company_portion + $company_portion;
               @endphp
             </td>
             <td style="text-align: center;">
               @php 
-                echo $total_portion    = $own_portion + $company_portion;
+                $total_portion    = $own_portion + $company_portion;
+                if($total_portion != "") {
+                  echo number_formatting($total_portion);
+                }else{
+                  echo "0";
+                }
                 $grand_total           = $grand_total + $own_portion + $company_portion;
               @endphp
             </td>
@@ -119,9 +161,9 @@
       @endforeach
       <tr>
         <td colspan="2" style="text-align:right;font-weight:bold;">Total</td>
-        <td style="text-align: center;font-weight:bold;">{{$total_own_portion + $previous_own_portion}}</td>
-        <td style="text-align: center;font-weight:bold;">{{$total_company_portion + $previous_company_portion}}</td>
-        <td style="text-align: center;font-weight:bold;">{{$grand_total + $total_previous_portion}}</td>
+        <td style="text-align: center;font-weight:bold;">{{number_formatting($total_own_portion + $previous_own_portion)}}</td>
+        <td style="text-align: center;font-weight:bold;">{{number_formatting($total_company_portion + $previous_company_portion)}}</td>
+        <td style="text-align: center;font-weight:bold;">{{number_formatting($grand_total + $total_previous_portion)}}</td>
       </tr>
     </tbody>
   </table>

@@ -84,7 +84,7 @@
       <tr>
         <td style="text-align: center;">{{$sl = $sl + 1}}</td>
         <td>PF(Company Portion)</td>
-        <td style="text-align: right;">{{$company_portion}}</td>
+        <td style="text-align: right;">{{number_formatting($company_portion)}}</td>
       </tr>
       @endif
 
@@ -110,7 +110,7 @@
 
         <tr>
           <td colspan="3" style="border:none;font-size:15px;">
-            Against the Above earnings, @if($employee_deposit_tax != 0)The Source Tax Amount <b>BDT {{$employee_deposit_tax}}</b> and @endif @if($employee_portion != 0)<b>P/F Amount BDT {{$employee_portion}}</b> @endif was deducted during this period, @if($employee_deposit_tax != 0)Tax amount was deposited the same into the Government Treasury, vide following challan Nos.: @endif
+            Against the Above earnings, @if($employee_deposit_tax != 0)The Source Tax Amount <b>BDT {{number_formatting($employee_deposit_tax)}}</b> and @endif @if($employee_portion != 0)<b>P/F Amount BDT {{number_formatting($employee_portion)}}</b> @endif was deducted during this period, @if($employee_deposit_tax != 0)Tax amount was deposited the same into the Government Treasury, vide following challan Nos.: @endif
           </td>
         <tr>
 
@@ -146,9 +146,14 @@
           <td style="text-align: center;">{{$tax->challan_no}}</td>
           <td style="text-align: center;">{{$tax->chalan_date}}</td>
           <td style="text-align: center;">{{$tax->bank_name}}</td>
-          <td style="text-align: right;">{{total_deposit_tax_amount($tax->tax_id)}}</td>
           <td style="text-align: right;">
-            {{$tax->amount}}
+            @php 
+              $total_deposit_tax_amount = total_deposit_tax_amount($tax->tax_id);
+              echo number_formatting($total_deposit_tax_amount);
+            @endphp
+          </td>
+          <td style="text-align: right;">
+            {{number_formatting($tax->amount)}}
             @php $total_tax = $total_tax + $tax->amount; @endphp
           </td>
           <td style="text-align: center;">{{$tax->sl}}</td>
@@ -156,7 +161,7 @@
       @endforeach
         <tr>
           <td colspan="5" style="text-align:right;font-weight:bold;">Total Tax (BDT)</td>
-          <td style="text-align: right;font-weight:bold;">{{$total_tax}}</td>
+          <td style="text-align: right;font-weight:bold;">{{number_formatting($total_tax)}}</td>
           <td style="text-align: right;font-weight:bold;">&nbsp;</td>
         </tr>
     </tbody>

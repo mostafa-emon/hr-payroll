@@ -66,7 +66,7 @@
                                     <td class="text-center" style="vertical-align:middle">{{$loop->iteration}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->month}} {{$sheet->year}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->total_employee}}</td>
-                                    <td class="text-center" style="vertical-align:middle">{{$sheet->total_salary}}</td>
+                                    <td class="text-center" style="vertical-align:middle">{{number_formatting($sheet->total_salary)}}</td>
                                     <td class="text-center" style="vertical-align:middle">
                                         @php $count_mail_pay_slip = count_mail_pay_slip($sheet->month,$sheet->year); @endphp
                                         @if($count_mail_pay_slip == 0)
