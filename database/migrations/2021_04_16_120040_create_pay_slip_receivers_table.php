@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMailPaySlipsTable extends Migration
+class CreatePaySlipReceiversTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,18 @@ class CreateMailPaySlipsTable extends Migration
      */
     public function up()
     {
-        Schema::create('mail_pay_slips', function (Blueprint $table) {
+        Schema::create('pay_slip_receivers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->string('month',50);
-            $table->string('year',50);
+            $table->string('month',10);
+            $table->string('year',10);
+            $table->integer('employee_id');
+            $table->string('name');
+            $table->string('department');
+            $table->string('designation');
+            $table->string('email');
+            $table->tinyInteger('status');
             $table->timestamps();
         });
     }
@@ -30,6 +36,6 @@ class CreateMailPaySlipsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mail_pay_slips');
+        Schema::dropIfExists('pay_slip_receivers');
     }
 }

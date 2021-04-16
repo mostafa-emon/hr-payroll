@@ -3,21 +3,21 @@
         <div style="text-align:center;font-family: Arial;">
             {{$company_info->name}}
         </div>
-    
+
         <br>
-    
+
         <div style="text-align:center;font-family: Arial;">
             {{$company_info->address_line_1}} {{$company_info->address_line_2}}
         </div>
-    
+
         <br>
-    
+
         <div style="text-align:center;font-family: Arial;font-size:20px;">
             <b>Salary Pay Slip</b>
         </div>
-    
+
         <br>
-    
+
         <div style="text-align:center;font-family: Arial;">
             For The Month of {{date('M-Y',strtotime($month))}}
         </div>
@@ -25,7 +25,7 @@
 
     <div style="float:right;padding-right:30px;padding-top:-100px;">
         <span style="font-family: Arial;font-size:25px;font-weight:bold;">
-            <img src="{{ asset('storage/'.$company_info->logo) }}" height="80" width="80"/>
+            <img src="https://i.imgur.com/MPNREgb.png" height="80" width="80"/>
         </span>
     </div>
 
@@ -43,14 +43,14 @@
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Employee ID</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">:</span> 
+                    <span style="font-weight:bold;">:</span>
                     <span style="padding-top:2px;">{{$employee->original_employee_id}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Department</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">:</span> 
+                    <span style="font-weight:bold;">:</span>
                     <span style="padding-top:2px;">{{department_name($employee->department_id)}}</span>
                 </td>
             </tr>
@@ -64,28 +64,28 @@
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Date of Joining</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">:</span> 
+                    <span style="font-weight:bold;">:</span>
                     <span style="padding-top:2px;">{{date('d-M-y', strtotime($employee->date_of_joining))}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Project</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">:</span> 
+                    <span style="font-weight:bold;">:</span>
                     <span style="padding-top:2px;">{{project_name($employee->project_id)}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Branch</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">:</span> 
+                    <span style="font-weight:bold;">:</span>
                     <span style="padding-top:2px;">{{branch_name($employee->branch_id)}}</span>
                 </td>
             </tr>
             <tr>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">Payment Method</td>
                 <td style="padding-left:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">:</span> 
+                    <span style="font-weight:bold;">:</span>
                     <span style="padding-top:2px;">
                         @if($employee->salary_payment_method == "Bank") Bank Transfer
                         @else Cash
@@ -146,7 +146,7 @@
             <tr>
                 <td style="padding-right:8px;padding-top:8px;text-align:left;">&nbsp;</td>
                 <td style="padding-right:8px;padding-top:8px;text-align:left;">
-                    <span style="font-weight:bold;">&nbsp;</span> 
+                    <span style="font-weight:bold;">&nbsp;</span>
                     <span style="padding-top:2px;">&nbsp;</span>
                 </td>
             </tr>

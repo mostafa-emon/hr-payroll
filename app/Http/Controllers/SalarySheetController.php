@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PaySlipReceiver;
 use Illuminate\Http\Request;
 use Auth;
 use App\SalarySheet;
@@ -48,12 +49,12 @@ class SalarySheetController extends Controller
         } else {
             $sheets = [];
         }
-        
+
         return view('transactions.payroll.salary_sheet.index',compact('sheets'));
     }
 
     public function add(Request $request){
-        
+
         if($request->confirmation_check == "1") {
 
             $month = date('F',strtotime($request->salary_month));
@@ -78,7 +79,7 @@ class SalarySheetController extends Controller
                         ->join('payroll_infos','employees.id','payroll_infos.employee_id')
                         ->select('employees.*','payroll_infos.festival_bonus_per_festival','payroll_infos.currency_id')
                         ->get();
-            
+
             foreach($employees as $employee) {
 
                 // ADJUSTMENTS
@@ -90,7 +91,7 @@ class SalarySheetController extends Controller
                     $adjustment_array[$key]['amount']                  = $adjustment->amount;
                     $adjustment_array[$key]['type']                    = $adjustment->type;
                 }
-                
+
                 // EMPLOYEE EARNING DEDUCTIONS
                 $earnings_deductions = EmployeeEarningDeduction::where('employee_id',$employee->id)
                                     ->join('salary_components','employee_earning_deductions.salary_component_id','salary_components.id')
@@ -98,9 +99,9 @@ class SalarySheetController extends Controller
                                     ->orderBy('earning_or_deduction','desc')
                                     ->orderBy('salary_component_id','asc')
                                     ->get();
-                  
+
                 $total_salary = 0; $final_amount = 0;
-                
+
                 foreach($earnings_deductions as $earn_ded) {
 
                     $adjustment_type = 0; $adjustment_amount = 0;
@@ -129,8 +130,8 @@ class SalarySheetController extends Controller
                         if($adjustment_type == "Increase") {
                             $salary_sheet_details->increase_adjustment  = $adjustment_amount;
                             $final_amount                               = $final_amount + $adjustment_amount;
-                        } else if ($adjustment_type == "Decrease"){ 
-                            $salary_sheet_details->decrease_adjustment  = $adjustment_amount; 
+                        } else if ($adjustment_type == "Decrease"){
+                            $salary_sheet_details->decrease_adjustment  = $adjustment_amount;
                             $final_amount                               = $final_amount - $adjustment_amount;
                         }
 
@@ -255,7 +256,7 @@ class SalarySheetController extends Controller
         return view('transactions.payroll.salary_sheet.details',compact('departments','projects','branches',
         'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
     }
-    
+
     public function single_employee_details($employee_id,$month,$year) {
         $earning_details    = SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('component_type','Earnings')->orderBy('id','asc')->get();
         $deduction_details  = SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('component_type','Deduction')->orderBy('id','asc')->get();
@@ -267,7 +268,7 @@ class SalarySheetController extends Controller
         $month = $request->month; $year = $request->year;
 
         $revenue_stamp  = SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->first();
-        
+
         $employment_infos       = EmploymentInfo::select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
                                 ->join('employees','employees.id','employment_infos.employee_id')
@@ -316,7 +317,7 @@ class SalarySheetController extends Controller
                             ->where('component_reference','!=','Gratuity')
                             ->where('component_reference','!=','PF Company Portion')
                             ->get();
-        
+
         foreach($earning_components as $key => $row) {
             $count = SalarySheetDetails::where('month',$request->month)->where('year',$request->year)->where('component_id',$row->id)->whereIn('employee_id',$employee_ids)->count();
             if($count > 0) {
@@ -334,7 +335,7 @@ class SalarySheetController extends Controller
         // Manage Deduction Components
         $deduction_comps        = [];
         $deduction_components   = SalaryComponent::where('component_type','Deduction')->get();
-        
+
         foreach($deduction_components as $key => $row) {
             $count = SalarySheetDetails::where('month',$request->month)->where('year',$request->year)->where('component_id',$row->id)->whereIn('employee_id',$employee_ids)->count();
             if($count > 0) {
@@ -342,16 +343,46 @@ class SalarySheetController extends Controller
                 $deduction_comps[$key]['component_name']    = $row['component_name'];
             }
         }
-        
+
         return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency','revenue_stamp','designation'));
     }
 
     public function mail_pay_slip($request_month,$request_year){
+
+        $count = PaySlipReceiver::where('company_id',auth()->user()->company_id)->where('month',$request_month)->where('year',$request_year)->count();
+        if($count == 0) {
+            $employees = Employee::where('company_id',Auth::user()->company_id)
+                ->select('employees.name','employees.email_address','employees.id as auto_increment_employee_id','employment_infos.*')
+                ->join('employment_infos','employment_infos.employee_id','employees.id')
+                ->get();
+
+            foreach($employees as $employee) {
+                $receiver               = new PaySlipReceiver();
+                $receiver->company_id   = auth()->user()->company_id;
+                $receiver->month        = $request_month;
+                $receiver->year         = $request_year;
+                $receiver->employee_id  = $employee->auto_increment_employee_id;
+                $receiver->name         = $employee->name;
+                $receiver->department   = department_name($employee->department_id);
+                $receiver->designation  = designation_name($employee->designation_id);
+                $receiver->email        = $employee->email_address;
+                $receiver->status       = 0;
+                $receiver->save();
+            }
+        }
+
+        $total_receiver = PaySlipReceiver::where('company_id',auth()->user()->company_id)->where('month',$request_month)->where('year',$request_year)->count();
+        $total_sent     = PaySlipReceiver::where('company_id',auth()->user()->company_id)->where('month',$request_month)->where('year',$request_year)->where('status',1)->count();
+        return view('transactions.payroll.salary_sheet.email.mail_queue',compact('request_month','request_year','total_receiver','total_sent'));
+    }
+
+    public function ajax_send_pay_slip($sl,$month,$year) {
+
+        $original_month = $month;
+
         $email_setup = Email::where('company_id',Auth::user()->company_id)->first();
-        
-        if($email_setup == "") {
-            return redirect('salary-sheet')->with('error','Please complete your mail setup first!');
-        }else{
+
+        if(Config::get('mail.username') != $email_setup->user_name) {
             Config::set('mail.driver', $email_setup->mail_driver);
             Config::set('mail.host', $email_setup->host_name);
             Config::set('mail.port', $email_setup->port_name);
@@ -360,131 +391,126 @@ class SalarySheetController extends Controller
             Config::set('mail.encryption', $email_setup->encryption);
             Config::set('mail.from.address', $email_setup->from_address);
             Config::set('mail.from.name', $email_setup->from_name);
-
-
-            $month  = date('M-Y', strtotime($request_month."-".$request_year));
-
-            $company_info = Company::where('id',Auth::user()->company_id)->first();
-
-            $employees = Employee::where('company_id',Auth::user()->company_id)
-                        ->select('employees.name','employees.email_address','employees.employee_id as original_employee_id','employment_infos.*')
-                        ->join('employment_infos','employment_infos.employee_id','employees.id')
-                        ->get();
-            
-            foreach($employees as $employee) {
-                $month_first_date   = date('Y-m-d', strtotime("01-".$month));
-                $month_last_date    = date('Y-m-d', strtotime("31-".$month));
-                $total_days         = date('t', strtotime($month));
-
-                // GET ATTENDANCE DATA
-
-                $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
-                $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
-                $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
-                $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
-                $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
-                $net_payable_days   = $total_days - $total_absent_days;
-
-                $total_approved_leave_days  = 0;
-
-                $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)
-                                            ->whereBetween('start_date', [$month_first_date, $month_last_date])
-                                            ->whereBetween('end_date', [$month_first_date, $month_last_date])
-                                            ->where('status','Approved')
-                                            ->get();
-
-                foreach($approved_leave_requests as $leave) {
-                    $total_approved_leave_days = $total_approved_leave_days + $leave->leave_days;
-                }
-
-                $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
-
-                $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
-
-                $data["email"]          = $employee->email_address;
-                $data["client_name"]    = $employee->name;
-                $data["subject"]        = 'Pay Slip of '.$month;
-                $data["body"]           = 'Pay Slip of '.$month;
-
-                // GET SALARY DATA
-                $pay_slip_data = []; 
-                $earning_components = SalarySheetDetails::where('employee_id',$employee->id)
-                            ->where('month',$request_month)
-                            ->where('year',$request_year)
-                            ->where('component_type','!=','Deduction')
-                            ->get();    
-                $total_earning = 0;
-                foreach($earning_components as $row) {
-                    $total_earning = $total_earning + $row->payable_amount;
-                }
-
-                $deduction_components = SalarySheetDetails::where('employee_id',$employee->id)
-                            ->where('month',$request_month)
-                            ->where('year',$request_year)
-                            ->where('component_type','Deduction')
-                            ->get();  
-                $total_deduction = 0;
-                foreach($deduction_components as $row) {
-                    $total_deduction = $total_deduction + $row->payable_amount;
-                }
-                            
-                $count_earning_components = count($earning_components);
-                
-                for($i = 0; $i < $count_earning_components; $i++) {
-                    $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
-                    $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
-
-                    if(isset($deduction_components[$i])) {
-                        $pay_slip_data[$i]['deduction_component']   = $deduction_components[$i]['component_name'];
-                        $pay_slip_data[$i]['deduction_amount']      = $deduction_components[$i]['payable_amount'];
-                    }else {
-                        $pay_slip_data[$i]['deduction_component']   = "";
-                        $pay_slip_data[$i]['deduction_amount']      = "";
-                    }
-                }
-                $company_pf = ProvidentFund::where('employee_id',$employee->id)->where('month',$request_month)
-                            ->where('year',$request_year)->where('type','Company Portion')->where('status',0)->first();
-                if($company_pf != "") {
-                    $company_pf = $company_pf->amount;
-                }else {
-                    $company_pf = 0;
-                }
-
-                $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip',compact('company_info','month',
-                        'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days',
-                        'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
-                
-                try{
-                    Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {
-                    $message->to($data["email"], $data["client_name"])
-                        ->subject($data["subject"])
-                        ->attachData($pdf->output(), "PaySlip.pdf");
-                    });
-
-                    $error      =   "";
-                    $message    =   "Message sent Succesfully!";
-                    $status     =   "1";
-                }catch(Swift_SwiftException $Ste){
-                    $this->serverstatuscode = "0";
-                    $this->serverstatusdes = $Ste->getMessage();
-
-                    $error      =   $Ste->getMessage();
-                    $message    =   "Error sending mail!";
-                    $status     =   "0";
-                }
-            }
-
-            $pay_slip = MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$request_month)->where('year',$request_year)->count();
-            if($pay_slip == 0) {
-                $slip = new MailPaySlip();
-                $slip->company_id   = Auth::user()->company_id;
-                $slip->month        = $request_month;
-                $slip->year         = $request_year;
-                $slip->save();
-            }
         }
 
-        return redirect('salary-sheet')->with('message','Pay Slip Mailed Successfully!');
+        $month  = date('M-Y', strtotime($month."-".$year));
+
+        $company_info = Company::where('id',Auth::user()->company_id)->first();
+
+        $pendings = PaySlipReceiver::where('company_id',Auth::user()->company_id)
+            ->where('month',$original_month)->where('year',$year)->where('status',0)->first();
+
+        $employee = Employee::where('company_id',Auth::user()->company_id)
+            ->select('employees.name','employees.email_address','employees.employee_id as original_employee_id','employees.id as auto_increment_employee_id','employment_infos.*')
+            ->join('employment_infos','employment_infos.employee_id','employees.id')
+            ->where('employees.id',$pendings->employee_id)
+            ->first();
+
+        $month_first_date   = date('Y-m-d', strtotime("01-".$month));
+        $month_last_date    = date('Y-m-d', strtotime("31-".$month));
+        $total_days         = date('t', strtotime($month));
+
+        // GET ATTENDANCE DATA
+
+        $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
+        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
+        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
+        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
+        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
+        $net_payable_days   = $total_days - $total_absent_days;
+
+        $total_approved_leave_days  = 0;
+
+        $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)
+            ->whereBetween('start_date', [$month_first_date, $month_last_date])
+            ->whereBetween('end_date', [$month_first_date, $month_last_date])
+            ->where('status','Approved')
+            ->get();
+
+        foreach($approved_leave_requests as $leave) {
+            $total_approved_leave_days = $total_approved_leave_days + $leave->leave_days;
+        }
+
+        $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
+
+        $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
+
+        $data["email"]          = $employee->email_address;
+        $data["client_name"]    = $employee->name;
+        $data["subject"]        = 'Pay Slip of '.$month;
+        $data["body"]           = 'Pay Slip of '.$month;
+
+        // GET SALARY DATA
+        $pay_slip_data = [];
+        $earning_components = SalarySheetDetails::where('employee_id',$employee->auto_increment_employee_id)
+            ->where('month',$original_month)
+            ->where('year',$year)
+            ->where('component_type','!=','Deduction')
+            ->get();
+        $total_earning = 0;
+        foreach($earning_components as $row) {
+            $total_earning = $total_earning + $row->payable_amount;
+        }
+
+        $deduction_components = SalarySheetDetails::where('employee_id',$employee->auto_increment_employee_id)
+            ->where('month',$original_month)
+            ->where('year',$year)
+            ->where('component_type','Deduction')
+            ->get();
+        $total_deduction = 0;
+        foreach($deduction_components as $row) {
+            $total_deduction = $total_deduction + $row->payable_amount;
+        }
+
+        $count_earning_components = count($earning_components);
+
+        for($i = 0; $i < $count_earning_components; $i++) {
+            $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
+            $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
+
+            if(isset($deduction_components[$i])) {
+                $pay_slip_data[$i]['deduction_component']   = $deduction_components[$i]['component_name'];
+                $pay_slip_data[$i]['deduction_amount']      = $deduction_components[$i]['payable_amount'];
+            }else {
+                $pay_slip_data[$i]['deduction_component']   = "";
+                $pay_slip_data[$i]['deduction_amount']      = "";
+            }
+        }
+        $company_pf = ProvidentFund::where('employee_id',$employee->auto_increment_employee_id)->where('month',$original_month)
+            ->where('year',$year)->where('type','Company Portion')->where('status',0)->first();
+        if($company_pf != "") {
+            $company_pf = $company_pf->amount;
+        }else {
+            $company_pf = 0;
+        }
+
+        $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip',compact('company_info','month',
+            'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days',
+            'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
+
+        try{
+            $pendings->status = 1;
+            $pendings->save();
+
+            Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {
+                $message->to($data["email"], $data["client_name"])
+                    ->subject($data["subject"])
+                    ->attachData($pdf->output(), "PaySlip.pdf");
+            });
+
+            $error      =   "";
+            $message    =   "Message sent Succesfully!";
+            $status     =   "1";
+        }catch(Swift_SwiftException $Ste){
+            $this->serverstatuscode = "0";
+            $this->serverstatusdes = $Ste->getMessage();
+
+            $error      =   $Ste->getMessage();
+            $message    =   "Error sending mail!";
+            $status     =   "0";
+        }
+
+        echo "<tr><td style='text-align:center'>".$sl."</td><td>".$pendings->name."</td><td>".$pendings->department."</td><td>".$pendings->designation."</td><td>".$pendings->email."</td><td style='color:green'><i class='fa fa-check-circle'></i> Sent</td></tr>";
     }
 
     public function single_employee_details_print($employee_id,$request_month,$request_year){
@@ -526,12 +552,12 @@ class SalarySheetController extends Controller
         $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
 
         // GET SALARY DATA
-        $pay_slip_data = []; 
+        $pay_slip_data = [];
         $earning_components = SalarySheetDetails::where('employee_id',$employee->id)
                     ->where('month',$request_month)
                     ->where('year',$request_year)
                     ->where('component_type','!=','Deduction')
-                    ->get();    
+                    ->get();
         $total_earning = 0;
         foreach($earning_components as $row) {
             $total_earning = $total_earning + $row->payable_amount;
@@ -541,14 +567,14 @@ class SalarySheetController extends Controller
                     ->where('month',$request_month)
                     ->where('year',$request_year)
                     ->where('component_type','Deduction')
-                    ->get();  
+                    ->get();
         $total_deduction = 0;
         foreach($deduction_components as $row) {
             $total_deduction = $total_deduction + $row->payable_amount;
         }
-                    
+
         $count_earning_components = count($earning_components);
-        
+
         for($i = 0; $i < $count_earning_components; $i++) {
             $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
             $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
@@ -576,7 +602,7 @@ class SalarySheetController extends Controller
 
     public function single_employee_details_mail($employee_id,$request_month,$request_year){
         $email_setup = Email::where('company_id',Auth::user()->company_id)->first();
-        
+
         if($email_setup == "") {
             return redirect('salary-sheet')->with('error','Please complete your mail setup first!');
         }else{
@@ -596,7 +622,7 @@ class SalarySheetController extends Controller
 
             $employee           = Employee::where('id',$employee_id)->first();
             $employment_info    = EmploymentInfo::where('employee_id',$employee_id)->first();
-            
+
             $month_first_date   = date('Y-m-d', strtotime("01-".$month));
             $month_last_date    = date('Y-m-d', strtotime("31-".$month));
             $total_days         = date('t', strtotime($month));
@@ -632,12 +658,12 @@ class SalarySheetController extends Controller
             $data["body"]           = 'Pay Slip of '.$month;
 
             // GET SALARY DATA
-            $pay_slip_data = []; 
+            $pay_slip_data = [];
             $earning_components = SalarySheetDetails::where('employee_id',$employee->id)
                         ->where('month',$request_month)
                         ->where('year',$request_year)
                         ->where('component_type','!=','Deduction')
-                        ->get();    
+                        ->get();
             $total_earning = 0;
             foreach($earning_components as $row) {
                 $total_earning = $total_earning + $row->payable_amount;
@@ -647,14 +673,14 @@ class SalarySheetController extends Controller
                         ->where('month',$request_month)
                         ->where('year',$request_year)
                         ->where('component_type','Deduction')
-                        ->get();  
+                        ->get();
             $total_deduction = 0;
             foreach($deduction_components as $row) {
                 $total_deduction = $total_deduction + $row->payable_amount;
             }
-                        
+
             $count_earning_components = count($earning_components);
-            
+
             for($i = 0; $i < $count_earning_components; $i++) {
                 $pay_slip_data[$i]['earning_component'] = $earning_components[$i]['component_name'];
                 $pay_slip_data[$i]['earning_amount']    = $earning_components[$i]['payable_amount'];
@@ -678,7 +704,7 @@ class SalarySheetController extends Controller
             $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.mail_pay_slip',compact('company_info','month',
                     'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days','employment_info',
                     'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
-            
+
             try{
                 Mail::send('transactions.payroll.salary_sheet.email.body', compact('data'), function($message)use($data,$pdf) {
                 $message->to($data["email"], $data["client_name"])

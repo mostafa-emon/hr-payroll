@@ -36,7 +36,7 @@
                         </button>
                         </div>
                     @endif
-                    
+
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Salary Sheet</h4>
@@ -68,11 +68,24 @@
                                     <td class="text-center" style="vertical-align:middle">{{$sheet->total_employee}}</td>
                                     <td class="text-center" style="vertical-align:middle">{{number_formatting($sheet->total_salary)}}</td>
                                     <td class="text-center" style="vertical-align:middle">
-                                        @php $count_mail_pay_slip = count_mail_pay_slip($sheet->month,$sheet->year); @endphp
-                                        @if($count_mail_pay_slip == 0)
-                                            <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('mail-pay-slip/'.$sheet->month.'/'.$sheet->year)}}">Send Email</a>
-                                        @else
-                                            <a style="font-size: 15px;" class="btn btn-warning btn-sm" href="{{url('mail-pay-slip/'.$sheet->month.'/'.$sheet->year)}}">Resend Email</a>
+                                        @php
+                                            $total_receiver = mail_pay_slip_total($sheet->month,$sheet->year);
+                                            $total_sent     = mail_pay_slip_sent($sheet->month,$sheet->year);
+                                        @endphp
+                                        @if($total_receiver == 0)
+                                            <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('mail-pay-slip/'.$sheet->month.'/'.$sheet->year)}}">
+                                                Send Email
+                                            </a>
+                                        @endif
+                                        @if($total_receiver != 0 && $total_receiver > $total_sent)
+                                            <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('mail-pay-slip/'.$sheet->month.'/'.$sheet->year)}}">
+                                                Send Email
+                                            </a>
+                                        @endif
+                                        @if($total_receiver != 0 && $total_receiver == $total_sent)
+                                            <a style="font-size: 15px;" class="btn btn-success btn-sm" href="javascript:0">
+                                                Already Sent
+                                            </a>
                                         @endif
                                     </td>
                                     <td class="text-center" style="vertical-align:middle">

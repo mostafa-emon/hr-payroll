@@ -31,7 +31,7 @@ use App\PayrollInfo;
 use App\SalarySheet;
 use App\SalarySheetDetails;
 use App\Currency;
-use App\MailPaySlip;
+use App\PaySlipReceiver;
 use App\PayrollBank;
 use App\ProvidentFund;
 use App\DepositSalaryTax;
@@ -441,8 +441,12 @@ function get_salary_sheet_component_total($month,$year,$component_id,$employee_i
     }
 }
 
-function count_mail_pay_slip($month,$year) {
-    return MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->count();
+function mail_pay_slip_total($month,$year) {
+   return PaySlipReceiver::where('month',$month)->where('year',$year)->count();
+}
+
+function mail_pay_slip_sent($month,$year) {
+    return PaySlipReceiver::where('month',$month)->where('year',$year)->where('status',1)->count();
 }
 
 function employee_provident_fund($month,$year,$employee_id) {

@@ -301,6 +301,7 @@ Route::get('campaign-duplicate/{campaign_id}', 'PayrollController@campaign_dupli
 Route::get('campaign/delete/{id}', 'PayrollController@delete_campaign');
 Route::get('send-sms/{campaign_id}/{api_id}', 'PayrollController@send_sms');
 Route::get('ajax-send-sms/{sl}/{send_per_sms}/{campaign_id}/{api_id}', 'PayrollController@ajax_send_sms');
+Route::get('ajax-send-pay-slip/{sl}/{month}/{year}', 'SalarySheetController@ajax_send_pay_slip');
 
 Route::get('/smtp-settings', 'ConfigurationController@mail_setup');
 Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
