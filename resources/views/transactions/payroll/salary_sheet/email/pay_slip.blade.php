@@ -25,7 +25,7 @@
 
     <div style="float:right;padding-right:30px;padding-top:-100px;">
         <span style="font-family: Arial;font-size:25px;font-weight:bold;">
-            <img src="https://i.imgur.com/MPNREgb.png" height="80" width="80"/>
+            <img src="{{ asset('storage/'.$company_info->logo) }}" height="80" width="80"/>
         </span>
     </div>
 
