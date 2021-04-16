@@ -56,10 +56,10 @@ class EmployeeController extends Controller
             return redirect('employee/add/personal')->with('error_message', 'This Employee ID is already Used!');
         }
 
-        $email_validation = User::where('email',$request->email_address)->first();
+        /*$email_validation = User::where('email',$request->email_address)->first();
         if($email_validation != "") {
             return redirect('employee/add/personal')->with('error_message', 'This Email is already Used!');
-        }
+        }*/
 
         $employee = new Employee;
         $employee->company_id               = Auth::user()->company_id;
@@ -150,7 +150,7 @@ class EmployeeController extends Controller
             $employee->save();
 
             $personal_info = Employee::where('id',$request->employee_id)->first();
-            $user = new User;
+            /*$user = new User;
             $user->company_id                   = Auth::user()->company_id;
             $user->employee_id                  = $request->employee_id;
             $user->name                         = $personal_info->name;
@@ -170,7 +170,7 @@ class EmployeeController extends Controller
                 $user->status                   = 0;
             }
             
-            $user->save();
+            $user->save();*/
 
             return redirect('employee/add/payroll/'.$request->employee_id)->with('message', 'Employment Information Saved Successfully!');
         }
@@ -281,7 +281,7 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
         if($employee->company_id == Auth::user()->company_id){
             $employee->delete();
-            $user = User::where('employee_id',$id)->delete();
+            //$user = User::where('employee_id',$id)->delete();
             return redirect('employee')->with('message','Employee Deleted Successfully!');
         }else{
             return redirect('employee')->with('message','Do not try to be too smart!');
@@ -325,7 +325,7 @@ class EmployeeController extends Controller
             return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Employee ID is already Used!');
         }
 
-        $email = User::where('employee_id',null)->where('email',$request->email_address)->first();
+        /*$email = User::where('employee_id',null)->where('email',$request->email_address)->first();
         if($email != "") {
             return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Email is already Used!');
         }
@@ -333,7 +333,7 @@ class EmployeeController extends Controller
         $email_validation = User::where('employee_id','!=',$employee_id)->where('email',$request->email_address)->first();
         if($email_validation != "") {
             return redirect('employee/update/personal/'.$employee_id)->with('error_message', 'This Email is already Used!');
-        }
+        }*/
 
         $employee = Employee::where('id',$employee_id)->first();
         $employee->name                     = $request->name;
@@ -391,9 +391,9 @@ class EmployeeController extends Controller
         }
 
         if($request->email_address !="") {
-            $user = User::where('employee_id',$employee->id)->first();
+            /*$user = User::where('employee_id',$employee->id)->first();
             $user->email = $request->email_address;
-            $user->save();
+            $user->save();*/
         }
 
         return redirect('employee/update/employment/'.$employee->id)->with('message', 'Personal Information Updated Successfully!');
