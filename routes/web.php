@@ -314,7 +314,7 @@ Route::get('/search-employee-with-designation/{department_id}/{project_id?}/{bra
 Route::get('/search-increment-employee_id-with-designation/{department_id}/{project_id?}/{branch_id?}/{component_id?}/{designation_id?}', 'EmployeeController@search_employee_increment_id_with_designation');
 
 //Public Route
-Route::get('/attendance/{company_id}','PublicController@index');
+Route::get('/attendance/{company_id}/{auto?}','PublicController@index');
 
 //Salary Sheet
 Route::get('/salary-sheet','SalarySheetController@index');

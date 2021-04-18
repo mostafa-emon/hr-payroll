@@ -15,7 +15,7 @@ use App\AttendanceRecord;
 
 class PublicController extends Controller
 {
-    public function index($company_id) {
+    public function index($company_id,$auto="") {
         $company_id = $company_id - 1000;
         $attendance_policy = AttendancePolicy::where('company_id',$company_id)->first();
 
@@ -240,6 +240,10 @@ class PublicController extends Controller
             AttendanceRecord::where('id',$record->attendance_record_id)->update(['sync' => 1]);
         }
 
-        header('Location: http://localhost:8080/zkteco-data-puller-v.1.0/index.php');
+        if($auto == "auto") {
+            header('Location: http://localhost:8080/zkteco-data-puller-v.1.0/sync_success.php');
+        }else {
+            header('Location: http://localhost:8080/zkteco-data-puller-v.1.0/index.php');
+        }
     }
 }
