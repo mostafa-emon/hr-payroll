@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role;
+use App\Company;
 use DB;
 use Auth;
 use App\Helpers\ViewHelper;
@@ -24,6 +25,7 @@ class RolesController extends Controller
         if(roles() != "" && !in_array(29, json_decode(roles(),false))){
             return redirect('404');
         }
+        $company = Company::where('id',Auth::user()->company_id)->first();
         if($request->role_name !=""){
             
             $roles = config('app.roles');
@@ -41,7 +43,7 @@ class RolesController extends Controller
             $newRole->save();
             return redirect('roles')->with('message', 'Roles added successfully!');
         }
-        return view('roles.add');
+        return view('roles.add',compact('company'));
     }
     
     public function delete($role_id){
