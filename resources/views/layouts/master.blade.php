@@ -25,10 +25,10 @@
 	</head>
 
 	<body class="main-body app sidebar-mini {{ leftmenu_color() }}">
-		@php 
+		@php
 			$datepicker_format = datepicker_format();
 			$date_format = 'd-m-Y';
-			
+
 			if($datepicker_format == "MM-DD-YYYY") {
 				$date_format = 'm-d-Y';
 			}else if($datepicker_format == "YYYY/MM/DD") {
@@ -103,7 +103,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Company Setup</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('company')}}">Company</a></li>
 								<li><a class="slide-item" href="{{url('departments')}}">Department</a></li>
@@ -118,12 +118,12 @@
                         <li class="slide
 							{{ (!request()->is('employee')) && (request()->is('employee*')) ? 'is-expanded' : '' }}
 							{{ (!request()->is('user')) && (request()->is('user*')) ? 'is-expanded' : '' }}">
-                            
+
                             <a class="side-menu__item {{ (request()->is('employee*')) || (request()->is('user*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Employee Setup</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('employee')}}">Employee</a></li>
 								<li class="{{ (request()->is('user*')) ? 'active' : '' }}">
@@ -136,7 +136,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Leave Setup</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('leave-type')}}">Leave Type</a></li>
                             </ul>
@@ -149,7 +149,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Attendance Setup</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('shift')}}">Shift</a></li>
 								<li class="{{ (request()->is('govt-holiday*')) ? 'active' : '' }}">
@@ -168,7 +168,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Payroll Setup</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li class="{{ (request()->is('salary-components*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('salary-components*')) ? 'active' : '' }}" href="{{url('salary-components')}}">Salary Component</a>
@@ -181,7 +181,7 @@
 								<li class="{{ (request()->is('ot-transfer-letter-format*')) ? 'active' : '' }}">
 									<a class="slide-item" href="{{url('ot-transfer-letter-format')}}">OT Transfer Letter Format</a>
 								</li>
-								
+
 								<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Payroll Banks</a>
 								</li>
@@ -197,7 +197,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Leave</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li class="{{ (request()->is('leave-request*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('leave-request*')) ? 'active' : '' }}" href="{{url('leave-request')}}">Create Leave Request</a>
@@ -220,7 +220,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Attendance</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li class="{{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}" href="{{url('roster')}}">Roster</a>
@@ -249,7 +249,7 @@
 								<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
 								<span class="side-menu__label">Payroll</span><i class="angle fe fe-chevron-down"></i>
 							</a>
-							
+
 							<ul class="slide-menu">
 								<li class="{{ (request()->is('earnings-adjustment*')) ? 'active' : '' }}">
 									<a class="slide-item {{ (request()->is('earnings-adjustment*')) ? 'active' : '' }}" href="{{url('earnings-adjustment')}}">Create Earnings Adjustment</a>
@@ -292,7 +292,7 @@
                                 <span class="side-menu__label">General Settings</span>
                             </a>
 						</li>
-						
+
 						<li class="slide
 							{{ (!request()->is('sms-settings')) && (request()->is('sms-settings*')) ? 'is-expanded' : '' }}
 							{{ (!request()->is('sms-balance')) && (request()->is('sms-balance*')) ? 'is-expanded' : '' }}">
@@ -323,7 +323,7 @@
 								<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
 								<span class="side-menu__label">Leave</span><i class="angle fe fe-chevron-down"></i>
 							</a>
-							
+
 							<ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('employee-list-report')}}">Employee List</a></li>
 								<li><a class="slide-item" href="{{url('inactive-employee-list-report')}}">Inactive Employee List</a></li>
@@ -338,7 +338,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Attendance</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('daily-attendance-report')}}">Daily Attendance</a></li>
 								<li><a class="slide-item" href="{{url('attendance-summary-report-all')}}">Attendance Summary All</a></li>
@@ -358,7 +358,7 @@
                                 <svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
                                 <span class="side-menu__label">Payroll</span><i class="angle fe fe-chevron-down"></i>
                             </a>
-                            
+
                             <ul class="slide-menu">
 								<li><a class="slide-item" href="{{url('earning-adjustment-report')}}">Earnings Adjustment Report</a></li>
 								<li><a class="slide-item" href="{{url('deduction-adjustment-report')}}">Deduction Adjustment Report</a></li>
@@ -762,13 +762,13 @@
 		<script src="{{asset('assets/js/custom.js')}}"></script>
 		<script src="{{asset('lib/datatables/jquery.dataTables.js')}}"></script>
 
-		
+
 		<script src="{{asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
 		<script src="{{asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
 		<script src="{{asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
 		<script src="{{asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
 		<script src="{{asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-		
+
 		<script>
 			var datepicker_format = "{{$datepicker_format}}";
 			/*
@@ -786,7 +786,7 @@
 					 'excel', 'print'
 				]
 			} );
-            
+
 			$(".form-layout .form-control").on("focusin", function () {
             	$(this).closest(".form-group").addClass("form-group-active");
             });
@@ -818,7 +818,7 @@
 				changeYear: true,
 				showButtonPanel: true,
 				dateFormat: 'MM yy',
-				onClose: function(dateText, inst) { 
+				onClose: function(dateText, inst) {
 					$(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
 				}
             });
@@ -839,6 +839,9 @@
 				placeholder: "Choose Branches",
 			});
 
+            $('.admindtpicker').datepicker({
+                dateFormat: 'dd-mm-yy'
+            });
         </script>
 	</body>
 </html>
