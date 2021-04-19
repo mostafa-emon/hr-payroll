@@ -2,80 +2,95 @@
 
 @section('content')
 
-  <div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{{ url('/') }}">Home</a>
-      <a class="breadcrumb-item" href="{{ url('roles') }}">Roles</a>
-    </nav>
-  </div>
-
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <div style="float:left">
-      <h4 class="tx-gray-800 mg-b-5">Roles</h4>
-    </div>
-    <div style="float:right">
-      @if(roles() != "" && in_array(29, json_decode(roles(),false)))
-        <a href="{{ url('roles/add') }}" class="btn btn-primary btn-sm text-white"><i class="fa fa-plus-circle"></i> Add Roles</a>
-      @endif
-    </div>
-  </div>
-
-  <div class="br-pagebody pd-t-15">
-    <div class="br-section-wrapper">
-      @if(session()->has('message'))
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          {{ session()->get('message') }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="row mb-2">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/roles')}}" style="color:#6c757d;">Roles</a></li>
+            </ol>
+            </div>
         </div>
-      @endif
-      <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table table-striped mg-b-0">
-          <thead>
-            <tr>
-              <th>Sl</th>
-              <th>Role name</th>
-              @if(roles() != "" && in_array(30, json_decode(roles(),false)))
-                <th>Update</th>
-              @endif
 
-              @if(roles() != "" && in_array(31, json_decode(roles(),false)))
-                <th>Delete</th>
-              @endif
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($roles as $role)
-              <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $role->role_name }}</td>
-                @if(roles() != "" && in_array(30, json_decode(roles(),false)))
-                  <td>
-                  <a class="btn btn-info btn-sm" href="{{url ('roles/update/'.$role->id) }}"><i class= "fa fa-edit"></i> Update </a>
-                  </td>
-                @endif
-                @if(roles() != "" && in_array(31, json_decode(roles(),false)))
-                  <td>
-                  <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="confirmDelete({{$role->id}})"><i class= "fa fa-minus-circle"></i> Delete</a>
-                  </td>
-                @endif
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div><br>
-      {{ $roles -> links() }}
+    <div class="row row-sm">
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card">
+
+                <div class="card-header">
+                    @if(session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+
+                    @if(session()->has('error_message'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session()->get('error_message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+                    
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top:5px">
+                            <h4 class="card-title mg-b-0">Roles</h4>
+                        </div>
+                        <div class="col-md-6 text-right"> 
+                            <a href="{{url('roles/add')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered mg-b-0 text-md-nowrap">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align: middle" class="text-center">SL</th>
+                                    <th style="vertical-align: middle" class="text-center">Role Name</th>
+                                    <th style="vertical-align: middle" class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($roles as $role)
+                                <tr>
+                                    <td style="vertical-align: middle" class="text-center">{{(($roles->currentPage() * 10) - 10) + $loop->iteration}}</td>
+                                    <td style="vertical-align: middle">{{$role->role_name}}</td>
+                                    {{--<td style="vertical-align: middle" class="text-center">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            <a href="{{url('employee/update/personal/'.$employee->id)}}" class="dropdown-item">Update</a>
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$employee->id}})">Delete</a>
+                                        </div>
+                                    </td>--}}
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mg-t-15">
+                        {{ $roles->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-  </div>
 
-  <script>
-    function confirmDelete(id){
-      var result = confirm("Are you confirm to delete?");
-      if (result) {
-          window.location = 'roles/delete/'+id
-      }
-    }
-  </script>
+    <script>
+        function confirmDelete(id) {
+            var r = confirm("Are you confirm to delete?");
+            if (r == true) {
+            window.location = "/employee/delete/"+id;
+            }
+        }
+
+    </script>
 
 @endsection

@@ -26,124 +26,208 @@ return [
     |
     */
     'roles' => [
-        'company_info_update'               => 1,
+        //All Module
+        'company_info_read'                     => 1,
+        'company_info_update'                   => 2,
 
-        'signatory_add'                     => 2,
-        'signatory_update'                  => 3,
-        'signatory_delete'                  => 4,
+        'department_read'                       => 3,
+        'department_add'                        => 4,
+        'department_update'                     => 5,
+        'department_delete'                     => 6,
 
-        'voucher_format_add'                => 5,
-        'voucher_format_update'             => 6,
-        'voucher_format_delete'             => 7,
+        'designation_read'                      => 7,
+        'designation_add'                       => 8,
+        'designation_update'                    => 9,
+        'designation_delete'                    => 10,
 
-        'currency_add'                      => 8,
-        'currency_update'                   => 9,
-        'currency_delete'                   => 10,
+        'project_read'                          => 11,
+        'project_add'                           => 12,
+        'project_update'                        => 13,
+        'project_delete'                        => 14,
 
-        'payment_method_add'                => 11,
-        'payment_method_update'             => 12,
-        'payment_method_delete'             => 13,
+        'branch_read'                           => 15,
+        'branch_add'                            => 16,
+        'branch_update'                         => 17,
+        'branch_delete'                         => 18,
 
-        'bank_add'                          => 14,
-        'bank_update'                       => 15,
-        'bank_delete'                       => 16,
+        'currency_read'                         => 19,
+        'currency_add'                          => 20,
+        'currency_update'                       => 21,
+        'currency_delete'                       => 22,
 
-        'bank_account_add'                  => 17,
-        'bank_account_update'               => 18,
-        'bank_account_delete'               => 19,
+        'employee_read'                         => 23,
+        'employee_add'                          => 24,
+        'employee_update'                       => 25,
+        'employee_delete'                       => 26,
 
-        'cheque_book_add'                   => 20,
-        'cheque_book_update'                => 21,
-        'cheque_book_delete'                => 22,
+        'role_read'                             => 27,
+        'role_add'                              => 28,
+        'role_update'                           => 29,
+        'role_delete'                           => 30,
 
-        'cheque_layout_add'                 => 23,
-        'cheque_layout_update'              => 24,
-        'cheque_layout_delete'              => 25,
+        'user_read'                             => 31,
+        'user_add'                              => 32,
+        'user_update'                           => 33,
+        'user_delete'                           => 34,
 
-        'user_add'                          => 26,
-        'user_update'                       => 27,
-        'user_delete'                       => 28,
+        'leave_type_read'                       => 35,
+        'leave_type_add'                        => 36,
+        'leave_type_update'                     => 37,
+        'leave_type_delete'                     => 38,
 
-        'roles_add'                         => 29,
-        'roles_update'                      => 30,
-        'roles_delete'                      => 31,
-        //Master-Setup-End
-        
-        'create_cheque_add'                 => 32,
-        'create_cheque_approve'             => 33,
-        'create_cheque_reject'              => 34,
-        'create_cheque_void'                => 35,
-        'create_cheque_print'               => 36,
+        'employee_list_report'                  => 39,
+        'inactive_employee_list_report'         => 40,
+        'employee_cv_report'                    => 41,
 
-        'create_mr_add'                     => 37,
-        'create_mr_approve'                 => 38,
-        'create_mr_reject'                  => 39,
-        'create_mr_void'                    => 40,
-        'create_mr_print'                   => 41,
+        'general_settings'                      => 42,
 
-        'tr_cash_payment_voucher_add'       => 42,
-        'tr_cash_payment_voucher_approve'   => 43,
-        'tr_cash_payment_voucher_reject'    => 44,
-        'tr_cash_payment_voucher_void'      => 45,
-        'tr_cash_payment_voucher_print'     => 46,
+        'tax_rule_setup'                        => 43,
 
-        'tr_bank_payment_voucher_add'       => 47,
-        'tr_bank_payment_voucher_approve'   => 48,
-        'tr_bank_payment_voucher_reject'    => 49,
-        'tr_bank_payment_voucher_void'      => 50,
-        'tr_bank_payment_voucher_print'     => 51,
+        'sms_settings_read'                     => 44,
+        'sms_settings_add'                      => 45,
+        'sms_settings_update'                   => 46,
+        'sms_settings_delete'                   => 47,
 
-        'tr_cash_receipt_voucher_add'       => 52,
-        'tr_cash_receipt_voucher_approve'   => 53,
-        'tr_cash_receipt_voucher_reject'    => 54,
-        'tr_cash_receipt_voucher_void'      => 55,
-        'tr_cash_receipt_voucher_print'     => 56,
+        'sms_balance'                           => 48,
 
-        'tr_bank_receipt_voucher_add'       => 57,
-        'tr_bank_receipt_voucher_approve'   => 58,
-        'tr_bank_receipt_voucher_reject'    => 59,
-        'tr_bank_receipt_voucher_void'      => 60,
-        'tr_bank_receipt_voucher_print'     => 61,
+        'smtp_settings_read'                    => 49,
+        'smtp_settings_update'                  => 50,
+        'smtp_settings_sent'                    => 51,
 
-        'tr_void_voucher_add'               => 62,
-        'tr_void_voucher_approve'           => 63,
-        'tr_void_voucher_reject'            => 64,
-        'tr_void_voucher_void'              => 65,
-        'tr_void_voucher_print'             => 66,
+        //All Module End
 
-        'tr_contra_voucher_add'             => 67,
-        'tr_contra_voucher_approve'         => 68,
-        'tr_contra_voucher_reject'          => 69,
-        'tr_contra_voucher_void'            => 70,
-        'tr_contra_voucher_print'           => 71,
+        //Attendance
+        'shift_read'                            => 51,
+        'shift_add'                             => 52,
+        'shift_update'                          => 53,
+        'shift_delete'                          => 54,
 
-        'tr_journal_voucher_add'            => 72,
-        'tr_journal_voucher_approve'        => 73,
-        'tr_journal_voucher_reject'         => 74,
-        'tr_journal_voucher_void'           => 75,
-        'tr_journal_voucher_print'          => 76,
+        'govt_holiday_read'                     => 55,
+        'govt_holiday_add'                      => 56,
+        'govt_holiday_update'                   => 57,
+        'govt_holiday_delete'                   => 58,
 
-        //Transection-End
+        'attendance_policy_update'              => 59,
 
-        'issued_voucher'                    => 77,
-        'void_voucher'                      => 78,
-        'issued_mr'                         => 79,
-        'void_mr'                           => 80,
-        'issued_cheque'                     => 81,
-        'void_cheque'                       => 82,
-        'audit_trail'                       => 83,
+        'roster_read'                           => 60,
+        'roster_add'                            => 61,
+        'roster_update'                         => 62,
+        'roster_delete'                         => 63,
 
-        //Report-End
+        'manual_log_entry_read'                 => 64,
+        'manual_log_entry_add'                  => 65,
+        'manual_log_entry_update'               => 66,
+        'manual_log_entry_delete'               => 67,
 
-        'printer_add'                       => 84,
-        'printer_update'                    => 85,
-        'printer_delete'                    => 86,
+        'daily_attendance_report'               => 68,
+        'attendance_summary_all_report'         => 69,
+        'attendance_summary_single_report'      => 70,
+        'daily_late_report'                     => 71,
+        'late_individual_report'                => 72,
+        'daily_absent_report'                   => 73,
+        'absent_single_report'                  => 74,
+        'ot_summary_report'                     => 75,
+        'ot_individual_report'                  => 76,
 
-        'email_add_sent'                    => 87,
+        //Attendance End
 
-        'settings_update'                   => 88,
+        //Payroll
+        'salary_component_read'                 => 81,
+        'salary_component_add'                  => 82,
+        'salary_component_update'               => 83,
+        'salary_component_delete'               => 84,
 
-        'subscription'                      => 100
+        'salary_transfer_letter_format'         => 85,
+        'ot_transfer_letter_format'             => 86,
+
+        'payroll_bank_read'                     => 87,
+        'payroll_bank_add'                      => 88,
+        'payroll_bank_update'                   => 89,
+        'payroll_bank_delete'                   => 90,
+
+        'create_earning_adjustment_read'        => 91,
+        'create_earning_adjustment_add'         => 92,
+        'create_earning_adjustment_update'      => 93,
+        'create_earning_adjustment_delete'      => 94,
+        'create_earning_adjustment_print'       => 95,
+
+        'create_deduction_adjustment_read'      => 96,
+        'create_deduction_adjustment_add'       => 97,
+        'create_deduction_adjustment_update'    => 98,
+        'create_deduction_adjustment_delete'    => 99,
+        'create_deduction_adjustment_print'     => 100,
+
+        'absent_deduction_read'                 => 101,
+        'absent_deduction_add'                  => 102,
+        'absent_deduction_update'               => 103,
+        'absent_deduction_delete'               => 104,
+
+        'create_salary_sheet_read'              => 105,
+        'create_salary_sheet_add'               => 106,
+        'create_salary_sheet_update'            => 107,
+        'create_salary_sheet_delete'            => 108,
+        'create_salary_sheet_send'              => 109,
+        'create_salary_sheet_print'             => 110,
+
+        'create_salary_transfer_letter_read'    => 111,
+        'create_salary_transfer_letter_add'     => 112,
+
+        'create_ot_transfer_letter_read'        => 113,
+        'create_ot_transfer_letter_add'         => 114,
+
+        'create_company_pf_read'                => 115,
+        'create_company_pf_add'                 => 116,
+        'create_company_pf_update'              => 117,
+        'create_company_pf_delete'              => 118,
+
+        'deposit_salary_tax_read'               => 119,
+        'deposit_salary_tax_add'                => 120,
+        'deposit_salary_tax_update'             => 121,
+        'deposit_salary_tax_delete'             => 122,
+        'deposit_salary_tax_print'              => 123,
+
+        'pay_pf_read'                           => 124,
+        'pay_pf_add'                            => 125,
+        'pay_pf_print'                          => 126,
+
+        'sms_campaign_read'                     => 127,
+        'sms_campaign_add'                      => 128,
+        'sms_campaign_update'                   => 129,
+        'sms_campaign_delete'                   => 130,
+        'sms_campaign_send'                     => 131,
+
+        'gratuity_read'                         => 132,
+        'gratuity_add'                          => 133,
+        'gratuity_update'                       => 134,
+        'gratuity_delete'                       => 135,
+
+        'post_jv_quickbooks'                    => 136,
+
+        'earning_adjustment_report'             => 137,
+        'deduction_adjustment_report'           => 138,
+        '108_summary_report'                    => 139,
+        'pf_summary_report'                     => 140,
+        'pf_detail_report'                      => 141,
+        'salary_sheet_report'                   => 142,
+        'payslip_report'                        => 143,
+        'email_payslip_report'                  => 144,
+        'salary_transfer_letter_report'         => 145,
+        'salary_certificate_report'             => 146,
+        'audit_trail_report'                    => 147,
+
+        //Payroll End
+
+        //Leave
+        'create_leave_request'                  => 132,
+        'verify_leave_request'                  => 133,
+        'approve_leave_request'                 => 134,
+        'leave_balance_transfer'                => 135,
+
+        'earning_adjustment_report'             => 137,
+        'deduction_adjustment_report'           => 138,
+        '108_summary_report'                    => 139,
+
+        'subscription'                          => 200
     ],
 
     'env' => env('APP_ENV', 'production'),
