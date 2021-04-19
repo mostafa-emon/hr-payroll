@@ -1134,3 +1134,7 @@ function datepicker_format() {
         return "";
     }
 }
+
+function get_biometric_redirect_url($company_id) {
+    return Company::where('id',$company_id)->first()->biometric_machine_redirect_url;
+}

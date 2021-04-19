@@ -241,9 +241,9 @@ class PublicController extends Controller
         }
 
         if($auto == "auto") {
-            header('Location: http://localhost:8080/zkteco-data-puller-v.1.0/sync_success.php');
+            header('Location: '.get_biometric_redirect_url($company_id).'/zkteco-data-puller-v.1.0/sync_success.php');
         }else {
-            header('Location: http://localhost:8080/zkteco-data-puller-v.1.0/index.php');
+            header('Location: '.get_biometric_redirect_url($company_id).'/zkteco-data-puller-v.1.0/index.php');
         }
     }
 }

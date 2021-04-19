@@ -16,7 +16,7 @@ class RegisterController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function register(Request $request){
         if($request->name !=""){
             $subscription = new Subscription();
@@ -41,19 +41,20 @@ class RegisterController extends Controller
             $company->leave_year_to             = $request->leave_year_to;
             $company->status                    = 1;
             $company->subscription_id           = $subscription->id;
-            
+
             if($request->attendance == 1) { $company->attendance = 1; }else { $company->attendance = 0; }
             if($request->leave == 1) { $company->leave = 1; }else { $company->leave = 0; }
             if($request->payroll == 1) { $company->payroll = 1; }else { $company->payroll = 0; }
             if($request->document_upload == 1) { $company->document_upload = 1; }else { $company->document_upload = 0; }
             if($request->quickbooks == 1) { $company->quickbooks = 1; }else { $company->quickbooks = 0; }
-            
+
             $company->employee_limit         = $request->employee_limit;
             $company->qb_client_id           = $request->qb_client_id;
             $company->qb_client_secret       = $request->qb_client_secret;
             $company->qb_company_id          = $request->qb_company_id;
             $company->qb_environment         = $request->qb_environment;
 
+            $company->biometric_machine_redirect_url = $request->biometric_machine_redirect_url;
             if ($request->hasFile('logo')) {
                 $company->logo  = $request->file('logo')->store('logo');
             }
@@ -90,7 +91,7 @@ class RegisterController extends Controller
             $role->role_name                = "User";
             $role->access                   = json_encode($access);
             $role->save();
-            
+
             //Currency
             $currency = new Currency();
             $currency->company_id           = $company->id;

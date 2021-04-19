@@ -141,15 +141,15 @@
                     </div>
 
                     <div class="col-md-4 pd-t-10">
-                        <input type="text" name="subscription_start_date" placeholder="Subscription Start Date" class="form-control dtpicker" autocomplete="off" value="{{ date('d-m-Y',strtotime($subcription_info->subscription_start_date))}}" required/>
+                        <input type="text" name="subscription_start_date" placeholder="Subscription Start Date" class="form-control admindtpicker" autocomplete="off" value="{{ date('d-m-Y',strtotime($subcription_info->subscription_start_date))}}" required/>
                     </div>
 
                     <div class="col-md-4 pd-t-10">
-                        <input type="text" name="subscription_end_date" placeholder="Subscription End Date" class="form-control dtpicker" autocomplete="off" value="{{ date('d-m-Y',strtotime($subcription_info->subscription_end_date))}}" required/>
+                        <input type="text" name="subscription_end_date" placeholder="Subscription End Date" class="form-control admindtpicker" autocomplete="off" value="{{ date('d-m-Y',strtotime($subcription_info->subscription_end_date))}}" required/>
                     </div>
 
                     <div class="col-md-1 mg-t-20">
-                      Modules: 
+                      Modules:
                     </div>
 
                     <div class="col-md-1 mg-t-20">
@@ -172,6 +172,14 @@
                       <label class="ckbox pointer"><input name="document_upload" value="1" type="checkbox" @if($company_info->document_upload == 1) checked @endif><span>Document Upload</span></label>
                     </div>
 
+                      <div class="card-header pd-l-0 mg-t-10 pd-b-0">
+                          <h4 class="card-title">Biometric Machine Redirect URL</h4>
+                      </div>
+
+                      <div class="col-md-12">
+                          <input type="text" name="biometric_machine_redirect_url" placeholder="Biometric Machine Redirect URL" class="form-control" value="{{$company_info->biometric_machine_redirect_url}}" required/>
+                      </div>
+
                     <div class="col-md-12 mg-t-20">
                       <label class="ckbox pointer"><input id="quickbooks" name="quickbooks" value="1" type="checkbox" @if($company_info->quickbooks == 1) checked @endif onclick="hideShowQB()"><span>Quickbooks</span></label>
                     </div>
@@ -187,7 +195,7 @@
                     <div class="col-md-2 pd-t-15 @if($company_info->quickbooks != 1)collapse @endif qb-inputs">
                       <input type="text" name="qb_company_id" placeholder="QB Company ID" class="form-control" value="{{$company_info->qb_company_id}}">
                     </div>
-                    
+
                     <div class="col-md-2 pd-t-15 @if($company_info->quickbooks != 1)collapse @endif qb-inputs">
                       <select name="qb_environment" class="form-control  mg-l--4" required>
                         <option value="production" @if($company_info->qb_environment == "production") selected @endif>Production</option>
@@ -229,7 +237,7 @@
             $('.qb-inputs').hide();
           }
         }
-        
+
     </script>
 
 @endsection

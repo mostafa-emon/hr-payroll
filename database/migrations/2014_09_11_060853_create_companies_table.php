@@ -31,14 +31,14 @@ class CreateCompaniesTable extends Migration
             $table->string('leave_year_from',30)->nullable();
             $table->string('leave_year_to',30)->nullable();
             $table->boolean('status')->default(false);
-            
-            
+
+
             $table->boolean('attendance')->default(true);
             $table->boolean('leave')->default(true);
             $table->boolean('payroll')->default(true);
             $table->boolean('document_upload')->default(true);
             $table->boolean('quickbooks')->default(false);
-            
+
             $table->integer('employee_limit')->nullable();
             $table->string('qb_client_id')->nullable();
             $table->string('qb_client_secret')->nullable();
@@ -48,6 +48,7 @@ class CreateCompaniesTable extends Migration
             $table->unsignedBigInteger('subscription_id');
             $table->foreign('subscription_id')->references('id')->on('subscriptions');
 
+            $table->string('biometric_machine_redirect_url')->default('http://localhost');
             $table->timestamps();
         });
     }
