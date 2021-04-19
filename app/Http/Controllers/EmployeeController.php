@@ -18,6 +18,7 @@ use App\LeaveInfo;
 use App\PayrollBranch;
 use App\Currency;
 use App\User;
+use App\Company;
 use Auth;
 use Hash;
 use Redirect;
@@ -51,6 +52,12 @@ class EmployeeController extends Controller
     }
 
     public function add_personal_info(Request $request){
+        $employee_limit = Company::where('id',Auth::user()->company_id)->first()->employee_limit;
+        $count_active_employee = Employee::join('employment_infos','employees.id','employment_infos.employee_id')->where('company_id',Auth::user()->company_id)->where('current_status','Active')->count();
+        if($count_active_employee >= $employee_limit) {
+            return redirect('employee')->with('error_message', 'Employee limit Exceed!');
+        }
+
         $find_employee = Employee::where('company_id',Auth::user()->company_id)->where('employee_id',$request->employee_id)->first();
         if($find_employee != "") {
             return redirect('employee/add/personal')->with('error_message', 'This Employee ID is already Used!');
@@ -401,11 +408,20 @@ class EmployeeController extends Controller
 
     public function update_employment_info($info_id = "",Request $request){
         if($request->employee_id != "") {
+            if($request->current_status == "Active") {
+                $employee_limit = Company::where('id',Auth::user()->company_id)->first()->employee_limit;
+                $count_active_employee = Employee::join('employment_infos','employees.id','employment_infos.employee_id')->where('company_id',Auth::user()->company_id)->where('current_status','Active')->count();
+                if($count_active_employee >= $employee_limit) {
+                    return redirect('employee')->with('error_message', 'Employee limit Exceed!');
+                }
+            }
+            
             if($info_id == ""){
                 $employee = new EmploymentInfo;
             }else{
                 $employee = EmploymentInfo::where('id',$info_id)->first();
             }
+
             $employee->employee_id              = $request->employee_id;
             $employee->department_id            = $request->department_id;
             $employee->designation_id           = $request->designation_id;
