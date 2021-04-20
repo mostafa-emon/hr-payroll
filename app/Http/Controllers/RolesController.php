@@ -22,9 +22,6 @@ class RolesController extends Controller
     }
     
     public function add(Request $request){
-        if(roles() != "" && !in_array(29, json_decode(roles(),false))){
-            return redirect('404');
-        }
         $company = Company::where('id',Auth::user()->company_id)->first();
         if($request->role_name !=""){
             
@@ -59,6 +56,7 @@ class RolesController extends Controller
         if(roles() != "" && !in_array(30, json_decode(roles(),false))){
             return redirect('404');
         }
+        $company = Company::where('id',Auth::user()->company_id)->first();
         if($request->role_name !=""){
             
             $roles = config('app.roles');
@@ -76,6 +74,6 @@ class RolesController extends Controller
             return redirect('roles')->with('message', 'Roles updated successfully!');
         }
         $roles = Role::where('id',$role_id)->first();
-        return view('roles.update', ['roles' => $roles]);
+        return view('roles.update', compact('roles','company'));
     }
 }
