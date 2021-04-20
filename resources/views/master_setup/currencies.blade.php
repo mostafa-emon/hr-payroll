@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Currencies</h4>
                         </div>
                         <div class="col-md-6 text-right"> 
-                            <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
+                            @if(roles() != "" && in_array(19, json_decode(roles(),false)))
+                                <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -48,7 +50,9 @@
                                     <th class="text-center" style="width:15%;">Full Unit Name</th>
                                     <th class="text-center" style="width:15%;">Sub Unit Name</th>
                                     <th class="text-center" style="width:10%;">Default</th>
-                                    <th class="text-center" style="width:15%;">Action</th>
+                                    @if(in_array(20, json_decode(roles(),false)) || in_array(21, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:15%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,13 +67,19 @@
                                         <span class="badge badge-info">Default</span>
                                         @endif
                                     </td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$currency->id}})">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$currency->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(20, json_decode(roles(),false)) || in_array(21, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(20, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$currency->id}})">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(21, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$currency->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

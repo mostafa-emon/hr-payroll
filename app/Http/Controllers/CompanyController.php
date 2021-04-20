@@ -20,6 +20,9 @@ class CompanyController extends Controller
     }
 
     public function index() {
+        if(roles() != "" && !in_array(1, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $info = Company::where('id',Auth::user()->company_id)->first();
         $currency = Currency::orderby('currency_name','asc')->get();
         return view('company.index',compact('currency','info'));

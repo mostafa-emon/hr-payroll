@@ -23,7 +23,7 @@ class CreateRolesTable extends Migration
         });
 
         $access = [];
-        $access[] = 100;
+        $access[] = 200;
 
         $role = new Role();
         $role->role_name = "System Admin";

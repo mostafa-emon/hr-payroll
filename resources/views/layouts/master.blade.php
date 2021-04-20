@@ -74,7 +74,7 @@
 						</div>
 					</div>
                     <ul class="side-menu">
-						@if(roles() != "" && in_array(100, json_decode(roles(),false)))
+						@if(roles() != "" && in_array(200, json_decode(roles(),false)))
 						<li class="side-item side-item-category">Admin</li>
 						@else
 						<li class="side-item side-item-category">Home</li>
@@ -87,7 +87,7 @@
                             </a>
                         </li>
 
-						@if(roles() != "" && in_array(100, json_decode(roles(),false)))
+						@if(roles() != "" && in_array(200, json_decode(roles(),false)))
 
 						<li class="slide  {{ (request()->is('subscription*')) || (request()->is('company-register*')) ? 'active' : '' }}">
 							<a class="side-menu__item {{ (request()->is('subscription*')) || (request()->is('company-register*')) ? 'active' : '' }}" href="{{url('/subscription')}}">
@@ -105,12 +105,24 @@
                             </a>
 
                             <ul class="slide-menu">
-								<li><a class="slide-item" href="{{url('company')}}">Company</a></li>
-								<li><a class="slide-item" href="{{url('departments')}}">Department</a></li>
-								<li><a class="slide-item" href="{{url('designations')}}">Designation</a></li>
-								<li><a class="slide-item" href="{{url('projects')}}">Project</a></li>
-								<li><a class="slide-item" href="{{url('branches')}}">Branch</a></li>
-								<li><a class="slide-item" href="{{url('currencies')}}">Currency</a></li>
+								@if(roles() != "" && in_array(1, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('company')}}">Company</a></li>
+								@endif
+								@if(roles() != "" && in_array(2, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('departments')}}">Department</a></li>
+								@endif
+								@if(roles() != "" && in_array(6, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('designations')}}">Designation</a></li>
+								@endif
+								@if(roles() != "" && in_array(10, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('projects')}}">Project</a></li>
+								@endif
+								@if(roles() != "" && in_array(14, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('branches')}}">Branch</a></li>
+								@endif
+								@if(roles() != "" && in_array(18, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('currencies')}}">Currency</a></li>
+								@endif
 								<li style="display:none;"><a class="slide-item" href="{{url('bank-accounts')}}">Bank Account</a></li>
 								<li style="display:none;"><a class="slide-item" href="{{url('device-setup')}}">Device Setup</a></li>
                             </ul>

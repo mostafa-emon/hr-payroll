@@ -20,6 +20,9 @@ class MasterSetupController extends Controller
     }
 
     public function department_index() {
+        if(roles() != "" && !in_array(2, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $departments = Department::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
         return view('master_setup.departments',compact('departments'));
     }
@@ -47,6 +50,9 @@ class MasterSetupController extends Controller
     }
 
     public function department_delete($id) {
+        if(roles() != "" && !in_array(5, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $department = Department::find($id);
         if($department->company_id == Auth::user()->company_id){
             $department->delete();
@@ -57,6 +63,9 @@ class MasterSetupController extends Controller
     }
 
     public function designation_index() {
+        if(roles() != "" && !in_array(6, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $designations = Designation::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
         return view('master_setup.designations',compact('designations'));
     }
@@ -84,6 +93,9 @@ class MasterSetupController extends Controller
     }
 
     public function designation_delete($id) {
+        if(roles() != "" && !in_array(9, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $designation = Designation::find($id);
         if($designation->company_id == Auth::user()->company_id){
             $designation->delete();
@@ -95,6 +107,9 @@ class MasterSetupController extends Controller
 
 
     public function project_index() {
+        if(roles() != "" && !in_array(10, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $projects = Project::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
         return view('master_setup.projects',compact('projects'));
     }
@@ -124,6 +139,9 @@ class MasterSetupController extends Controller
     }
 
     public function project_delete($id) {
+        if(roles() != "" && !in_array(13, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $project = Project::find($id);
         if($project->company_id == Auth::user()->company_id){
             $project->delete();
@@ -135,6 +153,9 @@ class MasterSetupController extends Controller
 
 
     public function branch_index() {
+        if(roles() != "" && !in_array(14, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $branches = Branch::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
         return view('master_setup.branches',compact('branches'));
     }
@@ -164,6 +185,9 @@ class MasterSetupController extends Controller
     }
 
     public function branch_delete($id) {
+        if(roles() != "" && !in_array(17, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $branch = Branch::find($id);
         if($branch->company_id == Auth::user()->company_id){
             $branch->delete();
@@ -175,6 +199,9 @@ class MasterSetupController extends Controller
 
 
     public function currency_index() {
+        if(roles() != "" && !in_array(18, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $currencies = Currency::orderBy('id','asc')->where('company_id',Auth::user()->company_id)->paginate(10);
         return view('master_setup.currencies',compact('currencies'));
     }
@@ -215,6 +242,9 @@ class MasterSetupController extends Controller
     }
 
     public function currency_delete($id) {
+        if(roles() != "" && !in_array(21, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $currency = Currency::find($id);
         $currency->delete();
         return redirect('currencies')->with('message','Currency Deleted Successfully!');
