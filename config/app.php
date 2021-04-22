@@ -84,14 +84,15 @@ return [
         'sms_settings_update'                   => 43,
         'sms_settings_delete'                   => 44,
 
-        'sms_balance'                           => 45,
+        'sms_balance_read'                      => 45,
+        'sms_balance_update'                    => 46,
 
-        'smtp_settings_read'                    => 46,
-        'smtp_settings_update'                  => 47,
-        'smtp_settings_sent'                    => 48,
+        'smtp_settings_read'                    => 47,
+        'smtp_settings_update'                  => 48,
+        'smtp_settings_sent'                    => 49,
 
-        'employee_cv_report'                    => 49,
-        'tax_rule_setup'                        => 50,
+        'employee_cv_report'                    => 50,
+        'tax_rule_setup'                        => 51,
 
         //All Module End
 

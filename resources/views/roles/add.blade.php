@@ -242,9 +242,9 @@
                                         <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">16</td>
                                         <td style="border-bottom: 1px solid #ced4da;">SMS Balance</td>
 
-                                        <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                        <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="sms_balance_read"/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="sms_balance"/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="sms_balance_update"/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>

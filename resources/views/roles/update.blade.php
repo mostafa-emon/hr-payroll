@@ -210,7 +210,7 @@
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="employee_cv_report" @if($roles->access != "" && in_array(49, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="employee_cv_report" @if($roles->access != "" && in_array(50, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                     </tr>
 
                                     <tr>
@@ -241,9 +241,9 @@
                                         <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">16</td>
                                         <td style="border-bottom: 1px solid #ced4da;">SMS Balance</td>
 
-                                        <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                        <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="sms_balance_read" @if($roles->access != "" && in_array(45, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="sms_balance" @if($roles->access != "" && in_array(45, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="sms_balance_update" @if($roles->access != "" && in_array(46, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
@@ -253,11 +253,11 @@
                                         <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">17</td>
                                         <td style="border-bottom: 1px solid #ced4da;">SMTP Settings</td>
 
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" class="checkbox" style="width: 20px; height: 20px; margin-top:5px;" value="1" name="smtp_settings_read" @if($roles->access != "" && in_array(46, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" class="checkbox" style="width: 20px; height: 20px; margin-top:5px;" value="1" name="smtp_settings_read" @if($roles->access != "" && in_array(47, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="smtp_settings_update" @if($roles->access != "" && in_array(47, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="smtp_settings_update" @if($roles->access != "" && in_array(48, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="smtp_settings_sent" @if($roles->access != "" && in_array(48, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="smtp_settings_sent" @if($roles->access != "" && in_array(49, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                     </tr>
 
@@ -267,7 +267,7 @@
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
-                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="tax_rule_setup" @if($roles->access != "" && in_array(50, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="tax_rule_setup" @if($roles->access != "" && in_array(51, json_decode($roles->access,false)))checked="checked"@endif/></td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
                                         <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>

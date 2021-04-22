@@ -32,8 +32,10 @@
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Leave Type</h4>
                         </div>
-                        <div class="col-md-6 text-right"> 
-                            <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
+                        <div class="col-md-6 text-right">
+                            @if(roles() != "" && in_array(35, json_decode(roles(),false)))
+                                <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -49,7 +51,9 @@
                                     <th class="text-center" style="width:15%;">Short Name</th>
                                     <th class="text-center" style="width:20%;">Reference</th>
                                     <th class="text-center" style="width:15%;">EL Deviding Factor</th>
-                                    <th class="text-center" style="width:10%;">Action</th>
+                                    @if(in_array(36, json_decode(roles(),false)) || in_array(37, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:10%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -69,13 +73,19 @@
                                         @else {{$type->el_deviding_factor}} Days
                                         @endif
                                     </td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$type->id}})">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$type->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(36, json_decode(roles(),false)) || in_array(37, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(36, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$type->id}})">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(37, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$type->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

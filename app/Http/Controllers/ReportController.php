@@ -1511,6 +1511,10 @@ class ReportController extends Controller
 
     //Employee List
     public function employee_list_report(Request $request) {
+        if(roles() != "" && !in_array(38, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
                                 ->join('employees','employees.id','employment_infos.employee_id')
                                 ->where('employees.company_id',Auth::user()->company_id)
@@ -1620,6 +1624,10 @@ class ReportController extends Controller
 
     //Inactive Employee List
     public function inactive_employee_list_report(Request $request) {
+        if(roles() != "" && !in_array(39, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::select('employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
                                 ->join('employees','employees.id','employment_infos.employee_id')
                                 ->where('employees.company_id',Auth::user()->company_id)

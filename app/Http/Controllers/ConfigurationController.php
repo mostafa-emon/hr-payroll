@@ -21,6 +21,9 @@ class ConfigurationController extends Controller
     }
     
     public function general_setting() {
+        if(roles() != "" && !in_array(40, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $settings = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
         return view('configurations.general_settings',compact('settings'));
     }
@@ -59,21 +62,33 @@ class ConfigurationController extends Controller
     //SMS Setting
 
     public function sms_index(){
+        if(roles() != "" && !in_array(41, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $settings = SmsSetting::where('company_id', Auth::user()->company_id)->paginate(10);
         return view('configurations.sms_settings.index', compact('settings'));
     }
 
     public function sms_settings_add(){
+        if(roles() != "" && !in_array(42, json_decode(roles(),false))){
+            return redirect('404');
+        }
         return view('configurations.sms_settings.add');
     }
 
     public function sms_settings_delete($id) {
+        if(roles() != "" && !in_array(44, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $settings = SmsSetting::find($id);
         $settings->delete();
         return redirect('sms-settings')->with('message','SMS Setting deleted successfully!');
     }
 
     public function sms_settings_update($id){
+        if(roles() != "" && !in_array(43, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $settings = SmsSetting::where('id',$id)->first();
         return view('configurations.sms_settings.update',compact('settings'));
     }
@@ -266,11 +281,17 @@ class ConfigurationController extends Controller
     }
 
     public function sms_balance(){
+        if(roles() != "" && !in_array(45, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $settings = SmsSetting::where('company_id',Auth::user()->company_id)->paginate(10);
         return view('configurations.sms_balance.index', compact('settings'));
     }
 
     public function sms_balance_update(Request $request,$setup_id){
+        if(roles() != "" && !in_array(46, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->sms_balance !=""){
             $sms_setup = SmsSetting::where('id',$setup_id)->first();
             $sms_setup->sms_balance         = $request->sms_balance;

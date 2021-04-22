@@ -43,7 +43,9 @@
                                     <th class="text-center">SL</th>
                                     <th>Name</th>
                                     <th>Balance</th>
-                                    <th class="text-center">Action</th>
+                                    @if(roles() != "" && in_array(46, json_decode(roles(),false)))
+                                        <th class="text-center">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,9 +54,11 @@
                                     <td class="text-center" style="vertical-align: middle">{{(($settings->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$setting->title}}</td>
                                     <td style="vertical-align: middle">{{$setting->sms_balance}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <a class="btn btn-success btn-sm" href="{{url ('sms-balance/update/'.$setting->id) }}">Update</a>
-                                    </td>
+                                    @if(roles() != "" && in_array(46, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <a class="btn btn-success btn-sm" href="{{url ('sms-balance/update/'.$setting->id) }}">Update</a>
+                                        </td>
+                                    @endif
                                 </tr>
                                 
                                 @endforeach

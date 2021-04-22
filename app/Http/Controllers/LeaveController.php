@@ -27,6 +27,9 @@ class LeaveController extends Controller
     }
 
     public function leave_type_index() {
+        if(roles() != "" && !in_array(34, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $types = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('leave_name','asc')->paginate(10);
         return view('leave_setup.leave_type',compact('types'));
     }
@@ -68,6 +71,9 @@ class LeaveController extends Controller
     }
 
     public function leave_type_delete($id) {
+        if(roles() != "" && !in_array(37, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $type = LeaveType::find($id);
         if($type->company_id == Auth::user()->company_id){
             $type->delete();
