@@ -87,7 +87,9 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div style="padding-top:10px">
-                                            <input type="submit" class="btn btn-success" style="width:100%;" value="Submit">
+                                            @if(roles() != "" && in_array(138, json_decode(roles(),false)))
+                                                <input type="submit" class="btn btn-success" style="width:100%;" value="Submit">
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -154,14 +156,26 @@
                                             <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{url('campaign-receivers/'.$campaign->id)}}">Receivers</a>
-                                                <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalUpdate" onclick="updateText('{{$campaign->id}}','{{$campaign->sms_body}}')">Update Text</a>
-                                                <a class="dropdown-item" href="{{url('campaign-duplicate/'.$campaign->id)}}">Duplicate</a>
-                                                <a class="dropdown-item" href="javascript:void(0)" onclick="confirmDelete({{$campaign->id}})">Delete</a>
+
+                                                @if(roles() != "" && in_array(139, json_decode(roles(),false)))
+                                                    <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modalUpdate" onclick="updateText('{{$campaign->id}}','{{$campaign->sms_body}}')">Update Text</a>
+                                                @endif
+
+                                                @if(roles() != "" && in_array(138, json_decode(roles(),false)))
+                                                    <a class="dropdown-item" href="{{url('campaign-duplicate/'.$campaign->id)}}">Duplicate</a>
+                                                @endif
+
+                                                @if(roles() != "" && in_array(140, json_decode(roles(),false)))
+                                                    <a class="dropdown-item" href="javascript:void(0)" onclick="confirmDelete({{$campaign->id}})">Delete</a>
+                                                @endif
+
+                                                @if(roles() != "" && in_array(141, json_decode(roles(),false)))
                                                     @if($total_receiver > 0 && $total_sent == 0)
                                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal1" onclick="setCampaignID({{$campaign->id}})">Send Now</a>
                                                     @elseif($total_receiver > 0 && $total_sent > 0 && $total_receiver > $total_sent)
                                                         <a class="dropdown-item" href="javascript:void(0)" data-toggle="modal" data-target="#modal1" onclick="setCampaignID({{$campaign->id}})">Resume</a>
                                                     @endif
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

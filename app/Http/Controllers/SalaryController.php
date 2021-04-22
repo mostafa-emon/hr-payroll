@@ -15,12 +15,18 @@ class SalaryController extends Controller
     }
 
     public function component_index() {
+        if(roles() != "" && !in_array(91, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $salaries = SalaryComponent::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
         $company  = Company::where('id',Auth::user()->company_id)->first();
         return view('payroll_setup.salary_component.index',compact('salaries','company'));
     }
 
     public function component_add(Request $request) {
+        if(roles() != "" && !in_array(92, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->component_name !=""){
             $salary = new SalaryComponent;
             $salary->company_id                 = Auth::user()->company_id;
@@ -40,6 +46,9 @@ class SalaryController extends Controller
     }
 
     public function component_update(Request $request,$id) {
+        if(roles() != "" && !in_array(93, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $company    = Company::where('id',Auth::user()->company_id)->first();
         $salary     = SalaryComponent::where('id',$id)->first();
         if($salary->company_id == Auth::user()->company_id) {
@@ -63,6 +72,9 @@ class SalaryController extends Controller
     }
 
     public function component_delete($id) {
+        if(roles() != "" && !in_array(94, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $salary = SalaryComponent::find($id);
         if($salary->company_id == Auth::user()->company_id){
             $salary->delete();

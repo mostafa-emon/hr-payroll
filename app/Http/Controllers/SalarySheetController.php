@@ -39,6 +39,10 @@ class SalarySheetController extends Controller
     }
 
     public function index(){
+        if(roles() != "" && !in_array(115, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $sheet_count = SalarySheet::where('company_id',Auth::user()->company_id)->count();
         if($sheet_count > 0) {
             $sheets = SalarySheet::where('company_id',Auth::user()->company_id)
@@ -213,6 +217,10 @@ class SalarySheetController extends Controller
     }
 
     public function details(Request $request,$month,$year) {
+        if(roles() != "" && !in_array(115, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')
                                 ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
@@ -258,6 +266,10 @@ class SalarySheetController extends Controller
     }
 
     public function single_employee_details($employee_id,$month,$year) {
+        if(roles() != "" && !in_array(115, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        
         $earning_details    = SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('component_type','Earnings')->orderBy('id','asc')->get();
         $deduction_details  = SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('component_type','Deduction')->orderBy('id','asc')->get();
         $festival_details   = SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('month',$month)->where('year',$year)->where('component_type','Festival Bonus')->first();

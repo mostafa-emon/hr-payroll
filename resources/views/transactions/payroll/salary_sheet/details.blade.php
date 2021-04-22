@@ -55,7 +55,9 @@
                             <h4 class="card-title mg-b-0">Salary Sheet Details</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a href="{{url('salary-sheet-print?month='.$month.'&year='.$year.'&department_id='.$department_id.'&project_id='.$project_id.'&branch_id='.$branch_id.'&currency_id='.$currency_id.'&bank_account=')}}" class="btn btn-success">Print</a>
+                            @if(roles() != "" && in_array(120, json_decode(roles(),false)))
+                                <a href="{{url('salary-sheet-print?month='.$month.'&year='.$year.'&department_id='.$department_id.'&project_id='.$project_id.'&branch_id='.$branch_id.'&currency_id='.$currency_id.'&bank_account=')}}" class="btn btn-success">Print</a>
+                            @endif
                         </div>
                     </div>
                     <hr>
@@ -136,8 +138,14 @@
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" href="{{ url('salary-sheet/details/'.$employee->employee_id.'/'.$month.'/'.$year) }}">Details</a>
-                                            <a class="dropdown-item" href="{{url('salary-sheet-details-print/'.$employee->employee_id.'/'.$month.'/'.$year)}}">Print</a>
-                                            <a class="dropdown-item" href="{{url('mail-pay-slip-single-employee/'.$employee->employee_id.'/'.$month.'/'.$year)}}">Send Email</a>
+
+                                            @if(roles() != "" && in_array(120, json_decode(roles(),false)))
+                                                <a class="dropdown-item" href="{{url('salary-sheet-details-print/'.$employee->employee_id.'/'.$month.'/'.$year)}}">Print</a>
+                                            @endif
+                                            
+                                            @if(roles() != "" && in_array(119, json_decode(roles(),false)))
+                                                <a class="dropdown-item" href="{{url('mail-pay-slip-single-employee/'.$employee->employee_id.'/'.$month.'/'.$year)}}">Send Email</a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

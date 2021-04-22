@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Salary Components</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('salary-components/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @if(roles() != "" && in_array(92, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('salary-components/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -50,7 +52,9 @@
                                     @if($company->quickbooks == 1)
                                         <th style="width:20%;">Quickbooks Ledger</th>
                                     @endif
-                                    <th class="text-center" style="width:15%;">Action</th>
+                                    @if(in_array(93, json_decode(roles(),false)) || in_array(94, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:15%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,13 +67,19 @@
                                     @if($company->quickbooks == 1)
                                         <td style="vertical-align: middle">{{$salary->quickbooks_ledger}}</td>
                                     @endif
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{'salary-components/update/'.$salary->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$salary->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(93, json_decode(roles(),false)) || in_array(94, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(93, json_decode(roles(),false)))
+                                                    <a href="{{'salary-components/update/'.$salary->id}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(94, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$salary->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -36,6 +36,10 @@ class PayrollController extends Controller
     }
 
     public function bank_index() {
+        if(roles() != "" && !in_array(97, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $banks = PayrollBank::where('company_id',Auth::user()->company_id)->orderBy('bank_name','asc')->paginate(10);
         return view('payroll_setup.banks.index',compact('banks'));
     }
@@ -61,6 +65,10 @@ class PayrollController extends Controller
     }
 
     public function bank_delete($id) {
+        if(roles() != "" && !in_array(100, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $bank = PayrollBank::find($id);
         if($bank->company_id == Auth::user()->company_id){
             $bank->delete();
@@ -72,6 +80,10 @@ class PayrollController extends Controller
 
     // Branch
     public function branch_index($id) {
+        if(roles() != "" && !in_array(97, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $bank           = PayrollBank::where('id',$id)->first();
         if($bank->company_id == Auth::user()->company_id){
             $branches   = PayrollBranch::where('bank_id',$id)->orderBy('branch_name','asc')->get();
@@ -102,6 +114,10 @@ class PayrollController extends Controller
     }
 
     public function branch_delete($id) {
+        if(roles() != "" && !in_array(100, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        
         $branch = PayrollBranch::find($id);
         $branch->delete();
         return back()->with('message','Branch Deleted Successfully!');
@@ -121,6 +137,10 @@ class PayrollController extends Controller
 
     //SMS Campaign
     public function create_campaign(){
+        if(roles() != "" && !in_array(137, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $apis           = SmsSetting::where('company_id', Auth::user()->company_id)->get();
         $departments    = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects       = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -195,11 +215,19 @@ class PayrollController extends Controller
     }
 
     public function campaign_receivers($campaign_id){
+        if(roles() != "" && !in_array(137, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $receivers = CampaignReceiver::where('campaign_id',$campaign_id)->paginate(10);
         return view('transactions.payroll.sms_notifications.campaign_receivers',compact('receivers'));
     }
 
     public function campaign_update(Request $request){
+        if(roles() != "" && !in_array(139, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $campaign = SmsCampaign::where('id',$request->campaign_id_update)->first();
         $campaign->sms_body         = $request->updated_body;
         $campaign->body_length      = $request->updated_body_count;
@@ -214,6 +242,10 @@ class PayrollController extends Controller
     }
 
     public function campaign_duplicate($campaign_id){
+        if(roles() != "" && !in_array(138, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $request = SmsCampaign::where('id',$campaign_id)->first();
         $campaign = new SmsCampaign();
         $campaign->company_id           = Auth::user()->company_id;
@@ -240,12 +272,20 @@ class PayrollController extends Controller
     }
 
     public function delete_campaign($campaign_id) {
+        if(roles() != "" && !in_array(140, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $campaign = SmsCampaign::find($campaign_id);
         $campaign->delete();
         return redirect('create-campaign')->with('message','Campaign Deleted Successfully!');
     }
 
     public function send_sms($campaign_id,$api_id) {
+        if(roles() != "" && !in_array(141, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $sms_setting = SmsSetting::where('id',$api_id)->first();
         $campaign    = SmsCampaign::where('id',$campaign_id)->first();
         $receivers   = CampaignReceiver::where('campaign_id',$campaign_id)->get();
@@ -254,6 +294,10 @@ class PayrollController extends Controller
     }
 
     function ajax_send_sms($sl,$send_per_sms,$campaign_id,$api_id) {
+        if(roles() != "" && !in_array(141, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $sms_settings   = SmsSetting::where('id',$api_id)->first();
         $receiver       = CampaignReceiver::orderby('receiver_id','asc')->where('campaign_id',$campaign_id)->where('status',0)->first();
         $campaign       = SmsCampaign::where('id',$receiver->campaign_id)->first();
@@ -396,11 +440,19 @@ class PayrollController extends Controller
     }
 
     public function company_pf_index() {
+        if(roles() != "" && !in_array(125, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $company_pfs            = ProvidentFund::where('company_id',Auth::user()->company_id)->where('type','Company Portion')->where('status',0)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.company_pf.index',compact('company_pfs'));
     }
 
     public function company_pf_create(Request $request) {
+        if(roles() != "" && !in_array(126, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -471,6 +523,10 @@ class PayrollController extends Controller
     }
 
     public function pf_pay_index(Request $request) {
+        if(roles() != "" && !in_array(134, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -546,6 +602,10 @@ class PayrollController extends Controller
     }
 
     public function company_pf_delete($id) {
+        if(roles() != "" && !in_array(128, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $pf = ProvidentFund::find($id);
         if($pf->company_id == Auth::user()->company_id){
             $pf->delete();
@@ -556,6 +616,10 @@ class PayrollController extends Controller
     }
 
     public function company_pf_update(Request $request,$id) {
+        if(roles() != "" && !in_array(127, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $currencies = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $company_pf = ProvidentFund::where('id',$id)->first();
         if($request->amount != "") {
@@ -571,11 +635,19 @@ class PayrollController extends Controller
     }
 
     public function absent_deduction_index() {
+        if(roles() != "" && !in_array(111, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deductions = AbsentDeduction::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.absent_deduction.index',compact('deductions'));
     }
 
     public function absent_deduction_create(Request $request) {
+        if(roles() != "" && !in_array(112, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -662,6 +734,10 @@ class PayrollController extends Controller
     }
 
     public function absent_deduction_delete($id) {
+        if(roles() != "" && !in_array(114, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deduction = AbsentDeduction::find($id);
         if($deduction->company_id == Auth::user()->company_id){
             $deduction->delete();
@@ -672,6 +748,10 @@ class PayrollController extends Controller
     }
 
     public function absent_deduction_update(Request $request,$id) {
+        if(roles() != "" && !in_array(113, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deduction = AbsentDeduction::where('id',$id)->first();
         if($request->total_absent_days != "") {
             $deduction->total_absent_days   = $request->total_absent_days;
@@ -684,11 +764,19 @@ class PayrollController extends Controller
 
     //Gratuity Amount
     public function gratuity_index() {
+        if(roles() != "" && !in_array(142, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        
         $gratuities = Gratuity::where('company_id',Auth::user()->company_id)->where('status',0)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.gratuity.index',compact('gratuities'));
     }
 
     public function gratuity_create(Request $request) {
+        if(roles() != "" && !in_array(143, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -765,6 +853,10 @@ class PayrollController extends Controller
     }
 
     public function gratuity_pay_index(Request $request) {
+        if(roles() != "" && !in_array(142, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -831,6 +923,10 @@ class PayrollController extends Controller
     }
 
     public function gratuity_delete($id) {
+        if(roles() != "" && !in_array(145, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $gratuity = Gratuity::find($id);
         if($gratuity->company_id == Auth::user()->company_id){
             $gratuity->delete();
@@ -841,6 +937,10 @@ class PayrollController extends Controller
     }
 
     public function gratuity_update(Request $request,$id) {
+        if(roles() != "" && !in_array(144, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $gratuity = Gratuity::where('id',$id)->first();
         if($request->amount != "") {
             $gratuity->year           = $request->year;
@@ -853,11 +953,19 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax() {
+        if(roles() != "" && !in_array(129, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $taxes = DepositSalaryTax::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.deposit_salary_tax.index',compact('taxes'));
     }
 
     public function deposit_salary_tax_add(Request $request) {
+        if(roles() != "" && !in_array(130, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
@@ -966,6 +1074,10 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_update($id) {
+        if(roles() != "" && !in_array(131, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $tax            = DepositSalaryTax::where('id',$id)->first();
         if($tax->status != "Pending") {
             return redirect('deposit-salary-tax')->with('message','Do not try to be too smart!');
@@ -987,6 +1099,10 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_status($status,$id) {
+        if(roles() != "" && !in_array(131, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($status == "Approved") {
             $tax            = DepositSalaryTax::where('id',$id)->first();
             $tax->status    = "Approved";
@@ -1040,6 +1156,10 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_upload_file(Request $request,$tax_id) {
+        if(roles() != "" && !in_array(131, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $tax = DepositSalaryTax::where('id',$tax_id)->first();
         if($request->hasFile('attachment'))
         {
@@ -1067,6 +1187,10 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_print_frontside($tax_id) {
+        if(roles() != "" && !in_array(133, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $code_no                = GeneralSetting::where('company_id',Auth::user()->company_id)->first();
         if($code_no != "") {
             if($code_no->tax_chalan_code) {
@@ -1132,6 +1256,10 @@ class PayrollController extends Controller
     }
 
     public function deposit_salary_tax_print_backside($tax_id) {
+        if(roles() != "" && !in_array(133, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         /*$tax = DepositSalaryTax::where('id',$tax_id)->first();
         $from           = date('Y-m-01',strtotime($tax->from));
         $to             = date('Y-m-31',strtotime($tax->to));
@@ -1167,6 +1295,10 @@ class PayrollController extends Controller
 
     //OT Transfer Letter Format
     public function ot_transfer_letter_format(Request $request){
+        if(roles() != "" && !in_array(96, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $format = OtTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
         if($request->editor1 != "" || $request->editor2 != "") {
 
@@ -1196,12 +1328,19 @@ class PayrollController extends Controller
     //OT Transfer Letter
 
     public function ot_transfer_letter() {
+        if(roles() != "" && !in_array(123, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $transfer_letters = OtTransferLetter::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.ot_transfer_letter.index',compact('transfer_letters'));
     }
 
     public function ot_transfer_letter_create(Request $request) {
-        
+        if(roles() != "" && !in_array(124, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $currency_id            = '';
         $bank_id                = '';
         $month                  = '';
@@ -1277,6 +1416,10 @@ class PayrollController extends Controller
     }
 
     public function ot_transfer_letter_reprint($letter_id) {
+        if(roles() != "" && !in_array(160, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $ot_format                  = OtTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
         $employees                  = OtTransferLetterDetail::where('letter_id',$letter_id)->get();
         return view('transactions.payroll.ot_transfer_letter.print',compact('ot_format','employees'));

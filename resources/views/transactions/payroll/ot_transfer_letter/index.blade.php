@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">OT Transfer Letter</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('ot-transfer-letter/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @if(roles() != "" && in_array(124, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('ot-transfer-letter/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -60,7 +62,10 @@
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                            <a href="{{url('ot-transfer-letter-reprint/'.$letter->id)}}" class="dropdown-item">Print</a>
+                                            @if(roles() != "" && in_array(160, json_decode(roles(),false)))
+                                                <a href="{{url('ot-transfer-letter-reprint/'.$letter->id)}}" class="dropdown-item">Print</a>
+                                            @endif
+
                                             <a href="{{url('ot-transfer-letter-details/'.$letter->id)}}" class="dropdown-item">Details</a>
                                         </div>
                                     </td>

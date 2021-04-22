@@ -2036,6 +2036,10 @@ class ReportController extends Controller
 
     //Earning Adjustment Report
     public function earning_adjustment_report(Request $request) {
+        if(roles() != "" && !in_array(147, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = EmploymentInfo::select('earning_deduction_adjustments.*','employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
                             ->join('employees','employees.id','employment_infos.employee_id')
                             ->join('earning_deduction_adjustments','earning_deduction_adjustments.employee_id','employment_infos.employee_id')
@@ -2137,6 +2141,10 @@ class ReportController extends Controller
 
     //Deduction Adjustment Report
     public function deduction_adjustment_report(Request $request) {
+        if(roles() != "" && !in_array(148, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        
         $employment_infos   = EmploymentInfo::select('earning_deduction_adjustments.*','employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name','employees.gender','employees.blood_group','employees.date_of_birth','employees.religion','employees.phone_1','employees.nid_number')
                             ->join('employees','employees.id','employment_infos.employee_id')
                             ->join('earning_deduction_adjustments','earning_deduction_adjustments.employee_id','employment_infos.employee_id')
@@ -2238,6 +2246,10 @@ class ReportController extends Controller
 
     //PF Detail Report
     public function pf_detail_report(Request $request) {
+        if(roles() != "" && !in_array(150, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = ProvidentFund::select('employment_infos.*','provident_funds.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','provident_funds.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','provident_funds.employee_id')
@@ -2328,6 +2340,10 @@ class ReportController extends Controller
 
     //PF Summary Report
     public function pf_summary_report(Request $request) {
+        if(roles() != "" && !in_array(149, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = ProvidentFund::select('employment_infos.*','provident_funds.id as provident_fund_id','provident_funds.employee_id','provident_funds.type','provident_funds.month','provident_funds.year','provident_funds.amount','provident_funds.query_date','provident_funds.status','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','provident_funds.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','provident_funds.employee_id')
@@ -2453,6 +2469,10 @@ class ReportController extends Controller
 
     //Salary Sheet Report
     public function salary_sheet_report(Request $request) {
+        if(roles() != "" && !in_array(151, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.department_id','asc')
                                 ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
@@ -2526,6 +2546,10 @@ class ReportController extends Controller
 
     //Payslip Report
     public function payslip_report(Request $request) {
+        if(roles() != "" && !in_array(152, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.department_id','asc')
                                 ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
@@ -2592,6 +2616,10 @@ class ReportController extends Controller
 
     //Email Payslip Report
     public function email_payslip_report(Request $request) {
+        if(roles() != "" && !in_array(153, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.department_id','asc')
                                 ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.*','salary_sheets.*','payroll_infos.currency_id')
                                 ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
@@ -2658,6 +2686,10 @@ class ReportController extends Controller
 
     // Salary Transfer Letter Report
     public function salary_transfer_letter_report(Request $request) {
+        if(roles() != "" && !in_array(154, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $currency_id            = '';
         $bank_id                = '';
         $month                  = '';
@@ -2742,6 +2774,10 @@ class ReportController extends Controller
 
     //Salary Certificate
     public function salary_certificate(Request $request) {
+        if(roles() != "" && !in_array(155, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = SalarySheetDetails::orderBy('salary_sheet_details.id','asc')
                             ->select('employment_infos.*','salary_sheet_details.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','salary_sheet_details.employee_id')
@@ -2853,6 +2889,10 @@ class ReportController extends Controller
     }
 
     public function audit_trail_report(Request $request) {
+        if(roles() != "" && !in_array(158, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $audits         = Audit::select('audits.*','users.name as user_name')
                         ->join('users','users.id','audits.user_id')
                         ->orderBy('audits.created_at','desc')

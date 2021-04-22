@@ -23,6 +23,9 @@ class SalaryTransferLetterController extends Controller
     }
     
     public function format(Request $request){
+        if(roles() != "" && !in_array(95, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $format = SalaryTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
         if($request->editor1 != "" || $request->editor2 != "") {
 
@@ -50,12 +53,19 @@ class SalaryTransferLetterController extends Controller
     }
 
     public function transfer_letter() {
+        if(roles() != "" && !in_array(121, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $transfer_letters = SalaryTransferLetter::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.payroll.salary_transfer_letter.index',compact('transfer_letters'));
     }
 
     public function transfer_letter_create(Request $request) {
-        
+        if(roles() != "" && !in_array(122, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $currency_id            = '';
         $bank_id                = '';
         $month                  = '';
@@ -135,6 +145,10 @@ class SalaryTransferLetterController extends Controller
     }
 
     public function transfer_letter_reprint($letter_id) {
+        if(roles() != "" && !in_array(159, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $salary_format              = SalaryTransferLetter::where('id',$letter_id)->first();
         $employees                  = SalaryTransferLetterDetail::where('letter_id',$letter_id)->get();
         return view('transactions.payroll.salary_transfer_letter.print',compact('salary_format','employees'));

@@ -201,21 +201,29 @@
 								</a>
 
 								<ul class="slide-menu">
-									<li class="{{ (request()->is('salary-components*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('salary-components*')) ? 'active' : '' }}" href="{{url('salary-components')}}">Salary Component</a>
-									</li>
+									@if(roles() != "" && in_array(91, json_decode(roles(),false)))
+										<li class="{{ (request()->is('salary-components*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('salary-components*')) ? 'active' : '' }}" href="{{url('salary-components')}}">Salary Component</a>
+										</li>
+									@endif
 
-									<li class="{{ (request()->is('salary-transfer-letter-format*')) ? 'active' : '' }}">
-										<a class="slide-item" href="{{url('salary-transfer-letter-format')}}">Salary Transfer Letter Format</a>
-									</li>
+									@if(roles() != "" && in_array(95, json_decode(roles(),false)))
+										<li class="{{ (request()->is('salary-transfer-letter-format*')) ? 'active' : '' }}">
+											<a class="slide-item" href="{{url('salary-transfer-letter-format')}}">Salary Transfer Letter Format</a>
+										</li>
+									@endif
 
-									<li class="{{ (request()->is('ot-transfer-letter-format*')) ? 'active' : '' }}">
-										<a class="slide-item" href="{{url('ot-transfer-letter-format')}}">OT Transfer Letter Format</a>
-									</li>
+									@if(roles() != "" && in_array(96, json_decode(roles(),false)))
+										<li class="{{ (request()->is('ot-transfer-letter-format*')) ? 'active' : '' }}">
+											<a class="slide-item" href="{{url('ot-transfer-letter-format')}}">OT Transfer Letter Format</a>
+										</li>
+									@endif
 
-									<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Payroll Banks</a>
-									</li>
+									@if(roles() != "" && in_array(97, json_decode(roles(),false)))
+										<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('payroll-banks*')) ? 'active' : '' }}" href="{{url('payroll-banks')}}">Payroll Banks</a>
+										</li>
+									@endif
 								</ul>
 							</li>
 						@endif
@@ -297,37 +305,69 @@
 							</a>
 
 							<ul class="slide-menu">
-								<li class="{{ (request()->is('earnings-adjustment*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('earnings-adjustment*')) ? 'active' : '' }}" href="{{url('earnings-adjustment')}}">Create Earnings Adjustment</a>
-								</li>
-								<li class="{{ (request()->is('deductions-adjustment*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('deductions-adjustment*')) ? 'active' : '' }}" href="{{url('deductions-adjustment')}}">Create Deductions Adjustment</a>
-								</li>
-								<li class="{{ (request()->is('absent-deduction*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('absent-deduction*')) ? 'active' : '' }}" href="{{url('absent-deduction')}}">Absent Deduction</a>
-								</li>
-								<li class="{{ (request()->is('salary-sheet*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('salary-sheet*')) ? 'active' : '' }}" href="{{url('salary-sheet')}}">Create Salary Sheet</a>
-								</li>
-								<li class="{{ (request()->is('salary-transfer-letter*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('salary-transfer-letter*')) ? 'active' : '' }}" href="{{url('salary-transfer-letter')}}">Create Salary Transfer Letter</a>
-								</li>
-								<li class="{{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}" href="{{url('ot-transfer-letter')}}">Create OT Transfer Letter</a>
-								</li>
-								<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>
-								</li>
-								<li class="{{ (request()->is('deposit-salary-tax*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('deposit-salary-tax*')) ? 'active' : '' }}" href="{{url('deposit-salary-tax')}}">Deposit Salary Tax</a>
-								</li>
-								<li><a class="slide-item" href="{{url('pf-pay')}}">Pay PF</a></li>
-								<li class="{{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}" href="{{url('create-campaign')}}">SMS Notifications</a>
-								</li>
-								<li class="{{ (request()->is('gratuity*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('gratuity*')) ? 'active' : '' }}" href="{{url('gratuity')}}">Gratuity</a>
-								</li>
+								@if(roles() != "" && in_array(101, json_decode(roles(),false)))
+									<li class="{{ (request()->is('earnings-adjustment*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('earnings-adjustment*')) ? 'active' : '' }}" href="{{url('earnings-adjustment')}}">Create Earnings Adjustment</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(106, json_decode(roles(),false)))
+									<li class="{{ (request()->is('deductions-adjustment*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('deductions-adjustment*')) ? 'active' : '' }}" href="{{url('deductions-adjustment')}}">Create Deductions Adjustment</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(111, json_decode(roles(),false)))
+									<li class="{{ (request()->is('absent-deduction*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('absent-deduction*')) ? 'active' : '' }}" href="{{url('absent-deduction')}}">Absent Deduction</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(115, json_decode(roles(),false)))
+									<li class="{{ (request()->is('salary-sheet*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('salary-sheet*')) ? 'active' : '' }}" href="{{url('salary-sheet')}}">Create Salary Sheet</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(121, json_decode(roles(),false)))
+									<li class="{{ (request()->is('salary-transfer-letter*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('salary-transfer-letter*')) ? 'active' : '' }}" href="{{url('salary-transfer-letter')}}">Create Salary Transfer Letter</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(123, json_decode(roles(),false)))
+									<li class="{{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}" href="{{url('ot-transfer-letter')}}">Create OT Transfer Letter</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(125, json_decode(roles(),false)))
+									<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('company-pf*')) ? 'active' : '' }}" href="{{url('company-pf')}}">Create Company PF</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(129, json_decode(roles(),false)))
+									<li class="{{ (request()->is('deposit-salary-tax*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('deposit-salary-tax*')) ? 'active' : '' }}" href="{{url('deposit-salary-tax')}}">Deposit Salary Tax</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(134, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('pf-pay')}}">Pay PF</a></li>
+								@endif
+
+								@if(roles() != "" && in_array(137, json_decode(roles(),false)))
+									<li class="{{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('create-campaign*')) || (request()->is('campaign-receivers*')) ? 'active' : '' }}" href="{{url('create-campaign')}}">SMS Notifications</a>
+									</li>
+								@endif
+
+								@if(roles() != "" && in_array(142, json_decode(roles(),false)))
+									<li class="{{ (request()->is('gratuity*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('gratuity*')) ? 'active' : '' }}" href="{{url('gratuity')}}">Gratuity</a>
+									</li>
+								@endif
 							</ul>
 
 						</li>
@@ -441,16 +481,45 @@
 								</a>
 
 								<ul class="slide-menu">
-									<li><a class="slide-item" href="{{url('earning-adjustment-report')}}">Earnings Adjustment Report</a></li>
-									<li><a class="slide-item" href="{{url('deduction-adjustment-report')}}">Deduction Adjustment Report</a></li>
-									<li><a class="slide-item" href="{{url('pf-summary-report')}}">PF Summary Report</a></li>
-									<li><a class="slide-item" href="{{url('pf-detail-report')}}">PF Detail Report</a></li>
-									<li><a class="slide-item" href="{{url('salary-sheet-report')}}">Salary Sheet Report</a></li>
-									<li><a class="slide-item" href="{{url('payslip-report')}}">Pay Slip Report</a></li>
-									<li><a class="slide-item" href="{{url('email-payslip-report')}}">Email Pay Slip Report</a></li>
-									<li><a class="slide-item" href="{{url('salary-transfer-letter-report')}}">Salary Transfer Letter Report</a></li>
-									<li><a class="slide-item" href="{{url('salary-certificate')}}">Salary Certificate</a></li>
-									<li><a class="slide-item" href="{{url('audit-trail-report')}}">Audit Trail Report</a></li>
+									@if(roles() != "" && in_array(147, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('earning-adjustment-report')}}">Earnings Adjustment Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(148, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('deduction-adjustment-report')}}">Deduction Adjustment Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(149, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('pf-summary-report')}}">PF Summary Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(150, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('pf-detail-report')}}">PF Detail Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(151, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('salary-sheet-report')}}">Salary Sheet Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(152, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('payslip-report')}}">Pay Slip Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(153, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('email-payslip-report')}}">Email Pay Slip Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(154, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('salary-transfer-letter-report')}}">Salary Transfer Letter Report</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(155, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('salary-certificate')}}">Salary Certificate</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(156, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('audit-trail-report')}}">Audit Trail Report</a></li>
+									@endif
 								</ul>
 							</li>
 						@endif

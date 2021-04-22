@@ -42,7 +42,9 @@
                             <h4 class="card-title mg-b-0">Deposit Salary Tax</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('deposit-salary-tax/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @if(roles() != "" && in_array(130, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('deposit-salary-tax/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -61,9 +63,13 @@
                                     <th class="text-center" style="vertical-align:middle;">Total Tax</th>
                                     <th class="text-center" style="vertical-align:middle;">Total Amount</th>
                                     <th class="text-center" style="vertical-align:middle;">Challan No</th>
-                                    <th class="text-center" style="vertical-align:middle;width:111px;">Attachment</th>
+                                    @if(roles() != "" && in_array(133, json_decode(roles(),false)))
+                                        <th class="text-center" style="vertical-align:middle;width:111px;">Attachment</th>
+                                    @endif
                                     <th class="text-center" style="vertical-align:middle;">Status</th>
-                                    <th class="text-center" style="vertical-align:middle;width:95px;">Action</th>
+                                    @if(in_array(131, json_decode(roles(),false)) || in_array(133, json_decode(roles(),false)))
+                                        <th class="text-center" style="vertical-align:middle;width:95px;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,16 +88,18 @@
                                     <td class="text-center" style="vertical-align: middle">{{$total_tax}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{sprintf("%.2f", $total_amount)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$tax->challan_no}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        @if($tax->attachment != "")
-                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Download <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                            <div class="dropdown-menu">
-                                                @foreach(json_decode($tax->attachment) as $file)
-                                                <a href="{{url('download-file/deposit_salary_tax/'.$file)}}" class="dropdown-item">File {{$loop->iteration}}</a>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </td>
+                                    @if(roles() != "" && in_array(133, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            @if($tax->attachment != "")
+                                                <button data-toggle="dropdown" class="btn btn-success btn-sm">Download <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                                <div class="dropdown-menu">
+                                                    @foreach(json_decode($tax->attachment) as $file)
+                                                    <a href="{{url('download-file/deposit_salary_tax/'.$file)}}" class="dropdown-item">File {{$loop->iteration}}</a>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </td>
+                                    @endif
                                     <td class="text-center" style="vertical-align: middle">
                                         @if($tax->status == "Pending")
                                             <span class="badge badge-warning">Pending</span>
@@ -101,19 +109,26 @@
                                             <span class="badge badge-danger">Cancelled</span>
                                         @endif
                                     </td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{url('deposit-salary-tax-print-frontside/'.$tax->id)}}" class="dropdown-item">Print Frontside</a>
-                                            <a href="{{url('deposit-salary-tax-print-backside/'.$tax->id)}}" class="dropdown-item">Print Backside</a>
-                                            @if($tax->status == "Pending")
-                                            <a href="{{url('deposit-salary-tax-update/'.$tax->id)}}" class="dropdown-item">Edit</a>
-                                                <a href="{{url('deposit-salary-tax/Approved/'.$tax->id)}}" class="dropdown-item">Approved</a>
-                                                <a href="{{url('deposit-salary-tax/Cancelled/'.$tax->id)}}" class="dropdown-item">Cancelled</a>
-                                            @endif
-                                            <a href="{{url('deposit-salary-tax-upload_file/'.$tax->id)}}" class="dropdown-item">Upload</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(131, json_decode(roles(),false)) || in_array(133, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(133, json_decode(roles(),false)))
+                                                    <a href="{{url('deposit-salary-tax-print-frontside/'.$tax->id)}}" class="dropdown-item">Print Frontside</a>
+                                                    <a href="{{url('deposit-salary-tax-print-backside/'.$tax->id)}}" class="dropdown-item">Print Backside</a>
+                                                @endif
+
+                                                @if(roles() != "" && in_array(131, json_decode(roles(),false)))
+                                                    @if($tax->status == "Pending")
+                                                    <a href="{{url('deposit-salary-tax-update/'.$tax->id)}}" class="dropdown-item">Edit</a>
+                                                        <a href="{{url('deposit-salary-tax/Approved/'.$tax->id)}}" class="dropdown-item">Approved</a>
+                                                        <a href="{{url('deposit-salary-tax/Cancelled/'.$tax->id)}}" class="dropdown-item">Cancelled</a>
+                                                    @endif
+                                                    <a href="{{url('deposit-salary-tax-upload_file/'.$tax->id)}}" class="dropdown-item">Upload</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

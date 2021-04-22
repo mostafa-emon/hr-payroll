@@ -378,11 +378,19 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_index() {
+        if(roles() != "" && !in_array(101, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $earnings = EarningDeductionAdjustment::where('company_id',Auth::user()->company_id)->where('earning_or_deduction','earnings')->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
         return view('transactions.payroll.earnings_adjustment.index',compact('earnings'));
     }
 
     public function earnings_adjustment_create() {
+        if(roles() != "" && !in_array(102, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -477,6 +485,10 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_status($status,$earning_id) {
+        if(roles() != "" && !in_array(103, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($status == "active") {
             $earning = EarningDeductionAdjustment::where('id',$earning_id)->first();
             $earning->status = "1";
@@ -491,12 +503,20 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_delete($earning_id){
+        if(roles() != "" && !in_array(104, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $earning = EarningDeductionAdjustment::find($earning_id);
         $earning->delete();
         return redirect('earnings-adjustment')->with('message','Earning Adjustment Deleted Successfully!');
     }
 
     public function earnings_adjustment_update(Request $request,$earning_id){
+        if(roles() != "" && !in_array(103, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $earning = EarningDeductionAdjustment::where('id',$earning_id)->first();
         if($request->amount) {
             $earning->month     = $request->month;
@@ -511,12 +531,20 @@ class AttendanceController extends Controller
     }
 
     public function earnings_adjustment_view($earning_id){
+        if(roles() != "" && !in_array(101, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $earning    = EarningDeductionAdjustment::where('id',$earning_id)->first();
         $print      = '';
         return view('transactions.payroll.earnings_adjustment.view',compact('earning','print'));
     }
 
     public function earnings_adjustment_print($earning_id){
+        if(roles() != "" && !in_array(105, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $earning    = EarningDeductionAdjustment::where('id',$earning_id)->first();
         $print      = "Print";
         return view('transactions.payroll.earnings_adjustment.view',compact('earning','print'));
@@ -524,11 +552,18 @@ class AttendanceController extends Controller
 
     //Deduction
     public function deductions_adjustment_index() {
+        if(roles() != "" && !in_array(106, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $deductions = EarningDeductionAdjustment::where('company_id',Auth::user()->company_id)->where('earning_or_deduction','deductions')->where('year','>=',date('Y'))->orderBy('year','asc')->paginate(10);
         return view('transactions.payroll.deductions_adjustment.index',compact('deductions'));
     }
 
     public function deductions_adjustment_create() {
+        if(roles() != "" && !in_array(107, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employee_id        = [];
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -623,12 +658,20 @@ class AttendanceController extends Controller
     }
 
     public function deductions_adjustment_delete($deduction_id) {
+        if(roles() != "" && !in_array(109, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deduction = EarningDeductionAdjustment::find($deduction_id);
         $deduction->delete();
         return redirect('deductions-adjustment')->with('message','Deduction Adjustment Deleted Successfully!');
     }
 
     public function deductions_adjustment_status($status,$deduction_id) {
+        if(roles() != "" && !in_array(108, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($status == "active") {
             $deduction = EarningDeductionAdjustment::where('id',$deduction_id)->first();
             $deduction->status = "1";
@@ -643,18 +686,30 @@ class AttendanceController extends Controller
     }
 
     public function deductions_adjustment_view($deduction_id){
+        if(roles() != "" && !in_array(106, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deduction  = EarningDeductionAdjustment::where('id',$deduction_id)->first();
         $print      = '';
         return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
     }
 
     public function deductions_adjustment_print($deduction_id){
+        if(roles() != "" && !in_array(110, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deduction  = EarningDeductionAdjustment::where('id',$deduction_id)->first();
         $print      = "Print";
         return view('transactions.payroll.deductions_adjustment.view',compact('deduction','print'));
     }
 
     public function deductions_adjustment_update(Request $request,$deduction_id){
+        if(roles() != "" && !in_array(108, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $deduction = EarningDeductionAdjustment::where('id',$deduction_id)->first();
         if($request->amount) {
             $deduction->month     = $request->month;

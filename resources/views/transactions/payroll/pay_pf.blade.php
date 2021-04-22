@@ -43,7 +43,9 @@
                         </div>
                         <div class="col-md-6 text-right">
                             @if(count($pfs) > 0 || $company_pf_opening_balance != 0 || $employee_pf_opening_balance != 0)
-                                <button class="btn btn-success" onclick="printElem()">Print</button>
+                                @if(roles() != "" && in_array(136, json_decode(roles(),false)))
+                                    <button class="btn btn-success" onclick="printElem()">Print</button>
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -170,7 +172,9 @@
                                 </table>
                             </div>
                             <div class="pd-t-15 text-center">
-                                <button class="btn btn-primary" onclick="confirmpay({{$increment_employee_id}})">Submit</button>
+                                @if(roles() != "" && in_array(135, json_decode(roles(),false)))
+                                    <button class="btn btn-primary" onclick="confirmpay({{$increment_employee_id}})">Submit</button>
+                                @endif
                             </div>
                         </div>
                     @endif

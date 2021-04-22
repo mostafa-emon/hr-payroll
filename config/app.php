@@ -164,16 +164,18 @@ return [
 
         'create_salary_sheet_read'              => 115,
         'create_salary_sheet_add'               => 116,
-        'create_salary_sheet_update'            => 117,
-        'create_salary_sheet_delete'            => 118,
+        'create_salary_sheet_update'            => 117,  //No Need
+        'create_salary_sheet_delete'            => 118,  //No Need
         'create_salary_sheet_send'              => 119,
         'create_salary_sheet_print'             => 120,
 
         'create_salary_transfer_letter_read'    => 121,
         'create_salary_transfer_letter_add'     => 122,
+        'create_salary_transfer_letter_print'   => 159,
 
         'create_ot_transfer_letter_read'        => 123,
         'create_ot_transfer_letter_add'         => 124,
+        'create_ot_transfer_letter_print'       => 160,
 
         'create_company_pf_read'                => 125,
         'create_company_pf_add'                 => 126,
@@ -183,7 +185,7 @@ return [
         'deposit_salary_tax_read'               => 129,
         'deposit_salary_tax_add'                => 130,
         'deposit_salary_tax_update'             => 131,
-        'deposit_salary_tax_delete'             => 132,
+        'deposit_salary_tax_delete'             => 132, //No Need
         'deposit_salary_tax_print'              => 133,
 
         'pay_pf_read'                           => 134,

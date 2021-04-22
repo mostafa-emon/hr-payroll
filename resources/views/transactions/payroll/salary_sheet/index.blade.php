@@ -42,7 +42,9 @@
                             <h4 class="card-title mg-b-0">Salary Sheet</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('salary-sheet/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @if(roles() != "" && in_array(116, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('salary-sheet/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -56,7 +58,9 @@
                                     <th class="text-center" style="width:20%;">Salary Month</th>
                                     <th class="text-center" style="width:20%;">Total Employee</th>
                                     <th class="text-center" style="width:20%;">Total Amount</th>
-                                    <th class="text-center" style="width:15%;">Email Pay Slip</th>
+                                    @if(roles() != "" && in_array(119, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:15%;">Email Pay Slip</th>
+                                    @endif
                                     <th class="text-center" style="width:30%;">Details</th>
                                 </tr>
                             </thead>

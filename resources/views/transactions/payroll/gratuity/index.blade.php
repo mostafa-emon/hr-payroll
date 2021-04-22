@@ -34,7 +34,9 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <a style="font-size: 15px;" class="btn btn-info btn-sm" href="{{url('gratuity-pay')}}">Pay</a>
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('gratuity-create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @if(roles() != "" && in_array(143, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('gratuity-create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -51,7 +53,9 @@
                                     <th style="width:16%;">Designation</th>
                                     <th class="text-center" style="width:10%;">Amount</th>
                                     <th class="text-center" style="width:10%;">Year</th>
-                                    <th class="text-center" style="width:10%;">Action</th>
+                                    @if(in_array(144, json_decode(roles(),false)) || in_array(145, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:10%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,13 +71,19 @@
                                     <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{number_formatting($gratuity->amount)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{$gratuity->year}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{'gratuity/update/'.$gratuity->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$gratuity->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(144, json_decode(roles(),false)) || in_array(145, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(144, json_decode(roles(),false)))
+                                                    <a href="{{'gratuity/update/'.$gratuity->id}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(145, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$gratuity->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Payroll Banks</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Add</button>
+                            @if(roles() != "" && in_array(98, json_decode(roles(),false)))
+                                <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Add</button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -46,7 +48,9 @@
                                 <th class="text-center" style="width:10%">Sl</th>
                                 <th style="width:60%">Bank Name</th>
                                 <th class="text-center" style="width:15%">Manage</th>
-                                <th class="text-center" style="width:15%">Action</th>
+                                @if(in_array(99, json_decode(roles(),false)) || in_array(100, json_decode(roles(),false)))
+                                    <th class="text-center" style="width:15%">Action</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -57,13 +61,19 @@
                                 <td class="text-center" style="vertical-align:middle">
                                     <a class="btn btn-info btn-sm" href="{{url ('payroll-banks/branch/'.$bank->id) }}"> Branch </a>
                                 </td>
-                                <td class="text-center" style="vertical-align:middle">
-                                    <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                    <div class="dropdown-menu">
-                                        <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$bank->id}})">Update</a>
-                                        <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$bank->id}})">Delete</a>
-                                    </div>
-                                </td>
+                                @if(in_array(99, json_decode(roles(),false)) || in_array(100, json_decode(roles(),false)))
+                                    <td class="text-center" style="vertical-align:middle">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            @if(roles() != "" && in_array(99, json_decode(roles(),false)))
+                                                <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$bank->id}})">Update</a>
+                                            @endif
+                                            @if(roles() != "" && in_array(100, json_decode(roles(),false)))
+                                                <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$bank->id}})">Delete</a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>   
                             @endforeach
                         </tbody>

@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Absent Deduction</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('absent-deduction/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @if(roles() != "" && in_array(112, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('absent-deduction/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -50,7 +52,10 @@
                                     <th class="text-center" style="width:10%;vertical-align: middle;">Year</th>
                                     <th class="text-center" style="width:10%;vertical-align: middle;">Total Absent Days</th>
                                     <th class="text-center" style="width:10%;vertical-align: middle;">Total Deduction</th>
-                                    <th class="text-center" style="width:10%;vertical-align: middle;">Action</th>
+                                    @if(in_array(113, json_decode(roles(),false)) || in_array(114, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:10%;vertical-align: middle;">Action</th>
+                                    @endif
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,13 +69,19 @@
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->year}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{$deduction->total_absent_days}}</td>
                                     <td style="vertical-align: middle" class="text-center">{{number_formatting($deduction->deduction)}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{'absent-deduction/update/'.$deduction->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$deduction->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(113, json_decode(roles(),false)) || in_array(114, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(113, json_decode(roles(),false)))
+                                                    <a href="{{'absent-deduction/update/'.$deduction->id}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(114, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$deduction->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

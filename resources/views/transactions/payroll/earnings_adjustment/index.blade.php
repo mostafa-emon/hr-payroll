@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Earnings Adjustment</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('earnings-adjustment/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @if(roles() != "" && in_array(102, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('earnings-adjustment/create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -81,14 +83,23 @@
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
                                             <a href="{{'earnings-adjustment-view/'.$earning->id}}" class="dropdown-item">View</a>
-                                            <a href="{{'earnings-adjustment-print/'.$earning->id}}" class="dropdown-item">Print</a>
-                                            <a href="{{'earnings-adjustment-update/'.$earning->id}}" class="dropdown-item">Edit</a>
-                                            @if($earning->status == "1")
-                                                <a href="{{'earnings-adjustment/inactive/'.$earning->id}}" class="dropdown-item">Inactive</a>
-                                            @else
-                                                <a href="{{'earnings-adjustment/active/'.$earning->id}}" class="dropdown-item">Active</a>
+
+                                            @if(roles() != "" && in_array(105, json_decode(roles(),false)))
+                                                <a href="{{'earnings-adjustment-print/'.$earning->id}}" class="dropdown-item">Print</a>
                                             @endif
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$earning->id}})">Delete</a>
+
+                                            @if(roles() != "" && in_array(103, json_decode(roles(),false)))
+                                                <a href="{{'earnings-adjustment-update/'.$earning->id}}" class="dropdown-item">Edit</a>
+                                                @if($earning->status == "1")
+                                                    <a href="{{'earnings-adjustment/inactive/'.$earning->id}}" class="dropdown-item">Inactive</a>
+                                                @else
+                                                    <a href="{{'earnings-adjustment/active/'.$earning->id}}" class="dropdown-item">Active</a>
+                                                @endif
+                                            @endif
+
+                                            @if(roles() != "" && in_array(104, json_decode(roles(),false)))
+                                                <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$earning->id}})">Delete</a>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

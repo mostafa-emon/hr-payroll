@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">PF Company Portion</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('company-pf-create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @if(roles() != "" && in_array(126, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('company-pf-create')}}"><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -50,7 +52,9 @@
                                     <th style="width:18%;">Department</th>
                                     <th style="width:18%;">Designation</th>
                                     <th class="text-center" style="width:10%;">Amount</th>
-                                    <th class="text-center" style="width:10%;">Action</th>
+                                    @if(in_array(127, json_decode(roles(),false)) || in_array(128, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:10%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,13 +70,19 @@
                                     <td style="vertical-align: middle">{{employee_department($employee->id)}}</td>
                                     <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{number_formatting($pf->amount)}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{'company-pf/update/'.$pf->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$pf->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(127, json_decode(roles(),false)) || in_array(128, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(127, json_decode(roles(),false)))
+                                                    <a href="{{'company-pf/update/'.$pf->id}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(128, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$pf->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
