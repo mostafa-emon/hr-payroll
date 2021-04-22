@@ -84,11 +84,17 @@ class LeaveController extends Controller
     }
 
     public function leave_request_index() {
+        if(roles() != "" && !in_array(161, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $leaves = LeaveRequest::where('employee_id',Auth::user()->employee_id)->orderBy('id','desc')->paginate(10);
         return view('transactions.leave.create_request.index',compact('leaves'));
     }
 
     public function leave_request_add(Request $request) {
+        if(roles() != "" && !in_array(161, json_decode(roles(),false))){
+            return redirect('404');
+        }
         if($request->start_date != "") {
             
             $employee = Employee::where('id',Auth::user()->employee_id)->first();
@@ -239,11 +245,17 @@ class LeaveController extends Controller
     }
 
     public function verify_leave_request() {
+        if(roles() != "" && !in_array(162, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $leaves = LeaveRequest::where('company_id',Auth::user()->company_id)->where('status','Pending')->orderBy('id','asc')->paginate(10);
         return view('transactions.leave.verify_request',compact('leaves'));
     }
 
     public function leave_request_verify($id) {
+        if(roles() != "" && !in_array(162, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $leave = LeaveRequest::where('id',$id)->first();
         $leave->status = "Verified";
         $leave->save();
@@ -267,6 +279,9 @@ class LeaveController extends Controller
     }
 
     public function leave_request_approve($id) {
+        if(roles() != "" && !in_array(163, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $leave = LeaveRequest::where('id',$id)->first();
         $leave->status = "Approved";
         $leave->save();
@@ -314,6 +329,9 @@ class LeaveController extends Controller
     }
 
     public function approve_leave_request() {
+        if(roles() != "" && !in_array(163, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $leaves = LeaveRequest::where('company_id',Auth::user()->company_id)->where('status','Verified')->orderBy('id','asc')->paginate(10);
         return view('transactions.leave.approve_request',compact('leaves'));
     }
@@ -323,6 +341,9 @@ class LeaveController extends Controller
 
     // Balance Transfer
     public function leave_balance_transfer(Request $request){
+        if(roles() != "" && !in_array(164, json_decode(roles(),false))){
+            return redirect('404');
+        }
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id');
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();

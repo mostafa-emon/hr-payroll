@@ -1736,6 +1736,9 @@ class ReportController extends Controller
     }
     
     public function leave_report_single(Request $request) {
+        if(roles() != "" && !in_array(165, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $employment_infos   = LeaveRequest::select('employment_infos.*','leave_requests.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','leave_requests.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','leave_requests.employee_id')
@@ -1827,6 +1830,10 @@ class ReportController extends Controller
     }
     
     public function rejected_leave_report(Request $request) {
+        if(roles() != "" && !in_array(166, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = LeaveRequest::select('employment_infos.*','leave_requests.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','leave_requests.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','leave_requests.employee_id')
@@ -1918,6 +1925,10 @@ class ReportController extends Controller
     }
 
     public function leave_report_all(Request $request) {
+        if(roles() != "" && !in_array(167, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = LeaveRequest::select('employment_infos.*','leave_requests.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','leave_requests.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','leave_requests.employee_id')
