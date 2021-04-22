@@ -41,8 +41,10 @@
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Roles</h4>
                         </div>
-                        <div class="col-md-6 text-right"> 
-                            <a href="{{url('roles/add')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                        <div class="col-md-6 text-right">
+                            @if(roles() != "" && in_array(27, json_decode(roles(),false)))
+                                <a href="{{url('roles/add')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -54,7 +56,9 @@
                                 <tr>
                                     <th style="vertical-align: middle" class="text-center">SL</th>
                                     <th style="vertical-align: middle" class="text-center">Role Name</th>
-                                    <th style="vertical-align: middle" class="text-center">Action</th>
+                                    @if(in_array(28, json_decode(roles(),false)) || in_array(29, json_decode(roles(),false)))
+                                        <th style="vertical-align: middle" class="text-center">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,13 +66,19 @@
                                 <tr>
                                     <td style="vertical-align: middle" class="text-center">{{(($roles->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$role->role_name}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{'roles/update/'.$role->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$role->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(28, json_decode(roles(),false)) || in_array(29, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(28, json_decode(roles(),false)))
+                                                    <a href="{{'roles/update/'.$role->id}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(29, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$role->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

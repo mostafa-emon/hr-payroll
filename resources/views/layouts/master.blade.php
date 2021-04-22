@@ -138,13 +138,19 @@
                             </a>
 
                             <ul class="slide-menu">
-								<li><a class="slide-item" href="{{url('employee')}}">Employee</a></li>
-								<li class="{{ (request()->is('roles*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('roles*')) ? 'active' : '' }}" href="{{url('roles')}}">Roles</a>
-								</li>
-								<li class="{{ (request()->is('user*')) ? 'active' : '' }}">
-									<a class="slide-item {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">Users</a>
-								</li>
+								@if(roles() != "" && in_array(22, json_decode(roles(),false)))
+									<li><a class="slide-item" href="{{url('employee')}}">Employee</a></li>
+								@endif
+								@if(roles() != "" && in_array(26, json_decode(roles(),false)))
+									<li class="{{ (request()->is('roles*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('roles*')) ? 'active' : '' }}" href="{{url('roles')}}">Roles</a>
+									</li>
+								@endif
+								@if(roles() != "" && in_array(30, json_decode(roles(),false)))
+									<li class="{{ (request()->is('user*')) ? 'active' : '' }}">
+										<a class="slide-item {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">Users</a>
+									</li>
+								@endif
                             </ul>
                         </li>
 						<li class="slide">

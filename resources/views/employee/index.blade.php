@@ -41,8 +41,10 @@
                         <div class="col-md-6" style="padding-top:5px">
                             <h4 class="card-title mg-b-0">Employees</h4>
                         </div>
-                        <div class="col-md-6 text-right"> 
-                            <a href="{{url('employee/add/personal')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                        <div class="col-md-6 text-right">
+                            @if(roles() != "" && in_array(23, json_decode(roles(),false)))
+                                <a href="{{url('employee/add/personal')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -60,7 +62,9 @@
                                     <th style="vertical-align: middle">Designation</th>
                                     <th style="vertical-align: middle">Phone</th>
                                     <th style="vertical-align: middle">Email</th>
-                                    <th style="vertical-align: middle" class="text-center">Action</th>
+                                    @if(in_array(24, json_decode(roles(),false)) || in_array(25, json_decode(roles(),false)))
+                                        <th style="vertical-align: middle" class="text-center">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,13 +84,19 @@
                                     <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td style="vertical-align: middle">{{$employee->phone_1}}</td>
                                     <td style="vertical-align: middle">{{$employee->email_address}}</td>
-                                    <td style="vertical-align: middle" class="text-center">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{url('employee/update/personal/'.$employee->id)}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$employee->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(24, json_decode(roles(),false)) || in_array(25, json_decode(roles(),false)))
+                                        <td style="vertical-align: middle" class="text-center">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(24, json_decode(roles(),false)))
+                                                    <a href="{{url('employee/update/personal/'.$employee->id)}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(25, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$employee->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

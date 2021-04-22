@@ -186,7 +186,12 @@ function get_employment_info($employee_id) {
 function employee_department($employee_id) {
     $info = EmploymentInfo::where('employee_id',$employee_id)->first();
     if($info != "") {
-        return Department::where('id',$info->department_id)->first()->name;
+        $department = Department::where('id',$info->department_id)->first();
+        if($department != "") {
+            return $department->name;
+        }else{
+            return "";
+        }
     }else{
         return "";
     }

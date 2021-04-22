@@ -20,13 +20,16 @@ class UserController extends Controller
     }
     
     public function index(){
+        if(roles() != "" && !in_array(30, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $company = Company::where('id',Auth::user()->company_id)->first();
         $user = User::where('name','!=',$company->name)->where('company_id', Auth::user()->company_id)->orderBy('name', 'asc')->paginate(10);
         return view('users.index', ['users'=>$user]);
     }
     
     public function add(Request $request){
-        if(roles() != "" && !in_array(26, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(31, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->name !=""){
@@ -51,7 +54,7 @@ class UserController extends Controller
     }
     
     public function delete($user_id){
-        if(roles() != "" && !in_array(28, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(33, json_decode(roles(),false))){
             return redirect('404');
         }
         $user = User::find($user_id);
@@ -64,7 +67,7 @@ class UserController extends Controller
     }
 
     public function update($user_id, Request $request){
-        if(roles() != "" && !in_array(27, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(32, json_decode(roles(),false))){
             return redirect('404');
         }
 

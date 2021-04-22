@@ -33,7 +33,7 @@
                             <h4 class="card-title mg-b-0">User</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if(roles() != "" && in_array(26, json_decode(roles(),false)))
+                            @if(roles() != "" && in_array(31, json_decode(roles(),false)))
                                 <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('user/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
                             @endif
                         </div>
@@ -48,7 +48,7 @@
                                     <th class="text-center" style="width:10%;">Sl</th>
                                     <th style="width:35%;">Name</th>
                                     <th style="width:40%;">Email</th>
-                                    @if(roles() != "" && (in_array(27, json_decode(roles(),false)) || in_array(28, json_decode(roles(),false))))
+                                    @if(roles() != "" && (in_array(32, json_decode(roles(),false)) || in_array(33, json_decode(roles(),false))))
                                         <th class="text-center" style="width:15%;">Action</th>
                                     @endif
                                 </tr>
@@ -60,14 +60,14 @@
                                     <td style="vertical-align: middle">{{ $user->name }}</td>
                                     <td style="vertical-align: middle">{{ $user->email }}</td>
 
-                                    @if(roles() != "" && (in_array(27, json_decode(roles(),false)) || in_array(28, json_decode(roles(),false))))
+                                    @if(roles() != "" && (in_array(32, json_decode(roles(),false)) || in_array(33, json_decode(roles(),false))))
                                     <td class="text-center" style="vertical-align: middle">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                        @if(roles() != "" && in_array(27, json_decode(roles(),false)))
+                                        @if(roles() != "" && in_array(32, json_decode(roles(),false)))
                                             <a class="dropdown-item" href="{{url ('user/update/'.$user->id) }}">Update</a>
                                         @endif
-                                        @if(roles() != "" && in_array(28, json_decode(roles(),false)))
+                                        @if(roles() != "" && in_array(33, json_decode(roles(),false)))
                                             <a class="dropdown-item" href="javascript:void(0)" onclick="confirmDelete({{$user->id}})">Delete</a>
                                         @endif
                                         </div>

@@ -32,11 +32,17 @@ class EmployeeController extends Controller
     }
 
     public function index(){
+        if(roles() != "" && !in_array(22, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $employees = Employee::where('company_id',Auth::user()->company_id)->paginate(10);
         return view('employee.index',compact('employees'));
     }
 
     public function add($page, $employee_id = "", Request $request){
+        if(roles() != "" && !in_array(23, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
@@ -285,6 +291,9 @@ class EmployeeController extends Controller
     }
 
     public function delete($id) {
+        if(roles() != "" && !in_array(25, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $employee = Employee::find($id);
         if($employee->company_id == Auth::user()->company_id){
             $employee->delete();
@@ -296,6 +305,9 @@ class EmployeeController extends Controller
     }
 
     public function update($page, $employee_id, Request $request){
+        if(roles() != "" && !in_array(24, json_decode(roles(),false))){
+            return redirect('404');
+        }
         $employee               = Employee::where('id',$employee_id)->first();
         $employment_info        = EmploymentInfo::where('employee_id',$employee_id)->first();
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
