@@ -34,7 +34,10 @@
                         </div>
                         <div class="col-md-6 text-right">
                             <a href="{{url('roster-search')}}" style="font-size: 15px;" class="btn btn-info btn-sm">Search</a>
-                            <a href="{{url('create-roster')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+
+                            @if(roles() != "" && in_array(66, json_decode(roles(),false)))
+                                <a href="{{url('create-roster')}}" style="font-size: 15px;" class="btn btn-primary btn-sm" ><i class="fa fa-plus-circle"></i> &nbsp;Create</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -88,9 +91,15 @@
                                     <td style="vertical-align: middle" class="text-center">
                                         <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
                                         <div class="dropdown-menu">
-                                            <a href="{{url('roster-duplicate/'.$roster->id)}}" class="dropdown-item">Duplicate</a>
+                                            @if(roles() != "" && in_array(66, json_decode(roles(),false)))
+                                                <a href="{{url('roster-duplicate/'.$roster->id)}}" class="dropdown-item">Duplicate</a>
+                                            @endif
+
                                             {{--<a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$roster->id}})">Delete</a>--}}
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmInactive({{$roster->id}})">Inactive</a>
+                                            @if(roles() != "" && in_array(68, json_decode(roles(),false)))
+                                                <a href="javascript:void(0)" class="dropdown-item" onclick="confirmInactive({{$roster->id}})">Inactive</a>
+                                            @endif
+
                                             <a href="{{url('roster/employee-list/'.$roster->id)}}" class="dropdown-item">Employee List</a>
                                         </div>
                                     </td>

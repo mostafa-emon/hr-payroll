@@ -117,7 +117,7 @@ return [
         'manual_log_entry_read'                 => 69,
         'manual_log_entry_add'                  => 70,
         'manual_log_entry_update'               => 71,
-        'manual_log_entry_delete'               => 72,
+        'manual_log_entry_delete'               => 72, // No Need
 
         'daily_attendance_report'               => 73,
         'attendance_summary_all_report'         => 74,

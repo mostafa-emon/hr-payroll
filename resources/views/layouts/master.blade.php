@@ -179,13 +179,21 @@
 								</a>
 
 								<ul class="slide-menu">
-									<li><a class="slide-item" href="{{url('shift')}}">Shift</a></li>
-									<li class="{{ (request()->is('govt-holiday*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('govt-holiday*')) ? 'active' : '' }}" href="{{url('govt-holiday')}}">Govt Holiday</a>
-									</li>
-									<li class="{{ (request()->is('attendance-policy*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('attendance-policy*')) ? 'active' : '' }}" href="{{url('attendance-policy')}}">Attendance policy</a>
-									</li>
+									@if(roles() != "" && in_array(56, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('shift')}}">Shift</a></li>
+									@endif
+
+									@if(roles() != "" && in_array(60, json_decode(roles(),false)))
+										<li class="{{ (request()->is('govt-holiday*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('govt-holiday*')) ? 'active' : '' }}" href="{{url('govt-holiday')}}">Govt Holiday</a>
+										</li>
+									@endif
+
+									@if(roles() != "" && in_array(64, json_decode(roles(),false)))
+										<li class="{{ (request()->is('attendance-policy*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('attendance-policy*')) ? 'active' : '' }}" href="{{url('attendance-policy')}}">Attendance policy</a>
+										</li>
+									@endif
 								</ul>
 							</li>
 						@endif
@@ -274,13 +282,17 @@
 								</a>
 
 								<ul class="slide-menu">
-									<li class="{{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}" href="{{url('roster')}}">Roster</a>
-									</li>
+									@if(roles() != "" && in_array(65, json_decode(roles(),false)))
+										<li class="{{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}" href="{{url('roster')}}">Roster</a>
+										</li>
+									@endif
 
-									<li class="{{ (request()->is('manual-log-entry*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('manual-log-entry*')) ? 'active' : '' }}" href="{{url('manual-log-entry')}}">Manual Log Entry</a>
-									</li>
+									@if(roles() != "" && in_array(69, json_decode(roles(),false)))
+										<li class="{{ (request()->is('manual-log-entry*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('manual-log-entry*')) ? 'active' : '' }}" href="{{url('manual-log-entry')}}">Manual Log Entry</a>
+										</li>
+									@endif
 
 								</ul>
 							</li>
@@ -459,15 +471,33 @@
 								</a>
 
 								<ul class="slide-menu">
-									<li><a class="slide-item" href="{{url('daily-attendance-report')}}">Daily Attendance</a></li>
-									<li><a class="slide-item" href="{{url('attendance-summary-report-all')}}">Attendance Summary All</a></li>
-									<li><a class="slide-item" href="{{url('attendance-summary-report-single')}}">Attendance Summary Single</a></li>
-									<li><a class="slide-item" href="{{url('daily-late-report')}}">Daily Late Report</a></li>
-									<li><a class="slide-item" href="{{url('attendance-late-report-single')}}">Late Report Individual</a></li>
-									<li><a class="slide-item" href="{{url('daily-absent-report')}}">Daily Absent Report</a></li>
-									<li><a class="slide-item" href="{{url('attendance-absent-report-single')}}">Absent Report Single</a></li>
-									<li><a class="slide-item" href="{{url('ot-summary-report')}}">OT Summary Report</a></li>
-									<li><a class="slide-item" href="{{url('ot-report-single')}}">OT Report Individual</a></li>
+									@if(roles() != "" && in_array(73, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('daily-attendance-report')}}">Daily Attendance</a></li>
+									@endif
+									@if(roles() != "" && in_array(74, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('attendance-summary-report-all')}}">Attendance Summary All</a></li>
+									@endif
+									@if(roles() != "" && in_array(75, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('attendance-summary-report-single')}}">Attendance Summary Single</a></li>
+									@endif
+									@if(roles() != "" && in_array(76, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('daily-late-report')}}">Daily Late Report</a></li>
+									@endif
+									@if(roles() != "" && in_array(77, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('attendance-late-report-single')}}">Late Report Individual</a></li>
+									@endif
+									@if(roles() != "" && in_array(78, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('daily-absent-report')}}">Daily Absent Report</a></li>
+									@endif
+									@if(roles() != "" && in_array(79, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('attendance-absent-report-single')}}">Absent Report Single</a></li>
+									@endif
+									@if(roles() != "" && in_array(80, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('ot-summary-report')}}">OT Summary Report</a></li>
+									@endif
+									@if(roles() != "" && in_array(81, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('ot-report-single')}}">OT Report Individual</a></li>
+									@endif
 								</ul>
 							</li>
 						@endif

@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Govt Holiday</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('govt-holiday/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @if(roles() != "" && in_array(61, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('govt-holiday/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -61,7 +63,9 @@
                                     <th class="text-center" style="width:15%;">ID</th>
                                     <th class="text-center" style="width:20%;">From</th>
                                     <th class="text-center" style="width:20%;">To</th>
-                                    <th class="text-center" style="width:15%;">Action</th>
+                                    @if(in_array(62, json_decode(roles(),false)) || in_array(63, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:15%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,13 +76,19 @@
                                     <td class="text-center" style="vertical-align: middle">{{$holiday->holiday_id}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date($date_format,strtotime($holiday->start_date))}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date($date_format,strtotime($holiday->end_date))}}</td>
-                                    <td class="text-center" style="vertical-align: middle">
-                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{'govt-holiday/update/'.$holiday->id}}" class="dropdown-item">Update</a>
-                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$holiday->id}})">Delete</a>
-                                        </div>
-                                    </td>
+                                    @if(in_array(62, json_decode(roles(),false)) || in_array(63, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align: middle">
+                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                            <div class="dropdown-menu">
+                                                @if(roles() != "" && in_array(62, json_decode(roles(),false)))
+                                                    <a href="{{'govt-holiday/update/'.$holiday->id}}" class="dropdown-item">Update</a>
+                                                @endif
+                                                @if(roles() != "" && in_array(63, json_decode(roles(),false)))
+                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$holiday->id}})">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

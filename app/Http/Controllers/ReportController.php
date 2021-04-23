@@ -61,6 +61,10 @@ class ReportController extends Controller
 
     //Daily Attendance Report
     public function daily_attendance_report(Request $request) {
+        if(roles() != "" && !in_array(73, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
@@ -305,6 +309,10 @@ class ReportController extends Controller
 
     //Attendance Summary Report Single
     public function attendance_summary_report_single(Request $request) {
+        if(roles() != "" && !in_array(75, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
@@ -498,6 +506,10 @@ class ReportController extends Controller
 
     //Attendance Summary Report All Employee
     public function attendance_summary_report_all(Request $request) {
+        if(roles() != "" && !in_array(74, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = EmploymentInfo::select('attendances.employee_id')
                             ->join('employees','employees.id','employment_infos.employee_id')
                             ->join('attendances','attendances.employee_id','employment_infos.employee_id')
@@ -578,6 +590,10 @@ class ReportController extends Controller
 
     //Late Report Individual
     public function attendance_late_report_single(Request $request) {
+        if(roles() != "" && !in_array(77, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
@@ -699,6 +715,10 @@ class ReportController extends Controller
 
     //Daily Late Report
     public function daily_late_report(Request $request) {
+        if(roles() != "" && !in_array(76, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
@@ -828,6 +848,10 @@ class ReportController extends Controller
 
     //Daily Absent Report
     public function daily_absent_report(Request $request) {
+        if(roles() != "" && !in_array(78, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
@@ -980,6 +1004,10 @@ class ReportController extends Controller
 
     //Absent Report Single
     public function attendance_absent_report_single(Request $request) {
+        if(roles() != "" && !in_array(79, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
@@ -1124,6 +1152,9 @@ class ReportController extends Controller
 
     //OT Summary Report
     public function ot_summary_report(Request $request) {
+        if(roles() != "" && !in_array(80, json_decode(roles(),false))){
+            return redirect('404');
+        }
 
         $employment_infos   = EmploymentInfo::select('attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employment_infos.*','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','employment_infos.employee_id')
@@ -1244,6 +1275,10 @@ class ReportController extends Controller
 
     //OT Report Individual
     public function ot_report_single(Request $request) {
+        if(roles() != "" && !in_array(81, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = Attendance::orderBy('employment_infos.id','asc')
                             ->select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','attendances.work_in_leave_day','attendances.work_in_govt_holiday','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')

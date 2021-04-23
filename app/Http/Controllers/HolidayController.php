@@ -16,11 +16,19 @@ class HolidayController extends Controller
     }
     
     public function index() {
+        if(roles() != "" && !in_array(60, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $holidays = GovtHoliday::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
         return view('attendance_setup.govt_holiday.index',compact('holidays'));
     }
 
     public function add(Request $request) {
+        if(roles() != "" && !in_array(61, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($request->name != "") {
             $holiday = new GovtHoliday;
             $holiday->company_id    = Auth::user()->company_id;
@@ -55,6 +63,10 @@ class HolidayController extends Controller
     }
 
     public function update(Request $request,$id) {
+        if(roles() != "" && !in_array(62, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $holiday = GovtHoliday::where('id',$id)->first();
         if($holiday->company_id == Auth::user()->company_id) {
             if($request->name != "") {
@@ -94,6 +106,10 @@ class HolidayController extends Controller
     }
 
     public function delete($id) {
+        if(roles() != "" && !in_array(63, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        
         $holiday = GovtHoliday::find($id);
         if($holiday->company_id == Auth::user()->company_id){
             $holiday->delete();

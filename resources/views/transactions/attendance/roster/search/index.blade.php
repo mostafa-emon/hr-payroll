@@ -8,7 +8,7 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{url('/roster')}}" style="color:#6c757d; font-weight: bold">Roster</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/create-roster')}}" style="color:#6c757d;">Create</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/roster-search')}}" style="color:#6c757d;">Search</a></li>
             </ol>
             </div>
         </div>
@@ -124,7 +124,9 @@
                                         <th style="width:20%;">Date</th>
                                         <th style="width:20%;">Shift Name</th>
                                         <th style="width:10%;" class="text-center">Day Off</th>
-                                        <th style="width:13%;" class="text-center">Action</th>
+                                        @if(in_array(67, json_decode(roles(),false)) || in_array(68, json_decode(roles(),false)))
+                                            <th style="width:13%;" class="text-center">Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,13 +139,19 @@
                                             <td style="vertical-align: middle" class="text-center">
                                                 @if($employee->day_off == 1) Yes @else No @endif
                                             </td>
-                                            <td style="vertical-align: middle" class="text-center">
-                                                <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                                <div class="dropdown-menu">
-                                                    <a href="{{url('roster-employee/update/'.$employee->id)}}" class="dropdown-item">Update</a>
-                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$employee->id}})">Delete</a>
-                                                </div>
-                                            </td>
+                                            @if(in_array(67, json_decode(roles(),false)) || in_array(68, json_decode(roles(),false)))
+                                                <td style="vertical-align: middle" class="text-center">
+                                                    <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                                    <div class="dropdown-menu">
+                                                        @if(roles() != "" && in_array(67, json_decode(roles(),false)))
+                                                            <a href="{{url('roster-employee/update/'.$employee->id)}}" class="dropdown-item">Update</a>
+                                                        @endif
+                                                        @if(roles() != "" && in_array(68, json_decode(roles(),false)))
+                                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$employee->id}})">Delete</a>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

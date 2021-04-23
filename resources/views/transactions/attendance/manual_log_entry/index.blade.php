@@ -33,7 +33,9 @@
                             <h4 class="card-title mg-b-0">Manual Log Entry</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('manual-log-entry/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @if(roles() != "" && in_array(70, json_decode(roles(),false)))
+                                <a style="font-size: 15px;" class="btn btn-primary btn-sm" href="{{url('manual-log-entry/add')}}"><i class="fa fa-plus-circle"></i> &nbsp;Add</a>
+                            @endif
                         </div>
                     </div>
                     <hr>
@@ -75,7 +77,9 @@
                                     <th class="text-center" style="width:15%;">Date</th>
                                     <th class="text-center" style="width:15%;">In Time</th>
                                     <th class="text-center" style="width:15%;">Out Time</th>
-                                    <th class="text-center" style="width:10%;">Action</th>
+                                    @if(roles() != "" && in_array(71, json_decode(roles(),false)))
+                                        <th class="text-center" style="width:10%;">Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,9 +98,11 @@
                                             <a href="{{'manual-log-entry/update/'.$attendance->id}}" class="dropdown-item">Update</a>
                                         </div>
                                     </td>--}}
-                                    <td class="text-center" style="vertical-align:middle">
-                                        <a class="btn btn-success btn-sm" href="{{url ('manual-log-entry/update/'.$attendance->id) }}"> Update </a>
-                                    </td>
+                                    @if(roles() != "" && in_array(71, json_decode(roles(),false)))
+                                        <td class="text-center" style="vertical-align:middle">
+                                            <a class="btn btn-success btn-sm" href="{{url ('manual-log-entry/update/'.$attendance->id) }}"> Update </a>
+                                        </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>

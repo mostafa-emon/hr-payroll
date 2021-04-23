@@ -14,6 +14,10 @@ class ShiftController extends Controller
     }
 
     public function index() {
+        if(roles() != "" && !in_array(56, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $shifts = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->paginate(10);
         return view('attendance_setup.shifts',compact('shifts'));
     }
@@ -100,6 +104,10 @@ class ShiftController extends Controller
     }
 
     public function delete($id) {
+        if(roles() != "" && !in_array(59, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $shift = ShiftType::find($id);
         if($shift->company_id == Auth::user()->company_id){
             $shift->delete();

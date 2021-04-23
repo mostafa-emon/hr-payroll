@@ -35,6 +35,10 @@ class AttendanceController extends Controller
     }
 
     public function attendance_policy(Request $request) {
+        if(roles() != "" && !in_array(64, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($request->start_time != "") {
 
             $count = AttendancePolicy::where('company_id',Auth::user()->company_id)->count();
@@ -105,11 +109,19 @@ class AttendanceController extends Controller
 
 
     public function roster_index() {
+        if(roles() != "" && !in_array(65, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $rosters = Roster::where('company_id',Auth::user()->company_id)->where('data_entered',1)->orderBy('id','asc')->paginate(10);
         return view('transactions.attendance.roster.index',compact('rosters'));
     }
 
     public function roster_create(Request $request) {
+        if(roles() != "" && !in_array(66, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->where('duty_type','Roster');
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -242,6 +254,10 @@ class AttendanceController extends Controller
     }
 
     public function roster_duplicate($roster_id,Request $request) {
+        if(roles() != "" && !in_array(66, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $roster             = Roster::where('id',$roster_id)->first();
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->where('duty_type','Roster')->get();
@@ -264,6 +280,10 @@ class AttendanceController extends Controller
     }
 
     public function roster_employee_list($roster_id){
+        if(roles() != "" && !in_array(65, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $roster_employees = RosterEmployee::where('company_id',Auth::user()->company_id)->where('roster_id',$roster_id)->groupBy('employee_id')->select('employee_id', DB::raw('count(*) as total'))->paginate(10);
         return view('transactions.attendance.roster.employee_list',compact('roster_employees'));
     }
@@ -285,6 +305,10 @@ class AttendanceController extends Controller
     }*/
 
     public function roster_inactive($roster_id){
+        if(roles() != "" && !in_array(68, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $roster = Roster::where('id',$roster_id)->first();
         $roster->status = 0;
         $roster->save();
@@ -299,6 +323,10 @@ class AttendanceController extends Controller
     }
 
     public function roster_search(Request $request) {
+        if(roles() != "" && !in_array(65, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -353,6 +381,10 @@ class AttendanceController extends Controller
 
 
     public function roster_employee_delete($roster_employee_id){
+        if(roles() != "" && !in_array(68, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $roster = RosterEmployee::find($roster_employee_id);
         $roster->delete();
         return redirect('roster-search')->with('message','Roster Deleted Successfully!');
@@ -364,6 +396,10 @@ class AttendanceController extends Controller
     }
 
     public function roster_employee_update(Request $request,$id) {
+        if(roles() != "" && !in_array(67, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $shifts     = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $r_employee = RosterEmployee::where('id',$id)->first();
         if($request->date != "") {
@@ -724,6 +760,10 @@ class AttendanceController extends Controller
     }
 
     public function manual_log_index(Request $request) {
+        if(roles() != "" && !in_array(69, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         if($request->date != ""){
             $date         = date('Y-m-d',strtotime($request->date));
         }else {
@@ -734,6 +774,10 @@ class AttendanceController extends Controller
     }
 
     public function manual_log_add() {
+        if(roles() != "" && !in_array(70, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->get();
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -976,6 +1020,10 @@ class AttendanceController extends Controller
     }
 
     public function manual_log_update($attendance_id) {
+        if(roles() != "" && !in_array(71, json_decode(roles(),false))){
+            return redirect('404');
+        }
+
         $attendance = Attendance::where('id',$attendance_id)->first();
         return view('transactions.attendance.manual_log_entry.update',compact('attendance'));
     }
