@@ -117,7 +117,7 @@ return [
         'manual_log_entry_read'                 => 69,
         'manual_log_entry_add'                  => 70,
         'manual_log_entry_update'               => 71,
-        'manual_log_entry_delete'               => 72, // No Need
+        //'manual_log_entry_delete'               => 72, // No Need
 
         'daily_attendance_report'               => 73,
         'attendance_summary_all_report'         => 74,
@@ -164,8 +164,8 @@ return [
 
         'create_salary_sheet_read'              => 115,
         'create_salary_sheet_add'               => 116,
-        'create_salary_sheet_update'            => 117,  //No Need
-        'create_salary_sheet_delete'            => 118,  //No Need
+        //'create_salary_sheet_update'            => 117,  //No Need
+        //'create_salary_sheet_delete'            => 118,  //No Need
         'create_salary_sheet_send'              => 119,
         'create_salary_sheet_print'             => 120,
 
@@ -185,7 +185,7 @@ return [
         'deposit_salary_tax_read'               => 129,
         'deposit_salary_tax_add'                => 130,
         'deposit_salary_tax_update'             => 131,
-        'deposit_salary_tax_delete'             => 132, //No Need
+        //'deposit_salary_tax_delete'             => 132, //No Need
         'deposit_salary_tax_print'              => 133,
 
         'pay_pf_read'                           => 134,
