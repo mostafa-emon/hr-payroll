@@ -49,7 +49,7 @@ class UserController extends Controller
             $user->save();
             return redirect('user')->with('message', 'User added successfully!');
         }
-        $roles = Role::orderBy('role_name','asc')->where('id','>',2)->get();
+        $roles = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
         return view('users.add',['roles'=>$roles]);
     }
     
@@ -101,7 +101,7 @@ class UserController extends Controller
             $user->save();
             return redirect('user')->with('message', 'User updated successfully!');
         }
-        $roles = Role::orderBy('role_name','asc')->where('id','>',2)->get();
+        $roles = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
         return view('users.update', ['users' => $users, 'roles' => $roles]);
     }
 

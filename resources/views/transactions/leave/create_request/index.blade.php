@@ -76,7 +76,7 @@
                                         @if($leave->status == "Verified") <span class="badge badge-success">Verified</span>
                                         @elseif($leave->status == "Approved") <span class="badge badge-info">Approved</span>
                                         @elseif($leave->status == "Rejected") <span class="badge badge-danger">Rejected</span>
-                                        @else <span class="badge badge-warning">Not Seen</span>
+                                        @else <span class="badge badge-warning">Unapproved</span>
                                         @endif
                                     </td>
                                     {{--<td class="text-center" style="vertical-align: middle">

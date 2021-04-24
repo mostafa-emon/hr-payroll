@@ -31,7 +31,7 @@ class CreateRolesTable extends Migration
         $role->save(); 
 
         $access = [];
-        for($i=1; $i<=88; $i++){
+        for($i=1; $i<=167; $i++){
             $access[] = $i;
         }
         $role = new Role();

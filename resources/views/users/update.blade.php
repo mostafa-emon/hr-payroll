@@ -65,17 +65,17 @@
                                                     <input class="form-control" type="text" name="email" placeholder="Enter Email Address" value="{{$users->email}}" required>
                                                 </div>
                                                 <div class="col-md-6 mg-t-10">
-                                                    <input class="form-control" type="password" name="password" placeholder="Enter Password" autocomplete="off" required>
+                                                    <input class="form-control" type="password" name="password" placeholder="Enter Password" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-6 mg-t-10">
-                                                   <input class="form-control" type="password" name="confirm_password" placeholder="Re-Type Password" autocomplete="off" required>
+                                                   <input class="form-control" type="password" name="confirm_password" placeholder="Re-Type Password" autocomplete="off">
                                                 </div>
                                                 <div class="col-md-12 mg-t-10">
                                                     <select id="roles" name="roles" class="form-control select2-no-search pa" required>
                                                         <option label="Select Role"></option>
-                                                        <option value="CEO" @if($users->roles == "CEO") selected @endif>CEO</option>
-                                                        <option value="CTO" @if($users->roles == "CTO") selected @endif>CTO</option>
-                                                        <option value="Junior Engineer" @if($users->roles == "Junior Engineer") selected @endif>Junior Engineer</option>
+                                                        @foreach($roles as $role)
+                                                            <option value="{{$role->id}}" @if($users->roles == $role->id) selected @endif>{{$role->role_name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>

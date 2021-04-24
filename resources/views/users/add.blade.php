@@ -69,9 +69,9 @@
                                                 <div class="col-md-12 mg-t-10">
                                                     <select id="roles" name="roles" class="form-control select2-no-search pa" required>
                                                         <option label="Select Role"></option>
-                                                        <option value="CEO">CEO</option>
-                                                        <option value="CTO">CTO</option>
-                                                        <option value="Junior Engineer">Junior Engineer</option>
+                                                        @foreach($roles as $role)
+                                                            <option value="{{$role->id}}">{{$role->role_name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>
