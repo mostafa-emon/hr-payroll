@@ -102,7 +102,7 @@ class PublicController extends Controller
 
                             $attendance->actual_out_time_date   = date("Y-m-d", strtotime($actual_in_datetime . "+".$total_working_hour." minutes"));
                             $attendance->actual_out_time        = $get_actual_out_time;
-                            $attendance->roster_employee        = 0;
+                            $attendance->roster_employee        = 1;
                         }
                     } else {
                         $is_weekly_holiday = 1;
@@ -138,10 +138,11 @@ class PublicController extends Controller
 
         foreach($records as $record) {
             $attendance = Attendance::where('id',$record->attendance_id)->first();
-            $attendance->status = "PRESENT";
-            $attendance->readable_status = "OK";
 
             if($record->record_type == "IN") {
+                $attendance->status = "PRESENT";
+                $attendance->readable_status = "OK";
+
                 $in_time        = date('H:i:s',strtotime($record->base_time));
                 $actual_in_time = date('H:i:s',strtotime($record->actual_in_time));
 
@@ -214,6 +215,8 @@ class PublicController extends Controller
 
             if($record->record_type == "OUT") {
                 $in_time            = date('H:i:s',strtotime($record->today_in_time));
+                $in_datetime        = date('Y-m-d H:i',strtotime($record->base_date.' '.$in_time));
+
                 $out_time           = date('H:i:s',strtotime($record->base_time));
                 $actual_out_date    = date('Y-m-d',strtotime($record->actual_out_time_date));
                 $actual_out_time    = date('H:i:s',strtotime($record->actual_out_time));
@@ -229,7 +232,7 @@ class PublicController extends Controller
                 }
 
                 // TOTAL WORKING HOUR
-                $attendance->total_working_hour = round(abs(strtotime($out_datetime) - strtotime($actual_out_datetime)) / 60);
+                $attendance->total_working_hour = round(abs(strtotime($out_datetime) - strtotime($in_datetime)) / 60);
 
                 // NORMAL OVERTIME CALCULATION
                 if($record->ot_allowed == 1) {
@@ -268,13 +271,13 @@ class PublicController extends Controller
                     // OVERTIME WORK IN HOLIDAY // JUMP
                     if($record->mark_overtime_if_work_in_holiday == 1) {
                         if($attendance->work_in_govt_holiday == 1) {
-                            $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                            $attendance->over_time = $attendance->total_working_hour;
                         }
                     }
 
                     if($record->mark_overtime_if_work_in_leave_day == 1) {
                         if($attendance->work_in_leave_day == 1) {
-                            $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                            $attendance->over_time = $attendance->total_working_hour;
                         }
                     }
                 }
