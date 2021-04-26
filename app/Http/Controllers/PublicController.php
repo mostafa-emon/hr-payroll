@@ -57,9 +57,17 @@ class PublicController extends Controller
                             $end_time_meridiem = "PM";
                         }
 
-                        $attendance->actual_in_time     = date('H:i',strtotime($attendance_policy->start_time.' '.$start_time_meridiem));
-                        $attendance->actual_out_time    = date('H:i',strtotime($attendance_policy->end_time.' '.$end_time_meridiem));
-                        $attendance->roster_employee    = 0;
+                        $get_actual_in_time     = date('H:i',strtotime($attendance_policy->start_time.' '.$start_time_meridiem));
+                        $get_actual_out_time    = date('H:i',strtotime($attendance_policy->end_time.' '.$end_time_meridiem));
+                        $total_working_hour = round(abs(strtotime($get_actual_out_time) - strtotime($get_actual_in_time)) / 60);
+
+                        $attendance->actual_in_time_date    = date('Y-m-d');
+                        $attendance->actual_in_time         = $get_actual_in_time;
+                        $actual_in_datetime                 = $attendance->actual_in_time_date.' '.$attendance->actual_in_time;
+
+                        $attendance->actual_out_time_date   = date("Y-m-d", strtotime($actual_in_datetime . "+".$total_working_hour." minutes"));
+                        $attendance->actual_out_time        = $get_actual_out_time;
+                        $attendance->roster_employee        = 0;
                     }
                 }
 
@@ -84,14 +92,25 @@ class PublicController extends Controller
                                 $end_time_meridiem = "PM";
                             }
 
-                            $attendance->actual_in_time     = date('H:i',strtotime($shift->start_time.' '.$start_time_meridiem));
-                            $attendance->actual_out_time    = date('H:i',strtotime($shift->end_time.' '.$end_time_meridiem));
-                            $attendance->roster_employee    = 1;
+                            $get_actual_in_time     = date('H:i',strtotime($shift->start_time.' '.$start_time_meridiem));
+                            $get_actual_out_time    = date('H:i',strtotime($shift->end_time.' '.$end_time_meridiem));
+                            $total_working_hour = round(abs(strtotime($get_actual_out_time) - strtotime($get_actual_in_time)) / 60);
+
+                            $attendance->actual_in_time_date    = date('Y-m-d');
+                            $attendance->actual_in_time         = $get_actual_in_time;
+                            $actual_in_datetime                 = $attendance->actual_in_time_date.' '.$attendance->actual_in_time;
+
+                            $attendance->actual_out_time_date   = date("Y-m-d", strtotime($actual_in_datetime . "+".$total_working_hour." minutes"));
+                            $attendance->actual_out_time        = $get_actual_out_time;
+                            $attendance->roster_employee        = 0;
                         }
                     } else {
                         $is_weekly_holiday = 1;
                         $in_time_default = "12:00"; $out_time_default = "12:00";
+                        $attendance->actual_in_time_date= "2020-01-01";
                         $attendance->actual_in_time     = date('H:i',strtotime($in_time_default));
+
+                        $attendance->actual_out_time_date= "2020-01-01";
                         $attendance->actual_out_time    = date('H:i',strtotime($out_time_default));
                         $attendance->roster_employee    = 1;
                     }
@@ -108,7 +127,7 @@ class PublicController extends Controller
             }
         }
 
-        $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time','attendances.status as attendance_status','attendances.readable_status as attendance_readable_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendances.in_time as today_in_time','attendances.work_in_govt_holiday','attendances.work_in_leave_day','payroll_infos.ot_allowed','payroll_infos.hourly_ot_rate','payroll_infos.mark_overtime_if_work_in_holiday','payroll_infos.mark_overtime_if_work_in_leave_day')
+        $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time_date','attendances.actual_out_time','attendances.status as attendance_status','attendances.readable_status as attendance_readable_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.date as record_date','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendances.in_time as today_in_time','attendances.work_in_govt_holiday','attendances.work_in_leave_day','payroll_infos.ot_allowed','payroll_infos.hourly_ot_rate','payroll_infos.mark_overtime_if_work_in_holiday','payroll_infos.mark_overtime_if_work_in_leave_day')
             ->join('employment_infos','employment_infos.id_in_biometric_machine','attendance_records.employee_id')
             ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
             ->join('attendances','attendances.employee_id','employment_infos.employee_id')
@@ -126,7 +145,8 @@ class PublicController extends Controller
                 $in_time        = date('H:i:s',strtotime($record->base_time));
                 $actual_in_time = date('H:i:s',strtotime($record->actual_in_time));
 
-                $attendance->in_time = $in_time;
+                $attendance->in_time_date   = $record->record_date;
+                $attendance->in_time        = $in_time;
 
                 // IF LATE
                 if($record->attendance_readable_status != "Govt Holiday" && $record->attendance_readable_status != "Day Off" && $record->attendance_readable_status != "Leave") {
@@ -195,24 +215,28 @@ class PublicController extends Controller
             if($record->record_type == "OUT") {
                 $in_time            = date('H:i:s',strtotime($record->today_in_time));
                 $out_time           = date('H:i:s',strtotime($record->base_time));
+                $actual_out_date    = date('Y-m-d',strtotime($record->actual_out_time_date));
                 $actual_out_time    = date('H:i:s',strtotime($record->actual_out_time));
+                $actual_out_datetime = date('Y-m-d H:i',strtotime($actual_out_date.' '.$actual_out_time));
 
+                $attendance->out_time_date = $record->record_date;
                 $attendance->out_time = $out_time;
+                $out_datetime = date('Y-m-d H:i',strtotime($attendance->out_time_date.' '.$attendance->out_time));
 
                 // EARLY LEAVE
-                if($out_time < $actual_out_time) {
-                    $attendance->early_leave = round(abs(strtotime($actual_out_time) - strtotime($out_time)) / 60);
+                if($out_datetime < $actual_out_datetime) {
+                    $attendance->early_leave = round(abs(strtotime($actual_out_datetime) - strtotime($out_datetime)) / 60);
                 }
 
                 // TOTAL WORKING HOUR
-                $attendance->total_working_hour = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                $attendance->total_working_hour = round(abs(strtotime($out_datetime) - strtotime($actual_out_datetime)) / 60);
 
                 // NORMAL OVERTIME CALCULATION
                 if($record->ot_allowed == 1) {
                     $ot_considering_time = $record->ot_considering_time;
 
-                    if($out_time > $actual_out_time) {
-                        $today_over_time = round(abs(strtotime($out_time) - strtotime($actual_out_time)) / 60);
+                    if($out_datetime > $actual_out_datetime) {
+                        $today_over_time = round(abs(strtotime($out_datetime) - strtotime($actual_out_datetime)) / 60);
                     }else {
                         $today_over_time = 0;
                     }

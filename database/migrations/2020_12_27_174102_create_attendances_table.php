@@ -22,11 +22,15 @@ class CreateAttendancesTable extends Migration
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->date('date')->nullable();
 
+            $table->date('actual_in_time_date')->nullable();
             $table->time('actual_in_time')->nullable();
+            $table->date('actual_out_time_date')->nullable();
             $table->time('actual_out_time')->nullable();
             $table->integer('roster_employee')->default(0);
 
+            $table->date('in_time_date')->nullable();
             $table->time('in_time')->nullable();
+            $table->date('out_time_date')->nullable();
             $table->time('out_time')->nullable();
 
             $table->integer('late')->default(0); // In minute
