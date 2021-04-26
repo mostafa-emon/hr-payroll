@@ -108,7 +108,7 @@ class PublicController extends Controller
             }
         }
 
-        $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time','attendances.status as attendance_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendances.in_time as today_in_time','attendances.work_in_govt_holiday','attendances.work_in_leave_day','payroll_infos.ot_allowed','payroll_infos.hourly_ot_rate','payroll_infos.mark_overtime_if_work_in_holiday','payroll_infos.mark_overtime_if_work_in_leave_day')
+        $records = AttendanceRecord::select('attendances.date as base_date','employment_infos.employee_id as employee_id','attendances.actual_in_time','attendances.actual_out_time','attendances.status as attendance_status','attendances.readable_status as attendance_readable_status','attendance_records.id as attendance_record_id','attendances.id as attendance_id','attendance_records.time as base_time','attendance_records.record_type','attendance_policies.late_policy as allowed_late_policy','attendance_policies.late_mark as allowed_late_time','attendance_policies.late_absent_policy','attendance_policies.marks_absent_for as late_days_for_count_absent','attendance_policies.time_for_ot as ot_considering_time','attendance_policies.use_ot_round','attendance_policies.ot_round as ot_round_slab','attendances.in_time as today_in_time','attendances.work_in_govt_holiday','attendances.work_in_leave_day','payroll_infos.ot_allowed','payroll_infos.hourly_ot_rate','payroll_infos.mark_overtime_if_work_in_holiday','payroll_infos.mark_overtime_if_work_in_leave_day')
             ->join('employment_infos','employment_infos.id_in_biometric_machine','attendance_records.employee_id')
             ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
             ->join('attendances','attendances.employee_id','employment_infos.employee_id')
@@ -129,47 +129,49 @@ class PublicController extends Controller
                 $attendance->in_time = $in_time;
 
                 // IF LATE
-                if($in_time > $actual_in_time) {
-                    $late_calculation = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
+                if($record->attendance_readable_status != "Govt Holiday" && $record->attendance_readable_status != "Day Off" && $record->attendance_readable_status != "Leave") {
+                    if ($in_time > $actual_in_time) {
+                        $late_calculation = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
 
-                    // LATE ALLOWED TIME
-                    if($record->allowed_late_policy == 1) {
-                        if($late_calculation > $record->allowed_late_time) {
+                        // LATE ALLOWED TIME
+                        if ($record->allowed_late_policy == 1) {
+                            if ($late_calculation > $record->allowed_late_time) {
+                                $attendance->late_over_allowed_time = 1;
+                                $attendance->late = $late_calculation;
+                                $attendance->readable_status = "Late";
+                            }
+                        } else {
                             $attendance->late_over_allowed_time = 1;
                             $attendance->late = $late_calculation;
                             $attendance->readable_status = "Late";
                         }
-                    }
-                    else {
-                        $attendance->late_over_allowed_time = 1;
-                        $attendance->late = $late_calculation;
-                        $attendance->readable_status = "Late";
-                    }
 
-                    // DAY ABSENT FOR LATE
-                    if($record->late_absent_policy == 1) {
-                        $late_days_for_count_absent = $record->late_days_for_count_absent;
+                        // DAY ABSENT FOR LATE
+                        if ($record->late_absent_policy == 1) {
+                            $late_days_for_count_absent = $record->late_days_for_count_absent;
 
-                        $first_day_of_month = date('Y-m-01',strtotime($record->base_date));
-                        $current_date       = $record->base_date;
+                            $first_day_of_month = date('Y-m-01', strtotime($record->base_date));
+                            $current_date = $record->base_date;
 
-                        $data_of_late_days_till_today = Attendance::where('employee_id',$record->employee_id)
-                            ->whereBetween('date', [$first_day_of_month, $current_date." 23:59:59"])
-                            ->where('late_over_allowed_time',1)
-                            ->where('punishment_processed',0)
-                            ->get();
-                        $late_days_till_today = count($data_of_late_days_till_today);
+                            $data_of_late_days_till_today = Attendance::where('employee_id', $record->employee_id)
+                                ->whereBetween('date', [$first_day_of_month, $current_date . " 23:59:59"])
+                                ->where('late_over_allowed_time', 1)
+                                ->where('punishment_processed', 0)
+                                ->get();
+                            $late_days_till_today = count($data_of_late_days_till_today);
 
-                        if($late_days_till_today >= ($late_days_for_count_absent - 1)) {
-                            $attendance->status = "ABSENT"; $attendance->readable_status = "Absent";
-                            $attendance->day_absent_for_late    = 1;
-                            $attendance->punishment_processed   = 1;
+                            if ($late_days_till_today >= ($late_days_for_count_absent - 1)) {
+                                $attendance->status = "ABSENT";
+                                $attendance->readable_status = "Absent";
+                                $attendance->day_absent_for_late = 1;
+                                $attendance->punishment_processed = 1;
 
-                            foreach($data_of_late_days_till_today as $row) {
-                                Attendance::where('id',$row->id)->update(['punishment_processed' => 1]);
+                                foreach ($data_of_late_days_till_today as $row) {
+                                    Attendance::where('id', $row->id)->update(['punishment_processed' => 1]);
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
 
@@ -180,6 +182,11 @@ class PublicController extends Controller
 
                 if($record->attendance_status == "WEEKLY_HOLIDAY" || $record->attendance_status == "PAID_LEAVE") {
                     $attendance->work_in_leave_day = 1;
+                }
+
+                if($record->attendance_readable_status == "Govt Holiday" || $record->attendance_readable_status == "Day Off" || $record->attendance_readable_status == "Leave") {
+                    $attendance->late = 0;
+                    $attendance->readable_status = "OK";
                 }
 
                 $attendance->save();
