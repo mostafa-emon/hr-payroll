@@ -37,11 +37,17 @@
 
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
                                             <div class="row row-xs">
-                                                <div class="col-md-6 mg-t-10">
+                                                <div class="col-md-4 mg-t-10">
                                                     <input type="time" class="form-control" id="in_time" name="in_time" value="{{$attendance->in_time}}" placeholder="In Time" autocomplete="off" required>
                                                 </div>
-                                                <div class="col-md-6 mg-t-10">
+                                                <div class="col-md-4 mg-t-10">
                                                     <input type="time" class="form-control" id="out_time" name="out_time" value="{{$attendance->out_time}}" placeholder="Out Time" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-md-4 mg-t-10">
+                                                    <select class="form-control" name="out_time_logic">
+                                                        <option value="same_day">Out in Same Day</option>
+                                                        <option value="next_day">Out in Next Day</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-12 mg-t-10">
                                                     <input type="text" class="form-control" name="note" placeholder="Note" value="{{$attendance->note}}">

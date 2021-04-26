@@ -35,10 +35,10 @@
                                     <form method="POST" action="{{url('manual-log-entry/add-post')}}">
                                         {{ csrf_field() }}
 
-                                        @php 
+                                        @php
                                             $datepicker_format = datepicker_format();
                                             $date_format = 'd-m-Y';
-                                            
+
                                             if($datepicker_format == "MM-DD-YYYY") {
                                                 $date_format = 'm-d-Y';
                                             }else if($datepicker_format == "YYYY/MM/DD") {
@@ -85,11 +85,17 @@
                                                 <div class="col-md-3 mg-t-10">
                                                     <input type="text" name="date" class="form-control dtpicker" autocomplete="off" placeholder="Date" value="{{date($date_format)}}" required/>
                                                 </div>
-                                                <div class="col-md-3 mg-t-10">
+                                                <div class="col-md-2 mg-t-10">
                                                     <input type="time" class="form-control" id="in_time" name="in_time" placeholder="In Time" autocomplete="off" required>
                                                 </div>
-                                                <div class="col-md-3 mg-t-10">
+                                                <div class="col-md-2 mg-t-10">
                                                     <input type="time" class="form-control" id="out_time" name="out_time" placeholder="Out Time" autocomplete="off" required>
+                                                </div>
+                                                <div class="col-md-2 mg-t-10">
+                                                    <select class="form-control" name="out_time_logic">
+                                                        <option value="same_day">Out in Same Day</option>
+                                                        <option value="next_day">Out in Next Day</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-12 mg-t-10">
                                                     <input type="text" class="form-control" name="note" placeholder="Note">
