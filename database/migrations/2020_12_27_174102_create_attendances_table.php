@@ -15,34 +15,35 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            
+
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->date('date')->nullable();
-            
+
             $table->time('actual_in_time')->nullable();
             $table->time('actual_out_time')->nullable();
             $table->integer('roster_employee')->default(0);
 
             $table->time('in_time')->nullable();
             $table->time('out_time')->nullable();
-            
+
             $table->integer('late')->default(0); // In minute
             $table->integer('late_over_allowed_time')->default(0);
             $table->integer('punishment_processed')->default(0);
             $table->integer('day_absent_for_late')->default(0);
 
-            $table->integer('work_in_govt_holiday')->default(0); 
-            $table->integer('work_in_leave_day')->default(0); 
+            $table->integer('work_in_govt_holiday')->default(0);
+            $table->integer('work_in_leave_day')->default(0);
             $table->integer('over_time')->default(0); // In minute
             $table->integer('over_time_round_slab')->default(0); // In minute
             $table->integer('early_leave')->default(0); // In minute
             $table->integer('total_working_hour')->default(0); // In minute
-            
+
             $table->string('status')->default('ABSENT'); // PRESENT,ABSENT,HOLIDAY,PAID_LEAVE
-            
+            $table->string('readable_status')->default('Absent');
+
             $table->text('note')->nullable();
 
             $table->timestamps();

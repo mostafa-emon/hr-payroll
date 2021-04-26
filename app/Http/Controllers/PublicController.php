@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\GeneralLeave;
 use Illuminate\Http\Request;
 use App\Attendance;
 use App\GovtHolidayDetail;
@@ -36,6 +37,7 @@ class PublicController extends Controller
                 $is_weekly_holiday = 0;
 
                 $is_in_paid_leave = PaidLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->count();
+                $is_in_general_leave = GeneralLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->count();
 
                 if($employee->duty_type == "Non-Roster") {
                     if(date("l") == $employee->weekend_1 || date("l") == $employee->weekend_2) {
@@ -86,14 +88,21 @@ class PublicController extends Controller
                             $attendance->actual_out_time    = date('H:i',strtotime($shift->end_time.' '.$end_time_meridiem));
                             $attendance->roster_employee    = 1;
                         }
+                    } else {
+                        $is_weekly_holiday = 1;
+                        $in_time_default = "12:00"; $out_time_default = "12:00";
+                        $attendance->actual_in_time     = date('H:i',strtotime($in_time_default));
+                        $attendance->actual_out_time    = date('H:i',strtotime($out_time_default));
+                        $attendance->roster_employee    = 1;
                     }
 
                 }
 
-                $attendance->status = "ABSENT";
-                if($is_weekly_holiday > 0) { $attendance->status = "WEEKLY_HOLIDAY"; }
-                if($is_govt_holiday > 0) { $attendance->status = "GOVT_HOLIDAY"; }
-                if($is_in_paid_leave > 0) { $attendance->status = "PAID_LEAVE"; }
+                $attendance->status = "ABSENT"; $attendance->readable_status = "Absent";
+                if($is_weekly_holiday > 0) { $attendance->status = "WEEKLY_HOLIDAY"; $attendance->readable_status = "Day Off"; }
+                if($is_govt_holiday > 0) { $attendance->status = "GOVT_HOLIDAY"; $attendance->readable_status = "Govt Holiday"; }
+                if($is_in_paid_leave > 0) { $attendance->status = "PAID_LEAVE"; $attendance->readable_status = "Leave";}
+                if($is_in_general_leave > 0) { $attendance->readable_status = "Leave";}
 
                 $attendance->save();
             }
@@ -111,6 +120,7 @@ class PublicController extends Controller
         foreach($records as $record) {
             $attendance = Attendance::where('id',$record->attendance_id)->first();
             $attendance->status = "PRESENT";
+            $attendance->readable_status = "OK";
 
             if($record->record_type == "IN") {
                 $in_time        = date('H:i:s',strtotime($record->base_time));
@@ -120,16 +130,20 @@ class PublicController extends Controller
 
                 // IF LATE
                 if($in_time > $actual_in_time) {
-                    $attendance->late = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
+                    $late_calculation = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
 
                     // LATE ALLOWED TIME
                     if($record->allowed_late_policy == 1) {
-                        if($attendance->late > $record->allowed_late_time) {
+                        if($late_calculation > $record->allowed_late_time) {
                             $attendance->late_over_allowed_time = 1;
+                            $attendance->late = $late_calculation;
+                            $attendance->readable_status = "Late";
                         }
                     }
                     else {
                         $attendance->late_over_allowed_time = 1;
+                        $attendance->late = $late_calculation;
+                        $attendance->readable_status = "Late";
                     }
 
                     // DAY ABSENT FOR LATE
@@ -147,7 +161,7 @@ class PublicController extends Controller
                         $late_days_till_today = count($data_of_late_days_till_today);
 
                         if($late_days_till_today >= ($late_days_for_count_absent - 1)) {
-                            $attendance->status = "ABSENT";
+                            $attendance->status = "ABSENT"; $attendance->readable_status = "Absent";
                             $attendance->day_absent_for_late    = 1;
                             $attendance->punishment_processed   = 1;
 
