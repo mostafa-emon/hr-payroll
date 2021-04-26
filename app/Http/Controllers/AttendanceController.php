@@ -809,7 +809,7 @@ class AttendanceController extends Controller
                 $is_weekly_holiday = 0;
 
                 $is_in_paid_leave = PaidLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request->date)))->count();
-                $is_in_general_leave = GeneralLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d'))->count();
+                $is_in_general_leave = GeneralLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request->date)))->count();
 
                 if($employee->duty_type == "Non-Roster") {
                     if(date("l") == $employee->weekend_1 || date("l") == $employee->weekend_2) {
@@ -1073,7 +1073,7 @@ class AttendanceController extends Controller
     }
 
     public function manual_log_update_post(Request $request,$attendance_id) {
-        $attendance     = Attendance::where('id',$attendance_id)->first();
+        /*$attendance     = Attendance::where('id',$attendance_id)->first();
         $employee_id    = $attendance->employee_id;
         $formatted_date = date('Y-m-d',strtotime($attendance->date));
 
@@ -1087,7 +1087,7 @@ class AttendanceController extends Controller
             $attendance->work_in_holiday = 0;
         }*/
 
-        if($attendance->status == "GOVT_HOLIDAY") {
+        /*if($attendance->status == "GOVT_HOLIDAY") {
             $attendance->work_in_govt_holiday = 1;
         }else{
             $attendance->work_in_govt_holiday = 0;
@@ -1108,7 +1108,7 @@ class AttendanceController extends Controller
         $attendance->over_time_round_slab   = 0;
         $attendance->total_working_hour     = 0;*/
 
-        $in_time        = date('H:i:s',strtotime($request->in_time));
+        /*$in_time        = date('H:i:s',strtotime($request->in_time));
         $actual_in_time = date('H:i:s',strtotime($attendance->actual_in_time));
 
         $attendance->in_time = $in_time;
@@ -1243,7 +1243,7 @@ class AttendanceController extends Controller
                 }
             }*/
 
-            if($payroll_info->mark_overtime_if_work_in_holiday == 1) {
+            /*if($payroll_info->mark_overtime_if_work_in_holiday == 1) {
                 if($attendance->work_in_govt_holiday == 1) {
                     $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
                 }
@@ -1261,7 +1261,288 @@ class AttendanceController extends Controller
 
         $attendance->note = $request->note;
 
+        $attendance->save();*/
+
+
+
+
+
+
+
+        $company_id = Auth::user()->company_id;
+        $attendance_policy = AttendancePolicy::where('company_id',$company_id)->first();
+
+        $attenace_old_data = Attendance::where('id',$attendance_id)->first();
+
+        $employee = Employee::where('id',$attenace_old_data->employee_id)->join('employment_infos','employees.id','employment_infos.employee_id')->first();
+
+        $request_date = $attenace_old_data->date;
+
+        $attenace_old_data = $attenace_old_data->delete();
+
+        $is_govt_holiday = GovtHolidayDetail::where('company_id',$company_id)->where('date',date('Y-m-d',strtotime($request_date)))->count();
+
+        $attendance = new Attendance();
+        $attendance->company_id     = $employee->company_id;
+        $attendance->employee_id    = $employee->id;
+        $attendance->date           = date('Y-m-d',strtotime($request_date));
+
+        $is_weekly_holiday = 0;
+
+        $is_in_paid_leave       = PaidLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request_date)))->count();
+        $is_in_general_leave    = GeneralLeave::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request_date)))->count();
+
+        if($employee->duty_type == "Non-Roster") {
+            if(date("l") == $employee->weekend_1 || date("l") == $employee->weekend_2) {
+                $is_weekly_holiday = 1;
+            }
+
+            if($attendance_policy->start_time != "" && $attendance_policy->end_time != "") {
+                if($attendance_policy->start_time_meridiem == 0) {
+                    $start_time_meridiem = "AM";
+                }else {
+                    $start_time_meridiem = "PM";
+                }
+
+                if($attendance_policy->end_time_meridiem == 0) {
+                    $end_time_meridiem = "AM";
+                }else {
+                    $end_time_meridiem = "PM";
+                }
+
+                $get_actual_in_time     = date('H:i',strtotime($attendance_policy->start_time.' '.$start_time_meridiem));
+                $get_actual_out_time    = date('H:i',strtotime($attendance_policy->end_time.' '.$end_time_meridiem));
+                $total_working_hour     = round(abs(strtotime($get_actual_out_time) - strtotime($get_actual_in_time)) / 60);
+
+                $attendance->actual_in_time_date    = date('Y-m-d',strtotime($request_date));
+                $attendance->actual_in_time         = $get_actual_in_time;
+                $actual_in_datetime                 = $attendance->actual_in_time_date.' '.$attendance->actual_in_time;
+
+                $attendance->actual_out_time_date   = date("Y-m-d", strtotime($actual_in_datetime . "+".$total_working_hour." minutes"));
+                $attendance->actual_out_time        = $get_actual_out_time;
+                $attendance->roster_employee        = 0;
+            }
+        }
+
+        else {
+            $roster = RosterEmployee::where('employee_id',$employee->id)->where('date',date('Y-m-d',strtotime($request_date)))->first();
+            if($roster != "") {
+                if($roster->day_off == 1) {
+                    $is_weekly_holiday = 1;
+                }
+
+                $shift = ShiftType::where('id',$roster->shift_id)->first();
+                if($shift != "") {
+                    if($shift->start_time_meridiem == 0) {
+                        $start_time_meridiem = "AM";
+                    }else {
+                        $start_time_meridiem = "PM";
+                    }
+
+                    if($shift->end_time_meridiem == 0) {
+                        $end_time_meridiem = "AM";
+                    }else {
+                        $end_time_meridiem = "PM";
+                    }
+
+                    $get_actual_in_time     = date('H:i',strtotime($shift->start_time.' '.$start_time_meridiem));
+                    $get_actual_out_time    = date('H:i',strtotime($shift->end_time.' '.$end_time_meridiem));
+                    $total_working_hour     = round(abs(strtotime($get_actual_out_time) - strtotime($get_actual_in_time)) / 60);
+
+                    $attendance->actual_in_time_date    = date('Y-m-d');
+                    $attendance->actual_in_time         = $get_actual_in_time;
+                    $actual_in_datetime                 = $attendance->actual_in_time_date.' '.$attendance->actual_in_time;
+
+                    $attendance->actual_out_time_date   = date("Y-m-d", strtotime($actual_in_datetime . "+".$total_working_hour." minutes"));
+                    $attendance->actual_out_time        = $get_actual_out_time;
+                    $attendance->roster_employee        = 1;
+                }
+            }
+
+        }
+
+        $attendance->status = "ABSENT"; $attendance->readable_status = "Absent";
+        if($is_weekly_holiday > 0) { $attendance->status = "WEEKLY_HOLIDAY"; $attendance->readable_status = "Day Off"; }
+        if($is_govt_holiday > 0) { $attendance->status = "GOVT_HOLIDAY"; $attendance->readable_status = "Govt Holiday"; }
+        if($is_in_paid_leave > 0) { $attendance->status = "PAID_LEAVE"; $attendance->readable_status = "Leave";}
+        if($is_in_general_leave > 0) { $attendance->readable_status = "Leave";}
+
         $attendance->save();
+
+
+        $employee_id    = get_auto_increment_employee_id($request->employee_id);
+        $formatted_date = date('Y-m-d',strtotime($request_date));
+
+        $policy         = AttendancePolicy::where('company_id',Auth::user()->company_id)->first();
+        $payroll_info   = PayrollInfo::where('employee_id',$employee_id)->first();
+
+        $attendance = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->where('date',$formatted_date)->first();
+
+        // WORK IN HOLIDAY
+        /*if($attendance->status == "GOVT_HOLIDAY" || $attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+            $attendance->work_in_holiday = 1;
+        }*/
+
+        if($attendance->status == "GOVT_HOLIDAY") {
+            $attendance->work_in_govt_holiday = 1;
+        }
+
+        if($attendance->status == "WEEKLY_HOLIDAY" || $attendance->status == "PAID_LEAVE") {
+            $attendance->work_in_leave_day = 1;
+        }
+
+        /*
+        if($attendance->readable_status == "Govt Holiday" || $attendance->readable_status == "Day Off" || $attendance->readable_status == "Leave") {
+            $attendance->late = 0;
+            $attendance->readable_status = "OK";
+        }
+        */
+
+        $attendance->status = "PRESENT"; $readable_status = "OK";
+
+        $in_time        = date('H:i:s',strtotime($request->in_time));
+        $actual_in_time = date('H:i:s',strtotime($attendance->actual_in_time));
+
+        $attendance->in_time_date = date('Y-m-d',strtotime($request_date));
+        $attendance->in_time = $in_time;
+
+        // IF LATE
+        if($attendance->readable_status != "Govt Holiday" && $attendance->readable_status != "Day Off" && $attendance->readable_status != "Leave") {
+            if ($in_time > $actual_in_time) {
+                $late_calculation = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
+
+                // LATE ALLOWED TIME
+                if ($policy->late_policy == 1) {
+                    if ($late_calculation > $policy->late_mark) {
+                        $attendance->late_over_allowed_time = 1;
+                        $attendance->late = $late_calculation;
+                        $readable_status = "Late";
+                    }
+                } else {
+                    $attendance->late_over_allowed_time = 1;
+                    $attendance->late = $late_calculation;
+                    $readable_status = "Late";
+                }
+
+                // DAY ABSENT FOR LATE
+                if ($policy->late_absent_policy == 1) {
+                    $late_days_for_count_absent = $policy->marks_absent_for;
+
+                    $first_day_of_month = date('Y-m-01', strtotime($formatted_date));
+                    $current_date = $formatted_date;
+
+                    $data_of_late_days_till_today = Attendance::where('employee_id', $employee_id)
+                        ->whereBetween('date', [$first_day_of_month, $current_date . " 23:59:59"])
+                        ->where('late_over_allowed_time', 1)
+                        ->where('punishment_processed', 0)
+                        ->get();
+                    $late_days_till_today = count($data_of_late_days_till_today);
+
+                    if ($late_days_till_today >= ($late_days_for_count_absent - 1)) {
+                        $attendance->status = "ABSENT";
+                        $attendance->day_absent_for_late = 1;
+                        $attendance->punishment_processed = 1;
+
+                        foreach ($data_of_late_days_till_today as $row) {
+                            Attendance::where('id', $row->id)->update(['punishment_processed' => 1]);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        $attendance->readable_status = $readable_status;
+        $attendance->save();
+
+        $in_time            = date('H:i:s',strtotime($request->in_time));
+        $in_datetime        = date('Y-m-d H:i',strtotime($attendance->in_time_date.' '.$in_time));
+        $out_time           = date('H:i:s',strtotime($request->out_time));
+
+        $actual_out_date    = date('Y-m-d',strtotime($attendance->actual_out_time_date));
+        $actual_out_time    = date('H:i:s',strtotime($attendance->actual_out_time));
+        $actual_out_datetime = date('Y-m-d H:i',strtotime($actual_out_date.' '.$actual_out_time));
+
+        if($request->out_time_logic == "same_day") {
+            $out_date = date('Y-m-d',strtotime($request_date));
+        }else if($request->out_time_logic == "next_day") {
+            $out_date = date('Y-m-d', strtotime($request_date . ' +1 day'));
+        }
+
+        $attendance->out_time_date = $out_date;
+        $attendance->out_time = $out_time;
+
+        $out_datetime = date('Y-m-d H:i',strtotime($attendance->out_time_date.' '.$attendance->out_time));
+
+        // EARLY LEAVE
+        if($out_datetime < $actual_out_datetime) {
+            $attendance->early_leave = round(abs(strtotime($actual_out_datetime) - strtotime($out_datetime)) / 60);
+        }
+
+        // TOTAL WORKING HOUR
+        $attendance->total_working_hour = round(abs(strtotime($out_datetime) - strtotime($in_datetime)) / 60);
+
+        // NORMAL OVERTIME CALCULATION
+        if($payroll_info->ot_allowed == 1) {
+            $ot_considering_time = $policy->time_for_ot;
+
+            if($out_datetime > $actual_out_datetime) {
+                $today_over_time = round(abs(strtotime($out_datetime) - strtotime($actual_out_datetime)) / 60);
+            }else {
+                $today_over_time = 0;
+            }
+
+            if($today_over_time > $ot_considering_time) {
+                $is_round_slab_allowed = $policy->use_ot_round;
+                if($is_round_slab_allowed == 1) {
+                    $round_slab_value = $policy->ot_round;
+
+                    if($today_over_time > 60) {
+                        $extra_time = ($today_over_time % 60);
+                    }else{
+                        $extra_time = $today_over_time;
+                    }
+
+                    if($extra_time >= $round_slab_value) {
+                        $attendance->over_time = ($today_over_time - $extra_time) + 60;
+                        $attendance->over_time_round_slab = $round_slab_value;
+                    }
+                    else {
+                        $attendance->over_time = $today_over_time;
+                    }
+                }
+                else{
+                    $attendance->over_time = $today_over_time;
+                }
+            }
+
+            // OVERTIME WORK IN HOLIDAY
+            /*if($payroll_info->mark_overtime == 1) {
+                if($attendance->work_in_holiday == 1) {
+                    $attendance->over_time = round(abs(strtotime($out_time) - strtotime($in_time)) / 60);
+                }
+            }*/
+
+            if($payroll_info->mark_overtime_if_work_in_holiday == 1) {
+                if($attendance->work_in_govt_holiday == 1) {
+                    $attendance->over_time = $attendance->total_working_hour;
+                }
+            }
+
+            if($payroll_info->mark_overtime_if_work_in_leave_day == 1) {
+                if($attendance->work_in_leave_day == 1) {
+                    $attendance->over_time = $attendance->total_working_hour;
+                }
+            }
+        }
+
+        $attendance->note = $request->note;
+
+        $attendance->save();
+
+
+
+
 
         return redirect('manual-log-entry')->with('message','Log Manually Updated Successfully!');
     }
