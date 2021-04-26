@@ -918,7 +918,7 @@ class AttendanceController extends Controller
         }
         */
 
-        $attendance->status = "PRESENT"; $attendance->readable_status = "OK";
+        $attendance->status = "PRESENT"; $readable_status = "OK";
 
         $in_time        = date('H:i:s',strtotime($request->in_time));
         $actual_in_time = date('H:i:s',strtotime($attendance->actual_in_time));
@@ -929,15 +929,19 @@ class AttendanceController extends Controller
         // IF LATE
         if($attendance->readable_status != "Govt Holiday" && $attendance->readable_status != "Day Off" && $attendance->readable_status != "Leave") {
             if ($in_time > $actual_in_time) {
-                $attendance->late = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
+                $late_calculation = round(abs(strtotime($in_time) - strtotime($actual_in_time)) / 60);
 
                 // LATE ALLOWED TIME
                 if ($policy->late_policy == 1) {
-                    if ($attendance->late > $policy->late_mark) {
+                    if ($late_calculation > $policy->late_mark) {
                         $attendance->late_over_allowed_time = 1;
+                        $attendance->late = $late_calculation;
+                        $readable_status = "Late";
                     }
                 } else {
                     $attendance->late_over_allowed_time = 1;
+                    $attendance->late = $late_calculation;
+                    $readable_status = "Late";
                 }
 
                 // DAY ABSENT FOR LATE
@@ -968,6 +972,7 @@ class AttendanceController extends Controller
             }
         }
 
+        $attendance->readable_status = $readable_status;
         $attendance->save();
 
         $in_time            = date('H:i:s',strtotime($request->in_time));
