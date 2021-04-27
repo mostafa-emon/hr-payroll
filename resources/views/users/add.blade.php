@@ -66,11 +66,26 @@
                                                 <div class="col-md-6 mg-t-10">
                                                    <input class="form-control" type="password" name="confirm_password" placeholder="Re-Type Password" autocomplete="off" required>
                                                 </div>
-                                                <div class="col-md-12 mg-t-10">
+                                                <div class="col-md-4 mg-t-10">
                                                     <select id="roles" name="roles" class="form-control select2-no-search pa" required>
                                                         <option label="Select Role"></option>
                                                         @foreach($roles as $role)
                                                             <option value="{{$role->id}}">{{$role->role_name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 mg-t-10">
+                                                    <select id="user_type" name="user_type" class="form-control select2-no-search pa" onclick="hideShowElement(this.value)" required>
+                                                        <option label="User Type"></option>
+                                                        <option value="admin">Admin</option>
+                                                        <option value="employee">Employee</option>
+                                                    </select>
+                                                </div>
+                                                <div style="display:none;" id="employee_selection" class="col-md-4 mg-t-10">
+                                                    <select name="employee_id" id="employee_selection_dropdown" class="form-control">
+                                                        <option value="" label>Select Employee</option>
+                                                        @foreach($employees as $employee)
+                                                            <option value="{{$employee->id}}">{{$employee->employee_id}} - {{$employee->name}} - {{employee_designation($employee->id)}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -94,15 +109,25 @@
     </div>
 
     <script>
-    function preview_image(event) {
-      var reader = new FileReader();
-      reader.onload = function()
-      {
-        var output = document.getElementById('avatar');
-        output.src = reader.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  </script>
+        function preview_image(event) {
+        var reader = new FileReader();
+        reader.onload = function()
+        {
+            var output = document.getElementById('avatar');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function hideShowElement(value) {
+            if(value == "employee") {
+                $('#employee_selection').show();
+                $("#employee_selection_dropdown").prop('required',true);
+            }else{
+                $('#employee_selection').hide();
+                $("#employee_selection_dropdown").prop('required',false);
+            }
+        }
+    </script>
 
 @endsection

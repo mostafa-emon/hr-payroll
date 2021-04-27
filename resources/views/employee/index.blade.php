@@ -62,6 +62,7 @@
                                     <th style="vertical-align: middle">Designation</th>
                                     <th style="vertical-align: middle">Phone</th>
                                     <th style="vertical-align: middle">Email</th>
+                                    <th style="vertical-align: middle" class="text-center">Status</th>
                                     @if(in_array(24, json_decode(roles(),false)) || in_array(25, json_decode(roles(),false)))
                                         <th style="vertical-align: middle" class="text-center">Action</th>
                                     @endif
@@ -84,6 +85,14 @@
                                     <td style="vertical-align: middle">{{employee_designation($employee->id)}}</td>
                                     <td style="vertical-align: middle">{{$employee->phone_1}}</td>
                                     <td style="vertical-align: middle">{{$employee->email_address}}</td>
+                                    <td style="vertical-align: middle" class="text-center">
+                                        @php $current_status = employee_current_status($employee->id); @endphp
+                                        @if($current_status == "Active")
+                                            <span class="badge badge-info">Active</span>
+                                        @else
+                                            <span class="badge badge-warning">Inactive</span>
+                                        @endif
+                                    </td>
                                     @if(in_array(24, json_decode(roles(),false)) || in_array(25, json_decode(roles(),false)))
                                         <td style="vertical-align: middle" class="text-center">
                                             <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>

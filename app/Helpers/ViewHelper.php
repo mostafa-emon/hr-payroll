@@ -1143,3 +1143,12 @@ function datepicker_format() {
 function get_biometric_redirect_url($company_id) {
     return Company::where('id',$company_id)->first()->biometric_machine_redirect_url;
 }
+
+function employee_current_status($employee_id) {
+    $employment_info = EmploymentInfo::where('employee_id',$employee_id)->first();
+    if($employment_info != "") {
+        return $employment_info->current_status; 
+    }else{
+        return "";
+    }
+}

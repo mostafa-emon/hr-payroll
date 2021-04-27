@@ -8,6 +8,7 @@ use App\User;
 use App\Subscription;
 use App\Role;
 use App\Currency;
+use App\GeneralSetting;
 use Hash;
 
 class RegisterController extends Controller
@@ -91,6 +92,13 @@ class RegisterController extends Controller
             $role->role_name                = "User";
             $role->access                   = json_encode($access);
             $role->save();
+
+            //General Setting
+            $setting = new GeneralSetting;
+            $setting->company_id            = $company->id;
+            $setting->amount_in_word        = "Crore-Lakh-Thousand";
+            $setting->date_format           = "DD-MM-YYYY";
+            $setting->save();
 
             //Currency
             $currency = new Currency();

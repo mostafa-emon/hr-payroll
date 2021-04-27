@@ -11,6 +11,7 @@ use DB;
 use Auth;
 use App\Helpers\ViewHelper;
 use App\Company;
+use App\Employee;
 
 class UserController extends Controller
 {
@@ -41,6 +42,7 @@ class UserController extends Controller
             $user->name             = $request->name;
             $user->designation      = $request->designation;
             $user->email            = $request->email;
+            $user->employee_id      = $request->employee_id;
             $user->password         = Hash::make($request->password);
             if($request->hasFile('avatar')){  
                 $user->avatar       = $request->file('avatar')->store('users');
@@ -49,8 +51,10 @@ class UserController extends Controller
             $user->save();
             return redirect('user')->with('message', 'User added successfully!');
         }
-        $roles = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
-        return view('users.add',['roles'=>$roles]);
+        $roles      = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
+        $employees  = Employee::where('company_id',Auth::user()->company_id)->orderBy('employee_id','asc')->get();
+
+        return view('users.add',compact('roles','employees'));
     }
     
     public function delete($user_id){
@@ -88,6 +92,7 @@ class UserController extends Controller
             $user->name             = $request->name;
             $user->designation      = $request->designation;
             $user->email            = $request->email;
+            $user->employee_id      = $request->employee_id;
             if($request->password != ""){
                $user->password      = Hash::make($request->password);
             }
@@ -102,7 +107,8 @@ class UserController extends Controller
             return redirect('user')->with('message', 'User updated successfully!');
         }
         $roles = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
-        return view('users.update', ['users' => $users, 'roles' => $roles]);
+        $employees  = Employee::where('company_id',Auth::user()->company_id)->orderBy('employee_id','asc')->get();
+        return view('users.update', compact('users','roles','employees'));
     }
 
     public function profile($user_id, Request $request){
