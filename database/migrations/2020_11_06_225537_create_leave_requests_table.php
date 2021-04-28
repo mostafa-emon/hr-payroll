@@ -29,6 +29,7 @@ class CreateLeaveRequestsTable extends Migration
             $table->string('rejected_by')->nullable();
             $table->string('reason_for_rejection')->nullable();
             $table->string('status')->nullable();
+            $table->string('created_by')->nullable();
             $table->timestamps();
         });
     }

@@ -429,7 +429,15 @@ class LeaveController extends Controller
 
 
     ///Leave Request For others
-    public function leave_request_for_others(Request $request) {
+    public function leave_request_for_others_index() {
+        if(roles() != "" && !in_array(161, json_decode(roles(),false))){
+            return redirect('404');
+        }
+        $leaves = LeaveRequest::where('created_by',Auth::user()->id)->orderBy('id','desc')->paginate(10);
+        return view('transactions.leave.create_request_for_others.index',compact('leaves'));
+    }
+
+    public function leave_request_for_others_add(Request $request) {
         if(roles() != "" && !in_array(161, json_decode(roles(),false))){
             return redirect('404');
         }
@@ -443,7 +451,7 @@ class LeaveController extends Controller
                     $date_of_confirmation   = EmploymentInfo::where('employee_id',$request->employee_id)->first();
                     if($date_of_confirmation !="" && $current_date < $date_of_confirmation->date_of_confirmation) {
                         $confirmation_date  = date('d-m-Y',strtotime($date_of_confirmation->date_of_confirmation));
-                        return redirect('leave-request-for-others')->with('error_message','Can not take leave before your job Confirmation date '.$confirmation_date.'!');
+                        return redirect('leave-request-for-others/add')->with('error_message','Can not take leave before your job Confirmation date '.$confirmation_date.'!');
                     }
                 }
                 
@@ -470,9 +478,9 @@ class LeaveController extends Controller
                             if($leave_requests != "") {
                                 if($leave_info->opening_balance > $before_leave) {
                                     $remaining_leave = $leave_info->opening_balance - $before_leave;
-                                    return redirect('leave-request-for-others')->with('error_message','Can not take leave more than '.$remaining_leave.' days!');
+                                    return redirect('leave-request-for-others/add')->with('error_message','Can not take leave more than '.$remaining_leave.' days!');
                                 }else{
-                                    return redirect('leave-request-for-others')->with('error_message','Can not take any leave this year!');
+                                    return redirect('leave-request-for-others/add')->with('error_message','Can not take any leave this year!');
                                 }
                             }
                         }
@@ -491,9 +499,9 @@ class LeaveController extends Controller
                             if($leave_requests != "") {
                                 if($leave_info->yearly_allotment > $before_leave) {
                                     $remaining_leave = $leave_info->yearly_allotment - $before_leave;
-                                    return redirect('leave-request-for-others')->with('error_message','Can not take leave more than '.$remaining_leave.' days!');
+                                    return redirect('leave-request-for-others/add')->with('error_message','Can not take leave more than '.$remaining_leave.' days!');
                                 }else{
-                                    return redirect('leave-request-for-others')->with('error_message','Can not take any leave this year!');
+                                    return redirect('leave-request-for-others/add')->with('error_message','Can not take any leave this year!');
                                 }
                             }
                         }
@@ -503,9 +511,9 @@ class LeaveController extends Controller
                             if($leave_requests != "") {
                                 if($grand_total_leave > $before_leave) {
                                     $remaining_leave = $grand_total_leave - $before_leave;
-                                    return redirect('leave-request-for-others')->with('error_message','Can not take leave more than '.$remaining_leave.' days!');
+                                    return redirect('leave-request-for-others/add')->with('error_message','Can not take leave more than '.$remaining_leave.' days!');
                                 }else{
-                                    return redirect('leave-request-for-others')->with('error_message','Can not take any leave this year!');
+                                    return redirect('leave-request-for-others/add')->with('error_message','Can not take any leave this year!');
                                 }
                             }
                         }
@@ -522,13 +530,13 @@ class LeaveController extends Controller
                     $first_leave_requests = LeaveRequest::where('employee_id',$request->employee_id)->where('status','!=','Rejected')->get();
                     if(count($first_leave_requests) == 0) {
                         if($request->leave_days > "1") {
-                            return redirect('leave-request-for-others')->with('error_message','As taking earn leave first time, cannot take more than one!');
+                            return redirect('leave-request-for-others/add')->with('error_message','As taking earn leave first time, cannot take more than one!');
                         }
                     }
 
                     $request_leaves = LeaveRequest::where('employee_id',$request->employee_id)->whereBetween('start_date', [$last_date, $current_date])->where('leave_type_id',$request->leave_type_id)->where('status','!=','Rejected')->get();
                     if(count($request_leaves) > 0){
-                        return redirect('leave-request-for-others')->with('error_message','Can take 1 earn leave after '.$leave_type->el_deviding_factor.' days!');
+                        return redirect('leave-request-for-others/add')->with('error_message','Can take 1 earn leave after '.$leave_type->el_deviding_factor.' days!');
                     }
                 }
             }
@@ -541,6 +549,7 @@ class LeaveController extends Controller
             $leave->end_date      = date('Y-m-d',strtotime($request->end_date));
             $leave->leave_days    = $request->leave_days;
             $leave->remark        = $request->remark;
+            $leave->created_by    = Auth::user()->id;
             $leave->status        = "Pending";
             if($request->hasFile('attach_file')){  
                 $leave->attach_file       = $request->file('attach_file')->store('leave_request');
@@ -551,6 +560,6 @@ class LeaveController extends Controller
         }
         $employees  = Employee::where('company_id',Auth::user()->company_id)->orderBy('employee_id','asc')->get();
         $types      = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('leave_name','asc')->get();
-        return view('transactions.leave.create_request_for_others',compact('types','employees'));
+        return view('transactions.leave.create_request_for_others.add',compact('types','employees'));
     }
 }

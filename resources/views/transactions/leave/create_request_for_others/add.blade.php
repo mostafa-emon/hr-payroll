@@ -7,7 +7,8 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/leave-request-for-others')}}" style="color:#6c757d;">Create Leave Request For Others</a></li>
+                <li class="breadcrumb-item"><a href="{{url('/leave-request-for-others')}}" style="color:#6c757d; font-weight: bold">Leave Request For Others</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/leave-request-for-others/add')}}" style="color:#6c757d;">Add</a></li>
             </ol>
             </div>
         </div>
@@ -50,7 +51,7 @@
 						<div class="col-lg-12 col-md-12">
 							<div class="card">
 								<div class="card-body">
-                                    <form method="POST" action="{{url('leave-request-for-others')}}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{url('leave-request-for-others/add')}}" enctype="multipart/form-data">
                                         {{ csrf_field() }}
 
                                         <div class="pd-30 pd-sm-40 bg-gray-200">
@@ -63,17 +64,17 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-3 mg-t-10">
                                                     <input id="start_date" class="form-control dtpicker" name="start_date" placeholder="Start date" type="text" autocomplete="off" required>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-3 mg-t-10">
                                                     <input id="end_date" class="form-control dtpicker" name="end_date" placeholder="End date" type="text" autocomplete="off" required>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-2 mg-t-10">
                                                     <input id="leave_days" class="form-control" placeholder="Number of Days" name="leave_days" type="text" required>
                                                 </div>
-                                                <div class="col-md-8 mg-t-10">
-                                                    <select name="employee_id" class="form-control">
+                                                <div class="col-md-12 mg-t-10">
+                                                    <select name="employee_id" class="form-control selectpicker" style="width: 100%!important;">
                                                         <option value="" label>Select Employee</option>
                                                         @foreach($employees as $employee)
                                                             <option value="{{$employee->id}}">{{$employee->employee_id}} - {{$employee->name}} - {{employee_designation($employee->id)}}</option>
