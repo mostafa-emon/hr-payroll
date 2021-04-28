@@ -794,6 +794,18 @@
 
                                     <tr>
                                         <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">2</td>
+                                        <td style="border-bottom: 1px solid #ced4da;">Create Leave Request For Others</td>
+
+                                        <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="create_leave_request_for_others" @if($roles->access != "" && in_array(168, json_decode($roles->access,false)))checked="checked"@endif/></td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                        <td style="border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
                                         <td style="border-bottom: 1px solid #ced4da;">Verify Leave Request</td>
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="verify_leave_request" @if($roles->access != "" && in_array(162, json_decode($roles->access,false)))checked="checked"@endif/></td>
@@ -805,7 +817,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">3</td>
+                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
                                         <td style="border-bottom: 1px solid #ced4da;">Approve Leave Request</td>
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="approve_leave_request" @if($roles->access != "" && in_array(163, json_decode($roles->access,false)))checked="checked"@endif/></td>
@@ -817,7 +829,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">4</td>
+                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">5</td>
                                         <td style="border-bottom: 1px solid #ced4da;">Leave Balance Transfer</td>
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;"><input type="checkbox" style="width: 20px; height: 20px; margin-top:5px;" class="checkbox" value="1" name="leave_balance_transfer" @if($roles->access != "" && in_array(164, json_decode($roles->access,false)))checked="checked"@endif/></td>
@@ -829,7 +841,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">5</td>
+                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">6</td>
                                         <td style="border-bottom: 1px solid #ced4da;">Leave Report Individual</td>
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
@@ -841,7 +853,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">6</td>
+                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">7</td>
                                         <td style="border-bottom: 1px solid #ced4da;">Rejected Leave Report</td>
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>
@@ -853,7 +865,7 @@
                                     </tr>
 
                                     <tr>
-                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">7</td>
+                                        <td style="border-right: 1px solid #ced4da; border-left: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center">8</td>
                                         <td style="border-bottom: 1px solid #ced4da;">Leave Report All</td>
 
                                         <td style="border-left: 1px solid #ced4da; border-right: 1px solid #ced4da; border-bottom: 1px solid #ced4da; text-align:center;vertical-align:middle;">N/A</td>

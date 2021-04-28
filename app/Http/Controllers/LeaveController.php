@@ -430,7 +430,7 @@ class LeaveController extends Controller
 
     ///Leave Request For others
     public function leave_request_for_others_index() {
-        if(roles() != "" && !in_array(161, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(168, json_decode(roles(),false))){
             return redirect('404');
         }
         $leaves = LeaveRequest::where('created_by',Auth::user()->id)->orderBy('id','desc')->paginate(10);
@@ -438,7 +438,7 @@ class LeaveController extends Controller
     }
 
     public function leave_request_for_others_add(Request $request) {
-        if(roles() != "" && !in_array(161, json_decode(roles(),false))){
+        if(roles() != "" && !in_array(168, json_decode(roles(),false))){
             return redirect('404');
         }
         if($request->start_date != "") {

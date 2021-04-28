@@ -241,9 +241,10 @@
 							<li class="slide
 								{{ (!request()->is('leave-request')) && (request()->is('leave-request*')) ? 'is-expanded' : '' }}
 								{{ (!request()->is('leave-balance-transfer')) && (request()->is('leave-balance-transfer*')) ? 'is-expanded' : '' }}
-								{{ (!request()->is('transfer-leave-balance')) && (request()->is('transfer-leave-balance*')) ? 'is-expanded' : '' }}">
+								{{ (!request()->is('transfer-leave-balance')) && (request()->is('transfer-leave-balance*')) ? 'is-expanded' : '' }}
+								{{ (!request()->is('leave-request-for-others')) && (request()->is('leave-request-for-others*')) ? 'is-expanded' : '' }}">
 
-								<a class="side-menu__item  {{ (request()->is('leave-request*')) || (request()->is('leave-balance-transfer*')) || (request()->is('transfer-leave-balance*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
+								<a class="side-menu__item  {{ (request()->is('leave-request*')) || (request()->is('leave-request-for-others*')) || (request()->is('leave-balance-transfer*')) || (request()->is('transfer-leave-balance*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
 									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
 									<span class="side-menu__label">Leave</span><i class="angle fe fe-chevron-down"></i>
 								</a>
@@ -254,8 +255,10 @@
 											<a class="slide-item {{ (request()->is('leave-request*')) ? 'active' : '' }}" href="{{url('leave-request')}}">Create Leave Request</a>
 										</li>
 									@endif
-									@if(roles() != "" && in_array(162, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('leave-request-for-others')}}">Leave Request For Others</a></li>
+									@if(roles() != "" && in_array(168, json_decode(roles(),false)))
+										<li class="{{ (request()->is('leave-request-for-others*')) ? 'active' : '' }}">
+											<a class="slide-item {{ (request()->is('leave-request-for-others*')) ? 'active' : '' }}" href="{{url('leave-request-for-others')}}">Leave Request For Others</a>
+										</li>
 									@endif
 									@if(roles() != "" && in_array(162, json_decode(roles(),false)))
 										<li><a class="slide-item" href="{{url('verify-leave-request')}}">Verify Leave Request</a></li>

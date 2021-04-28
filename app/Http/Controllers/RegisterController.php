@@ -72,7 +72,7 @@ class RegisterController extends Controller
             $user->save();
 
             //Roles
-            $access = [];
+            /*$access = [];
             for($i=1; $i<=88; $i++){
                 $access[] = $i;
             }
@@ -91,7 +91,7 @@ class RegisterController extends Controller
             $role->company_id               = $company->id;
             $role->role_name                = "User";
             $role->access                   = json_encode($access);
-            $role->save();
+            $role->save();*/
 
             //General Setting
             $setting = new GeneralSetting;

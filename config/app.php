@@ -225,6 +225,8 @@ return [
         'approve_leave_request'                 => 163,
         'leave_balance_transfer'                => 164,
 
+        'create_leave_request_for_others'       => 168,
+
         'leave_individual_report'               => 165,
         'rejected_leave_report'                 => 166,
         'leave_all_report'                      => 167,
