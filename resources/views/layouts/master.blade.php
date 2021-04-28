@@ -1027,6 +1027,10 @@
             $('.admindtpicker').datepicker({
                 dateFormat: 'dd-mm-yy'
             });
+
+			$(function() {
+				$('.selectpicker').select2();
+			});
         </script>
 	</body>
 </html>

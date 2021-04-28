@@ -66,7 +66,7 @@
                                                 <div class="col-md-6 mg-t-10">
                                                    <input class="form-control" type="password" name="confirm_password" placeholder="Re-Type Password" autocomplete="off" required>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-6 mg-t-10">
                                                     <select id="roles" name="roles" class="form-control select2-no-search pa" required>
                                                         <option label="Select Role"></option>
                                                         @foreach($roles as $role)
@@ -74,15 +74,15 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-4 mg-t-10">
+                                                <div class="col-md-6 mg-t-10">
                                                     <select id="user_type" name="user_type" class="form-control select2-no-search pa" onclick="hideShowElement(this.value)" required>
                                                         <option label="User Type"></option>
                                                         <option value="admin">Admin</option>
                                                         <option value="employee">Employee</option>
                                                     </select>
                                                 </div>
-                                                <div style="display:none;" id="employee_selection" class="col-md-4 mg-t-10">
-                                                    <select name="employee_id" id="employee_selection_dropdown" class="form-control">
+                                                <div class="col-md-6 mg-t-10" id="employee_selection" style="display:none;">
+                                                    <select class="form-control selectpicker" name="employee_id" id="employee_selection_dropdown" style="width: 100%!important;">
                                                         <option value="" label>Select Employee</option>
                                                         @foreach($employees as $employee)
                                                             <option value="{{$employee->id}}">{{$employee->employee_id}} - {{$employee->name}} - {{employee_designation($employee->id)}}</option>
