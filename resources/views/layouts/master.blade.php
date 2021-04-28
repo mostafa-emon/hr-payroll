@@ -255,6 +255,9 @@
 										</li>
 									@endif
 									@if(roles() != "" && in_array(162, json_decode(roles(),false)))
+										<li><a class="slide-item" href="{{url('leave-request-for-others')}}">Leave Request For Others</a></li>
+									@endif
+									@if(roles() != "" && in_array(162, json_decode(roles(),false)))
 										<li><a class="slide-item" href="{{url('verify-leave-request')}}">Verify Leave Request</a></li>
 									@endif
 									@if(roles() != "" && in_array(163, json_decode(roles(),false)))

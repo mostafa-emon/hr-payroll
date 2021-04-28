@@ -189,6 +189,8 @@ Route::post('/leave-request/add', 'LeaveController@leave_request_add');
 Route::get('/leave-request/update/{request_type}/{id}', 'LeaveController@leave_request_update');
 Route::post('/leave-request/update/{request_type}/{id}', 'LeaveController@leave_request_update');
 Route::get('/leave-request/delete/{id}', 'LeaveController@leave_request_delete');
+Route::get('/leave-request-for-others', 'LeaveController@leave_request_for_others');
+Route::post('/leave-request-for-others', 'LeaveController@leave_request_for_others');
 
 Route::get('/verify-leave-request', 'LeaveController@verify_leave_request');
 Route::get('/leave-request/verify/{id}', 'LeaveController@leave_request_verify');
