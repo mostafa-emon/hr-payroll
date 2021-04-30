@@ -52,7 +52,10 @@ class UserController extends Controller
             return redirect('user')->with('message', 'User added successfully!');
         }
         $roles      = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
-        $employees  = Employee::where('company_id',Auth::user()->company_id)->orderBy('employee_id','asc')->get();
+        $employees  = Employee::join('employment_infos','employees.id','employment_infos.employee_id')
+                    ->select('employees.*','employment_infos.employee_id','employment_infos.current_status')
+                    ->where('company_id',Auth::user()->company_id)->where('current_status','Active')
+                    ->orderBy('employees.employee_id','asc')->get();
 
         return view('users.add',compact('roles','employees'));
     }
@@ -106,8 +109,12 @@ class UserController extends Controller
             $user->save();
             return redirect('user')->with('message', 'User updated successfully!');
         }
-        $roles = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
-        $employees  = Employee::where('company_id',Auth::user()->company_id)->orderBy('employee_id','asc')->get();
+        $roles      = Role::orderBy('role_name','asc')->where('company_id',Auth::user()->company_id)->get();
+        $employees  = Employee::join('employment_infos','employees.id','employment_infos.employee_id')
+                    ->select('employees.*','employment_infos.employee_id','employment_infos.current_status')
+                    ->where('company_id',Auth::user()->company_id)->where('current_status','Active')
+                    ->orderBy('employees.employee_id','asc')->get();
+
         return view('users.update', compact('users','roles','employees'));
     }
 

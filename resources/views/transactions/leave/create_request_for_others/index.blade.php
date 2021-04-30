@@ -57,6 +57,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:5%;">SL</th>
+                                    <th style="width:25%;">Employee Name</th>
                                     <th style="width:25%;">Leave Type</th>
                                     <th class="text-center" style="width:15%;">From</th>
                                     <th class="text-center" style="width:15%;">To</th>
@@ -68,6 +69,7 @@
                                 @foreach($leaves as $leave)
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($leaves->currentPage() * 10) - 10) + $loop->iteration}}</td>
+                                    <td style="vertical-align: middle">{{employee_name_by_increment_id($leave->employee_id)}}</td>
                                     <td style="vertical-align: middle">{{leave_type_name($leave->leave_type_id)}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date($date_format,strtotime($leave->start_date))}}</td>
                                     <td class="text-center" style="vertical-align: middle">{{date($date_format,strtotime($leave->end_date))}}</td>
