@@ -92,18 +92,7 @@
             <td style="text-align: center;">
               {{gmdate("H:i", $employee->over_time * 60)}}
             </td>
-            <td style="text-align: center;">
-              @if($remark != "") {{$remark}} 
-              @else
-                @if($employee->status == "PRESENT" && $employee->late == 0) OK
-                @elseif($employee->status == "PRESENT" && $employee->late > 0) Late
-                @elseif($employee->status == "GOVT_HOLIDAY") Govt Holiday
-                @elseif($employee->status == "WEEKLY_HOLIDAY") Day Off
-                @elseif($employee->status == "PAID_LEAVE") Leave
-                @elseif($employee->status == "ABSENT") {{attendance_remark($employee->employee_id,date('Y-m-d',strtotime($date)))}}
-                @endif
-              @endif
-            </td>
+            <td style="text-align: center;">{{$employee->readable_status}}</td>
             <td style="text-align: left;">{{$employee->note}}</td>
         </tr>
         
