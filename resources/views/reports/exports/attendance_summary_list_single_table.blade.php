@@ -50,30 +50,13 @@
       @foreach($employees as $employee)
         <tr>
             <td>
-              @if($remark != "")
-              
-              @if($remark == "OK") {{date('d-M-Y',strtotime($employee->date))}}
-              @elseif($remark == "Late")         <div style="color:red;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($remark == "Govt Holiday") <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($remark == "Day Off")      <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($remark == "Leave")        <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($remark == "Absent")       <div style="color:red;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
+              @if($employee->readable_status == "OK") {{date('d-M-Y',strtotime($employee->date))}}
+              @elseif($employee->readable_status == "Late")         <div style="color:red;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
+              @elseif($employee->readable_status == "Govt Holiday") <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
+              @elseif($employee->readable_status == "Day Off")      <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
+              @elseif($employee->readable_status == "Leave")        <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
+              @elseif($employee->readable_status == "Absent")       <div style="color:red;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
               @endif
-
-            @else
-              @if($employee->status == "PRESENT" && $employee->late == 0) {{date('d-M-Y',strtotime($employee->date))}}
-              @elseif($employee->status == "PRESENT" && $employee->late > 0) <div style="color:red;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($employee->status == "GOVT_HOLIDAY")   <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($employee->status == "WEEKLY_HOLIDAY") <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($employee->status == "PAID_LEAVE")     <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-              @elseif($employee->status == "ABSENT")
-                @php $attendance_remark = attendance_remark($employee->employee_id,date('Y-m-d',strtotime($employee->date))); @endphp
-                @if($attendance_remark == "Absent")          <div style="color:red;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-                @elseif($attendance_remark == "Day Off")     <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-                @elseif($attendance_remark == "Leave")       <div style="color:green;font-weight:bold;"> {{date('d-M-Y',strtotime($employee->date))}} </div>
-                @endif
-              @endif
-            @endif
             </td>
             <td style="text-align:center;">
               @if($employee->roster_employee == 1)
@@ -109,30 +92,13 @@
               {{gmdate("H:i", $employee->over_time * 60)}}
             </td>
             <td style="text-align: center;">
-              @if($remark != "")
-
-                @if($remark == "OK") {{$remark}}
-                @elseif($remark == "Late")         <div style="color:red;font-weight:bold;"> Late </div>
-                @elseif($remark == "Govt Holiday") <div style="color:green;font-weight:bold;"> Govt Holiday </div>
-                @elseif($remark == "Day Off")      <div style="color:green;font-weight:bold;"> Day Off </div>
-                @elseif($remark == "Leave")        <div style="color:green;font-weight:bold;"> Leave </div>
-                @elseif($remark == "Absent")       <div style="color:red;font-weight:bold;"> Absent </div>
+                @if($employee->readable_status == "OK") OK
+                @elseif($employee->readable_status == "Late")         <div style="color:red;font-weight:bold;"> Late </div>
+                @elseif($employee->readable_status == "Govt Holiday") <div style="color:green;font-weight:bold;"> Govt Holiday </div>
+                @elseif($employee->readable_status == "Day Off")      <div style="color:green;font-weight:bold;"> Day Off </div>
+                @elseif($employee->readable_status == "Leave")        <div style="color:green;font-weight:bold;"> Leave </div>
+                @elseif($employee->readable_status == "Absent")       <div style="color:red;font-weight:bold;"> Absent </div>
                 @endif
-
-              @else
-                @if($employee->status == "PRESENT" && $employee->late == 0) OK
-                @elseif($employee->status == "PRESENT" && $employee->late > 0) <div style="color:red;font-weight:bold;"> Late </div>
-                @elseif($employee->status == "GOVT_HOLIDAY")   <div style="color:green;font-weight:bold;"> Govt Holiday </div>
-                @elseif($employee->status == "WEEKLY_HOLIDAY") <div style="color:green;font-weight:bold;"> Day Off </div>
-                @elseif($employee->status == "PAID_LEAVE")     <div style="color:green;font-weight:bold;"> Leave </div>
-                @elseif($employee->status == "ABSENT")
-                  @php $attendance_remark = attendance_remark($employee->employee_id,date('Y-m-d',strtotime($employee->date))); @endphp
-                  @if($attendance_remark == "Absent")          <div style="color:red;font-weight:bold;"> Absent </div>
-                  @elseif($attendance_remark == "Day Off")     <div style="color:green;font-weight:bold;"> Day Off </div>
-                  @elseif($attendance_remark == "Leave")       <div style="color:green;font-weight:bold;"> Leave </div>
-                  @endif
-                @endif
-              @endif
             </td>
             <td style="text-align: left;">{{$employee->note}}</td>
         </tr>
