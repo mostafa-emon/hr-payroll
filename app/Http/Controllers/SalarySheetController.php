@@ -23,7 +23,6 @@ use App\SalaryComponent;
 use App\Company;
 use App\Attendance;
 use App\LeaveRequest;
-use App\MailPaySlip;
 use App\Email;
 use App\SheetRevenueStamp;
 use Config;
@@ -67,7 +66,6 @@ class SalarySheetController extends Controller
             $month = date('F',strtotime($request->salary_month));
             $year  = date('Y',strtotime($request->salary_month));
 
-            MailPaySlip::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SheetRevenueStamp::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheet::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
             SalarySheetDetails::where('company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year)->delete();
