@@ -42,7 +42,9 @@
                             <h4 class="card-title mg-b-0">Salary Sheet Details</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            <button class="btn btn-success" onclick="printElem()">Print</button>
+                            @if(roles() != "" && in_array(120, json_decode(roles(),false)))
+                                <button class="btn btn-success" onclick="printElem()">Print</button>
+                            @endif
                         </div>
                     </div>
 

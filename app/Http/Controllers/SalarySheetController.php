@@ -58,6 +58,9 @@ class SalarySheetController extends Controller
     }
 
     public function add(Request $request){
+        if(roles() != "" && !in_array(116, json_decode(roles(),false))){
+            return redirect('404');
+        }
 
         if($request->confirmation_check == "1") {
 
