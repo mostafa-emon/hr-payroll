@@ -126,7 +126,7 @@
           <td style="text-align:center;">{{$sl = $sl + 1}}</td>
           <td>{{$employee_info->employee_id}}</td>
           <td>{{$employee_info->name}}</td>
-          <td>{{designation_name($employment_info->designation_id)}} {{$employment_info->department_id}}</td>
+          <td>{{designation_name($employment_info->designation_id)}}</td>
 
           @foreach($leave_types as $type)
             <td style="text-align: center;">

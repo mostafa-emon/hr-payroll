@@ -843,85 +843,31 @@ function calculate_attendance_days($employee_id,$from_date,$to_date) {
     foreach($attendances as $attendance) {
 
         //OK
-
-        /*if($attendance->status == 'PRESENT' && $attendance->late == 0) {
-            $ok_days = $ok_days + 1;
-        }*/
-
         if($attendance->readable_status == 'OK') {
             $ok_days = $ok_days + 1;
         }
 
         //Late
-
-        /*if($attendance->status == 'PRESENT' && $attendance->late > 0) {
-            $late_days = $late_days + 1;
-        }*/
-
         if($attendance->readable_status == 'Late') {
             $late_days = $late_days + 1;
         }
 
         //GOVT Holiday
-
-        /*if($attendance->status == 'GOVT_HOLIDAY') {
-            $govt_holidays = $govt_holidays + 1;
-        }*/
-
         if($attendance->readable_status == 'Govt Holiday') {
             $govt_holidays = $govt_holidays + 1;
         }
 
-        //$general_leave = GeneralLeave::where('employee_id',$employee_id)->where('date',$attendance->date)->first();
-
         //Leave
-
-        /*if($general_leave != "") {
-            $leave_days = $leave_days + 1;
-        }elseif($attendance->status == "PAID_LEAVE"){
-            $leave_days = $leave_days + 1;
-        }*/
-
         if($attendance->readable_status == 'Leave') {
             $leave_days = $leave_days + 1;
         }
 
         //Absent
-
-        /*if($general_leave == "") {
-            if($attendance->roster_employee == 1) {
-                $roster = RosterEmployee::where('employee_id',$employee_id)->where('date',$attendance->date)->first();
-                if($roster != "") {
-                    if($roster->day_off == 0) {
-                        $absent_days = $absent_days + 1;
-                    }
-                }else{
-                    $absent_days = $absent_days + 1;
-                }
-            }else{
-                $absent_days = $absent_days + 1;
-            }
-        }*/
-
         if($attendance->readable_status == 'Absent') {
             $absent_days = $absent_days + 1;
         }
 
         //Days Off
-
-        /*if($attendance->roster_employee == 0) {
-            if($attendance->status == "WEEKLY_HOLIDAY") {
-                $day_off_days = $day_off_days + 1;
-            }
-        }else{
-            $roster = RosterEmployee::where('employee_id',$employee_id)->where('date',$attendance->date)->first();
-            if($roster != "") {
-                if($roster->day_off == 1) {
-                    $day_off_days = $day_off_days + 1;
-                }
-            }
-        }*/
-
         if($attendance->readable_status == 'Day Off') {
             $day_off_days = $day_off_days + 1;
         }
