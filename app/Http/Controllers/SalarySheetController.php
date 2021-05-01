@@ -426,15 +426,16 @@ class SalarySheetController extends Controller
         // GET ATTENDANCE DATA
 
         $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
-        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
-        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
-        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
-        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
+        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Day Off')->count();
+        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Govt Holiday')->count();
+        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Late')->count();
+        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Absent')->count();
+        $total_leave_days   = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Leave')->count();
         $net_payable_days   = $total_days - $total_absent_days;
 
-        $total_approved_leave_days  = 0;
+        /*$total_approved_leave_days  = 0;
 
-        $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)
+        /*$approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)
             ->whereBetween('start_date', [$month_first_date, $month_last_date])
             ->whereBetween('end_date', [$month_first_date, $month_last_date])
             ->where('status','Approved')
@@ -446,7 +447,7 @@ class SalarySheetController extends Controller
 
         $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
 
-        $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
+        $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;*/
 
         $data["email"]          = $employee->email_address;
         $data["client_name"]    = $employee->name;
@@ -498,7 +499,7 @@ class SalarySheetController extends Controller
         }
 
         $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.pay_slip',compact('company_info','month',
-            'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days',
+            'employee','total_present_days','total_day_off','total_leave_days',
             'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
 
         try{
@@ -541,16 +542,24 @@ class SalarySheetController extends Controller
 
         // GET ATTENDANCE DATA
 
-        $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
+        /*$total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
         $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
         $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
         $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
         $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
+        $net_payable_days   = $total_days - $total_absent_days;*/
+
+        $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
+        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Day Off')->count();
+        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Govt Holiday')->count();
+        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Late')->count();
+        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Absent')->count();
+        $total_leave_days   = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Leave')->count();
         $net_payable_days   = $total_days - $total_absent_days;
 
-        $total_approved_leave_days  = 0;
+        /*$total_approved_leave_days  = 0;
 
-        $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)
+        /*$approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)
                                     ->whereBetween('start_date', [$month_first_date, $month_last_date])
                                     ->whereBetween('end_date', [$month_first_date, $month_last_date])
                                     ->where('status','Approved')
@@ -562,7 +571,7 @@ class SalarySheetController extends Controller
 
         $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
 
-        $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
+        $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;*/
 
         // GET SALARY DATA
         $pay_slip_data = [];
@@ -609,7 +618,7 @@ class SalarySheetController extends Controller
         }
 
         return view('transactions.payroll.salary_sheet.print_pay_slip',compact('company_info','month','employee','total_present_days',
-                'total_day_off','total_work_in_leave_days','total_leave_days','employment_info','total_holidays','total_late_days',
+                'total_day_off','total_leave_days','employment_info','total_holidays','total_late_days',
                 'total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
     }
 
@@ -643,13 +652,14 @@ class SalarySheetController extends Controller
             // GET ATTENDANCE DATA
 
             $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
-            $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','WEEKLY_HOLIDAY')->count();
-            $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','GOVT_HOLIDAY')->count();
-            $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('late','>','0')->count();
-            $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
+            $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Day Off')->count();
+            $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Govt Holiday')->count();
+            $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Late')->count();
+            $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Absent')->count();
+            $total_leave_days   = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Leave')->count();
             $net_payable_days   = $total_days - $total_absent_days;
 
-            $total_approved_leave_days  = 0;
+            /*$total_approved_leave_days  = 0;
 
             $approved_leave_requests    = LeaveRequest::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)
                                         ->whereBetween('start_date', [$month_first_date, $month_last_date])
@@ -663,7 +673,7 @@ class SalarySheetController extends Controller
 
             $total_work_in_leave_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('work_in_leave_day',1)->count();
 
-            $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;
+            $total_leave_days   = $total_approved_leave_days - $total_work_in_leave_days;*/
 
             $data["email"]          = $employee->email_address;
             $data["client_name"]    = $employee->name;
@@ -715,7 +725,7 @@ class SalarySheetController extends Controller
             }
 
             $pdf = PDF::loadView('transactions.payroll.salary_sheet.email.mail_pay_slip',compact('company_info','month',
-                    'employee','total_present_days','total_day_off','total_work_in_leave_days','total_leave_days','employment_info',
+                    'employee','total_present_days','total_day_off','total_leave_days','employment_info',
                     'total_holidays','total_late_days','total_absent_days','net_payable_days','pay_slip_data','total_earning','total_deduction','company_pf'));
 
             try{
