@@ -100,25 +100,13 @@
               @endphp
             </td>
             <td style="text-align: center;">
-              @if($remark != "")
-
-                @if($remark == "OK") {{$remark}}
-                @elseif($remark == "Late")         <div style="color:red;font-weight:bold;"> Late </div>
-                @elseif($remark == "Govt Holiday") <div style="color:green;font-weight:bold;"> Govt Holiday </div>
-                @elseif($remark == "Day Off")      <div style="color:green;font-weight:bold;"> Day Off </div>
-                @elseif($remark == "Leave")        <div style="color:green;font-weight:bold;"> Leave </div>
-                @elseif($remark == "Absent")       <div style="color:red;font-weight:bold;"> Absent </div>
+                @if($employee->readable_status == "OK") OK
+                @elseif($employee->readable_status == "Late")         <div style="color:red;font-weight:bold;"> Late </div>
+                @elseif($employee->readable_status == "Govt Holiday") <div style="color:green;font-weight:bold;"> Govt Holiday </div>
+                @elseif($employee->readable_status == "Day Off")      <div style="color:green;font-weight:bold;"> Day Off </div>
+                @elseif($employee->readable_status == "Leave")        <div style="color:green;font-weight:bold;"> Leave </div>
+                @elseif($employee->readable_status == "Absent")       <div style="color:red;font-weight:bold;"> Absent </div>
                 @endif
-              @else
-                @php $attendance_remark = attendance_special_remark($employee->employee_id,date('Y-m-d',strtotime($employee->date))); @endphp
-                @if($attendance_remark == "OK") OK
-                @elseif($attendance_remark == "Late")         <div style="color:red;font-weight:bold;"> Late </div>
-                @elseif($attendance_remark == "Govt Holiday") <div style="color:green;font-weight:bold;"> Govt Holiday </div>
-                @elseif($attendance_remark == "Absent")       <div style="color:red;font-weight:bold;"> Absent </div>
-                @elseif($attendance_remark == "Day Off")      <div style="color:green;font-weight:bold;"> Day Off </div>
-                @elseif($attendance_remark == "Leave")        <div style="color:green;font-weight:bold;"> Leave </div>
-                @endif
-              @endif
             </td>
             <td style="text-align: left;">{{$employee->note}}</td>
         </tr>
