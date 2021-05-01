@@ -574,7 +574,8 @@ class ReportController extends Controller
                             ->join('employees','employees.id','attendances.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)
-                            ->orderBy('department_id','asc')->where('late','>',0);
+                            ->orderBy('department_id','asc')
+                            ->where('status','PRESENT')->where('late','>',0);
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
