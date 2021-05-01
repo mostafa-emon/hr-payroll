@@ -715,11 +715,11 @@ class ReportController extends Controller
             return redirect('404');
         }
 
-        $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
+        $employment_infos   = Attendance::select('employment_infos.*','attendances.id as attendance_id','attendances.employee_id','attendances.date','attendances.actual_in_time','attendances.actual_out_time','attendances.roster_employee','attendances.in_time','attendances.out_time','attendances.late','attendances.over_time','attendances.total_working_hour','attendances.status','attendances.readable_status','attendances.note','employees.id','employees.employee_id as string_employee_id','employees.name')
                             ->join('employees','employees.id','attendances.employee_id')
                             ->join('employment_infos','employment_infos.employee_id','attendances.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)
-                            ->where('status','ABSENT')
+                            ->where('readable_status','Absent')
                             ->orderBy('department_id','asc');
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
@@ -776,23 +776,7 @@ class ReportController extends Controller
 
                 $employee_id = [];
                 foreach($employment_infos as $employment_info) {
-                    if($employment_info->status == "ABSENT") {
-                        $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',$date)->first();
-                        if($general_leave == "") {
-                            if($employment_info->roster_employee == 1) {
-                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',$date)->first();
-                                if($roster != "") {
-                                    if($roster->day_off == 0) {
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }else{
-                                    $employee_id[] = $employment_info->string_employee_id;
-                                }
-                            }else{
-                                $employee_id[] = $employment_info->string_employee_id;
-                            }
-                        }
-                    }
+                    $employee_id[] = $employment_info->string_employee_id;
                 }
 
                 $employees      = $employees->whereIn('employees.employee_id',$employee_id)->get();
@@ -812,23 +796,7 @@ class ReportController extends Controller
 
                 $employee_id = [];
                 foreach($employment_infos as $employment_info) {
-                    if($employment_info->status == "ABSENT") {
-                        $general_leave = GeneralLeave::where('employee_id',$employment_info->employee_id)->where('date',$date)->first();
-                        if($general_leave == "") {
-                            if($employment_info->roster_employee == 1) {
-                                $roster = RosterEmployee::where('employee_id',$employment_info->employee_id)->where('date',$date)->first();
-                                if($roster != "") {
-                                    if($roster->day_off == 0) {
-                                        $employee_id[] = $employment_info->string_employee_id;
-                                    }
-                                }else{
-                                    $employee_id[] = $employment_info->string_employee_id;
-                                }
-                            }else{
-                                $employee_id[] = $employment_info->string_employee_id;
-                            }
-                        }
-                    }
+                    $employee_id[] = $employment_info->string_employee_id;
                 }
                 $all_employee = 'All';
 
