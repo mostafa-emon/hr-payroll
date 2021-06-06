@@ -478,4 +478,13 @@ class ConfigurationController extends Controller
         }
         
     }
+
+    //Tax Rule Setup
+    public function tax_rule_setup() {
+        /*if(roles() != "" && !in_array(40, json_decode(roles(),false))){
+            return redirect('404');
+        }*/
+        //$setups = TaxRule::where('company_id',Auth::user()->company_id)->first();
+        return view('configurations.tax_rule_setup'/*,compact('settings')*/);
+    }
 }

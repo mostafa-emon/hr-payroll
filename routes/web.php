@@ -50,6 +50,9 @@ Route::post('/currency/update/{currency_id}', 'ConfigurationController@update_cu
 Route::get('/settings', 'ConfigurationController@index');
 Route::post('/settings/update', 'ConfigurationController@update');
 
+Route::get('/tax-rule-setup', 'ConfigurationController@tax_rule_setup');
+Route::post('/tax-rule-setup/update', 'ConfigurationController@tax_rule_setup_update');
+
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');
 Route::post('/user/add', 'UserController@add');
