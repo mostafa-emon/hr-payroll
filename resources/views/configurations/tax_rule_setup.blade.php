@@ -89,27 +89,27 @@
                                                     <td style="border: 1px solid black;text-align:left;">House Rent Allowance</td>
                                                     <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
                                                     <td style="border: 1px solid black;text-align:center;">BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_amount"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_amount"></td>
                                                     <td style="border: 1px solid black;text-align:center;">or</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_in_percent"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_in_percent"></td>
                                                     <td style="border: 1px solid black;text-align:left;">of Basic Salary-Whichever is Lower</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:left;">Conveyance Allowance</td>
                                                     <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
                                                     <td style="border: 1px solid black;text-align:center;">BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_actual" value="Actual"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_actual" value="Actual"></td>
                                                     <td style="border: 1px solid black;text-align:center;">or</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_amount"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_amount"></td>
                                                     <td style="border: 1px solid black;text-align:left;">Per Year-Whichever is Lower</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:left;">Medical Allowance</td>
                                                     <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
                                                     <td style="border: 1px solid black;text-align:center;">BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_amount"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_amount"></td>
                                                     <td style="border: 1px solid black;text-align:center;">or</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_in_percent"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_in_percent"></td>
                                                     <td style="border: 1px solid black;text-align:left;">of Basic Salary-Whichever is Lower</td>
                                                 </tr>
                                                 <tr>
@@ -147,44 +147,44 @@
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">1</td>
                                                     <td style="border: 1px solid black;text-align:center;">First</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="first_"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">2</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">3</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">4</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">5</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">6</td>
                                                     <td style="border: 1px solid black;text-align:center;">Rest</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -196,21 +196,21 @@
                                         <div class="table-responsive">
                                             <table style="width: 100%;border-collapse: collapse;">
                                                 <tr>
-                                                    <td style="border: 1px solid black;text-align:center;">A</td>
-                                                    <td style="border: 1px solid black;text-align:left;">As Per</td>
-                                                    <td style="border: 1px solid black;text-align:left;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;width:25px;">A</td>
+                                                    <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
+                                                    <td style="border: 1px solid black;text-align:left;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                     <td style="border: 1px solid black;text-align:left;">of Total Income (From Table-1)</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">B</td>
-                                                    <td style="border: 1px solid black;text-align:left;">As Per</td>
+                                                    <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
                                                     <td colspan="2" style="border: 1px solid black;text-align:left;">Actual Investment Amount Including PF (Both Portion)</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">C</td>
-                                                    <td style="border: 1px solid black;text-align:left;">As Per</td>
+                                                    <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
                                                     <td style="border: 1px solid black;text-align:left;">Maximum Investment Amount Allowed BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -218,15 +218,15 @@
                                             <table style="width: 100%;border-collapse: collapse;">
                                                 <tr>
                                                     <td style="border-left: 1px solid black;text-align:left;">Investment Allowance Amount is</td>
-                                                    <td style="border-left: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border-left: 1px solid black;text-align:center;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is Equal or less than BDT</td>
-                                                    <td style="border-left: 1px solid black;border-right: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border-left: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border-left: 1px solid black;text-align:center;width:400px;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is Equal or less than BDT</td>
+                                                    <td style="border-left: 1px solid black;border-right: 1px solid black;text-align:center;padding:5px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:left;vertical-align:middle">Investment Allowance Amount is</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
-                                                    <td style="border: 1px solid black;text-align:center;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is more than BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
+                                                    <td style="border: 1px solid black;text-align:center;width:400px;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is more than BDT</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="income_year"></td>
                                                 </tr>
                                             </table>
                                         </div>
