@@ -135,7 +135,7 @@
                                             <table style="width: 100%;border-collapse: collapse;">
                                                 <tr>
                                                     <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Sl <br> No</th>
-                                                    <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Slab</th>
+                                                    <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;width:50px;">Slab</th>
                                                     <th colspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Total Income</th>
                                                     <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Tax Rate</th>
                                                 </tr>
