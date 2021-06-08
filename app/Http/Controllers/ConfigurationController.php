@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\GeneralSetting;
 use App\SmsSetting;
+use App\TaxRule;
 use App\Email;
 use PDF;
 use Auth;
@@ -484,7 +485,57 @@ class ConfigurationController extends Controller
         /*if(roles() != "" && !in_array(40, json_decode(roles(),false))){
             return redirect('404');
         }*/
-        //$setups = TaxRule::where('company_id',Auth::user()->company_id)->first();
-        return view('configurations.tax_rule_setup'/*,compact('settings')*/);
+        $setups = TaxRule::where('company_id',Auth::user()->company_id)->first();
+        return view('configurations.tax_rule_setup',compact('setups'));
+    }
+
+    public function tax_rule_setup_update(Request $request) {
+        $setup = TaxRule::where('company_id',Auth::user()->company_id)
+                ->where('assesment_year_from',$request->assesment_year_from)
+                ->where('assesment_year_to',$request->assesment_year_to)->first();
+        if($setup == "") {
+            $setup = new TaxRule;
+        }
+
+        $setup->company_id                              = Auth::user()->company_id;
+        $setup->income_year_from                        = $request->income_year_from;
+        $setup->income_year_to                          = $request->income_year_to;
+        $setup->assesment_year_from                     = $request->assesment_year_from;
+        $setup->assesment_year_to                       = $request->assesment_year_to;
+
+        $setup->house_rent_allowance_amount             = $request->house_rent_allowance_amount;
+        $setup->house_rent_allowance_in_percent         = $request->house_rent_allowance_in_percent;
+        $setup->conveyance_allowance_actual             = $request->conveyance_allowance_actual;
+        $setup->conveyance_allowance_amount             = $request->conveyance_allowance_amount;
+        $setup->medical_allowance_amount                = $request->medical_allowance_amount;
+        $setup->medical_allowance_in_percent            = $request->medical_allowance_in_percent;
+
+        $setup->first_amount_below_65_aged_male         = $request->first_amount_below_65_aged_male;
+        $setup->first_amount_female_above_65_aged_male  = $request->first_amount_female_above_65_aged_male;
+        $setup->first_tax_rate_percent                  = $request->first_tax_rate_percent;
+        $setup->second_amount_below_65_aged_male        = $request->second_amount_below_65_aged_male;
+        $setup->second_amount_female_above_65_aged_male = $request->second_amount_female_above_65_aged_male;
+        $setup->second_tax_rate_percent                 = $request->second_tax_rate_percent;
+        $setup->third_amount_below_65_aged_male         = $request->third_amount_below_65_aged_male;
+        $setup->third_amount_female_above_65_aged_male  = $request->third_amount_female_above_65_aged_male;
+        $setup->third_tax_rate_percent                  = $request->third_tax_rate_percent;
+        $setup->forth_amount_below_65_aged_male         = $request->forth_amount_below_65_aged_male;
+        $setup->forth_amount_female_above_65_aged_male  = $request->forth_amount_female_above_65_aged_male;
+        $setup->forth_tax_rate_percent                  = $request->forth_tax_rate_percent;
+        $setup->fifth_amount_below_65_aged_male         = $request->fifth_amount_below_65_aged_male;
+        $setup->fifth_amount_female_above_65_aged_male  = $request->fifth_amount_female_above_65_aged_male;
+        $setup->fifth_tax_rate_percent                  = $request->fifth_tax_rate_percent;
+        $setup->rest_amount_below_65_aged_male          = $request->rest_amount_below_65_aged_male;
+        $setup->rest_amount_female_above_65_aged_male   = $request->rest_amount_female_above_65_aged_male;
+        $setup->rest_tax_rate_percent                   = $request->rest_tax_rate_percent;
+
+        $setup->per_percent_of_tax_income               = $request->per_percent_of_tax_income;
+        $setup->maximum_investment_amount_allowed       = $request->maximum_investment_amount_allowed;
+        $setup->investment_amount_less_percent          = $request->investment_amount_less_percent;
+        $setup->investment_amount_less_amount           = $request->investment_amount_less_amount;
+        $setup->investment_amount_more_percent          = $request->investment_amount_more_percent;
+        $setup->investment_amount_more_amount           = $request->investment_amount_more_amount;
+        $setup->save();
+        return redirect('tax-rule-setup')->with('message','Tax Rule Setup Updated Successfully!');
     }
 }

@@ -1018,6 +1018,15 @@
 				}
             });
 
+			$('.yearpicker').datepicker( {
+				changeYear: true,
+				showButtonPanel: true,
+				dateFormat: 'yy',
+				onClose: function(dateText, inst) {
+					$(this).datepicker('setDate', new Date(inst.selectedYear, 1));
+				}
+            });
+
 			$(".employee_multiple").select2({
 				placeholder: "Choose Employees",
 			});
