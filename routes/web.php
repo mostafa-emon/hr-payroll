@@ -51,7 +51,11 @@ Route::get('/settings', 'ConfigurationController@index');
 Route::post('/settings/update', 'ConfigurationController@update');
 
 Route::get('/tax-rule-setup', 'ConfigurationController@tax_rule_setup');
-Route::post('/tax-rule-setup/update', 'ConfigurationController@tax_rule_setup_update');
+Route::get('/tax-rule-setup/add', 'ConfigurationController@tax_rule_setup_add');
+Route::post('/tax-rule-setup/add', 'ConfigurationController@tax_rule_setup_add');
+Route::get('/tax-rule-setup/update/{id}', 'ConfigurationController@tax_rule_setup_update');
+Route::post('/tax-rule-setup/update/{id}', 'ConfigurationController@tax_rule_setup_update');
+Route::get('/tax-rule-setup/delete/{id}', 'ConfigurationController@tax_rule_setup_delete');
 
 Route::get('/user', 'UserController@index');
 Route::get('/user/add', 'UserController@add');

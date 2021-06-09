@@ -1,0 +1,269 @@
+@extends('layouts.master')
+
+@section('content')
+
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+        .ui-datepicker-prev {
+            display: none;
+        }
+        .ui-datepicker-next {
+            display: none;
+        }
+
+        .ui-datepicker-month {
+            display: none;
+        }
+    </style>
+
+    <div class="row mb-2">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{url('/tax-rule-setup')}}" style="color:#6c757d; font-weight: bold">Tax Rule Setup</a></li>
+            <li class="breadcrumb-item active"><a style="color:#6c757d;">Add</a></li>
+        </ol>
+        </div>
+    </div>
+
+    <div class="row row-sm">
+
+        <!--div-->
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+
+                    @if(session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session()->get('message') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session()->get('error') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top:5px">
+                            <h4 class="card-title mg-b-0">Tax Rule Setup</h4>
+                        </div>
+                        <div class="col-md-6 text-right"></div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+						<div class="col-lg-12 col-md-12">
+                            <form method="POST" action="{{url('tax-rule-setup/add')}}">
+                                {{ csrf_field() }}
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div style="font-weight:bold;font-size:18px;text-align:center;">
+                                            Salary Tax (TDS) Calculation Rules
+                                        </div>
+
+                                        <div style="font-weight:bold;text-align:center;padding-top:8px;">
+                                            [As Per ITO-1984, U/S-21, Schedule-24/A]
+                                        </div>
+
+                                        <div style="padding:2px;padding-top:5px;">
+                                            <b>Income Year &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b>
+                                            <input type="text" class="yearpicker" name="income_year_from" placeholder="YYYY" autocomplete="off">
+                                            <input type="text" class="yearpicker" name="income_year_to" placeholder="YYYY" autocomplete="off">
+                                        </div>
+
+                                        <div style="padding:2px;padding-top:5px;">
+                                            <b>Assesment Year &nbsp;:</b>
+                                            <input type="text" class="yearpicker" name="assesment_year_from" placeholder="YYYY" autocomplete="off">
+                                            <input type="text" class="yearpicker" name="assesment_year_to" placeholder="YYYY" autocomplete="off">
+                                        </div>
+                                        <br>
+
+                                        <div style="font-weight:bold;">
+                                            Table-1. Calculation of Taxable Income:
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table style="width: 100%;border-collapse: collapse;">
+                                                <tr>
+                                                    <th style="border: 1px solid black;text-align:center;">Component Name</th>
+                                                    <th colspan="6" style="border: 1px solid black;text-align:center;">Present Tax Rule</th>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">Basic Salary</td>
+                                                    <td colspan="6" style="border: 1px solid black;text-align:center;">Full Amount is Taxable</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">House Rent Allowance</td>
+                                                    <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
+                                                    <td style="border: 1px solid black;text-align:center;">BDT</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_amount"></td>
+                                                    <td style="border: 1px solid black;text-align:center;">or</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_in_percent">&nbsp;%</td>
+                                                    <td style="border: 1px solid black;text-align:left;">of Basic Salary-Whichever is Lower</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">Conveyance Allowance</td>
+                                                    <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
+                                                    <td style="border: 1px solid black;text-align:center;">BDT</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_actual" value="Actual"></td>
+                                                    <td style="border: 1px solid black;text-align:center;">or</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_amount"></td>
+                                                    <td style="border: 1px solid black;text-align:left;">Per Year-Whichever is Lower</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">Medical Allowance</td>
+                                                    <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
+                                                    <td style="border: 1px solid black;text-align:center;">BDT</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_amount"></td>
+                                                    <td style="border: 1px solid black;text-align:center;">or</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_in_percent">&nbsp;%</td>
+                                                    <td style="border: 1px solid black;text-align:left;">of Basic Salary-Whichever is Lower</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">Festival Bonuses</td>
+                                                    <td colspan="6" style="border: 1px solid black;text-align:center;">Full Amount is Taxable</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">PF (Company Portion)</td>
+                                                    <td colspan="6" style="border: 1px solid black;text-align:center;">Full Amount is Taxable</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;">Other (If Any)</td>
+                                                    <td colspan="6" style="border: 1px solid black;text-align:center;">Full Amount is Taxable</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <br>
+
+                                        <div style="font-weight:bold;">
+                                            Table-2: Final Tax Amount Calculation:
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table style="width: 100%;border-collapse: collapse;">
+                                                <tr>
+                                                    <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Sl <br> No</th>
+                                                    <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;width:50px;">Slab</th>
+                                                    <th colspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Total Income</th>
+                                                    <th rowspan="2" style="border: 1px solid black;text-align:center;vertical-align: middle;">Tax Rate</th>
+                                                </tr>
+                                                <tr>
+                                                    <th style="border: 1px solid black;text-align:center;vertical-align: middle;">For Below 65 Aged Male</th>
+                                                    <th style="border: 1px solid black;text-align:center;vertical-align: middle;">For Female & 65+ Aged Male</th>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">1</td>
+                                                    <td style="border: 1px solid black;text-align:center;">First</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_amount_below_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_amount_female_above_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_tax_rate_percent">&nbsp;%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">2</td>
+                                                    <td style="border: 1px solid black;text-align:center;">Next</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_amount_below_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_amount_female_above_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_tax_rate_percent">&nbsp;%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">3</td>
+                                                    <td style="border: 1px solid black;text-align:center;">Next</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_amount_below_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_amount_female_above_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_tax_rate_percent">&nbsp;%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">4</td>
+                                                    <td style="border: 1px solid black;text-align:center;">Next</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_amount_below_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_amount_female_above_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_tax_rate_percent">&nbsp;%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">5</td>
+                                                    <td style="border: 1px solid black;text-align:center;">Next</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_amount_below_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_amount_female_above_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_tax_rate_percent">&nbsp;%</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">6</td>
+                                                    <td style="border: 1px solid black;text-align:center;">Rest</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="rest_amount_below_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="rest_amount_female_above_65_aged_male"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="rest_tax_rate_percent">&nbsp;%</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <br>
+
+                                        <div style="font-weight:bold;">
+                                            Table-3: Calculation of Investment Allowance
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table style="width: 100%;border-collapse: collapse;">
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;width:25px;">A</td>
+                                                    <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
+                                                    <td style="border: 1px solid black;text-align:left;padding:6px;"><input type="text" style="text-align:center;" name="per_percent_of_tax_income">&nbsp;%</td>
+                                                    <td style="border: 1px solid black;text-align:left;">of Total Income (From Table-1)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">B</td>
+                                                    <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
+                                                    <td colspan="2" style="border: 1px solid black;text-align:left;">Actual Investment Amount Including PF (Both Portion)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:center;">C</td>
+                                                    <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
+                                                    <td style="border: 1px solid black;text-align:left;">Maximum Investment Amount Allowed BDT</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="maximum_investment_amount_allowed"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table style="width: 100%;border-collapse: collapse;">
+                                                <tr>
+                                                    <td style="border-left: 1px solid black;text-align:left;">Investment Allowance Amount is</td>
+                                                    <td style="border-left: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_less_percent">&nbsp;%</td>
+                                                    <td style="border-left: 1px solid black;text-align:center;width:400px;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is Equal or less than BDT</td>
+                                                    <td style="border-left: 1px solid black;border-right: 1px solid black;text-align:center;padding:5px;"><input type="text" style="text-align:center;" name="investment_amount_less_amount"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid black;text-align:left;vertical-align:middle">Investment Allowance Amount is</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_more_percent">&nbsp;%</td>
+                                                    <td style="border: 1px solid black;text-align:center;width:400px;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is more than BDT</td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_more_amount"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row pd-t-15">
+                                    <div class="col-md-12 text-center">
+                                        <input class="btn btn-main-primary" style="width:100px;" type="submit" value="Submit"/>
+                                    </div>
+                                </div>
+                            </form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@endsection
