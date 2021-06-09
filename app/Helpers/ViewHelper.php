@@ -41,6 +41,7 @@ use App\RosterEmployee;
 use App\GeneralLeave;
 use App\EarningDeductionAdjustment;
 use App\DepositSalaryTaxDetail;
+use App\TaxRule;
 
 function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
@@ -1044,4 +1045,75 @@ function employee_current_status($employee_id) {
     }else{
         return "";
     }
+}
+
+function monthly_income_tax_calculation($employee_id,$date) {
+    $income_date = date('Y-m-d',strtotime($date));
+    $tax_rule           = TaxRule::where('company_id',Auth::user()->company_id)->where('query_income_date_from','<=',$income_date)->where('query_income_date_to','>=',$income_date)->first();
+    $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
+    $income_tax         = 0;
+
+    foreach($employee_earnings as $earning) {
+        $salary_component_detail = SalaryComponent::where('id',$earning->salary_component_id)->first();
+        if($salary_component_detail != "") {
+            $component_name     = $salary_component_detail->component_reference;
+            $component_amount   = $earning->final_amount;
+
+            if($component_name == "Basic Salary") {
+                $basic_salary   = $component_amount;
+                $income_tax     = $income_tax + $component_amount;
+            }
+
+            if($component_name == "House Rent") {
+                $house_rent_allowance_amount_monthly    = $tax_rule->house_rent_allowance_amount_monthly;
+                $house_rent_allowance_in_percent        = ($basic_salary * $tax_rule->house_rent_allowance_in_percent)/100;
+
+                if($house_rent_allowance_amount_monthly <= $house_rent_allowance_in_percent) {
+                    if($house_rent_allowance_amount_monthly < $component_amount) {
+                        $income_tax     = $income_tax + $house_rent_allowance_amount_monthly;
+                    }else{
+                        $income_tax     = $income_tax + $component_amount;
+                    }
+                }else{
+                    if($house_rent_allowance_in_percent < $component_amount) {
+                        $income_tax     = $income_tax + $house_rent_allowance_in_percent;
+                    }else{
+                        $income_tax     = $income_tax + $component_amount;
+                    }
+                }
+            }
+
+            if($component_name == "Convenience") {
+                $conveyance_allowance_amount_monthly = $tax_rule->conveyance_allowance_amount_monthly;
+                if($conveyance_allowance_amount_monthly < $component_amount) {
+                    $income_tax     = $income_tax + $conveyance_allowance_amount_monthly;
+                }else{
+                    $income_tax     = $income_tax + $component_amount;
+                }
+            }
+
+            if($component_name == "Medical") {
+                $medical_allowance_amount_monthly   = $tax_rule->medical_allowance_amount_monthly;
+                $medical_allowance_in_percent       = ($basic_salary * $tax_rule->medical_allowance_in_percent)/100;
+
+                if($medical_allowance_amount_monthly <= $medical_allowance_in_percent) {
+                    if($medical_allowance_amount_monthly < $component_amount) {
+                        $income_tax     = $income_tax + $medical_allowance_amount_monthly;
+                    }else{
+                        $income_tax     = $income_tax + $component_amount;
+                    }
+                }else{
+                    if($medical_allowance_in_percent < $component_amount) {
+                        $income_tax     = $income_tax + $medical_allowance_in_percent;
+                    }else{
+                        $income_tax     = $income_tax + $component_amount;
+                    }
+                }
+            }
+
+        }
+    }
+
+    return $income_tax;
+
 }

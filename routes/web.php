@@ -453,3 +453,5 @@ Route::get('export/salary-sheet-report', 'ReportController@export_salary_sheet_r
 Route::get('export/salary-certificate', 'ReportController@export_salary_certificate');
 
 Route::get('/download-file/{location}/{name}','HomeController@download_file');
+
+Route::get('/tax-calculation','EmployeeController@tax_calculation');

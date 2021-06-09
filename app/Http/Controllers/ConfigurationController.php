@@ -499,11 +499,14 @@ class ConfigurationController extends Controller
             $setup->assesment_year_from                     = $request->assesment_year_from;
             $setup->assesment_year_to                       = $request->assesment_year_to;
 
-            $setup->house_rent_allowance_amount             = $request->house_rent_allowance_amount;
+            $setup->house_rent_allowance_amount_yearly      = $request->house_rent_allowance_amount;
+            $setup->house_rent_allowance_amount_monthly     = round($request->house_rent_allowance_amount / 12);
             $setup->house_rent_allowance_in_percent         = $request->house_rent_allowance_in_percent;
             $setup->conveyance_allowance_actual             = $request->conveyance_allowance_actual;
-            $setup->conveyance_allowance_amount             = $request->conveyance_allowance_amount;
-            $setup->medical_allowance_amount                = $request->medical_allowance_amount;
+            $setup->conveyance_allowance_amount_yearly      = $request->conveyance_allowance_amount;
+            $setup->conveyance_allowance_amount_monthly     = round($request->conveyance_allowance_amount / 12);
+            $setup->medical_allowance_amount_yearly         = $request->medical_allowance_amount;
+            $setup->medical_allowance_amount_monthly        = round($request->medical_allowance_amount / 12);
             $setup->medical_allowance_in_percent            = $request->medical_allowance_in_percent;
 
             $setup->first_amount_below_65_aged_male         = $request->first_amount_below_65_aged_male;
@@ -531,6 +534,9 @@ class ConfigurationController extends Controller
             $setup->investment_amount_less_amount           = $request->investment_amount_less_amount;
             $setup->investment_amount_more_percent          = $request->investment_amount_more_percent;
             $setup->investment_amount_more_amount           = $request->investment_amount_more_amount;
+
+            $setup->query_income_date_from                  = date('Y-m-d',strtotime($request->income_year_from.'-06-01'));
+            $setup->query_income_date_to                    = date('Y-m-d',strtotime($request->income_year_to.'-05-31'));
             $setup->save();
             return redirect('tax-rule-setup')->with('message','Tax Rule Setup Added Successfully!');
         }
@@ -546,11 +552,14 @@ class ConfigurationController extends Controller
             $setup->assesment_year_from                     = $request->assesment_year_from;
             $setup->assesment_year_to                       = $request->assesment_year_to;
 
-            $setup->house_rent_allowance_amount             = $request->house_rent_allowance_amount;
+            $setup->house_rent_allowance_amount_yearly      = $request->house_rent_allowance_amount;
+            $setup->house_rent_allowance_amount_monthly     = round($request->house_rent_allowance_amount / 12);
             $setup->house_rent_allowance_in_percent         = $request->house_rent_allowance_in_percent;
             $setup->conveyance_allowance_actual             = $request->conveyance_allowance_actual;
-            $setup->conveyance_allowance_amount             = $request->conveyance_allowance_amount;
-            $setup->medical_allowance_amount                = $request->medical_allowance_amount;
+            $setup->conveyance_allowance_amount_yearly      = $request->conveyance_allowance_amount;
+            $setup->conveyance_allowance_amount_monthly     = round($request->conveyance_allowance_amount / 12);
+            $setup->medical_allowance_amount_yearly         = $request->medical_allowance_amount;
+            $setup->medical_allowance_amount_monthly        = round($request->medical_allowance_amount / 12);
             $setup->medical_allowance_in_percent            = $request->medical_allowance_in_percent;
 
             $setup->first_amount_below_65_aged_male         = $request->first_amount_below_65_aged_male;
@@ -578,6 +587,9 @@ class ConfigurationController extends Controller
             $setup->investment_amount_less_amount           = $request->investment_amount_less_amount;
             $setup->investment_amount_more_percent          = $request->investment_amount_more_percent;
             $setup->investment_amount_more_amount           = $request->investment_amount_more_amount;
+
+            $setup->query_income_date_from                  = date('Y-m-d',strtotime($request->income_year_from.'-06-01'));
+            $setup->query_income_date_to                    = date('Y-m-d',strtotime($request->income_year_to.'-05-31'));
             $setup->save();
             return redirect('tax-rule-setup')->with('message','Tax Rule Setup Updated Successfully!');
         }

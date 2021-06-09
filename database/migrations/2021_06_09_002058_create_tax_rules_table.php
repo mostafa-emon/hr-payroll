@@ -22,11 +22,14 @@ class CreateTaxRulesTable extends Migration
             $table->string('assesment_year_from',10);
             $table->string('assesment_year_to',10);
 
-            $table->string('house_rent_allowance_amount',12)->nullable();
+            $table->string('house_rent_allowance_amount_yearly',12)->nullable();
+            $table->string('house_rent_allowance_amount_monthly',12)->nullable();
             $table->string('house_rent_allowance_in_percent',12)->nullable();
             $table->string('conveyance_allowance_actual',12)->nullable();
-            $table->string('conveyance_allowance_amount',12)->nullable();
-            $table->string('medical_allowance_amount',12)->nullable();
+            $table->string('conveyance_allowance_amount_yearly',12)->nullable();
+            $table->string('conveyance_allowance_amount_monthly',12)->nullable();
+            $table->string('medical_allowance_amount_yearly',12)->nullable();
+            $table->string('medical_allowance_amount_monthly',12)->nullable();
             $table->string('medical_allowance_in_percent',12)->nullable();
 
             $table->string('first_amount_below_65_aged_male',12)->nullable();
@@ -54,6 +57,9 @@ class CreateTaxRulesTable extends Migration
             $table->string('investment_amount_less_amount',12)->nullable();
             $table->string('investment_amount_more_percent',12)->nullable();
             $table->string('investment_amount_more_amount',12)->nullable();
+
+            $table->date('query_income_date_from')->nullable();
+            $table->date('query_income_date_to')->nullable();
             $table->timestamps();
         });
     }
