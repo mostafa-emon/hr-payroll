@@ -108,7 +108,7 @@
                                                     <td style="border: 1px solid black;text-align:left;">House Rent Allowance</td>
                                                     <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
                                                     <td style="border: 1px solid black;text-align:center;">BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_amount" value="{{$setup->house_rent_allowance_amount}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_amount" value="{{$setup->house_rent_allowance_amount_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;">or</td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="house_rent_allowance_in_percent" value="{{$setup->house_rent_allowance_in_percent}}">&nbsp;%</td>
                                                     <td style="border: 1px solid black;text-align:left;">of Basic Salary-Whichever is Lower</td>
@@ -119,14 +119,14 @@
                                                     <td style="border: 1px solid black;text-align:center;">BDT</td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_actual" value="Actual"></td>
                                                     <td style="border: 1px solid black;text-align:center;">or</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_amount" value="{{$setup->conveyance_allowance_amount}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="conveyance_allowance_amount" value="{{$setup->conveyance_allowance_amount_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:left;">Per Year-Whichever is Lower</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:left;">Medical Allowance</td>
                                                     <td style="border: 1px solid black;text-align:left;">Non-Taxable Limit is</td>
                                                     <td style="border: 1px solid black;text-align:center;">BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_amount" value="{{$setup->medical_allowance_amount}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_amount" value="{{$setup->medical_allowance_amount_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;">or</td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;font-weight:bold;" name="medical_allowance_in_percent" value="{{$setup->medical_allowance_in_percent}}">&nbsp;%</td>
                                                     <td style="border: 1px solid black;text-align:left;">of Basic Salary-Whichever is Lower</td>
@@ -166,36 +166,36 @@
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">1</td>
                                                     <td style="border: 1px solid black;text-align:center;">First</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_amount_below_65_aged_male" value="{{$setup->first_amount_below_65_aged_male}}"></td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_amount_female_above_65_aged_male" value="{{$setup->first_amount_female_above_65_aged_male}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_amount_below_65_aged_male" value="{{$setup->first_amount_below_65_aged_male_yearly}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_amount_female_above_65_aged_male" value="{{$setup->first_amount_female_above_65_aged_male_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="first_tax_rate_percent" value="{{$setup->first_tax_rate_percent}}">&nbsp;%</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">2</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_amount_below_65_aged_male" value="{{$setup->second_amount_below_65_aged_male}}"></td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_amount_female_above_65_aged_male" value="{{$setup->second_amount_female_above_65_aged_male}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_amount_below_65_aged_male" value="{{$setup->second_amount_below_65_aged_male_yearly}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_amount_female_above_65_aged_male" value="{{$setup->second_amount_female_above_65_aged_male_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="second_tax_rate_percent" value="{{$setup->second_tax_rate_percent}}">&nbsp;%</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">3</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_amount_below_65_aged_male" value="{{$setup->third_amount_below_65_aged_male}}"></td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_amount_female_above_65_aged_male" value="{{$setup->third_amount_female_above_65_aged_male}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_amount_below_65_aged_male" value="{{$setup->third_amount_below_65_aged_male_yearly}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_amount_female_above_65_aged_male" value="{{$setup->third_amount_female_above_65_aged_male_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="third_tax_rate_percent" value="{{$setup->third_tax_rate_percent}}">&nbsp;%</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">4</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_amount_below_65_aged_male" value="{{$setup->forth_amount_below_65_aged_male}}"></td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_amount_female_above_65_aged_male" value="{{$setup->forth_amount_female_above_65_aged_male}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_amount_below_65_aged_male" value="{{$setup->forth_amount_below_65_aged_male_yearly}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_amount_female_above_65_aged_male" value="{{$setup->forth_amount_female_above_65_aged_male_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="forth_tax_rate_percent" value="{{$setup->forth_tax_rate_percent}}">&nbsp;%</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:center;">5</td>
                                                     <td style="border: 1px solid black;text-align:center;">Next</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_amount_below_65_aged_male" value="{{$setup->fifth_amount_below_65_aged_male}}"></td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_amount_female_above_65_aged_male" value="{{$setup->fifth_amount_female_above_65_aged_male}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_amount_below_65_aged_male" value="{{$setup->fifth_amount_below_65_aged_male_yearly}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_amount_female_above_65_aged_male" value="{{$setup->fifth_amount_female_above_65_aged_male_yearly}}"></td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="fifth_tax_rate_percent" value="{{$setup->fifth_tax_rate_percent}}">&nbsp;%</td>
                                                 </tr>
                                                 <tr>
@@ -229,7 +229,7 @@
                                                     <td style="border: 1px solid black;text-align:center;">C</td>
                                                     <td style="border: 1px solid black;text-align:left;width:50px;">As Per</td>
                                                     <td style="border: 1px solid black;text-align:left;">Maximum Investment Amount Allowed BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="maximum_investment_amount_allowed" value="{{$setup->maximum_investment_amount_allowed}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="maximum_investment_amount_allowed" value="{{$setup->maximum_investment_amount_allowed_yearly}}"></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -239,13 +239,13 @@
                                                     <td style="border-left: 1px solid black;text-align:left;">Investment Allowance Amount is</td>
                                                     <td style="border-left: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_less_percent" value="{{$setup->investment_amount_less_percent}}">&nbsp;%</td>
                                                     <td style="border-left: 1px solid black;text-align:center;width:400px;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is Equal or less than BDT</td>
-                                                    <td style="border-left: 1px solid black;border-right: 1px solid black;text-align:center;padding:5px;"><input type="text" style="text-align:center;" name="investment_amount_less_amount" value="{{$setup->investment_amount_less_amount}}"></td>
+                                                    <td style="border-left: 1px solid black;border-right: 1px solid black;text-align:center;padding:5px;"><input type="text" style="text-align:center;" name="investment_amount_less_amount" value="{{$setup->investment_amount_less_amount_yearly}}"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="border: 1px solid black;text-align:left;vertical-align:middle">Investment Allowance Amount is</td>
                                                     <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_more_percent" value="{{$setup->investment_amount_more_percent}}">&nbsp;%</td>
                                                     <td style="border: 1px solid black;text-align:center;width:400px;">of the lowest amount of A, B and C (of Table-3), if the Total <br>Taxable Income (from Table-1) is more than BDT</td>
-                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_more_amount" value="{{$setup->investment_amount_more_amount}}"></td>
+                                                    <td style="border: 1px solid black;text-align:center;padding:6px;"><input type="text" style="text-align:center;" name="investment_amount_more_amount" value="{{$setup->investment_amount_more_amount_yearly}}"></td>
                                                 </tr>
                                             </table>
                                         </div>
