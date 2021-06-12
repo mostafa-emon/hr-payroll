@@ -70,12 +70,12 @@
 
             <div class="col-md-3 pd-t-10">
                 <label for="date_of_birth" style="font-weight:bold;" class="col-form-label">Date of Birth:</label>
-                <input type="text" name="date_of_birth" placeholder="Date of Birth" @if($employee->date_of_birth != ""&& $employee->date_of_birth != "1970-01-01") value="{{ date($date_format,strtotime($employee->date_of_birth))}}" @endif class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_birth" placeholder="Date of Birth" @if($employee->date_of_birth != ""&& $employee->date_of_birth != "1970-01-01") value="{{ date($date_format,strtotime($employee->date_of_birth))}}" @endif class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
                 <label for="gender" style="font-weight:bold;" class="col-form-label">Gender:</label>
-                <select class="form-control" name="gender">
+                <select class="form-control" name="gender" required>
                     <option value="" label>Select Gender</option>
                     <option value="Male" @if($employee->gender == "Male") selected @endif>Male</option>
                     <option value="Female" @if($employee->gender == "Female") selected @endif>Female</option>

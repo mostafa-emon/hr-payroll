@@ -43,11 +43,11 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="text" name="date_of_birth" placeholder="Date of Birth" class="form-control dtpicker" autocomplete="off"/>
+                <input type="text" name="date_of_birth" placeholder="Date of Birth" class="form-control dtpicker" autocomplete="off" required/>
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <select class="form-control" name="gender">
+                <select class="form-control" name="gender" required>
                     <option value="" label>Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>

@@ -1050,70 +1050,458 @@ function employee_current_status($employee_id) {
 function monthly_income_tax_calculation($employee_id,$date) {
     $income_date = date('Y-m-d',strtotime($date));
     $tax_rule           = TaxRule::where('company_id',Auth::user()->company_id)->where('query_income_date_from','<=',$income_date)->where('query_income_date_to','>=',$income_date)->first();
+    $employee_info      = Employee::where('id',$employee_id)->first();
     $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
-    $income_tax         = 0;
+    $taxable_income     = 0;
+    $tax_amount         = 0;
+    $investment_amount  = 0;
+    $investment_allow_amount = 0;
 
-    foreach($employee_earnings as $earning) {
-        $salary_component_detail = SalaryComponent::where('id',$earning->salary_component_id)->first();
-        if($salary_component_detail != "") {
-            $component_name     = $salary_component_detail->component_reference;
-            $component_amount   = $earning->final_amount;
-
-            if($component_name == "Basic Salary") {
-                $basic_salary   = $component_amount;
-                $income_tax     = $income_tax + $component_amount;
-            }
-
-            if($component_name == "House Rent") {
-                $house_rent_allowance_amount_monthly    = $tax_rule->house_rent_allowance_amount_monthly;
-                $house_rent_allowance_in_percent        = ($basic_salary * $tax_rule->house_rent_allowance_in_percent)/100;
-
-                if($house_rent_allowance_amount_monthly <= $house_rent_allowance_in_percent) {
-                    if($house_rent_allowance_amount_monthly < $component_amount) {
-                        $income_tax     = $income_tax + $house_rent_allowance_amount_monthly;
+    if($tax_rule != "") {
+        foreach($employee_earnings as $earning) {
+            $salary_component_detail = SalaryComponent::where('id',$earning->salary_component_id)->first();
+            if($salary_component_detail != "") {
+                $component_name     = $salary_component_detail->component_reference;
+                $component_amount   = $earning->final_amount;
+    
+                if($component_name == "Basic Salary") {
+                    $basic_salary   = $component_amount;
+                    $taxable_income = $taxable_income + $component_amount;
+                }
+    
+                elseif($component_name == "House Rent") {
+                    $house_rent_allowance_amount_monthly    = $tax_rule->house_rent_allowance_amount_monthly;
+                    $house_rent_allowance_in_percent        = ($basic_salary * $tax_rule->house_rent_allowance_in_percent) / 100;
+    
+                    if($house_rent_allowance_amount_monthly <= $house_rent_allowance_in_percent) {
+                        if($house_rent_allowance_amount_monthly <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_amount_monthly);
+                        }
                     }else{
-                        $income_tax     = $income_tax + $component_amount;
-                    }
-                }else{
-                    if($house_rent_allowance_in_percent < $component_amount) {
-                        $income_tax     = $income_tax + $house_rent_allowance_in_percent;
-                    }else{
-                        $income_tax     = $income_tax + $component_amount;
+                        if($house_rent_allowance_in_percent <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_in_percent);
+                        }
                     }
                 }
-            }
-
-            if($component_name == "Convenience") {
-                $conveyance_allowance_amount_monthly = $tax_rule->conveyance_allowance_amount_monthly;
-                if($conveyance_allowance_amount_monthly < $component_amount) {
-                    $income_tax     = $income_tax + $conveyance_allowance_amount_monthly;
-                }else{
-                    $income_tax     = $income_tax + $component_amount;
-                }
-            }
-
-            if($component_name == "Medical") {
-                $medical_allowance_amount_monthly   = $tax_rule->medical_allowance_amount_monthly;
-                $medical_allowance_in_percent       = ($basic_salary * $tax_rule->medical_allowance_in_percent)/100;
-
-                if($medical_allowance_amount_monthly <= $medical_allowance_in_percent) {
-                    if($medical_allowance_amount_monthly < $component_amount) {
-                        $income_tax     = $income_tax + $medical_allowance_amount_monthly;
-                    }else{
-                        $income_tax     = $income_tax + $component_amount;
-                    }
-                }else{
-                    if($medical_allowance_in_percent < $component_amount) {
-                        $income_tax     = $income_tax + $medical_allowance_in_percent;
-                    }else{
-                        $income_tax     = $income_tax + $component_amount;
+    
+                elseif($component_name == "Convenience") {
+                    $conveyance_allowance_amount_monthly = $tax_rule->conveyance_allowance_amount_monthly;
+                    if($conveyance_allowance_amount_monthly < $component_amount) {
+                        $taxable_income     = $taxable_income + ($component_amount - $conveyance_allowance_amount_monthly);
                     }
                 }
-            }
+    
+                elseif($component_name == "Medical") {
+                    $medical_allowance_amount_monthly   = $tax_rule->medical_allowance_amount_monthly;
+                    $medical_allowance_in_percent       = ($basic_salary * $tax_rule->medical_allowance_in_percent)/100;
+    
+                    if($medical_allowance_amount_monthly <= $medical_allowance_in_percent) {
+                        if($medical_allowance_amount_monthly <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_amount_monthly);
+                        }
+                    }else{
+                        if($medical_allowance_in_percent <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_in_percent);
+                        }
+                    }
+                }
+    
+                elseif($component_name == "PF Company Portion") {
+                    $taxable_income     = $taxable_income + $component_amount;
+                }
 
+                elseif($component_name == "Gratuity") {
+                    $taxable_income     = $taxable_income + 0;
+                }
+
+                else{
+                    $taxable_income     = $taxable_income + $component_amount;
+                }
+            }
         }
+
+        if($employee_info->gender == "Female") {
+            $female_or_65_above_male = 1;
+        }else{
+            $age = Carbon::parse($employee_info->date_of_birth)->diff($tax_rule->query_income_date_to)->format('%y');
+            if($age > 65) {
+                $female_or_65_above_male = 1;
+            }else{
+                $female_or_65_above_male = 0;
+            }
+        }
+
+        if($female_or_65_above_male == 1) {
+            if($tax_rule->first_amount_female_above_65_aged_male_monthly <= $taxable_income) {
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_female_above_65_aged_male_monthly;
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+                }
+
+            }
+        }else{
+            if($tax_rule->first_amount_below_65_aged_male_monthly <= $taxable_income) {
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_below_65_aged_male_monthly;
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_below_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+                    }
+                    
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_below_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_below_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+                }
+            }
+        }
+    
+        //return $taxable_income;
+
+        $percent_25_of_taxable_income = ($taxable_income * 25) / 100;
+
+        $employee_earnings_deductions  = EmployeeEarningDeduction::where('employee_id',$employee_id)->get();
+        foreach($employee_earnings_deductions as $earning_deduction) {
+            $component_detail = SalaryComponent::where('id',$earning_deduction->salary_component_id)->first();
+            if($component_detail != "") {
+                $earning_deduction_component_name   = $component_detail->component_reference;
+                $earning_deduction_component_amount = $earning_deduction->final_amount;
+            }
+
+            if($earning_deduction_component_name == "PF Company Portion") {
+                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+            }
+
+            if($earning_deduction_component_name == "PF Employee Portion") {
+                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+            }
+        }
+
+        $employee_payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+        if($employee_payroll_info != "") {
+            $investment_amount = $investment_amount + $employee_payroll_info->investment_amount;
+        }
+
+        if(0 < $investment_amount && $investment_amount <= $tax_rule->maximum_investment_amount_allowed_monthly) {
+            if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
+                $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_less_percent) / 100;
+            }
+            elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
+                $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_more_percent) / 100;
+            }
+        }
+
+        return $income_tax = $tax_amount - $investment_allow_amount;
+
+    }else{
+        return "Null";
     }
 
-    return $income_tax;
+
+}
+
+function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) {
+    $income_date = date('Y-m-d',strtotime($date));
+    $tax_rule           = TaxRule::where('company_id',Auth::user()->company_id)->where('query_income_date_from','<=',$income_date)->where('query_income_date_to','>=',$income_date)->first();
+    $payroll_info       = PayrollInfo::where('employee_id',$employee_id)->first();
+    $employee_info      = Employee::where('id',$employee_id)->first();
+    $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
+    $taxable_income     = 0;
+    $tax_amount         = 0;
+    $investment_amount  = 0;
+    $investment_allow_amount = 0;
+
+    if($payroll_info != "") {
+        $taxable_income = $taxable_income + $payroll_info->festival_bonus_per_festival;
+    }
+
+    if($tax_rule != "") {
+        foreach($employee_earnings as $earning) {
+            $salary_component_detail = SalaryComponent::where('id',$earning->salary_component_id)->first();
+            if($salary_component_detail != "") {
+                $component_name     = $salary_component_detail->component_reference;
+                $component_amount   = $earning->final_amount;
+    
+                if($component_name == "Basic Salary") {
+                    $basic_salary   = $component_amount;
+                    $taxable_income = $taxable_income + $component_amount;
+                }
+    
+                elseif($component_name == "House Rent") {
+                    $house_rent_allowance_amount_monthly    = $tax_rule->house_rent_allowance_amount_monthly;
+                    $house_rent_allowance_in_percent        = ($basic_salary * $tax_rule->house_rent_allowance_in_percent) / 100;
+    
+                    if($house_rent_allowance_amount_monthly <= $house_rent_allowance_in_percent) {
+                        if($house_rent_allowance_amount_monthly <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_amount_monthly);
+                        }
+                    }else{
+                        if($house_rent_allowance_in_percent <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_in_percent);
+                        }
+                    }
+                }
+    
+                elseif($component_name == "Convenience") {
+                    $conveyance_allowance_amount_monthly = $tax_rule->conveyance_allowance_amount_monthly;
+                    if($conveyance_allowance_amount_monthly < $component_amount) {
+                        $taxable_income     = $taxable_income + ($component_amount - $conveyance_allowance_amount_monthly);
+                    }
+                }
+    
+                elseif($component_name == "Medical") {
+                    $medical_allowance_amount_monthly   = $tax_rule->medical_allowance_amount_monthly;
+                    $medical_allowance_in_percent       = ($basic_salary * $tax_rule->medical_allowance_in_percent)/100;
+    
+                    if($medical_allowance_amount_monthly <= $medical_allowance_in_percent) {
+                        if($medical_allowance_amount_monthly <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_amount_monthly);
+                        }
+                    }else{
+                        if($medical_allowance_in_percent <= $component_amount) {
+                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_in_percent);
+                        }
+                    }
+                }
+    
+                elseif($component_name == "PF Company Portion") {
+                    $taxable_income     = $taxable_income + $component_amount;
+                }
+
+                elseif($component_name == "Gratuity") {
+                    $taxable_income     = $taxable_income + 0;
+                }
+
+                else{
+                    $taxable_income     = $taxable_income + $component_amount;
+                }
+            }
+        }
+
+        if($employee_info->gender == "Female") {
+            $female_or_65_above_male = 1;
+        }else{
+            $age = Carbon::parse($employee_info->date_of_birth)->diff($tax_rule->query_income_date_to)->format('%y');
+            if($age > 65) {
+                $female_or_65_above_male = 1;
+            }else{
+                $female_or_65_above_male = 0;
+            }
+        }
+
+        if($female_or_65_above_male == 1) {
+            if($tax_rule->first_amount_female_above_65_aged_male_monthly <= $taxable_income) {
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_female_above_65_aged_male_monthly;
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_female_above_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_female_above_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+                }
+
+            }
+        }else{
+            if($tax_rule->first_amount_below_65_aged_male_monthly <= $taxable_income) {
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_below_65_aged_male_monthly;
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_below_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+                    }
+                    
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_below_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_below_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_below_65_aged_male_monthly) {
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }else{
+                        $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+                    }
+
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_below_65_aged_male_monthly;
+                }
+
+                if($remaining_taxable_amount > 0) {
+                    $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+                }
+            }
+        }
+    
+        //return $taxable_income;
+
+        $percent_25_of_taxable_income = ($taxable_income * 25) / 100;
+
+        $employee_earnings_deductions  = EmployeeEarningDeduction::where('employee_id',$employee_id)->get();
+        foreach($employee_earnings_deductions as $earning_deduction) {
+            $component_detail = SalaryComponent::where('id',$earning_deduction->salary_component_id)->first();
+            if($component_detail != "") {
+                $earning_deduction_component_name   = $component_detail->component_reference;
+                $earning_deduction_component_amount = $earning_deduction->final_amount;
+            }
+
+            if($earning_deduction_component_name == "PF Company Portion") {
+                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+            }
+
+            if($earning_deduction_component_name == "PF Employee Portion") {
+                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+            }
+        }
+
+        $employee_payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
+        if($employee_payroll_info != "") {
+            $investment_amount = $investment_amount + $employee_payroll_info->investment_amount;
+        }
+
+        if(0 < $investment_amount && $investment_amount <= $tax_rule->maximum_investment_amount_allowed_monthly) {
+            if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
+                $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_less_percent) / 100;
+            }
+            elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
+                $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_more_percent) / 100;
+            }
+        }
+
+        return $income_tax = $tax_amount - $investment_allow_amount;
+
+    }else{
+        return "Null";
+    }
+
 
 }
