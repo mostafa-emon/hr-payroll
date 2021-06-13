@@ -767,8 +767,9 @@ class EmployeeController extends Controller
     public function tax_calculation() {
         $employee_id = 2;
         $date = '02-06-2021';
-        $tax = monthly_income_tax_calculation_with_festival_bonus($employee_id,$date);
+        $tax_with_festival      = monthly_income_tax_calculation_with_festival_bonus($employee_id,$date);
+        $tax_without_festival   = monthly_income_tax_calculation($employee_id,$date);
 
-        return response()->json($tax);
+        return "Tax With Festival Bonus: <b>".$tax_with_festival."</b><br>  Tax Without Festial Bonus: <b>".$tax_without_festival."</b>";
     }
 }
