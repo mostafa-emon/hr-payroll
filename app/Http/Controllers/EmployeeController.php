@@ -768,9 +768,19 @@ class EmployeeController extends Controller
         $employee_id = 2;
         $date = '02-06-2021';
         $tax_with_festival      = monthly_income_tax_calculation_with_festival_bonus($employee_id,$date);
-        //$tax_without_festival   = monthly_income_tax_calculation($employee_id,$date);
+        /*$tax_without_festival   = monthly_income_tax_calculation($employee_id,$date);
 
+        $employee_info   = Employee::where('id',$employee_id)->first();
+        $employment_info = EmploymentInfo::where('employee_id',$employee_id)->first();
+        $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)
+                            ->select('employee_earning_deductions.*','salary_components.id','salary_components.component_reference')
+                            ->join('salary_components','salary_components.id','employee_earning_deductions.salary_component_id')
+                            ->where('earning_or_deduction','earnings')
+                            ->get();
+
+        return view('configurations.tax_rule_setup.tax_without_festival',compact('employee_info','employment_info','employee_earnings'));
         //return "Tax With Festival Bonus: <b>".$tax_with_festival."</b><br>  Tax Without Festial Bonus: <b>".$tax_without_festival."</b>";
+        //return $tax_without_festival;*/
         return $tax_with_festival;
     }
 }
