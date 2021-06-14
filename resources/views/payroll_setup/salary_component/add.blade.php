@@ -63,7 +63,7 @@
                                                             <option value="House Rent">House Rent</option>
                                                             <option value="Convenience">Conveyance</option>
                                                             <option value="Medical">Medical</option>
-                                                            <option value="Festival Bonus">Festival Bonus</option>
+                                                            {{--<option value="Festival Bonus">Festival Bonus</option>--}}
                                                             <option value="PF Company Portion">PF Company Portion</option>
                                                             <option value="Gratuity">Gratuity</option>
                                                             <option value="General Earnings">General Earnings</option>
