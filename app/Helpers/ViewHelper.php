@@ -1050,12 +1050,27 @@ function employee_current_status($employee_id) {
 function monthly_income_tax_calculation($employee_id,$date) {
     $income_date = date('Y-m-d',strtotime($date));
     $tax_rule           = TaxRule::where('company_id',Auth::user()->company_id)->where('query_income_date_from','<=',$income_date)->where('query_income_date_to','>=',$income_date)->first();
+    $payroll_info       = PayrollInfo::where('employee_id',$employee_id)->first();
     $employee_info      = Employee::where('id',$employee_id)->first();
     $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
     $taxable_income     = 0;
     $tax_amount         = 0;
     $investment_amount  = 0;
     $investment_allow_amount = 0;
+
+    $first_slab_amount  = 0;
+    $second_slab_amount = 0;
+    $third_slab_amount  = 0;
+    $forth_slab_amount  = 0;
+    $fifth_slab_amount  = 0;
+    $rest_slab_amount   = 0;
+
+    $first_slab_tax_amount  = 0;
+    $second_slab_tax_amount = 0;
+    $third_slab_tax_amount  = 0;
+    $forth_slab_tax_amount  = 0;
+    $fifth_slab_tax_amount  = 0;
+    $rest_slab_tax_amount   = 0;
 
     if($tax_rule != "") {
         foreach($employee_earnings as $earning) {
@@ -1065,49 +1080,70 @@ function monthly_income_tax_calculation($employee_id,$date) {
                 $component_amount   = $earning->final_amount;
     
                 if($component_name == "Basic Salary") {
-                    $basic_salary   = $component_amount;
-                    $taxable_income = $taxable_income + $component_amount;
+                    $basic_salary   = $component_amount * 12;
+                    $taxable_income = $taxable_income + ($component_amount * 12);
+
+                    $yearly_basic_salary = $component_amount * 12;
                 }
     
                 elseif($component_name == "House Rent") {
-                    $house_rent_allowance_amount_monthly    = $tax_rule->house_rent_allowance_amount_monthly;
+                    $yearly_house_rent = $component_amount * 12;
+
+                    $house_rent_allowance_amount_yearly     = $tax_rule->house_rent_allowance_amount_yearly;
                     $house_rent_allowance_in_percent        = ($basic_salary * $tax_rule->house_rent_allowance_in_percent) / 100;
     
-                    if($house_rent_allowance_amount_monthly <= $house_rent_allowance_in_percent) {
-                        if($house_rent_allowance_amount_monthly <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_amount_monthly);
+                    if($house_rent_allowance_amount_yearly <= $house_rent_allowance_in_percent) {
+                        $yearly_house_rent_non_tax_limit = $house_rent_allowance_amount_yearly;
+
+                        if($house_rent_allowance_amount_yearly <= ($component_amount * 12)) {
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $house_rent_allowance_amount_yearly);
                         }
                     }else{
-                        if($house_rent_allowance_in_percent <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_in_percent);
+                        if($house_rent_allowance_in_percent <= ($component_amount * 12)) {
+                            $yearly_house_rent_non_tax_limit = $house_rent_allowance_in_percent;
+
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $house_rent_allowance_in_percent);
                         }
                     }
                 }
     
                 elseif($component_name == "Convenience") {
-                    $conveyance_allowance_amount_monthly = $tax_rule->conveyance_allowance_amount_monthly;
-                    if($conveyance_allowance_amount_monthly < $component_amount) {
-                        $taxable_income     = $taxable_income + ($component_amount - $conveyance_allowance_amount_monthly);
+                    $yearly_conveyance = $component_amount * 12;
+                    $yearly_conveyance_non_tax_limit = $yearly_conveyance;
+
+                    $conveyance_allowance_amount_yearly = $tax_rule->conveyance_allowance_amount_yearly;
+                    if($conveyance_allowance_amount_yearly < ($component_amount * 12)) {
+                        $yearly_conveyance_non_tax_limit = $conveyance_allowance_amount_yearly;
+
+                        $taxable_income     = $taxable_income + (($component_amount * 12) - $conveyance_allowance_amount_yearly);
                     }
                 }
     
                 elseif($component_name == "Medical") {
-                    $medical_allowance_amount_monthly   = $tax_rule->medical_allowance_amount_monthly;
+                    $medical_allowance_amount_yearly   = $tax_rule->medical_allowance_amount_yearly;
                     $medical_allowance_in_percent       = ($basic_salary * $tax_rule->medical_allowance_in_percent)/100;
+
+                    $yearly_medical = $component_amount * 12;
     
-                    if($medical_allowance_amount_monthly <= $medical_allowance_in_percent) {
-                        if($medical_allowance_amount_monthly <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_amount_monthly);
+                    if($medical_allowance_amount_yearly <= $medical_allowance_in_percent) {
+                        $yearly_medical_non_tax_limit = $medical_allowance_amount_yearly;
+
+                        if($medical_allowance_amount_yearly <= ($component_amount * 12)) {
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $medical_allowance_amount_yearly);
                         }
                     }else{
-                        if($medical_allowance_in_percent <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_in_percent);
+                        $yearly_medical_non_tax_limit = $medical_allowance_in_percent;
+
+                        if($medical_allowance_in_percent <= ($component_amount * 12)) {
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $medical_allowance_in_percent);
                         }
                     }
                 }
     
                 elseif($component_name == "PF Company Portion") {
-                    $taxable_income     = $taxable_income + $component_amount;
+                    $yearly_company_pf = $component_amount * 12;
+
+                    $taxable_income     = $taxable_income + ($component_amount * 12);
                 }
 
                 elseif($component_name == "Gratuity") {
@@ -1115,7 +1151,9 @@ function monthly_income_tax_calculation($employee_id,$date) {
                 }
 
                 else{
-                    $taxable_income     = $taxable_income + $component_amount;
+                    $yearly_other_allowance = $component_amount * 12;
+
+                    $taxable_income     = $taxable_income + ($component_amount * 12);
                 }
             }
         }
@@ -1132,105 +1170,167 @@ function monthly_income_tax_calculation($employee_id,$date) {
         }
 
         if($female_or_65_above_male == 1) {
-            if($tax_rule->first_amount_female_above_65_aged_male_monthly <= $taxable_income) {
-                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_female_above_65_aged_male_monthly;
+            if($tax_rule->first_amount_female_above_65_aged_male_yearly <= $taxable_income) {
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_female_above_65_aged_male_yearly;
+
+                $first_slab_amount = $first_slab_amount + $tax_rule->first_amount_female_above_65_aged_male_yearly;
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->second_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_female_above_65_aged_male_yearly) {
+                        $second_slab_amount = $second_slab_amount + $tax_rule->second_amount_female_above_65_aged_male_yearly;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
                     }else{
+                        $second_slab_amount = $second_slab_amount + $remaining_taxable_amount;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->third_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_female_above_65_aged_male_yearly) {
+                        $third_slab_amount = $third_slab_amount + $tax_rule->third_amount_female_above_65_aged_male_yearly;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
                     }else{
+                        $third_slab_amount = $third_slab_amount + $remaining_taxable_amount;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->forth_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_female_above_65_aged_male_yearly) {
+                        $forth_slab_amount = $forth_slab_amount + $tax_rule->forth_amount_female_above_65_aged_male_yearly;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
                     }else{
+                        $forth_slab_amount = $forth_slab_amount + $remaining_taxable_amount;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_female_above_65_aged_male_yearly) {
+                        $fifth_slab_amount = $fifth_slab_amount + $tax_rule->fifth_amount_female_above_65_aged_male_yearly;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
                     }else{
+                        $fifth_slab_amount = $fifth_slab_amount + $remaining_taxable_amount;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
+                    $rest_slab_amount = $rest_slab_amount + $remaining_taxable_amount;
+                    $rest_slab_tax_amount = $rest_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+
                     $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
                 }
 
+            }else{
+                $first_slab_amount = $first_slab_amount + $taxable_income;
             }
         }else{
-            if($tax_rule->first_amount_below_65_aged_male_monthly <= $taxable_income) {
-                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_below_65_aged_male_monthly;
+            if($tax_rule->first_amount_below_65_aged_male_yearly <= $taxable_income) {
+                $first_slab_amount = $first_slab_amount + $tax_rule->first_amount_below_65_aged_male_yearly;
+
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_below_65_aged_male_yearly;
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->second_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->second_amount_below_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_below_65_aged_male_yearly) {
+                        $second_slab_amount = $second_slab_amount + $tax_rule->second_amount_below_65_aged_male_yearly;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($tax_rule->second_amount_below_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_below_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
                     }else{
+                        $second_slab_amount = $second_slab_amount + $remaining_taxable_amount;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
                     }
                     
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->third_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->third_amount_below_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_below_65_aged_male_yearly) {
+                        $third_slab_amount = $third_slab_amount + $tax_rule->third_amount_below_65_aged_male_yearly;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($tax_rule->third_amount_below_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_below_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
                     }else{
+                        $third_slab_amount = $third_slab_amount + $remaining_taxable_amount;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->forth_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_below_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_below_65_aged_male_yearly) {
+                        $forth_slab_amount = $forth_slab_amount + $tax_rule->forth_amount_below_65_aged_male_yearly;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($tax_rule->forth_amount_below_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_below_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
                     }else{
+                        $forth_slab_amount = $forth_slab_amount + $remaining_taxable_amount;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_below_65_aged_male_yearly) {
+                        $fifth_slab_amount = $fifth_slab_amount + $tax_rule->fifth_amount_below_65_aged_male_yearly;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
                     }else{
+                        $fifth_slab_amount = $fifth_slab_amount + $remaining_taxable_amount;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
+                    $rest_slab_amount = $rest_slab_amount + $remaining_taxable_amount;
+                    $rest_slab_tax_amount = $rest_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+
                     $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
                 }
+            }else{
+                $first_slab_amount = $first_slab_amount + $taxable_income;
             }
         }
     
-        //return $taxable_income;
+        //return $tax_amount;
 
         $percent_25_of_taxable_income = ($taxable_income * 25) / 100;
 
@@ -1243,57 +1343,66 @@ function monthly_income_tax_calculation($employee_id,$date) {
             }
 
             if($earning_deduction_component_name == "PF Company Portion") {
-                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+                $investment_amount     = $investment_amount + ($earning_deduction_component_amount * 12);
             }
 
             if($earning_deduction_component_name == "PF Employee Portion") {
-                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+                $investment_amount     = $investment_amount + ($earning_deduction_component_amount * 12);
             }
         }
 
         $employee_payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
         if($employee_payroll_info != "") {
-            $investment_amount = $investment_amount + $employee_payroll_info->investment_amount;
+            $investment_amount = $investment_amount + ($employee_payroll_info->investment_amount * 12);
         }
 
         if(0 < $investment_amount) {
             //if($percent_25_of_taxable_income <= $investment_amount) {
-                if($percent_25_of_taxable_income <= $tax_rule->maximum_investment_amount_allowed_monthly) {
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
+                if($percent_25_of_taxable_income <= $tax_rule->maximum_investment_amount_allowed_yearly) {
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }else{
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_less_percent) / 100;
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
             /*}else{
-                if($investment_amount <= $tax_rule->maximum_investment_amount_allowed_monthly) {
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
+                if($investment_amount <= $tax_rule->maximum_investment_amount_allowed_yearly) {
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($investment_amount * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($investment_amount * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }else{
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_less_percent) / 100;
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
             }*/
 
         }
 
-        return $income_tax = $tax_amount - $investment_allow_amount;
+        $income_tax = $tax_amount - $investment_allow_amount;
+
+        return $income_tax."_".$yearly_basic_salary."_".$yearly_house_rent
+        ."_".$yearly_house_rent_non_tax_limit."_".$yearly_conveyance."_".$yearly_conveyance_non_tax_limit
+        ."_".$yearly_medical."_".$yearly_medical_non_tax_limit."_".$yearly_company_pf."_".$yearly_other_allowance
+        ."_".$taxable_income."_".$first_slab_amount."_".$second_slab_amount."_".$third_slab_amount
+        ."_".$forth_slab_amount."_".$fifth_slab_amount."_".$rest_slab_amount."_".$first_slab_tax_amount
+        ."_".$second_slab_tax_amount."_".$third_slab_tax_amount."_".$forth_slab_tax_amount
+        ."_".$fifth_slab_tax_amount."_".$rest_slab_tax_amount."_".$tax_amount
+        ."_".$investment_amount."_".$investment_allow_amount."_".$income_tax;
 
     }else{
         return "Null";
@@ -1313,8 +1422,25 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
     $investment_amount  = 0;
     $investment_allow_amount = 0;
 
+    $first_slab_amount  = 0;
+    $second_slab_amount = 0;
+    $third_slab_amount  = 0;
+    $forth_slab_amount  = 0;
+    $fifth_slab_amount  = 0;
+    $rest_slab_amount   = 0;
+
+    $first_slab_tax_amount  = 0;
+    $second_slab_tax_amount = 0;
+    $third_slab_tax_amount  = 0;
+    $forth_slab_tax_amount  = 0;
+    $fifth_slab_tax_amount  = 0;
+    $rest_slab_tax_amount   = 0;
+
+
     if($payroll_info != "") {
-        $taxable_income = $taxable_income + $payroll_info->festival_bonus_per_festival;
+        $taxable_income = $taxable_income + ($payroll_info->festival_bonus_per_festival * 2);
+
+        $yearly_festival_bonus = $payroll_info->festival_bonus_per_festival * 2;
     }
 
     if($tax_rule != "") {
@@ -1325,49 +1451,70 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
                 $component_amount   = $earning->final_amount;
     
                 if($component_name == "Basic Salary") {
-                    $basic_salary   = $component_amount;
-                    $taxable_income = $taxable_income + $component_amount;
+                    $basic_salary   = $component_amount * 12;
+                    $taxable_income = $taxable_income + ($component_amount * 12);
+
+                    $yearly_basic_salary = $component_amount * 12;
                 }
     
                 elseif($component_name == "House Rent") {
-                    $house_rent_allowance_amount_monthly    = $tax_rule->house_rent_allowance_amount_monthly;
+                    $yearly_house_rent = $component_amount * 12;
+
+                    $house_rent_allowance_amount_yearly     = $tax_rule->house_rent_allowance_amount_yearly;
                     $house_rent_allowance_in_percent        = ($basic_salary * $tax_rule->house_rent_allowance_in_percent) / 100;
     
-                    if($house_rent_allowance_amount_monthly <= $house_rent_allowance_in_percent) {
-                        if($house_rent_allowance_amount_monthly <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_amount_monthly);
+                    if($house_rent_allowance_amount_yearly <= $house_rent_allowance_in_percent) {
+                        $yearly_house_rent_non_tax_limit = $house_rent_allowance_amount_yearly;
+
+                        if($house_rent_allowance_amount_yearly <= ($component_amount * 12)) {
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $house_rent_allowance_amount_yearly);
                         }
                     }else{
-                        if($house_rent_allowance_in_percent <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $house_rent_allowance_in_percent);
+                        if($house_rent_allowance_in_percent <= ($component_amount * 12)) {
+                            $yearly_house_rent_non_tax_limit = $house_rent_allowance_in_percent;
+
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $house_rent_allowance_in_percent);
                         }
                     }
                 }
     
                 elseif($component_name == "Convenience") {
-                    $conveyance_allowance_amount_monthly = $tax_rule->conveyance_allowance_amount_monthly;
-                    if($conveyance_allowance_amount_monthly < $component_amount) {
-                        $taxable_income     = $taxable_income + ($component_amount - $conveyance_allowance_amount_monthly);
+                    $yearly_conveyance = $component_amount * 12;
+                    $yearly_conveyance_non_tax_limit = $yearly_conveyance;
+
+                    $conveyance_allowance_amount_yearly = $tax_rule->conveyance_allowance_amount_yearly;
+                    if($conveyance_allowance_amount_yearly < ($component_amount * 12)) {
+                        $yearly_conveyance_non_tax_limit = $conveyance_allowance_amount_yearly;
+
+                        $taxable_income     = $taxable_income + (($component_amount * 12) - $conveyance_allowance_amount_yearly);
                     }
                 }
     
                 elseif($component_name == "Medical") {
-                    $medical_allowance_amount_monthly   = $tax_rule->medical_allowance_amount_monthly;
+                    $medical_allowance_amount_yearly   = $tax_rule->medical_allowance_amount_yearly;
                     $medical_allowance_in_percent       = ($basic_salary * $tax_rule->medical_allowance_in_percent)/100;
+
+                    $yearly_medical = $component_amount * 12;
     
-                    if($medical_allowance_amount_monthly <= $medical_allowance_in_percent) {
-                        if($medical_allowance_amount_monthly <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_amount_monthly);
+                    if($medical_allowance_amount_yearly <= $medical_allowance_in_percent) {
+                        $yearly_medical_non_tax_limit = $medical_allowance_amount_yearly;
+
+                        if($medical_allowance_amount_yearly <= ($component_amount * 12)) {
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $medical_allowance_amount_yearly);
                         }
                     }else{
-                        if($medical_allowance_in_percent <= $component_amount) {
-                            $taxable_income     = $taxable_income + ($component_amount - $medical_allowance_in_percent);
+                        $yearly_medical_non_tax_limit = $medical_allowance_in_percent;
+
+                        if($medical_allowance_in_percent <= ($component_amount * 12)) {
+                            $taxable_income     = $taxable_income + (($component_amount * 12) - $medical_allowance_in_percent);
                         }
                     }
                 }
     
                 elseif($component_name == "PF Company Portion") {
-                    $taxable_income     = $taxable_income + $component_amount;
+                    $yearly_company_pf = $component_amount * 12;
+
+                    $taxable_income     = $taxable_income + ($component_amount * 12);
                 }
 
                 elseif($component_name == "Gratuity") {
@@ -1375,7 +1522,9 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
                 }
 
                 else{
-                    $taxable_income     = $taxable_income + $component_amount;
+                    $yearly_other_allowance = $component_amount * 12;
+
+                    $taxable_income     = $taxable_income + ($component_amount * 12);
                 }
             }
         }
@@ -1392,105 +1541,167 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
         }
 
         if($female_or_65_above_male == 1) {
-            if($tax_rule->first_amount_female_above_65_aged_male_monthly <= $taxable_income) {
-                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_female_above_65_aged_male_monthly;
+            if($tax_rule->first_amount_female_above_65_aged_male_yearly <= $taxable_income) {
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_female_above_65_aged_male_yearly;
+
+                $first_slab_amount = $first_slab_amount + $tax_rule->first_amount_female_above_65_aged_male_yearly;
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->second_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_female_above_65_aged_male_yearly) {
+                        $second_slab_amount = $second_slab_amount + $tax_rule->second_amount_female_above_65_aged_male_yearly;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_female_above_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
                     }else{
+                        $second_slab_amount = $second_slab_amount + $remaining_taxable_amount;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->third_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_female_above_65_aged_male_yearly) {
+                        $third_slab_amount = $third_slab_amount + $tax_rule->third_amount_female_above_65_aged_male_yearly;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_female_above_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
                     }else{
+                        $third_slab_amount = $third_slab_amount + $remaining_taxable_amount;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->forth_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_female_above_65_aged_male_yearly) {
+                        $forth_slab_amount = $forth_slab_amount + $tax_rule->forth_amount_female_above_65_aged_male_yearly;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_female_above_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
                     }else{
+                        $forth_slab_amount = $forth_slab_amount + $remaining_taxable_amount;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_female_above_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_female_above_65_aged_male_yearly) {
+                        $fifth_slab_amount = $fifth_slab_amount + $tax_rule->fifth_amount_female_above_65_aged_male_yearly;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_female_above_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
                     }else{
+                        $fifth_slab_amount = $fifth_slab_amount + $remaining_taxable_amount;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_female_above_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_female_above_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
+                    $rest_slab_amount = $rest_slab_amount + $remaining_taxable_amount;
+                    $rest_slab_tax_amount = $rest_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+
                     $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
                 }
 
+            }else{
+                $first_slab_amount = $first_slab_amount + $taxable_income;
             }
         }else{
-            if($tax_rule->first_amount_below_65_aged_male_monthly <= $taxable_income) {
-                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_below_65_aged_male_monthly;
+            if($tax_rule->first_amount_below_65_aged_male_yearly <= $taxable_income) {
+                $first_slab_amount = $first_slab_amount + $tax_rule->first_amount_below_65_aged_male_yearly;
+
+                $remaining_taxable_amount = $taxable_income - $tax_rule->first_amount_below_65_aged_male_yearly;
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->second_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->second_amount_below_65_aged_male_monthly * $tax_rule->second_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->second_amount_below_65_aged_male_yearly) {
+                        $second_slab_amount = $second_slab_amount + $tax_rule->second_amount_below_65_aged_male_yearly;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($tax_rule->second_amount_below_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->second_amount_below_65_aged_male_yearly * $tax_rule->second_tax_rate_percent) / 100);
                     }else{
+                        $second_slab_amount = $second_slab_amount + $remaining_taxable_amount;
+                        $second_slab_tax_amount = $second_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->second_tax_rate_percent) / 100);
                     }
                     
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->second_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->third_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->third_amount_below_65_aged_male_monthly * $tax_rule->third_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->third_amount_below_65_aged_male_yearly) {
+                        $third_slab_amount = $third_slab_amount + $tax_rule->third_amount_below_65_aged_male_yearly;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($tax_rule->third_amount_below_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->third_amount_below_65_aged_male_yearly * $tax_rule->third_tax_rate_percent) / 100);
                     }else{
+                        $third_slab_amount = $third_slab_amount + $remaining_taxable_amount;
+                        $third_slab_tax_amount = $third_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->third_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->third_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->forth_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_below_65_aged_male_monthly * $tax_rule->forth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->forth_amount_below_65_aged_male_yearly) {
+                        $forth_slab_amount = $forth_slab_amount + $tax_rule->forth_amount_below_65_aged_male_yearly;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($tax_rule->forth_amount_below_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->forth_amount_below_65_aged_male_yearly * $tax_rule->forth_tax_rate_percent) / 100);
                     }else{
+                        $forth_slab_amount = $forth_slab_amount + $remaining_taxable_amount;
+                        $forth_slab_tax_amount = $forth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->forth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->forth_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
-                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_below_65_aged_male_monthly) {
-                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_monthly * $tax_rule->fifth_tax_rate_percent) / 100);
+                    if($remaining_taxable_amount >= $tax_rule->fifth_amount_below_65_aged_male_yearly) {
+                        $fifth_slab_amount = $fifth_slab_amount + $tax_rule->fifth_amount_below_65_aged_male_yearly;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
+
+                        $tax_amount = $tax_amount + (($tax_rule->fifth_amount_below_65_aged_male_yearly * $tax_rule->fifth_tax_rate_percent) / 100);
                     }else{
+                        $fifth_slab_amount = $fifth_slab_amount + $remaining_taxable_amount;
+                        $fifth_slab_tax_amount = $fifth_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
+
                         $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->fifth_tax_rate_percent) / 100);
                     }
 
-                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_below_65_aged_male_monthly;
+                    $remaining_taxable_amount = $remaining_taxable_amount - $tax_rule->fifth_amount_below_65_aged_male_yearly;
                 }
 
                 if($remaining_taxable_amount > 0) {
+                    $rest_slab_amount = $rest_slab_amount + $remaining_taxable_amount;
+                    $rest_slab_tax_amount = $rest_slab_tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
+
                     $tax_amount = $tax_amount + (($remaining_taxable_amount * $tax_rule->rest_tax_rate_percent) / 100);
                 }
+            }else{
+                $first_slab_amount = $first_slab_amount + $taxable_income;
             }
         }
     
-        //return $taxable_income;
+        //return $tax_amount;
 
         $percent_25_of_taxable_income = ($taxable_income * 25) / 100;
 
@@ -1503,57 +1714,66 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
             }
 
             if($earning_deduction_component_name == "PF Company Portion") {
-                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+                $investment_amount     = $investment_amount + ($earning_deduction_component_amount * 12);
             }
 
             if($earning_deduction_component_name == "PF Employee Portion") {
-                $investment_amount     = $investment_amount + $earning_deduction_component_amount;
+                $investment_amount     = $investment_amount + ($earning_deduction_component_amount * 12);
             }
         }
 
         $employee_payroll_info = PayrollInfo::where('employee_id',$employee_id)->first();
         if($employee_payroll_info != "") {
-            $investment_amount = $investment_amount + $employee_payroll_info->investment_amount;
+            $investment_amount = $investment_amount + ($employee_payroll_info->investment_amount * 12);
         }
 
         if(0 < $investment_amount) {
             //if($percent_25_of_taxable_income <= $investment_amount) {
-                if($percent_25_of_taxable_income <= $tax_rule->maximum_investment_amount_allowed_monthly) {
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
+                if($percent_25_of_taxable_income <= $tax_rule->maximum_investment_amount_allowed_yearly) {
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }else{
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_less_percent) / 100;
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
             /*}else{
-                if($investment_amount <= $tax_rule->maximum_investment_amount_allowed_monthly) {
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
+                if($investment_amount <= $tax_rule->maximum_investment_amount_allowed_yearly) {
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($investment_amount * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
                         $investment_allow_amount = $investment_allow_amount + ($investment_amount * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }else{
-                    if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_less_percent) / 100;
+                    if($taxable_income <= $tax_rule->investment_amount_less_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_less_percent) / 100;
                     }
-                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_monthly) {
-                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
+                    elseif($taxable_income > $tax_rule->investment_amount_more_amount_yearly) {
+                        $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_yearly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
             }*/
 
         }
 
-        return $income_tax = $tax_amount - $investment_allow_amount;
+        $income_tax = $tax_amount - $investment_allow_amount;
+
+        return $income_tax."_".$yearly_festival_bonus."_".$yearly_basic_salary."_".$yearly_house_rent
+        ."_".$yearly_house_rent_non_tax_limit."_".$yearly_conveyance."_".$yearly_conveyance_non_tax_limit
+        ."_".$yearly_medical."_".$yearly_medical_non_tax_limit."_".$yearly_company_pf."_".$yearly_other_allowance
+        ."_".$taxable_income."_".$first_slab_amount."_".$second_slab_amount."_".$third_slab_amount
+        ."_".$forth_slab_amount."_".$fifth_slab_amount."_".$rest_slab_amount."_".$first_slab_tax_amount
+        ."_".$second_slab_tax_amount."_".$third_slab_tax_amount."_".$forth_slab_tax_amount
+        ."_".$fifth_slab_tax_amount."_".$rest_slab_tax_amount."_".$tax_amount
+        ."_".$investment_amount."_".$investment_allow_amount."_".$income_tax;
 
     }else{
         return "Null";

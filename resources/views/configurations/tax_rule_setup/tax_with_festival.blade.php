@@ -103,7 +103,7 @@
             </div>
 
             @php 
-                list($income_tax,$yearly_basic_salary,$yearly_house_rent,
+                list($income_tax,$yearly_festival_bonus,$yearly_basic_salary,$yearly_house_rent,
                 $yearly_house_rent_non_tax_limit,$yearly_conveyance,$yearly_conveyance_non_tax_limit,
                 $yearly_medical,$yearly_medical_non_tax_limit,$yearly_company_pf,$yearly_other_allowance,
                 $taxable_income,$first_slab_amount,$second_slab_amount,$third_slab_amount,$forth_slab_amount,
@@ -183,7 +183,7 @@
                             @endphp
                         </td>
                     </tr>
-                    {{--<tr>
+                    <tr>
                         <td style="border-bottom: 1px solid black;text-align:left;border-right: 1px solid black;padding:5px;">Festival Bonus</td>
                         <td style="border-bottom: 1px solid black;text-align:center;border-right: 1px solid black;padding:5px;">{{$monthly_festival_bonus = $yearly_festival_bonus / 2}}</td>
                         <td style="border-bottom: 1px solid black;text-align:center;border-right: 1px solid black;padding:5px;">{{$yearly_festival_bonus}}</td>
@@ -195,7 +195,7 @@
                                 $yearly_income  = $yearly_income  + $yearly_festival_bonus;
                             @endphp
                         </td>
-                    </tr>--}}
+                    </tr>
                     <tr>
                         <td style="border-bottom: 1px solid black;text-align:left;border-right: 1px solid black;padding:5px;">Other Allowance</td>
                         <td style="border-bottom: 1px solid black;text-align:center;border-right: 1px solid black;padding:5px;">{{$monthly_other_allowance = $yearly_other_allowance / 12}}</td>

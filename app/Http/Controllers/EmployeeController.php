@@ -19,6 +19,7 @@ use App\PayrollBranch;
 use App\Currency;
 use App\User;
 use App\Company;
+use App\TaxRule;
 use Auth;
 use Hash;
 use Redirect;
@@ -766,21 +767,39 @@ class EmployeeController extends Controller
 
     public function tax_calculation() {
         $employee_id = 2;
-        $date = '02-06-2021';
-        $tax_with_festival      = monthly_income_tax_calculation_with_festival_bonus($employee_id,$date);
-        /*$tax_without_festival   = monthly_income_tax_calculation($employee_id,$date);
+        $date = date('Y-m-d',strtotime('02-06-2021'));
+
+        $tax_rule           = TaxRule::where('company_id',Auth::user()->company_id)->where('query_income_date_from','<=',$date)->where('query_income_date_to','>=',$date)->first();
+        $tax_with_festival  = monthly_income_tax_calculation_with_festival_bonus($employee_id,$date);
+        //list($income_tax,$yearly_festival_bonus,$yearly_basic_salary,$yearly_house_rent,$yearly_house_rent_non_tax_limit,$yearly_conveyance,$yearly_conveyance_non_tax_limit,$yearly_medical,$yearly_medical_non_tax_limit,$yearly_company_pf,$yearly_other_allowance) = explode("_",$tax_with_festival);
+
+        //$tax_without_festival   = monthly_income_tax_calculation($employee_id,$date);
 
         $employee_info   = Employee::where('id',$employee_id)->first();
         $employment_info = EmploymentInfo::where('employee_id',$employee_id)->first();
-        $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)
-                            ->select('employee_earning_deductions.*','salary_components.id','salary_components.component_reference')
-                            ->join('salary_components','salary_components.id','employee_earning_deductions.salary_component_id')
-                            ->where('earning_or_deduction','earnings')
-                            ->get();
 
-        return view('configurations.tax_rule_setup.tax_without_festival',compact('employee_info','employment_info','employee_earnings'));
+        return view('configurations.tax_rule_setup.tax_with_festival',compact('employee_info','employment_info','tax_rule','tax_with_festival'));
         //return "Tax With Festival Bonus: <b>".$tax_with_festival."</b><br>  Tax Without Festial Bonus: <b>".$tax_without_festival."</b>";
         //return $tax_without_festival;*/
-        return $tax_with_festival;
+        //return $tax_with_festival;
+    }
+
+    public function tax_calculation_without_festival() {
+        $employee_id = 2;
+        $date = date('Y-m-d',strtotime('02-06-2021'));
+
+        $tax_rule           = TaxRule::where('company_id',Auth::user()->company_id)->where('query_income_date_from','<=',$date)->where('query_income_date_to','>=',$date)->first();
+        $tax_with_festival  = monthly_income_tax_calculation($employee_id,$date);
+        //list($income_tax,$yearly_festival_bonus,$yearly_basic_salary,$yearly_house_rent,$yearly_house_rent_non_tax_limit,$yearly_conveyance,$yearly_conveyance_non_tax_limit,$yearly_medical,$yearly_medical_non_tax_limit,$yearly_company_pf,$yearly_other_allowance) = explode("_",$tax_with_festival);
+
+        //$tax_without_festival   = monthly_income_tax_calculation($employee_id,$date);
+
+        $employee_info   = Employee::where('id',$employee_id)->first();
+        $employment_info = EmploymentInfo::where('employee_id',$employee_id)->first();
+
+        return view('configurations.tax_rule_setup.tax_without_festival',compact('employee_info','employment_info','tax_rule','tax_with_festival'));
+        //return "Tax With Festival Bonus: <b>".$tax_with_festival."</b><br>  Tax Without Festial Bonus: <b>".$tax_without_festival."</b>";
+        //return $tax_without_festival;*/
+        //return $tax_with_festival;
     }
 }
