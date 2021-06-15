@@ -1257,7 +1257,7 @@ function monthly_income_tax_calculation($employee_id,$date) {
         }
 
         if(0 < $investment_amount) {
-            if($percent_25_of_taxable_income <= $investment_amount) {
+            //if($percent_25_of_taxable_income <= $investment_amount) {
                 if($percent_25_of_taxable_income <= $tax_rule->maximum_investment_amount_allowed_monthly) {
                     if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
                         $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_less_percent) / 100;
@@ -1273,7 +1273,7 @@ function monthly_income_tax_calculation($employee_id,$date) {
                         $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
-            }else{
+            /*}else{
                 if($investment_amount <= $tax_rule->maximum_investment_amount_allowed_monthly) {
                     if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
                         $investment_allow_amount = $investment_allow_amount + ($investment_amount * $tax_rule->investment_amount_less_percent) / 100;
@@ -1289,7 +1289,7 @@ function monthly_income_tax_calculation($employee_id,$date) {
                         $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
-            }
+            }*/
 
         }
 
@@ -1517,7 +1517,7 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
         }
 
         if(0 < $investment_amount) {
-            if($percent_25_of_taxable_income <= $investment_amount) {
+            //if($percent_25_of_taxable_income <= $investment_amount) {
                 if($percent_25_of_taxable_income <= $tax_rule->maximum_investment_amount_allowed_monthly) {
                     if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
                         $investment_allow_amount = $investment_allow_amount + ($percent_25_of_taxable_income * $tax_rule->investment_amount_less_percent) / 100;
@@ -1533,7 +1533,7 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
                         $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
-            }else{
+            /*}else{
                 if($investment_amount <= $tax_rule->maximum_investment_amount_allowed_monthly) {
                     if($taxable_income <= $tax_rule->investment_amount_less_amount_monthly) {
                         $investment_allow_amount = $investment_allow_amount + ($investment_amount * $tax_rule->investment_amount_less_percent) / 100;
@@ -1549,7 +1549,7 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
                         $investment_allow_amount = $investment_allow_amount + ($tax_rule->maximum_investment_amount_allowed_monthly * $tax_rule->investment_amount_more_percent) / 100;
                     }
                 }
-            }
+            }*/
 
         }
 
