@@ -1053,24 +1053,35 @@ function monthly_income_tax_calculation($employee_id,$date) {
     $payroll_info       = PayrollInfo::where('employee_id',$employee_id)->first();
     $employee_info      = Employee::where('id',$employee_id)->first();
     $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
-    $taxable_income     = 0;
-    $tax_amount         = 0;
-    $investment_amount  = 0;
-    $investment_allow_amount = 0;
+    
+    $taxable_income                     = 0;
+    $tax_amount                         = 0;
+    $investment_amount                  = 0;
+    $investment_allow_amount            = 0;
 
-    $first_slab_amount  = 0;
-    $second_slab_amount = 0;
-    $third_slab_amount  = 0;
-    $forth_slab_amount  = 0;
-    $fifth_slab_amount  = 0;
-    $rest_slab_amount   = 0;
+    $first_slab_amount                  = 0;
+    $second_slab_amount                 = 0;
+    $third_slab_amount                  = 0;
+    $forth_slab_amount                  = 0;
+    $fifth_slab_amount                  = 0;
+    $rest_slab_amount                   = 0;
 
-    $first_slab_tax_amount  = 0;
-    $second_slab_tax_amount = 0;
-    $third_slab_tax_amount  = 0;
-    $forth_slab_tax_amount  = 0;
-    $fifth_slab_tax_amount  = 0;
-    $rest_slab_tax_amount   = 0;
+    $first_slab_tax_amount              = 0;
+    $second_slab_tax_amount             = 0;
+    $third_slab_tax_amount              = 0;
+    $forth_slab_tax_amount              = 0;
+    $fifth_slab_tax_amount              = 0;
+    $rest_slab_tax_amount               = 0;
+
+    $yearly_basic_salary                = 0;
+    $yearly_house_rent                  = 0;
+    $yearly_house_rent_non_tax_limit    = 0;
+    $yearly_conveyance                  = 0;
+    $yearly_conveyance_non_tax_limit    = 0;
+    $yearly_medical                     = 0;
+    $yearly_medical_non_tax_limit       = 0;
+    $yearly_company_pf                  = 0;
+    $yearly_other_allowance             = 0;
 
     if($tax_rule != "") {
         foreach($employee_earnings as $earning) {
@@ -1417,24 +1428,36 @@ function monthly_income_tax_calculation_with_festival_bonus($employee_id,$date) 
     $payroll_info       = PayrollInfo::where('employee_id',$employee_id)->first();
     $employee_info      = Employee::where('id',$employee_id)->first();
     $employee_earnings  = EmployeeEarningDeduction::where('employee_id',$employee_id)->where('earning_or_deduction','earnings')->get();
-    $taxable_income     = 0;
-    $tax_amount         = 0;
-    $investment_amount  = 0;
-    $investment_allow_amount = 0;
+    
+    $taxable_income                     = 0;
+    $tax_amount                         = 0;
+    $investment_amount                  = 0;
+    $investment_allow_amount            = 0;
 
-    $first_slab_amount  = 0;
-    $second_slab_amount = 0;
-    $third_slab_amount  = 0;
-    $forth_slab_amount  = 0;
-    $fifth_slab_amount  = 0;
-    $rest_slab_amount   = 0;
+    $first_slab_amount                  = 0;
+    $second_slab_amount                 = 0;
+    $third_slab_amount                  = 0;
+    $forth_slab_amount                  = 0;
+    $fifth_slab_amount                  = 0;
+    $rest_slab_amount                   = 0;
 
-    $first_slab_tax_amount  = 0;
-    $second_slab_tax_amount = 0;
-    $third_slab_tax_amount  = 0;
-    $forth_slab_tax_amount  = 0;
-    $fifth_slab_tax_amount  = 0;
-    $rest_slab_tax_amount   = 0;
+    $first_slab_tax_amount              = 0;
+    $second_slab_tax_amount             = 0;
+    $third_slab_tax_amount              = 0;
+    $forth_slab_tax_amount              = 0;
+    $fifth_slab_tax_amount              = 0;
+    $rest_slab_tax_amount               = 0;
+
+    $yearly_festival_bonus              = 0;
+    $yearly_basic_salary                = 0;
+    $yearly_house_rent                  = 0;
+    $yearly_house_rent_non_tax_limit    = 0;
+    $yearly_conveyance                  = 0;
+    $yearly_conveyance_non_tax_limit    = 0;
+    $yearly_medical                     = 0;
+    $yearly_medical_non_tax_limit       = 0;
+    $yearly_company_pf                  = 0;
+    $yearly_other_allowance             = 0;
 
 
     if($payroll_info != "") {
