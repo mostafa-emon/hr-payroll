@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use App\Attendance;
 use Auth;
 
-class DailylateReport implements FromView
+class DailyLateReport implements FromView
 {
     public function view(): View
     {

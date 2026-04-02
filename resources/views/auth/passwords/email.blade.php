@@ -5,7 +5,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>AXIS HR & PAYROLL</title>
+        <title>PayRoll</title>
         <link rel="icon" href="{{asset('assets/img/favicon.png')}}">
 
         <!-- vendor css -->
@@ -54,7 +54,7 @@
                     <button type="submit" class="btn btn-info btn-block pointer">Send Password Reset Link</button>
                 </form>
 
-                <div class="mg-t-35 tx-center tx-10 tx-uppercase tx-semibold tx-spacing-1">AXIS HR & PAYROLL</a></div>
+                <div class="mg-t-35 tx-center tx-10 tx-uppercase tx-semibold tx-spacing-1">PayRoll</a></div>
             </div><!-- login-wrapper -->
         </div><!-- d-flex -->
 

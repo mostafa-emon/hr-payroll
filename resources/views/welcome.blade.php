@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="alert alert-primary pd-20" role="alert">
-                <strong class="d-block d-sm-inline-block-force" style="text-align:center;">Welcome to, Axis HR & Payroll</strong>
+                <strong class="d-block d-sm-inline-block-force" style="text-align:center;">Welcome to, PayRoll</strong>
             </div>
         </div>
     </div>
