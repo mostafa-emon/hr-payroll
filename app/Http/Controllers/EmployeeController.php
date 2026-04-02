@@ -40,7 +40,7 @@ class EmployeeController extends Controller
         return view('employee.index',compact('employees'));
     }
 
-    public function add($page, $employee_id = "", Request $request){
+    public function add(Request $request, $page, $employee_id = ""){
         if(roles() != "" && !in_array(23, json_decode(roles(),false))){
             return redirect('404');
         }
@@ -419,7 +419,7 @@ class EmployeeController extends Controller
         return redirect('employee/update/employment/'.$employee->id)->with('message', 'Personal Information Updated Successfully!');
     }
 
-    public function update_employment_info($info_id = "",Request $request){
+    public function update_employment_info(Request $request, $info_id = ""){
         if($request->employee_id != "") {
             if($request->current_status == "Active") {
                 $employee_limit = Company::where('id',Auth::user()->company_id)->first()->employee_limit;
@@ -462,7 +462,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function update_payroll_info($employee_id = "",Request $request){
+    public function update_payroll_info(Request $request, $employee_id = ""){
         if($request->employee_id != "") {
             $preDataCount = EmployeeEarningDeduction::where('employee_id',$employee_id)->count();
             if($preDataCount != 0 && $preDataCount != "") {
@@ -546,7 +546,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function update_leave_info($employee_id = "",Request $request){
+    public function update_leave_info(Request $request, $employee_id = ""){
         if($request->employee_id != "") {
             $preDataCount = LeaveInfo::where('employee_id',$employee_id)->count();
             if($preDataCount != 0 && $preDataCount != "") {
