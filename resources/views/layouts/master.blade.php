@@ -118,12 +118,6 @@
 								@if(roles() != "" && in_array(6, json_decode(roles(),false)))
 									<li><a class="slide-item" href="{{url('designations')}}">Designation</a></li>
 								@endif
-								@if(roles() != "" && in_array(10, json_decode(roles(),false)))
-									<li><a class="slide-item" href="{{url('projects')}}">Project</a></li>
-								@endif
-								@if(roles() != "" && in_array(14, json_decode(roles(),false)))
-									<li><a class="slide-item" href="{{url('branches')}}">Branch</a></li>
-								@endif
 								@if(roles() != "" && in_array(18, json_decode(roles(),false)))
 									<li><a class="slide-item" href="{{url('currencies')}}">Currency</a></li>
 								@endif

@@ -68,7 +68,7 @@
                         @endphp
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employee_id) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -77,28 +77,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
-                                <select name="project_id" id="project_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employee_id) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($projects as $project)
-                                            <option value="{{$project->id}}" @if($project_id == $project->id) selected @endif>{{$project->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employee_id) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{$branch->id}}" @if($branch_id == $branch->id) selected @endif>{{$branch->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="Designation" style="font-weight:bold;" class="col-form-label">Designation:</label>
                                 <select name="designation_id" id="designation_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employee_id) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -107,6 +86,11 @@
                                         @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
+                        <div class="row">
                             <div class="col-md-4">
                                 <label for="Employee" style="font-weight:bold;" class="col-form-label">Employee:</label>
                                 <select id="employee_id" name="employee_id[]" class="form-control employee_multiple" multiple="multiple" required @if(count($employee_id) > 0) disabled @endif>
@@ -117,7 +101,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label for="Remark" style="font-weight:bold;" class="col-form-label">Remark:</label>
                                 <select name="remark" id="remark" class="form-control select2-no-search" @if(count($employee_id) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -129,7 +113,7 @@
                                         <option value="Govt Holiday" @if($remark == "Govt Holiday") selected @endif>Govt Holiday</option>
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-4">
                                 <label for="Date" style="font-weight:bold;" class="col-form-label">Date:</label>
                                 <input type="text" class="form-control dtpicker" name="date" value="{{date($date_format,strtotime($date))}}"placeholder="Date" autocomplete="off" required>
                             </div>
@@ -190,18 +174,12 @@
     <script>
         function get_employee() {
             var department_id   = $('#department_id').val();
-            var project_id      = $('#project_id').val();
-            var branch_id       = $('#branch_id').val();
             var designation_id  = $('#designation_id').val();
 
             if(department_id == "") {department_id = 0;}
-            if(project_id == "") {project_id = 0;}
-            if(branch_id == "") {branch_id = 0;}
             if(designation_id == "") {designation_id = 0;}
 
             var url = '/search-employee-with-designation/'+department_id;
-            if(project_id != "") { url = url +'/'+ project_id;} else { url = url + '/0';}
-            if(branch_id != "") { url = url +'/'+ branch_id;} else { url = url + '/0';}
             if(designation_id != "") { url = url +'/'+ designation_id;} else { url = url + '/0';}
 
             $.ajax({

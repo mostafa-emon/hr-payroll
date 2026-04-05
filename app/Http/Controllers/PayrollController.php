@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PayrollBank;
-use App\PayrollBranch;
 use App\SmsSetting;
 use App\Department;
-use App\Project;
-use App\Branch;
+use App\Vertical;
+use App\Section;
+use App\JobLevel;
 use App\SmsCampaign;
 use App\EmploymentInfo;
 use App\CampaignReceiver;
@@ -78,61 +78,6 @@ class PayrollController extends Controller
         }
     }
 
-    // Branch
-    public function branch_index($id) {
-        if(roles() != "" && !in_array(97, json_decode(roles(),false))){
-            return redirect('404');
-        }
-
-        $bank           = PayrollBank::where('id',$id)->first();
-        if($bank->company_id == Auth::user()->company_id){
-            $branches   = PayrollBranch::where('bank_id',$id)->orderBy('branch_name','asc')->get();
-            return view('payroll_setup.banks.branches',compact('branches','bank'));
-        }else{
-            return redirect('payroll-banks')->with('message','Do not try to be too smart!');
-        }
-    }
-
-    public function branch_add(Request $request) {
-        $branch = new PayrollBranch;
-        $branch->bank_id        = $request->bank_id;
-        $branch->branch_name    = $request->branch_name;
-        $branch->save();
-        return back()->with('message','Branch Added Successfully!');
-    }
-
-    public function branch_get($id) {
-        $branch = PayrollBranch::where('id',$id)->first();
-        echo $branch;
-    }
-
-    public function branch_update(Request $request,$id) {
-        $branch = PayrollBranch::where('id',$id)->first();
-        $branch->branch_name    = $request->branch_name;
-        $branch->save();
-        return back()->with('message','Branch Updated Successfully!');
-    }
-
-    public function branch_delete($id) {
-        if(roles() != "" && !in_array(100, json_decode(roles(),false))){
-            return redirect('404');
-        }
-        
-        $branch = PayrollBranch::find($id);
-        $branch->delete();
-        return back()->with('message','Branch Deleted Successfully!');
-    }
-
-    public function get_branch($bank_id) {
-        $branches = PayrollBranch::where('bank_id',$bank_id)->get();
-        if(count($branches) > 0) {
-            foreach($branches as $branch) {
-                echo "<option value=".$branch->id.">".$branch->branch_name."</option>";
-            }
-        }else {
-            echo "";
-        }
-    }
 
 
     //SMS Campaign
@@ -143,10 +88,8 @@ class PayrollController extends Controller
 
         $apis           = SmsSetting::where('company_id', Auth::user()->company_id)->get();
         $departments    = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects       = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches       = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $campaigns      = SmsCampaign::where('company_id',Auth::user()->company_id)->orderby('created_at','desc')->paginate(10);
-        return view('transactions.payroll.sms_notifications.create_campaign',compact('departments','campaigns','projects','branches','apis'));
+        return view('transactions.payroll.sms_notifications.create_campaign',compact('departments','campaigns','apis'));
     }
 
     public function create_campaign_post(Request $request){
@@ -162,24 +105,12 @@ class PayrollController extends Controller
         if($request->department_id != "") {
             $campaign->department_id    = json_encode($request->department_id);
         }
-        if($request->project_id != "") {
-            $campaign->project_id       = json_encode($request->project_id);
-        }
-        if($request->branch_id != "") {
-            $campaign->branch_id        = json_encode($request->branch_id);
-        }
         $campaign->save();
 
         $receivers                      = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
 
         if($request->department_id != ""){
             $receivers                  = $receivers->whereIn('department_id',$request->department_id);
-        }
-        if($request->project_id != ""){
-            $receivers                  = $receivers->whereIn('project_id',$request->project_id);
-        }
-        if($request->branch_id != ""){
-            $receivers                  = $receivers->whereIn('branch_id',$request->branch_id);
         }
 
         $receivers = $receivers->get();
@@ -252,8 +183,6 @@ class PayrollController extends Controller
         $campaign->sms_body             = $request->sms_body;
         $campaign->body_length          = $request->body_length;
         $campaign->department_id        = $request->department_id;
-        $campaign->project_id           = $request->project_id;
-        $campaign->branch_id            = $request->branch_id;
         $campaign->language             = $request->language;
         $campaign->save();
 
@@ -455,29 +384,15 @@ class PayrollController extends Controller
 
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
-        $project_id             = '';
-        $branch_id              = '';
         $month                  = '';
         $currency_id            = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
         }
 
         if($request->currency_id != ""){
@@ -492,8 +407,8 @@ class PayrollController extends Controller
             $employment_infos   = $employment_infos->get();
         }
 
-        return view('transactions.payroll.company_pf.add',compact('departments','projects','branches',
-        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos'));
+        return view('transactions.payroll.company_pf.add',compact('departments',
+        'currencies','department_id','month','currency_id','employment_infos'));
     }
 
     public function company_pf_store(Request $request){
@@ -529,12 +444,8 @@ class PayrollController extends Controller
 
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $increment_employee_id  = '';
         $pfs                    = [];
@@ -544,16 +455,6 @@ class PayrollController extends Controller
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
         }
 
         if($request->employee_id != "") {
@@ -578,8 +479,8 @@ class PayrollController extends Controller
 
         $employment_infos = $employment_infos->get();
 
-        return view('transactions.payroll.pay_pf',compact('departments','projects','branches','company_pf_opening_balance',
-        'department_id','project_id','branch_id','employee_id','employment_infos','pfs','increment_employee_id','employee_pf_opening_balance'));
+        return view('transactions.payroll.pay_pf',compact('departments','company_pf_opening_balance',
+        'department_id','employee_id','employment_infos','pfs','increment_employee_id','employee_pf_opening_balance'));
     }
 
     public function pf_pay_store($employee_id) {
@@ -650,12 +551,8 @@ class PayrollController extends Controller
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id      = '';
-        $project_id         = '';
-        $branch_id          = '';
         $employee_id        = [];
         $month              = '';
         $year               = '';
@@ -666,15 +563,7 @@ class PayrollController extends Controller
             $department_id      = $request->department_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->month != "") {
             $month              = $request->month;
@@ -706,8 +595,8 @@ class PayrollController extends Controller
             }
         }
 
-        return view('transactions.payroll.absent_deduction.add',compact('departments','projects','branches',
-        'department_id','branch_id','project_id','employment_infos','month','year','employee_id','all_employee'));
+        return view('transactions.payroll.absent_deduction.add',compact('departments',
+        'department_id','employment_infos','month','year','employee_id','all_employee'));
     }
 
     public function absent_deduction_store(Request $request){
@@ -779,12 +668,8 @@ class PayrollController extends Controller
 
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
-        $project_id             = '';
-        $branch_id              = '';
         $year                   = '';
         $employee_id            = [];
         $all_employee           = '';
@@ -794,15 +679,7 @@ class PayrollController extends Controller
             $department_id      = $request->department_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->year != ""){
             $year               = $request->year;
@@ -826,8 +703,8 @@ class PayrollController extends Controller
             }
         }
 
-        return view('transactions.payroll.gratuity.add',compact('departments','projects','branches',
-        'employee_id','department_id','project_id','branch_id','year','employment_infos','all_employee'));
+        return view('transactions.payroll.gratuity.add',compact('departments',
+        'employee_id','department_id','year','employment_infos','all_employee'));
     }
 
     public function gratuity_store(Request $request){
@@ -859,12 +736,8 @@ class PayrollController extends Controller
 
         $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $increment_employee_id  = '';
         $gratuities             = [];
@@ -875,15 +748,7 @@ class PayrollController extends Controller
             $department_id      = $request->department_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->employee_id != "") {
             $employee_id            = $request->employee_id;
@@ -900,8 +765,8 @@ class PayrollController extends Controller
 
         $employment_infos = $employment_infos->get();
 
-        return view('transactions.payroll.gratuity.pay',compact('departments','projects','branches','department_id',
-        'project_id','branch_id','employee_id','employment_infos','gratuities','increment_employee_id','gratuity_opening_balance'));
+        return view('transactions.payroll.gratuity.pay',compact('departments','department_id',
+        'employee_id','employment_infos','gratuities','increment_employee_id','gratuity_opening_balance'));
     }
 
     public function gratuity_pay_store($employee_id) {
@@ -967,29 +832,19 @@ class PayrollController extends Controller
         }
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
         $total_tax              = 0;
         $total_taka             = 0;
         $total_poisa            = 0;
 
         $employment_infos       = EmploymentInfo::orderBy('income_taxes.query_date','asc')
-                                ->select('employees.name','employees.id as incriment_employee_id','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
+                                ->select('employees.name','employees.id as incriment_employee_id','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','income_taxes.*')
                                 ->join('income_taxes','income_taxes.employee_id','employment_infos.employee_id')
                                 ->join('employees','employees.id','employment_infos.employee_id')
                                 ->where('employees.company_id',Auth::user()->company_id);
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
         }
 
         if($request->currency_id != ""){
@@ -1041,8 +896,6 @@ class PayrollController extends Controller
             $tax->from              = date('F-Y', strtotime($request->from));
             $tax->to                = date('F-Y', strtotime($request->to));
             $tax->department_id     = $request->department_id;
-            $tax->project_id        = $request->project_id;
-            $tax->branch_id         = $request->branch_id;
             $tax->currency_id       = $request->currency_id;
             $tax->challan_no        = $request->challan_no;
             $tax->text_1            = $request->text_1;
@@ -1070,7 +923,7 @@ class PayrollController extends Controller
 
             return view('transactions.payroll.deposit_salary_tax.print_front_side',compact('tax','code_no','employment_infos','total_taka','total_poisa','total_tax'));
         }
-        return view('transactions.payroll.deposit_salary_tax.add',compact('departments','projects','branches','currencies'));
+        return view('transactions.payroll.deposit_salary_tax.add',compact('departments','currencies'));
     }
 
     public function deposit_salary_tax_update($id) {
@@ -1115,14 +968,6 @@ class PayrollController extends Controller
 
             if($tax->department_id != "") {
                 $employees  = $employees->where('department_id',$tax->department_id);
-            }
-        
-            if($tax->project_id !="") {
-                $employees  = $employees->where('project_id',$tax->project_id);
-            }
-        
-            if($tax->branch_id !="") {
-                $employees  = $employees->where('branch_id',$tax->branch_id);
             }
         
             $employees      = $employees->get();
@@ -1209,27 +1054,7 @@ class PayrollController extends Controller
         $total_taka     = 0;
         $total_poisa    = 0;
 
-        /*$employees      = EmploymentInfo::orderBy('id','asc');
 
-        if($tax->department_id != "") {
-            $employees  = $employees->where('department_id',$tax->department_id);
-        }
-
-        if($tax->project_id !="") {
-            $employees  = $employees->where('project_id',$tax->project_id);
-        }
-
-        if($tax->branch_id !="") {
-            $employees  = $employees->where('branch_id',$tax->branch_id);
-        }
-
-        $employees      = $employees->get();
-
-        $employee_ids   = array();
-
-        foreach($employees as $employee) {
-            $employee_ids[] = $employee->employee_id;
-        }*/
 
         $income_taxes   = DepositSalaryTaxDetail::where('tax_id',$tax_id)->get();
 
@@ -1260,33 +1085,7 @@ class PayrollController extends Controller
             return redirect('404');
         }
 
-        /*$tax = DepositSalaryTax::where('id',$tax_id)->first();
-        $from           = date('Y-m-01',strtotime($tax->from));
-        $to             = date('Y-m-31',strtotime($tax->to));
 
-        $employment_infos       = EmploymentInfo::orderBy('income_taxes.query_date','asc')
-                                ->select('employees.name','employees.employee_id as original_employee_id','employment_infos.employee_id','employment_infos.department_id','employment_infos.project_id','employment_infos.branch_id','income_taxes.*')
-                                ->join('income_taxes','income_taxes.employee_id','employment_infos.employee_id')
-                                ->join('employees','employees.id','employment_infos.employee_id')
-                                ->where('employees.company_id',Auth::user()->company_id);
-
-        if($tax->department_id != ""){
-        $employment_infos   = $employment_infos->where('department_id',$tax->department_id);
-        }
-
-        if($tax->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$tax->project_id);
-        }
-
-        if($tax->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$tax->branch_id);
-        }
-
-        if($tax->currency_id != ""){
-            $employment_infos   = $employment_infos->where('currency_id',$tax->currency_id);
-        }
-
-        $employment_infos   = $employment_infos->whereBetween('query_date', [$from, $to])->get();*/
 
         $employment_infos   = DepositSalaryTaxDetail::where('tax_id',$tax_id)->get();
 

@@ -8,8 +8,6 @@ use App\SalaryTransferLetter;
 use App\SalaryTransferLetterDetail;
 use App\EmploymentInfo;
 use App\Department;
-use App\Project;
-use App\Branch;
 use App\Currency;
 use App\PayrollBank;
 use App\SalarySheet;

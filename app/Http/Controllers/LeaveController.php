@@ -10,8 +10,7 @@ use App\EmploymentInfo;
 use App\LeaveInfo;
 use App\LeaveBalance;
 use App\Department;
-use App\Project;
-use App\Branch;
+
 use App\PaidLeave;
 use App\GeneralLeave;
 use Auth;
@@ -347,12 +346,8 @@ class LeaveController extends Controller
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id');
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id      = '';
-        $project_id         = '';
-        $branch_id          = '';
         $employee_id        = [];
         $applicable_for     = '';
         $leave_types        = '';
@@ -362,16 +357,6 @@ class LeaveController extends Controller
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos    = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id           = $request->branch_id;
         }
 
         if($request->employee_id != ""){
@@ -404,8 +389,8 @@ class LeaveController extends Controller
         }
 
         return view('transactions.leave.balance_transfer.index',
-        compact('departments','projects','branches','department_id','branch_id','applicable_for',
-        'project_id','employment_infos','employee_id','leave_infos','leave_types','employee','all_employee'));
+        compact('departments','department_id','applicable_for',
+        'employment_infos','employee_id','leave_infos','leave_types','employee','all_employee'));
     }
 
     public function transfer_leave_balance($employee_id,Request $request){

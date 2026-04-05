@@ -37,26 +37,6 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <label for="project_id" style="font-weight:bold;" class="col-form-label">Project:</label>
-                <select class="form-control" name="project_id">
-                    <option value="" label>Select Project</option>
-                    @foreach($projects as $project)
-                        <option value="{{$project->id}}" @if($employment_info != "" && $project->id == $employment_info->project_id) selected @endif>{{$project->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="col-md-3 pd-t-10">
-                <label for="branch_id" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                <select class="form-control" name="branch_id">
-                    <option value="" label>Select Branch</option>
-                    @foreach($branches as $branch)
-                        <option value="{{$branch->id}}" @if($employment_info != "" && $branch->id == $employment_info->branch_id) selected @endif>{{$branch->name}}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="col-md-3 pd-t-10">
                 <label for="status" style="font-weight:bold;" class="col-form-label">Status*:</label>
                 <select class="form-control" name="current_status" required>
                     <option value="" label>Select Status*</option>

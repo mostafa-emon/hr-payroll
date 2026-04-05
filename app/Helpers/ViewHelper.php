@@ -9,8 +9,7 @@ use App\Employee;
 use App\EmploymentInfo;
 use App\Department;
 use App\Designation;
-use App\Project;
-use App\Branch;
+
 use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
@@ -91,14 +90,6 @@ function shift_name_from_roster($employee_id,$date) {
 
 function designation_name($designation_id){
     return Designation::where('id',$designation_id)->value('name');
-}
-
-function project_name($project_id){
-    return Project::where('id',$project_id)->value('name');
-}
-
-function branch_name($branch_id){
-    return Branch::where('id',$branch_id)->value('name');
 }
 
 function currency_name($currency_id){
@@ -479,27 +470,7 @@ function total_tax($tax_id) {
     $to             = date('Y-m-31',strtotime($deposit_tax->to));*/
     $total_amount   = 0;
 
-    /*$employees      = EmploymentInfo::orderBy('id','asc');
 
-    if($deposit_tax->department_id != "") {
-        $employees  = $employees->where('department_id',$deposit_tax->department_id);
-    }
-
-    if($deposit_tax->project_id !="") {
-        $employees  = $employees->where('project_id',$deposit_tax->project_id);
-    }
-
-    if($deposit_tax->branch_id !="") {
-        $employees  = $employees->where('branch_id',$deposit_tax->branch_id);
-    }
-
-    $employees      = $employees->get();
-
-    $employee_ids   = array();
-
-    foreach($employees as $employee) {
-        $employee_ids[] = $employee->employee_id;
-    }*/
 
     $total_tax      = DepositSalaryTaxDetail::where('tax_id',$tax_id);
 

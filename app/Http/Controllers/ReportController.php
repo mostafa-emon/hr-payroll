@@ -7,8 +7,9 @@ use App\EmploymentInfo;
 use App\Employee;
 use App\Department;
 use App\Designation;
-use App\Project;
-use App\Branch;
+use App\Vertical;
+use App\Section;
+use App\JobLevel;
 use App\Attendance;
 use App\GeneralLeave;
 use App\RosterEmployee;
@@ -73,13 +74,9 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = [];
         $all_employee           = '';
         $remark                 = '';
@@ -98,16 +95,6 @@ class ReportController extends Controller
         if($request->designation_id != ""){
             $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
             $designation_id     = $request->designation_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
         }
 
         if($request->date != "") {
@@ -195,8 +182,8 @@ class ReportController extends Controller
         $excel_link = "export/daily-attendance-report?attendance_id=".$selected_attendance_id."&remark=".$remark."&date=".$date;
 
         return view('reports.daily_attendance',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','date',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','excel_link','select_employees'));
+        compact('departments','designations','department_id','employees','date',
+        'all_employee','employment_infos','employee_id','designation_id','remark','excel_link','select_employees'));
     }
 
     public function export_daily_attendance_report(){
@@ -217,16 +204,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date   = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $all_employee           = '';
         $remark                 = '';
@@ -252,16 +235,6 @@ class ReportController extends Controller
             if($request->designation_id != ""){
                 $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
                 $designation_id     = $request->designation_id;
-            }
-    
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
-    
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
             }
         }
 
@@ -347,8 +320,8 @@ class ReportController extends Controller
         .$selected_employee_id."&remark=".$remark."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.attendance_summary_single',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','employee_selection','select_employees',
+        'all_employee','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
     }
 
     public function export_attendance_summary_report_single(){
@@ -369,16 +342,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date       = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = [];
         $all_employee           = '';
         $remark                 = '';
@@ -396,16 +365,6 @@ class ReportController extends Controller
         if($request->designation_id != ""){
             $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
             $designation_id     = $request->designation_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
         }
 
         if($request->from_date != null){
@@ -427,12 +386,12 @@ class ReportController extends Controller
             $employees = $employment_infos->groupBy('attendances.employee_id')->get();
         }
 
-        $excel_link = "export/attendance-summary-report-all?department_id=".$department_id."&project_id=".$project_id."&branch_id=".$branch_id.
+        $excel_link = "export/attendance-summary-report-all?department_id=".$department_id.
         "&designation_id=".$designation_id."&from_date=".$from_date."&to_date=".$to_date."&employee_id=".$request->employee_id;
 
         return view('reports.attendance_summary_all',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','excel_link','remark','to_date'));
+        compact('departments','designations','department_id','employees','from_date',
+        'all_employee','employment_infos','employee_id','designation_id','excel_link','remark','to_date'));
     }
 
     public function export_attendance_summary_report_all(){
@@ -454,16 +413,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date       = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $all_employee           = '';
         $remark                 = '';
@@ -491,15 +446,7 @@ class ReportController extends Controller
                 $designation_id     = $request->designation_id;
             }
 
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
 
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
-            }
         }
 
         if($request->from_date != null){
@@ -556,8 +503,8 @@ class ReportController extends Controller
         .$selected_employee_id."&remark=".$remark."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.attendance_late_single',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','employee_selection','select_employees',
+        'all_employee','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
     }
 
     public function export_attendance_late_report_single(){
@@ -579,13 +526,9 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = [];
         $all_employee           = '';
         $remark                 = '';
@@ -606,15 +549,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->date != "") {
             $date               = date('Y-m-d',strtotime($request->date));
@@ -701,8 +636,8 @@ class ReportController extends Controller
         $excel_link = "export/daily-late-report?attendance_id=".$selected_attendance_id."&remark=".$remark."&date=".$date;
 
         return view('reports.daily_late',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','date',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','excel_link','select_employees'));
+        compact('departments','designations','department_id','employees','date',
+        'all_employee','employment_infos','employee_id','designation_id','remark','excel_link','select_employees'));
     }
 
     public function export_daily_late_report(){
@@ -724,18 +659,6 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-
-        $department_id          = '';
-        $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
-        $employee_id            = [];
-        $all_employee           = '';
-        $remark                 = '';
-        $employees              = [];
-        $select_employees       = [];
         $remark                 = '';
         $selected_employee_id   = '';
         $selected_attendance_id = '';
@@ -751,15 +674,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->date != "") {
             $date               = date('Y-m-d',strtotime($request->date));
@@ -825,8 +740,8 @@ class ReportController extends Controller
         $excel_link = "export/daily-absent-report?attendance_id=".$selected_attendance_id."&remark=".$remark."&date=".$date;
 
         return view('reports.daily_absent',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','date',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','excel_link','select_employees'));
+        compact('departments','designations','department_id','employees','date',
+        'all_employee','employment_infos','employee_id','designation_id','remark','excel_link','select_employees'));
     }
 
     public function export_daily_absent_report(){
@@ -848,16 +763,13 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
+
 
         $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date   = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $all_employee           = '';
         $remark                 = '';
@@ -885,15 +797,7 @@ class ReportController extends Controller
                 $designation_id     = $request->designation_id;
             }
 
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
 
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
-            }
         }
 
         if($request->from_date != null){
@@ -956,8 +860,8 @@ class ReportController extends Controller
         .$selected_employee_id."&remark=".$remark."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.attendance_absent_single',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','employee_selection','select_employees',
+        'all_employee','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
     }
 
     public function export_attendance_absent_report_single(){
@@ -979,16 +883,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date       = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = [];
         $all_employee           = '';
         $remark                 = '';
@@ -1008,16 +908,6 @@ class ReportController extends Controller
         if($request->designation_id != ""){
             $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
             $designation_id     = $request->designation_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
         }
 
         if($request->from_date != null){
@@ -1079,8 +969,8 @@ class ReportController extends Controller
         $excel_link = "export/ot-summary-report?from_date=".$from_date."&to_date=".$to_date."&attendance_id=".$selected_attendance_id;
 
         return view('reports.ot_summary',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','excel_link','remark','to_date'));
+        compact('departments','designations','department_id','employees','from_date','select_employees',
+        'all_employee','employment_infos','employee_id','designation_id','excel_link','remark','to_date'));
     }
 
     public function export_ot_summary_report(){
@@ -1102,16 +992,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date   = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $all_employee           = '';
         $remark                 = '';
@@ -1139,15 +1025,7 @@ class ReportController extends Controller
                 $designation_id     = $request->designation_id;
             }
 
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
 
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
-            }
         }
 
         if($request->from_date != null){
@@ -1236,8 +1114,8 @@ class ReportController extends Controller
         .$selected_employee_id."&remark=".$remark."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.ot_single',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','employee_selection','select_employees',
+        'all_employee','employment_infos','employee_id','designation_id','remark','to_date','original_employee_id','excel_link'));
     }
 
     public function export_ot_report_single(){
@@ -1258,13 +1136,9 @@ class ReportController extends Controller
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $religion               = '';
         $gender                 = '';
         $duty_type              = '';
@@ -1286,15 +1160,7 @@ class ReportController extends Controller
                 $designation_id     = $request->designation_id;
             }
 
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
 
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
-            }
 
             if($request->religion != ""){
                 $employment_infos   = $employment_infos->where('religion',$request->religion);
@@ -1344,12 +1210,12 @@ class ReportController extends Controller
             $employees              = $employment_infos->get();
         }
 
-        $excel_link = "export/employee-list-report?department_id=".$department_id."&designation_id=".$designation_id."&project_id=".$project_id.
-        "&branch_id=".$branch_id."&religion=".$religion."&gender=".$gender."&blood_group=".$blood_group."&duty_type=".$duty_type.
+        $excel_link = "export/employee-list-report?department_id=".$department_id."&designation_id=".$designation_id.
+        "&religion=".$religion."&gender=".$gender."&blood_group=".$blood_group."&duty_type=".$duty_type.
         "&original_employee_id=".$original_employee_id;
 
         return view('reports.employee_list',
-        compact('departments','projects','branches','designations','department_id','branch_id','project_id','designation_id',
+        compact('departments', 'designations','department_id','designation_id',
         'religion','gender','blood_group','duty_type','employees','original_employee_id','excel_link'));
     }
 
@@ -1371,13 +1237,9 @@ class ReportController extends Controller
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $religion               = '';
         $gender                 = '';
         $duty_type              = '';
@@ -1399,15 +1261,7 @@ class ReportController extends Controller
                 $designation_id     = $request->designation_id;
             }
 
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
 
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
-            }
 
             if($request->religion != ""){
                 $employment_infos   = $employment_infos->where('religion',$request->religion);
@@ -1457,12 +1311,12 @@ class ReportController extends Controller
             $employees              = $employment_infos->get();
         }
 
-        $excel_link = "export/inactive-employee-list-report?department_id=".$department_id."&designation_id=".$designation_id."&project_id=".$project_id.
-        "&branch_id=".$branch_id."&religion=".$religion."&gender=".$gender."&blood_group=".$blood_group."&duty_type=".$duty_type.
+        $excel_link = "export/inactive-employee-list-report?department_id=".$department_id."&designation_id=".$designation_id.
+        "&religion=".$religion."&gender=".$gender."&blood_group=".$blood_group."&duty_type=".$duty_type.
         "&original_employee_id=".$original_employee_id;
 
         return view('reports.inactive_employee_list',
-        compact('departments','projects','branches','designations','department_id','branch_id','project_id','designation_id',
+        compact('departments', 'designations','department_id','designation_id',
         'religion','gender','blood_group','duty_type','employees','original_employee_id','excel_link'));
     }
 
@@ -1673,8 +1527,6 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $leave_types        = LeaveType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
@@ -1690,8 +1542,6 @@ class ReportController extends Controller
         $original_employee_id   = '';
         $employee_selection     = '';
         $selected_employee_id   = '';
-        $project_id             = '';
-        $branch_id              = '';
         $gender                 = '';
         $duty_type              = '';
 
@@ -1705,15 +1555,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->gender != ""){
             $employment_infos   = $employment_infos->where('gender',$request->gender);
@@ -1755,12 +1597,12 @@ class ReportController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
-        $excel_link = "export/leave-report-all?department_id=".$department_id."&designation_id=".$designation_id."&project_id=".$project_id.
-        "&branch_id=".$branch_id."&gender=".$gender."&duty_type=".$duty_type."&from_date=".$from_date."&to_date=".$to_date;
+        $excel_link = "export/leave-report-all?department_id=".$department_id."&designation_id=".$designation_id.
+        "&gender=".$gender."&duty_type=".$duty_type."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.leave_all',
-        compact('departments','designations','department_id','employees','from_date','select_employees','leave_types','projects','branches',
-        'employment_infos','employee_id','designation_id','to_date','original_employee_id','employee_selection','project_id','branch_id','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','select_employees','leave_types',
+        'employment_infos','employee_id','designation_id','to_date','original_employee_id','employee_selection','excel_link'));
     }
 
     public function export_leave_report_all(){
@@ -1785,14 +1627,10 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderBy('id','asc')->get();
 
         $department_id      = '';
         $designation_id     = '';
-        $project_id         = '';
-        $branch_id          = '';
         $employee_id        = '';
         $employees          = [];
         $select_employees   = [];
@@ -1811,15 +1649,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
         
         if($request->component_id != ""){
             $employment_infos   = $employment_infos->where('earning_deduction_adjustments.salary_component_id',$request->component_id);
@@ -1861,13 +1691,12 @@ class ReportController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
-        $excel_link = "export/earning-adjustment-report?department_id=".$department_id."&designation_id=".$designation_id."&project_id="
-        .$project_id."&branch_id=".$branch_id."&component_id=".$component_id."&employee_id=".$employee_id."&from_date=".$from_date.
+        $excel_link = "export/earning-adjustment-report?department_id=".$department_id."&designation_id=".$designation_id."&component_id=".$component_id."&employee_id=".$employee_id."&from_date=".$from_date.
         "&to_date=".$to_date;
 
         return view('reports.earning_adjustment',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees',
-        'project_id','employment_infos','employee_id','designation_id','to_date','salary_components','period','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','select_employees',
+        'employment_infos','employee_id','designation_id','to_date','salary_components','period','excel_link'));
     }
 
     public function export_earning_adjustment_report(){
@@ -1890,14 +1719,10 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderBy('id','asc')->get();
 
         $department_id      = '';
         $designation_id     = '';
-        $project_id         = '';
-        $branch_id          = '';
         $employee_id        = '';
         $employees          = [];
         $select_employees   = [];
@@ -1916,15 +1741,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
         
         if($request->component_id != ""){
             $employment_infos   = $employment_infos->where('earning_deduction_adjustments.salary_component_id',$request->component_id);
@@ -1966,13 +1783,12 @@ class ReportController extends Controller
             $employment_infos = $employment_infos->get();
         }
 
-        $excel_link = "export/deduction-adjustment-report?department_id=".$department_id."&designation_id=".$designation_id."&project_id="
-        .$project_id."&branch_id=".$branch_id."&component_id=".$component_id."&employee_id=".$employee_id."&from_date=".$from_date.
+        $excel_link = "export/deduction-adjustment-report?department_id=".$department_id."&designation_id=".$designation_id."&component_id=".$component_id."&employee_id=".$employee_id."&from_date=".$from_date.
         "&to_date=".$to_date;
 
         return view('reports.deduction_adjustment',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees',
-        'project_id','employment_infos','employee_id','designation_id','to_date','salary_components','period','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','select_employees',
+        'employment_infos','employee_id','designation_id','to_date','salary_components','period','excel_link'));
     }
 
     public function export_deduction_adjustment_report(){
@@ -2087,16 +1903,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week          = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date       = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = [];
         $all_employee           = '';
         $remark                 = '';
@@ -2133,15 +1945,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->from_date != null){
             $from_date = date('Y-m-01',strtotime($request->from_date ));
@@ -2194,8 +1998,8 @@ class ReportController extends Controller
         $excel_link = "export/pf-summary-report?from_date=".$from_date."&to_date=".$to_date."&provident_fund_id=".$selected_provident_fund_id."&show_previous_balance=".$show_previous_balance."&show_current_period=".$show_current_period."&show_closing_balance=".$show_closing_balance;
 
         return view('reports.pf_summary',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','select_employees','show_closing_balance',
-        'all_employee','project_id','employment_infos','employee_id','designation_id','remark','to_date','show_previous_balance','show_current_period','excel_link'));
+        compact('departments','designations','department_id','employees','from_date','select_employees','show_closing_balance',
+        'all_employee','employment_infos','employee_id','designation_id','remark','to_date','show_previous_balance','show_current_period','excel_link'));
     }
 
     public function export_pf_summary_report(){
@@ -2217,15 +2021,11 @@ class ReportController extends Controller
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $currency_id            = '';
         $month                  = '';
         $year                   = '';
@@ -2247,15 +2047,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->currency_id != ""){
             $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
@@ -2268,11 +2060,10 @@ class ReportController extends Controller
             $employment_infos       = [];
         }
 
-        $excel_link = "export/salary-sheet-report?month=".$month."&year=".$year."&department_id=".$department_id."&designation_id=".$designation_id."&project_id="
-        .$project_id."&branch_id=".$branch_id."&currency_id=".$currency_id;
+        $excel_link = "export/salary-sheet-report?month=".$month."&year=".$year."&department_id=".$department_id."&designation_id=".$designation_id."&currency_id=".$currency_id;
 
-        return view('reports.salary_sheet',compact('departments','projects','branches','designations','designation_id','hide_detail_btn',
-        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year','excel_link'));
+        return view('reports.salary_sheet',compact('departments','designations','designation_id','hide_detail_btn',
+        'currencies','department_id','month','currency_id','employment_infos','year','excel_link'));
     }
 
     public function export_salary_sheet_report(){
@@ -2294,15 +2085,11 @@ class ReportController extends Controller
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $currency_id            = '';
         $month                  = '';
         $year                   = '';
@@ -2324,15 +2111,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->currency_id != ""){
             $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
@@ -2345,8 +2124,8 @@ class ReportController extends Controller
             $employment_infos       = [];
         }
 
-        return view('reports.payslip',compact('departments','projects','branches','designations','designation_id','hide_detail_btn',
-        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
+        return view('reports.payslip',compact('departments','designations','designation_id','hide_detail_btn',
+        'currencies','department_id','month','currency_id','employment_infos','year'));
     }
 
     //Email Payslip Report
@@ -2364,15 +2143,11 @@ class ReportController extends Controller
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $currency_id            = '';
         $month                  = '';
         $year                   = '';
@@ -2394,15 +2169,7 @@ class ReportController extends Controller
             $designation_id     = $request->designation_id;
         }
 
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
 
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->currency_id != ""){
             $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
@@ -2415,8 +2182,8 @@ class ReportController extends Controller
             $employment_infos       = [];
         }
 
-        return view('reports.email_payslip',compact('departments','projects','branches','designations','designation_id','hide_detail_btn',
-        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
+        return view('reports.email_payslip',compact('departments','designations','designation_id','hide_detail_btn',
+        'currencies','department_id','month','currency_id','employment_infos','year'));
     }
 
     // Salary Transfer Letter Report
@@ -2522,16 +2289,12 @@ class ReportController extends Controller
 
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $designations       = Designation::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $last_week      = Carbon\Carbon::now()->subWeek()->format('Y-m-d');
         $current_date   = Carbon\Carbon::now()->format('Y-m-d');
 
         $department_id          = '';
         $designation_id         = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = '';
         $employees              = [];
         $select_employees       = [];
@@ -2557,15 +2320,7 @@ class ReportController extends Controller
                 $designation_id     = $request->designation_id;
             }
 
-            if($request->project_id != ""){
-                $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-                $project_id         = $request->project_id;
-            }
 
-            if($request->branch_id != ""){
-                $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-                $branch_id          = $request->branch_id;
-            }
         }
 
         if($request->from_date != null){
@@ -2615,8 +2370,8 @@ class ReportController extends Controller
         $excel_link = "export/salary-certificate?employee_id=".$selected_employee_id."&from_date=".$from_date."&to_date=".$to_date;
 
         return view('reports.salary_certificate',
-        compact('departments','projects','branches','designations','department_id','branch_id','employees','from_date','employee_selection','select_employees',
-        'project_id','employment_infos','employee_id','designation_id','to_date','original_employee_id','deposit_taxes','excel_link'));
+        compact('departments','designations', 'department_id', 'employees','from_date','employee_selection','select_employees',
+        'employment_infos','employee_id','designation_id','to_date','original_employee_id','deposit_taxes','excel_link'));
     }
 
     public function export_salary_certificate(){
@@ -2663,12 +2418,6 @@ class ReportController extends Controller
             }elseif($request->changes_made == "Designation") {
                 $audits = $audits->where('auditable_type','App\Designation');
 
-            }elseif($request->changes_made == "Project") {
-                $audits = $audits->where('auditable_type','App\Project');
-
-            }elseif($request->changes_made == "Branch") {
-                $audits = $audits->where('auditable_type','App\Branch');
-
             }elseif($request->changes_made == "Currency") {
                 $audits = $audits->where('auditable_type','App\Currency');
 
@@ -2703,9 +2452,7 @@ class ReportController extends Controller
             }elseif($request->changes_made == "OT Transfer Letter Format") {
                 $audits = $audits->where('auditable_type','App\OtTransferLetterFormat');
 
-            }elseif($request->changes_made == "Payroll Bank") {
-                $audits = $audits->where('auditable_type','App\PayrollBank')
-                        ->orWhere('auditable_type','App\PayrollBranch');
+                $audits = $audits->where('auditable_type','App\PayrollBank');
 
             }elseif($request->changes_made == "Leave Request") {
                 $audits = $audits->where('auditable_type','App\LeaveRequest');

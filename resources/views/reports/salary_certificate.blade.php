@@ -66,11 +66,11 @@
                     <form action="{{ url('salary-certificate') }}" method="POST">
                         {{ csrf_field() }}
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="Employee ID" style="font-weight:bold;" class="col-form-label">Employee ID:</label>
                                 <input type="text" class="form-control" name="original_employee_id" placeholder="Employee ID" value="{{$original_employee_id}}"/>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -79,28 +79,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
-                                <select name="project_id" id="project_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($projects as $project)
-                                            <option value="{{$project->id}}" @if($project_id == $project->id) selected @endif>{{$project->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{$branch->id}}" @if($branch_id == $branch->id) selected @endif>{{$branch->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="Designation" style="font-weight:bold;" class="col-form-label">Designation:</label>
                                 <select name="designation_id" id="designation_id" class="form-control select2-no-search" onchange="get_employee()" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -109,7 +88,10 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4">
                                 <label for="Employee" style="font-weight:bold;" class="col-form-label">Employee Name:</label>
                                 <select id="employee_id" name="employee_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                     @foreach($select_employees as $employment_info)
@@ -117,11 +99,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="From Month" style="font-weight:bold;" class="col-form-label">From Month:</label>
                                 <input type="text" name="from_date" class="form-control monthpicker" autocomplete="off" placeholder="From Month" required>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="To Month" style="font-weight:bold;" class="col-form-label">To Month:</label>
                                 <input type="text" name="to_date" class="form-control monthpicker" autocomplete="off" placeholder="To Month" required>
                             </div>
@@ -165,18 +147,12 @@
     <script>
         function get_employee() {
             var department_id   = $('#department_id').val();
-            var project_id      = $('#project_id').val();
-            var branch_id       = $('#branch_id').val();
             var designation_id  = $('#designation_id').val();
 
             if(department_id == "") {department_id = 0;}
-            if(project_id == "") {project_id = 0;}
-            if(branch_id == "") {branch_id = 0;}
             if(designation_id == "") {designation_id = 0;}
 
             var url = '/search-employee-with-designation/'+department_id;
-            if(project_id != "") { url = url +'/'+ project_id;} else { url = url + '/0';}
-            if(branch_id != "") { url = url +'/'+ branch_id;} else { url = url + '/0';}
             if(designation_id != "") { url = url +'/'+ designation_id;} else { url = url + '/0';}
 
             $.ajax({

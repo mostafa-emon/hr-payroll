@@ -68,7 +68,7 @@
                         @endphp
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -77,28 +77,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
-                                <select name="project_id" id="project_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($projects as $project)
-                                            <option value="{{$project->id}}" @if($project_id == $project->id) selected @endif>{{$project->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{$branch->id}}" @if($branch_id == $branch->id) selected @endif>{{$branch->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="Designation" style="font-weight:bold;" class="col-form-label">Designation:</label>
                                 <select name="designation_id" id="designation_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -107,17 +86,22 @@
                                         @endforeach
                                 </select>
                             </div>
+                        </div>
+                        <br>
+                        <div class="row">
+
                             <div style="display:none;" class="col-md-4">
                                 <label for="Employee" style="font-weight:bold;" class="col-form-label">Employee:</label>
                                 <select id="employee_id" name="employee_id" class="form-control select2-no-search" required @if(count($employees) > 0) disabled @endif>
                                     <option value="All" selected>All</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <label for="Remark" style="font-weight:bold;" class="col-form-label">From Date:</label>
                                 <input type="text" class="form-control dtpicker" name="from_date" value="{{date($date_format,strtotime($from_date))}}"placeholder="From Date" autocomplete="off" required>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="Remark" style="font-weight:bold;" class="col-form-label">To Date:</label>
                                 <input type="text" class="form-control dtpicker" name="to_date" value="{{date($date_format,strtotime($to_date))}}" placeholder="To Date" autocomplete="off" required>
                             </div>

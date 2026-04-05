@@ -57,7 +57,7 @@
                             @if(count($employment_infos) > 0)
                                 <a href="{{url('salary-sheet-report')}}" class="btn btn-info">Reset</a>
                                 <a href="{{ url($excel_link) }}" class="btn btn-success">Export</a>&nbsp;
-                                <a href="{{url('salary-sheet-print?month='.$month.'&year='.$year.'&department_id='.$department_id.'&designation_id='.$designation_id.'&project_id='.$project_id.'&branch_id='.$branch_id.'&currency_id='.$currency_id.'&bank_account=')}}" class="btn btn-primary">Print</a>
+                                <a href="{{url('salary-sheet-print?month='.$month.'&year='.$year.'&department_id='.$department_id.'&designation_id='.$designation_id.'&currency_id='.$currency_id.'&bank_account=')}}" class="btn btn-primary">Print</a>
                             @endif
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                             <div class="col-md-3" style="display:none;">
                                 <input type="text" class="form-control" name="job" value="1"/>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" @if(count($employment_infos) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -78,28 +78,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
-                                <select name="project_id" id="project_id" class="form-control select2-no-search" @if(count($employment_infos) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($projects as $project)
-                                            <option value="{{$project->id}}" @if($project_id == $project->id) selected @endif>{{$project->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" @if(count($employment_infos) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{$branch->id}}" @if($branch_id == $branch->id) selected @endif>{{$branch->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="Designation" style="font-weight:bold;" class="col-form-label">Designation:</label>
                                 <select name="designation_id" id="designation_id" class="form-control select2-no-search" @if(count($employment_infos) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -108,7 +87,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="Currency" style="font-weight:bold;" class="col-form-label">Currency:</label>
                                 <select name="currency_id" id="currency_id" class="form-control select2-no-search" @if(count($employment_infos) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -117,7 +96,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="Month" style="font-weight:bold;" class="col-form-label">Month:</label>
                                 <input type="text" name="date" class="form-control monthpicker" autocomplete="off" placeholder="Month" required>
                             </div>

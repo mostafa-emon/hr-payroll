@@ -109,18 +109,6 @@ Route::get('/designations/get/{id}', 'MasterSetupController@designation_get');
 Route::post('/designations/update/{id}', 'MasterSetupController@designation_update');
 Route::get('/designations/delete/{id}', 'MasterSetupController@designation_delete');
 
-Route::get('/projects', 'MasterSetupController@project_index');
-Route::post('/projects/add', 'MasterSetupController@project_add');
-Route::get('/projects/get/{id}', 'MasterSetupController@project_get');
-Route::post('/projects/update/{id}', 'MasterSetupController@project_update');
-Route::get('/projects/delete/{id}', 'MasterSetupController@project_delete');
-
-Route::get('/branches', 'MasterSetupController@branch_index');
-Route::post('/branches/add', 'MasterSetupController@branch_add');
-Route::get('/branches/get/{id}', 'MasterSetupController@branch_get');
-Route::post('/branches/update/{id}', 'MasterSetupController@branch_update');
-Route::get('/branches/delete/{id}', 'MasterSetupController@branch_delete');
-
 Route::get('/currencies', 'MasterSetupController@currency_index');
 Route::post('/currencies/add', 'MasterSetupController@currency_add');
 Route::get('/currencies/get/{id}', 'MasterSetupController@currency_get');
@@ -194,12 +182,7 @@ Route::post('/payroll-banks/add', 'PayrollController@bank_add');
 Route::get('/payroll-banks/get/{id}', 'PayrollController@bank_get');
 Route::post('/payroll-banks/update/{id}', 'PayrollController@bank_update');
 Route::get('/payroll-banks/delete/{id}', 'PayrollController@bank_delete');
-Route::get('/payroll-banks/branch/{type_id}', 'PayrollController@branch_index');
-Route::post('/payroll-banks/branch/add', 'PayrollController@branch_add');
-Route::get('/payroll-banks/branch/get/{id}', 'PayrollController@branch_get');
-Route::post('/payroll-banks/branch/update/{id}', 'PayrollController@branch_update');
-Route::get('/payroll-banks/branch/delete/{id}', 'PayrollController@branch_delete');
-Route::get('/get-payroll-branch/{id}', 'PayrollController@get_branch');
+
 
 Route::get('/salary-transfer-letter-format', 'SalaryTransferLetterController@format');
 Route::post('/salary-transfer-letter-format', 'SalaryTransferLetterController@format');
@@ -335,11 +318,11 @@ Route::get('/smtp-settings', 'ConfigurationController@mail_setup');
 Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 
 //Common Route
-Route::get('/search-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_employee');
-Route::get('/search-increment-employee_id/{department_id}/{project_id?}/{branch_id?}/{component_id?}', 'EmployeeController@search_employee_increment_id');
-Route::get('/search-roster-employee/{department_id}/{project_id?}/{branch_id?}', 'EmployeeController@search_roster_employee');
-Route::get('/search-employee-with-designation/{department_id}/{project_id?}/{branch_id?}/{designation_id?}', 'EmployeeController@search_employee_with_designation');
-Route::get('/search-increment-employee_id-with-designation/{department_id}/{project_id?}/{branch_id?}/{component_id?}/{designation_id?}', 'EmployeeController@search_employee_increment_id_with_designation');
+Route::get('/search-employee/{department_id}', 'EmployeeController@search_employee');
+Route::get('/search-increment-employee_id/{department_id}/{component_id?}', 'EmployeeController@search_employee_increment_id');
+Route::get('/search-roster-employee/{department_id}', 'EmployeeController@search_roster_employee');
+Route::get('/search-employee-with-designation/{department_id}/{designation_id?}', 'EmployeeController@search_employee_with_designation');
+Route::get('/search-increment-employee_id-with-designation/{department_id}/{component_id?}/{designation_id?}', 'EmployeeController@search_employee_increment_id_with_designation');
 
 //Public Route
 Route::get('/attendance/{company_id}/{auto?}','PublicController@index');

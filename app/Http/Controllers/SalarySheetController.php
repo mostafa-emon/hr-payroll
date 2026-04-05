@@ -16,8 +16,6 @@ use App\IncomeTax;
 use DB;
 use App\EmploymentInfo;
 use App\Department;
-use App\Project;
-use App\Branch;
 use App\Currency;
 use App\SalaryComponent;
 use App\Company;
@@ -230,29 +228,15 @@ class SalarySheetController extends Controller
                                 ->where('employees.company_id',Auth::user()->company_id)->where('month',$month)->where('year',$year);
 
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
 
         $department_id          = '';
-        $project_id             = '';
-        $branch_id              = '';
         $currency_id            = '';
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
         }
 
         if($request->currency_id != ""){
@@ -262,8 +246,8 @@ class SalarySheetController extends Controller
 
         $employment_infos   = $employment_infos->get();
 
-        return view('transactions.payroll.salary_sheet.details',compact('departments','projects','branches',
-        'currencies','department_id','project_id','branch_id','month','currency_id','employment_infos','year'));
+        return view('transactions.payroll.salary_sheet.details',compact('departments',
+        'currencies','department_id','month','currency_id','employment_infos','year'));
     }
 
     public function single_employee_details($employee_id,$month,$year) {
@@ -290,7 +274,7 @@ class SalarySheetController extends Controller
                                 ->where('month',$request->month)
                                 ->where('year',$request->year);
 
-        $department = ""; $project = ""; $branch = ""; $currency = ""; $designation = "";
+        $department = ""; $currency = ""; $designation = "";
 
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
@@ -302,18 +286,6 @@ class SalarySheetController extends Controller
             $employment_infos   = $employment_infos->where('designation_id',$request->designation_id);
             $designation_id     = $request->designation_id;
             $designation        = Designation::where('id',$designation_id)->first()->name;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-            $project            = Project::where('id',$project_id)->first()->name;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-            $branch             = Branch::where('id',$branch_id)->first()->name;
         }
 
         if($request->currency_id != ""){
@@ -357,7 +329,7 @@ class SalarySheetController extends Controller
             }
         }
 
-        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','project','branch','currency','revenue_stamp','designation'));
+        return view('transactions.payroll.salary_sheet.print_salary_sheet',compact('month','year','employee_ids','employment_infos','earning_comps','deduction_comps','department','currency','revenue_stamp','designation'));
     }
 
     public function mail_pay_slip($request_month,$request_year){

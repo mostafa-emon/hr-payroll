@@ -11,8 +11,6 @@ use App\Vertical;
 use App\Section;
 use App\JobLevel;
 use App\Currency;
-use App\Project;
-use App\Branch;
 use Auth;
 
 class MasterSetupController extends Controller
@@ -208,99 +206,6 @@ class MasterSetupController extends Controller
             return redirect('designations')->with('message','Do not try to be too smart!');
         }
     }
-
-
-    public function project_index() {
-        if(roles() != "" && !in_array(10, json_decode(roles(),false))){
-            return redirect('404');
-        }
-        $projects = Project::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
-        return view('master_setup.projects',compact('projects'));
-    }
-
-    public function project_add(Request $request) {
-        $project = new Project;
-        $project->company_id    = Auth::user()->company_id;
-        $project->name          = $request->name;
-        $project->project_id    = $request->project_id;
-        $project->address       = $request->address;
-        $project->save();
-        return redirect('projects')->with('message','Project Added Successfully!');
-    }
-
-    public function project_get($id) {
-        $project = Project::where('id',$id)->first();
-        echo $project;
-    }
-
-    public function project_update(Request $request,$id) {
-        $project = Project::where('id',$id)->first();
-        $project->name          = $request->name;
-        $project->project_id    = $request->project_id;
-        $project->address       = $request->address;
-        $project->save();
-        return redirect('projects')->with('message','Project Updated Successfully!');
-    }
-
-    public function project_delete($id) {
-        if(roles() != "" && !in_array(13, json_decode(roles(),false))){
-            return redirect('404');
-        }
-        $project = Project::find($id);
-        if($project->company_id == Auth::user()->company_id){
-            $project->delete();
-            return redirect('projects')->with('message','Project Deleted Successfully!');
-        }else{
-            return redirect('projects')->with('message','Do not try to be too smart!');
-        }
-    }
-
-
-    public function branch_index() {
-        if(roles() != "" && !in_array(14, json_decode(roles(),false))){
-            return redirect('404');
-        }
-        $branches = Branch::where('company_id',Auth::user()->company_id)->orderBy('name','asc')->paginate(10);
-        return view('master_setup.branches',compact('branches'));
-    }
-
-    public function branch_add(Request $request) {
-        $branch = new Branch;
-        $branch->company_id = Auth::user()->company_id;
-        $branch->name       = $request->name;
-        $branch->branch_id  = $request->branch_id;
-        $branch->address    = $request->address;
-        $branch->save();
-        return redirect('branches')->with('message','Branch Added Successfully!');
-    }
-
-    public function branch_get($id) {
-        $branch = Branch::where('id',$id)->first();
-        echo $branch;
-    }
-
-    public function branch_update(Request $request,$id) {
-        $branch = Branch::where('id',$id)->first();
-        $branch->name       = $request->name;
-        $branch->branch_id  = $request->branch_id;
-        $branch->address    = $request->address;
-        $branch->save();
-        return redirect('branches')->with('message','Branch Updated Successfully!');
-    }
-
-    public function branch_delete($id) {
-        if(roles() != "" && !in_array(17, json_decode(roles(),false))){
-            return redirect('404');
-        }
-        $branch = Branch::find($id);
-        if($branch->company_id == Auth::user()->company_id){
-            $branch->delete();
-            return redirect('branches')->with('message','Branch Deleted Successfully!');
-        }else{
-            return redirect('branches')->with('message','Do not try to be too smart!');
-        }
-    }
-
 
     public function currency_index() {
         if(roles() != "" && !in_array(18, json_decode(roles(),false))){

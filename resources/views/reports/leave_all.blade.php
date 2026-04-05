@@ -71,7 +71,7 @@
                             <div class="col-md-3" style="display:none;">
                                 <input type="text" class="form-control" name="job" value="1"/>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label for="Department" style="font-weight:bold;" class="col-form-label">Department:</label>
                                 <select name="department_id" id="department_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>
@@ -80,25 +80,7 @@
                                         @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3">
-                                <label for="Project" style="font-weight:bold;" class="col-form-label">Project:</label>
-                                <select name="project_id" id="project_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($projects as $project)
-                                            <option value="{{$project->id}}" @if($project_id == $project->id) selected @endif>{{$project->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="Branch" style="font-weight:bold;" class="col-form-label">Branch:</label>
-                                <select name="branch_id" id="branch_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
-                                        <option label="All"></option>
-                                        @foreach($branches as $branch)
-                                            <option value="{{$branch->id}}" @if($branch_id == $branch->id) selected @endif>{{$branch->name}}</option>
-                                        @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label for="Designation" style="font-weight:bold;" class="col-form-label">Designation:</label>
                                 <select name="designation_id" id="designation_id" class="form-control select2-no-search" @if(count($employees) > 0) disabled @endif>
                                         <option label="All"></option>

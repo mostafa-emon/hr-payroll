@@ -55,8 +55,6 @@
           <th>Employee Name</th>
           <th style="text-align:center;">Employee ID</th>
           <th>Department</th>
-          <th>Project</th>
-          <th>Branch</th>
           <th>Currency</th>
           <th>Bank Account</th>
           <th style="text-align:center;">Payable Salary</th>
@@ -75,8 +73,6 @@
             <td>{{$employee->name}}</td>
             <td style="text-align:center;">{{$employee->original_employee_id}}</td>
             <td>{{department_name($employee->department_id)}}</td>
-            <td>{{project_name($employee->project_id)}}</td>
-            <td>{{branch_name($employee->branch_id)}}</td>
             <td>{{currency_name($employee->currency_id)}}</td>
             <td style="text-align:center;">{{$employee->bank_account_no}}</td>
             <td style="text-align:center;">{{number_formatting($employee->total_salary)}}</td>

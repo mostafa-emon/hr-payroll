@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employee;
 use App\EmploymentInfo;
-use App\Department;
 use App\Designation;
-use App\Project;
-use App\Branch;
+use App\Department;
+use App\Vertical;
+use App\Section;
+use App\JobLevel;
 use App\PayrollBank;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
@@ -46,8 +47,6 @@ class EmployeeController extends Controller
         }
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
         $earning_components     = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderby('component_name','asc')->get();
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
@@ -55,7 +54,7 @@ class EmployeeController extends Controller
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
         $default_currency       = Currency::where('company_id',Auth::user()->company_id)->where('default',1)->first();
         return view('employee.add',compact('page','employee_id','departments','designations','currencies',
-        'projects','branches','banks','earning_components','deduction_components','leave_types','default_currency'));
+        'banks','earning_components','deduction_components','leave_types','default_currency'));
     }
 
     public function add_personal_info(Request $request){
@@ -142,8 +141,6 @@ class EmployeeController extends Controller
             $employee->employee_id              = $request->employee_id;
             $employee->department_id            = $request->department_id;
             $employee->designation_id           = $request->designation_id;
-            $employee->project_id               = $request->project_id;
-            $employee->branch_id                = $request->branch_id;
             $employee->date_of_joining          = date('Y-m-d',strtotime($request->date_of_joining));
             $employee->date_of_confirmation     = date('Y-m-d',strtotime($request->date_of_confirmation));
             $employee->date_of_resign           = date('Y-m-d',strtotime($request->date_of_resign));
@@ -313,8 +310,6 @@ class EmployeeController extends Controller
         $employment_info        = EmploymentInfo::where('employee_id',$employee_id)->first();
         $departments            = Department::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $designations           = Designation::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $projects               = Project::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
-        $branches               = Branch::where('company_id',Auth::user()->company_id)->orderby('name','asc')->get();
         $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
         if($employment_info != "" && $employment_info->bank_name != "") {
             $bank_branches      = PayrollBranch::where('bank_id',$employment_info->bank_name)->orderby('branch_name','asc')->get();
@@ -336,7 +331,7 @@ class EmployeeController extends Controller
 
         if($employment_info == "") { $info_id = ""; } else { $info_id = $employment_info->id; }
         return view('employee.update.update',compact('page','employee_id','departments','designations','info_id','currencies',
-        'projects','branches','banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves','bank_branches'));
+        'banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves','bank_branches'));
     }
 
     public function update_personal_info($employee_id,Request $request){
@@ -438,8 +433,6 @@ class EmployeeController extends Controller
             $employee->employee_id              = $request->employee_id;
             $employee->department_id            = $request->department_id;
             $employee->designation_id           = $request->designation_id;
-            $employee->project_id               = $request->project_id;
-            $employee->branch_id                = $request->branch_id;
             $employee->date_of_joining          = date('Y-m-d',strtotime($request->date_of_joining));
             $employee->date_of_confirmation     = date('Y-m-d',strtotime($request->date_of_confirmation));
             $employee->date_of_resign           = date('Y-m-d',strtotime($request->date_of_resign));
@@ -599,20 +592,12 @@ class EmployeeController extends Controller
         return back()->with('message', 'CV Deleted Successfully!');
     }
 
-    public function search_employee($department_id,$project_id="",$branch_id="") {
+    public function search_employee($department_id) {
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
                     ->join('employees','employees.id','employment_infos.employee_id')
                     ->where('employees.company_id',Auth::user()->company_id);
         if($department_id != "" && $department_id != 0){
             $employees    = $employees->where('department_id',$department_id);
-        }
-
-        if($project_id != "" && $project_id != 0){
-            $employees   = $employees->where('project_id',$project_id);
-        }
-
-        if($branch_id != "" && $branch_id != 0){
-            $employees   = $employees->where('branch_id',$branch_id);
         }
         $employees = $employees->get();
 
@@ -625,7 +610,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function search_employee_increment_id($department_id,$project_id="",$branch_id="",$component_id="") {
+    public function search_employee_increment_id($department_id) {
 
         //$earnings    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->get();
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
@@ -634,23 +619,6 @@ class EmployeeController extends Controller
                     
         if($department_id != "" && $department_id != 0){
             $employees    = $employees->where('department_id',$department_id);
-        }
-
-        if($project_id != "" && $project_id != 0){
-            $employees   = $employees->where('project_id',$project_id);
-        }
-
-        if($branch_id != "" && $branch_id != 0){
-            $employees   = $employees->where('branch_id',$branch_id);
-        }
-
-        if($component_id != "" && $component_id != 0){
-            $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$component_id)->get();
-            $earning_employee = [];
-            foreach($is_exists as $earning) {
-                $earning_employee[] = $earning->employee_id;
-            }
-            $employees = $employees->whereIn('employees.id',$earning_employee);
         }
 
         $employees = $employees->get();
@@ -664,20 +632,12 @@ class EmployeeController extends Controller
         }
     }
 
-    public function search_roster_employee($department_id,$project_id="",$branch_id="") {
+    public function search_roster_employee($department_id) {
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
                     ->join('employees','employees.id','employment_infos.employee_id')
                     ->where('employees.company_id',Auth::user()->company_id);
         if($department_id != "" && $department_id != 0){
             $employees    = $employees->where('department_id',$department_id);
-        }
-
-        if($project_id != "" && $project_id != 0){
-            $employees   = $employees->where('project_id',$project_id);
-        }
-
-        if($branch_id != "" && $branch_id != 0){
-            $employees   = $employees->where('branch_id',$branch_id);
         }
         $employees = $employees->where('duty_type','Roster')->get();
 
@@ -690,20 +650,12 @@ class EmployeeController extends Controller
         }
     }
 
-    public function search_employee_with_designation($department_id,$project_id="",$branch_id="",$designation_id="") {
+    public function search_employee_with_designation($department_id,$designation_id="") {
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
                     ->join('employees','employees.id','employment_infos.employee_id')
                     ->where('employees.company_id',Auth::user()->company_id);
         if($department_id != "" && $department_id != 0){
             $employees    = $employees->where('department_id',$department_id);
-        }
-
-        if($project_id != "" && $project_id != 0){
-            $employees   = $employees->where('project_id',$project_id);
-        }
-
-        if($branch_id != "" && $branch_id != 0){
-            $employees   = $employees->where('branch_id',$branch_id);
         }
 
         if($designation_id != "" && $designation_id != 0){
@@ -721,7 +673,7 @@ class EmployeeController extends Controller
         }
     }
 
-    public function search_employee_increment_id_with_designation($department_id,$project_id="",$branch_id="",$component_id="",$designation_id="") {
+    public function search_employee_increment_id_with_designation($department_id,$designation_id="") {
 
         //$earnings    = EmployeeEarningDeduction::where('earning_or_deduction','earnings')->get();
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
@@ -732,25 +684,8 @@ class EmployeeController extends Controller
             $employees    = $employees->where('department_id',$department_id);
         }
 
-        if($project_id != "" && $project_id != 0){
-            $employees   = $employees->where('project_id',$project_id);
-        }
-
-        if($branch_id != "" && $branch_id != 0){
-            $employees   = $employees->where('branch_id',$branch_id);
-        }
-
         if($designation_id != "" && $designation_id != 0){
             $employees   = $employees->where('designation_id',$designation_id);
-        }
-
-        if($component_id != "" && $component_id != 0){
-            $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$component_id)->get();
-            $earning_employee = [];
-            foreach($is_exists as $earning) {
-                $earning_employee[] = $earning->employee_id;
-            }
-            $employees = $employees->whereIn('employees.id',$earning_employee);
         }
 
         $employees = $employees->get();

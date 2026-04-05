@@ -20,23 +20,7 @@
                 </select>
             </div>
 
-            <div class="col-md-3 pd-t-10">
-                <select class="form-control" name="project_id">
-                    <option value="" label>Project</option>
-                    @foreach($projects as $project)
-                        <option value="{{$project->id}}">{{$project->name}}</option>
-                    @endforeach
-                </select>
-            </div>
 
-            <div class="col-md-3 pd-t-10">
-                <select class="form-control" name="branch_id">
-                    <option value="" label>Branch</option>
-                    @foreach($branches as $branch)
-                        <option value="{{$branch->id}}">{{$branch->name}}</option>
-                    @endforeach
-                </select>
-            </div>
 
             <div class="col-md-3 pd-t-10">
                 <select class="form-control" name="current_status" required>

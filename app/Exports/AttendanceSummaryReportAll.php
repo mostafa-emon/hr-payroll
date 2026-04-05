@@ -25,13 +25,7 @@ class AttendanceSummaryReportAll implements FromView
             $employment_infos   = $employment_infos->where('designation_id',request()->designation_id);
         }
 
-        if(request()->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',request()->project_id);
-        }
 
-        if(request()->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',request()->branch_id);
-        }
 
         if(request()->from_date != null){
             $from_date = request()->from_date;

@@ -8,8 +8,7 @@ use App\AttendancePolicy;
 use App\EmploymentInfo;
 use App\Employee;
 use App\Department;
-use App\Project;
-use App\Branch;
+
 use App\ShiftType;
 use App\Roster;
 use App\RosterEmployee;
@@ -124,14 +123,9 @@ class AttendanceController extends Controller
         }
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->where('duty_type','Roster');
-        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $shifts             = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id          = '';
-        $project_id             = '';
-        $branch_id              = '';
         $employee_id            = [];
         $from_date              = '';
         $to_date                = '';
@@ -143,16 +137,6 @@ class AttendanceController extends Controller
         if($request->department_id != ""){
             $employment_infos   = $employment_infos->where('department_id',$request->department_id);
             $department_id      = $request->department_id;
-        }
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos    = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id           = $request->branch_id;
         }
 
         if($request->from_date != "") {
@@ -180,8 +164,6 @@ class AttendanceController extends Controller
             $roster->company_id     = Auth::user()->company_id;
             $roster->roster_name    = $request->roster_name;
             $roster->department_id  = $request->department_id;
-            $roster->project_id     = $request->project_id;
-            $roster->branch_id      = $request->branch_id;
             $roster->employee_id    = json_encode($employee_id);
             $roster->from_date      = date('Y-m-d',strtotime($request->from_date));
             $roster->to_date        = date('Y-m-d',strtotime($request->to_date));
@@ -214,8 +196,8 @@ class AttendanceController extends Controller
         }
 
         return view('transactions.attendance.roster.add',
-        compact('departments','projects','branches','department_id','branch_id','roster_name','all_employee',
-        'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster_id','temporary_roster_list'));
+        compact('departments','department_id','roster_name','all_employee',
+        'employment_infos','from_date','to_date','employee_id','shifts','roster_id','temporary_roster_list'));
     }
 
     public function roster_store(Request $request){
@@ -262,22 +244,18 @@ class AttendanceController extends Controller
         $roster             = Roster::where('id',$roster_id)->first();
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->where('duty_type','Roster')->get();
-        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $shifts             = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id      = $roster->department_id;
-        $project_id         = $roster->project_id;
-        $branch_id          = $roster->branch_id;
+        $department_id      = $roster->department_id;
         $employee_id        = json_decode($roster->employee_id);
         $from_date          = $roster->from_date;
         $to_date            = $roster->to_date;
         $roster_name        = $roster->roster_name;
 
         return view('transactions.attendance.roster.duplicate',
-        compact('departments','projects','branches','department_id','branch_id','roster_name',
-        'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster'));
+        compact('departments', 'department_id','roster_name',
+        'employment_infos','from_date','to_date','employee_id','shifts','roster'));
     }
 
     public function roster_employee_list($roster_id){
@@ -330,29 +308,16 @@ class AttendanceController extends Controller
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id);
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $shifts             = ShiftType::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
         $department_id      = '';
-        $project_id         = '';
-        $branch_id          = '';
+        $department_id      = '';
         $employee_id        = [];
         $from_date          = '';
         $to_date            = '';
         $roster_name        = '';
         $roster_id          = '';
         $roster_employees   = '';
-
-        if($request->project_id != ""){
-            $employment_infos   = $employment_infos->where('project_id',$request->project_id);
-            $project_id         = $request->project_id;
-        }
-
-        if($request->branch_id != ""){
-            $employment_infos   = $employment_infos->where('branch_id',$request->branch_id);
-            $branch_id          = $request->branch_id;
-        }
 
         if($request->from_date != "" && $request->to_date != "") {
             $from_date          = $request->from_date;
@@ -376,8 +341,8 @@ class AttendanceController extends Controller
         $employment_infos = $employment_infos->where('duty_type','Roster')->get();
 
         return view('transactions.attendance.roster.search.index',
-        compact('departments','projects','branches','department_id','branch_id','roster_name','roster_employees',
-        'project_id','employment_infos','from_date','to_date','employee_id','shifts','roster_id'));
+        compact('departments', 'department_id', 'roster_name','roster_employees',
+        'employment_infos','from_date','to_date','employee_id','shifts','roster_id'));
     }
 
 
@@ -428,14 +393,11 @@ class AttendanceController extends Controller
             return redirect('404');
         }
 
-        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderBy('id','asc')->get();
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)->get();
         $employee_id        = [];
-        return view('transactions.payroll.earnings_adjustment.create',compact('departments','projects','branches','salary_components','employment_infos','employee_id'));
+        return view('transactions.payroll.earnings_adjustment.create',compact('departments','salary_components','employment_infos','employee_id'));
     }
 
     public function earnings_adjustment_create_post(Request $request) {
@@ -453,13 +415,7 @@ class AttendanceController extends Controller
                 $employees    = $employees->where('department_id',$request->department_id);
             }
 
-            if($request->project_id != "" && $request->project_id != 0){
-                $employees   = $employees->where('project_id',$request->project_id);
-            }
 
-            if($request->branch_id != "" && $request->branch_id != 0){
-                $employees   = $employees->where('branch_id',$request->branch_id);
-            }
 
             if($request->component_id != "" && $request->component_id != 0){
                 $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$request->component_id)->get();
@@ -602,13 +558,10 @@ class AttendanceController extends Controller
         }
 
         $employee_id        = [];
-        $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
         $salary_components  = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderBy('id','asc')->get();
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')
                             ->where('employees.company_id',Auth::user()->company_id)->get();
-        return view('transactions.payroll.deductions_adjustment.create',compact('departments','projects','branches','salary_components','employment_infos','employee_id'));
+        return view('transactions.payroll.deductions_adjustment.create',compact('departments','salary_components','employment_infos','employee_id'));
     }
 
     public function deductions_adjustment_create_post(Request $request) {
@@ -626,13 +579,7 @@ class AttendanceController extends Controller
                 $employees    = $employees->where('department_id',$request->department_id);
             }
 
-            if($request->project_id != "" && $request->project_id != 0){
-                $employees   = $employees->where('project_id',$request->project_id);
-            }
 
-            if($request->branch_id != "" && $request->branch_id != 0){
-                $employees   = $employees->where('branch_id',$request->branch_id);
-            }
 
             if($request->component_id != "" && $request->component_id != 0){
                 $is_exists    = EmployeeEarningDeduction::where('salary_component_id',$request->component_id)->get();
@@ -781,10 +728,8 @@ class AttendanceController extends Controller
 
         $employment_infos   = EmploymentInfo::orderBy('employment_infos.id','asc')->join('employees','employees.id','employment_infos.employee_id')->where('employees.company_id',Auth::user()->company_id)->get();
         $departments        = Department::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $projects           = Project::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $branches           = Branch::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
 
-        return view('transactions.attendance.manual_log_entry.add',compact('departments','projects','branches','employment_infos'));
+        return view('transactions.attendance.manual_log_entry.add',compact('departments','employment_infos'));
     }
 
     public function manual_log_add_post(Request $request) {
