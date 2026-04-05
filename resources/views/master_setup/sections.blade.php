@@ -7,7 +7,7 @@
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('/')}}" style="color:#6c757d; font-weight: bold">Home</a></li>
-                <li class="breadcrumb-item active"><a href="{{url('/departments')}}" style="color:#6c757d;">Departments</a></li>
+                <li class="breadcrumb-item active"><a href="{{url('/sections')}}" style="color:#6c757d;">Sections</a></li>
             </ol>
             </div>
         </div>
@@ -30,12 +30,10 @@
                     
                     <div class="row">
                         <div class="col-md-6" style="padding-top:5px">
-                            <h4 class="card-title mg-b-0">Departments</h4>
+                            <h4 class="card-title mg-b-0">Sections</h4>
                         </div>
                         <div class="col-md-6 text-right">
-                            @if(roles() != "" && in_array(3, json_decode(roles(),false)))
-                                <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
-                            @endif
+                            <button type="button" style="font-size: 15px;" id="modal-button" onclick="reloadForm()" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i> &nbsp;Create</button>
                         </div>
                     </div>
                 </div>
@@ -47,36 +45,28 @@
                                 <tr>
                                     <th class="text-center" style="width:10%;">SL</th>
                                     <th style="width:75%;">Name</th>
-                                    @if(in_array(4, json_decode(roles(),false)) || in_array(5, json_decode(roles(),false)))
-                                        <th class="text-center" style="width:15%;">Action</th>
-                                    @endif
+                                    <th class="text-center" style="width:15%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($departments as $department)
+                                @foreach($sections as $section)
                                 <tr>
-                                    <td class="text-center" style="vertical-align: middle">{{(($departments->currentPage() * 10) - 10) + $loop->iteration}}</td>
-                                    <td style="vertical-align: middle">{{$department->name}}</td>
-                                    @if(in_array(4, json_decode(roles(),false)) || in_array(5, json_decode(roles(),false)))
-                                        <td class="text-center" style="vertical-align: middle">
-                                            <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
-                                            <div class="dropdown-menu">
-                                                @if(roles() != "" && in_array(4, json_decode(roles(),false)))
-                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$department->id}})">Update</a>
-                                                @endif
-                                                @if(roles() != "" && in_array(5, json_decode(roles(),false)))
-                                                    <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$department->id}})">Delete</a>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    @endif
+                                    <td class="text-center" style="vertical-align: middle">{{(($sections->currentPage() * 10) - 10) + $loop->iteration}}</td>
+                                    <td style="vertical-align: middle">{{$section->name}}</td>
+                                    <td class="text-center" style="vertical-align: middle">
+                                        <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
+                                        <div class="dropdown-menu">
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="update({{$section->id}})">Update</a>
+                                            <a href="javascript:void(0)" class="dropdown-item" onclick="confirmDelete({{$section->id}})">Delete</a>
+                                        </div>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="mg-t-15">
-                        {{ $departments->links() }}
+                        {{ $sections->links() }}
                     </div>
                 </div>
             </div>
@@ -86,11 +76,11 @@
 
     <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <form id="modal-form" action="{{ url('departments/add') }}" method="POST" enctype="multipart/form-data">
+            <form id="modal-form" action="{{ url('sections/add') }}" method="POST" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="modal1label"><i class=""></i> Department </h5>
+                <h5 class="modal-title" id="modal1label"><i class=""></i> Section </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -116,25 +106,25 @@
         function update(id) {
             $.ajax({
                 type:'GET',
-                url:'/departments/get/'+id,
+                url:'/sections/get/'+id,
                 success:function(data) {
                 var response = JSON.parse(data);
                 $("#modal-button").click();
                 $("#name").val(response.name);
-                $('#modal-form').prop('action', '/departments/update/'+id);
+                $('#modal-form').prop('action', '/sections/update/'+id);
                 }
             });
         }
 
         function reloadForm() {
             $('#name').val('');
-            $('#modal-form').prop('action', '/departments/add');
+            $('#modal-form').prop('action', '/sections/add');
         }
 
         function confirmDelete(id) {
             var r = confirm("Are you confirm to delete?");
             if (r == true) {
-            window.location = "/departments/delete/"+id;
+            window.location = "/sections/delete/"+id;
             }
         }
 

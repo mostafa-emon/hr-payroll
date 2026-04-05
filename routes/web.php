@@ -85,6 +85,24 @@ Route::get('/departments/get/{id}', 'MasterSetupController@department_get');
 Route::post('/departments/update/{id}', 'MasterSetupController@department_update');
 Route::get('/departments/delete/{id}', 'MasterSetupController@department_delete');
 
+Route::get('/verticals', 'MasterSetupController@vertical_index');
+Route::post('/verticals/add', 'MasterSetupController@vertical_add');
+Route::get('/verticals/get/{id}', 'MasterSetupController@vertical_get');
+Route::post('/verticals/update/{id}', 'MasterSetupController@vertical_update');
+Route::get('/verticals/delete/{id}', 'MasterSetupController@vertical_delete');
+
+Route::get('/sections', 'MasterSetupController@section_index');
+Route::post('/sections/add', 'MasterSetupController@section_add');
+Route::get('/sections/get/{id}', 'MasterSetupController@section_get');
+Route::post('/sections/update/{id}', 'MasterSetupController@section_update');
+Route::get('/sections/delete/{id}', 'MasterSetupController@section_delete');
+
+Route::get('/job-levels', 'MasterSetupController@job_level_index');
+Route::post('/job-levels/add', 'MasterSetupController@job_level_add');
+Route::get('/job-levels/get/{id}', 'MasterSetupController@job_level_get');
+Route::post('/job-levels/update/{id}', 'MasterSetupController@job_level_update');
+Route::get('/job-levels/delete/{id}', 'MasterSetupController@job_level_delete');
+
 Route::get('/designations', 'MasterSetupController@designation_index');
 Route::post('/designations/add', 'MasterSetupController@designation_add');
 Route::get('/designations/get/{id}', 'MasterSetupController@designation_get');

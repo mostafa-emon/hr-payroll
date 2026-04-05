@@ -112,6 +112,9 @@
 								@if(roles() != "" && in_array(2, json_decode(roles(),false)))
 									<li><a class="slide-item" href="{{url('departments')}}">Department</a></li>
 								@endif
+								<li><a class="slide-item" href="{{url('verticals')}}">Vertical</a></li>
+								<li><a class="slide-item" href="{{url('sections')}}">Section</a></li>
+								<li><a class="slide-item" href="{{url('job-levels')}}">Job Level</a></li>
 								@if(roles() != "" && in_array(6, json_decode(roles(),false)))
 									<li><a class="slide-item" href="{{url('designations')}}">Designation</a></li>
 								@endif

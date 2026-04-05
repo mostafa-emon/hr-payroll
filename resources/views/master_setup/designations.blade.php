@@ -46,8 +46,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width:10%;">SL</th>
-                                    <th style="width:60%;">Name</th>
-                                    <th class="text-center" style="width:15%;">ID</th>
+                                    <th style="width:75%;">Name</th>
                                     @if(in_array(8, json_decode(roles(),false)) || in_array(9, json_decode(roles(),false)))
                                         <th class="text-center" style="width:15%;">Action</th>
                                     @endif
@@ -58,7 +57,6 @@
                                 <tr>
                                     <td class="text-center" style="vertical-align: middle">{{(($designations->currentPage() * 10) - 10) + $loop->iteration}}</td>
                                     <td style="vertical-align: middle">{{$designation->name}}</td>
-                                    <td class="text-center" style="vertical-align: middle">{{$designation->designation_id}}</td>
                                     @if(in_array(8, json_decode(roles(),false)) || in_array(9, json_decode(roles(),false)))
                                         <td class="text-center" style="vertical-align: middle">
                                             <button data-toggle="dropdown" class="btn btn-success btn-sm">Action <i class="icon ion-ios-arrow-down tx-11 mg-l-3"></i></button>
@@ -104,11 +102,6 @@
                         <input type="text" class="form-control col-md-9 pa" id="name" name="name" placeholder="Enter Name" required/>
                     </div>
 
-                    <div class="form-group row pd-r-15 pd-l-10">
-                        <label for="designation_id" class="col-form-label col-md-3">ID :</label>
-                        <input type="text" class="form-control col-md-9 pa" id="designation_id" name="designation_id" placeholder="Enter ID"/>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -128,7 +121,6 @@
                 var response = JSON.parse(data);
                 $("#modal-button").click();
                 $("#name").val(response.name);
-                $("#designation_id").val(response.designation_id);
                 $('#modal-form').prop('action', '/designations/update/'+id);
                 }
             });
@@ -136,7 +128,6 @@
 
         function reloadForm() {
             $('#name').val('');
-            $('#designation_id').val('');
             $('#modal-form').prop('action', '/designations/add');
         }
 
