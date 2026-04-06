@@ -48,6 +48,8 @@ class EmployeeController extends Controller
         $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
         $earning_components     = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderby('component_name','asc')->get();
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
+        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
+        $default_currency       = Currency::where('default',1)->where('company_id',Auth::user()->company_id)->first();
         return view('employee.add',compact('page','employee_id','departments','designations','currencies',
         'banks','earning_components','deduction_components','default_currency'));
     }

@@ -1,16 +1,13 @@
 <section id="Personal" class="body tabcontent" style="display:block">
     <form action="{{url('employee/add-personal-info')}}" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
-        <div>
-            <img class="pointer" style="margin-bottom:10px" id="avatar" src="{{ asset('assets/img/users.png') }}" width="80" alt="employee" onclick="document.getElementById('imgInp').click()"/>
+        <div class="pd-b-10">
+            <img class="pointer" style="margin-bottom:10px" id="avatar" src="{{ asset('assets/img/users.png') }}" width="80" alt="employee" onclick="document.getElementById('imgInp').click()"/><br>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="document.getElementById('imgInp').click()">Browse</button>
             <input class="collapse" type="file" name="employee_photo" id="imgInp" onchange="preview_image(event)" />
         </div>
         <div class="row row-xs">
-            <div class="col-md-3 pd-t-10">
-                <input type="text" name="employee_id" placeholder="Employee ID" class="form-control">
-            </div>
-
-            <div class="col-md-9 pd-t-10">
+            <div class="col-md-12 pd-t-10">
                 <input type="text" name="name" placeholder="Employee Name*" class="form-control" required>
             </div>
 
@@ -92,9 +89,7 @@
                 <input type="text" name="passport_number" placeholder="Passport Number" class="form-control">
             </div>
 
-            <div class="col-md-3 pd-t-10">
-                <input type="text" name="tin_no" placeholder="TIN Number" class="form-control">
-            </div>
+
 
             <div class="col-md-3 pd-t-10">
                 <input type="text" name="phone_1" placeholder="Phone Number 1*" class="form-control" required>
@@ -113,26 +108,10 @@
             </div>
 
             <div class="col-md-3 pd-t-10">
-                <input type="email" name="email_address" placeholder="Email Address*" class="form-control" required>
+                <input type="email" name="email_address" placeholder="Personal Email Address*" class="form-control" required>
             </div>
 
-            @if(document_upload_facility(Auth::user()->company_id) == 1)
-            <div class="col-md-3 pd-t-20 text-right">
-                Documents (File size max 2MB)
-            </div>
-            <div class="col-md-6 pd-t-10">
-                <input class="form-control" name="employee_cv[]" type="file" multiple="multiple">
-            </div>
-            @else
-            <div class="col-md-9"></div>
-            @endif
 
-            <div class="col-md-6 pd-t-10">
-                <textarea class="form-control" name="reference_1" style="height:100px" placeholder="Reference 1"></textarea>
-            </div>
-            <div class="col-md-6 pd-t-10">
-                <textarea class="form-control" name="reference_2" style="height:100px" placeholder="Reference 2"></textarea>
-            </div>
         </div>
         <div class="col-md-12 pd-t-10" style="margin-left:-12px">
             <input type="submit" value="Submit" class="btn btn-primary"/>
