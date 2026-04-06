@@ -20,9 +20,6 @@ use App\DepositSalaryTax;
 use App\GeneralSetting;
 use App\IncomeTax;
 use App\PayrollInfo;
-use App\OtTransferLetterFormat;
-use App\OtTransferLetter;
-use App\OtTransferLetterDetail;
 use App\DepositSalaryTaxDetail;
 use Auth;
 use Storage;
@@ -1126,101 +1123,5 @@ class PayrollController extends Controller
 
     //OT Transfer Letter
 
-    public function ot_transfer_letter() {
-        if(roles() != "" && !in_array(123, json_decode(roles(),false))){
-            return redirect('404');
-        }
 
-        $transfer_letters = OtTransferLetter::where('company_id',Auth::user()->company_id)->orderBy('id','desc')->paginate(10);
-        return view('transactions.payroll.ot_transfer_letter.index',compact('transfer_letters'));
-    }
-
-    public function ot_transfer_letter_create(Request $request) {
-        if(roles() != "" && !in_array(124, json_decode(roles(),false))){
-            return redirect('404');
-        }
-
-        $currency_id            = '';
-        $bank_id                = '';
-        $month                  = '';
-        $formatted_month        = '';
-        $formatted_year         = '';
-
-        $employment_infos       = EmploymentInfo::orderBy('employment_infos.id','asc')
-                                ->select('attendances.employee_id',DB::raw('SUM(over_time) as over_time'))
-                                ->join('payroll_infos','payroll_infos.employee_id','employment_infos.employee_id')
-                                ->join('employees','employees.id','employment_infos.employee_id')
-                                ->join('attendances','attendances.employee_id','employment_infos.employee_id')
-                                ->where('employees.company_id',Auth::user()->company_id);
-
-
-        $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderBy('id','asc')->get();
-
-        if($request->currency_id != ""){
-            $employment_infos   = $employment_infos->where('currency_id',$request->currency_id);
-            $currency_id        = $request->currency_id;
-        }
-
-        if($request->bank_id != ""){
-            $employment_infos   = $employment_infos->where('bank_name',$request->bank_id);
-            $bank_id            = $request->bank_id;
-        }
-
-        if($request->month != ""){
-            $formatted_month    = date('F', strtotime($request->month));
-            $formatted_year     = date('Y', strtotime($request->month));
-
-            $from_date          = date('Y-m-01', strtotime($request->month));
-            $to_date            = date('Y-m-t', strtotime($request->month));
-            $month              = $request->month;
-
-            $employment_infos   = $employment_infos->whereBetween('date', [$from_date, $to_date]);
-            $employment_infos   = $employment_infos->groupBy('attendances.employee_id')->where('over_time','!=',0)->get();
-        }
-
-
-        return view('transactions.payroll.ot_transfer_letter.add',
-        compact('banks','currencies','month','currency_id','bank_id','employment_infos','formatted_month','formatted_year'));
-    }
-
-    public function ot_transfer_letter_store(Request $request){
-
-        $transfer_letter                = new OtTransferLetter();
-        $transfer_letter->company_id    = Auth::user()->company_id;
-        $transfer_letter->month         = $request->store_month;
-        $transfer_letter->year          = $request->store_year;
-        $transfer_letter->currency_id   = $request->store_currency_id;
-        $transfer_letter->bank_id       = $request->store_bank_id;
-        $transfer_letter->save();
-
-        $interval = count($request->employee_id);
-        for($i = 0; $i < $interval; $i++) {
-
-            $detail = new OtTransferLetterDetail();
-            $detail->letter_id      = $transfer_letter->id;
-            $detail->employee_id    = $request->employee_id[$i];
-            $detail->ot_amount      = $request->ot_amount[$i];
-            $detail->save();
-        }
-
-        $ot_format                  = OtTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
-        $employees                  = OtTransferLetterDetail::where('letter_id',$transfer_letter->id)->get();
-        return view('transactions.payroll.ot_transfer_letter.print',compact('ot_format','employees'));
-    }
-
-    public function ot_transfer_letter_details($letter_id) {
-        $transfer_details = OtTransferLetterDetail::where('letter_id',$letter_id)->orderBy('id','asc')->paginate(10);
-        return view('transactions.payroll.ot_transfer_letter.details',compact('transfer_details'));
-    }
-
-    public function ot_transfer_letter_reprint($letter_id) {
-        if(roles() != "" && !in_array(160, json_decode(roles(),false))){
-            return redirect('404');
-        }
-
-        $ot_format                  = OtTransferLetterFormat::where('company_id',Auth::user()->company_id)->first();
-        $employees                  = OtTransferLetterDetail::where('letter_id',$letter_id)->get();
-        return view('transactions.payroll.ot_transfer_letter.print',compact('ot_format','employees'));
-    }
 }

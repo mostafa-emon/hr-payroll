@@ -14,8 +14,6 @@ use App\PayrollBank;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
 use App\PayrollInfo;
-use App\LeaveType;
-use App\LeaveInfo;
 use App\PayrollBranch;
 use App\Currency;
 use App\User;
@@ -50,11 +48,8 @@ class EmployeeController extends Controller
         $banks                  = PayrollBank::where('company_id',Auth::user()->company_id)->orderby('bank_name','asc')->get();
         $earning_components     = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Earnings')->orderby('component_name','asc')->get();
         $deduction_components   = SalaryComponent::where('company_id',Auth::user()->company_id)->where('component_type','Deduction')->orderby('component_name','asc')->get();
-        $leave_types            = LeaveType::where('company_id',Auth::user()->company_id)->orderby('leave_name','asc')->get();
-        $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
-        $default_currency       = Currency::where('company_id',Auth::user()->company_id)->where('default',1)->first();
         return view('employee.add',compact('page','employee_id','departments','designations','currencies',
-        'banks','earning_components','deduction_components','leave_types','default_currency'));
+        'banks','earning_components','deduction_components','default_currency'));
     }
 
     public function add_personal_info(Request $request){
@@ -258,35 +253,10 @@ class EmployeeController extends Controller
         $info->ot_allowed                           = $request->ot_allowed;
         $info->hourly_ot_rate                       = $request->hourly_ot_rate;
         $info->currency_id                          = $request->currency_id;
-        $info->mark_overtime_if_work_in_holiday     = $request->mark_overtime_if_work_in_holiday;
-        $info->mark_overtime_if_work_in_leave_day   = $request->mark_overtime_if_work_in_leave_day;
         $info->save();
-        return redirect('employee/add/leave/'.$request->employee_id)->with('message', 'Payroll Information Saved Successfully!');
-    }
-
-    public function add_leave_info(Request $request){
-        $leaves_row_count = count($request->leave_type_id);
-        if($request->leave_type_id !=[null]) {
-            for($i = 0; $i < $leaves_row_count; $i++) {
-                if($request->leave_type_id[$i] != "") {
-                    $leave = new LeaveInfo();
-                    $leave->employee_id             = $request->employee_id;
-                    $leave->leave_type_id           = $request->leave_type_id[$i];
-                    $leave->yearly_allotment        = $request->yearly_allotment[$i];
-                    $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
-                    $leave->opening_balance         = $request->opening_balance[$i];
-                    $leave->carry_forward           = $request->carry_forward[$i];
-                    $leave->max_carry_forward       = $request->max_carry_forward[$i];
-                    $leave->save();
-                }
-            }
-        }
-        $personal_info = Employee::where('id',$request->employee_id)->first();
-        $personal_info->leave_count_from = $request->leave_count_from;
-        $personal_info->save();
-
         return redirect('employee')->with('message', 'Employee Added Successfully!');
     }
+
 
     public function delete($id) {
         if(roles() != "" && !in_array(25, json_decode(roles(),false))){
@@ -326,12 +296,9 @@ class EmployeeController extends Controller
         $currencies             = Currency::where('company_id',Auth::user()->company_id)->orderby('id','asc')->get();
         $payroll_info           = PayrollInfo::where('employee_id',$employee_id)->first();
 
-        //Leave Info
-        $leaves                 = LeaveInfo::where('employee_id',$employee_id)->get();
-
         if($employment_info == "") { $info_id = ""; } else { $info_id = $employment_info->id; }
         return view('employee.update.update',compact('page','employee_id','departments','designations','info_id','currencies',
-        'banks','earning_components','deduction_components','leave_types','employee','employment_info','earnings','deductions','payroll_info','leaves','bank_branches'));
+        'banks','earning_components','deduction_components','employee','employment_info','earnings','deductions','payroll_info','bank_branches'));
     }
 
     public function update_personal_info($employee_id,Request $request){
@@ -532,45 +499,11 @@ class EmployeeController extends Controller
             $info->ot_allowed                           = $request->ot_allowed;
             $info->hourly_ot_rate                       = $request->hourly_ot_rate;
             $info->currency_id                          = $request->currency_id;
-            $info->mark_overtime_if_work_in_holiday     = $request->mark_overtime_if_work_in_holiday;
-            $info->mark_overtime_if_work_in_leave_day   = $request->mark_overtime_if_work_in_leave_day;
             $info->save();
-            return redirect('employee/update/leave/'.$request->employee_id)->with('message', 'Payroll Information Updated Successfully!');
-        }
-    }
-
-    public function update_leave_info(Request $request, $employee_id = ""){
-        if($request->employee_id != "") {
-            $preDataCount = LeaveInfo::where('employee_id',$employee_id)->count();
-            if($preDataCount != 0 && $preDataCount != "") {
-                LeaveInfo::where('employee_id',$employee_id)->delete();
-            }
-            $leaves_row_count = count($request->leave_type_id);
-            if($request->leave_type_id !=[null]) {
-
-                for($i = 0; $i < $leaves_row_count; $i++) {
-                    if($request->leave_type_id[$i] != "") {
-                        $leave = new LeaveInfo();
-                        $leave->employee_id             = $request->employee_id;
-                        $leave->leave_type_id           = $request->leave_type_id[$i];
-                        $leave->yearly_allotment        = $request->yearly_allotment[$i];
-                        $leave->opening_balance_date    = date('Y-m-d',strtotime( $request->opening_balance_date[$i] ));
-                        $leave->opening_balance         = $request->opening_balance[$i];
-                        $leave->carry_forward           = $request->carry_forward[$i];
-                        $leave->max_carry_forward       = $request->max_carry_forward[$i];
-                        $leave->save();
-                    }
-                }
-                
-            }
-
-            $personal_info = Employee::where('id',$employee_id)->first();
-            $personal_info->leave_count_from = $request->leave_count_from;
-            $personal_info->save();
-
             return redirect('employee')->with('message', 'Employee Updated Successfully!');
         }
     }
+
 
     public function cv_delete($employee_id,$name) {
         $employee = Employee::where('id',$employee_id)->first();
@@ -632,23 +565,6 @@ class EmployeeController extends Controller
         }
     }
 
-    public function search_roster_employee($department_id) {
-        $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')
-                    ->join('employees','employees.id','employment_infos.employee_id')
-                    ->where('employees.company_id',Auth::user()->company_id);
-        if($department_id != "" && $department_id != 0){
-            $employees    = $employees->where('department_id',$department_id);
-        }
-        $employees = $employees->where('duty_type','Roster')->get();
-
-        if(count($employees) > 0) {
-            foreach($employees as $employee) {
-                echo "<option value=".$employee->employee_id.">".$employee->employee_id.' - '.$employee->name .' - '.employee_designation($employee->id)."</option>";
-            }
-        }else {
-            echo "";
-        }
-    }
 
     public function search_employee_with_designation($department_id,$designation_id="") {
         $employees   = EmploymentInfo::orderBy('employment_infos.id','asc')

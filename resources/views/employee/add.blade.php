@@ -71,12 +71,6 @@
                                         <span class="title">Payroll Information</span>
                                      </a>
                                   </li>
-                                  <li role="tab" class="@if($page == "leave") current @endif" aria-disabled="true">
-                                    <a href="javascript:void(0)">
-                                        <span class="number">4</span> 
-                                        <span class="title">Leave Information</span>
-                                    </a>
-                                 </li>
                                </ul>
                             </div>
                             <div class="content clearfix">
@@ -86,8 +80,6 @@
                                     @include('employee.employment_information')
                                 @elseif($page == "payroll")
                                     @include('employee.payroll_information')
-                                @elseif($page == "leave")
-                                    @include('employee.leave_information')
                                 @endif
                             </div>
                          </div>
@@ -134,10 +126,6 @@
             else if(eventName == "Payroll") {
                 $('#PersonalTab').removeClass('current'); $('#EmploymentTab').removeClass('current'); $('#PayrollTab').addClass('current'); $('#LeaveTab').removeClass('current'); 
                 $('#Personal').hide(); $('#Employment').hide(); $('#Payroll').show(); $('#Leave').hide();
-            }
-            else if(eventName == "Leave") {
-                $('#PersonalTab').removeClass('current'); $('#EmploymentTab').removeClass('current'); $('#PayrollTab').removeClass('current'); $('#LeaveTab').addClass('current'); 
-                $('#Personal').hide(); $('#Employment').hide(); $('#Payroll').hide(); $('#Leave').show();
             }
         }
     </script>

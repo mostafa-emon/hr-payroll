@@ -4,12 +4,6 @@ use Illuminate\Support\Facades\Auth;
 use QuickBooksOnline\API\DataService\DataService;
 use App\Role;
 use App\User;
-use App\ShiftType;
-use App\Employee;
-use App\EmploymentInfo;
-use App\Department;
-use App\Designation;
-
 use App\QuickBook;
 use Carbon\Carbon;
 use App\Company;
@@ -17,14 +11,9 @@ use App\Voucher;
 use App\Setting;
 use App\ChequeTransaction;
 use App\MoneyReceipt;
-use App\LeaveType;
-use App\LeaveInfo;
-use App\LeaveRequest;
-use App\LeaveBalance;
 use App\CampaignReceiver;
 use App\SalaryComponent;
 use App\EmployeeEarningDeduction;
-use App\Attendance;
 use App\GovtHolidayDetail;
 use App\PayrollInfo;
 use App\SalarySheet;
@@ -36,8 +25,6 @@ use App\ProvidentFund;
 use App\DepositSalaryTax;
 use App\IncomeTax;
 use App\GeneralSetting;
-use App\RosterEmployee;
-use App\GeneralLeave;
 use App\EarningDeductionAdjustment;
 use App\DepositSalaryTaxDetail;
 use App\TaxRule;
@@ -46,9 +33,7 @@ function leftmenu_color() {
     return User::where('id',Auth::user()->id)->value('leftmenu_color');
 }
 
-function leave_type_name($leave_id){
-    return LeaveType::where('id',$leave_id)->value('leave_name');
-}
+
 
 function employee_name($employee_id){
     return Employee::where('employee_id',$employee_id)->value('name');
@@ -70,23 +55,7 @@ function bank_account_no($employee_id){
     return EmploymentInfo::where('employee_id',$employee_id)->value('bank_account_no');
 }
 
-function shift_name($shift_id) {
-    return ShiftType::where('id',$shift_id)->value('name');
-}
 
-function shift_name_from_roster($employee_id,$date) {
-    $roster = RosterEmployee::where('employee_id',$employee_id)->where('date',$date)->first();
-    if($roster != "") {
-        $shift = ShiftType::where('id',$roster->shift_id)->first();
-        if($shift != "") {
-            return $shift->shift_short_name;
-        }else{
-            return "";
-        }
-    }else{
-        return "";
-    }
-}
 
 function designation_name($designation_id){
     return Designation::where('id',$designation_id)->value('name');
@@ -100,62 +69,7 @@ function bank_name($bank_id){
     return PayrollBank::where('id',$bank_id)->value('bank_name');
 }
 
-function leave_balance_left($leave_info_id,$employee_id,$applicable_for){
-    $leave_info     = LeaveInfo::where('id',$leave_info_id)->first();
-    $employee       = Employee::where('id',$employee_id)->first();
 
-    $curYear = $applicable_for;
-    $from = $curYear.'-01-01';
-    $to = $curYear.'-12-31';
-
-    $leave_requests = LeaveRequest::where('employee_id',$employee->id)->whereBetween('start_date', [$from, $to])->whereBetween('end_date', [$from, $to])->where('leave_type_id',$leave_info->leave_type_id)->where('status','!=','Rejected')->get();
-
-    if($leave_requests !=""){
-        $before_leave = 0;
-        foreach($leave_requests as $leave_request) {
-            $before_leave = $before_leave + $leave_request->leave_days;
-        }
-    }
-
-    if($leave_info !=""){
-        $allotment_year = date('Y', strtotime($leave_info->opening_balance_date));
-        if($allotment_year == $curYear){
-
-            if($leave_requests != "") {
-                $remaining_leave = $leave_info->opening_balance - $before_leave;
-                return $remaining_leave;
-            }
-
-        }else{
-
-            $leave_balances = LeaveBalance::where('employee_id',$employee->id)->where('leave_type_id',$leave_info->leave_type_id)->where('applicable_year',$curYear)->get();
-            if($leave_balances !=""){
-                $balance = 0;
-                foreach($leave_balances as $leave_balance){
-                    $balance = $balance + $leave_balance->transfer_amount;
-                }
-            }
-
-            if(count($leave_balances) == 0){
-
-                if($leave_requests != "") {
-                    $remaining_leave = $leave_info->yearly_allotment - $before_leave;
-                    return $remaining_leave;
-                }
-
-            }else{
-                if($leave_requests != "") {
-                    $total_leave     = $leave_info->yearly_allotment + $balance;
-                    $remaining_leave = $total_leave - $before_leave;
-                    return $remaining_leave;
-                }
-            }
-        }
-    }
-
-
-
-}
 
 function get_employee_info($employee_id) {
     $employee = Employee::where('id',$employee_id)->first();
@@ -346,14 +260,7 @@ function get_pf_amount($employee_id) {
 }
 
 function total_absent_days($employee_id,$request_month,$request_year) {
-    $month = date('m', strtotime($request_month));
-    $cur_month = $request_year.'-'.$month;
-    $first_day_of_month = $cur_month.'-01';
-    $last_day_of_month  = $cur_month.'-31';
-    //$total_days         = date('t', strtotime($cur_month));
-
-    $count_total_absent_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee_id)->whereBetween('date', [$first_day_of_month, $last_day_of_month])->where('status','ABSENT')->count();
-    return $count_total_absent_days;
+    return 0;
 }
 
 function per_day_salary($employee_id,$request_month,$request_year) {
@@ -776,49 +683,14 @@ function hourly_ot_rate($employee_id) {
 }
 
 function calculate_attendance_days($employee_id,$from_date,$to_date) {
-    $ok_days        = 0;
-    $leave_days     = 0;
-    $late_days      = 0;
-    $absent_days    = 0;
-    $day_off_days   = 0;
-    $govt_holidays  = 0;
-
-    $attendances    = Attendance::where('employee_id',$employee_id)->whereBetween('date',[$from_date,$to_date])->get();
-
-    foreach($attendances as $attendance) {
-
-        //OK
-        if($attendance->readable_status == 'OK') {
-            $ok_days = $ok_days + 1;
-        }
-
-        //Late
-        if($attendance->readable_status == 'Late') {
-            $late_days = $late_days + 1;
-        }
-
-        //GOVT Holiday
-        if($attendance->readable_status == 'Govt Holiday') {
-            $govt_holidays = $govt_holidays + 1;
-        }
-
-        //Leave
-        if($attendance->readable_status == 'Leave') {
-            $leave_days = $leave_days + 1;
-        }
-
-        //Absent
-        if($attendance->readable_status == 'Absent') {
-            $absent_days = $absent_days + 1;
-        }
-
-        //Days Off
-        if($attendance->readable_status == 'Day Off') {
-            $day_off_days = $day_off_days + 1;
-        }
-    }
-
-    return $ok_days."_".$leave_days."_".$late_days."_".$absent_days."_".$day_off_days."_".$govt_holidays;
+    return [
+        'ok_days' => 0,
+        'leave_days' => 0,
+        'late_days' => 0,
+        'absent_days' => 0,
+        'day_off_days' => 0,
+        'govt_holidays' => 0,
+    ];
 }
 
 function gross_salary($employee_id) {
@@ -840,28 +712,6 @@ function get_user_name($user_id) {
     $user = User::where('id',$user_id)->first();
     if($user != "") {
         return $user->name;
-    }else{
-        return "";
-    }
-}
-
-function leave_days($employee_id,$leave_type_id,$from_date,$to_date) {
-    $leave_requests = LeaveRequest::where('employee_id',$employee_id)->where('leave_type_id',$leave_type_id)->whereBetween('start_date', [$from_date, $to_date])->whereBetween('end_date', [$from_date, $to_date])->where('status','Approved')->get();
-    if(count($leave_requests) != 0) {
-        $leave_days = 0;
-        foreach($leave_requests as $leave) {
-            $leave_days = $leave_days + $leave->leave_days;
-        }
-        return $leave_days;
-    }else{
-        return "0";
-    }
-}
-
-function get_leave_info_id($employee_id,$leave_type_id) {
-    $leave_info     = LeaveInfo::where('employee_id',$employee_id)->where('leave_type_id',$leave_type_id)->first();
-    if($leave_info != "") {
-        return $leave_info->id;
     }else{
         return "";
     }

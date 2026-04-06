@@ -144,29 +144,6 @@ Route::post('employee/update-employment-info/{info_id?}', 'EmployeeController@up
 Route::post('employee/update-payroll-info/{employee_id?}', 'EmployeeController@update_payroll_info');
 Route::post('employee/update-leave-info/{employee_id?}', 'EmployeeController@update_leave_info');
 
-// Leave Setup
-Route::get('/leave-type', 'LeaveController@leave_type_index');
-Route::post('/leave-type/add', 'LeaveController@leave_type_add');
-Route::get('/leave-type/get/{id}', 'LeaveController@leave_type_get');
-Route::post('/leave-type/update/{id}', 'LeaveController@leave_type_update');
-Route::get('/leave-type/delete/{id}', 'LeaveController@leave_type_delete');
-
-// Attendance Setup
-Route::get('/shift', 'ShiftController@index');
-Route::post('/shift/add', 'ShiftController@add');
-Route::get('/shift/get/{id}', 'ShiftController@get');
-Route::post('/shift/update/{id}', 'ShiftController@update');
-Route::get('/shift/delete/{id}', 'ShiftController@delete');
-
-Route::get('/govt-holiday', 'HolidayController@index');
-Route::get('/govt-holiday/add', 'HolidayController@add');
-Route::post('/govt-holiday/add', 'HolidayController@add');
-Route::get('/govt-holiday/update/{id}', 'HolidayController@update');
-Route::post('/govt-holiday/update/{id}', 'HolidayController@update');
-Route::get('/govt-holiday/delete/{id}', 'HolidayController@delete');
-
-Route::get('/attendance-policy', 'AttendanceController@attendance_policy');
-Route::post('/attendance-policy', 'AttendanceController@attendance_policy');
 
 // Payroll Setup
 Route::get('/salary-components', 'SalaryController@component_index');
@@ -190,73 +167,9 @@ Route::post('/salary-transfer-letter-format', 'SalaryTransferLetterController@fo
 Route::get('/ot-transfer-letter-format', 'PayrollController@ot_transfer_letter_format');
 Route::post('/ot-transfer-letter-format', 'PayrollController@ot_transfer_letter_format');
 
-//Leave
-Route::get('/leave-request', 'LeaveController@leave_request_index');
-Route::get('/leave-request/add', 'LeaveController@leave_request_add');
-Route::post('/leave-request/add', 'LeaveController@leave_request_add');
-Route::get('/leave-request/update/{request_type}/{id}', 'LeaveController@leave_request_update');
-Route::post('/leave-request/update/{request_type}/{id}', 'LeaveController@leave_request_update');
-Route::get('/leave-request/delete/{id}', 'LeaveController@leave_request_delete');
-Route::get('/leave-request-for-others', 'LeaveController@leave_request_for_others_index');
-Route::get('/leave-request-for-others/add', 'LeaveController@leave_request_for_others_add');
-Route::post('/leave-request-for-others/add', 'LeaveController@leave_request_for_others_add');
 
-Route::get('/verify-leave-request', 'LeaveController@verify_leave_request');
-Route::get('/leave-request/verify/{id}', 'LeaveController@leave_request_verify');
-Route::get('/leave-request/reject/{id}/{page}', 'LeaveController@leave_request_reject');
-Route::post('/leave-request/reject/{id}/{page}', 'LeaveController@leave_request_reject');
-Route::get('/leave-request/approve/{id}', 'LeaveController@leave_request_approve');
 
-Route::get('/approve-leave-request', 'LeaveController@approve_leave_request');
 
-Route::get('/leave-balance-transfer', 'LeaveController@leave_balance_transfer');
-Route::post('/leave-balance-transfer', 'LeaveController@leave_balance_transfer');
-Route::post('/transfer-leave-balance/{id}', 'LeaveController@transfer_leave_balance');
-
-// Attendance
-Route::get('/roster', 'AttendanceController@roster_index');
-Route::get('/create-roster', 'AttendanceController@roster_create');
-Route::post('/create-roster', 'AttendanceController@roster_create');
-Route::post('/store-roster', 'AttendanceController@roster_store');
-Route::get('/roster-duplicate/{id}', 'AttendanceController@roster_duplicate');
-Route::get('/roster/delete/{id}', 'AttendanceController@roster_delete');
-Route::get('/roster/employee-list/{id}', 'AttendanceController@roster_employee_list');
-Route::get('/roster-search', 'AttendanceController@roster_search');
-Route::post('/roster-search', 'AttendanceController@roster_search');
-Route::get('/roster-employee/delete/{id}', 'AttendanceController@roster_employee_delete');
-Route::get('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
-Route::post('/roster-employee/update/{id}', 'AttendanceController@roster_employee_update');
-Route::get('/delete-temporary-roster/{id}', 'AttendanceController@delete_temporary_roster');
-Route::get('/roster/inactive/{id}', 'AttendanceController@roster_inactive');
-
-//Manual Log Entry
-Route::get('/manual-log-entry', 'AttendanceController@manual_log_index');
-Route::post('/manual-log-entry', 'AttendanceController@manual_log_index');
-Route::get('/manual-log-entry/add', 'AttendanceController@manual_log_add');
-Route::post('/manual-log-entry/add-post', 'AttendanceController@manual_log_add_post');
-Route::get('/manual-log-entry/update/{id}', 'AttendanceController@manual_log_update');
-Route::post('/manual-log-entry/update-post/{id}', 'AttendanceController@manual_log_update_post');
-
-//Payroll
-Route::get('/earnings-adjustment', 'AttendanceController@earnings_adjustment_index');
-Route::get('/earnings-adjustment/create', 'AttendanceController@earnings_adjustment_create');
-Route::post('/earnings-adjustment/create-post', 'AttendanceController@earnings_adjustment_create_post');
-Route::get('/earnings-adjustment/{status}/{id}', 'AttendanceController@earnings_adjustment_status');
-Route::get('/earning-adjustment/delete/{id}', 'AttendanceController@earnings_adjustment_delete');
-Route::get('/earnings-adjustment-update/{id}', 'AttendanceController@earnings_adjustment_update');
-Route::post('/earnings-adjustment-update/{id}', 'AttendanceController@earnings_adjustment_update');
-Route::get('/earnings-adjustment-view/{id}', 'AttendanceController@earnings_adjustment_view');
-Route::get('/earnings-adjustment-print/{id}', 'AttendanceController@earnings_adjustment_print');
-
-Route::get('/deductions-adjustment', 'AttendanceController@deductions_adjustment_index');
-Route::get('/deductions-adjustment/create', 'AttendanceController@deductions_adjustment_create');
-Route::post('/deductions-adjustment/create-post', 'AttendanceController@deductions_adjustment_create_post');
-Route::get('/deductions-adjustment/{status}/{id}', 'AttendanceController@deductions_adjustment_status');
-Route::get('/deduction-adjustment/delete/{id}', 'AttendanceController@deductions_adjustment_delete');
-Route::get('/deductions-adjustment-update/{id}', 'AttendanceController@deductions_adjustment_update');
-Route::post('/deductions-adjustment-update/{id}', 'AttendanceController@deductions_adjustment_update');
-Route::get('/deductions-adjustment-view/{id}', 'AttendanceController@deductions_adjustment_view');
-Route::get('/deductions-adjustment-print/{id}', 'AttendanceController@deductions_adjustment_print');
 
 Route::get('/absent-deduction', 'PayrollController@absent_deduction_index');
 Route::get('/absent-deduction/create', 'PayrollController@absent_deduction_create');
@@ -320,12 +233,11 @@ Route::post('/mail-setup/update', 'ConfigurationController@mail_setup_update');
 //Common Route
 Route::get('/search-employee/{department_id}', 'EmployeeController@search_employee');
 Route::get('/search-increment-employee_id/{department_id}/{component_id?}', 'EmployeeController@search_employee_increment_id');
-Route::get('/search-roster-employee/{department_id}', 'EmployeeController@search_roster_employee');
+
 Route::get('/search-employee-with-designation/{department_id}/{designation_id?}', 'EmployeeController@search_employee_with_designation');
 Route::get('/search-increment-employee_id-with-designation/{department_id}/{component_id?}/{designation_id?}', 'EmployeeController@search_employee_increment_id_with_designation');
 
-//Public Route
-Route::get('/attendance/{company_id}/{auto?}','PublicController@index');
+
 
 //Salary Sheet
 Route::get('/salary-sheet','SalarySheetController@index');
@@ -348,13 +260,7 @@ Route::post('/store-salary-transfer-letter','SalaryTransferLetterController@tran
 Route::get('/salary-transfer-letter-details/{letter_id}','SalaryTransferLetterController@transfer_letter_details');
 Route::get('/salary-transfer-letter-reprint/{letter_id}','SalaryTransferLetterController@transfer_letter_reprint');
 
-//OT Transfer Letter
-Route::get('/ot-transfer-letter','PayrollController@ot_transfer_letter');
-Route::get('/ot-transfer-letter/create','PayrollController@ot_transfer_letter_create');
-Route::post('/ot-transfer-letter/create','PayrollController@ot_transfer_letter_create');
-Route::post('/store-ot-transfer-letter','PayrollController@ot_transfer_letter_store');
-Route::get('/ot-transfer-letter-details/{letter_id}','PayrollController@ot_transfer_letter_details');
-Route::get('/ot-transfer-letter-reprint/{letter_id}','PayrollController@ot_transfer_letter_reprint');
+
 
 //Deposit Salary Tax
 Route::get('/deposit-salary-tax','PayrollController@deposit_salary_tax');
@@ -370,80 +276,6 @@ Route::get('/deposit-salary-tax-print-backside/{tax_id}','PayrollController@depo
 
 //Report
 
-//Attendance
-Route::get('/daily-attendance-report', 'ReportController@daily_attendance_report');
-Route::post('/daily-attendance-report', 'ReportController@daily_attendance_report');
-Route::get('/attendance-summary-report-all', 'ReportController@attendance_summary_report_all');
-Route::post('/attendance-summary-report-all', 'ReportController@attendance_summary_report_all');
-Route::get('/attendance-summary-report-single', 'ReportController@attendance_summary_report_single');
-Route::post('/attendance-summary-report-single', 'ReportController@attendance_summary_report_single');
-Route::get('/attendance-late-report-single', 'ReportController@attendance_late_report_single');
-Route::post('/attendance-late-report-single', 'ReportController@attendance_late_report_single');
-Route::get('/daily-late-report', 'ReportController@daily_late_report');
-Route::post('/daily-late-report', 'ReportController@daily_late_report');
-Route::get('/daily-absent-report', 'ReportController@daily_absent_report');
-Route::post('/daily-absent-report', 'ReportController@daily_absent_report');
-Route::get('/attendance-absent-report-single', 'ReportController@attendance_absent_report_single');
-Route::post('/attendance-absent-report-single', 'ReportController@attendance_absent_report_single');
-Route::get('/ot-summary-report', 'ReportController@ot_summary_report');
-Route::post('/ot-summary-report', 'ReportController@ot_summary_report');
-Route::get('/ot-report-single', 'ReportController@ot_report_single');
-Route::post('/ot-report-single', 'ReportController@ot_report_single');
-
-//Leave
-Route::get('/employee-list-report', 'ReportController@employee_list_report');
-Route::post('/employee-list-report', 'ReportController@employee_list_report');
-Route::get('/inactive-employee-list-report', 'ReportController@inactive_employee_list_report');
-Route::post('/inactive-employee-list-report', 'ReportController@inactive_employee_list_report');
-Route::get('/leave-report-single', 'ReportController@leave_report_single');
-Route::post('/leave-report-single', 'ReportController@leave_report_single');
-Route::get('/rejected-leave-report', 'ReportController@rejected_leave_report');
-Route::post('/rejected-leave-report', 'ReportController@rejected_leave_report');
-Route::get('/leave-report-all', 'ReportController@leave_report_all');
-Route::post('/leave-report-all', 'ReportController@leave_report_all');
-
-//Payroll
-Route::get('/earning-adjustment-report', 'ReportController@earning_adjustment_report');
-Route::post('/earning-adjustment-report', 'ReportController@earning_adjustment_report');
-Route::get('/deduction-adjustment-report', 'ReportController@deduction_adjustment_report');
-Route::post('/deduction-adjustment-report', 'ReportController@deduction_adjustment_report');
-Route::get('/pf-detail-report', 'ReportController@pf_detail_report');
-Route::post('/pf-detail-report', 'ReportController@pf_detail_report');
-Route::get('/pf-summary-report', 'ReportController@pf_summary_report');
-Route::post('/pf-summary-report', 'ReportController@pf_summary_report');
-Route::get('/salary-sheet-report', 'ReportController@salary_sheet_report');
-Route::post('/salary-sheet-report', 'ReportController@salary_sheet_report');
-Route::get('/payslip-report', 'ReportController@payslip_report');
-Route::post('/payslip-report', 'ReportController@payslip_report');
-Route::get('/email-payslip-report', 'ReportController@email_payslip_report');
-Route::post('/email-payslip-report', 'ReportController@email_payslip_report');
-Route::get('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
-Route::post('/salary-transfer-letter-report', 'ReportController@salary_transfer_letter_report');
-Route::get('/salary-transfer-letter-report-reprint/{letter_id}','ReportController@salary_transfer_letter_reprint');
-Route::get('/salary-certificate', 'ReportController@salary_certificate');
-Route::post('/salary-certificate', 'ReportController@salary_certificate');
-Route::get('/audit-trail-report', 'ReportController@audit_trail_report');
-Route::post('/audit-trail-report', 'ReportController@audit_trail_report');
-
-//Export
-
-//Attendance
-Route::get('export/daily-attendance-report', 'ReportController@export_daily_attendance_report');
-Route::get('export/attendance-summary-report-all', 'ReportController@export_attendance_summary_report_all');
-Route::get('export/attendance-summary-report-single', 'ReportController@export_attendance_summary_report_single');
-Route::get('export/attendance-late-report-single', 'ReportController@export_attendance_late_report_single');
-Route::get('export/daily-late-report', 'ReportController@export_daily_late_report');
-Route::get('export/daily-absent-report', 'ReportController@export_daily_absent_report');
-Route::get('export/attendance-absent-report-single', 'ReportController@export_attendance_absent_report_single');
-Route::get('export/ot-summary-report', 'ReportController@export_ot_summary_report');
-Route::get('export/ot-report-single', 'ReportController@export_ot_report_single');
-
-//Leave
-Route::get('export/employee-list-report', 'ReportController@export_employee_list_report');
-Route::get('export/inactive-employee-list-report', 'ReportController@export_inactive_employee_list_report');
-Route::get('export/leave-report-single', 'ReportController@export_leave_report_single');
-Route::get('export/rejected-leave-report', 'ReportController@export_rejected_leave_report');
-Route::get('export/leave-report-all', 'ReportController@export_leave_report_all');
 
 //Payroll
 Route::get('export/earning-adjustment-report', 'ReportController@export_earning_adjustment_report');

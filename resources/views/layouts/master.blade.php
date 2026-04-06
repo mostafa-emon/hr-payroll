@@ -152,48 +152,7 @@
                             </ul>
                         </li>
 
-						@if(roles() != "" && in_array(34, json_decode(roles(),false)))
-							<li class="slide">
-								<a class="side-menu__item" data-toggle="slide" href="javascript:void(0)">
-									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-									<span class="side-menu__label">Leave Setup</span><i class="angle fe fe-chevron-down"></i>
-								</a>
 
-								<ul class="slide-menu">
-									<li><a class="slide-item" href="{{url('leave-type')}}">Leave Type</a></li>
-								</ul>
-							</li>
-						@endif
-
-						@if($company != "" && $company->attendance == 1)
-							<li class="slide
-								{{ (!request()->is('govt-holiday')) && (request()->is('govt-holiday*')) ? 'is-expanded' : '' }}
-								{{ (!request()->is('attendance-policy')) && (request()->is('attendance-policy*')) ? 'is-expanded' : '' }}">
-
-								<a class="side-menu__item  {{ (request()->is('govt-holiday*')) || (request()->is('attendance-policy*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
-									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-									<span class="side-menu__label">Attendance Setup</span><i class="angle fe fe-chevron-down"></i>
-								</a>
-
-								<ul class="slide-menu">
-									@if(roles() != "" && in_array(56, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('shift')}}">Shift</a></li>
-									@endif
-
-									@if(roles() != "" && in_array(60, json_decode(roles(),false)))
-										<li class="{{ (request()->is('govt-holiday*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('govt-holiday*')) ? 'active' : '' }}" href="{{url('govt-holiday')}}">Govt Holiday</a>
-										</li>
-									@endif
-
-									@if(roles() != "" && in_array(64, json_decode(roles(),false)))
-										<li class="{{ (request()->is('attendance-policy*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('attendance-policy*')) ? 'active' : '' }}" href="{{url('attendance-policy')}}">Attendance policy</a>
-										</li>
-									@endif
-								</ul>
-							</li>
-						@endif
 
 						@if($company != "" && $company->payroll == 1)
 							<li class="slide
@@ -218,11 +177,7 @@
 										</li>
 									@endif
 
-									@if(roles() != "" && in_array(96, json_decode(roles(),false)))
-										<li class="{{ (request()->is('ot-transfer-letter-format*')) ? 'active' : '' }}">
-											<a class="slide-item" href="{{url('ot-transfer-letter-format')}}">OT Transfer Letter Format</a>
-										</li>
-									@endif
+
 
 									@if(roles() != "" && in_array(97, json_decode(roles(),false)))
 										<li class="{{ (request()->is('payroll-banks*')) ? 'active' : '' }}">
@@ -234,72 +189,7 @@
 						@endif
 
 						<li class="side-item side-item-category">Transactions</li>
-						@if($company != "" && $company->leave == 1)
-							<li class="slide
-								{{ (!request()->is('leave-request')) && (request()->is('leave-request*')) ? 'is-expanded' : '' }}
-								{{ (!request()->is('leave-balance-transfer')) && (request()->is('leave-balance-transfer*')) ? 'is-expanded' : '' }}
-								{{ (!request()->is('transfer-leave-balance')) && (request()->is('transfer-leave-balance*')) ? 'is-expanded' : '' }}
-								{{ (!request()->is('leave-request-for-others')) && (request()->is('leave-request-for-others*')) ? 'is-expanded' : '' }}">
 
-								<a class="side-menu__item  {{ (request()->is('leave-request*')) || (request()->is('leave-request-for-others*')) || (request()->is('leave-balance-transfer*')) || (request()->is('transfer-leave-balance*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
-									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-									<span class="side-menu__label">Leave</span><i class="angle fe fe-chevron-down"></i>
-								</a>
-
-								<ul class="slide-menu">
-									@if(roles() != "" && in_array(161, json_decode(roles(),false)))
-										<li class="{{ (request()->is('leave-request*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('leave-request*')) ? 'active' : '' }}" href="{{url('leave-request')}}">Create Leave Request</a>
-										</li>
-									@endif
-									@if(roles() != "" && in_array(168, json_decode(roles(),false)))
-										<li class="{{ (request()->is('leave-request-for-others*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('leave-request-for-others*')) ? 'active' : '' }}" href="{{url('leave-request-for-others')}}">Leave Request For Others</a>
-										</li>
-									@endif
-									@if(roles() != "" && in_array(162, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('verify-leave-request')}}">Verify Leave Request</a></li>
-									@endif
-									@if(roles() != "" && in_array(163, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('approve-leave-request')}}">Approve Leave Request</a></li>
-									@endif
-
-									@if(roles() != "" && in_array(164, json_decode(roles(),false)))
-										<li class="{{ (request()->is('leave-balance-transfer*')) || (request()->is('transfer-leave-balance*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('leave-balance-transfer*')) || (request()->is('transfer-leave-balance*')) ? 'active' : '' }}" href="{{url('leave-balance-transfer')}}">Leave Balance Transfer</a>
-										</li>
-									@endif
-
-								</ul>
-							</li>
-						@endif
-
-						@if($company != "" && $company->attendance == 1)
-							<li class="slide
-								{{ (!request()->is('roster')) && ( (request()->is('roster*')) || (request()->is('create-roster*')) ) ? 'is-expanded' : '' }}
-								{{ (!request()->is('manual-log-entry')) && ( (request()->is('manual-log-entry*')) ) ? 'is-expanded' : '' }}">
-
-								<a class="side-menu__item {{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
-									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-									<span class="side-menu__label">Attendance</span><i class="angle fe fe-chevron-down"></i>
-								</a>
-
-								<ul class="slide-menu">
-									@if(roles() != "" && in_array(65, json_decode(roles(),false)))
-										<li class="{{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('roster*')) || (request()->is('create-roster*')) ? 'active' : '' }}" href="{{url('roster')}}">Roster</a>
-										</li>
-									@endif
-
-									@if(roles() != "" && in_array(69, json_decode(roles(),false)))
-										<li class="{{ (request()->is('manual-log-entry*')) ? 'active' : '' }}">
-											<a class="slide-item {{ (request()->is('manual-log-entry*')) ? 'active' : '' }}" href="{{url('manual-log-entry')}}">Manual Log Entry</a>
-										</li>
-									@endif
-
-								</ul>
-							</li>
-						@endif
 
 						@if($company != "" && $company->payroll == 1)
 						<li class="slide
@@ -311,10 +201,9 @@
 							{{ (!request()->is('absent-deduction')) && ( (request()->is('absent-deduction*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('salary-sheet')) && ( (request()->is('salary-sheet*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('salary-transfer-letter')) && ( (request()->is('salary-transfer-letter*')) ) ? 'is-expanded' : '' }}
-							{{ (!request()->is('ot-transfer-letter')) && ( (request()->is('ot-transfer-letter*')) ) ? 'is-expanded' : '' }}
 							{{ (!request()->is('deposit-salary-tax')) && ( (request()->is('deposit-salary-tax*')) ) ? 'is-expanded' : '' }}">
 
-							<a class="side-menu__item {{ (request()->is('earnings-adjustment*')) || (request()->is('deductions-adjustment*')) || (request()->is('salary-transfer-letter*')) || (request()->is('ot-transfer-letter*')) || (request()->is('deposit-salary-tax*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
+							<a class="side-menu__item {{ (request()->is('earnings-adjustment*')) || (request()->is('deductions-adjustment*')) || (request()->is('salary-transfer-letter*')) || (request()->is('deposit-salary-tax*')) ? 'active' : '' }}" data-toggle="slide" href="javascript:void(0)">
 								<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
 								<span class="side-menu__label">Payroll</span><i class="angle fe fe-chevron-down"></i>
 							</a>
@@ -350,11 +239,7 @@
 									</li>
 								@endif
 
-								@if(roles() != "" && in_array(123, json_decode(roles(),false)))
-									<li class="{{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}">
-										<a class="slide-item {{ (request()->is('ot-transfer-letter*')) ? 'active' : '' }}" href="{{url('ot-transfer-letter')}}">Create OT Transfer Letter</a>
-									</li>
-								@endif
+
 
 								@if(roles() != "" && in_array(125, json_decode(roles(),false)))
 									<li class="{{ (request()->is('company-pf*')) ? 'active' : '' }}">
@@ -450,67 +335,7 @@
                             </ul>
 						</li>
 
-						@if($company != "" && $company->leave == 1)
-							<li class="slide">
 
-								<a class="side-menu__item" data-toggle="slide" href="javascript:void(0)">
-									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-									<span class="side-menu__label">Leave</span><i class="angle fe fe-chevron-down"></i>
-								</a>
-								
-								<ul class="slide-menu">
-									@if(roles() != "" && in_array(165, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('leave-report-single')}}">Leave Report Individual</a></li>
-									@endif
-									@if(roles() != "" && in_array(166, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('rejected-leave-report')}}">Rejected Leave Report</a></li>
-									@endif
-									@if(roles() != "" && in_array(167, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('leave-report-all')}}">Leave Report All</a></li>
-									@endif
-								</ul>
-							</li>
-						@endif
-
-						@if($company != "" && $company->attendance == 1)
-							<li class="slide">
-
-								<a class="side-menu__item" data-toggle="slide" href="javascript:void(0)">
-									<svg class="side-menu__icon" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5H5v14h14V5zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" opacity=".3"/><path d="M3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2zm2 0h14v14H5V5zm2 5h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-									<span class="side-menu__label">Attendance</span><i class="angle fe fe-chevron-down"></i>
-								</a>
-
-								<ul class="slide-menu">
-									@if(roles() != "" && in_array(73, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('daily-attendance-report')}}">Daily Attendance</a></li>
-									@endif
-									@if(roles() != "" && in_array(74, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('attendance-summary-report-all')}}">Attendance Summary All</a></li>
-									@endif
-									@if(roles() != "" && in_array(75, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('attendance-summary-report-single')}}">Attendance Summary Single</a></li>
-									@endif
-									@if(roles() != "" && in_array(76, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('daily-late-report')}}">Daily Late Report</a></li>
-									@endif
-									@if(roles() != "" && in_array(77, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('attendance-late-report-single')}}">Late Report Individual</a></li>
-									@endif
-									@if(roles() != "" && in_array(78, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('daily-absent-report')}}">Daily Absent Report</a></li>
-									@endif
-									@if(roles() != "" && in_array(79, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('attendance-absent-report-single')}}">Absent Report Single</a></li>
-									@endif
-									@if(roles() != "" && in_array(80, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('ot-summary-report')}}">OT Summary Report</a></li>
-									@endif
-									@if(roles() != "" && in_array(81, json_decode(roles(),false)))
-										<li><a class="slide-item" href="{{url('ot-report-single')}}">OT Report Individual</a></li>
-									@endif
-								</ul>
-							</li>
-						@endif
 
 						@if($company != "" && $company->payroll == 1)
 							<li class="slide">

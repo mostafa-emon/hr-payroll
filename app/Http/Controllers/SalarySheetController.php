@@ -19,8 +19,6 @@ use App\Department;
 use App\Currency;
 use App\SalaryComponent;
 use App\Company;
-use App\Attendance;
-use App\LeaveRequest;
 use App\Email;
 use App\SheetRevenueStamp;
 use Config;
@@ -397,12 +395,13 @@ class SalarySheetController extends Controller
 
         // GET ATTENDANCE DATA
 
-        $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
-        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Day Off')->count();
-        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Govt Holiday')->count();
-        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Late')->count();
-        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Absent')->count();
-        $total_leave_days   = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->auto_increment_employee_id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Leave')->count();
+        // REMOVED ATTENDANCE DATA GATHERING
+        $total_present_days = 0;
+        $total_day_off      = 0;
+        $total_holidays     = 0;
+        $total_late_days    = 0;
+        $total_absent_days  = 0;
+        $total_leave_days   = 0;
         $net_payable_days   = $total_days - $total_absent_days;
 
         /*$total_approved_leave_days  = 0;
@@ -521,12 +520,13 @@ class SalarySheetController extends Controller
         $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','ABSENT')->count();
         $net_payable_days   = $total_days - $total_absent_days;*/
 
-        $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
-        $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Day Off')->count();
-        $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Govt Holiday')->count();
-        $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Late')->count();
-        $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Absent')->count();
-        $total_leave_days   = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Leave')->count();
+        // REMOVED ATTENDANCE DATA GATHERING
+        $total_present_days = 0;
+        $total_day_off      = 0;
+        $total_holidays     = 0;
+        $total_late_days    = 0;
+        $total_absent_days  = 0;
+        $total_leave_days   = 0;
         $net_payable_days   = $total_days - $total_absent_days;
 
         /*$total_approved_leave_days  = 0;
@@ -623,12 +623,13 @@ class SalarySheetController extends Controller
 
             // GET ATTENDANCE DATA
 
-            $total_present_days = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('status','PRESENT')->count();
-            $total_day_off      = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Day Off')->count();
-            $total_holidays     = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Govt Holiday')->count();
-            $total_late_days    = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Late')->count();
-            $total_absent_days  = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Absent')->count();
-            $total_leave_days   = Attendance::where('company_id',Auth::user()->company_id)->where('employee_id',$employee->id)->whereBetween('date', [$month_first_date, $month_last_date])->where('readable_status','Leave')->count();
+            // REMOVED ATTENDANCE DATA GATHERING
+            $total_present_days = 0;
+            $total_day_off      = 0;
+            $total_holidays     = 0;
+            $total_late_days    = 0;
+            $total_absent_days  = 0;
+            $total_leave_days   = 0;
             $net_payable_days   = $total_days - $total_absent_days;
 
             /*$total_approved_leave_days  = 0;
